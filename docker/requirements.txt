@@ -1,4 +1,4 @@
 # Versions inspected in the working handoff image; update with regression tests.
 numpy==2.2.6
-onnxruntime==1.23.2
+onnxruntime==1.30.0
 uv==0.12.6
