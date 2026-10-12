@@ -109,7 +109,8 @@ def main():
             c,s = np.cos(yaw),np.sin(yaw)
             rows.append(dict(time=float(data.time),xy=data.qpos[:2].tolist(),height=float(data.qpos[2]),
                              tilt=tilt,yaw=yaw,body_velocity=[float(c*data.qvel[0]+s*data.qvel[1]),float(-s*data.qvel[0]+c*data.qvel[1])],
-                             command=command,action_norm=float(np.linalg.norm(action))))
+                              yaw_rate=float(data.sensor('imu_gyro').data[2]),
+                              command=command,action_norm=float(np.linalg.norm(action))))
             if tilt>.9 or data.qpos[2]<.45:
                 fallen = True
                 break
@@ -117,6 +118,7 @@ def main():
         mujoco.mj_step(model,data)
     steady = [row['body_velocity'] for row in rows if 5.5<=row['time']<command_end] if replay is None else []
     stopped = [row for row in rows if row['time']>=command_end] if replay is None else []
+    turning = [row['yaw_rate'] for row in rows if 6.<=row['time']<command_end] if replay is None else []
     stop_travel = [float(np.linalg.norm(np.asarray(row['xy'])-stopped[0]['xy'])) for row in stopped] if stopped else []
     result = dict(policy=str(args.policy),policy_sha256=hashlib.sha256(args.policy.read_bytes()).hexdigest(),
                   scene=str(scene),scene_sha256=hashlib.sha256(scene.read_bytes()).hexdigest(),
@@ -124,7 +126,9 @@ def main():
                    delay_steps=args.delay_steps,yaw=args.yaw,held_empty=args.held_empty,requested_duration_s=args.duration,
                    requested_command=[args.linear_x,args.linear_y,args.yaw],command_duration_s=args.command_duration,
                    response_samples=len(steady),stop_samples=len(stopped),
-                   mean_body_velocity_after_half_second=np.mean(steady,axis=0).tolist() if steady else None,
+                    mean_body_velocity_after_half_second=np.mean(steady,axis=0).tolist() if steady else None,
+                    mean_yaw_rate_after_one_second=float(np.mean(turning)) if turning else None,
+                    yaw_rate_std_after_one_second=float(np.std(turning)) if turning else None,
                    max_displacement_after_stop_m=max(stop_travel) if stop_travel else None,
                   yaw_displacement_rad=float(np.unwrap([row['yaw'] for row in rows])[-1]-rows[0]['yaw']),
                   elapsed_s=float(data.time),fallen=fallen,displacement_m=float(np.linalg.norm(data.qpos[:2]-start)),

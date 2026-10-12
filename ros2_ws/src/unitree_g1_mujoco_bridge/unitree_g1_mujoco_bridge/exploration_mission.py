@@ -301,18 +301,23 @@ class ExplorationMission:
             if not ObservedSearchMap(self.map,radius).segment_free(start,route[0]):
                 continue
             inverse = self._transform('odom','map')
-            x,y = self._point(route[0],inverse)
-            final = complete and len(route)==1
+            # Nav2 already follows the full observed route. Sending each visible
+            # corner as a separate action unnecessarily stopped/restarted gait.
+            # Partial routes still advance to their observed boundary and replan.
+            checkpoint = route[-1] if complete else route[0]
+            x,y = self._point(checkpoint,inverse)
+            final = complete
             yaw = goal[2] if final else math.atan2(y-node.pose[1],x-node.pose[0])
             self.robot,self.state = start,phase
-            self.selected = SearchView(*route[0],yaw+tf[2],0.,0.,0,'pickup_route')
+            self.selected = SearchView(*checkpoint,yaw+tf[2],0.,0.,0,'pickup_route')
             self._visualize()
             node.event(phase,checkpoint_odom=[x,y,yaw],remaining_checkpoints=len(route),
                        complete_route=complete,planning_ms=(time.monotonic()-planned)*1000.,source='observed_slam_map')
             remaining = deadline-time.monotonic()
             if remaining<=0.:
                 break
-            node.navigate((x,y,yaw),timeout=min(45.,remaining),settle_time=.1,stop_when_observed=stop_when_observed)
+            node.navigate((x,y,yaw),timeout=remaining if complete else min(45.,remaining),
+                          settle_time=.1,stop_when_observed=stop_when_observed)
             if stop_when_observed is not None and node.observe(stop_when_observed,5.) is not None:
                 return
             if final:

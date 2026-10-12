@@ -4,7 +4,7 @@ import uuid
 import time
 import numpy as np
 from .observed_route import route_is_free, people_clear_corridor
-from .forward_reference import forward_reference,loaded_turn_reference
+from .forward_reference import forward_reference,loaded_turn_reference,NominalMotionReference
 from .command_envelope import goal_signature
 from .avoidance_candidates import crossing_escape_directions, velocity_obstacle_command
 from dataclasses import dataclass
@@ -492,6 +492,9 @@ class HumanAwareMotionPlanner(Node):
         self.upstream_cmd = Twist()
         self.last_visualization = -math.inf
         self.measured_velocity = (0.0, 0.0, 0.0)
+        self.continuous_reference = bool(self.declare_parameter('continuous_motion_reference',False).value)
+        self.nominal_reference = NominalMotionReference()
+        self.nominal_reference_stamp = None
         self.policy_command = None
         self.policy_command_stamp = None
         self.odom_stamp = None
@@ -615,6 +618,9 @@ class HumanAwareMotionPlanner(Node):
     def _mission_callback(self, msg: Bool) -> None:
         self.mission_active = bool(msg.data)
         if not self.mission_active:
+            if hasattr(self,'nominal_reference'):
+                self.nominal_reference.reset()
+                self.nominal_reference_stamp = None
             self.escape_plan = None
             self.warm_start_plan = None
             self.goal_progress_stamp = None
@@ -780,6 +786,16 @@ class HumanAwareMotionPlanner(Node):
                 heading = math.atan2(command.linear.y,command.linear.x)
                 limit = .35 if command.linear.x < 0. else .6
                 command.angular.z = 0. if abs(heading) < .15 else self._clamp(.8*heading,-limit,limit)
+        if getattr(self,'continuous_reference',False):
+            stamp = self.get_clock().now().nanoseconds*1e-9
+            dt = .05 if self.nominal_reference_stamp is None else stamp-self.nominal_reference_stamp
+            if dt>.3:
+                self.nominal_reference.reset()
+            self.nominal_reference_stamp = stamp
+            heading = self._wrap_pi(math.atan2(dy,dx)-pose[2]) if not self.goal_holonomic else 0.
+            target = (command.linear.x,command.linear.y,command.angular.z)
+            command.linear.x,command.linear.y,command.angular.z = self.nominal_reference.update(
+                target,heading,self.measured_velocity,dt,self.payload_active)
         return command
 
     def _scan_callback(self, msg: LaserScan) -> None:

@@ -47,6 +47,7 @@ human_aware_motion_planner:
     local_safe_space_enabled: false
     holonomic_avoidance: true
     prefer_forward_travel: true
+    continuous_motion_reference: true
     prefer_safe_route_alignment: true
     path_reference_speed: 0.60
     path_reference_lookahead: 1.5
