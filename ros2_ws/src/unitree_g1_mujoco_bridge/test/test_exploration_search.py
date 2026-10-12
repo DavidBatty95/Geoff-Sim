@@ -4,7 +4,7 @@ from types import SimpleNamespace as S
 import numpy as np
 import pytest
 
-from unitree_g1_mujoco_bridge.exploration_search import ObservedSearchMap
+from unitree_g1_mujoco_bridge.exploration_search import ObservedSearchMap,view_novelty
 
 
 def grid(data,resolution=.2,yaw=0.):
@@ -25,6 +25,25 @@ def test_goals_have_known_free_footprints_and_reachable_paths():
         x,y = observed.cell((goal.x,goal.y))
         assert x<25 and observed.free[y,x] and reachable[y,x]>=0
         assert np.all(data[y-2:y+3,x-2:x+3]==0)
+
+
+def test_different_camera_heading_can_revisit_same_position():
+    assert view_novelty((0.,0.),0.,[(0.,0.,0.)])==0.
+    assert view_novelty((0.,0.),math.pi/2,[(0.,0.,0.)])>1.1
+    observed = ObservedSearchMap(grid(np.zeros((40,40),dtype=int)),.4)
+    robot = observed.world(15,15)
+    goals = observed.viewpoints(robot,[(*robot,0.)],heading=0.)
+    assert any(goal.kind=='heading_inspection' for goal in goals)
+
+
+def test_camera_ray_can_pass_near_obstacle_without_robot_footprint_clearance():
+    data = np.zeros((40,40),dtype=int)
+    data[15,15] = 100
+    observed = ObservedSearchMap(grid(data),.55)
+    start,end = observed.world(5,14),observed.world(25,14)
+    assert not observed.segment_free(start,end)
+    assert observed.visible_points(start,[end])[0]
+    assert not observed.visible_points(observed.world(5,15),[observed.world(25,15)])[0]
 
 
 def test_fully_mapped_space_still_has_visual_search_viewpoints():

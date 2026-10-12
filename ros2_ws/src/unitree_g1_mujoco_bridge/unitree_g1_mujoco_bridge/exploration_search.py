@@ -243,7 +243,16 @@ class ObservedSearchMap:
             turn = abs(math.atan2(math.sin(yaw-heading),math.cos(yaw-heading))) if heading is not None else 0.
             score = view_score(cost,gain,novelty,turn,risk)
             result.append(SearchView(*point,yaw,
-                                     score,cost,gain,'frontier' if gain else 'visual_coverage'))
+                                      score,cost,gain,'frontier' if gain else 'visual_coverage'))
+        if heading is not None and visited:
+            x,y = self.cell(robot)
+            if 0<=x<self.width and 0<=y<self.height and distances[y,x]>=0:
+                for offset in (-math.pi/3,math.pi/3):
+                    yaw = heading+offset
+                    novelty = view_novelty(robot,yaw,visited)
+                    if novelty>=1.1:
+                        result.append(SearchView(*robot,yaw,view_score(0.,0,novelty,abs(offset),0.),
+                                                 0.,0,'heading_inspection'))
         return sorted(result,key=lambda goal:(-goal.score,goal.path_length,goal.x,goal.y))
 
     def support_viewpoints(self,robot,surfaces,visited=(),people=(),heading=0.):

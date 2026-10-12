@@ -160,7 +160,7 @@ class RoomTopology:
                 nearby[indices] &= self.grid.visible_points((goal.x,goal.y),unseen[indices])
                 bearings = np.arctan2(delta[nearby,1],delta[nearby,0])
                 # Aim a useful camera view instead of a fixed quarter-turn.
-                for offset in ([0.] if goal.kind in ('support_inspection','semantic_reobserve') else np.linspace(-math.pi/3,math.pi/3,5)):
+                for offset in ([0.] if goal.kind in ('support_inspection','semantic_reobserve','heading_inspection') else np.linspace(-math.pi/3,math.pi/3,5)):
                     direction = goal.yaw+float(offset)
                     count = int(np.sum(np.abs(np.arctan2(np.sin(bearings-direction),np.cos(bearings-direction)))<=math.pi/6))
                     # Inspection has a physical turning cost. Prefer views

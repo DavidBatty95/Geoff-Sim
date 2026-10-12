@@ -153,7 +153,7 @@ class ExplorationMission:
             if not (0<=x<grid.width and 0<=y<grid.height and reachable[y,x]>=0):
                 continue
             novelty = view_novelty(point,goal.yaw,visited)
-            if math.dist(robot,point)<.6 or novelty<1.1:
+            if (math.dist(robot,point)<.6 and goal.kind!='heading_inspection') or novelty<1.1:
                 continue
             if any(closest_person_distance((px,py),(vx,vy),point,0.)<radius+grid.radius+.4 for px,py,vx,vy,radius in people):
                 continue
@@ -161,7 +161,7 @@ class ExplorationMission:
             # was recorded. Refresh novelty and travel cost as well as admission;
             # otherwise stale high novelty repeatedly selects nearby floor.
             cost = float(reachable[y,x])*grid.resolution
-            yaw = goal.yaw if goal.kind=='support_inspection' else math.atan2(point[1]-robot[1],point[0]-robot[0])
+            yaw = goal.yaw if goal.kind in ('support_inspection','heading_inspection') else math.atan2(point[1]-robot[1],point[0]-robot[0])
             turn = abs(math.atan2(math.sin(yaw-node.pose[2]-tf[2]),math.cos(yaw-node.pose[2]-tf[2])))
             risk = sum(1./max(.2,closest_person_distance((px,py),(vx,vy),point,0.)-radius)
                        for px,py,vx,vy,radius in people)
@@ -471,6 +471,8 @@ class ExplorationMission:
             inverse = self._transform('odom','map')
             x,y = self._point((selected.x,selected.y),inverse)
             self.inspection_heading = selected.yaw+inverse[2]
+            if selected.kind=='heading_inspection':
+                continue  # Inspect another camera cone without a redundant Nav2 action.
             try:
                 self.navigate_observed((x,y,selected.yaw+inverse[2]),
                     timeout=min(120.,max(45.,selected.path_length/.35+15.)),stop_when_observed=identifier,phase='search_route')
