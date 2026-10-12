@@ -104,6 +104,10 @@ def main():
                         help='Explicit cycle-01 trained posture or historical Cartesian IK carry')
     parser.add_argument('--policy',type=Path,help='Repository-local 480/29 ONNX checkpoint; uses measured arm observations')
     args = parser.parse_args()
+    if args.policy is None and args.explore_unknown:
+        native_policy = ROOT/'vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx'
+        if native_policy.is_file():
+            args.policy = native_policy
     try:
         crowd_settings = pedestrian_settings(args.people,args.seed,args.pedestrian_start_delay)
     except ValueError as exc:
@@ -165,6 +169,7 @@ def main():
     settings.update(crowd_settings)
     if args.policy is not None:
         settings.update(policy_path='/workspace/'+str(args.policy.relative_to(ROOT)),external_arm_observation_mask='false')
+    print(f'Locomotion policy: {settings["policy_path"]}; posture: {args.carry_posture}',flush=True)
     name = 'geoff-transport-'+str(os.getpid())
     env = dict(os.environ,COLCON_INSTALL_BASE=install,UNITREE_G1_CONTAINER_NAME=name)
     sources = [Path(__file__),ROOT/'scripts/transport_worlds.py',

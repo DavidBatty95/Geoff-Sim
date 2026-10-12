@@ -65,6 +65,23 @@ def support_approach(points,box,max_edge_gap=.20,min_edge_separation=.08):
     return math.atan2(inward[1],inward[0])
 
 
+def support_surfaces(depth,K,origin,R,table_height=.95):
+    """Bounded, colour-independent support proposals; never object discoveries."""
+    v,u = np.indices(depth.shape)
+    z = depth[::4,::4]
+    points = np.stack(((u[::4,::4]-K[0,2])*z/K[0,0],
+                       (v[::4,::4]-K[1,2])*z/K[1,1],z),axis=-1)@R.T+origin
+    mask = (z>.3)&(z<6.)&(np.abs(points[:,:,2]-table_height)<.05)
+    result = []
+    for pixels in components(mask):
+        surface = points[pixels[:,0],pixels[:,1]]
+        lo,hi = np.min(surface,axis=0),np.max(surface,axis=0)
+        extent = hi-lo
+        if .3<max(extent[:2])<2.5 and min(extent[:2])>.12:
+            result.append(dict(position=((lo+hi)/2).tolist(),extent=extent.tolist(),pixels=len(surface)))
+    return sorted(result,key=lambda item:-item['pixels'])[:16]
+
+
 def colour_detections(rgb,depth,K,origin,R,table_height=.95,diagnostics=None):
     """Return geometric candidates in a level robot frame; no layout lookup."""
     if (rgb.ndim!=3 or rgb.shape[2]!=3 or depth.shape!=rgb.shape[:2] or K.shape!=(3,3) or
@@ -217,6 +234,8 @@ class TransportPerception(Node):
         self.depth = {}
         self.imu,self.joints = deque(maxlen=200),deque(maxlen=200)
         self.objects = {}
+        self.surfaces = []
+        self.image_pose = None
         self.consensus = ObservationConsensus()
         self.camera_pitch_deg = float(camera_pitch_deg)
         self.snapshot = None
@@ -302,6 +321,12 @@ class TransportPerception(Node):
         except ValueError as exc:
             self.process_status = str(exc)
             return
+        self.surfaces = support_surfaces(depth,self.info,origin,
+            torso_R@rpy_matrix((0.,math.radians(self.camera_pitch_deg),0.))@optical_R)
+        for surface in self.surfaces:
+            surface['position'] = (world_R@surface['position']+offset).tolist()
+            surface['observed_stamp'] = stamp
+        self.image_pose = [float(offset[0]),float(offset[1]),yaw]
         self.snapshot = dict(rgb=rgb.copy(),depth=depth.copy(),stamp=stamp,origin=origin.tolist(),
                              rpy=list(imu[1]),torso_rotation=torso_R.tolist(),regions=diagnostics,detections=detections)
         for item in detections:
@@ -351,4 +376,5 @@ class TransportPerception(Node):
         self.objects = {key:value for key,value in self.objects.items() if now-value['observed_stamp'] < (60. if value['kind']=='pad' else 30.)}
         self.pub.publish(String(data=json.dumps(dict(frame='odom',stamp=now,
             image_stamp=self.last_processed_stamp if math.isfinite(self.last_processed_stamp) else None,
+            image_pose=self.image_pose,surfaces=self.surfaces,
             objects=list(self.objects.values()),source='registered_rgbd_joint_imu'))))

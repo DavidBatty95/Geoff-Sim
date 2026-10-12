@@ -29,6 +29,7 @@ from unitree_social_navigation_msgs.msg import (
 from .pointcloud import iter_xyz
 from .point_components import connected_components
 from .wall_evidence import WallEvidence
+from .pointcloud_layout import named_fields
 
 
 @dataclass
@@ -788,28 +789,23 @@ class DynamicObstacleTracker(Node):
         self._publish_points(points, stamp, frame)
 
     def _iter_cloud_points(self, msg: PointCloud2) -> Iterable[tuple[float, float, float, bool]]:
-        offsets = {field.name: field.offset for field in msg.fields}
-        if not {"x", "y", "z"}.issubset(offsets) or msg.point_step <= 0:
+        names = {field.name for field in msg.fields}
+        tag = 'tag' if 'tag' in names else 'livox_tag' if 'livox_tag' in names else None
+        requested = ['x','y','z']+([tag] if tag and self.use_livox_tag_filter else [])
+        try:
+            view = named_fields(msg,requested)
+        except ValueError:
             return
-        max_offset = max(offsets["x"], offsets["y"], offsets["z"]) + 4
-        if msg.point_step < max_offset:
-            return
-        tag_name = "tag" if "tag" in offsets else "livox_tag" if "livox_tag" in offsets else ""
-        tag_offset = offsets.get(tag_name) if tag_name else None
-        fields_by_name = {field.name: field for field in msg.fields}
-        for base in range(0, len(msg.data) - max_offset + 1, msg.point_step):
-            x = struct.unpack_from("<f", msg.data, base + offsets["x"])[0]
-            y = struct.unpack_from("<f", msg.data, base + offsets["y"])[0]
-            z = struct.unpack_from("<f", msg.data, base + offsets["z"])[0]
-            if not (math.isfinite(x) and math.isfinite(y) and math.isfinite(z)):
-                continue
-            is_noise = False
-            if self.use_livox_tag_filter and tag_offset is not None:
-                field = fields_by_name[tag_name]
-                tag = self._read_numeric_field(msg.data, base + tag_offset, field.datatype)
-                # Livox tag layouts differ by driver; non-zero high bits are treated as weak/noisy returns.
-                is_noise = int(tag) not in (0, 1) and (int(tag) & 0b11111100) != 0
-            yield x, y, z, is_noise
+        xyz = np.column_stack([view[name].reshape(-1) for name in requested[:3]])
+        valid = np.isfinite(xyz).all(axis=1)
+        noise = np.zeros(len(xyz),dtype=bool)
+        if len(requested)>3:
+            values = view[tag].reshape(-1)
+            valid &= np.isfinite(values)
+            tags = np.where(np.isfinite(values),values,0).astype(np.int64)
+            noise = (tags & 0b11111100)!=0
+        for point,rejected in zip(xyz[valid].tolist(),noise[valid].tolist()):
+            yield point[0],point[1],point[2],rejected
 
     @staticmethod
     def _read_numeric_field(data: bytes, offset: int, datatype: int) -> float:

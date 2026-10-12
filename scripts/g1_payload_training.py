@@ -136,6 +136,7 @@ class PayloadActionCfg(JointPositionActionCfg):
     pose_bank: str = 'carry'
     arm_transitions: bool = False
     max_delay_steps: int = 0
+    action_hold_probability: float = 0.
 
     def build(self, env):
         return PayloadAction(self, env)
@@ -193,6 +194,9 @@ class PayloadAction(JointPositionAction):
         self.action_history = torch.roll(self.action_history,1,dims=1)
         self.action_history[:,0] = actions
         delayed = self.action_history[torch.arange(self.num_envs,device=self.device),self.delay_steps]
+        if self.cfg.action_hold_probability:
+            held = torch.rand(self.num_envs,device=self.device)<self.cfg.action_hold_probability
+            delayed = torch.where(held[:,None],self.raw_action,delayed)
         super().process_actions(delayed)
         if self.cfg.profile == 'mixed' and self.cfg.arm_transitions:
             ids = torch.where(self.held & (self._env.episode_length_buf >= self.next_pose_step))[0]
@@ -246,7 +250,7 @@ def applied_policy_action(env):
 
 
 def build_env(num_envs, seed, profile='mixed', pose_index=0, pose_bank='carry', arm_transitions=False,
-              objective='tracking',smoothness_weight=.2,dynamics='historical',max_delay_steps=0):
+              objective='tracking',smoothness_weight=.2,dynamics='historical',max_delay_steps=0,action_hold_probability=0.):
     cfg = unitree_g1_flat_env_cfg()
     cfg.seed = seed
     cfg.scene.num_envs = num_envs
@@ -271,7 +275,8 @@ def build_env(num_envs, seed, profile='mixed', pose_index=0, pose_bank='carry', 
     robot.articulation.actuators = tuple(actuators)
     cfg.actions = {'joint_pos': PayloadActionCfg(entity_name='robot', actuator_names=('.*',),
                     scale=.25, use_default_offset=True, profile=profile, pose_index=pose_index,
-                    pose_bank=pose_bank, arm_transitions=arm_transitions,max_delay_steps=max_delay_steps)}
+                    pose_bank=pose_bank, arm_transitions=arm_transitions,max_delay_steps=max_delay_steps,
+                    action_hold_probability=action_hold_probability)}
     actor_terms = {
         'base_ang_vel': ObservationTermCfg(func=mdp.builtin_sensor, params={'sensor_name': 'robot/imu_ang_vel'}, scale=.2),
         'projected_gravity': ObservationTermCfg(func=mdp.projected_gravity),
@@ -301,7 +306,7 @@ def build_env(num_envs, seed, profile='mixed', pose_index=0, pose_bank='carry', 
     cfg.rewards['track_linear_velocity'].params['std'] = .25
     cfg.rewards['track_angular_velocity'].params['std'] = .35
     cfg.rewards['action_rate_l2'].weight = -.02
-    if objective == 'fluid':
+    if objective in ('fluid','reactive'):
         cfg.rewards['fluid_carry'] = RewardTermCfg(func=FluidCarryPenalty,weight=-smoothness_weight,
                                                   params={'up_axis':cup_up_axis()})
         # Match native clockwise pivots up to 0.9 rad/s, which cycle 01 did not
@@ -315,6 +320,11 @@ def build_env(num_envs, seed, profile='mixed', pose_index=0, pose_bank='carry', 
         command.yaw_speed_max = .90
         command.ranges.ang_vel_z = (-.90,.90)
         command.moving_stop_probability = .40
+    if objective == 'reactive':
+        # Tracking must not be traded away for the smoother nearly-stationary
+        # pivots seen in cycle-03. Evaluate both progress and uprightness.
+        cfg.rewards['track_angular_velocity'].weight *= 2.5
+        cfg.rewards['track_linear_velocity'].weight *= 1.25
     return cfg
 
 
@@ -435,16 +445,19 @@ def main():
     parser.add_argument('--arm-transitions', action='store_true', help='Resample held-arm targets every eight seconds during training')
     parser.add_argument('--profile', choices=('mixed', 'unloaded', 'held_empty', 'loaded', 'heavy'), default='mixed')
     parser.add_argument('--output', type=Path)
-    parser.add_argument('--objective',choices=('tracking','fluid'),default='tracking')
+    parser.add_argument('--objective',choices=('tracking','fluid','reactive'),default='tracking')
     parser.add_argument('--smoothness-weight',type=float,default=.2)
     parser.add_argument('--probe',choices=('tracking','loaded_turns'),default='tracking')
     parser.add_argument('--dynamics',choices=('historical','native_inertial'),default='historical')
     parser.add_argument('--max-delay-steps',type=int,default=0,help='Per-episode policy application delay sampled from 0..N periods')
+    parser.add_argument('--action-hold-probability',type=float,default=0.,help='Per-tick missed-update exposure, retaining the previously applied action')
     args = parser.parse_args()
     if args.num_envs <= 0 or args.iterations <= 0 or args.seed < 0 or args.pose_index < 0:
         parser.error('Environment/iteration counts must be positive and seed/pose index nonnegative')
     if not 0<=args.max_delay_steps<=5:
         parser.error('--max-delay-steps must be between 0 and 5')
+    if not 0.<=args.action_hold_probability<=.2:
+        parser.error('--action-hold-probability must be in [0, .2]')
     if args.pose_bank == 'carry' and args.pose_index > 2:
         parser.error('Pose indices above 2 require --pose-bank reach')
     if not math.isfinite(args.smoothness_weight) or args.smoothness_weight<=0.:
@@ -458,7 +471,7 @@ def main():
     sys.stdout = ConsoleTee(sys.stdout,output/'console.stdout.log')
     sys.stderr = ConsoleTee(sys.stderr,output/'console.stderr.log')
     cfg = build_env(args.num_envs, args.seed, args.profile, args.pose_index, args.pose_bank, args.arm_transitions,
-                    args.objective,args.smoothness_weight,args.dynamics,args.max_delay_steps)
+                    args.objective,args.smoothness_weight,args.dynamics,args.max_delay_steps,args.action_hold_probability)
     if args.mode == 'evaluate' and args.probe == 'loaded_turns':
         cfg.episode_length_s = sum(item[1] for item in LOADED_TURN_SCHEDULE)+2.
     agent = unitree_g1_ppo_runner_cfg()
@@ -473,7 +486,7 @@ def main():
     agent.seed = args.seed
     agent.experiment_name = 'g1_payload'
     manifest = dict(mode=args.mode, seed=args.seed, num_envs=args.num_envs, iterations=args.iterations,
-                    dynamics=args.dynamics,max_delay_steps=args.max_delay_steps,
+                    dynamics=args.dynamics,max_delay_steps=args.max_delay_steps,action_hold_probability=args.action_hold_probability,
                     profile=args.profile, source=str(SOURCE), source_sha256=hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
                     arm_input_initialization=args.arm_init,
                     evaluation_pose_index=args.pose_index,

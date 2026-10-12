@@ -24,7 +24,20 @@ class SearchView:
 
 
 def view_score(cost,gain,novelty,turn,risk):
-    return (1.+.35*gain+min(5.,novelty))/(1.+.35*cost+.7*turn)-.25*risk
+    # Time proxy includes slow measured humanoid yaw response and acquisition.
+    return (1.+.35*gain+min(9.,novelty*novelty))/(1.+cost/.45+turn/.18)-.25*risk
+
+
+def view_novelty(point,yaw,visited):
+    """Position-only legacy visits remain supported; oriented views can revisit."""
+    distances = []
+    for view in visited:
+        distance = math.dist(point,view[:2])
+        if len(view)>2:
+            heading = abs(math.atan2(math.sin(yaw-view[2]),math.cos(yaw-view[2])))
+            distance = math.hypot(distance,heading*1.5)
+        distances.append(distance)
+    return min(distances,default=3.)
 
 
 class ObservedSearchMap:
@@ -91,6 +104,26 @@ class ObservedSearchMap:
 
     def information(self,x,y,view_range=3.):
         return self.information_batch([(x,y)],view_range)[0]
+
+    def visible_points(self,origin,points):
+        """Optical LOS on occupancy, separate from inflated base traversability.
+
+        Unknown cells occlude; a camera ray does not require a robot-sized gap.
+        Batch rays to avoid one Python/NumPy allocation per visible floor cell.
+        """
+        points = np.asarray(points,dtype=float).reshape(-1,2)
+        if not len(points):
+            return np.zeros(0,dtype=bool)
+        start = np.asarray(self.cell(origin),dtype=float)+.5
+        c,s = math.cos(self.yaw),math.sin(self.yaw)
+        delta = points-np.asarray(self.origin)
+        ends = np.column_stack((c*delta[:,0]+s*delta[:,1],-s*delta[:,0]+c*delta[:,1]))/self.resolution
+        count = max(2,int(np.ceil(np.max(np.linalg.norm(ends-start,axis=1))*2))+1)
+        rays = np.floor(start+(ends[:,None,:]-start)*np.linspace(0.,1.,count)[None,:,None]).astype(int)
+        xs,ys = rays[:,:,0],rays[:,:,1]
+        inside = (xs>=0)&(xs<self.width)&(ys>=0)&(ys<self.height)
+        cells = self.data[np.clip(ys,0,self.height-1),np.clip(xs,0,self.width-1)]
+        return np.all(inside&(cells>=0)&(cells<20),axis=1)
 
     def segment_free(self,start,end):
         """Conservative supercover sampling on the already inflated grid."""
@@ -182,9 +215,10 @@ class ObservedSearchMap:
         for steps,x,y in sorted(cells):
             point = self.world(x,y)
             distance = math.dist(point,robot)
-            if distance<1.0 or any(math.dist(point,p)<.9 for p in failed):
+            if distance<.6 or any(math.dist(point,p[:2])<.9 for p in failed):
                 continue
-            novelty = min((math.dist(point,p) for p in visited),default=3.)
+            yaw = math.atan2(point[1]-robot[1],point[0]-robot[0])
+            novelty = view_novelty(point,yaw,visited)
             if novelty<1.1:
                 continue
             risk = 0.
@@ -211,6 +245,32 @@ class ObservedSearchMap:
             result.append(SearchView(*point,yaw,
                                      score,cost,gain,'frontier' if gain else 'visual_coverage'))
         return sorted(result,key=lambda goal:(-goal.score,goal.path_length,goal.x,goal.y))
+
+    def support_viewpoints(self,robot,surfaces,visited=(),people=(),heading=0.):
+        """Task-independent table views from observed RGB-D support geometry."""
+        reachable = self.reachable(robot,80.)
+        result = []
+        for surface in surfaces:
+            target = surface[:2]
+            for offset in np.linspace(0.,2*math.pi,12,endpoint=False):
+                point = (target[0]+1.5*math.cos(offset),target[1]+1.5*math.sin(offset))
+                x,y = self.cell(point)
+                if not (0<=x<self.width and 0<=y<self.height and reachable[y,x]>=0):
+                    continue
+                yaw = math.atan2(target[1]-point[1],target[0]-point[0])
+                novelty = view_novelty(point,yaw,visited)
+                if novelty<1.1 or any(closest_person_distance((px,py),(vx,vy),point,0.)<radius+self.radius+.4
+                                     for px,py,vx,vy,radius in people):
+                    continue
+                # Floor visibility cannot see through the table's occupied cell.
+                # Check the ray up to the near table edge instead of its centre.
+                near = (target[0]+.55*math.cos(offset),target[1]+.55*math.sin(offset))
+                if not self.visible_points(point,[near])[0]:
+                    continue
+                cost = float(reachable[y,x]*self.resolution)
+                turn = abs(math.atan2(math.sin(yaw-heading),math.cos(yaw-heading)))
+                result.append(SearchView(*point,yaw,view_score(cost,16,novelty,turn,0.),cost,0,'support_inspection'))
+        return sorted(result,key=lambda goal:-goal.score)
 
     def semantic_viewpoints(self,robot,target,people=()):
         """Reobserve historical sensor geometry from a reachable stand-off ring."""

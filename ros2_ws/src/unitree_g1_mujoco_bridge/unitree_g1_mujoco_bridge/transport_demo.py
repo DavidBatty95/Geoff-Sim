@@ -64,6 +64,8 @@ class TransportMission(Node):
         self.rpy = (0.,0.,0.)
         self.observations = {}
         self.search_hints = {}
+        self.support_memory = []
+        self.last_image_pose = None
         self.last_image_stamp = None
         self.exploration = None
         self.people = None
@@ -125,7 +127,19 @@ class TransportMission(Node):
         if data.get('frame') == 'odom':
             image_stamp = data.get('image_stamp')
             if isinstance(image_stamp,(int,float)) and math.isfinite(image_stamp) and 0.<=self.seconds()-image_stamp<=5.:
-                self.last_image_stamp = max(image_stamp,self.last_image_stamp or image_stamp)
+                if image_stamp>= (self.last_image_stamp or -math.inf):
+                    self.last_image_stamp = image_stamp
+                    pose = data.get('image_pose')
+                    self.last_image_pose = tuple(pose) if pose is not None and len(pose)==3 and all(map(math.isfinite,pose)) else None
+                memory = getattr(self,'support_memory',[])
+                for surface in data.get('surfaces',[]):
+                    point = surface.get('position',[])
+                    stamp = surface.get('observed_stamp',-math.inf)
+                    if len(point)!=3 or not all(map(math.isfinite,point)) or not 0.<=self.seconds()-stamp<=5.:
+                        continue
+                    memory = [old for old in memory if math.dist(old['position'][:2],point[:2])>.6]
+                    memory.append(surface)
+                self.support_memory = [item for item in memory if 0.<=self.seconds()-item['observed_stamp']<120.][-32:]
             self.observations = {item['id']:item for item in data['objects']}
             for identifier,item in self.observations.items():
                 if item.get('confirmed',False):

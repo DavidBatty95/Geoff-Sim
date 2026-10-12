@@ -41,6 +41,7 @@ class ScanOdometry:
         self.yaw = 0.0
         self.initial_heading = None
         self.reference_xy = np.zeros(2)
+        self.reference_yaw = 0.
         self.cell_size = 0.20
         self.offsets = np.array([(x, y) for x in range(-2, 3) for y in range(-2, 3)])
         self.quality = {}
@@ -54,6 +55,7 @@ class ScanOdometry:
         keys, indices = np.unique(self._keys(cells), return_index=True)
         self.keys, self.reference = keys, points[indices]
         self.reference_xy = self.xy.copy()
+        self.reference_yaw = self.yaw
         neighbours = self._keys(cells[indices,None,:]+self.offsets)
         lookup = np.minimum(np.searchsorted(self.keys,neighbours),len(self.keys)-1)
         valid = self.keys[lookup] == neighbours
@@ -120,6 +122,7 @@ class ScanOdometry:
         if not accepted:
             return False
         self.xy, self.yaw = estimate, yaw
-        if np.linalg.norm(self.xy - self.reference_xy) > 0.45:
+        if (np.linalg.norm(self.xy - self.reference_xy) > 0.45 or
+                abs(math.atan2(math.sin(yaw-self.reference_yaw),math.cos(yaw-self.reference_yaw)))>.45):
             self._set_reference(rotated + self.xy)
         return True

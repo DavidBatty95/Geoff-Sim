@@ -12,7 +12,7 @@ from std_msgs.msg import String
 from visualization_msgs.msg import MarkerArray
 from tf2_ros import TransformException
 
-from .exploration_search import ObservedSearchMap,SearchView,view_score
+from .exploration_search import ObservedSearchMap,SearchView,view_score,view_novelty
 from .transport_actions import ActionTerminationError
 from .localization_recovery import BodyInstabilityError
 from .transport_people import closest_person_distance
@@ -36,6 +36,7 @@ class ExplorationMission:
         self.planning_ms = 0.
         self.topology,self.room_anchor,self.inspection_heading = None,None,None
         self.rooms,self.coverage,self.inspections,self.coverage_stamp = [],{},{},{}
+        self.geometry_cache = None
         qos = QoSProfile(depth=1,durability=DurabilityPolicy.TRANSIENT_LOCAL,reliability=ReliabilityPolicy.RELIABLE)
         self.subscription = mission.create_subscription(OccupancyGrid,'/map',self._map,qos)
         self.markers = mission.create_publisher(MarkerArray,'/exploration/search_markers',1)
@@ -75,14 +76,21 @@ class ExplorationMission:
     def _key(self):
         return self.target,self.generation,self.mission.object_may_be_held
 
-    @staticmethod
-    def _compute(message,robot,visited,failed,people,radius,heading):
+    def _compute(self,message,robot,visited,failed,people,radius,heading,surfaces=()):
         start = time.monotonic()
-        grid = ObservedSearchMap(message,radius)
+        info = message.info
+        key = (radius,info.width,info.height,info.resolution,str(info.origin),bytes((value+1 for value in message.data)))
+        if self.geometry_cache is None or self.geometry_cache[0]!=key:
+            grid = ObservedSearchMap(message,radius)
+            topology = RoomTopology(grid)
+            self.geometry_cache = key,grid,topology
+        else:
+            _,grid,topology = self.geometry_cache
         goals = grid.viewpoints(robot,visited,failed,people,heading=heading)
+        goals += grid.support_viewpoints(robot,surfaces,visited,people,heading) if surfaces else []
+        goals.sort(key=lambda view:-view.score)
         x,y = grid.cell(robot)
         root_clear = 0<=x<grid.width and 0<=y<grid.height and bool(grid.free[y,x])
-        topology = RoomTopology(grid)
         return goals,root_clear,(time.monotonic()-start)*1000.,topology
 
     def _prepare(self):
@@ -118,7 +126,9 @@ class ExplorationMission:
         submitted = time.monotonic()
         # Detached inputs; one outstanding computation, no ROS operations in worker.
         future = self.pool.submit(self._compute,copy.deepcopy(self.map),self.robot,
-            tuple(self.visits.get(self.target,())),tuple(failed),tuple(people),.65 if key[2] else .55,node.pose[2]+tf[2])
+            tuple(self.inspections.get(self.target,())),tuple(failed),tuple(people),.65 if key[2] else .55,node.pose[2]+tf[2],
+            tuple(self._point(item['position'],tf) for item in getattr(node,'support_memory',[])
+                  if 0.<=node.seconds()-item['observed_stamp']<120.))
         self.pending = key,future,submitted
 
     def _ready(self):
@@ -142,7 +152,8 @@ class ExplorationMission:
             x,y = grid.cell(point)
             if not (0<=x<grid.width and 0<=y<grid.height and reachable[y,x]>=0):
                 continue
-            if math.dist(robot,point)<1. or any(math.dist(point,p)<1.1 for p in visited):
+            novelty = view_novelty(point,goal.yaw,visited)
+            if math.dist(robot,point)<.6 or novelty<1.1:
                 continue
             if any(closest_person_distance((px,py),(vx,vy),point,0.)<radius+grid.radius+.4 for px,py,vx,vy,radius in people):
                 continue
@@ -150,12 +161,12 @@ class ExplorationMission:
             # was recorded. Refresh novelty and travel cost as well as admission;
             # otherwise stale high novelty repeatedly selects nearby floor.
             cost = float(reachable[y,x])*grid.resolution
-            novelty = min((math.dist(point,p) for p in visited),default=3.)
-            yaw = math.atan2(point[1]-robot[1],point[0]-robot[0])
+            yaw = goal.yaw if goal.kind=='support_inspection' else math.atan2(point[1]-robot[1],point[0]-robot[0])
             turn = abs(math.atan2(math.sin(yaw-node.pose[2]-tf[2]),math.cos(yaw-node.pose[2]-tf[2])))
             risk = sum(1./max(.2,closest_person_distance((px,py),(vx,vy),point,0.)-radius)
                        for px,py,vx,vy,radius in people)
-            result.append(SearchView(*point,yaw,view_score(cost,goal.information,novelty,turn,risk),
+            gain = 16 if goal.kind=='support_inspection' else goal.information
+            result.append(SearchView(*point,yaw,view_score(cost,gain,novelty,turn,risk),
                                      cost,goal.information,goal.kind))
         return sorted(result,key=lambda goal:(-goal.score,goal.path_length,goal.x,goal.y))
 
@@ -407,19 +418,21 @@ class ExplorationMission:
             self.state = 'select_viewpoint'
             selection_start = time.monotonic()
             node.wait(self._ready,5.,'no fresh exploration plan available')
-            candidates = self._revalidated(visited)
+            candidates = self._revalidated(self.inspections.get(identifier,[]) or visited)
             if self.topology is not None:
                 tf = self._transform('map','odom')
                 robot = self._point(node.pose[:2],tf)
-                yaw = node.pose[2]+tf[2]
+                image_pose = getattr(node,'last_image_pose',None)
+                acquisition_position = self._point(image_pose[:2],tf) if image_pose is not None else robot
+                yaw = image_pose[2]+tf[2] if image_pose is not None else node.pose[2]+tf[2]
                 seen = self.coverage.setdefault(identifier,set())
                 inspections = self.inspections.setdefault(identifier,[])
                 if node.last_image_stamp!=self.coverage_stamp.get(identifier):
                     self.coverage_stamp[identifier] = node.last_image_stamp
-                    seen.update(self.topology.visible(robot,yaw,ObservedSearchMap(self.map,.55)))
-                    if not any(math.dist(robot,view[:2])<.6 and
+                    seen.update(self.topology.visible(acquisition_position,yaw,ObservedSearchMap(self.map,.55)))
+                    if not any(math.dist(acquisition_position,view[:2])<.6 and
                                abs(math.atan2(math.sin(yaw-view[2]),math.cos(yaw-view[2])))<.35 for view in inspections):
-                        inspections.append((*robot,yaw))
+                        inspections.append((*acquisition_position,yaw))
                 candidates,self.rooms = self.topology.decide(candidates,robot,seen,inspections,self.room_anchor)
                 node.event('search_room_decision',object_id=identifier,regions=len(self.rooms),
                            selected=next((room for room in self.rooms if room['active']),None),

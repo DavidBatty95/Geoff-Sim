@@ -113,9 +113,9 @@ class RoomTopology:
             distances = np.linalg.norm(delta,axis=1)
             bearings = np.arctan2(delta[:,1],delta[:,0])-yaw
             valid = (distances>=.5)&(distances<=3.5)&(np.abs(np.arctan2(np.sin(bearings),np.cos(bearings)))<=math.pi/6)
-            for i in np.flatnonzero(valid):
-                if current_grid.segment_free(position,tuple(points[i])):
-                    seen.add(keys[i])
+            indices = np.flatnonzero(valid)
+            visible = current_grid.visible_points(position,points[indices])
+            seen.update(keys[i] for i,clear in zip(indices,visible) if clear)
         return seen
 
     def decide(self,goals,robot,seen,inspections,anchor=None):
@@ -156,9 +156,11 @@ class RoomTopology:
             if len(unseen):
                 delta = unseen-np.asarray((goal.x,goal.y))
                 nearby = np.linalg.norm(delta,axis=1)<=3.5
+                indices = np.flatnonzero(nearby)
+                nearby[indices] &= self.grid.visible_points((goal.x,goal.y),unseen[indices])
                 bearings = np.arctan2(delta[nearby,1],delta[nearby,0])
                 # Aim a useful camera view instead of a fixed quarter-turn.
-                for offset in np.linspace(-math.pi/3,math.pi/3,5):
+                for offset in ([0.] if goal.kind in ('support_inspection','semantic_reobserve') else np.linspace(-math.pi/3,math.pi/3,5)):
                     direction = goal.yaw+float(offset)
                     count = int(np.sum(np.abs(np.arctan2(np.sin(bearings-direction),np.cos(bearings-direction)))<=math.pi/6))
                     # Inspection has a physical turning cost. Prefer views
