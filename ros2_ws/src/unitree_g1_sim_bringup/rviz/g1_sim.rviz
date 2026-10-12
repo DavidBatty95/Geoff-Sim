@@ -9,6 +9,18 @@ Panels:
 Visualization Manager:
   Class: ""
   Displays:
+    - Class: rviz_default_plugins/MarkerArray
+      Enabled: true
+      Name: Object Search - views and decisions
+      Namespaces:
+        object_search: true
+      Topic:
+        Depth: 5
+        Durability Policy: Volatile
+        History Policy: Keep Last
+        Reliability Policy: Reliable
+        Value: /exploration/search_markers
+      Value: true
     - Alpha: 0.5
       Cell Size: 0.5
       Class: rviz_default_plugins/Grid

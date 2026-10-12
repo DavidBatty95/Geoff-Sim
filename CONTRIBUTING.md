@@ -42,6 +42,50 @@ Do not weaken validators, redefine success, or switch to oracle input to make a
 sensor-only experiment pass. Visual sessions are explicitly unscored. Avoid
 changing locomotion limits as a side effect of visualization work.
 
-The existing package/submodule licenses remain authoritative; see [LICENSES.md](LICENSES.md).
-The incoming team must designate reviewers/owners before enabling mandatory
-CODEOWNERS review. No placeholder team identity is enforced in this repository.
+## A focused contribution workflow
+
+1. Start a topic branch from the intended base revision. Keep unrelated runtime,
+   experiment and presentation changes in separate reviewable contributions.
+2. Link an issue or phase and describe the observable acceptance criterion.
+3. Run the relevant checks below and retain their output, including failures.
+4. Update affected runbooks, generated assets and the **Unreleased** changelog
+   for user-facing changes. Preserve historical experiment records.
+5. Open a pull request using the template. Explain source/score/behavior changes
+   and identify any evidence that needs a graphical or GPU environment.
+6. Address review and merge only after applicable checks pass. A maintainer can
+   request additional native evidence when the change affects physical behavior.
+
+## Choose the right checks
+
+| Change | Minimum useful checks |
+| --- | --- |
+| Markdown, menus or SVGs | `python3 scripts/check_docs.py`; `python3 scripts/generate_readme_graphics.py --check` |
+| Research review | Appraisal/bibliography checks, PDF rebuild and PDF validation/report checks |
+| Repository tooling or CI | Repository-quality tests, workflow syntax/lint and the applicable verification jobs |
+| Python/ROS behavior | Relevant package regressions in the supported container; build consumers when interfaces change |
+| Simulator source | Native build/CTest, patch export/check and pristine replay |
+| Planner, perception or policy behavior | Above checks plus a declared native experiment and retained failed/invalid attempts |
+
+Use [Development](docs/DEVELOPMENT.md) for exact environments and commands. The
+workflow's path selection changes CI cost, not the evidence needed for a scientific
+or behavioral claim.
+
+Optional staged-file hooks:
+
+```bash
+python3 -m venv .venv-quality
+.venv-quality/bin/python -m pip install -r tools/requirements-quality.txt
+.venv-quality/bin/pre-commit install
+```
+
+## Review, conduct and licensing
+
+The [code of conduct](CODE_OF_CONDUCT.md) applies to project collaboration.
+Use [private security reporting](SECURITY.md#reporting-a-vulnerability) for
+sensitive issues. `.github/CODEOWNERS` identifies the current repository owner;
+add appointed reviewers as the team grows before enforcing independent approval.
+
+The existing package/submodule licences remain authoritative; see
+[LICENSES.md](LICENSES.md). A contribution must preserve source attribution and
+must not imply a new blanket licence for third-party code or assets.
+See [Release policy](docs/RELEASES.md) for artifacts and publication requirements.

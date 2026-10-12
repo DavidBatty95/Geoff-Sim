@@ -1,0 +1,22 @@
+name: Documentation or reproduction issue
+description: Report a broken link, unclear command or missing reproducibility detail
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Page, section or command
+      description: Link to the document and identify the relevant commit if possible.
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is unclear or incorrect?
+      description: Include the expected behavior and any relevant error, without credentials.
+    validations:
+      required: true
+  - type: textarea
+    id: correction
+    attributes:
+      label: Suggested correction or supporting evidence
+      description: A source link, working command or explanation is helpful.

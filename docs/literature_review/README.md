@@ -162,6 +162,7 @@ From the repository root:
 ```bash
 python3 docs/literature_review/generate_review_appendix.py
 bash docs/literature_review/build.sh
+python3 docs/literature_review/verify_pdf.py --write-report
 ```
 
 The script works from any current directory when invoked by its correct path.
@@ -174,6 +175,9 @@ The main TeX file includes the fundamentals, systematic method, thematic synthes
 novelty roadmap and generated paper appraisals into this **single PDF**. Edit
 `paper_appraisals.json` for the structured records, then regenerate their TeX/audit
 outputs. The build checks those generated outputs before compiling.
+Install the [isolated quality requirements](../../tools/requirements-quality.txt)
+for the `pypdf` validation command. The successful build also writes a provenance
+receipt; validation refuses to bless a PDF if its recorded inputs have changed.
 
 Supported toolchains, in selection order:
 
@@ -196,9 +200,20 @@ TECTONIC=/path/to/tectonic bash docs/literature_review/build.sh
 
 Tectonic's first build needs network access to fetch its TeX bundle; subsequent
 builds reuse its cache. The build does **not** re-query paper databases. Python 3
-is required; the verification script uses only the Python standard library.
+is required; bibliographic verification uses only the Python standard library,
+while PDF inspection uses the pinned quality-tool dependencies.
 The document uses Unicode-capable fonts, so plain pdfLaTeX is not a supported
 fallback.
+
+Published artifacts are checked against the CI-pinned Tectonic build. On the
+supported Linux x86-64 host, after creating the quality environment described in
+[Development](../DEVELOPMENT.md), install that same verified binary with:
+
+```bash
+python3 scripts/install_quality_tool.py tectonic --directory .venv-quality/bin
+TECTONIC="$PWD/.venv-quality/bin/tectonic" bash docs/literature_review/build.sh
+.venv-quality/bin/python docs/literature_review/verify_pdf.py --write-report
+```
 
 ## Verification and updating
 
@@ -226,11 +241,13 @@ Project-evidence hashes describe the inspection snapshot. Later controller
 iterations and measured outcomes have their own provenance in
 [the avoidance datasets](../AVOIDANCE_EXPERIMENTS.md).
 
-To repeat PDF link/bookmark checks, install `pypdf` in your document-tooling
-environment and run:
+To repeat PDF link/bookmark checks, install the pinned
+[`tools/requirements-quality.txt`](../../tools/requirements-quality.txt) in your
+document-tooling environment and run:
 
 ```bash
 python3 docs/literature_review/verify_pdf.py --write-report
+python3 docs/literature_review/verify_pdf.py --check-report
 ```
 
 Optional primary-text retrieval is explicit and network-dependent:
@@ -261,6 +278,7 @@ only after inspecting the material. Publisher PDFs are not bundled in Git.
 | `paper_appraisals.tex` | Generated appraisal appendix included in the single PDF |
 | `fundamentals.tex`, `systematic_method.tex`, `thematic_synthesis.tex`, `novelty_roadmap.tex` | Expanded narrative and research-goal chapters |
 | `pdf_validation.json` | Delivered PDF hash, page count, citation/link checks and bookmark/page map |
+| `build_provenance.json` | Successful-build receipt tying the PDF to TeX/BibTeX and declared data/build inputs |
 
 **Verification boundary:** bibliography identity, primary-material appraisal,
 document integrity and experimental replication are different checks. The

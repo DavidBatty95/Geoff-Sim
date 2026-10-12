@@ -34,6 +34,17 @@ described by the [repository guide](../REPOSITORY_GUIDE.md#where-results-go).
 | [hardware_fidelity_20261006.json](hardware_fidelity_20261006.json) | Nominal model and live articulated-hand interface audits; no physical calibration |
 | [avoidance_hardware_fidelity_smoke_20261006.json](avoidance_hardware_fidelity_smoke_20261006.json) | Updated-interface native one-person smoke: 3/3 goals, zero contacts, strict pass |
 | [transport_hardware_fidelity_20261006.json](transport_hardware_fidelity_20261006.json) | Two unchanged-code dual-delivery passes following interface/sensor changes |
+| [transport_people_clearance_20261006.json](transport_people_clearance_20261006.json) | Wider-layout/people-avoidance development attempts; no complete pass, failures retained |
+| [exploration_search_20261006.json](exploration_search_20261006.json) | Five evolving unknown-environment search attempts, timing/source evidence and failures; no complete delivery |
+| [room_search_and_tasks_20261007.json](room_search_and_tasks_20261007.json) | Room/task/approach-side follow-up, all 20 attempts; compact red-to-blue delivery passed, medium task still unqualified |
+| [exploration_crowd_20261007.json](exploration_crowd_20261007.json) | Three people-present room-search diagnostics, measured walker motion and planner timing; all failed, no crowded delivery pass |
+| [failure_review_20261007.json](failure_review_20261007.json) | Five detailed trace reviews: overlap/fall chronology, candidate rejection reasons, phase times and frame-aligned perception diagnostics |
+| [tracking_followup_20261007.json](tracking_followup_20261007.json) | Six wall-rejection/body-fault development attempts; failures and timeouts retained |
+| [tracking_diagnostics_20261007.json](tracking_diagnostics_20261007.json) | Track-load and timing evidence for those attempts, including the enabled/disabled pilot |
+| [native_response_probes_20261007.json](native_response_probes_20261007.json) | Short translation/stop probes, engine versions and raw-artifact hashes; not a fitted response model |
+| [overtaking_followup_20261007.json](overtaking_followup_20261007.json) | Three earlier-avoidance/settling attempts; all failed, experimental guard remains opt-in |
+| [overtaking_diagnostics_20261007.json](overtaking_diagnostics_20261007.json) | Incident and phase analysis for those attempts |
+| [turn_transition_probes_20261007.json](turn_transition_probes_20261007.json) | Isolated turns and filtered-command replays; not exact incident reconstructions |
 | [transport_native_contract_20261006.json](transport_native_contract_20261006.json) | Native-inertial/delay development attempts and earlier dual-delivery passes |
 | [transport_acquisition_approach_20261006.json](transport_acquisition_approach_20261006.json) | Acquisition-stamp/viewpoint/support-edge follow-up, including failures |
 | [visual_goal_handoffs.json](visual_goal_handoffs.json) | Unscored goal-cycling observations |

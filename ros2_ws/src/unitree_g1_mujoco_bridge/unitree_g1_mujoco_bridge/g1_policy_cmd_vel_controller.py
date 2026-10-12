@@ -1171,6 +1171,12 @@ class G1PolicyCmdVelController(Node):
     def _startup_active(self) -> bool:
         if self.first_lowstate_time is None:
             return True
+        # Once policy control is established, transient walking/avoidance tilt
+        # belongs to the tilt guard. Re-entering startup at its lower upright
+        # threshold abruptly replaced the balance policy with a neutral pose.
+        # Reset/error/tilt-guard paths explicitly clear first_policy_time.
+        if self.first_policy_time is not None:
+            return False
         elapsed = (self.get_clock().now() - self.first_lowstate_time).nanoseconds * 1e-9
         upright_duration = None
         if self.upright_since is not None:

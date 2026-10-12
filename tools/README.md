@@ -23,6 +23,10 @@ served by `scripts/avoidance_results_gui.py`. It provides dataset selection,
 filtering, per-run detail, charts, CSV export and recorded-trajectory replay where
 the dataset supplies it.
 
+[`requirements-quality.txt`](requirements-quality.txt) contains the separate
+host/CI documentation and repository-check dependencies. They are not part of
+the robot runtime; use the isolated setup in [Development](../docs/DEVELOPMENT.md).
+
 ## Launch
 
 From the repository root:

@@ -12,6 +12,8 @@ __pycache__/
 .ruff_cache/
 .coverage
 htmlcov/
+.venv/
+/.venv-quality/
 
 # ROS 2 / colcon generated outputs
 build/

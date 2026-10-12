@@ -20,7 +20,8 @@ WORLDS = {
 }
 
 
-def scene(world):
+def scene(world, definition=None):
+    definition = WORLDS[world] if definition is None else definition
     source = ET.parse(SCENES / 'scene_29dof_pedestrians.xml').getroot()
     root = ET.Element('mujoco', model='Avoidance ' + world)
     ET.SubElement(root, 'include', file='g1_29dof.xml')
@@ -29,7 +30,7 @@ def scene(world):
     root.find('visual/global').set('elevation', '-50')
     ET.SubElement(root, 'include', file='natural_crowd_assets.xml')
     ET.SubElement(root, 'include', file='natural_crowd_bodies.xml')
-    x, y = (n / 2 for n in WORLDS[world]['size'])
+    x, y = (n / 2 for n in definition['size'])
     ET.SubElement(root, 'statistic', center='0 0 1', extent=str(max(x, y) + 2))
     custom = ET.SubElement(root, 'custom')
     ET.SubElement(custom, 'numeric', name='avoidance_world_half_extents', data=f'{x} {y}')
@@ -37,7 +38,7 @@ def scene(world):
     ET.SubElement(body, 'light', pos='0 0 8', dir='0 0 -1', diffuse='.8 .8 .8')
     ET.SubElement(body, 'geom', name='floor', type='plane', size='0 0 .05', material='paving', friction='1.0 .01 .001')
     boxes = [[0, y+.15, x+.3, .15], [0, -y-.15, x+.3, .15],
-             [x+.15, 0, .15, y], [-x-.15, 0, .15, y]] + WORLDS[world]['boxes']
+             [x+.15, 0, .15, y], [-x-.15, 0, .15, y]] + definition['boxes']
     for i, (px, py, sx, sy) in enumerate(boxes):
         ET.SubElement(body, 'geom', name=f'world_box_{i}', type='box',
                       pos=f'{px} {py} 1', size=f'{sx} {sy} 1',
@@ -45,7 +46,7 @@ def scene(world):
     for child in source.find('worldbody'):
         if child.tag == 'body' and child.get('name', '').startswith('ped'):
             body.append(copy.deepcopy(child))
-    dress(root, world, WORLDS[world])
+    dress(root, world, definition)
     ET.indent(root)
     return ET.tostring(root, encoding='unicode') + '\n'
 

@@ -1,0 +1,31 @@
+name: Research experiment
+description: Propose a bounded, falsifiable study tied to the research programme
+body:
+  - type: input
+    id: phase
+    attributes:
+      label: Gap and phase
+      placeholder: 'For example: G1 / P1 / S1 / R4'
+    validations:
+      required: true
+  - type: textarea
+    id: hypothesis
+    attributes:
+      label: Question, closest prior work and intended difference
+      description: Explain what would be learned and what result would refute the hypothesis.
+    validations:
+      required: true
+  - type: textarea
+    id: protocol
+    attributes:
+      label: Protocol and comparisons
+      description: Baselines, information/action contracts, worlds, seeds, budgets, splits and analysis plan.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence and readiness
+      description: Measurement prerequisites, artifact locations, owner and exit criteria. Retain failed and invalid attempts.
+    validations:
+      required: true

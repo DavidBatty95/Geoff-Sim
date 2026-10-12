@@ -4,6 +4,21 @@ from typing import Iterable, Sequence
 import numpy as np
 
 
+def being_overtaken(robot_position,robot_velocity,human_position,human_velocity):
+    """Frame-invariant pursuit cue; distinguish being caught from following."""
+    if not all(math.isfinite(v) for pair in (robot_position,robot_velocity,human_position,human_velocity) for v in pair):
+        return False
+    hx,hy = human_velocity
+    speed = math.hypot(hx,hy)
+    if speed<.25:
+        return False
+    rx,ry = robot_velocity
+    along = (rx*hx+ry*hy)/speed
+    across = abs(rx*hy-ry*hx)/speed
+    behind = (human_position[0]-robot_position[0])*hx+(human_position[1]-robot_position[1])*hy<0.
+    return behind and along>.1 and speed>along+.1 and across<.1
+
+
 def relative_motion_metrics(
     robot_x: float,
     robot_y: float,

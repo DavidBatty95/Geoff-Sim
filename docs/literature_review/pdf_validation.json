@@ -1,9 +1,14 @@
 {
-  "checked_at": "2026-10-05T15:05:59.374536+00:00",
+  "checked_at": "2026-10-06T17:23:29.209230+00:00",
   "pdf": "literature_review.pdf",
-  "pdf_sha256": "da860e9562e61aec5690d76cc32439727060d8d06cac2443df3148950920408c",
+  "pdf_sha256": "7d05950c8c223836b623755dc5ba2903bd34cf9a6c60492f11983c944084e70a",
   "pages": 74,
   "extracted_word_count": 32899,
+  "text_sha256": "a8200968715dbd7d6cd5497bf58368de39a4224ce7df2b4ca90c2312785b5323",
+  "validator_versions": {
+    "pypdf": "6.19.0",
+    "fonttools": "4.60.1"
+  },
   "bibliographic_identities_with_linked_citations_and_publication_urls": 50,
   "unique_external_urls": 97,
   "internal_link_annotations": 648,
@@ -378,5 +383,7 @@
       "page": 70
     }
   ],
+  "external_link_sha256": "db7f3065be4ac0c599fa2019f082802f6fd017cff114ee9d4075aec0114a2fc0",
+  "internal_link_sha256": "6e50025a899494bf489f48fddf1d103ea5a2bae2c5ff8f5ff1166c993ce71b69",
   "scope": "PDF structure and link integrity; not independent scientific peer review"
 }

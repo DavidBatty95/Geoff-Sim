@@ -61,6 +61,20 @@ def test_worker_is_daemon_and_requests_results_are_immutable():
         assert worker.shutdown(1.0)
 
 
+def test_startup_upright_gate_does_not_replace_an_established_balance_policy():
+    from rclpy.time import Time
+    params = {'startup_require_upright':True,'startup_current_pose_hold_time':0.,
+              'startup_blend_time':0.,'startup_hold_time':0.,'startup_max_recovery_time':0.}
+    controller = SimpleNamespace(first_lowstate_time=Time(seconds=1.),first_policy_time=Time(seconds=2.),
+        upright_since=None,get_clock=lambda:SimpleNamespace(now=lambda:Time(seconds=10.)),
+        get_parameter=lambda name:SimpleNamespace(value=params[name]),
+        get_logger=lambda:SimpleNamespace(warn=lambda *args,**kwargs:None))
+    assert not G1PolicyCmdVelController._startup_active(controller)
+    # A reset or explicit safety hold rearms the original upright startup gate.
+    controller.first_policy_time = None
+    assert G1PolicyCmdVelController._startup_active(controller)
+
+
 def test_ready_poll_consumes_without_resubmitting_and_invalidation_clears_readiness():
     worker = PolicyInferenceWorker(lambda obs: obs)
     consumed = []

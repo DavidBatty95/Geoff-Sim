@@ -12,3 +12,10 @@ updates:
     directory: /docker
     schedule:
       interval: monthly
+  - package-ecosystem: pip
+    directory: /tools
+    schedule:
+      interval: monthly
+    groups:
+      repository-quality:
+        patterns: ['*']

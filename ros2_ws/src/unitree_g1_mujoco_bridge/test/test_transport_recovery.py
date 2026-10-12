@@ -67,6 +67,97 @@ def test_base_displacement_requires_redocking_instead_of_replaying_old_target(po
         TransportMission.move_arm(mission,np.zeros(3))
 
 
+def test_fixed_carry_posture_can_resume_after_base_drift_during_people_wait():
+    mission = mission_fixture()
+    calls = []
+    joints = {'right_elbow_joint':-.2}
+    def move(target,orientation,**kwargs):
+        calls.append(kwargs['joint_solution'])
+        if len(calls)==1:
+            raise WorkspaceInterrupted('person entering workspace')
+        return target
+    mission._move_arm = move
+    mission.wait_workspace = lambda:setattr(mission,'pose',(.08,0.,.12))
+    TransportMission.arm_with_recovery(mission,np.zeros(3),joint_solution=joints)
+    assert calls==[joints,joints]
+    assert any(details.get('resumed') and details.get('base_moved') and
+               details.get('target_kind')=='joint_posture' for _,details in mission.events)
+
+
+def test_nav2_success_with_stale_pose_requires_reobservation():
+    from contextlib import nullcontext
+    from geometry_msgs.msg import PoseStamped
+    from unitree_g1_mujoco_bridge.localization_recovery import LocalizationInterrupted
+    mission = SimpleNamespace(pose=(0.,0.,0.),pose_stamp=1.,seconds=lambda:10.,
+        goal=PoseStamped(),active=True,nav=SimpleNamespace(server_is_ready=lambda:True),
+        set_goal=lambda *args:None,_heartbeat=lambda:None,wait=lambda predicate,*args:predicate())
+    result = SimpleNamespace(done=lambda:True,result=lambda:SimpleNamespace(status=4))
+    mission.action = lambda *args:nullcontext(SimpleNamespace(result=result))
+    with pytest.raises(LocalizationInterrupted,match='fresh sensed staging'):
+        TransportMission.navigate.__wrapped__(mission,(0.,0.,0.))
+    assert not mission.active
+
+
+def test_search_detection_terminates_navigation_before_returning():
+    from contextlib import contextmanager
+    from geometry_msgs.msg import PoseStamped
+    events = []
+    @contextmanager
+    def action(*args):
+        events.append('dispatched')
+        try:
+            yield SimpleNamespace(result=SimpleNamespace(done=lambda:False))
+        finally:
+            events.append('terminated')
+    mission = SimpleNamespace(goal=PoseStamped(),active=True,nav=SimpleNamespace(server_is_ready=lambda:True),
+        set_goal=lambda *args:None,_heartbeat=lambda:None,wait=lambda predicate,*args:predicate(),action=action,
+        observe=lambda *args:{'id':'box_red','confirmed':True},spin=lambda duration:events.append(('settle',duration)))
+    TransportMission.navigate.__wrapped__(mission,(3.,0.,0.),stop_when_observed='box_red',settle_time=.1)
+    assert events==['dispatched','terminated',('settle',.1)]
+    assert not mission.active
+
+
+def test_inspection_turn_waits_for_fresh_measured_settling():
+    mission = mission_fixture()
+    mission.pose_stamp = 10.
+    mission.seconds = lambda:mission.pose_stamp
+    mission.base_velocity = (.4,0.,0.)
+    mission.stop_intent = lambda:setattr(mission,'active',False)
+    mission._heartbeat = lambda:None
+    mission.spin = lambda _:None
+    goals = []
+    mission.set_goal = lambda *args:goals.append(args)
+    def wait(predicate,*args):
+        if not goals:
+            assert not predicate()
+            mission.base_velocity = (0.,0.,0.)
+            assert not predicate()  # One still sample is insufficient.
+            mission.pose_stamp = 10.25
+            assert predicate()
+        else:
+            mission.pose = (0.,0.,1.)
+            assert predicate()
+    mission.wait = wait
+    TransportMission.rotate(mission,1.,settle_before_turn=True)
+    assert len(goals)==1 and goals[0][1]=='scan'
+
+
+def test_unsettled_inspection_does_not_issue_a_rotation_goal():
+    mission = mission_fixture()
+    mission.pose_stamp = 10.
+    mission.seconds = lambda:10.
+    mission.base_velocity = (.3,0.,0.)
+    mission.stop_intent = lambda:setattr(mission,'active',False)
+    mission.set_goal = lambda *args:pytest.fail('must not turn while the base is moving')
+    def wait(predicate,timeout,message):
+        assert not predicate() and timeout<=2.
+        raise RuntimeError(message)
+    mission.wait = wait
+    with pytest.raises(RuntimeError,match='base did not settle'):
+        TransportMission.rotate(mission,1.,settle_before_turn=True)
+    assert not mission.active
+
+
 def test_placement_reobserves_from_retreat_viewpoint_after_release_ack():
     mission = mission_fixture()
     calls = []
@@ -160,6 +251,22 @@ def test_docking_retries_share_original_deadline(monkeypatch):
         TransportMission.dock(mission,(0.,0.,0.),timeout=2.)
     assert now[0] == 2.
     assert not mission.active
+
+
+def test_dock_approach_leaves_settling_margin_without_relaxing_final_tolerance():
+    mission = mission_fixture()
+    mission.pose_stamp = 12.
+    mission.seconds = lambda:12.
+    mission.set_goal = lambda *args:setattr(mission,'pose',(.06,0.,0.))
+    mission.stop_intent = lambda:setattr(mission,'active',False)
+    def wait(predicate,*args):
+        assert not predicate()  # Moving 6 cm arrival must not terminate early.
+        mission.pose = (.03,0.,0.)
+        assert predicate()
+    mission.wait = wait
+    mission.spin = lambda _:setattr(mission,'pose',(.06,0.,0.))
+    TransportMission.dock(mission,(0.,0.,0.))
+    assert mission.events[-1][1]['dock_settled']
 
 
 def test_stale_pose_cannot_confirm_docking_and_failure_clears_intent():

@@ -1,0 +1,11 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Documentation and troubleshooting
+    url: https://github.com/DavidBatty95/Geoff-Sim/blob/main/docs/DEMO_GUIDE.md#troubleshooting
+    about: Start with the supported setup, run modes and known failure interpretation.
+  - name: Report a vulnerability privately
+    url: https://github.com/DavidBatty95/Geoff-Sim/blob/main/SECURITY.md#reporting-a-vulnerability
+    about: Use the private reporting route or maintainer contact; avoid public exploit details.
+  - name: Research gaps and experiment proposals
+    url: https://github.com/DavidBatty95/Geoff-Sim/blob/main/docs/RESEARCH_PROGRAMME.md
+    about: Identify the relevant gap and phase before proposing an experiment.

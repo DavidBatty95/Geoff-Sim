@@ -1,0 +1,485 @@
+[
+  {
+    "run": "20261007T105516Z",
+    "world": "transport_medium",
+    "people_requested": 2,
+    "success": false,
+    "data_valid": true,
+    "fallen": true,
+    "error": "localization did not recover before deadline",
+    "chronology_clock": "logger receipt monotonic, relative to first trace row; topic delivery can introduce skew",
+    "first_geometric_person_overlap_s": 51.065147343993885,
+    "first_fall_threshold_s": 60.49316146099591,
+    "overlap_to_fall_s": 9.428014117002022,
+    "overlap_samples_before_first_fall": 33,
+    "overlap_samples_after_first_fall": 44,
+    "overlap_scope": "aligned robot .35 m disk against person radii; excludes carried-box contacts",
+    "first_overlap_planner_snapshot": {
+      "planner_state": "EMERGENCY_STOP",
+      "planner_snapshot_age_s": 0.04176833698875271,
+      "closest_observed_track": {
+        "confidence": 1.0,
+        "dcpa": 0.132,
+        "distance": 0.622,
+        "front_cut": false,
+        "person_score": 1.0,
+        "state": "CONFIRMED",
+        "tcpa": 0.936,
+        "track_id": 22,
+        "vx": -1.071,
+        "vy": 0.006,
+        "x": -1.302,
+        "y": 0.193
+      },
+      "selected_cmd": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "policy_command": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "evaluated_candidates": 10,
+      "rejection_counts": {
+        "hard_human_collision": 10
+      },
+      "tracks_age_s": 0.3047,
+      "prediction_age_s": 0.4393
+    },
+    "max_observed_tracks": 8,
+    "planner_before_first_fall": {
+      "samples": 1075,
+      "median_ms": 18.273,
+      "p95_ms": 66.0034
+    },
+    "planner_after_first_fall": {
+      "samples": 255,
+      "median_ms": 1.984,
+      "p95_ms": 2.809699999999998
+    },
+    "phase_time_s": {
+      "search_route": 44.00725084095029,
+      "wait_localization": 10.235117259027902,
+      "search_scan": 8.574799077992793,
+      "runtime_parameters": 3.205184113990981,
+      "search_viewpoint": 0.7520743210334331,
+      "search_inspected": 0.3433688360382803,
+      "search_request": 0.09032759800902568,
+      "search_room_decision": 0.08644940695376135,
+      "search_found": 0.01722763801808469,
+      "survey_task_goal": 0.0016815349808894098,
+      "search_viewpoint_failed": 0.0012828990002162755
+    },
+    "phase_time_scope": "mission events through last logged heartbeat; includes waiting, travel and computation",
+    "onboard_perception": {
+      "odometry_drift_m": {
+        "count": 795,
+        "p50": 0.022300224214119386,
+        "p95": 0.19339973109406944,
+        "max": 0.32500932294320417
+      },
+      "nearby_truth_to_confirmed_track_m": {
+        "count": 1028,
+        "p50": 0.0781657779382023,
+        "p95": 4.042107264245722,
+        "max": 10.046933796586236
+      },
+      "within_2m_position_error_m": {
+        "count": 107,
+        "p50": 0.10304141288876484,
+        "p95": 7.942993224086098,
+        "max": 10.046933796586236
+      },
+      "within_2m_velocity_error_mps": {
+        "count": 98,
+        "p50": 0.09801736924615914,
+        "p95": 0.5688979700583043,
+        "max": 1.0392153270577928
+      },
+      "within_2m_radial_bias_m": {
+        "count": 98,
+        "p50": -0.0724651049751252,
+        "p95": 0.013692256794029965,
+        "max": 0.169846533936246
+      },
+      "within_2m_unmatched_samples": 9,
+      "within_2m_samples": 107,
+      "note": "Offline diagnostic only; nearby people can be occluded. Unmatched observations are assigned 10 m."
+    }
+  },
+  {
+    "run": "20261007T105937Z",
+    "world": "transport_medium",
+    "people_requested": 1,
+    "success": false,
+    "data_valid": true,
+    "fallen": true,
+    "error": "localization did not recover before deadline",
+    "chronology_clock": "logger receipt monotonic, relative to first trace row; topic delivery can introduce skew",
+    "first_geometric_person_overlap_s": 45.87627495400375,
+    "first_fall_threshold_s": 46.7200802549778,
+    "overlap_to_fall_s": 0.8438053009740543,
+    "overlap_samples_before_first_fall": 10,
+    "overlap_samples_after_first_fall": 4,
+    "overlap_scope": "aligned robot .35 m disk against person radii; excludes carried-box contacts",
+    "first_overlap_planner_snapshot": {
+      "planner_state": "EMERGENCY_STOP",
+      "planner_snapshot_age_s": 0.06304726502276026,
+      "closest_observed_track": {
+        "confidence": 0.987,
+        "dcpa": 0.273,
+        "distance": 0.687,
+        "front_cut": false,
+        "person_score": 0.987,
+        "state": "CONFIRMED",
+        "tcpa": 0.665,
+        "track_id": 25,
+        "vx": -0.944,
+        "vy": 0.094,
+        "x": -3.09,
+        "y": 0.193
+      },
+      "selected_cmd": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "policy_command": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "evaluated_candidates": 12,
+      "rejection_counts": {
+        "hard_human_collision": 12
+      },
+      "tracks_age_s": 0.2391,
+      "prediction_age_s": 0.2391
+    },
+    "max_observed_tracks": 6,
+    "planner_before_first_fall": {
+      "samples": 889,
+      "median_ms": 19.593,
+      "p95_ms": 56.4518
+    },
+    "planner_after_first_fall": {
+      "samples": 256,
+      "median_ms": 1.6545,
+      "p95_ms": 2.1105
+    },
+    "phase_time_s": {
+      "search_route": 33.813338656997075,
+      "wait_localization": 10.064799977990333,
+      "search_scan": 5.406407442991622,
+      "runtime_parameters": 3.201163536985405,
+      "search_viewpoint": 0.6749950349912979,
+      "search_inspected": 0.4201424970233347,
+      "search_room_decision": 0.09260434901807457,
+      "search_request": 0.02186997199896723,
+      "search_viewpoint_failed": 0.002698439988307655
+    },
+    "phase_time_scope": "mission events through last logged heartbeat; includes waiting, travel and computation",
+    "onboard_perception": {
+      "odometry_drift_m": {
+        "count": 575,
+        "p50": 0.019291708063310438,
+        "p95": 0.04093990521638731,
+        "max": 0.10707474025184464
+      },
+      "nearby_truth_to_confirmed_track_m": {
+        "count": 499,
+        "p50": 0.08752245447020034,
+        "p95": 9.027316560996297,
+        "max": 10.0
+      },
+      "within_2m_position_error_m": {
+        "count": 28,
+        "p50": 0.054437723702038775,
+        "p95": 0.10792331320850154,
+        "max": 10.0
+      },
+      "within_2m_velocity_error_mps": {
+        "count": 27,
+        "p50": 0.050974032017459696,
+        "p95": 0.2667745169663824,
+        "max": 0.3771151116005669
+      },
+      "within_2m_radial_bias_m": {
+        "count": 27,
+        "p50": -0.04395144549658386,
+        "p95": 0.01207678437593711,
+        "max": 0.045156676502108695
+      },
+      "within_2m_unmatched_samples": 1,
+      "within_2m_samples": 28,
+      "note": "Offline diagnostic only; nearby people can be occluded. Unmatched observations are assigned 10 m."
+    }
+  },
+  {
+    "run": "20261007T110220Z",
+    "world": "transport_medium",
+    "people_requested": 1,
+    "success": false,
+    "data_valid": true,
+    "fallen": true,
+    "error": "localization did not recover before deadline",
+    "chronology_clock": "logger receipt monotonic, relative to first trace row; topic delivery can introduce skew",
+    "first_geometric_person_overlap_s": 42.171632206998765,
+    "first_fall_threshold_s": 43.169256834022235,
+    "overlap_to_fall_s": 0.9976246270234697,
+    "overlap_samples_before_first_fall": 15,
+    "overlap_samples_after_first_fall": 28,
+    "overlap_scope": "aligned robot .35 m disk against person radii; excludes carried-box contacts",
+    "first_overlap_planner_snapshot": {
+      "planner_state": "EMERGENCY_STOP",
+      "planner_snapshot_age_s": 0.04531374399084598,
+      "closest_observed_track": {
+        "confidence": 0.994,
+        "dcpa": 0.033,
+        "distance": 0.66,
+        "front_cut": false,
+        "person_score": 0.994,
+        "state": "CONFIRMED",
+        "tcpa": 1.184,
+        "track_id": 24,
+        "vx": -0.917,
+        "vy": 0.217,
+        "x": 0.086,
+        "y": -0.242
+      },
+      "selected_cmd": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "policy_command": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "evaluated_candidates": 13,
+      "rejection_counts": {
+        "hard_human_collision": 13
+      },
+      "tracks_age_s": 0.2819,
+      "prediction_age_s": 0.3461
+    },
+    "max_observed_tracks": 6,
+    "planner_before_first_fall": {
+      "samples": 796,
+      "median_ms": 14.1385,
+      "p95_ms": 60.2375
+    },
+    "planner_after_first_fall": {
+      "samples": 259,
+      "median_ms": 1.839,
+      "p95_ms": 2.2712
+    },
+    "phase_time_s": {
+      "search_route": 29.95117519100313,
+      "wait_localization": 10.111024808022194,
+      "search_scan": 6.434589803975541,
+      "runtime_parameters": 3.1896697580232285,
+      "search_viewpoint": 0.43656928301788867,
+      "search_inspected": 0.24092123098671436,
+      "search_room_decision": 0.07293873801245354,
+      "search_request": 0.057709387998329476,
+      "search_found": 0.024879298987798393,
+      "survey_task_goal": 0.010064545000204816,
+      "search_viewpoint_failed": 0.009665682999184355
+    },
+    "phase_time_scope": "mission events through last logged heartbeat; includes waiting, travel and computation",
+    "onboard_perception": {
+      "odometry_drift_m": {
+        "count": 577,
+        "p50": 0.013009611831257687,
+        "p95": 0.06736071268159048,
+        "max": 0.10154063226117911
+      },
+      "nearby_truth_to_confirmed_track_m": {
+        "count": 522,
+        "p50": 0.08319362672353958,
+        "p95": 10.0,
+        "max": 10.271221597538062
+      },
+      "within_2m_position_error_m": {
+        "count": 36,
+        "p50": 0.06269852340542535,
+        "p95": 10.0,
+        "max": 10.0
+      },
+      "within_2m_velocity_error_mps": {
+        "count": 33,
+        "p50": 0.054529264373921485,
+        "p95": 0.2209607305314325,
+        "max": 0.3882105432781541
+      },
+      "within_2m_radial_bias_m": {
+        "count": 33,
+        "p50": -0.05085826493954709,
+        "p95": 0.06560924416979604,
+        "max": 0.08610687354954255
+      },
+      "within_2m_unmatched_samples": 3,
+      "within_2m_samples": 36,
+      "note": "Offline diagnostic only; nearby people can be occluded. Unmatched observations are assigned 10 m."
+    }
+  },
+  {
+    "run": "20261007T095500Z",
+    "world": "transport_medium",
+    "people_requested": 0,
+    "success": false,
+    "data_valid": true,
+    "fallen": false,
+    "error": "precision docking failed",
+    "chronology_clock": "logger receipt monotonic, relative to first trace row; topic delivery can introduce skew",
+    "first_geometric_person_overlap_s": null,
+    "first_fall_threshold_s": null,
+    "overlap_to_fall_s": null,
+    "overlap_samples_before_first_fall": 0,
+    "overlap_samples_after_first_fall": 0,
+    "overlap_scope": "aligned robot .35 m disk against person radii; excludes carried-box contacts",
+    "first_overlap_planner_snapshot": null,
+    "max_observed_tracks": 8,
+    "planner_before_first_fall": {
+      "samples": 6512,
+      "median_ms": 13.6795,
+      "p95_ms": 48.975699999999996
+    },
+    "planner_after_first_fall": {
+      "samples": 0,
+      "median_ms": null,
+      "p95_ms": null
+    },
+    "phase_time_s": {
+      "search_route": 91.31068188807694,
+      "dock_delivery": 75.05780916198273,
+      "dock_pickup": 40.65364444497391,
+      "search_scan": 36.810384543961845,
+      "pickup_route": 34.13083383499179,
+      "inspect_delivery": 16.04122563599958,
+      "retreat_pickup": 8.576798062975286,
+      "navigate_delivery": 7.168636329006404,
+      "prepare_pickup": 5.706178770022234,
+      "reach": 5.161577001999831,
+      "lift": 4.9725346350169275,
+      "runtime_parameters": 3.226166028995067,
+      "search_viewpoint": 1.9317493659909815,
+      "search_inspected": 1.2145795119868126,
+      "search_room_decision": 0.322883518965682,
+      "inspect_pickup_support": 0.3054079199791886,
+      "search_found": 0.21923093698569573,
+      "navigate_pickup": 0.13868798600742593,
+      "search_request": 0.11394598105107434,
+      "grasp": 0.06132920700474642,
+      "search_memory": 0.013903521001338959,
+      "search_destination": 0.005253212002571672,
+      "pickup_approach": 0.004615318001015112,
+      "survey_task_goal": 0.003626063000410795,
+      "remembered_destination": 0.001821595011278987,
+      "attachment_check": 0.001122910005506128
+    },
+    "phase_time_scope": "mission events through last logged heartbeat; includes waiting, travel and computation",
+    "onboard_perception": {
+      "odometry_drift_m": {
+        "count": 4740,
+        "p50": 0.16448300799486257,
+        "p95": 0.2021663139595509,
+        "max": 0.3033923037916419
+      },
+      "nearby_truth_to_confirmed_track_m": {},
+      "within_2m_position_error_m": {},
+      "within_2m_velocity_error_mps": {},
+      "within_2m_radial_bias_m": {},
+      "within_2m_unmatched_samples": 0,
+      "within_2m_samples": 0,
+      "note": "Offline diagnostic only; nearby people can be occluded. Unmatched observations are assigned 10 m."
+    }
+  },
+  {
+    "run": "20261007T103313Z",
+    "world": "transport_dual",
+    "people_requested": 0,
+    "success": true,
+    "data_valid": true,
+    "fallen": false,
+    "error": null,
+    "chronology_clock": "logger receipt monotonic, relative to first trace row; topic delivery can introduce skew",
+    "first_geometric_person_overlap_s": null,
+    "first_fall_threshold_s": null,
+    "overlap_to_fall_s": null,
+    "overlap_samples_before_first_fall": 0,
+    "overlap_samples_after_first_fall": 0,
+    "overlap_scope": "aligned robot .35 m disk against person radii; excludes carried-box contacts",
+    "first_overlap_planner_snapshot": null,
+    "max_observed_tracks": 0,
+    "planner_before_first_fall": {
+      "samples": 5257,
+      "median_ms": 9.242,
+      "p95_ms": 18.1402
+    },
+    "planner_after_first_fall": {
+      "samples": 0,
+      "median_ms": null,
+      "p95_ms": null
+    },
+    "phase_time_s": {
+      "search_route": 84.20863946294412,
+      "pickup_route": 35.46240870899055,
+      "search_scan": 35.34357485806686,
+      "dock_delivery": 15.860503395990236,
+      "inspect_delivery": 13.105153171985876,
+      "delivery_route": 10.472224833007203,
+      "dock_pickup": 10.061340131011093,
+      "retreat_pickup": 8.655045495019294,
+      "retract": 7.419856991007691,
+      "restore_arm": 5.703908819006756,
+      "prepare_pickup": 5.6519619839964435,
+      "reach": 4.885361850989284,
+      "lift": 4.6949714869842865,
+      "lower": 3.3903715730120894,
+      "runtime_parameters": 3.2286938460019883,
+      "complete": 2.0414460980100557,
+      "verify_place": 2.0125200740003493,
+      "search_viewpoint": 1.5215190660674125,
+      "search_inspected": 0.8671987839916255,
+      "search_room_decision": 0.7058322769589722,
+      "destination_observation": 0.27668338699731976,
+      "inspect_support": 0.23329500903491862,
+      "search_found": 0.17828289399039932,
+      "navigate_delivery": 0.15756958699785173,
+      "navigate_pickup": 0.14574026598711498,
+      "wait_localization": 0.10840311698848382,
+      "grasp": 0.10008052902412601,
+      "search_request": 0.07625226696836762,
+      "release": 0.06659767098608427,
+      "delivered": 0.04450579799595289,
+      "search_memory": 0.03294695299700834,
+      "delivery_approach": 0.026428070035763085,
+      "search_destination": 0.019775627995841205,
+      "pickup_approach": 0.007430505007505417,
+      "attachment_check": 0.005749770993134007,
+      "remembered_destination": 0.004314345977036282,
+      "survey_task_goal": 0.0021990689856465906
+    },
+    "phase_time_scope": "mission events through last logged heartbeat; includes waiting, travel and computation",
+    "onboard_perception": {
+      "odometry_drift_m": {
+        "count": 3666,
+        "p50": 0.043906889933779364,
+        "p95": 0.06474503831161177,
+        "max": 0.15605848262750732
+      },
+      "nearby_truth_to_confirmed_track_m": {},
+      "within_2m_position_error_m": {},
+      "within_2m_velocity_error_mps": {},
+      "within_2m_radial_bias_m": {},
+      "within_2m_unmatched_samples": 0,
+      "within_2m_samples": 0,
+      "note": "Offline diagnostic only; nearby people can be occluded. Unmatched observations are assigned 10 m."
+    }
+  }
+]

@@ -1,0 +1,26 @@
+cff-version: 1.2.0
+message: >-
+  If you use Geoff-Sim, cite this software and identify the exact Git commit,
+  policy and dataset used. Also cite the relevant upstream methods and the
+  experiment report supporting your claim.
+type: software
+title: 'Geoff-Sim: Unitree G1 simulation and human-aware navigation research'
+authors:
+  - family-names: Batty
+    given-names: David
+    affiliation: University of Liverpool
+repository-code: 'https://github.com/DavidBatty95/Geoff-Sim'
+url: 'https://github.com/DavidBatty95/Geoff-Sim'
+abstract: >-
+  A simulation-first research platform integrating Unitree G1 locomotion,
+  MuJoCo, ROS 2 Humble, onboard perception, human-aware navigation, experimental
+  payload transport and source-linked evaluation. Research and development
+  evidence is distinguished from operational acceptance.
+keywords:
+  - robotics
+  - humanoid
+  - Unitree G1
+  - MuJoCo
+  - ROS 2
+  - social navigation
+  - reproducible research

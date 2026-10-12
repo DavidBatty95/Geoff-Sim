@@ -37,7 +37,8 @@ from .transport_actions import ManagedAction
 from .transport_health import EvaluationHealth
 from .payload_postures import PAYLOAD_V1_POSTURES
 from .runtime_parameters import capture_parameters
-from .localization_recovery import LocalizationInterrupted,recover_localization
+from .localization_recovery import BodyInstabilityError,LocalizationInterrupted,recover_localization
+from .transport_people import closest_person_distance
 
 
 def angle(value):
@@ -63,6 +64,8 @@ class TransportMission(Node):
         self.rpy = (0.,0.,0.)
         self.observations = {}
         self.search_hints = {}
+        self.last_image_stamp = None
+        self.exploration = None
         self.people = None
         self.kin = None
         self.active = False
@@ -94,9 +97,12 @@ class TransportMission(Node):
         self.create_subscription(String,'/transport/observations',self._observations,10)
         self.create_subscription(Odometry,'/odom',self._odom,qos)
         self.create_subscription(JointState,'/joint_states',lambda m:setattr(self,'joints',dict(zip(m.name,m.position))),qos)
-        self.create_subscription(Vector3Stamped,'/onboard/measured_rpy',lambda m:setattr(self,'rpy',(m.vector.x,m.vector.y,m.vector.z)),qos)
+        self.create_subscription(Vector3Stamped,'/onboard/measured_rpy',self._body_orientation,qos)
         self.create_subscription(TrackedPersons,'/tracked_persons',lambda m:setattr(self,'people',m),qos)
         self.create_timer(.1,self._heartbeat)
+        if getattr(args,'explore_unknown',False):
+            from .exploration_mission import ExplorationMission
+            self.exploration = ExplorationMission(self,args.search_max_viewpoints)
 
     def seconds(self):
         return self.get_clock().now().nanoseconds*1e-9
@@ -117,6 +123,9 @@ class TransportMission(Node):
     def _observations(self,msg):
         data = json.loads(msg.data)
         if data.get('frame') == 'odom':
+            image_stamp = data.get('image_stamp')
+            if isinstance(image_stamp,(int,float)) and math.isfinite(image_stamp) and 0.<=self.seconds()-image_stamp<=5.:
+                self.last_image_stamp = max(image_stamp,self.last_image_stamp or image_stamp)
             self.observations = {item['id']:item for item in data['objects']}
             for identifier,item in self.observations.items():
                 if item.get('confirmed',False):
@@ -126,6 +135,21 @@ class TransportMission(Node):
         p,q = msg.pose.pose.position,msg.pose.pose.orientation
         self.pose = (p.x,p.y,math.atan2(2*(q.w*q.z+q.x*q.y),1-2*(q.y*q.y+q.z*q.z)))
         self.pose_stamp = msg.header.stamp.sec+msg.header.stamp.nanosec*1e-9
+        velocity = msg.twist.twist
+        self.base_velocity = velocity.linear.x,velocity.linear.y,velocity.angular.z
+
+    def _body_orientation(self,msg):
+        stamp = msg.header.stamp.sec+msg.header.stamp.nanosec*1e-9
+        rpy = msg.vector.x,msg.vector.y,msg.vector.z
+        previous = getattr(self,'rpy_stamp',-math.inf)
+        if not all(map(math.isfinite,(*rpy,stamp))) or stamp<=previous:
+            return
+        if max(abs(rpy[0]),abs(rpy[1]))>.7:
+            if getattr(self,'unstable_since',None) is None or stamp-previous>.25:
+                self.unstable_since = stamp
+        else:
+            self.unstable_since = None
+        self.rpy,self.rpy_stamp = rpy,stamp
 
     def _heartbeat(self):
         self.active_pub.publish(Bool(data=self.active))
@@ -159,7 +183,19 @@ class TransportMission(Node):
     def spin(self,duration=.05):
         end = time.monotonic()+duration
         while rclpy.ok() and time.monotonic()<end:
-            self.executor.spin_once(timeout_sec=min(.05,max(0.,end-time.monotonic())))
+            # rclpy caches its ready-callback iterator by spin arguments. A
+            # different remaining-time float on every call restarted that
+            # iterator and could starve odometry behind busy TF/action inputs.
+            # A fixed quantum preserves fairness; deadline overshoot is <=10 ms
+            # plus the callback runtime, without relaxing freshness checks.
+            self.executor.spin_once(timeout_sec=.01)
+        unstable = getattr(self,'unstable_since',None)
+        if (unstable is not None and 0.<=self.seconds()-self.rpy_stamp<=.3 and
+                self.rpy_stamp-unstable>=.2):
+            self.stop_intent()
+            self.event('body_instability',rpy=list(self.rpy),duration_s=self.rpy_stamp-unstable,
+                       source='onboard_measured_rpy')
+            raise BodyInstabilityError('sustained measured body instability')
         if time.monotonic()-self.started > self.args.duration:
             raise RuntimeError('mission deadline exceeded')
         if self.active and self.pose is not None and self.seconds()-self.pose_stamp > 2.:
@@ -244,7 +280,7 @@ class TransportMission(Node):
         self.event(self.phase,goal_odom=list(pose),start_pose=self.pose,mode=mode)
 
     @recover_localization
-    def navigate(self,pose,timeout=90.):
+    def navigate(self,pose,timeout=90.,stop_when_observed=None,settle_time=1.):
         deadline = time.monotonic()+timeout
         self.wait(self.nav.server_is_ready,min(30.,timeout),'Nav2 unavailable')
         self.set_goal(pose,'navigate')
@@ -253,32 +289,43 @@ class TransportMission(Node):
         try:
             with self.action('navigation',self.nav,request) as action:
                 def arrived():
-                    close = self.pose is not None and math.hypot(self.pose[0]-pose[0],self.pose[1]-pose[1]) < .50
+                    if stop_when_observed is not None and self.observe(stop_when_observed,5.) is not None:
+                        # ManagedAction cancels and awaits termination before
+                        # handing the observed object to the next mission phase.
+                        return True
+                    close = (self.pose is not None and 0.<=self.seconds()-self.pose_stamp<=.5 and
+                             math.hypot(self.pose[0]-pose[0],self.pose[1]-pose[1]) < .50)
                     if action.result.done():
                         wrapped = action.result.result()
                         if wrapped.status != 4:
                             raise RuntimeError(f'navigation terminated with status {wrapped.status}')
                         if not close:
-                            raise RuntimeError('navigation succeeded outside sensed staging tolerance')
+                            # Nav2's map-frame goal may finish while the sensed
+                            # odom pose lags or map->odom changes during yielding.
+                            # Use the existing bounded localization retry to
+                            # reobserve/reissue, never accept a stale arrival.
+                            raise LocalizationInterrupted('navigation succeeded outside fresh sensed staging tolerance')
                     return close
                 self.wait(arrived,max(0.,deadline-time.monotonic()),'navigation did not reach sensed staging pose')
         finally:
             self.active = False
             self._heartbeat()
-        self.spin(1.)
+        self.spin(max(0.,settle_time))
 
     @recover_localization
     def dock(self,pose,timeout=75.):
         deadline = time.monotonic()+timeout
         corrections = 0
-        def arrived():
+        def arrived(position_tolerance=.07):
             return (self.pose is not None and 0. <= self.seconds()-self.pose_stamp <= .5 and
-                    math.hypot(self.pose[0]-pose[0],self.pose[1]-pose[1]) < .07 and
+                    math.hypot(self.pose[0]-pose[0],self.pose[1]-pose[1]) < position_tolerance and
                     abs(angle(self.pose[2]-pose[2])) < .15)
         try:
             while time.monotonic() < deadline:
                 self.set_goal(pose,'dock')
-                self.wait(arrived,max(0.,deadline-time.monotonic()),'precision docking failed')
+                # Approach inside the final acceptance band before stopping:
+                # measured gait settling can move the base back by 3--4 cm.
+                self.wait(lambda:arrived(.035),max(0.,deadline-time.monotonic()),'precision docking failed')
                 self.stop_intent()
                 self.spin(min(1.5,max(0.,deadline-time.monotonic())))
                 if time.monotonic() < deadline and arrived():
@@ -340,18 +387,38 @@ class TransportMission(Node):
                   8.,'camera did not verify post-release placement from retreat viewpoint')
 
     @recover_localization
-    def rotate(self,yaw,timeout=45.):
+    def rotate(self,yaw,timeout=45.,settle_before_turn=False):
         # Search requires a view direction, not centimetre-level base-position
         # recovery after every step of a loaded turn.
+        deadline = time.monotonic()+timeout
+        if settle_before_turn:
+            self.stop_intent()
+            stable_since = None
+            def settled():
+                nonlocal stable_since
+                velocity = getattr(self,'base_velocity',None)
+                valid = (velocity is not None and all(map(math.isfinite,velocity)) and
+                         0.<=self.seconds()-self.pose_stamp<=.3 and
+                         math.hypot(*velocity[:2])<.08 and abs(velocity[2])<.15)
+                if not valid:
+                    stable_since = None
+                    return False
+                if stable_since is None:
+                    stable_since = self.pose_stamp
+                return self.pose_stamp-stable_since>=.2
+            self.wait(settled,min(2.,max(0.,deadline-time.monotonic())),
+                      'base did not settle before inspection turn')
         self.set_goal((self.pose[0],self.pose[1],yaw),'scan')
         try:
-            self.wait(lambda: abs(angle(self.pose[2]-yaw)) < .14,timeout,'search heading not reached')
+            self.wait(lambda: abs(angle(self.pose[2]-yaw)) < .14,max(0.,deadline-time.monotonic()),'search heading not reached')
         finally:
             self.active = False
             self._heartbeat()
         self.spin(1.)
 
     def discover(self,identifier):
+        if getattr(self,'exploration',None) is not None:
+            return self.exploration.discover(identifier)
         self.event('discover',object_id=identifier)
         hint = self.search_hints.get(identifier)
         if self.observe(identifier,20.) is None and hint is not None:
@@ -386,13 +453,13 @@ class TransportMission(Node):
         if self.people is None:
             return False
         stamp = self.people.header.stamp.sec+self.people.header.stamp.nanosec*1e-9
-        if not 0. <= self.seconds()-stamp <= .8 or self.people.header.frame_id != 'odom':
+        age = self.seconds()-stamp
+        if not 0. <= age <= .8 or self.people.header.frame_id != 'odom':
             return False
         for person in self.people.persons:
             p,v = person.pose.pose.position,person.velocity.twist.linear
-            for t in (0.,1.,2.):
-                if math.hypot(p.x+v.x*t-self.pose[0],p.y+v.y*t-self.pose[1]) < 1.6:
-                    return False
+            if closest_person_distance((p.x,p.y),(v.x,v.y),self.pose[:2],age)<1.6:
+                return False
         return True
 
     def to_pelvis(self,position):
@@ -410,10 +477,17 @@ class TransportMission(Node):
                 phase = self.phase
                 self.event('wait_for_clearance',resume_phase=phase,recovery=recovery+1)
                 self.wait_workspace()
-                if (math.hypot(self.pose[0]-anchor[0],self.pose[1]-anchor[1]) > .04 or
-                        abs(angle(self.pose[2]-anchor[2])) > .10):
-                    raise RuntimeError('base moved during arm interruption; re-docking required')
-                self.event(phase,recovery=recovery+1,resumed=True)
+                base_moved = (math.hypot(self.pose[0]-anchor[0],self.pose[1]-anchor[1]) > .04 or
+                              abs(angle(self.pose[2]-anchor[2])) > .10)
+                if base_moved and joint_solution is None:
+                    # The world-referenced reach must be re-observed/reprojected
+                    # by reach_box; never replay the old pelvis-frame target.
+                    raise ReachUnreachable('base moved during arm interruption; re-docking required')
+                # Fixed carry/rest joint postures do not depend on base x/y/yaw.
+                # _move_arm starts the new trajectory at the latest measured
+                # joints and rechecks body tilt and workspace throughout.
+                self.event(phase,recovery=recovery+1,resumed=True,base_moved=base_moved,
+                           target_kind='joint_posture' if joint_solution is not None else 'cartesian')
 
     def move_arm(self,target,orientation=None):
         desired = np.asarray(target,dtype=float)
@@ -555,16 +629,34 @@ class TransportMission(Node):
             # Observe the destination with an empty hand, before a carried cube
             # can obscure it. This is measured scene memory, not a layout lookup;
             # placement still requires a recent complete destination observation.
-            self.event('survey_destination',destination_id=destination)
-            destination_view = dict(self.discover(destination))
+            destination_view = None
+            if self.exploration is None:
+                self.event('survey_destination',destination_id=destination)
+                destination_view = dict(self.discover(destination))
             item = self.discover(identifier)
+            if self.exploration is not None:
+                # A loaded blind search is slower and can obscure the camera.
+                # Establish both task locations while empty, then reobserve the
+                # box and destination at their respective manipulation stages.
+                if self.observe(destination,30.) is None:
+                    self.event('survey_task_goal',object_id=identifier,destination_id=destination,
+                               reason='avoid_loaded_blind_search')
+                    destination_view = dict(self.discover(destination))
+                item = self.exploration.inspect_support(identifier,item)
             box = np.array(item['position'])
             yaw = item.get('approach_yaw',math.atan2(box[1]-self.pose[1],box[0]-self.pose[0]))
             self.event('pickup_approach',source='observed_support_edge' if 'approach_yaw' in item else 'box_bearing',yaw=yaw)
             forward,left = np.array((math.cos(yaw),math.sin(yaw))),np.array((-math.sin(yaw),math.cos(yaw)))
             self.event('navigate_pickup',object_id=identifier)
             stage = box[:2]-1.05*forward+.15*left
-            self.navigate((*stage,yaw))
+            if self.exploration is not None:
+                self.exploration.navigate_observed((*stage,yaw))
+                if abs(angle(self.pose[2]-yaw))>.15:
+                    self.rotate(yaw)
+                self.wait(lambda:self.observe(identifier,2.) is not None,8.,'no fresh box at pickup staging')
+                box = np.array(self.observe(identifier,2.)['position'])
+            else:
+                self.navigate((*stage,yaw))
             # Complete the large arm/ownership transition at the staging
             # distance. Precision docking then measures and corrects its base
             # displacement before approaching the table with the hand raised.
@@ -603,29 +695,52 @@ class TransportMission(Node):
             # Leave enough room for loaded-turn drift before searching; a
             # near-table scan can put Nav2's start inside its inflation region.
             self.retreat(1.1,yaw)
-            pad = self.observe(destination,60.) or destination_view
+            if self.exploration is not None:
+                self.event('search_destination',destination_id=destination)
+                pad = self.discover(destination)
+            else:
+                pad = self.observe(destination,60.) or destination_view
+            if self.exploration is not None:
+                pad = self.exploration.inspect_support(destination,pad)
+            elif 'approach_yaw' not in pad:
+                # This is an observation stand-off, not permission to dock from
+                # an arbitrary side of the destination square.
+                point = np.array(pad['position'])
+                bearing = math.atan2(point[1]-self.pose[1],point[0]-self.pose[0])
+                self.event('inspect_support',object_id=destination)
+                view = point[:2]-1.6*np.array((math.cos(bearing),math.sin(bearing)))
+                self.navigate((*view,bearing))
+                self.rotate(bearing)
+                self.wait(lambda:self.observe(destination,5.) is not None and
+                          'approach_yaw' in self.observe(destination,5.),8.,'destination approach side not confirmed')
+                pad = self.observe(destination,5.)
             self.event('remembered_destination',destination_id=destination,
-                       observation_age_s=self.seconds()-pad['observed_stamp'])
+                        observation_age_s=self.seconds()-pad['observed_stamp'])
             point = np.array(pad['position'])
-            bearing = math.atan2(point[1]-self.pose[1],point[0]-self.pose[0])
-            yaw = min((pad['yaw']+k*math.pi/2 for k in range(4)),key=lambda value:abs(angle(value-bearing)))
+            yaw = pad['approach_yaw']
+            self.event('delivery_approach',source='rgbd_support_edge',yaw=yaw,
+                       approach_observation_count=pad.get('approach_observation_count',0))
             forward,left = np.array((math.cos(yaw),math.sin(yaw))),np.array((-math.sin(yaw),math.cos(yaw)))
             self.event('navigate_delivery')
-            stage = point[:2]-1.05*forward+.15*left
-            self.navigate((*stage,yaw))
+            stage = point[:2]-1.4*forward+.15*left
+            if self.exploration is not None:
+                self.exploration.navigate_observed((*stage,yaw),phase='delivery_route')
+            else:
+                self.navigate((*stage,yaw))
             # At range, a horizontal pad spans very few image rows. Obtain a
             # closer face-direction observation before the final table approach.
             self.event('inspect_delivery')
             bearing = math.atan2(point[1]-self.pose[1],point[0]-self.pose[0])
             self.rotate(bearing)
-            self.spin(1.)
+            self.wait(lambda:self.observe(destination,2.) is not None and
+                      'approach_yaw' in self.observe(destination,2.),8.,'destination support side not reobserved')
             latest = self.observe(destination,2.)
             if latest is not None:
                 point = np.array(latest['position'])
-                yaw = min((latest['yaw']+k*math.pi/2 for k in range(4)),key=lambda value:abs(angle(value-bearing)))
+                yaw = latest['approach_yaw']
                 forward,left = np.array((math.cos(yaw),math.sin(yaw))),np.array((-math.sin(yaw),math.cos(yaw)))
-                stage = point[:2]-1.0*forward+.15*left
-                self.navigate((*stage,yaw))
+                self.event('delivery_approach',source='rgbd_support_edge',yaw=yaw,
+                           approach_observation_count=latest.get('approach_observation_count',0))
             self.event('dock_delivery')
             latest = self.observe(destination,15.)
             if latest is not None:
@@ -803,8 +918,14 @@ def main():
     parser.add_argument('--people',type=int,default=0)
     parser.add_argument('--carry-posture',choices=('ik','payload_v1'),default='ik')
     parser.add_argument('--camera-pitch-deg',type=float,default=0.)
+    parser.add_argument('--explore-unknown',action='store_true')
+    parser.add_argument('--search-max-viewpoints',type=int,default=20)
     args = parser.parse_args()
-    args.pairs = json.loads(args.pairs.read_text())['pairs']
+    if args.search_max_viewpoints<=0:
+        parser.error('--search-max-viewpoints must be positive')
+    objective = json.loads(args.pairs.read_text())
+    args.pairs = objective['pairs']
+    args.objective = objective.get('description','; '.join(f'{pair["object_id"]} -> {pair["destination_id"]}' for pair in args.pairs))
     rclpy.init()
     # Dedicated executors avoid high-rate IMU/image work starving the mission's
     # odometry and workspace callbacks in a shared thread-pool queue.
@@ -832,6 +953,8 @@ def main():
         mission.active = False
         mission._heartbeat()
         mission.ik_worker.shutdown(wait=True,cancel_futures=True)
+        if mission.exploration is not None:
+            mission.exploration.close()
         for worker,thread in background:
             worker.shutdown()
             thread.join()
@@ -842,6 +965,11 @@ def main():
                        grasp_model='capture_radius_weld',base_pinning=False,perception='registered_rgbd',
                        attachment_state=mission.attachment_state,object_may_be_held=mission.object_may_be_held)
         result['carry_posture'] = args.carry_posture
+        result['objective'] = objective
+        result['mission_kind'] = 'explore_pick_find_place' if args.explore_unknown else 'transport'
+        if mission.exploration is not None:
+            result['search_summary'] = dict(inspected_viewpoints={key:len(value) for key,value in mission.exploration.visits.items()},
+                failed_viewpoints=len(mission.exploration.failures),source='observed_slam_map_and_registered_rgbd')
         result['success'] = result['success'] and success
         args.output.parent.mkdir(parents=True,exist_ok=True)
         args.output.write_text(json.dumps(result,indent=2)+'\n')

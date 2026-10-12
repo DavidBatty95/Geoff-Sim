@@ -1,0 +1,989 @@
+[
+  {
+    "run": "20261007T123254Z",
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "seed": 48,
+    "people": 0,
+    "contact_samples": 0,
+    "minimum_person_clearance_m": null,
+    "source_sha256": {
+      "scripts/run_transport_demo.py": "11056e0f95991fee7f0163be5a5154464dd150032860390c7615c618ead3c37c",
+      "scripts/transport_worlds.py": "2f0bec7ec4f153bf664fc95dad107367bd6718bf123e64836921802b0ca707d9",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "286b3f6bc3b90ebb995ede7e4a29d1cc6ab94ab2abf8bca0bc080664f0948b1d",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "a9e339b9cefb86e94fbf2062a430ad3165561ff2c164f5361bc83b17300fac86",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "65dd9a5370cc4a10a4059764bb58f69ac7d5c2c19704f9b367c752a25a08f91e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "6df1192e0ef7886e624af3b0da688657c43d4cc1dcb7b5f17c4305930aefe1db",
+      "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+    },
+    "localization_recoveries": 0,
+    "object_timestamp_scope": [
+      "native_acquisition_v2"
+    ],
+    "history_available": true,
+    "camera": [
+      "192",
+      "108"
+    ],
+    "duration_s": 120.0,
+    "acquisition_interval_s": {
+      "count": 159,
+      "median": 0.5025954246520996,
+      "p95": 0.9973881483078003,
+      "maximum": 1.0344946384429932
+    },
+    "first_attempt_age_s": {
+      "count": 180,
+      "median": 0.7629621028900146,
+      "p95": 1.1054351091384889,
+      "maximum": 1.1970710754394531
+    },
+    "processed_age_s": {
+      "count": 160,
+      "median": 0.9579596519470215,
+      "p95": 1.2422799587249755,
+      "maximum": 1.4742348194122314
+    },
+    "confirmed_ids": [
+      "box_red",
+      "target_blue"
+    ],
+    "success": false,
+    "data_valid": true,
+    "fallen": true,
+    "deliveries": [
+      {
+        "object_id": "box_red",
+        "destination_id": "target_blue",
+        "color": "red",
+        "destination_color": "blue",
+        "verified": false,
+        "lift_m": 0.25389998635554334,
+        "travel_m": 6.278060919455941
+      }
+    ],
+    "dropped_objects": [
+      "box_red"
+    ],
+    "error": "localization did not recover before deadline",
+    "world": "transport_medium",
+    "layout_seed": 0,
+    "mission_kind": "explore_pick_find_place",
+    "search": {
+      "requests": [
+        {
+          "object_id": "box_red",
+          "requested_at_s": 8.610059208993334,
+          "initially_visible": false,
+          "first_goal_after_s": 1.9115845640189946,
+          "first_dispatch_after_s": 2.0194385630020406,
+          "found_after_s": 23.750752754014684
+        },
+        {
+          "object_id": "target_blue",
+          "requested_at_s": 84.82805751898559,
+          "initially_visible": false,
+          "first_goal_after_s": 1.7559077980113216,
+          "first_dispatch_after_s": 2.276323914004024,
+          "found_after_s": null
+        }
+      ],
+      "selected_viewpoints": 3,
+      "planning_ms": {
+        "count": 3,
+        "median": 247.63548001646996,
+        "p95": 302.44948049949016,
+        "maximum": 308.5399249976035
+      },
+      "selection_wait_ms": {
+        "count": 3,
+        "median": 250.99154998315498,
+        "p95": 278.4098186850315,
+        "maximum": 281.45629298524
+      },
+      "room_decisions": 3,
+      "region_count": {
+        "count": 3,
+        "median": 8.0,
+        "p95": 9.8,
+        "maximum": 10.0
+      },
+      "deferred_region_selections": 0,
+      "partial_turns": 0,
+      "route_planning_ms": {
+        "count": 6,
+        "median": 180.71001149655785,
+        "p95": 254.1140742468997,
+        "maximum": 258.8876069930848
+      }
+    },
+    "search_summary": {
+      "inspected_viewpoints": {
+        "box_red": 2,
+        "target_blue": 1
+      },
+      "failed_viewpoints": 1,
+      "source": "observed_slam_map_and_registered_rgbd"
+    },
+    "pickup": [
+      {
+        "object_id": "box_red",
+        "discovered_at_s": 32.36081196300802,
+        "grasp_request_after_s": 42.2066087279818,
+        "held_ack_after_s": 42.30908613599604,
+        "verified_lift_after_s": 45.409011226991424,
+        "prepare_after_s": 26.203687863977393,
+        "discovery_to_placement_s": null,
+        "grasp_to_placement_s": null
+      }
+    ],
+    "objective": {
+      "pairs": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_blue",
+          "color": "red",
+          "destination_color": "blue"
+        }
+      ],
+      "task_seed": 48,
+      "mode": "random",
+      "description": "Put the red box on the blue goal"
+    },
+    "delivery_approaches": [],
+    "source_archive_sha256": "8d05dec7dd401d6a3acea54920d641d603f59373d237dedac7e3475cdc91d5b4",
+    "search_source_sha256": {
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/dynamic_obstacle_tracker.py": "8d3f88b37f77f4ed65ec6191b988e7bc268c1930566aea9a0a759f7e9f2a7b39",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_mission.py": "1711996431f25493aa0a2e58f212e5742d8ec6353e58386c93a3eef432035ee3",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_search.py": "3807492f26fb2a8226e07e6fe3301dbcbcb0200a030d673c71aaa9408b312a07",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/localization_recovery.py": "8d4d5f25b33e5575f3963671579732186b2e50f844297f07fe48cb82ff67c6f0",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/room_search.py": "bfeff010b7ee666fe36e8fd0db0b276487d82ee91078ebaab5a36c4cc92c0ddf",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/search_visualization.py": "9f499c290d98989d166f892589af95a1bdcefe166c196c5cd743bbf755c0c972",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/wall_evidence.py": "b8135c7103791f4e238c799feda5b821fbf0c3e38db6a7c1a083d5b3f0823a6c"
+    }
+  },
+  {
+    "run": "20261007T124414Z",
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "seed": 48,
+    "people": 0,
+    "contact_samples": 0,
+    "minimum_person_clearance_m": null,
+    "source_sha256": {
+      "scripts/run_transport_demo.py": "11056e0f95991fee7f0163be5a5154464dd150032860390c7615c618ead3c37c",
+      "scripts/transport_worlds.py": "2f0bec7ec4f153bf664fc95dad107367bd6718bf123e64836921802b0ca707d9",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "286b3f6bc3b90ebb995ede7e4a29d1cc6ab94ab2abf8bca0bc080664f0948b1d",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "a9e339b9cefb86e94fbf2062a430ad3165561ff2c164f5361bc83b17300fac86",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "65dd9a5370cc4a10a4059764bb58f69ac7d5c2c19704f9b367c752a25a08f91e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "6df1192e0ef7886e624af3b0da688657c43d4cc1dcb7b5f17c4305930aefe1db",
+      "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+    },
+    "localization_recoveries": 0,
+    "object_timestamp_scope": [
+      "native_acquisition_v2"
+    ],
+    "history_available": true,
+    "camera": [
+      "192",
+      "108"
+    ],
+    "duration_s": 90.0,
+    "acquisition_interval_s": {
+      "count": 20,
+      "median": 0.6999194622039795,
+      "p95": 0.924508059024811,
+      "maximum": 1.2502110004425049
+    },
+    "first_attempt_age_s": {
+      "count": 39,
+      "median": 0.742570161819458,
+      "p95": 1.1541340827941895,
+      "maximum": 1.3624062538146973
+    },
+    "processed_age_s": {
+      "count": 21,
+      "median": 0.9064300060272217,
+      "p95": 1.2402994632720947,
+      "maximum": 1.4060182571411133
+    },
+    "confirmed_ids": [],
+    "success": false,
+    "data_valid": true,
+    "fallen": true,
+    "deliveries": [
+      {
+        "object_id": "box_red",
+        "destination_id": "target_blue",
+        "color": "red",
+        "destination_color": "blue",
+        "verified": false,
+        "lift_m": 0.0,
+        "travel_m": 3.898123512987204e-12
+      }
+    ],
+    "dropped_objects": [],
+    "error": "no fresh RGB-D acquisition for search inspection",
+    "world": "transport_medium",
+    "layout_seed": 0,
+    "mission_kind": "explore_pick_find_place",
+    "search": {
+      "requests": [
+        {
+          "object_id": "box_red",
+          "requested_at_s": 12.713763965992257,
+          "initially_visible": false,
+          "first_goal_after_s": 2.040834357991116,
+          "first_dispatch_after_s": 2.321074669016525,
+          "found_after_s": null
+        }
+      ],
+      "selected_viewpoints": 1,
+      "planning_ms": {
+        "count": 1,
+        "median": 174.49046700494364,
+        "p95": 174.49046700494364,
+        "maximum": 174.49046700494364
+      },
+      "selection_wait_ms": {
+        "count": 1,
+        "median": 223.9608319941908,
+        "p95": 223.9608319941908,
+        "maximum": 223.9608319941908
+      },
+      "room_decisions": 1,
+      "region_count": {
+        "count": 1,
+        "median": 5.0,
+        "p95": 5.0,
+        "maximum": 5.0
+      },
+      "deferred_region_selections": 0,
+      "partial_turns": 0,
+      "route_planning_ms": {
+        "count": 1,
+        "median": 236.62611897452734,
+        "p95": 236.62611897452734,
+        "maximum": 236.62611897452734
+      }
+    },
+    "search_summary": {
+      "inspected_viewpoints": {
+        "box_red": 1
+      },
+      "failed_viewpoints": 1,
+      "source": "observed_slam_map_and_registered_rgbd"
+    },
+    "pickup": [],
+    "objective": {
+      "pairs": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_blue",
+          "color": "red",
+          "destination_color": "blue"
+        }
+      ],
+      "task_seed": 48,
+      "mode": "random",
+      "description": "Put the red box on the blue goal"
+    },
+    "delivery_approaches": [],
+    "source_archive_sha256": "7d858112ec2d7b8fd7aa54f905c8dd06e65961552dedbaca4722270367132226",
+    "search_source_sha256": {
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/dynamic_obstacle_tracker.py": "b3bbdce372c525b6387e3a55a12326b1c93e70da8f7a37cb44dc8ec5464474a3",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_mission.py": "1711996431f25493aa0a2e58f212e5742d8ec6353e58386c93a3eef432035ee3",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_search.py": "3807492f26fb2a8226e07e6fe3301dbcbcb0200a030d673c71aaa9408b312a07",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/localization_recovery.py": "8d4d5f25b33e5575f3963671579732186b2e50f844297f07fe48cb82ff67c6f0",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/room_search.py": "bfeff010b7ee666fe36e8fd0db0b276487d82ee91078ebaab5a36c4cc92c0ddf",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/search_visualization.py": "9f499c290d98989d166f892589af95a1bdcefe166c196c5cd743bbf755c0c972",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/wall_evidence.py": "bb4f66b33f50e0b1eb5ea8d606f32c89fa4532e743728969c431d4030462f019"
+    }
+  },
+  {
+    "run": "20261007T125652Z",
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "seed": 48,
+    "people": 1,
+    "contact_samples": 9,
+    "minimum_person_clearance_m": -0.09050894729343112,
+    "source_sha256": {
+      "scripts/run_transport_demo.py": "11056e0f95991fee7f0163be5a5154464dd150032860390c7615c618ead3c37c",
+      "scripts/transport_worlds.py": "2f0bec7ec4f153bf664fc95dad107367bd6718bf123e64836921802b0ca707d9",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "05e514ab36a4819389462b41c5d92d6c58ca2fdc541a920f0d79961313ff729e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "a9e339b9cefb86e94fbf2062a430ad3165561ff2c164f5361bc83b17300fac86",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "65dd9a5370cc4a10a4059764bb58f69ac7d5c2c19704f9b367c752a25a08f91e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "6df1192e0ef7886e624af3b0da688657c43d4cc1dcb7b5f17c4305930aefe1db",
+      "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+    },
+    "localization_recoveries": 0,
+    "object_timestamp_scope": [
+      "native_acquisition_v2"
+    ],
+    "history_available": true,
+    "camera": [
+      "192",
+      "108"
+    ],
+    "duration_s": 120.0,
+    "acquisition_interval_s": {
+      "count": 179,
+      "median": 0.5002398490905762,
+      "p95": 1.0002501487731934,
+      "maximum": 1.0315136909484863
+    },
+    "first_attempt_age_s": {
+      "count": 211,
+      "median": 0.8282852172851562,
+      "p95": 1.1096421480178833,
+      "maximum": 1.1449577808380127
+    },
+    "processed_age_s": {
+      "count": 180,
+      "median": 0.8819375038146973,
+      "p95": 1.1728176236152648,
+      "maximum": 1.2376999855041504
+    },
+    "confirmed_ids": [
+      "target_red"
+    ],
+    "success": false,
+    "data_valid": true,
+    "fallen": false,
+    "deliveries": [
+      {
+        "object_id": "box_red",
+        "destination_id": "target_blue",
+        "color": "red",
+        "destination_color": "blue",
+        "verified": false,
+        "lift_m": 0.0,
+        "travel_m": 3.898123512987204e-12
+      }
+    ],
+    "dropped_objects": [],
+    "error": "mission deadline exceeded",
+    "world": "transport_medium",
+    "layout_seed": 0,
+    "mission_kind": "explore_pick_find_place",
+    "search": {
+      "requests": [
+        {
+          "object_id": "box_red",
+          "requested_at_s": 6.592063952004537,
+          "initially_visible": false,
+          "first_goal_after_s": 1.5044262610026635,
+          "first_dispatch_after_s": 1.6425841879972722,
+          "found_after_s": null
+        }
+      ],
+      "selected_viewpoints": 6,
+      "planning_ms": {
+        "count": 6,
+        "median": 208.82138449815102,
+        "p95": 308.3290774811758,
+        "maximum": 310.0616409792565
+      },
+      "selection_wait_ms": {
+        "count": 6,
+        "median": 98.58034050557762,
+        "p95": 103.50007549277507,
+        "maximum": 103.78539099474438
+      },
+      "room_decisions": 6,
+      "region_count": {
+        "count": 6,
+        "median": 10.5,
+        "p95": 12.0,
+        "maximum": 12.0
+      },
+      "deferred_region_selections": 0,
+      "partial_turns": 0,
+      "route_planning_ms": {
+        "count": 8,
+        "median": 183.2334990031086,
+        "p95": 284.2852012938237,
+        "maximum": 310.489505995065
+      }
+    },
+    "search_summary": {
+      "inspected_viewpoints": {
+        "box_red": 6
+      },
+      "failed_viewpoints": 0,
+      "source": "observed_slam_map_and_registered_rgbd"
+    },
+    "pickup": [],
+    "objective": {
+      "pairs": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_blue",
+          "color": "red",
+          "destination_color": "blue"
+        }
+      ],
+      "task_seed": 48,
+      "mode": "random",
+      "description": "Put the red box on the blue goal"
+    },
+    "delivery_approaches": [],
+    "source_archive_sha256": "404e4b5865be92530d6fc87f0e80ba68fdb3d643904c6b54aa656c0f3803837b",
+    "search_source_sha256": {
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/dynamic_obstacle_tracker.py": "97b915468596e7771336ebfa510d4f1421ad30fa8ac7190ab647e36f559667ec",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_mission.py": "380ed994841a6a50091b8a76f0934e61cc3b3cf51bd0e6cc1ba1a69f5416d21e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_search.py": "3807492f26fb2a8226e07e6fe3301dbcbcb0200a030d673c71aaa9408b312a07",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/localization_recovery.py": "1b0cd68f890da4f750a305b8b317f3f0d701e7ef3f86635271f860a891679b3b",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/room_search.py": "bfeff010b7ee666fe36e8fd0db0b276487d82ee91078ebaab5a36c4cc92c0ddf",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/search_visualization.py": "9f499c290d98989d166f892589af95a1bdcefe166c196c5cd743bbf755c0c972",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/wall_evidence.py": "bb4f66b33f50e0b1eb5ea8d606f32c89fa4532e743728969c431d4030462f019"
+    },
+    "crowd": {
+      "source": "offline_evaluation_aligned_and_planner_trace",
+      "actors": {
+        "1": {
+          "first_position": [
+            -0.07217588982723525,
+            -4.35707135883349
+          ],
+          "samples": 1592,
+          "moving_samples": 1182,
+          "path_length_m": 71.73219375171684,
+          "max_displacement_m": 9.169196201187269,
+          "maximum_speed_m_s": 0.991318064608164
+        }
+      },
+      "moving_actor_count": 1,
+      "unmeasured_motion_gaps": 0,
+      "max_observed_tracks": 6,
+      "planner_states": {
+        "MISSION_STALE_STOP": 41,
+        "NORMAL_NAVIGATION": 1712,
+        "HUMAN_CAUTION": 424,
+        "PASS_BEHIND": 3,
+        "CLEARANCE_RECOVERY": 62,
+        "EMERGENCY_STOP": 36,
+        "YIELD_TO_HUMAN": 19
+      },
+      "planner_planning_ms": {
+        "count": 2297,
+        "median": 17.691,
+        "p95": 58.63139999999998,
+        "maximum": 85.989
+      }
+    }
+  },
+  {
+    "run": "20261007T130654Z",
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "seed": 48,
+    "people": 0,
+    "contact_samples": 0,
+    "minimum_person_clearance_m": null,
+    "source_sha256": {
+      "scripts/run_transport_demo.py": "0cd5ba83e16f61773eeb9a5aae7f043c2093e0331aebb0f3794609714eeb2132",
+      "scripts/transport_worlds.py": "2f0bec7ec4f153bf664fc95dad107367bd6718bf123e64836921802b0ca707d9",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "05e514ab36a4819389462b41c5d92d6c58ca2fdc541a920f0d79961313ff729e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "a9e339b9cefb86e94fbf2062a430ad3165561ff2c164f5361bc83b17300fac86",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "65dd9a5370cc4a10a4059764bb58f69ac7d5c2c19704f9b367c752a25a08f91e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "6df1192e0ef7886e624af3b0da688657c43d4cc1dcb7b5f17c4305930aefe1db",
+      "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+    },
+    "localization_recoveries": 1,
+    "object_timestamp_scope": [
+      "native_acquisition_v2"
+    ],
+    "history_available": true,
+    "camera": [
+      "192",
+      "108"
+    ],
+    "duration_s": 90.0,
+    "acquisition_interval_s": {
+      "count": 157,
+      "median": 0.5003421306610107,
+      "p95": 1.0008978843688965,
+      "maximum": 1.0039050579071045
+    },
+    "first_attempt_age_s": {
+      "count": 158,
+      "median": 0.8354681730270386,
+      "p95": 1.0981684803962708,
+      "maximum": 1.1702470779418945
+    },
+    "processed_age_s": {
+      "count": 158,
+      "median": 0.895200252532959,
+      "p95": 1.1465862154960633,
+      "maximum": 1.3066301345825195
+    },
+    "confirmed_ids": [
+      "box_blue",
+      "box_red"
+    ],
+    "success": false,
+    "data_valid": true,
+    "fallen": false,
+    "deliveries": [
+      {
+        "object_id": "box_red",
+        "destination_id": "target_blue",
+        "color": "red",
+        "destination_color": "blue",
+        "verified": false,
+        "lift_m": 0.0,
+        "travel_m": 3.897679185652518e-12
+      }
+    ],
+    "dropped_objects": [],
+    "error": "mission deadline exceeded",
+    "world": "transport_medium",
+    "layout_seed": 0,
+    "mission_kind": "explore_pick_find_place",
+    "search": {
+      "requests": [
+        {
+          "object_id": "box_red",
+          "requested_at_s": 5.825130229990464,
+          "initially_visible": false,
+          "first_goal_after_s": 1.8220065649948083,
+          "first_dispatch_after_s": 1.909390529996017,
+          "found_after_s": 31.345796448993497
+        },
+        {
+          "object_id": "target_blue",
+          "requested_at_s": 37.21093365599518,
+          "initially_visible": false,
+          "first_goal_after_s": 2.0763088329986203,
+          "first_dispatch_after_s": 2.30925918801222,
+          "found_after_s": null
+        }
+      ],
+      "selected_viewpoints": 7,
+      "planning_ms": {
+        "count": 7,
+        "median": 226.76187701290473,
+        "p95": 338.1074721954064,
+        "maximum": 358.89912699349225
+      },
+      "selection_wait_ms": {
+        "count": 7,
+        "median": 114.93680201238021,
+        "p95": 190.0007828953676,
+        "maximum": 193.49167199106887
+      },
+      "room_decisions": 7,
+      "region_count": {
+        "count": 7,
+        "median": 11.0,
+        "p95": 13.7,
+        "maximum": 14.0
+      },
+      "deferred_region_selections": 0,
+      "partial_turns": 0,
+      "route_planning_ms": {
+        "count": 7,
+        "median": 186.69025198323652,
+        "p95": 286.36696589237533,
+        "maximum": 325.95266099087894
+      }
+    },
+    "search_summary": {
+      "inspected_viewpoints": {
+        "box_red": 3,
+        "target_blue": 4
+      },
+      "failed_viewpoints": 0,
+      "source": "observed_slam_map_and_registered_rgbd"
+    },
+    "pickup": [
+      {
+        "object_id": "box_red",
+        "discovered_at_s": 37.17092667898396,
+        "grasp_request_after_s": null,
+        "held_ack_after_s": null,
+        "verified_lift_after_s": null,
+        "prepare_after_s": null,
+        "discovery_to_placement_s": null,
+        "grasp_to_placement_s": null
+      }
+    ],
+    "objective": {
+      "pairs": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_blue",
+          "color": "red",
+          "destination_color": "blue"
+        }
+      ],
+      "task_seed": 48,
+      "mode": "random",
+      "description": "Put the red box on the blue goal"
+    },
+    "delivery_approaches": [],
+    "source_archive_sha256": "e1dfc28d280752b65f2dbd0e240d43a0d13da2659906690a3a4a0144d1e5c1cd",
+    "search_source_sha256": {
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/dynamic_obstacle_tracker.py": "3c664004d6e52f8741a4955da3e242dcc31e80ddc5486fe51d619321529c51b7",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_mission.py": "380ed994841a6a50091b8a76f0934e61cc3b3cf51bd0e6cc1ba1a69f5416d21e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_search.py": "3807492f26fb2a8226e07e6fe3301dbcbcb0200a030d673c71aaa9408b312a07",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/localization_recovery.py": "1b0cd68f890da4f750a305b8b317f3f0d701e7ef3f86635271f860a891679b3b",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/room_search.py": "bfeff010b7ee666fe36e8fd0db0b276487d82ee91078ebaab5a36c4cc92c0ddf",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/search_visualization.py": "9f499c290d98989d166f892589af95a1bdcefe166c196c5cd743bbf755c0c972",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/wall_evidence.py": "bb4f66b33f50e0b1eb5ea8d606f32c89fa4532e743728969c431d4030462f019"
+    }
+  },
+  {
+    "run": "20261007T130915Z",
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "seed": 48,
+    "people": 0,
+    "contact_samples": 0,
+    "minimum_person_clearance_m": null,
+    "source_sha256": {
+      "scripts/run_transport_demo.py": "0cd5ba83e16f61773eeb9a5aae7f043c2093e0331aebb0f3794609714eeb2132",
+      "scripts/transport_worlds.py": "2f0bec7ec4f153bf664fc95dad107367bd6718bf123e64836921802b0ca707d9",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "05e514ab36a4819389462b41c5d92d6c58ca2fdc541a920f0d79961313ff729e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "a9e339b9cefb86e94fbf2062a430ad3165561ff2c164f5361bc83b17300fac86",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "65dd9a5370cc4a10a4059764bb58f69ac7d5c2c19704f9b367c752a25a08f91e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "6df1192e0ef7886e624af3b0da688657c43d4cc1dcb7b5f17c4305930aefe1db",
+      "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+    },
+    "localization_recoveries": 0,
+    "object_timestamp_scope": [
+      "native_acquisition_v2"
+    ],
+    "history_available": true,
+    "camera": [
+      "192",
+      "108"
+    ],
+    "duration_s": 90.0,
+    "acquisition_interval_s": {
+      "count": 156,
+      "median": 0.5005010366439819,
+      "p95": 1.0004041194915771,
+      "maximum": 1.0053541660308838
+    },
+    "first_attempt_age_s": {
+      "count": 157,
+      "median": 0.8624606132507324,
+      "p95": 1.0997472286224363,
+      "maximum": 1.1518490314483643
+    },
+    "processed_age_s": {
+      "count": 157,
+      "median": 0.9139676094055176,
+      "p95": 1.1558230400085447,
+      "maximum": 1.2910325527191162
+    },
+    "confirmed_ids": [
+      "box_blue",
+      "box_red"
+    ],
+    "success": false,
+    "data_valid": true,
+    "fallen": false,
+    "deliveries": [
+      {
+        "object_id": "box_red",
+        "destination_id": "target_blue",
+        "color": "red",
+        "destination_color": "blue",
+        "verified": false,
+        "lift_m": 0.0,
+        "travel_m": 3.897679185652518e-12
+      }
+    ],
+    "dropped_objects": [],
+    "error": "mission deadline exceeded",
+    "world": "transport_medium",
+    "layout_seed": 0,
+    "mission_kind": "explore_pick_find_place",
+    "search": {
+      "requests": [
+        {
+          "object_id": "box_red",
+          "requested_at_s": 6.358379170007538,
+          "initially_visible": false,
+          "first_goal_after_s": 1.8893805079860613,
+          "first_dispatch_after_s": 1.982295041991165,
+          "found_after_s": 13.907159000984393
+        },
+        {
+          "object_id": "target_blue",
+          "requested_at_s": 20.292380590981338,
+          "initially_visible": false,
+          "first_goal_after_s": 1.7387120310158934,
+          "first_dispatch_after_s": 1.8988068330218084,
+          "found_after_s": null
+        }
+      ],
+      "selected_viewpoints": 5,
+      "planning_ms": {
+        "count": 5,
+        "median": 204.1810649971012,
+        "p95": 278.819901793031,
+        "maximum": 285.6951809953898
+      },
+      "selection_wait_ms": {
+        "count": 5,
+        "median": 100.83954699803144,
+        "p95": 199.04187180800363,
+        "maximum": 201.40825200360268
+      },
+      "room_decisions": 5,
+      "region_count": {
+        "count": 5,
+        "median": 9.0,
+        "p95": 14.399999999999999,
+        "maximum": 15.0
+      },
+      "deferred_region_selections": 0,
+      "partial_turns": 0,
+      "route_planning_ms": {
+        "count": 6,
+        "median": 168.0366245127516,
+        "p95": 263.69385849829996,
+        "maximum": 266.2152929988224
+      }
+    },
+    "search_summary": {
+      "inspected_viewpoints": {
+        "box_red": 1,
+        "target_blue": 4
+      },
+      "failed_viewpoints": 0,
+      "source": "observed_slam_map_and_registered_rgbd"
+    },
+    "pickup": [
+      {
+        "object_id": "box_red",
+        "discovered_at_s": 20.26553817099193,
+        "grasp_request_after_s": null,
+        "held_ack_after_s": null,
+        "verified_lift_after_s": null,
+        "prepare_after_s": null,
+        "discovery_to_placement_s": null,
+        "grasp_to_placement_s": null
+      }
+    ],
+    "objective": {
+      "pairs": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_blue",
+          "color": "red",
+          "destination_color": "blue"
+        }
+      ],
+      "task_seed": 48,
+      "mode": "random",
+      "description": "Put the red box on the blue goal"
+    },
+    "delivery_approaches": [],
+    "source_archive_sha256": "5596795aa65adffde9af7c9badf36c23817a186999cbca4d761156a96b61cc73",
+    "search_source_sha256": {
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/dynamic_obstacle_tracker.py": "3c664004d6e52f8741a4955da3e242dcc31e80ddc5486fe51d619321529c51b7",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_mission.py": "380ed994841a6a50091b8a76f0934e61cc3b3cf51bd0e6cc1ba1a69f5416d21e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_search.py": "3807492f26fb2a8226e07e6fe3301dbcbcb0200a030d673c71aaa9408b312a07",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/localization_recovery.py": "1b0cd68f890da4f750a305b8b317f3f0d701e7ef3f86635271f860a891679b3b",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/room_search.py": "bfeff010b7ee666fe36e8fd0db0b276487d82ee91078ebaab5a36c4cc92c0ddf",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/search_visualization.py": "9f499c290d98989d166f892589af95a1bdcefe166c196c5cd743bbf755c0c972",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/wall_evidence.py": "bb4f66b33f50e0b1eb5ea8d606f32c89fa4532e743728969c431d4030462f019"
+    }
+  },
+  {
+    "run": "20261007T131448Z",
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "seed": 48,
+    "people": 1,
+    "contact_samples": 16,
+    "minimum_person_clearance_m": -0.1881579875723815,
+    "source_sha256": {
+      "scripts/run_transport_demo.py": "0cd5ba83e16f61773eeb9a5aae7f043c2093e0331aebb0f3794609714eeb2132",
+      "scripts/transport_worlds.py": "2f0bec7ec4f153bf664fc95dad107367bd6718bf123e64836921802b0ca707d9",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "05e514ab36a4819389462b41c5d92d6c58ca2fdc541a920f0d79961313ff729e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "a9e339b9cefb86e94fbf2062a430ad3165561ff2c164f5361bc83b17300fac86",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "65dd9a5370cc4a10a4059764bb58f69ac7d5c2c19704f9b367c752a25a08f91e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "6df1192e0ef7886e624af3b0da688657c43d4cc1dcb7b5f17c4305930aefe1db",
+      "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+    },
+    "localization_recoveries": 0,
+    "object_timestamp_scope": [
+      "native_acquisition_v2"
+    ],
+    "history_available": true,
+    "camera": [
+      "192",
+      "108"
+    ],
+    "duration_s": 120.0,
+    "acquisition_interval_s": {
+      "count": 179,
+      "median": 0.5002808570861816,
+      "p95": 1.0003086090087892,
+      "maximum": 1.006059169769287
+    },
+    "first_attempt_age_s": {
+      "count": 212,
+      "median": 0.8484028577804565,
+      "p95": 1.100867748260498,
+      "maximum": 1.1533229351043701
+    },
+    "processed_age_s": {
+      "count": 180,
+      "median": 0.9081912040710449,
+      "p95": 1.1923102378845212,
+      "maximum": 1.279512882232666
+    },
+    "confirmed_ids": [
+      "box_blue",
+      "box_red",
+      "target_red"
+    ],
+    "success": false,
+    "data_valid": true,
+    "fallen": false,
+    "deliveries": [
+      {
+        "object_id": "box_red",
+        "destination_id": "target_blue",
+        "color": "red",
+        "destination_color": "blue",
+        "verified": false,
+        "lift_m": 0.0,
+        "travel_m": 3.897679185652518e-12
+      }
+    ],
+    "dropped_objects": [],
+    "error": "mission deadline exceeded",
+    "world": "transport_medium",
+    "layout_seed": 0,
+    "mission_kind": "explore_pick_find_place",
+    "search": {
+      "requests": [
+        {
+          "object_id": "box_red",
+          "requested_at_s": 6.243386301997816,
+          "initially_visible": false,
+          "first_goal_after_s": 2.0188221919815987,
+          "first_dispatch_after_s": 2.1044250179838855,
+          "found_after_s": 10.750063747982495
+        },
+        {
+          "object_id": "target_blue",
+          "requested_at_s": 17.033217207994312,
+          "initially_visible": false,
+          "first_goal_after_s": 1.667831019993173,
+          "first_dispatch_after_s": 1.8328256479871925,
+          "found_after_s": null
+        }
+      ],
+      "selected_viewpoints": 8,
+      "planning_ms": {
+        "count": 8,
+        "median": 231.94326298835222,
+        "p95": 343.7274416966829,
+        "maximum": 374.11993599380367
+      },
+      "selection_wait_ms": {
+        "count": 8,
+        "median": 93.43567698670086,
+        "p95": 157.62099660787496,
+        "maximum": 172.61268800939433
+      },
+      "room_decisions": 8,
+      "region_count": {
+        "count": 8,
+        "median": 13.0,
+        "p95": 14.299999999999999,
+        "maximum": 15.0
+      },
+      "deferred_region_selections": 0,
+      "partial_turns": 0,
+      "route_planning_ms": {
+        "count": 10,
+        "median": 147.8321704926202,
+        "p95": 258.8121056527598,
+        "maximum": 265.35967900417745
+      }
+    },
+    "search_summary": {
+      "inspected_viewpoints": {
+        "box_red": 1,
+        "target_blue": 7
+      },
+      "failed_viewpoints": 0,
+      "source": "observed_slam_map_and_registered_rgbd"
+    },
+    "pickup": [
+      {
+        "object_id": "box_red",
+        "discovered_at_s": 16.99345004998031,
+        "grasp_request_after_s": null,
+        "held_ack_after_s": null,
+        "verified_lift_after_s": null,
+        "prepare_after_s": null,
+        "discovery_to_placement_s": null,
+        "grasp_to_placement_s": null
+      }
+    ],
+    "objective": {
+      "pairs": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_blue",
+          "color": "red",
+          "destination_color": "blue"
+        }
+      ],
+      "task_seed": 48,
+      "mode": "random",
+      "description": "Put the red box on the blue goal"
+    },
+    "delivery_approaches": [],
+    "source_archive_sha256": "5e69ba36d4f083d06e20b565d7d5440d7dd30276da20eb2454a83e6fc41c23d0",
+    "search_source_sha256": {
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/dynamic_obstacle_tracker.py": "3c664004d6e52f8741a4955da3e242dcc31e80ddc5486fe51d619321529c51b7",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_mission.py": "380ed994841a6a50091b8a76f0934e61cc3b3cf51bd0e6cc1ba1a69f5416d21e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_search.py": "3807492f26fb2a8226e07e6fe3301dbcbcb0200a030d673c71aaa9408b312a07",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/localization_recovery.py": "1b0cd68f890da4f750a305b8b317f3f0d701e7ef3f86635271f860a891679b3b",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/room_search.py": "bfeff010b7ee666fe36e8fd0db0b276487d82ee91078ebaab5a36c4cc92c0ddf",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/search_visualization.py": "9f499c290d98989d166f892589af95a1bdcefe166c196c5cd743bbf755c0c972",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/wall_evidence.py": "bb4f66b33f50e0b1eb5ea8d606f32c89fa4532e743728969c431d4030462f019"
+    },
+    "crowd": {
+      "source": "offline_evaluation_aligned_and_planner_trace",
+      "actors": {
+        "1": {
+          "first_position": [
+            -0.07217588982723525,
+            -4.35707135883349
+          ],
+          "samples": 1760,
+          "moving_samples": 1317,
+          "path_length_m": 71.79636803734401,
+          "max_displacement_m": 9.169260527420533,
+          "maximum_speed_m_s": 0.9913180646081685
+        }
+      },
+      "moving_actor_count": 1,
+      "unmeasured_motion_gaps": 0,
+      "max_observed_tracks": 6,
+      "planner_states": {
+        "MISSION_STALE_STOP": 46,
+        "NORMAL_NAVIGATION": 1752,
+        "HUMAN_CAUTION": 425,
+        "YIELD_TO_HUMAN": 45,
+        "PASS_BEHIND": 2,
+        "CLEARANCE_RECOVERY": 45,
+        "EMERGENCY_STOP": 45
+      },
+      "planner_planning_ms": {
+        "count": 2360,
+        "median": 15.2165,
+        "p95": 51.05929999999999,
+        "maximum": 78.191
+      }
+    }
+  }
+]

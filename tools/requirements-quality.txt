@@ -1,0 +1,7 @@
+# Isolated documentation/repository tooling; not installed in the ROS image.
+PyYAML==6.0.3
+cffconvert==2.0.0
+fonttools==4.60.1
+pre-commit==4.2.0
+pypdf==6.19.0
+pytest==8.3.5

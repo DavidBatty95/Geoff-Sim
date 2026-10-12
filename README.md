@@ -29,7 +29,7 @@ and unscored visual sessions are labelled separately.
 
 **Project update — 6 October 2026:** the hardware-facing fidelity pass adds
 canonical G1 topics with valid command CRCs, measured sensor-site IMUs, portable
-point-cloud decoding and an articulated BrainCo interface probe. Full CI passes;
+point-cloud decoding and an articulated BrainCo interface probe. The recorded full build/test suite passed;
 the latest unchanged-code zero-person **two-cube/four-table** pair completed both
 deliveries. The latest retained full navigation matrix, v84, remains **10/18**;
 crowd acceptance is still open. [Hardware fidelity and measured limits](docs/HARDWARE_FIDELITY.md) ·
@@ -324,12 +324,23 @@ boundaries. The [ROS workspace README](ros2_ws/src/README.md) maps individual pa
 - [Documentation index](docs/INDEX.md)
 - [Project status and progression](docs/PROJECT_STATUS.md) · [Detailed forward plan](docs/PROJECT_PLAN.md)
 - [Development and checks](docs/DEVELOPMENT.md)
+- [Changelog](CHANGELOG.md) · [Release and artifact policy](docs/RELEASES.md)
+- [Maintainer guide and GitHub settings](docs/MAINTAINER_GUIDE.md)
 - [Team handoff and remaining work](docs/HANDOFF.md)
 - [Training and calibration tools](docs/TRAINING_AND_CALIBRATION.md)
-- [Contributing](CONTRIBUTING.md) · [Security scope](SECURITY.md) · [Existing licenses](LICENSES.md)
+- [Contributing](CONTRIBUTING.md) · [Code of conduct](CODE_OF_CONDUCT.md) · [Security reporting](SECURITY.md) · [Existing licenses](LICENSES.md)
 - [Archived research drafts](archive/README.md)
 
 Existing package/upstream licenses are preserved. A root-license decision and
 third-party asset redistribution provenance remain owner decisions. Repository
 branch protections, fork access and private vulnerability reporting require the
-GitHub owner's configuration.
+GitHub owner's configuration; the [maintainer guide](docs/MAINTAINER_GUIDE.md)
+documents the exact setup.
+
+## Citing Geoff-Sim
+
+Use GitHub's **Cite this repository** entry or [`CITATION.cff`](CITATION.cff), and
+identify the exact commit/tag, policy and experiment dataset used. Cite the
+relevant [upstream research](docs/resources/RESEARCH.md) separately. The
+[release guide](docs/RELEASES.md) explains version and artifact provenance; local
+training checkpoints are not automatically included in a source checkout.

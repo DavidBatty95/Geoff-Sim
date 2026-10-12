@@ -22,10 +22,13 @@ fi
 mkdir -p "$HERE/build"
 pushd "$HERE" >/dev/null
 if [[ -n "${TECTONIC:-}" ]] || command -v tectonic >/dev/null 2>&1; then
+    export REVIEW_ENGINE="$("${TECTONIC:-tectonic}" --version)"
     "${TECTONIC:-tectonic}" --keep-logs --keep-intermediates --outdir build literature_review.tex
 elif command -v latexmk >/dev/null 2>&1 && command -v lualatex >/dev/null 2>&1; then
+    export REVIEW_ENGINE="latexmk + LuaLaTeX"
     latexmk -lualatex -interaction=nonstopmode -halt-on-error -outdir=build literature_review.tex
 elif command -v lualatex >/dev/null 2>&1 && command -v bibtex >/dev/null 2>&1; then
+    export REVIEW_ENGINE="LuaLaTeX + BibTeX"
     lualatex -interaction=nonstopmode -halt-on-error -output-directory=build literature_review.tex
     BIBINPUTS="$HERE:${BIBINPUTS:-}" bibtex build/literature_review
     lualatex -interaction=nonstopmode -halt-on-error -output-directory=build literature_review.tex
@@ -38,8 +41,10 @@ else
 fi
 python3 - <<'PY'
 from pathlib import Path
+import os
 import re
 import shutil
+from pdf_provenance import write_build_receipt
 log = Path('build/literature_review.log').read_text(errors='replace')
 patterns = [r'Citation .* undefined', r'Reference .* undefined',
             r'There were undefined', r'Missing character:', r'^! ',
@@ -51,6 +56,7 @@ pdf = Path('build/literature_review.pdf')
 if not pdf.is_file() or pdf.stat().st_size == 0:
     raise SystemExit('PDF missing or empty')
 shutil.copyfile(pdf, 'literature_review.pdf')
+write_build_receipt(Path('.'), os.environ['REVIEW_ENGINE'])
 print(f'PDF and log checks passed: {pdf.resolve()}')
 PY
 popd >/dev/null

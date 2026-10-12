@@ -8,6 +8,10 @@ class LocalizationInterrupted(RuntimeError):
     """Fresh measured odometry is unavailable; motion must terminate first."""
 
 
+class BodyInstabilityError(RuntimeError):
+    """Sustained measured body tilt; not a retryable localization outage."""
+
+
 def recover_localization(operation):
     parameters = signature(operation)
     @wraps(operation)

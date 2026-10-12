@@ -23,6 +23,13 @@ evidence snapshot, not an acceptance release. Later experiments need their own c
 
 ## At a glance
 
+**Wider-table/people follow-up:** the current development layout widens the
+central aisle to 3.9 m and the gap between rows to 2.0 m. Added continuous
+workspace prediction and recovery/balance corrections pass regression tests,
+but the new native trials have **no complete delivery pass** and include
+contacts/falls. Earlier successful transport cohorts used the earlier layout.
+See [the retained clearance report](TRANSPORT_PEOPLE_CLEARANCE.md).
+
 **6 October fidelity/publication follow-up:** [full report](HARDWARE_FIDELITY.md).
 Canonical G1 CRC/machine-mode handling, measured sensor-site IMUs, raw measured
 sensor TF and driver-layout-aware point clouds are validated. Full CI passed,

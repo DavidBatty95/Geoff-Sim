@@ -25,5 +25,7 @@ body:
         - Onboard scored navigation
         - Oracle diagnostic
         - Fixed-command diagnostic
+        - Transport or payload experiment
+        - Hardware-facing simulation/interface audit
         - Mock/CI tooling
         - Other

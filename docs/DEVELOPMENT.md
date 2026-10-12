@@ -19,6 +19,38 @@
 Use the Docker ROS Humble environment for ROS tests. Host-only tooling such as
 the results GUI, world generator and source-patch manager uses Python 3.
 
+## Fast repository-quality checks
+
+Use an isolated host environment for documentation and metadata tooling:
+
+```bash
+python3 -m venv .venv-quality
+.venv-quality/bin/python -m pip install -r tools/requirements-quality.txt
+.venv-quality/bin/python scripts/check_repository.py
+.venv-quality/bin/cffconvert --infile CITATION.cff --validate
+.venv-quality/bin/python scripts/check_docs.py
+.venv-quality/bin/python scripts/generate_readme_graphics.py --check
+bash docs/literature_review/build.sh --check-only
+.venv-quality/bin/python docs/literature_review/verify_pdf.py --check-report
+PYTEST_DISABLE_PLUGIN_AUTOLOAD=1 .venv-quality/bin/python -m pytest -q \
+  scripts/test_readme_navigation.py scripts/test_check_docs.py \
+  scripts/test_repository_quality.py scripts/test_pdf_provenance.py
+```
+
+If a ROS shell has exported `PYTHONPATH`, clear it for these isolated commands
+to avoid loading unrelated ROS Python packages. In a documentation-only clone
+without initialized submodules, `check_docs.py --allow-uninitialized-submodules`
+reports deferred upstream links; ordinary project links remain required.
+The native CI job checks those upstream targets after recursive checkout.
+
+The workflow runs lightweight repository checks on every change, rebuilds the
+review PDF when its sources/tooling change, and runs full native verification for
+runtime, configuration, result-data, workflow or unknown changes. The stable
+**Verification gate** checks the applicable job outcomes. Manual runs exercise
+all jobs. See [the maintainer guide](MAINTAINER_GUIDE.md) before configuring branch rules.
+
+## ROS and simulator checks
+
 ```bash
 python3 scripts/check_docs.py
 python3 scripts/generate_readme_graphics.py --check
@@ -64,6 +96,26 @@ python3 scripts/check_dashboard_browser.py
 It verifies dataset selection, filtering, full run details and recorded-trajectory
 replay. Torch-specific training tests use the MJLab environment rather than the
 ROS Python interpreter; disable ROS pytest plugin autoload for that isolated test.
+
+## Review PDF integrity
+
+A successful review build writes `build_provenance.json` linking the published
+PDF to its exact TeX/BibTeX and declared data/build inputs. PDF verification
+checks citations, source URLs, bookmarks, internal links and the saved report.
+If review inputs change, rebuild before updating the report:
+
+```bash
+python3 docs/literature_review/generate_review_appendix.py
+python3 scripts/install_quality_tool.py tectonic --directory .venv-quality/bin
+TECTONIC="$PWD/.venv-quality/bin/tectonic" bash docs/literature_review/build.sh
+.venv-quality/bin/python docs/literature_review/verify_pdf.py --write-report
+.venv-quality/bin/python docs/literature_review/verify_pdf.py --check-report
+```
+
+The review CI job uses a checksum-pinned Tectonic binary and compares rebuilt
+text, page/bookmark structure and link signatures with the published report.
+Creation timestamps can differ; scientific content and navigation must match.
+The existing `TECTONIC` override remains available for local builds.
 
 ## Publication verification — 5 October 2026
 

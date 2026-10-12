@@ -1,0 +1,2689 @@
+[
+  {
+    "run": "20261006T211432Z",
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "seed": 48,
+    "people": 0,
+    "contact_samples": 0,
+    "minimum_person_clearance_m": null,
+    "source_sha256": {
+      "scripts/run_transport_demo.py": "c594925cca8d35c66fef471fe6b162b021ed18372595ee18e7f86e35111be059",
+      "scripts/transport_worlds.py": "5a8f3d3e136556483a4ad37c6052d03b7b77b88d9dcd05c2adb5a1df450cfda0",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "a35e44bb13c7476b8b6caf5293fd459d8988f215960f3e07ee65128fe0b9045d",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "8d09b579bc8af13b418080cb0754b071906f10ff5665ac95c455c0e41adf008b",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "65dd9a5370cc4a10a4059764bb58f69ac7d5c2c19704f9b367c752a25a08f91e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "4405c3eb33ab6d2cadf466787cd45661888d81c75c650a4c24c21c750794bdf8",
+      "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+    },
+    "localization_recoveries": 0,
+    "object_timestamp_scope": [
+      "native_acquisition_v2"
+    ],
+    "history_available": true,
+    "camera": [
+      "192",
+      "108"
+    ],
+    "duration_s": 180.0,
+    "acquisition_interval_s": {
+      "count": 42,
+      "median": 0.5000240802764893,
+      "p95": 0.5009880661964417,
+      "maximum": 0.5012292861938477
+    },
+    "first_attempt_age_s": {
+      "count": 44,
+      "median": 0.13206028938293457,
+      "p95": 0.17712501287460328,
+      "maximum": 0.19310688972473145
+    },
+    "processed_age_s": {
+      "count": 43,
+      "median": 0.13607406616210938,
+      "p95": 0.18284049034118652,
+      "maximum": 0.20090675354003906
+    },
+    "confirmed_ids": [
+      "box_red"
+    ],
+    "success": false,
+    "data_valid": true,
+    "fallen": false,
+    "deliveries": [
+      {
+        "object_id": "box_red",
+        "destination_id": "target_red",
+        "color": "red",
+        "verified": false,
+        "lift_m": 5.451785574095425e-07,
+        "travel_m": 0.0
+      }
+    ],
+    "dropped_objects": [],
+    "error": "no observed-clear pickup staging route",
+    "world": "transport_search",
+    "layout_seed": 0,
+    "mission_kind": "explore_pick_find_place",
+    "search": {
+      "requests": [
+        {
+          "object_id": "box_red",
+          "requested_at_s": 6.050982169006602,
+          "initially_visible": false,
+          "first_goal_after_s": 1.1997746549895965,
+          "first_dispatch_after_s": 1.2027272269915557,
+          "found_after_s": 15.561626103997696
+        }
+      ],
+      "selected_viewpoints": 1,
+      "planning_ms": {
+        "count": 1,
+        "median": 8.972360999905504,
+        "p95": 8.972360999905504,
+        "maximum": 8.972360999905504
+      },
+      "selection_wait_ms": {
+        "count": 1,
+        "median": 8.323193003889173,
+        "p95": 8.323193003889173,
+        "maximum": 8.323193003889173
+      },
+      "room_decisions": 0,
+      "region_count": {
+        "count": 0
+      },
+      "deferred_region_selections": 0,
+      "partial_turns": 0,
+      "route_planning_ms": {
+        "count": 0
+      }
+    },
+    "search_summary": {
+      "inspected_viewpoints": {
+        "box_red": 1
+      },
+      "failed_viewpoints": 0,
+      "source": "observed_slam_map_and_registered_rgbd"
+    },
+    "pickup": [
+      {
+        "object_id": "box_red",
+        "discovered_at_s": 21.612608273004298,
+        "grasp_request_after_s": null,
+        "held_ack_after_s": null,
+        "verified_lift_after_s": null,
+        "prepare_after_s": null,
+        "discovery_to_placement_s": null,
+        "grasp_to_placement_s": null
+      }
+    ],
+    "objective": null,
+    "delivery_approaches": [],
+    "source_archive_sha256": "ad5f1021f22b2bcba7712167de68b55a93f17b32ca2ec10ffb170aca92d8f0f5",
+    "search_source_sha256": {
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_mission.py": "f11b5c65708b9971737456c5d12cf65bcd6c0b22f1b8fc6a960936ebfc5ba374",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_search.py": "24ea17c9e5f981c504dcb572537e7d1fbf7c523842128140c7b949f9f13942cc",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/search_visualization.py": "9decb01bad2f66e074bfd98815e2f38df05849a2d3e05f79d4504c41dc9d5d5b"
+    }
+  },
+  {
+    "run": "20261006T211623Z",
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "seed": 48,
+    "people": 0,
+    "contact_samples": 0,
+    "minimum_person_clearance_m": null,
+    "source_sha256": {
+      "scripts/run_transport_demo.py": "c594925cca8d35c66fef471fe6b162b021ed18372595ee18e7f86e35111be059",
+      "scripts/transport_worlds.py": "5a8f3d3e136556483a4ad37c6052d03b7b77b88d9dcd05c2adb5a1df450cfda0",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "085db5826e3bdccbfc2bea9f6f7058b4322705ee95af004cfc5a44c373c1765a",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "8d09b579bc8af13b418080cb0754b071906f10ff5665ac95c455c0e41adf008b",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "65dd9a5370cc4a10a4059764bb58f69ac7d5c2c19704f9b367c752a25a08f91e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "4405c3eb33ab6d2cadf466787cd45661888d81c75c650a4c24c21c750794bdf8",
+      "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+    },
+    "localization_recoveries": 0,
+    "object_timestamp_scope": [
+      "native_acquisition_v2"
+    ],
+    "history_available": true,
+    "camera": [
+      "192",
+      "108"
+    ],
+    "duration_s": 180.0,
+    "acquisition_interval_s": {
+      "count": 179,
+      "median": 0.5001122951507568,
+      "p95": 1.0005004167556764,
+      "maximum": 1.0068137645721436
+    },
+    "first_attempt_age_s": {
+      "count": 193,
+      "median": 0.818913459777832,
+      "p95": 1.0969295978546143,
+      "maximum": 1.1400232315063477
+    },
+    "processed_age_s": {
+      "count": 180,
+      "median": 0.8764864206314087,
+      "p95": 1.1375874876976013,
+      "maximum": 1.2219970226287842
+    },
+    "confirmed_ids": [
+      "box_red"
+    ],
+    "success": false,
+    "data_valid": true,
+    "fallen": false,
+    "deliveries": [
+      {
+        "object_id": "box_red",
+        "destination_id": "target_red",
+        "color": "red",
+        "verified": false,
+        "lift_m": 6.792727091919915e-08,
+        "travel_m": 0.0
+      }
+    ],
+    "dropped_objects": [],
+    "error": "precision docking failed",
+    "world": "transport_search",
+    "layout_seed": 0,
+    "mission_kind": "explore_pick_find_place",
+    "search": {
+      "requests": [
+        {
+          "object_id": "box_red",
+          "requested_at_s": 6.697916356002679,
+          "initially_visible": false,
+          "first_goal_after_s": 1.7531142450025072,
+          "first_dispatch_after_s": 1.756875710998429,
+          "found_after_s": 15.312516862992197
+        }
+      ],
+      "selected_viewpoints": 1,
+      "planning_ms": {
+        "count": 1,
+        "median": 87.76272700924892,
+        "p95": 87.76272700924892,
+        "maximum": 87.76272700924892
+      },
+      "selection_wait_ms": {
+        "count": 1,
+        "median": 33.44676199776586,
+        "p95": 33.44676199776586,
+        "maximum": 33.44676199776586
+      },
+      "room_decisions": 0,
+      "region_count": {
+        "count": 0
+      },
+      "deferred_region_selections": 0,
+      "partial_turns": 0,
+      "route_planning_ms": {
+        "count": 4,
+        "median": 86.06803399743512,
+        "p95": 129.1243428029702,
+        "maximum": 133.49290800397284
+      }
+    },
+    "search_summary": {
+      "inspected_viewpoints": {
+        "box_red": 1
+      },
+      "failed_viewpoints": 0,
+      "source": "observed_slam_map_and_registered_rgbd"
+    },
+    "pickup": [
+      {
+        "object_id": "box_red",
+        "discovered_at_s": 22.010433218994876,
+        "grasp_request_after_s": null,
+        "held_ack_after_s": null,
+        "verified_lift_after_s": null,
+        "prepare_after_s": null,
+        "discovery_to_placement_s": null,
+        "grasp_to_placement_s": null
+      }
+    ],
+    "objective": null,
+    "delivery_approaches": [],
+    "source_archive_sha256": "a85d5f437c062b84569a07fccad4e23f056d1a941e88df5fc240928c50ad6885",
+    "search_source_sha256": {
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_mission.py": "8cfac047135358d0947d7c3810ad2f6e4ad04d23f4820e4bb3ec2bb4ca72dc2d",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_search.py": "24ea17c9e5f981c504dcb572537e7d1fbf7c523842128140c7b949f9f13942cc",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/search_visualization.py": "9decb01bad2f66e074bfd98815e2f38df05849a2d3e05f79d4504c41dc9d5d5b"
+    }
+  },
+  {
+    "run": "20261006T212001Z",
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "seed": 48,
+    "people": 0,
+    "contact_samples": 0,
+    "minimum_person_clearance_m": null,
+    "source_sha256": {
+      "scripts/run_transport_demo.py": "c594925cca8d35c66fef471fe6b162b021ed18372595ee18e7f86e35111be059",
+      "scripts/transport_worlds.py": "5a8f3d3e136556483a4ad37c6052d03b7b77b88d9dcd05c2adb5a1df450cfda0",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "02a5de0aaa9ba951d6de69690917fd51473c8b8275752cda6bcf3b0a6e78e923",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "8d09b579bc8af13b418080cb0754b071906f10ff5665ac95c455c0e41adf008b",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "65dd9a5370cc4a10a4059764bb58f69ac7d5c2c19704f9b367c752a25a08f91e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "4405c3eb33ab6d2cadf466787cd45661888d81c75c650a4c24c21c750794bdf8",
+      "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+    },
+    "localization_recoveries": 1,
+    "object_timestamp_scope": [
+      "native_acquisition_v2"
+    ],
+    "history_available": true,
+    "camera": [
+      "192",
+      "108"
+    ],
+    "duration_s": 240.0,
+    "acquisition_interval_s": {
+      "count": 178,
+      "median": 0.4999934434890747,
+      "p95": 0.5010836243629455,
+      "maximum": 0.5015044212341309
+    },
+    "first_attempt_age_s": {
+      "count": 179,
+      "median": 0.13826727867126465,
+      "p95": 0.18679234981536866,
+      "maximum": 0.24331974983215332
+    },
+    "processed_age_s": {
+      "count": 179,
+      "median": 0.14737987518310547,
+      "p95": 0.19338557720184327,
+      "maximum": 0.25833725929260254
+    },
+    "confirmed_ids": [
+      "box_red"
+    ],
+    "success": false,
+    "data_valid": true,
+    "fallen": false,
+    "deliveries": [
+      {
+        "object_id": "box_red",
+        "destination_id": "target_red",
+        "color": "red",
+        "verified": false,
+        "lift_m": 4.377088553608743e-06,
+        "travel_m": 8.43769498715119e-15
+      }
+    ],
+    "dropped_objects": [],
+    "error": "pickup route corner did not clear",
+    "world": "transport_search",
+    "layout_seed": 0,
+    "mission_kind": "explore_pick_find_place",
+    "search": {
+      "requests": [
+        {
+          "object_id": "box_red",
+          "requested_at_s": 6.240201482010889,
+          "initially_visible": false,
+          "first_goal_after_s": 0.9570163329917705,
+          "first_dispatch_after_s": 0.9589912489900598,
+          "found_after_s": 14.563237887996365
+        }
+      ],
+      "selected_viewpoints": 1,
+      "planning_ms": {
+        "count": 1,
+        "median": 7.561794001958333,
+        "p95": 7.561794001958333,
+        "maximum": 7.561794001958333
+      },
+      "selection_wait_ms": {
+        "count": 1,
+        "median": 5.499879000126384,
+        "p95": 5.499879000126384,
+        "maximum": 5.499879000126384
+      },
+      "room_decisions": 0,
+      "region_count": {
+        "count": 0
+      },
+      "deferred_region_selections": 0,
+      "partial_turns": 0,
+      "route_planning_ms": {
+        "count": 5,
+        "median": 54.48328101192601,
+        "p95": 57.17547220119741,
+        "maximum": 57.704822000232525
+      }
+    },
+    "search_summary": {
+      "inspected_viewpoints": {
+        "box_red": 1
+      },
+      "failed_viewpoints": 0,
+      "source": "observed_slam_map_and_registered_rgbd"
+    },
+    "pickup": [
+      {
+        "object_id": "box_red",
+        "discovered_at_s": 20.803439370007254,
+        "grasp_request_after_s": null,
+        "held_ack_after_s": null,
+        "verified_lift_after_s": null,
+        "prepare_after_s": null,
+        "discovery_to_placement_s": null,
+        "grasp_to_placement_s": null
+      }
+    ],
+    "objective": null,
+    "delivery_approaches": [],
+    "source_archive_sha256": "b2ee14cc2e477fea56dcd74c62ef2abaf54d316066dbb3d279f0ddae3f14b8ea",
+    "search_source_sha256": {
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_mission.py": "14cfc9b99115a0e3f659c51d576b829e573ea3061ccca63b7de801f777ff2d50",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_search.py": "24ea17c9e5f981c504dcb572537e7d1fbf7c523842128140c7b949f9f13942cc",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/search_visualization.py": "9decb01bad2f66e074bfd98815e2f38df05849a2d3e05f79d4504c41dc9d5d5b"
+    }
+  },
+  {
+    "run": "20261006T212217Z",
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "seed": 48,
+    "people": 0,
+    "contact_samples": 0,
+    "minimum_person_clearance_m": null,
+    "source_sha256": {
+      "scripts/run_transport_demo.py": "c594925cca8d35c66fef471fe6b162b021ed18372595ee18e7f86e35111be059",
+      "scripts/transport_worlds.py": "5a8f3d3e136556483a4ad37c6052d03b7b77b88d9dcd05c2adb5a1df450cfda0",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "02a5de0aaa9ba951d6de69690917fd51473c8b8275752cda6bcf3b0a6e78e923",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "8d09b579bc8af13b418080cb0754b071906f10ff5665ac95c455c0e41adf008b",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "65dd9a5370cc4a10a4059764bb58f69ac7d5c2c19704f9b367c752a25a08f91e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "4405c3eb33ab6d2cadf466787cd45661888d81c75c650a4c24c21c750794bdf8",
+      "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+    },
+    "localization_recoveries": 0,
+    "object_timestamp_scope": [
+      "native_acquisition_v2"
+    ],
+    "history_available": true,
+    "camera": [
+      "192",
+      "108"
+    ],
+    "duration_s": 180.0,
+    "acquisition_interval_s": {
+      "count": 40,
+      "median": 0.5000555515289307,
+      "p95": 0.530486941337584,
+      "maximum": 1.000375509262085
+    },
+    "first_attempt_age_s": {
+      "count": 42,
+      "median": 0.717892050743103,
+      "p95": 1.0313991546630858,
+      "maximum": 1.1087605953216553
+    },
+    "processed_age_s": {
+      "count": 41,
+      "median": 0.7698197364807129,
+      "p95": 1.0676090717315674,
+      "maximum": 1.1274127960205078
+    },
+    "confirmed_ids": [
+      "box_red"
+    ],
+    "success": false,
+    "data_valid": true,
+    "fallen": false,
+    "deliveries": [
+      {
+        "object_id": "box_red",
+        "destination_id": "target_red",
+        "color": "red",
+        "verified": false,
+        "lift_m": 0.0,
+        "travel_m": 0.0
+      }
+    ],
+    "dropped_objects": [],
+    "error": "no observed-clear pickup staging route",
+    "world": "transport_search",
+    "layout_seed": 0,
+    "mission_kind": "explore_pick_find_place",
+    "search": {
+      "requests": [
+        {
+          "object_id": "box_red",
+          "requested_at_s": 5.828170887005399,
+          "initially_visible": false,
+          "first_goal_after_s": 1.610591270000441,
+          "first_dispatch_after_s": 1.6145786529959878,
+          "found_after_s": 16.189759511995362
+        }
+      ],
+      "selected_viewpoints": 1,
+      "planning_ms": {
+        "count": 1,
+        "median": 32.81284400145523,
+        "p95": 32.81284400145523,
+        "maximum": 32.81284400145523
+      },
+      "selection_wait_ms": {
+        "count": 1,
+        "median": 15.767085991683416,
+        "p95": 15.767085991683416,
+        "maximum": 15.767085991683416
+      },
+      "room_decisions": 0,
+      "region_count": {
+        "count": 0
+      },
+      "deferred_region_selections": 0,
+      "partial_turns": 0,
+      "route_planning_ms": {
+        "count": 0
+      }
+    },
+    "search_summary": {
+      "inspected_viewpoints": {
+        "box_red": 1
+      },
+      "failed_viewpoints": 0,
+      "source": "observed_slam_map_and_registered_rgbd"
+    },
+    "pickup": [
+      {
+        "object_id": "box_red",
+        "discovered_at_s": 22.01793039900076,
+        "grasp_request_after_s": null,
+        "held_ack_after_s": null,
+        "verified_lift_after_s": null,
+        "prepare_after_s": null,
+        "discovery_to_placement_s": null,
+        "grasp_to_placement_s": null
+      }
+    ],
+    "objective": null,
+    "delivery_approaches": [],
+    "source_archive_sha256": "28aeed867ceb52652aef4e7b321fff466d7b69862e4c1aaab5eac179bbf96347",
+    "search_source_sha256": {
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_mission.py": "a877abe023e2fad35b13e4a01ac4b41bf7a37b41959e0dd59d4ef3f71f902365",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_search.py": "24ea17c9e5f981c504dcb572537e7d1fbf7c523842128140c7b949f9f13942cc",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/search_visualization.py": "9decb01bad2f66e074bfd98815e2f38df05849a2d3e05f79d4504c41dc9d5d5b"
+    }
+  },
+  {
+    "run": "20261006T212343Z",
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "seed": 48,
+    "people": 0,
+    "contact_samples": 0,
+    "minimum_person_clearance_m": null,
+    "source_sha256": {
+      "scripts/run_transport_demo.py": "c594925cca8d35c66fef471fe6b162b021ed18372595ee18e7f86e35111be059",
+      "scripts/transport_worlds.py": "5a8f3d3e136556483a4ad37c6052d03b7b77b88d9dcd05c2adb5a1df450cfda0",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "02a5de0aaa9ba951d6de69690917fd51473c8b8275752cda6bcf3b0a6e78e923",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "8d09b579bc8af13b418080cb0754b071906f10ff5665ac95c455c0e41adf008b",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "65dd9a5370cc4a10a4059764bb58f69ac7d5c2c19704f9b367c752a25a08f91e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "4405c3eb33ab6d2cadf466787cd45661888d81c75c650a4c24c21c750794bdf8",
+      "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+    },
+    "localization_recoveries": 0,
+    "object_timestamp_scope": [
+      "native_acquisition_v2"
+    ],
+    "history_available": true,
+    "camera": [
+      "192",
+      "108"
+    ],
+    "duration_s": 180.0,
+    "acquisition_interval_s": {
+      "count": 122,
+      "median": 0.5003244876861572,
+      "p95": 1.000308108329773,
+      "maximum": 1.007941484451294
+    },
+    "first_attempt_age_s": {
+      "count": 123,
+      "median": 0.8399279117584229,
+      "p95": 1.1032570123672485,
+      "maximum": 1.146214485168457
+    },
+    "processed_age_s": {
+      "count": 123,
+      "median": 0.8859374523162842,
+      "p95": 1.161688232421875,
+      "maximum": 1.2008132934570312
+    },
+    "confirmed_ids": [
+      "box_red"
+    ],
+    "success": false,
+    "data_valid": true,
+    "fallen": false,
+    "deliveries": [
+      {
+        "object_id": "box_red",
+        "destination_id": "target_red",
+        "color": "red",
+        "verified": false,
+        "lift_m": 0.0,
+        "travel_m": 4.523088912450038e-12
+      }
+    ],
+    "dropped_objects": [],
+    "error": "no observed-clear pickup staging route",
+    "world": "transport_search",
+    "layout_seed": 0,
+    "mission_kind": "explore_pick_find_place",
+    "search": {
+      "requests": [
+        {
+          "object_id": "box_red",
+          "requested_at_s": 5.769603628999903,
+          "initially_visible": false,
+          "first_goal_after_s": 1.5123773969971808,
+          "first_dispatch_after_s": 1.536058113008039,
+          "found_after_s": 21.666816883007414
+        }
+      ],
+      "selected_viewpoints": 1,
+      "planning_ms": {
+        "count": 1,
+        "median": 70.54759499442298,
+        "p95": 70.54759499442298,
+        "maximum": 70.54759499442298
+      },
+      "selection_wait_ms": {
+        "count": 1,
+        "median": 29.095235004206188,
+        "p95": 29.095235004206188,
+        "maximum": 29.095235004206188
+      },
+      "room_decisions": 0,
+      "region_count": {
+        "count": 0
+      },
+      "deferred_region_selections": 0,
+      "partial_turns": 0,
+      "route_planning_ms": {
+        "count": 4,
+        "median": 115.46239300514571,
+        "p95": 134.58778165004333,
+        "maximum": 134.7426069987705
+      }
+    },
+    "search_summary": {
+      "inspected_viewpoints": {
+        "box_red": 1
+      },
+      "failed_viewpoints": 0,
+      "source": "observed_slam_map_and_registered_rgbd"
+    },
+    "pickup": [
+      {
+        "object_id": "box_red",
+        "discovered_at_s": 27.436420512007317,
+        "grasp_request_after_s": null,
+        "held_ack_after_s": null,
+        "verified_lift_after_s": null,
+        "prepare_after_s": null,
+        "discovery_to_placement_s": null,
+        "grasp_to_placement_s": null
+      }
+    ],
+    "objective": null,
+    "delivery_approaches": [],
+    "source_archive_sha256": "360e09c2cbfebc1ce39554e7cf8971b184b5386da369c510bda5388c4d92fd5f",
+    "search_source_sha256": {
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_mission.py": "c3409f430578b330a409af9306212383ea345719521ff832dd42903048fc9056",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_search.py": "32137e1e41a907bebaebb0509a4c36fff361e9597d37fda87300de9a5e56b8e7",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/search_visualization.py": "9decb01bad2f66e074bfd98815e2f38df05849a2d3e05f79d4504c41dc9d5d5b"
+    }
+  },
+  {
+    "run": "20261006T212613Z",
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "seed": 48,
+    "people": 0,
+    "contact_samples": 0,
+    "minimum_person_clearance_m": null,
+    "source_sha256": {
+      "scripts/run_transport_demo.py": "c594925cca8d35c66fef471fe6b162b021ed18372595ee18e7f86e35111be059",
+      "scripts/transport_worlds.py": "5a8f3d3e136556483a4ad37c6052d03b7b77b88d9dcd05c2adb5a1df450cfda0",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "02a5de0aaa9ba951d6de69690917fd51473c8b8275752cda6bcf3b0a6e78e923",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "8d09b579bc8af13b418080cb0754b071906f10ff5665ac95c455c0e41adf008b",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "65dd9a5370cc4a10a4059764bb58f69ac7d5c2c19704f9b367c752a25a08f91e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "4405c3eb33ab6d2cadf466787cd45661888d81c75c650a4c24c21c750794bdf8",
+      "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+    },
+    "localization_recoveries": 0,
+    "object_timestamp_scope": [],
+    "history_available": true,
+    "camera": [
+      "192",
+      "108"
+    ],
+    "duration_s": 240.0,
+    "acquisition_interval_s": {
+      "count": 0
+    },
+    "first_attempt_age_s": {
+      "count": 0
+    },
+    "processed_age_s": {
+      "count": 0
+    },
+    "confirmed_ids": [],
+    "success": false,
+    "data_valid": false,
+    "fallen": false,
+    "deliveries": [
+      {
+        "object_id": "box_red",
+        "destination_id": "target_red",
+        "color": "red",
+        "verified": false,
+        "lift_m": 0.0,
+        "travel_m": 0.0
+      }
+    ],
+    "dropped_objects": [],
+    "error": "robot state unavailable",
+    "world": "transport_atrium",
+    "layout_seed": null,
+    "mission_kind": "explore_pick_find_place",
+    "search": {
+      "requests": [],
+      "selected_viewpoints": 0,
+      "planning_ms": {
+        "count": 0
+      },
+      "selection_wait_ms": {
+        "count": 0
+      },
+      "room_decisions": 0,
+      "region_count": {
+        "count": 0
+      },
+      "deferred_region_selections": 0,
+      "partial_turns": 0,
+      "route_planning_ms": {
+        "count": 0
+      }
+    },
+    "search_summary": {
+      "inspected_viewpoints": {},
+      "failed_viewpoints": 0,
+      "source": "observed_slam_map_and_registered_rgbd"
+    },
+    "pickup": [],
+    "objective": null,
+    "delivery_approaches": [],
+    "source_archive_sha256": "8192ccfd6d7f7041984e48786e5ca3a1451835bf3d54480b79ee75a3611ad6f4",
+    "search_source_sha256": {
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_mission.py": "7791f89c1b59ce29f987532bda3a6346198616a02e01f559394dbfe90cba7e81",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_search.py": "32137e1e41a907bebaebb0509a4c36fff361e9597d37fda87300de9a5e56b8e7",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/search_visualization.py": "9decb01bad2f66e074bfd98815e2f38df05849a2d3e05f79d4504c41dc9d5d5b"
+    }
+  },
+  {
+    "run": "20261006T212949Z",
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "seed": 48,
+    "people": 0,
+    "contact_samples": 0,
+    "minimum_person_clearance_m": null,
+    "source_sha256": {
+      "scripts/run_transport_demo.py": "c594925cca8d35c66fef471fe6b162b021ed18372595ee18e7f86e35111be059",
+      "scripts/transport_worlds.py": "5a8f3d3e136556483a4ad37c6052d03b7b77b88d9dcd05c2adb5a1df450cfda0",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "02a5de0aaa9ba951d6de69690917fd51473c8b8275752cda6bcf3b0a6e78e923",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "8d09b579bc8af13b418080cb0754b071906f10ff5665ac95c455c0e41adf008b",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "65dd9a5370cc4a10a4059764bb58f69ac7d5c2c19704f9b367c752a25a08f91e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "4405c3eb33ab6d2cadf466787cd45661888d81c75c650a4c24c21c750794bdf8",
+      "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+    },
+    "localization_recoveries": 0,
+    "object_timestamp_scope": [
+      "native_acquisition_v2"
+    ],
+    "history_available": true,
+    "camera": [
+      "192",
+      "108"
+    ],
+    "duration_s": 240.0,
+    "acquisition_interval_s": {
+      "count": 179,
+      "median": 0.5004391670227051,
+      "p95": 1.0009607076644897,
+      "maximum": 1.0070195198059082
+    },
+    "first_attempt_age_s": {
+      "count": 300,
+      "median": 0.8888665437698364,
+      "p95": 1.125282084941864,
+      "maximum": 1.2133233547210693
+    },
+    "processed_age_s": {
+      "count": 180,
+      "median": 0.932483434677124,
+      "p95": 1.2166094064712525,
+      "maximum": 1.2899794578552246
+    },
+    "confirmed_ids": [],
+    "success": false,
+    "data_valid": true,
+    "fallen": false,
+    "deliveries": [
+      {
+        "object_id": "box_red",
+        "destination_id": "target_red",
+        "color": "red",
+        "verified": false,
+        "lift_m": 4.377088553608743e-06,
+        "travel_m": 0.0
+      }
+    ],
+    "dropped_objects": [],
+    "error": "mission deadline exceeded",
+    "world": "transport_atrium",
+    "layout_seed": null,
+    "mission_kind": "explore_pick_find_place",
+    "search": {
+      "requests": [
+        {
+          "object_id": "box_red",
+          "requested_at_s": 6.167741372002638,
+          "initially_visible": false,
+          "first_goal_after_s": 1.0864583260117797,
+          "first_dispatch_after_s": 1.0936059210071107,
+          "found_after_s": null
+        }
+      ],
+      "selected_viewpoints": 10,
+      "planning_ms": {
+        "count": 10,
+        "median": 223.2551650085952,
+        "p95": 258.21089840828785,
+        "maximum": 274.6343270118814
+      },
+      "selection_wait_ms": {
+        "count": 10,
+        "median": 75.02814350300469,
+        "p95": 106.55563849941245,
+        "maximum": 107.89625599863939
+      },
+      "room_decisions": 0,
+      "region_count": {
+        "count": 0
+      },
+      "deferred_region_selections": 0,
+      "partial_turns": 0,
+      "route_planning_ms": {
+        "count": 0
+      }
+    },
+    "search_summary": {
+      "inspected_viewpoints": {
+        "box_red": 10
+      },
+      "failed_viewpoints": 0,
+      "source": "observed_slam_map_and_registered_rgbd"
+    },
+    "pickup": [],
+    "objective": null,
+    "delivery_approaches": [],
+    "source_archive_sha256": "f818c61efa65e784a8ec6ce25fe40352b86878e45353907f93c371eade417acd",
+    "search_source_sha256": {
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_mission.py": "7791f89c1b59ce29f987532bda3a6346198616a02e01f559394dbfe90cba7e81",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_search.py": "32137e1e41a907bebaebb0509a4c36fff361e9597d37fda87300de9a5e56b8e7",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/search_visualization.py": "9decb01bad2f66e074bfd98815e2f38df05849a2d3e05f79d4504c41dc9d5d5b"
+    }
+  },
+  {
+    "run": "20261006T213610Z",
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "seed": 48,
+    "people": 0,
+    "contact_samples": 0,
+    "minimum_person_clearance_m": null,
+    "source_sha256": {
+      "scripts/run_transport_demo.py": "c594925cca8d35c66fef471fe6b162b021ed18372595ee18e7f86e35111be059",
+      "scripts/transport_worlds.py": "5a8f3d3e136556483a4ad37c6052d03b7b77b88d9dcd05c2adb5a1df450cfda0",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "02a5de0aaa9ba951d6de69690917fd51473c8b8275752cda6bcf3b0a6e78e923",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "8d09b579bc8af13b418080cb0754b071906f10ff5665ac95c455c0e41adf008b",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "65dd9a5370cc4a10a4059764bb58f69ac7d5c2c19704f9b367c752a25a08f91e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "4405c3eb33ab6d2cadf466787cd45661888d81c75c650a4c24c21c750794bdf8",
+      "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+    },
+    "localization_recoveries": 0,
+    "object_timestamp_scope": [
+      "native_acquisition_v2"
+    ],
+    "history_available": true,
+    "camera": [
+      "192",
+      "108"
+    ],
+    "duration_s": 300.0,
+    "acquisition_interval_s": {
+      "count": 179,
+      "median": 0.5004489421844482,
+      "p95": 1.0006070613861084,
+      "maximum": 1.0270273685455322
+    },
+    "first_attempt_age_s": {
+      "count": 300,
+      "median": 0.9072703123092651,
+      "p95": 1.1356185793876648,
+      "maximum": 1.321683406829834
+    },
+    "processed_age_s": {
+      "count": 180,
+      "median": 0.9410388469696045,
+      "p95": 1.1958547949790954,
+      "maximum": 1.3868403434753418
+    },
+    "confirmed_ids": [],
+    "success": false,
+    "data_valid": true,
+    "fallen": false,
+    "deliveries": [
+      {
+        "object_id": "box_red",
+        "destination_id": "target_red",
+        "color": "red",
+        "verified": false,
+        "lift_m": 1.6945711278637532e-08,
+        "travel_m": 0.0
+      }
+    ],
+    "dropped_objects": [],
+    "error": "mission deadline exceeded",
+    "world": "transport_atrium",
+    "layout_seed": null,
+    "mission_kind": "explore_pick_find_place",
+    "search": {
+      "requests": [
+        {
+          "object_id": "box_red",
+          "requested_at_s": 6.772639721006271,
+          "initially_visible": false,
+          "first_goal_after_s": 2.3118831570027396,
+          "first_dispatch_after_s": 2.347099441991304,
+          "found_after_s": null
+        }
+      ],
+      "selected_viewpoints": 14,
+      "planning_ms": {
+        "count": 14,
+        "median": 185.5357219974394,
+        "p95": 282.67127699800767,
+        "maximum": 291.0666899988428
+      },
+      "selection_wait_ms": {
+        "count": 14,
+        "median": 73.21999249688815,
+        "p95": 113.40778949015656,
+        "maximum": 127.49958799395245
+      },
+      "room_decisions": 0,
+      "region_count": {
+        "count": 0
+      },
+      "deferred_region_selections": 0,
+      "partial_turns": 0,
+      "route_planning_ms": {
+        "count": 0
+      }
+    },
+    "search_summary": {
+      "inspected_viewpoints": {
+        "box_red": 23
+      },
+      "failed_viewpoints": 1,
+      "source": "observed_slam_map_and_registered_rgbd"
+    },
+    "pickup": [],
+    "objective": null,
+    "delivery_approaches": [],
+    "source_archive_sha256": "6389d8aab566bbe260f273fbd79a973f83277f69ee706633bac572456c5eb52c",
+    "search_source_sha256": {
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_mission.py": "fb7ba2a26eacb39b0c5383fd8439b7b8d8b992d0c67081b03a13a0ce00ba5ee0",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_search.py": "bc1aca4b8628d16071577df00479f3f52f5418df73ae68f5bd5d2b0fdc9aa2c9",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/search_visualization.py": "9decb01bad2f66e074bfd98815e2f38df05849a2d3e05f79d4504c41dc9d5d5b"
+    }
+  },
+  {
+    "run": "20261006T214319Z",
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "seed": 48,
+    "people": 0,
+    "contact_samples": 0,
+    "minimum_person_clearance_m": null,
+    "source_sha256": {
+      "scripts/run_transport_demo.py": "c594925cca8d35c66fef471fe6b162b021ed18372595ee18e7f86e35111be059",
+      "scripts/transport_worlds.py": "5a8f3d3e136556483a4ad37c6052d03b7b77b88d9dcd05c2adb5a1df450cfda0",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "02a5de0aaa9ba951d6de69690917fd51473c8b8275752cda6bcf3b0a6e78e923",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "8d09b579bc8af13b418080cb0754b071906f10ff5665ac95c455c0e41adf008b",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "65dd9a5370cc4a10a4059764bb58f69ac7d5c2c19704f9b367c752a25a08f91e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "4405c3eb33ab6d2cadf466787cd45661888d81c75c650a4c24c21c750794bdf8",
+      "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+    },
+    "localization_recoveries": 0,
+    "object_timestamp_scope": [
+      "native_acquisition_v2"
+    ],
+    "history_available": true,
+    "camera": [
+      "192",
+      "108"
+    ],
+    "duration_s": 150.0,
+    "acquisition_interval_s": {
+      "count": 179,
+      "median": 0.5003311634063721,
+      "p95": 0.999504566192627,
+      "maximum": 1.0023059844970703
+    },
+    "first_attempt_age_s": {
+      "count": 280,
+      "median": 0.28010427951812744,
+      "p95": 1.0784693837165833,
+      "maximum": 1.167245626449585
+    },
+    "processed_age_s": {
+      "count": 180,
+      "median": 0.7653872966766357,
+      "p95": 1.2066438555717467,
+      "maximum": 1.2945005893707275
+    },
+    "confirmed_ids": [
+      "box_blue",
+      "box_red",
+      "target_blue"
+    ],
+    "success": false,
+    "data_valid": true,
+    "fallen": false,
+    "deliveries": [
+      {
+        "object_id": "box_red",
+        "destination_id": "target_red",
+        "color": "red",
+        "verified": false,
+        "lift_m": 0.21632147160698878,
+        "travel_m": 5.071001266026175
+      },
+      {
+        "object_id": "box_blue",
+        "destination_id": "target_blue",
+        "color": "blue",
+        "verified": false,
+        "lift_m": 1.0915773045461208e-06,
+        "travel_m": 0.0
+      }
+    ],
+    "dropped_objects": [],
+    "error": "mission deadline exceeded",
+    "world": "transport_dual",
+    "layout_seed": null,
+    "mission_kind": "explore_pick_find_place",
+    "search": {
+      "requests": [
+        {
+          "object_id": "box_red",
+          "requested_at_s": 6.032082452002214,
+          "initially_visible": true,
+          "first_goal_after_s": null,
+          "first_dispatch_after_s": null,
+          "found_after_s": 0.006118701989180408
+        },
+        {
+          "object_id": "target_red",
+          "requested_at_s": 44.745668618998025,
+          "initially_visible": false,
+          "first_goal_after_s": 1.0843027490045642,
+          "first_dispatch_after_s": 1.1023517870053183,
+          "found_after_s": null
+        }
+      ],
+      "selected_viewpoints": 3,
+      "planning_ms": {
+        "count": 3,
+        "median": 38.95968999131583,
+        "p95": 140.2894516082597,
+        "maximum": 151.54831401014235
+      },
+      "selection_wait_ms": {
+        "count": 3,
+        "median": 17.78896000178065,
+        "p95": 69.19656219979515,
+        "maximum": 74.90851799957454
+      },
+      "room_decisions": 0,
+      "region_count": {
+        "count": 0
+      },
+      "deferred_region_selections": 0,
+      "partial_turns": 0,
+      "route_planning_ms": {
+        "count": 1,
+        "median": 53.97266200452577,
+        "p95": 53.97266200452577,
+        "maximum": 53.97266200452577
+      }
+    },
+    "search_summary": {
+      "inspected_viewpoints": {
+        "box_red": 0,
+        "target_red": 5
+      },
+      "failed_viewpoints": 0,
+      "source": "observed_slam_map_and_registered_rgbd"
+    },
+    "pickup": [
+      {
+        "object_id": "box_red",
+        "discovered_at_s": 6.038201153991395,
+        "grasp_request_after_s": 18.3010591140046,
+        "held_ack_after_s": 18.35400316301093,
+        "verified_lift_after_s": 22.19012529301108,
+        "prepare_after_s": 2.388278063008329,
+        "discovery_to_placement_s": null,
+        "grasp_to_placement_s": null
+      }
+    ],
+    "objective": null,
+    "delivery_approaches": [],
+    "source_archive_sha256": "d5f8449052ebf0f0b0524a8c4dcb3aa45bc3868bbb19b2cc07d77b95ea0313fe",
+    "search_source_sha256": {
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_mission.py": "424ceefc6c516f620f210ead3e1d90063b1c72c0e672377bc7ac71bf9977af65",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_search.py": "7bce69448c13861da4d998d95ddde060942c8e5716260faca79ee9f8c635caf5",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/search_visualization.py": "9decb01bad2f66e074bfd98815e2f38df05849a2d3e05f79d4504c41dc9d5d5b"
+    }
+  },
+  {
+    "run": "20261006T214617Z",
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "seed": 48,
+    "people": 0,
+    "contact_samples": 0,
+    "minimum_person_clearance_m": null,
+    "source_sha256": {
+      "scripts/run_transport_demo.py": "c594925cca8d35c66fef471fe6b162b021ed18372595ee18e7f86e35111be059",
+      "scripts/transport_worlds.py": "5a8f3d3e136556483a4ad37c6052d03b7b77b88d9dcd05c2adb5a1df450cfda0",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "02a5de0aaa9ba951d6de69690917fd51473c8b8275752cda6bcf3b0a6e78e923",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "8d09b579bc8af13b418080cb0754b071906f10ff5665ac95c455c0e41adf008b",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "65dd9a5370cc4a10a4059764bb58f69ac7d5c2c19704f9b367c752a25a08f91e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "4405c3eb33ab6d2cadf466787cd45661888d81c75c650a4c24c21c750794bdf8",
+      "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+    },
+    "localization_recoveries": 0,
+    "object_timestamp_scope": [
+      "native_acquisition_v2"
+    ],
+    "history_available": true,
+    "camera": [
+      "192",
+      "108"
+    ],
+    "duration_s": 180.0,
+    "acquisition_interval_s": {
+      "count": 142,
+      "median": 0.5001903772354126,
+      "p95": 0.9994534015655517,
+      "maximum": 1.0037970542907715
+    },
+    "first_attempt_age_s": {
+      "count": 145,
+      "median": 0.8393900394439697,
+      "p95": 1.0869738101959228,
+      "maximum": 1.1205544471740723
+    },
+    "processed_age_s": {
+      "count": 143,
+      "median": 0.8976418972015381,
+      "p95": 1.1361956596374512,
+      "maximum": 1.207900047302246
+    },
+    "confirmed_ids": [
+      "box_red"
+    ],
+    "success": false,
+    "data_valid": true,
+    "fallen": false,
+    "deliveries": [
+      {
+        "object_id": "box_red",
+        "destination_id": "target_red",
+        "color": "red",
+        "verified": false,
+        "lift_m": 2.511324481702104e-13,
+        "travel_m": 0.0
+      }
+    ],
+    "dropped_objects": [],
+    "error": "no observed-clear pickup staging route",
+    "world": "transport_search",
+    "layout_seed": 0,
+    "mission_kind": "explore_pick_find_place",
+    "search": {
+      "requests": [
+        {
+          "object_id": "box_red",
+          "requested_at_s": 5.909508566008299,
+          "initially_visible": false,
+          "first_goal_after_s": 1.9053945159976138,
+          "first_dispatch_after_s": 1.912834713992197,
+          "found_after_s": 48.12868623298709
+        }
+      ],
+      "selected_viewpoints": 2,
+      "planning_ms": {
+        "count": 2,
+        "median": 108.29755349550396,
+        "p95": 121.11297614319483,
+        "maximum": 122.53691199293826
+      },
+      "selection_wait_ms": {
+        "count": 2,
+        "median": 20.651360995543655,
+        "p95": 26.39972669639974,
+        "maximum": 27.03843399649486
+      },
+      "room_decisions": 0,
+      "region_count": {
+        "count": 0
+      },
+      "deferred_region_selections": 0,
+      "partial_turns": 0,
+      "route_planning_ms": {
+        "count": 3,
+        "median": 76.00426000135485,
+        "p95": 92.4479476059787,
+        "maximum": 94.27502400649246
+      }
+    },
+    "search_summary": {
+      "inspected_viewpoints": {
+        "box_red": 2
+      },
+      "failed_viewpoints": 0,
+      "source": "observed_slam_map_and_registered_rgbd"
+    },
+    "pickup": [
+      {
+        "object_id": "box_red",
+        "discovered_at_s": 54.03819479899539,
+        "grasp_request_after_s": null,
+        "held_ack_after_s": null,
+        "verified_lift_after_s": null,
+        "prepare_after_s": null,
+        "discovery_to_placement_s": null,
+        "grasp_to_placement_s": null
+      }
+    ],
+    "objective": null,
+    "delivery_approaches": [],
+    "source_archive_sha256": "240e933177912f34c3581b0f9ab377a7691fb33d4244c226209807ce7c499960",
+    "search_source_sha256": {
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_mission.py": "424ceefc6c516f620f210ead3e1d90063b1c72c0e672377bc7ac71bf9977af65",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_search.py": "7bce69448c13861da4d998d95ddde060942c8e5716260faca79ee9f8c635caf5",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/search_visualization.py": "9decb01bad2f66e074bfd98815e2f38df05849a2d3e05f79d4504c41dc9d5d5b"
+    }
+  },
+  {
+    "run": "20261006T214903Z",
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "seed": 48,
+    "people": 0,
+    "contact_samples": 0,
+    "minimum_person_clearance_m": null,
+    "source_sha256": {
+      "scripts/run_transport_demo.py": "c594925cca8d35c66fef471fe6b162b021ed18372595ee18e7f86e35111be059",
+      "scripts/transport_worlds.py": "5a8f3d3e136556483a4ad37c6052d03b7b77b88d9dcd05c2adb5a1df450cfda0",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "02a5de0aaa9ba951d6de69690917fd51473c8b8275752cda6bcf3b0a6e78e923",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "8d09b579bc8af13b418080cb0754b071906f10ff5665ac95c455c0e41adf008b",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "65dd9a5370cc4a10a4059764bb58f69ac7d5c2c19704f9b367c752a25a08f91e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "4405c3eb33ab6d2cadf466787cd45661888d81c75c650a4c24c21c750794bdf8",
+      "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+    },
+    "localization_recoveries": 0,
+    "object_timestamp_scope": [
+      "native_acquisition_v2"
+    ],
+    "history_available": true,
+    "camera": [
+      "192",
+      "108"
+    ],
+    "duration_s": 90.0,
+    "acquisition_interval_s": {
+      "count": 161,
+      "median": 0.500455379486084,
+      "p95": 0.999180793762207,
+      "maximum": 1.0015099048614502
+    },
+    "first_attempt_age_s": {
+      "count": 162,
+      "median": 0.7291816473007202,
+      "p95": 1.1057436585426328,
+      "maximum": 1.153632402420044
+    },
+    "processed_age_s": {
+      "count": 162,
+      "median": 0.7606762647628784,
+      "p95": 1.1624156475067138,
+      "maximum": 1.240706205368042
+    },
+    "confirmed_ids": [],
+    "success": false,
+    "data_valid": true,
+    "fallen": false,
+    "deliveries": [
+      {
+        "object_id": "box_red",
+        "destination_id": "target_red",
+        "color": "red",
+        "verified": false,
+        "lift_m": 4.377088553608743e-06,
+        "travel_m": 0.0
+      }
+    ],
+    "dropped_objects": [],
+    "error": "mission deadline exceeded",
+    "world": "transport_corridors",
+    "layout_seed": null,
+    "mission_kind": "explore_pick_find_place",
+    "search": {
+      "requests": [
+        {
+          "object_id": "box_red",
+          "requested_at_s": 6.651699980997364,
+          "initially_visible": false,
+          "first_goal_after_s": 1.47598906600615,
+          "first_dispatch_after_s": 1.4957310500030871,
+          "found_after_s": null
+        }
+      ],
+      "selected_viewpoints": 5,
+      "planning_ms": {
+        "count": 5,
+        "median": 198.77779499802273,
+        "p95": 224.98490219877567,
+        "maximum": 226.5303309977753
+      },
+      "selection_wait_ms": {
+        "count": 5,
+        "median": 87.05768900108524,
+        "p95": 129.32439779979177,
+        "maximum": 130.47963099961635
+      },
+      "room_decisions": 0,
+      "region_count": {
+        "count": 0
+      },
+      "deferred_region_selections": 0,
+      "partial_turns": 0,
+      "route_planning_ms": {
+        "count": 0
+      }
+    },
+    "search_summary": {
+      "inspected_viewpoints": {
+        "box_red": 5
+      },
+      "failed_viewpoints": 0,
+      "source": "observed_slam_map_and_registered_rgbd"
+    },
+    "pickup": [],
+    "objective": null,
+    "delivery_approaches": [],
+    "source_archive_sha256": "a06741b52a97d6b236a8dd7e460032a5e0c17a44933f306535426ee071c81fde",
+    "search_source_sha256": {
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_mission.py": "424ceefc6c516f620f210ead3e1d90063b1c72c0e672377bc7ac71bf9977af65",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_search.py": "7bce69448c13861da4d998d95ddde060942c8e5716260faca79ee9f8c635caf5",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/search_visualization.py": "9decb01bad2f66e074bfd98815e2f38df05849a2d3e05f79d4504c41dc9d5d5b"
+    }
+  },
+  {
+    "run": "20261006T220340Z",
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "seed": 48,
+    "people": 0,
+    "contact_samples": 0,
+    "minimum_person_clearance_m": null,
+    "source_sha256": {
+      "scripts/run_transport_demo.py": "c594925cca8d35c66fef471fe6b162b021ed18372595ee18e7f86e35111be059",
+      "scripts/transport_worlds.py": "5a8f3d3e136556483a4ad37c6052d03b7b77b88d9dcd05c2adb5a1df450cfda0",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "485df253fb740b723523e195fe36cd1f95ff9155b308a11a6bb169d84d786796",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "8d09b579bc8af13b418080cb0754b071906f10ff5665ac95c455c0e41adf008b",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "65dd9a5370cc4a10a4059764bb58f69ac7d5c2c19704f9b367c752a25a08f91e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "4405c3eb33ab6d2cadf466787cd45661888d81c75c650a4c24c21c750794bdf8",
+      "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+    },
+    "localization_recoveries": 0,
+    "object_timestamp_scope": [
+      "native_acquisition_v2"
+    ],
+    "history_available": true,
+    "camera": [
+      "192",
+      "108"
+    ],
+    "duration_s": 240.0,
+    "acquisition_interval_s": {
+      "count": 179,
+      "median": 0.49991297721862793,
+      "p95": 0.5012001037597656,
+      "maximum": 0.501929521560669
+    },
+    "first_attempt_age_s": {
+      "count": 199,
+      "median": 0.14336371421813965,
+      "p95": 0.19362616539001465,
+      "maximum": 0.22910046577453613
+    },
+    "processed_age_s": {
+      "count": 180,
+      "median": 0.18551337718963623,
+      "p95": 0.3315109729766846,
+      "maximum": 0.33840346336364746
+    },
+    "confirmed_ids": [],
+    "success": false,
+    "data_valid": true,
+    "fallen": false,
+    "deliveries": [
+      {
+        "object_id": "box_red",
+        "destination_id": "target_red",
+        "color": "red",
+        "verified": false,
+        "lift_m": 1.0915773045461208e-06,
+        "travel_m": 0.0
+      }
+    ],
+    "dropped_objects": [],
+    "error": "search heading not reached",
+    "world": "transport_atrium",
+    "layout_seed": null,
+    "mission_kind": "explore_pick_find_place",
+    "search": {
+      "requests": [
+        {
+          "object_id": "box_red",
+          "requested_at_s": 6.030149812999298,
+          "initially_visible": false,
+          "first_goal_after_s": 1.2113951220089803,
+          "first_dispatch_after_s": 1.2737871980061755,
+          "found_after_s": null
+        }
+      ],
+      "selected_viewpoints": 2,
+      "planning_ms": {
+        "count": 2,
+        "median": 38.21038799651433,
+        "p95": 50.46348029864021,
+        "maximum": 51.824934998876415
+      },
+      "selection_wait_ms": {
+        "count": 2,
+        "median": 71.60193550225813,
+        "p95": 110.18379745364655,
+        "maximum": 114.47067100380082
+      },
+      "room_decisions": 2,
+      "region_count": {
+        "count": 2,
+        "median": 11.0,
+        "p95": 14.6,
+        "maximum": 15.0
+      },
+      "deferred_region_selections": 0,
+      "partial_turns": 0,
+      "route_planning_ms": {
+        "count": 2,
+        "median": 60.40636750549311,
+        "p95": 60.54733585260692,
+        "maximum": 60.56299900228623
+      }
+    },
+    "search_summary": {
+      "inspected_viewpoints": {
+        "box_red": 2
+      },
+      "failed_viewpoints": 0,
+      "source": "observed_slam_map_and_registered_rgbd"
+    },
+    "pickup": [],
+    "objective": null,
+    "delivery_approaches": [],
+    "source_archive_sha256": "5f69c98b03d91eec398acc964007ff9317477a88e8733591a7140ffb36db5742",
+    "search_source_sha256": {
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_mission.py": "c9f227a5f8a7451ba587e150b471ea8389256bc0ee8fed8622df5f9d37d80d47",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_search.py": "6c4745eb77802c37053e3905b50d25407166cc7bbd0b9573bfde109639f078ea",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/room_search.py": "0f7ad80fd4ea323777712a4ffc10a0db9a1bb3b0a7a08245978c2a869075eb10",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/search_visualization.py": "e9f095b8bcce2172b89c5357c8e445d08c4f49bd3000f0e1cd578bb809fe2d6a"
+    }
+  },
+  {
+    "run": "20261006T220712Z",
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "seed": 48,
+    "people": 0,
+    "contact_samples": 0,
+    "minimum_person_clearance_m": null,
+    "source_sha256": {
+      "scripts/run_transport_demo.py": "c594925cca8d35c66fef471fe6b162b021ed18372595ee18e7f86e35111be059",
+      "scripts/transport_worlds.py": "5a8f3d3e136556483a4ad37c6052d03b7b77b88d9dcd05c2adb5a1df450cfda0",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "485df253fb740b723523e195fe36cd1f95ff9155b308a11a6bb169d84d786796",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "8d09b579bc8af13b418080cb0754b071906f10ff5665ac95c455c0e41adf008b",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "65dd9a5370cc4a10a4059764bb58f69ac7d5c2c19704f9b367c752a25a08f91e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "4405c3eb33ab6d2cadf466787cd45661888d81c75c650a4c24c21c750794bdf8",
+      "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+    },
+    "localization_recoveries": 1,
+    "object_timestamp_scope": [
+      "native_acquisition_v2"
+    ],
+    "history_available": true,
+    "camera": [
+      "192",
+      "108"
+    ],
+    "duration_s": 240.0,
+    "acquisition_interval_s": {
+      "count": 179,
+      "median": 0.5006217956542969,
+      "p95": 1.001941728591919,
+      "maximum": 1.0105109214782715
+    },
+    "first_attempt_age_s": {
+      "count": 266,
+      "median": 0.9350849390029907,
+      "p95": 1.1652471423149109,
+      "maximum": 1.2525904178619385
+    },
+    "processed_age_s": {
+      "count": 180,
+      "median": 1.0733425617218018,
+      "p95": 1.292390775680542,
+      "maximum": 1.5473475456237793
+    },
+    "confirmed_ids": [],
+    "success": false,
+    "data_valid": true,
+    "fallen": false,
+    "deliveries": [
+      {
+        "object_id": "box_red",
+        "destination_id": "target_red",
+        "color": "red",
+        "verified": false,
+        "lift_m": 5.451785574095425e-07,
+        "travel_m": 0.0
+      }
+    ],
+    "dropped_objects": [],
+    "error": "mission deadline exceeded",
+    "world": "transport_atrium",
+    "layout_seed": null,
+    "mission_kind": "explore_pick_find_place",
+    "search": {
+      "requests": [
+        {
+          "object_id": "box_red",
+          "requested_at_s": 6.686974796990398,
+          "initially_visible": false,
+          "first_goal_after_s": 2.086612992003211,
+          "first_dispatch_after_s": 2.264942459005397,
+          "found_after_s": null
+        }
+      ],
+      "selected_viewpoints": 11,
+      "planning_ms": {
+        "count": 11,
+        "median": 507.1494379953947,
+        "p95": 667.1197025061701,
+        "maximum": 672.0124070125166
+      },
+      "selection_wait_ms": {
+        "count": 11,
+        "median": 285.0128740101354,
+        "p95": 467.92673150775954,
+        "maximum": 476.17027700471226
+      },
+      "room_decisions": 11,
+      "region_count": {
+        "count": 11,
+        "median": 5.0,
+        "p95": 8.5,
+        "maximum": 9.0
+      },
+      "deferred_region_selections": 4,
+      "partial_turns": 0,
+      "route_planning_ms": {
+        "count": 21,
+        "median": 421.8191910040332,
+        "p95": 1166.5013969904976,
+        "maximum": 1497.587391990237
+      }
+    },
+    "search_summary": {
+      "inspected_viewpoints": {
+        "box_red": 11
+      },
+      "failed_viewpoints": 0,
+      "source": "observed_slam_map_and_registered_rgbd"
+    },
+    "pickup": [],
+    "objective": null,
+    "delivery_approaches": [],
+    "source_archive_sha256": "75598dd238c0288f41e94815efd9341818774246503454de24c5d117600e0397",
+    "search_source_sha256": {
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_mission.py": "53f2e4bf9bbeec997a4a080f2683a6fce1a1bb172094b11ee4b7c94efc0a36f2",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_search.py": "6c4745eb77802c37053e3905b50d25407166cc7bbd0b9573bfde109639f078ea",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/room_search.py": "6ba3bfe1430e2bef759d23a1e354d4e5572049badb8c905547a5c67c1291b26e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/search_visualization.py": "e9f095b8bcce2172b89c5357c8e445d08c4f49bd3000f0e1cd578bb809fe2d6a"
+    }
+  },
+  {
+    "run": "20261007T092021Z",
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "seed": 48,
+    "people": 0,
+    "contact_samples": 0,
+    "minimum_person_clearance_m": null,
+    "source_sha256": {
+      "scripts/run_transport_demo.py": "c594925cca8d35c66fef471fe6b162b021ed18372595ee18e7f86e35111be059",
+      "scripts/transport_worlds.py": "5a8f3d3e136556483a4ad37c6052d03b7b77b88d9dcd05c2adb5a1df450cfda0",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "485df253fb740b723523e195fe36cd1f95ff9155b308a11a6bb169d84d786796",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "8d09b579bc8af13b418080cb0754b071906f10ff5665ac95c455c0e41adf008b",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "65dd9a5370cc4a10a4059764bb58f69ac7d5c2c19704f9b367c752a25a08f91e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "4405c3eb33ab6d2cadf466787cd45661888d81c75c650a4c24c21c750794bdf8",
+      "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+    },
+    "localization_recoveries": 0,
+    "object_timestamp_scope": [
+      "native_acquisition_v2"
+    ],
+    "history_available": true,
+    "camera": [
+      "192",
+      "108"
+    ],
+    "duration_s": 300.0,
+    "acquisition_interval_s": {
+      "count": 179,
+      "median": 0.5004708766937256,
+      "p95": 1.0009186029434205,
+      "maximum": 1.0167930126190186
+    },
+    "first_attempt_age_s": {
+      "count": 258,
+      "median": 0.8953286409378052,
+      "p95": 1.17205171585083,
+      "maximum": 1.2525458335876465
+    },
+    "processed_age_s": {
+      "count": 180,
+      "median": 1.0923552513122559,
+      "p95": 1.3950280666351316,
+      "maximum": 1.4553625583648682
+    },
+    "confirmed_ids": [],
+    "success": false,
+    "data_valid": true,
+    "fallen": false,
+    "deliveries": [
+      {
+        "object_id": "box_red",
+        "destination_id": "target_red",
+        "color": "red",
+        "verified": false,
+        "lift_m": 4.377088553608743e-06,
+        "travel_m": 0.0
+      }
+    ],
+    "dropped_objects": [],
+    "error": "mission deadline exceeded",
+    "world": "transport_atrium",
+    "layout_seed": null,
+    "mission_kind": "explore_pick_find_place",
+    "search": {
+      "requests": [
+        {
+          "object_id": "box_red",
+          "requested_at_s": 6.088328120997176,
+          "initially_visible": false,
+          "first_goal_after_s": 1.1782412249885965,
+          "first_dispatch_after_s": 1.2361737139872275,
+          "found_after_s": null
+        }
+      ],
+      "selected_viewpoints": 16,
+      "planning_ms": {
+        "count": 16,
+        "median": 359.41357249976136,
+        "p95": 968.2593252437073,
+        "maximum": 1002.4564790073782
+      },
+      "selection_wait_ms": {
+        "count": 16,
+        "median": 142.74798601400107,
+        "p95": 415.69584525132086,
+        "maximum": 433.2456150150392
+      },
+      "room_decisions": 18,
+      "region_count": {
+        "count": 18,
+        "median": 37.5,
+        "p95": 38.15,
+        "maximum": 39.0
+      },
+      "deferred_region_selections": 0,
+      "partial_turns": 0,
+      "route_planning_ms": {
+        "count": 23,
+        "median": 431.2783280038275,
+        "p95": 814.1127798997331,
+        "maximum": 1063.5753879905678
+      }
+    },
+    "search_summary": {
+      "inspected_viewpoints": {
+        "box_red": 18
+      },
+      "failed_viewpoints": 1,
+      "source": "observed_slam_map_and_registered_rgbd"
+    },
+    "pickup": [],
+    "objective": null,
+    "delivery_approaches": [],
+    "source_archive_sha256": "28331fd0b47cab0df968f5f16023e04dfab98ca133144f2b0aea9c0ac569bb79",
+    "search_source_sha256": {
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_mission.py": "53f2e4bf9bbeec997a4a080f2683a6fce1a1bb172094b11ee4b7c94efc0a36f2",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_search.py": "3807492f26fb2a8226e07e6fe3301dbcbcb0200a030d673c71aaa9408b312a07",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/room_search.py": "bfeff010b7ee666fe36e8fd0db0b276487d82ee91078ebaab5a36c4cc92c0ddf",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/search_visualization.py": "094f1750081d5afa2cbf3911f020f1376fcad108f42260dd07155e7fa715fc79"
+    }
+  },
+  {
+    "run": "20261007T093454Z",
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "seed": 48,
+    "people": 0,
+    "contact_samples": 0,
+    "minimum_person_clearance_m": null,
+    "source_sha256": {
+      "scripts/run_transport_demo.py": "883da4866fa666c067eb9ebb275668a47b7a1dba2db9ed04c79e46e2053141f3",
+      "scripts/transport_worlds.py": "2f0bec7ec4f153bf664fc95dad107367bd6718bf123e64836921802b0ca707d9",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "ba8b57ae778805df4c25d2de57932f9a1965efc83745840677a4229297093ed2",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "8d09b579bc8af13b418080cb0754b071906f10ff5665ac95c455c0e41adf008b",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "65dd9a5370cc4a10a4059764bb58f69ac7d5c2c19704f9b367c752a25a08f91e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "4405c3eb33ab6d2cadf466787cd45661888d81c75c650a4c24c21c750794bdf8",
+      "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+    },
+    "localization_recoveries": 0,
+    "object_timestamp_scope": [
+      "native_acquisition_v2"
+    ],
+    "history_available": true,
+    "camera": [
+      "192",
+      "108"
+    ],
+    "duration_s": 360.0,
+    "acquisition_interval_s": {
+      "count": 179,
+      "median": 0.5005190372467041,
+      "p95": 1.0022661685943604,
+      "maximum": 1.013293743133545
+    },
+    "first_attempt_age_s": {
+      "count": 253,
+      "median": 0.8368873596191406,
+      "p95": 1.1230507850646974,
+      "maximum": 1.1715779304504395
+    },
+    "processed_age_s": {
+      "count": 180,
+      "median": 1.080100417137146,
+      "p95": 1.296973717212677,
+      "maximum": 1.4305787086486816
+    },
+    "confirmed_ids": [
+      "box_blue",
+      "box_red",
+      "target_red"
+    ],
+    "success": false,
+    "data_valid": true,
+    "fallen": false,
+    "deliveries": [
+      {
+        "object_id": "box_red",
+        "destination_id": "target_blue",
+        "color": "red",
+        "destination_color": "blue",
+        "verified": false,
+        "lift_m": 0.29083605428051196,
+        "travel_m": 12.095899446019368
+      }
+    ],
+    "dropped_objects": [],
+    "error": "mission deadline exceeded",
+    "world": "transport_medium",
+    "layout_seed": 0,
+    "mission_kind": "explore_pick_find_place",
+    "search": {
+      "requests": [
+        {
+          "object_id": "box_red",
+          "requested_at_s": 6.261441135022324,
+          "initially_visible": false,
+          "first_goal_after_s": 1.4432717899908312,
+          "first_dispatch_after_s": 1.5673033429775387,
+          "found_after_s": 11.96998504200019
+        },
+        {
+          "object_id": "target_blue",
+          "requested_at_s": 79.70074070300325,
+          "initially_visible": false,
+          "first_goal_after_s": 1.8395037120208144,
+          "first_dispatch_after_s": 2.040536039014114,
+          "found_after_s": null
+        }
+      ],
+      "selected_viewpoints": 16,
+      "planning_ms": {
+        "count": 16,
+        "median": 309.69473748700693,
+        "p95": 440.0292854916188,
+        "maximum": 461.1380489950534
+      },
+      "selection_wait_ms": {
+        "count": 16,
+        "median": 109.93569948186632,
+        "p95": 203.30765148537466,
+        "maximum": 225.14784199302085
+      },
+      "room_decisions": 16,
+      "region_count": {
+        "count": 16,
+        "median": 10.0,
+        "p95": 10.25,
+        "maximum": 11.0
+      },
+      "deferred_region_selections": 0,
+      "partial_turns": 1,
+      "route_planning_ms": {
+        "count": 25,
+        "median": 189.64077800046653,
+        "p95": 246.03888199781062,
+        "maximum": 273.0856410053093
+      }
+    },
+    "search_summary": {
+      "inspected_viewpoints": {
+        "box_red": 1,
+        "target_blue": 15
+      },
+      "failed_viewpoints": 0,
+      "source": "observed_slam_map_and_registered_rgbd"
+    },
+    "pickup": [
+      {
+        "object_id": "box_red",
+        "discovered_at_s": 18.231426177022513,
+        "grasp_request_after_s": 50.99741417900077,
+        "held_ack_after_s": 51.06017118197633,
+        "verified_lift_after_s": 54.63232310899184,
+        "prepare_after_s": 30.760313606995624,
+        "discovery_to_placement_s": null,
+        "grasp_to_placement_s": null
+      }
+    ],
+    "objective": {
+      "pairs": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_blue",
+          "color": "red",
+          "destination_color": "blue"
+        }
+      ],
+      "task_seed": 48,
+      "mode": "random",
+      "description": "Put the red box on the blue goal"
+    },
+    "delivery_approaches": [],
+    "source_archive_sha256": "941199f1cc1a9c3202d7ade6a2e4c29ac9f5c4c005c4d026ccfe8f207b29c3fa",
+    "search_source_sha256": {
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_mission.py": "6bc5d75b398b22da066de5a4ed8ae7a04981d3f210c063c663c2bbb940344ee7",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_search.py": "3807492f26fb2a8226e07e6fe3301dbcbcb0200a030d673c71aaa9408b312a07",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/room_search.py": "bfeff010b7ee666fe36e8fd0db0b276487d82ee91078ebaab5a36c4cc92c0ddf",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/search_visualization.py": "a5eeffad416885243244bd16a0e409c1fc0a412f312f384fa88b0dd2c3af3819"
+    }
+  },
+  {
+    "run": "20261007T094803Z",
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "seed": 48,
+    "people": 0,
+    "contact_samples": 0,
+    "minimum_person_clearance_m": null,
+    "source_sha256": {
+      "scripts/run_transport_demo.py": "883da4866fa666c067eb9ebb275668a47b7a1dba2db9ed04c79e46e2053141f3",
+      "scripts/transport_worlds.py": "2f0bec7ec4f153bf664fc95dad107367bd6718bf123e64836921802b0ca707d9",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "1e239aa827b0679f6bb3cc475d458f4fd86b2ed967565aaf33cc226395760b10",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "8d09b579bc8af13b418080cb0754b071906f10ff5665ac95c455c0e41adf008b",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "65dd9a5370cc4a10a4059764bb58f69ac7d5c2c19704f9b367c752a25a08f91e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "4405c3eb33ab6d2cadf466787cd45661888d81c75c650a4c24c21c750794bdf8",
+      "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+    },
+    "localization_recoveries": 1,
+    "object_timestamp_scope": [
+      "native_acquisition_v2"
+    ],
+    "history_available": true,
+    "camera": [
+      "192",
+      "108"
+    ],
+    "duration_s": 360.0,
+    "acquisition_interval_s": {
+      "count": 179,
+      "median": 0.5002498626708984,
+      "p95": 1.0003270864486695,
+      "maximum": 1.4969453811645508
+    },
+    "first_attempt_age_s": {
+      "count": 292,
+      "median": 0.7925679683685303,
+      "p95": 1.0930556654930115,
+      "maximum": 1.5032429695129395
+    },
+    "processed_age_s": {
+      "count": 180,
+      "median": 0.9307175874710083,
+      "p95": 1.3091160297393798,
+      "maximum": 1.9964044094085693
+    },
+    "confirmed_ids": [
+      "box_red",
+      "target_blue",
+      "target_red"
+    ],
+    "success": false,
+    "data_valid": true,
+    "fallen": false,
+    "deliveries": [
+      {
+        "object_id": "box_red",
+        "destination_id": "target_blue",
+        "color": "red",
+        "destination_color": "blue",
+        "verified": false,
+        "lift_m": 0.22575373792915876,
+        "travel_m": 7.436064922062582
+      }
+    ],
+    "dropped_objects": [],
+    "error": "mission deadline exceeded",
+    "world": "transport_medium",
+    "layout_seed": 0,
+    "mission_kind": "explore_pick_find_place",
+    "search": {
+      "requests": [
+        {
+          "object_id": "box_red",
+          "requested_at_s": 6.698314434994245,
+          "initially_visible": false,
+          "first_goal_after_s": 1.373183985997457,
+          "first_dispatch_after_s": 1.458064933976857,
+          "found_after_s": 18.568240772001445
+        },
+        {
+          "object_id": "target_blue",
+          "requested_at_s": 25.28892325697234,
+          "initially_visible": false,
+          "first_goal_after_s": 1.6676062430196907,
+          "first_dispatch_after_s": 1.8499380080029368,
+          "found_after_s": 200.7300361340167
+        },
+        {
+          "object_id": "target_blue",
+          "requested_at_s": 303.27882628998486,
+          "initially_visible": false,
+          "first_goal_after_s": 1.9058084969874471,
+          "first_dispatch_after_s": 2.3627164140052628,
+          "found_after_s": 23.76870066500851
+        }
+      ],
+      "selected_viewpoints": 14,
+      "planning_ms": {
+        "count": 14,
+        "median": 275.9399010101333,
+        "p95": 373.8751049982966,
+        "maximum": 393.19964399328455
+      },
+      "selection_wait_ms": {
+        "count": 14,
+        "median": 126.10921848681755,
+        "p95": 191.17101983720204,
+        "maximum": 209.59149400005117
+      },
+      "room_decisions": 14,
+      "region_count": {
+        "count": 14,
+        "median": 13.0,
+        "p95": 15.35,
+        "maximum": 16.0
+      },
+      "deferred_region_selections": 0,
+      "partial_turns": 0,
+      "route_planning_ms": {
+        "count": 19,
+        "median": 195.45888100401498,
+        "p95": 379.7502119879935,
+        "maximum": 447.8181839804165
+      }
+    },
+    "search_summary": {
+      "inspected_viewpoints": {
+        "box_red": 2,
+        "target_blue": 12
+      },
+      "failed_viewpoints": 0,
+      "source": "observed_slam_map_and_registered_rgbd"
+    },
+    "pickup": [
+      {
+        "object_id": "box_red",
+        "discovered_at_s": 25.26655520699569,
+        "grasp_request_after_s": 265.8871289480012,
+        "held_ack_after_s": 265.9470430209767,
+        "verified_lift_after_s": 270.33008800598327,
+        "prepare_after_s": 240.33482196499244,
+        "discovery_to_placement_s": null,
+        "grasp_to_placement_s": null
+      }
+    ],
+    "objective": {
+      "pairs": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_blue",
+          "color": "red",
+          "destination_color": "blue"
+        }
+      ],
+      "task_seed": 48,
+      "mode": "random",
+      "description": "Put the red box on the blue goal"
+    },
+    "delivery_approaches": [],
+    "source_archive_sha256": "612270b9703d36de5d93b0b6bddea72a611d06083f481eb5954dfdb2fe2821f6",
+    "search_source_sha256": {
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_mission.py": "3e5e162207b51ba1068f488c4c2f2e7ba6646f0214258de0a8154cb70e114600",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_search.py": "3807492f26fb2a8226e07e6fe3301dbcbcb0200a030d673c71aaa9408b312a07",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/room_search.py": "bfeff010b7ee666fe36e8fd0db0b276487d82ee91078ebaab5a36c4cc92c0ddf",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/search_visualization.py": "a5eeffad416885243244bd16a0e409c1fc0a412f312f384fa88b0dd2c3af3819"
+    }
+  },
+  {
+    "run": "20261007T095500Z",
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "seed": 48,
+    "people": 0,
+    "contact_samples": 0,
+    "minimum_person_clearance_m": null,
+    "source_sha256": {
+      "scripts/run_transport_demo.py": "883da4866fa666c067eb9ebb275668a47b7a1dba2db9ed04c79e46e2053141f3",
+      "scripts/transport_worlds.py": "2f0bec7ec4f153bf664fc95dad107367bd6718bf123e64836921802b0ca707d9",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "1e239aa827b0679f6bb3cc475d458f4fd86b2ed967565aaf33cc226395760b10",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "8d09b579bc8af13b418080cb0754b071906f10ff5665ac95c455c0e41adf008b",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "65dd9a5370cc4a10a4059764bb58f69ac7d5c2c19704f9b367c752a25a08f91e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "4405c3eb33ab6d2cadf466787cd45661888d81c75c650a4c24c21c750794bdf8",
+      "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+    },
+    "localization_recoveries": 0,
+    "object_timestamp_scope": [
+      "native_acquisition_v2"
+    ],
+    "history_available": true,
+    "camera": [
+      "192",
+      "108"
+    ],
+    "duration_s": 600.0,
+    "acquisition_interval_s": {
+      "count": 179,
+      "median": 0.5002882480621338,
+      "p95": 1.0004440069198608,
+      "maximum": 1.4987306594848633
+    },
+    "first_attempt_age_s": {
+      "count": 256,
+      "median": 0.8711364269256592,
+      "p95": 1.1262397170066833,
+      "maximum": 1.1651196479797363
+    },
+    "processed_age_s": {
+      "count": 180,
+      "median": 1.2528040409088135,
+      "p95": 1.5095354199409483,
+      "maximum": 1.5931487083435059
+    },
+    "confirmed_ids": [
+      "box_red",
+      "target_blue"
+    ],
+    "success": false,
+    "data_valid": true,
+    "fallen": false,
+    "deliveries": [
+      {
+        "object_id": "box_red",
+        "destination_id": "target_blue",
+        "color": "red",
+        "destination_color": "blue",
+        "verified": false,
+        "lift_m": 0.2193441371113678,
+        "travel_m": 7.441531858810401
+      }
+    ],
+    "dropped_objects": [],
+    "error": "precision docking failed",
+    "world": "transport_medium",
+    "layout_seed": 0,
+    "mission_kind": "explore_pick_find_place",
+    "search": {
+      "requests": [
+        {
+          "object_id": "box_red",
+          "requested_at_s": 6.3618276469933335,
+          "initially_visible": false,
+          "first_goal_after_s": 1.3335620290017687,
+          "first_dispatch_after_s": 1.484655392006971,
+          "found_after_s": 31.035241446021246
+        },
+        {
+          "object_id": "target_blue",
+          "requested_at_s": 37.43797944500693,
+          "initially_visible": false,
+          "first_goal_after_s": 2.1912641699891537,
+          "first_dispatch_after_s": 2.395890818996122,
+          "found_after_s": 78.06065992100048
+        },
+        {
+          "object_id": "target_blue",
+          "requested_at_s": 215.3193820239976,
+          "initially_visible": false,
+          "first_goal_after_s": 1.519935832999181,
+          "first_dispatch_after_s": 1.7810016449948307,
+          "found_after_s": 22.622226964012953
+        }
+      ],
+      "selected_viewpoints": 10,
+      "planning_ms": {
+        "count": 10,
+        "median": 330.64578550693113,
+        "p95": 439.6355469871196,
+        "maximum": 450.5731029785238
+      },
+      "selection_wait_ms": {
+        "count": 10,
+        "median": 125.94568850181531,
+        "p95": 223.8933932458166,
+        "maximum": 261.2671869865153
+      },
+      "room_decisions": 10,
+      "region_count": {
+        "count": 10,
+        "median": 11.0,
+        "p95": 13.549999999999999,
+        "maximum": 14.0
+      },
+      "deferred_region_selections": 0,
+      "partial_turns": 0,
+      "route_planning_ms": {
+        "count": 15,
+        "median": 198.56087301741354,
+        "p95": 331.40988038212515,
+        "maximum": 400.9388769918587
+      }
+    },
+    "search_summary": {
+      "inspected_viewpoints": {
+        "box_red": 3,
+        "target_blue": 7
+      },
+      "failed_viewpoints": 0,
+      "source": "observed_slam_map_and_registered_rgbd"
+    },
+    "pickup": [
+      {
+        "object_id": "box_red",
+        "discovered_at_s": 37.39706909301458,
+        "grasp_request_after_s": 164.3063978139835,
+        "held_ack_after_s": 164.36436098298873,
+        "verified_lift_after_s": 169.34026165600517,
+        "prepare_after_s": 112.78387468698202,
+        "discovery_to_placement_s": null,
+        "grasp_to_placement_s": null
+      }
+    ],
+    "objective": {
+      "pairs": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_blue",
+          "color": "red",
+          "destination_color": "blue"
+        }
+      ],
+      "task_seed": 48,
+      "mode": "random",
+      "description": "Put the red box on the blue goal"
+    },
+    "delivery_approaches": [],
+    "source_archive_sha256": "30740f62045e6afce5c5548a638ab3e167be7afd36eefe0409b0c0660744e612",
+    "search_source_sha256": {
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_mission.py": "3e5e162207b51ba1068f488c4c2f2e7ba6646f0214258de0a8154cb70e114600",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_search.py": "3807492f26fb2a8226e07e6fe3301dbcbcb0200a030d673c71aaa9408b312a07",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/room_search.py": "bfeff010b7ee666fe36e8fd0db0b276487d82ee91078ebaab5a36c4cc92c0ddf",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/search_visualization.py": "a5eeffad416885243244bd16a0e409c1fc0a412f312f384fa88b0dd2c3af3819"
+    }
+  },
+  {
+    "run": "20261007T100357Z",
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "seed": 48,
+    "people": 0,
+    "contact_samples": 0,
+    "minimum_person_clearance_m": null,
+    "source_sha256": {
+      "scripts/run_transport_demo.py": "883da4866fa666c067eb9ebb275668a47b7a1dba2db9ed04c79e46e2053141f3",
+      "scripts/transport_worlds.py": "2f0bec7ec4f153bf664fc95dad107367bd6718bf123e64836921802b0ca707d9",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "666d36f9043f2cfdb84007dc040b1445a29da482f7224337c56d0b475287e479",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "8d09b579bc8af13b418080cb0754b071906f10ff5665ac95c455c0e41adf008b",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "65dd9a5370cc4a10a4059764bb58f69ac7d5c2c19704f9b367c752a25a08f91e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "6df1192e0ef7886e624af3b0da688657c43d4cc1dcb7b5f17c4305930aefe1db",
+      "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+    },
+    "localization_recoveries": 0,
+    "object_timestamp_scope": [
+      "native_acquisition_v2"
+    ],
+    "history_available": true,
+    "camera": [
+      "192",
+      "108"
+    ],
+    "duration_s": 600.0,
+    "acquisition_interval_s": {
+      "count": 179,
+      "median": 0.5001678466796875,
+      "p95": 0.9999578952789306,
+      "maximum": 1.002073049545288
+    },
+    "first_attempt_age_s": {
+      "count": 283,
+      "median": 0.8241219520568848,
+      "p95": 1.0967466354370117,
+      "maximum": 1.1732025146484375
+    },
+    "processed_age_s": {
+      "count": 180,
+      "median": 1.0621209144592285,
+      "p95": 1.3592309355735779,
+      "maximum": 1.439643383026123
+    },
+    "confirmed_ids": [
+      "box_red",
+      "target_blue"
+    ],
+    "success": false,
+    "data_valid": true,
+    "fallen": false,
+    "deliveries": [
+      {
+        "object_id": "box_red",
+        "destination_id": "target_blue",
+        "color": "red",
+        "destination_color": "blue",
+        "verified": false,
+        "lift_m": 0.21598410878599417,
+        "travel_m": 7.4426657617366
+      }
+    ],
+    "dropped_objects": [],
+    "error": "precision docking failed",
+    "world": "transport_medium",
+    "layout_seed": 0,
+    "mission_kind": "explore_pick_find_place",
+    "search": {
+      "requests": [
+        {
+          "object_id": "box_red",
+          "requested_at_s": 6.40965206301189,
+          "initially_visible": false,
+          "first_goal_after_s": 1.8748577990045305,
+          "first_dispatch_after_s": 1.9709109060058836,
+          "found_after_s": 15.575809917005245
+        },
+        {
+          "object_id": "target_blue",
+          "requested_at_s": 22.02883227399434,
+          "initially_visible": false,
+          "first_goal_after_s": 2.095527066005161,
+          "first_dispatch_after_s": 2.3113174400059506,
+          "found_after_s": 162.93290105601773
+        },
+        {
+          "object_id": "target_blue",
+          "requested_at_s": 279.2180372160219,
+          "initially_visible": false,
+          "first_goal_after_s": 2.172281924984418,
+          "first_dispatch_after_s": 2.4609583289711736,
+          "found_after_s": 95.42179098597262
+        }
+      ],
+      "selected_viewpoints": 14,
+      "planning_ms": {
+        "count": 14,
+        "median": 262.77972949901596,
+        "p95": 400.3098997010966,
+        "maximum": 412.5551990000531
+      },
+      "selection_wait_ms": {
+        "count": 14,
+        "median": 130.3510154975811,
+        "p95": 198.63302433805072,
+        "maximum": 229.2003929906059
+      },
+      "room_decisions": 17,
+      "region_count": {
+        "count": 17,
+        "median": 10.0,
+        "p95": 14.2,
+        "maximum": 15.0
+      },
+      "deferred_region_selections": 0,
+      "partial_turns": 1,
+      "route_planning_ms": {
+        "count": 22,
+        "median": 204.91993449104484,
+        "p95": 287.46653699636227,
+        "maximum": 526.403329015011
+      }
+    },
+    "search_summary": {
+      "inspected_viewpoints": {
+        "box_red": 2,
+        "target_blue": 15
+      },
+      "failed_viewpoints": 2,
+      "source": "observed_slam_map_and_registered_rgbd"
+    },
+    "pickup": [
+      {
+        "object_id": "box_red",
+        "discovered_at_s": 21.985461980017135,
+        "grasp_request_after_s": 228.5349980229803,
+        "held_ack_after_s": 228.60211449000053,
+        "verified_lift_after_s": 232.34945620500366,
+        "prepare_after_s": 209.79315325798234,
+        "discovery_to_placement_s": null,
+        "grasp_to_placement_s": null
+      }
+    ],
+    "objective": {
+      "pairs": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_blue",
+          "color": "red",
+          "destination_color": "blue"
+        }
+      ],
+      "task_seed": 48,
+      "mode": "random",
+      "description": "Put the red box on the blue goal"
+    },
+    "delivery_approaches": [],
+    "source_archive_sha256": "cdedca60e21813478c491670f9fda0a8142e1dbc471f032ec31e444d88d8c15c",
+    "search_source_sha256": {
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_mission.py": "3e5e162207b51ba1068f488c4c2f2e7ba6646f0214258de0a8154cb70e114600",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_search.py": "3807492f26fb2a8226e07e6fe3301dbcbcb0200a030d673c71aaa9408b312a07",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/room_search.py": "bfeff010b7ee666fe36e8fd0db0b276487d82ee91078ebaab5a36c4cc92c0ddf",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/search_visualization.py": "a5eeffad416885243244bd16a0e409c1fc0a412f312f384fa88b0dd2c3af3819"
+    }
+  },
+  {
+    "run": "20261007T102750Z",
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "seed": 48,
+    "people": 0,
+    "contact_samples": 0,
+    "minimum_person_clearance_m": null,
+    "source_sha256": {
+      "scripts/run_transport_demo.py": "883da4866fa666c067eb9ebb275668a47b7a1dba2db9ed04c79e46e2053141f3",
+      "scripts/transport_worlds.py": "2f0bec7ec4f153bf664fc95dad107367bd6718bf123e64836921802b0ca707d9",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "286b3f6bc3b90ebb995ede7e4a29d1cc6ab94ab2abf8bca0bc080664f0948b1d",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "a9e339b9cefb86e94fbf2062a430ad3165561ff2c164f5361bc83b17300fac86",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "65dd9a5370cc4a10a4059764bb58f69ac7d5c2c19704f9b367c752a25a08f91e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "6df1192e0ef7886e624af3b0da688657c43d4cc1dcb7b5f17c4305930aefe1db",
+      "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+    },
+    "localization_recoveries": 0,
+    "object_timestamp_scope": [
+      "native_acquisition_v2"
+    ],
+    "history_available": true,
+    "camera": [
+      "192",
+      "108"
+    ],
+    "duration_s": 600.0,
+    "acquisition_interval_s": {
+      "count": 179,
+      "median": 0.5005776882171631,
+      "p95": 1.0007598876953125,
+      "maximum": 1.0087850093841553
+    },
+    "first_attempt_age_s": {
+      "count": 245,
+      "median": 0.8408956527709961,
+      "p95": 1.1212759017944336,
+      "maximum": 1.2252147197723389
+    },
+    "processed_age_s": {
+      "count": 180,
+      "median": 0.9424459934234619,
+      "p95": 1.256197929382324,
+      "maximum": 1.331101417541504
+    },
+    "confirmed_ids": [
+      "box_blue",
+      "target_red"
+    ],
+    "success": false,
+    "data_valid": true,
+    "fallen": true,
+    "deliveries": [
+      {
+        "object_id": "box_red",
+        "destination_id": "target_blue",
+        "color": "red",
+        "destination_color": "blue",
+        "verified": false,
+        "lift_m": 0.0,
+        "travel_m": 3.897679185652518e-12
+      }
+    ],
+    "dropped_objects": [],
+    "error": "localization did not recover before deadline",
+    "world": "transport_medium",
+    "layout_seed": 0,
+    "mission_kind": "explore_pick_find_place",
+    "search": {
+      "requests": [
+        {
+          "object_id": "box_red",
+          "requested_at_s": 6.205370370007586,
+          "initially_visible": false,
+          "first_goal_after_s": 2.0738355850044172,
+          "first_dispatch_after_s": 2.1598558590048924,
+          "found_after_s": null
+        }
+      ],
+      "selected_viewpoints": 10,
+      "planning_ms": {
+        "count": 10,
+        "median": 358.04671500227414,
+        "p95": 450.62950920837466,
+        "maximum": 453.10872301342897
+      },
+      "selection_wait_ms": {
+        "count": 10,
+        "median": 153.9005484955851,
+        "p95": 208.29735865845575,
+        "maximum": 216.52713100775145
+      },
+      "room_decisions": 13,
+      "region_count": {
+        "count": 13,
+        "median": 15.0,
+        "p95": 15.0,
+        "maximum": 15.0
+      },
+      "deferred_region_selections": 0,
+      "partial_turns": 2,
+      "route_planning_ms": {
+        "count": 14,
+        "median": 222.42655398440547,
+        "p95": 538.4437307584449,
+        "maximum": 645.5006579926703
+      }
+    },
+    "search_summary": {
+      "inspected_viewpoints": {
+        "box_red": 13
+      },
+      "failed_viewpoints": 2,
+      "source": "observed_slam_map_and_registered_rgbd"
+    },
+    "pickup": [],
+    "objective": {
+      "pairs": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_blue",
+          "color": "red",
+          "destination_color": "blue"
+        }
+      ],
+      "task_seed": 48,
+      "mode": "random",
+      "description": "Put the red box on the blue goal"
+    },
+    "delivery_approaches": [],
+    "source_archive_sha256": "c78d039f8cc2bbb84a5dfc03d62d57aa9cc9f3abe953c4acc05cc22e620507c6",
+    "search_source_sha256": {
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_mission.py": "1711996431f25493aa0a2e58f212e5742d8ec6353e58386c93a3eef432035ee3",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_search.py": "3807492f26fb2a8226e07e6fe3301dbcbcb0200a030d673c71aaa9408b312a07",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/room_search.py": "bfeff010b7ee666fe36e8fd0db0b276487d82ee91078ebaab5a36c4cc92c0ddf",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/search_visualization.py": "9f499c290d98989d166f892589af95a1bdcefe166c196c5cd743bbf755c0c972"
+    }
+  },
+  {
+    "run": "20261007T103313Z",
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "seed": 48,
+    "people": 0,
+    "contact_samples": 0,
+    "minimum_person_clearance_m": null,
+    "source_sha256": {
+      "scripts/run_transport_demo.py": "883da4866fa666c067eb9ebb275668a47b7a1dba2db9ed04c79e46e2053141f3",
+      "scripts/transport_worlds.py": "2f0bec7ec4f153bf664fc95dad107367bd6718bf123e64836921802b0ca707d9",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "286b3f6bc3b90ebb995ede7e4a29d1cc6ab94ab2abf8bca0bc080664f0948b1d",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "a9e339b9cefb86e94fbf2062a430ad3165561ff2c164f5361bc83b17300fac86",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "65dd9a5370cc4a10a4059764bb58f69ac7d5c2c19704f9b367c752a25a08f91e",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "6df1192e0ef7886e624af3b0da688657c43d4cc1dcb7b5f17c4305930aefe1db",
+      "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+    },
+    "localization_recoveries": 1,
+    "object_timestamp_scope": [
+      "native_acquisition_v2"
+    ],
+    "history_available": true,
+    "camera": [
+      "192",
+      "108"
+    ],
+    "duration_s": 420.0,
+    "acquisition_interval_s": {
+      "count": 179,
+      "median": 0.5005061626434326,
+      "p95": 1.0017273426055908,
+      "maximum": 1.9821250438690186
+    },
+    "first_attempt_age_s": {
+      "count": 292,
+      "median": 0.8968672752380371,
+      "p95": 1.1301757454872132,
+      "maximum": 1.227654218673706
+    },
+    "processed_age_s": {
+      "count": 180,
+      "median": 1.036961317062378,
+      "p95": 1.4341354727745055,
+      "maximum": 1.7239196300506592
+    },
+    "confirmed_ids": [
+      "box_blue",
+      "box_red",
+      "target_blue",
+      "target_red"
+    ],
+    "success": true,
+    "data_valid": true,
+    "fallen": false,
+    "deliveries": [
+      {
+        "object_id": "box_red",
+        "destination_id": "target_blue",
+        "color": "red",
+        "destination_color": "blue",
+        "verified": true,
+        "lift_m": 0.22167680815928925,
+        "travel_m": 5.196618151537454
+      }
+    ],
+    "dropped_objects": [],
+    "error": null,
+    "world": "transport_dual",
+    "layout_seed": null,
+    "mission_kind": "explore_pick_find_place",
+    "search": {
+      "requests": [
+        {
+          "object_id": "box_red",
+          "requested_at_s": 6.492649803025415,
+          "initially_visible": true,
+          "first_goal_after_s": null,
+          "first_dispatch_after_s": null,
+          "found_after_s": 0.019327062997035682
+        },
+        {
+          "object_id": "target_blue",
+          "requested_at_s": 6.52416508900933,
+          "initially_visible": false,
+          "first_goal_after_s": 1.5945759449969046,
+          "first_dispatch_after_s": 1.7081994519976433,
+          "found_after_s": 113.7351581559924
+        },
+        {
+          "object_id": "target_blue",
+          "requested_at_s": 190.13521988902357,
+          "initially_visible": false,
+          "first_goal_after_s": 2.3555711759836413,
+          "first_dispatch_after_s": 2.5200568689906504,
+          "found_after_s": 9.109881565993419
+        }
+      ],
+      "selected_viewpoints": 10,
+      "planning_ms": {
+        "count": 10,
+        "median": 275.5412874976173,
+        "p95": 329.1699179506395,
+        "maximum": 336.75368200056255
+      },
+      "selection_wait_ms": {
+        "count": 10,
+        "median": 85.62738199543674,
+        "p95": 145.93034958525087,
+        "maximum": 178.1535499903839
+      },
+      "room_decisions": 11,
+      "region_count": {
+        "count": 11,
+        "median": 6.0,
+        "p95": 6.0,
+        "maximum": 6.0
+      },
+      "deferred_region_selections": 0,
+      "partial_turns": 0,
+      "route_planning_ms": {
+        "count": 14,
+        "median": 133.48518600105308,
+        "p95": 179.7599437952158,
+        "maximum": 185.38569900556467
+      }
+    },
+    "search_summary": {
+      "inspected_viewpoints": {
+        "box_red": 0,
+        "target_blue": 11
+      },
+      "failed_viewpoints": 0,
+      "source": "observed_slam_map_and_registered_rgbd"
+    },
+    "pickup": [
+      {
+        "object_id": "box_red",
+        "discovered_at_s": 6.511976866022451,
+        "grasp_request_after_s": 170.15336988397758,
+        "held_ack_after_s": 170.22629174299072,
+        "verified_lift_after_s": 174.948421899986,
+        "prepare_after_s": 149.54895614698762,
+        "discovery_to_placement_s": 245.74090614999295,
+        "grasp_to_placement_s": 75.51461440700223
+      }
+    ],
+    "objective": {
+      "pairs": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_blue",
+          "color": "red",
+          "destination_color": "blue"
+        }
+      ],
+      "task_seed": null,
+      "mode": "red:blue",
+      "description": "Put the red box on the blue goal"
+    },
+    "delivery_approaches": [
+      {
+        "phase": "delivery_approach",
+        "elapsed_s": 205.00058347400045,
+        "source": "rgbd_support_edge",
+        "yaw": 3.145399647715339,
+        "approach_observation_count": 4
+      },
+      {
+        "phase": "delivery_approach",
+        "elapsed_s": 223.22441976101254,
+        "source": "rgbd_support_edge",
+        "yaw": 3.1440394726095806,
+        "approach_observation_count": 4
+      }
+    ],
+    "source_archive_sha256": "a92704de6cdf275e9317272b3cc982bbbe7206ea42a1bbef50c7b2b04234b3b6",
+    "search_source_sha256": {
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_mission.py": "1711996431f25493aa0a2e58f212e5742d8ec6353e58386c93a3eef432035ee3",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/exploration_search.py": "3807492f26fb2a8226e07e6fe3301dbcbcb0200a030d673c71aaa9408b312a07",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/room_search.py": "bfeff010b7ee666fe36e8fd0db0b276487d82ee91078ebaab5a36c4cc92c0ddf",
+      "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/search_visualization.py": "9f499c290d98989d166f892589af95a1bdcefe166c196c5cd743bbf755c0c972"
+    }
+  }
+]

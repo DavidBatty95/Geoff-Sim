@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "built_at": "2026-10-06T17:21:56.492701+00:00",
+  "engine": "Tectonic 0.17.0",
+  "pdf_sha256": "7d05950c8c223836b623755dc5ba2903bd34cf9a6c60492f11983c944084e70a",
+  "source_sha256": {
+    "build.sh": "27c8a18cf2a6bbb428a3e9cc5b723a157b6a78a0f3dd637f0dce0371d9f0b1ae",
+    "fulltext_retrieval.json": "a6f002d5a87553bc1fa90188c2899016a91b6f2f198509a0799ab9eabeed31ed",
+    "fundamentals.tex": "e3efdf6b0dfd79118ab7b842ca1ef09ba864d2ee40c96a382390c04bc1d7613a",
+    "generate_review_appendix.py": "71b02343d2629700f5ce4c8c6e87ee4ba216b70a388b2aa8add959d82f7e3bcc",
+    "literature_review.tex": "2c43c62f8f2fee4cfe8588dbd170c8711d11de3d85622fbcbb6e805ad830f331",
+    "novelty_roadmap.tex": "bc6f6c6225951661acbeac9138c301f8186fd3c6155a1dd720958410e547c7ea",
+    "paper_appraisals.json": "9b04e375026885ec0f54261ebf2449d36541ab6211efe180f4883ae8fd2916b3",
+    "paper_appraisals.tex": "948ee2c65273b0b8d43a824d0d07cd70a76fafec2938a98718d15d679919fd7d",
+    "pdf_provenance.py": "6443e93a32d65080034d145ddf582ddd9399272ed4fda2770006970adbf9d2d0",
+    "references.bib": "294ce8cefd6fa962ac72530778c581483f1caf36ba0fde431d944302d1113c94",
+    "sources.json": "3549cecbc6ddaea56880f7caea2cf8b3ad4fe7108ab8fab84381f093a73ed624",
+    "systematic_method.tex": "92c21d64cb8b4e907b107ff1e8b8a54a7bbbe0fd540f77d98570b9f5888750f3",
+    "thematic_synthesis.tex": "30d691339519852ee94103dc02986db08148a271b667839bdfc405b58c23abdb",
+    "verified_sources.json": "cf614925b87f9628a91431a9eef0baea6eb7f775ba744b390cab8a1b504760d3",
+    "verify_sources.py": "0877bfc2b9e91e49ef682dbe2b98a7ec303380e32c53dd7595a439e592b784d0"
+  },
+  "scope": "Review TeX/BibTeX and declared data/build inputs; not a bit-for-bit environment lock"
+}

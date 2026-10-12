@@ -113,6 +113,12 @@ if [ "${MODE}" != "fast" ]; then
     "${REPO_ROOT}/scripts/test_transport_progress.py" \
     "${REPO_ROOT}/scripts/test_response_trace.py" \
     "${REPO_ROOT}/scripts/test_transport_worlds.py" \
+    "${REPO_ROOT}/scripts/test_transport_people_profile.py" \
+    "${REPO_ROOT}/scripts/test_search_evidence.py" \
+    "${REPO_ROOT}/scripts/test_transport_objectives.py" \
+    "${REPO_ROOT}/scripts/test_transport_crowd.py" \
+    "${REPO_ROOT}/scripts/test_review_transport_failures.py" \
+    "${REPO_ROOT}/scripts/test_policy_command_replay.py" \
     "${REPO_ROOT}/scripts/test_evaluation_audit.py" \
     "${REPO_ROOT}/scripts/test_mjlab_training_manifest.py"
 

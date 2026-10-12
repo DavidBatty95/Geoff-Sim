@@ -23,6 +23,7 @@ from tf2_ros import Buffer, TransformException, TransformListener
 from visualization_msgs.msg import Marker, MarkerArray
 
 from .bridge_safety import (
+    being_overtaken,
     blocked_motion_state,
     no_unrequested_forward,
     relative_motion_metrics,
@@ -313,6 +314,8 @@ class HumanAwareMotionPlanner(Node):
         self.declare_parameter("retain_observed_routes", False)
         self.declare_parameter("planning_budget_ms", 0.0)
         self.planning_budget_ms = float(self.get_parameter("planning_budget_ms").value)
+        self.declare_parameter("overtaking_terminal_horizon", 0.0)
+        self.overtaking_terminal_horizon = max(0.,float(self.get_parameter("overtaking_terminal_horizon").value))
         self.declare_parameter('priority_candidate_limit',0)
         self.priority_candidate_limit = max(0,int(self.get_parameter('priority_candidate_limit').value))
         self.priority_search_phase = 0
@@ -648,7 +651,7 @@ class HumanAwareMotionPlanner(Node):
         elif self.navigation_mode != 'scan':
             dx,dy = goal.pose.position.x-pose[0],goal.pose.position.y-pose[1]
             distance = math.hypot(dx,dy)
-            if distance > .055:
+            if distance > .025:
                 # Live docking traces show stalls at 0.12 and 0.20 m/s.
                 # Retain a walking command until the positional stop threshold;
                 # the normal swept-clearance and slew checks still apply.
@@ -1951,6 +1954,7 @@ class HumanAwareMotionPlanner(Node):
         margin_violation = False
         body_collision_time = math.inf
         terminal_conflict = 0.0
+        overtaking_conflict = 0.0
         robot_points = np.asarray(trajectory)
         times = robot_points[:, 3]
         time_key = tuple(times)
@@ -2033,8 +2037,19 @@ class HumanAwareMotionPlanner(Node):
                 terminal = relative_motion_metrics(end[0], end[1], (end[0] - before[0]) / interval, (end[1] - before[1]) / interval,
                                                    human[-1, 0], human[-1, 1], human[-1, 2], human[-1, 3])
                 terminal_horizon = 2.0 * self.horizon if candidate.vx <= 0.0 and abs(candidate.vy) < 0.1 else 2.0
+                base_terminal_horizon = terminal_horizon
+                if (track.state=='CONFIRMED' and track.confidence>=.8 and
+                        being_overtaken(end[:2],((end[0]-before[0])/interval,(end[1]-before[1])/interval),
+                                        human[-1,:2],human[-1,2:4])):
+                    # A forward command can be a losing retreat too. Preserve
+                    # escape space before a faster walker catches the robot,
+                    # rather than limiting this longer lookahead to reverse vx.
+                    terminal_horizon = max(terminal_horizon,self.overtaking_terminal_horizon)
                 if terminal["closing"] and terminal["dcpa"] < self.robot_radius + track.body_radius + 0.05 and terminal["tcpa"] < terminal_horizon:
-                    terminal_conflict += 50.0
+                    if terminal['tcpa']>=base_terminal_horizon:
+                        overtaking_conflict += 50.0
+                    else:
+                        terminal_conflict += 50.0
             min_tcpa = min(min_tcpa, metrics["tcpa"])
             # Instantaneous-command CPA is only a directional hint: it assumes
             # immediate acceleration and never brakes. Weight its soft penalties
@@ -2112,6 +2127,7 @@ class HumanAwareMotionPlanner(Node):
             "legibility": self.weights["w_legibility"] * legibility,
             "deadlock": self.weights["w_deadlock"] * deadlock,
             "terminal_conflict": self.weights["w_deadlock"] * terminal_conflict,
+            "overtaking_conflict": self.weights["w_deadlock"] * overtaking_conflict,
         }
         score = (
             score_terms["goal"]
@@ -2128,8 +2144,9 @@ class HumanAwareMotionPlanner(Node):
             + score_terms["legibility"]
             + score_terms["deadlock"]
             + score_terms["terminal_conflict"]
+            + score_terms["overtaking_conflict"]
         )
-        reason = "terminal_conflict" if terminal_conflict else ("human_margin" if margin_violation else "")
+        reason = "terminal_conflict" if terminal_conflict or overtaking_conflict else ("human_margin" if margin_violation else "")
         return CandidateResult(candidate, score, bool(reason), reason, trajectory, min_human_distance, min_tcpa, front_cut_cost, score_terms)
 
     def _simulate(self, pose: tuple[float, float, float], candidate: Candidate) -> list[tuple[float, float, float, float]]:

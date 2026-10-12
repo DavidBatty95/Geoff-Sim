@@ -63,6 +63,12 @@ collections. Start there for topic-based exploration, or use the catalogue below
 | [Dual-cube perception diagnostics](DUAL_TRANSPORT_PERCEPTION.md) | Camera timing fix, retained native outcomes and remaining stability blockers |
 | [Native payload contract](NATIVE_PAYLOAD_CONTRACT.md) | Delay/inertial correction, cycle-03 training, two consecutive dual-delivery passes and open phase gates |
 | [Hardware fidelity and performance](HARDWARE_FIDELITY.md) | G1/BrainCo interfaces, sensor semantics, model audit, live rates and publication validation |
+| [Transport people-clearance follow-up](TRANSPORT_PEOPLE_CLEARANCE.md) | Wider table aisles, continuous workspace checks, bounded recovery and retained native failures |
+| [Unknown-environment search prototype](EXPLORATION_SEARCH.md) | RViz reasoning overlays, measured goal-selection timing, ORI/STRANDS attribution and incomplete delivery outcomes |
+| [Room search and colour tasks](ROOM_SEARCH_AND_TASKS.md) | Medium multi-room fixture, random cross-colour tasks, region decisions and visually inferred table approach sides |
+| [Demo failure review](DEMO_FAILURE_REVIEW.md) | Incident chronology, demonstrated false tracks, runtime bottlenecks and ranked validation paths |
+| [Perception/response follow-up](PERCEPTION_RESPONSE_FOLLOWUP.md) | Wall-supported track rejection, body-instability termination, native pilots and measured stopping response |
+| [Earlier avoidance follow-up](EARLY_AVOIDANCE_FOLLOWUP.md) | Experimental overtaking lookahead, inspection settling, failed native pilots and command-replay diagnostics |
 | [Media catalogue](MEDIA.md) | All README GIFs, recording provenance and diagram descriptions |
 | [Script entry points](../scripts/README.md) | Daily CLI and lower-level maintenance tools |
 
@@ -92,9 +98,13 @@ collections. Start there for topic-based exploration, or use the catalogue below
 | [Onboard source boundaries](ONBOARD_SOCIAL_NAVIGATION.md) | Sensor-driven inputs, simulator-truth isolation and validation scope |
 | [Dynamic route planning](DYNAMIC_ROUTE_PLANNING.md) | Replanning triggers, timing and route execution |
 | [Development and verification](DEVELOPMENT.md) | Host checks, Docker tests and source-patch maintenance |
+| [Maintainer guide](MAINTAINER_GUIDE.md) | Required checks, branch rules, security settings and owner responsibilities |
+| [Release and artifact policy](RELEASES.md) | Versioning, clean-checkout reproduction, model access and citation |
+| [Changelog](../CHANGELOG.md) / [Software citation](../CITATION.cff) | User-facing publication history and machine-readable citation metadata |
 | [Team handoff](HANDOFF.md) | Operational context and remaining work |
 | [Source patches](../patches/README.md) | Reproducing changes to pinned upstream sources |
 | [Contributing](../CONTRIBUTING.md) | Contribution workflow and review expectations |
+| [Code of conduct](../CODE_OF_CONDUCT.md) | Collaboration expectations and private reporting routes |
 | [Security](../SECURITY.md) / [Licenses](../LICENSES.md) | Reporting scope and existing licensing information |
 | [GitHub profile package](../profile/SETUP.md) | Optional companion profile setup |
 

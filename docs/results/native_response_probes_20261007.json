@@ -1,0 +1,226 @@
+[
+  {
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "policy_sha256": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc",
+    "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+    "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+    "mujoco_version": "3.8.1",
+    "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed empty-hand arm composition",
+    "delay_steps": 2,
+    "yaw": 0.0,
+    "held_empty": false,
+    "requested_duration_s": 9.0,
+    "requested_command": [
+      0.45,
+      0.0,
+      0.0
+    ],
+    "command_duration_s": 2.0,
+    "response_samples": 75,
+    "stop_samples": 99,
+    "mean_body_velocity_after_half_second": [
+      0.5111498041921223,
+      -0.1220308143085591
+    ],
+    "max_displacement_after_stop_m": 0.19127745883388564,
+    "yaw_displacement_rad": -0.33453033959272355,
+    "elapsed_s": 8.999999999999675,
+    "fallen": false,
+    "displacement_m": 1.0571490245508173,
+    "max_tilt_rad": 0.11978881572980962,
+    "artifact": "native_response_forward_20261007.json",
+    "artifact_sha256": "32b3fd8200b78d1c0eaa0c0e2f4d35f3ba403cb4905fb295457a8bc5b1b940e8"
+  },
+  {
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "policy_sha256": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc",
+    "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+    "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+    "mujoco_version": "3.8.1",
+    "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed empty-hand arm composition",
+    "delay_steps": 2,
+    "yaw": 0.0,
+    "held_empty": false,
+    "requested_duration_s": 9.0,
+    "requested_command": [
+      0.37,
+      -0.256,
+      0.0
+    ],
+    "command_duration_s": 2.0,
+    "response_samples": 75,
+    "stop_samples": 99,
+    "mean_body_velocity_after_half_second": [
+      0.33711716343743714,
+      -0.23624986726663982
+    ],
+    "max_displacement_after_stop_m": 0.24521829289495345,
+    "yaw_displacement_rad": -0.20640103951457753,
+    "elapsed_s": 8.999999999999675,
+    "fallen": false,
+    "displacement_m": 0.96288762563193,
+    "max_tilt_rad": 0.10470039746329025,
+    "artifact": "native_response_diagonal_20261007.json",
+    "artifact_sha256": "43cbfa9b8c690adde23830c347672216e967f4c6de4941f972a7277bd093aac2"
+  },
+  {
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "policy_sha256": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc",
+    "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+    "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+    "mujoco_version": "3.8.1",
+    "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed empty-hand arm composition",
+    "delay_steps": 2,
+    "yaw": 0.0,
+    "held_empty": false,
+    "requested_duration_s": 9.0,
+    "requested_command": [
+      0.0,
+      -0.45,
+      0.0
+    ],
+    "command_duration_s": 2.0,
+    "response_samples": 75,
+    "stop_samples": 99,
+    "mean_body_velocity_after_half_second": [
+      -0.07615352251213858,
+      -0.36751133510095824
+    ],
+    "max_displacement_after_stop_m": 0.1799576573348915,
+    "yaw_displacement_rad": 0.033827656799375376,
+    "elapsed_s": 8.999999999999675,
+    "fallen": false,
+    "displacement_m": 0.8152353265108402,
+    "max_tilt_rad": 0.15591582559035475,
+    "artifact": "native_response_lateral_20261007.json",
+    "artifact_sha256": "6c0b37fe556e899125165e32c5aa3c1746f4f7d059114db4f1064856afd70f9e"
+  },
+  {
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "policy_sha256": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc",
+    "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+    "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+    "mujoco_version": "3.3.6",
+    "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed empty-hand arm composition",
+    "delay_steps": 2,
+    "yaw": 0.0,
+    "held_empty": false,
+    "requested_duration_s": 9.0,
+    "requested_command": [
+      0.45,
+      0.0,
+      0.0
+    ],
+    "command_duration_s": 2.0,
+    "response_samples": 75,
+    "stop_samples": 99,
+    "mean_body_velocity_after_half_second": [
+      0.5111498061347387,
+      -0.12203080344867577
+    ],
+    "max_displacement_after_stop_m": 0.19127740916927746,
+    "yaw_displacement_rad": -0.33453039151117436,
+    "elapsed_s": 8.999999999999675,
+    "fallen": false,
+    "displacement_m": 1.0571489707705337,
+    "max_tilt_rad": 0.11978882322709859,
+    "artifact": "native_response_forward_336_20261007.json",
+    "artifact_sha256": "1a81de29e3c24abb4d49500aafbaae352a6880b9b3a29c43619568eb4f2f2361"
+  },
+  {
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "policy_sha256": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc",
+    "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+    "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+    "mujoco_version": "3.3.6",
+    "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed empty-hand arm composition",
+    "delay_steps": 2,
+    "yaw": 0.0,
+    "held_empty": false,
+    "requested_duration_s": 9.0,
+    "requested_command": [
+      0.37,
+      -0.256,
+      0.0
+    ],
+    "command_duration_s": 2.0,
+    "response_samples": 75,
+    "stop_samples": 99,
+    "mean_body_velocity_after_half_second": [
+      0.33711714731005576,
+      -0.23624986782991006
+    ],
+    "max_displacement_after_stop_m": 0.24521827434117274,
+    "yaw_displacement_rad": -0.20640100908384892,
+    "elapsed_s": 8.999999999999675,
+    "fallen": false,
+    "displacement_m": 0.9628875899792886,
+    "max_tilt_rad": 0.10470039746462027,
+    "artifact": "native_response_diagonal_336_20261007.json",
+    "artifact_sha256": "7c7c63010fd0528e7e189e60ac6a26e49b9e38772938eb106c37611257382ad1"
+  },
+  {
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "policy_sha256": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc",
+    "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+    "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+    "mujoco_version": "3.3.6",
+    "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed empty-hand arm composition",
+    "delay_steps": 2,
+    "yaw": 0.0,
+    "held_empty": false,
+    "requested_duration_s": 9.0,
+    "requested_command": [
+      0.0,
+      -0.45,
+      0.0
+    ],
+    "command_duration_s": 2.0,
+    "response_samples": 75,
+    "stop_samples": 99,
+    "mean_body_velocity_after_half_second": [
+      -0.07615354676450824,
+      -0.36751133906501743
+    ],
+    "max_displacement_after_stop_m": 0.17995768819366767,
+    "yaw_displacement_rad": 0.03382764274036604,
+    "elapsed_s": 8.999999999999675,
+    "fallen": false,
+    "displacement_m": 0.8152353403797299,
+    "max_tilt_rad": 0.15591582026517228,
+    "artifact": "native_response_lateral_336_20261007.json",
+    "artifact_sha256": "4166a5b1845a8f30cec77c5d2740666cad3cbe1ec3aefea2198dca585a99311c"
+  },
+  {
+    "policy": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+    "policy_sha256": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc",
+    "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+    "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+    "mujoco_version": "3.3.6",
+    "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed empty-hand arm composition",
+    "delay_steps": 2,
+    "yaw": 0.0,
+    "held_empty": true,
+    "requested_duration_s": 9.0,
+    "requested_command": [
+      0.37,
+      -0.256,
+      0.0
+    ],
+    "command_duration_s": 2.0,
+    "response_samples": 75,
+    "stop_samples": 99,
+    "mean_body_velocity_after_half_second": [
+      0.3225829583169792,
+      -0.27611645688936964
+    ],
+    "max_displacement_after_stop_m": 0.28884987620758024,
+    "yaw_displacement_rad": -0.3166843609815369,
+    "elapsed_s": 8.999999999999675,
+    "fallen": false,
+    "displacement_m": 0.9338668650309164,
+    "max_tilt_rad": 0.12286772897961992,
+    "artifact": "native_response_carry_pose_336_20261007.json",
+    "artifact_sha256": "bc35941e781b5591d87c446a06b81ef4c0cad5669e74b7c51b472d9e89ba8775"
+  }
+]

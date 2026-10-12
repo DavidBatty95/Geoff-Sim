@@ -41,6 +41,7 @@ for the underlying tool options.
 | Repeated world/seed trials | `./geoff benchmark` | [Experiment methodology](../docs/AVOIDANCE_EXPERIMENTS.md) |
 | Existing-result inspection | `./geoff results` | [Results review](../docs/RESULTS_REVIEW.md) |
 | Experimental pickup/carry | `./geoff transport --help` | [Payload policy and fixture](../docs/PAYLOAD_POLICY_TRAINING.md) |
+| Experimental unknown-environment search | `python3 scripts/run_exploration_transport_demo.py --help` | [Medium rooms, random colour tasks and visual approach sides](../docs/ROOM_SEARCH_AND_TASKS.md) |
 | Training/calibration | Explicit checkpoint and measurement tools | [Training guide](../docs/TRAINING_AND_CALIBRATION.md) |
 | Hardware-facing interfaces | `python3 scripts/run_hardware_parity_probe.py --output vendor/mjlab/logs/probe/interfaces.json` | [Fidelity and performance](../docs/HARDWARE_FIDELITY.md) |
 
@@ -57,6 +58,9 @@ Use the exact policy and configuration recorded by the relevant experiment.
 | Worlds and experiments | `avoidance_worlds.py`, `world_appearance.py`, `run_avoidance_matrix.py` |
 | Results | `avoidance_results_gui.py`, `analyze_avoidance_dataset.py`, `collect_demo_results.py` |
 | Diagnostics | `summarize_social_run.py`, `inspect_social_trace.py`, `evaluate_onboard_perception.py`, `analyze_response_trace.py` |
+| Failure review | `review_transport_failures.py` — offline chronology, phase accounting and aligned perception diagnostics |
+| Native response probes | `probe_native_policy.py`, `summarize_native_probes.py` — version-checked dynamics diagnostics and compact export |
+| Command replay | `policy_command_replay.py` — source-timed empty-hand command ingestion for the native probe |
 | General research batches | `benchmark_batch.py`, `aggregate_benchmark_batch.py` |
 | Response calibration | `measure_g1_fixed_command.py`, `process_g1_response_trial.py`, `assemble_g1_response_dataset.py` |
 | Transport | `run_transport_demo.py`, `transport_worlds.py`, `transport_evidence.py`, `summarize_payload_results.py`, `summarize_transport_progress.py` |
@@ -66,6 +70,7 @@ Use the exact policy and configuration recorded by the relevant experiment.
 | Evaluation alignment | `audit_evaluation_alignment.py`, `test_evaluation_audit.py` |
 | Source/docs maintenance | `source_patches.py`, `check_docs.py`, `generate_readme_graphics.py` |
 | Resource library | `resource_library.py`: topic-card artwork and the complete bibliography index |
+| Repository quality | `check_repository.py`, `ci_scope.py`, `install_quality_tool.py`, `test_check_docs.py`, `test_repository_quality.py`, `test_pdf_provenance.py` |
 | Verification | `test_workspace.sh`, `test_workspace_inside.sh`, `test_*.py` |
 
 The low-level shell wrappers remain because the supported orchestration uses
@@ -79,6 +84,12 @@ checks motion-setting consistency before goals. See the
 [phase report](../docs/PHASE_PROGRESS_20261005.md) for reproduction and results.
 
 ## Outputs and maintenance
+
+The dual-transport scene has wider table aisles. People-present transport runs
+save a derived clearance profile, configurable with `--people-clearance-extra`.
+See [the clearance follow-up](../docs/TRANSPORT_PEOPLE_CLEARANCE.md) for commands,
+regression checks and retained native failures; full people-present delivery is
+not yet validated by these changes.
 
 Demo/suite/matrix launchers save artifacts under the benchmark package's ignored
 `results/` tree. Training uses `vendor/mjlab/logs/`; selected portable evidence

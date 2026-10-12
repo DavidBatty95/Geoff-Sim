@@ -54,9 +54,9 @@ def export():
     for name, (relative, paths) in SOURCES.items():
         source = ROOT / relative
         base = git(source, "rev-parse", "HEAD").stdout.decode().strip()
-        pin = git(ROOT, "ls-tree", "HEAD", "--", relative).stdout.decode().split()[2]
+        pin = git(ROOT, "ls-files", "--stage", "--", relative).stdout.decode().split()[1]
         if base != pin:
-            raise RuntimeError(f"{relative}: HEAD differs from the parent repository's pinned revision")
+            raise RuntimeError(f"{relative}: HEAD differs from the parent repository's staged pinned revision")
         patch = git(source, "diff", "--binary", "--full-index", "HEAD", "--", *paths).stdout
         for path in paths:
             if not git(source, "ls-files", "--", path).stdout and (source/path).is_file():
@@ -111,8 +111,14 @@ def verify_pristine():
                     output.write_bytes(original.stdout)
                     mode = git(source, "ls-tree", spec["base_commit"], "--", path).stdout.decode().split()[0]
                     output.chmod(0o755 if mode == "100755" else 0o644)
-            git(target, "apply", "--check", str(PATCHES/spec["patch"]))
-            git(target, "apply", str(PATCHES/spec["patch"]))
+            patch = PATCHES/spec["patch"]
+            if digest(patch.read_bytes()) != spec["sha256"]:
+                raise RuntimeError(f"Patch checksum mismatch: {patch}")
+            # Committed submodule changes need no overlay patch. Still verify
+            # every reviewed file against the exact pinned commit below.
+            if patch.stat().st_size:
+                git(target, "apply", "--check", str(patch))
+                git(target, "apply", str(patch))
             for path, expected in spec["files"].items():
                 if digest((target/path).read_bytes()) != expected:
                     raise RuntimeError(f"Pristine application did not reproduce {path}")

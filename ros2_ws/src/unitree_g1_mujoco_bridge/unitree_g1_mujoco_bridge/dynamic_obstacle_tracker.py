@@ -28,6 +28,7 @@ from unitree_social_navigation_msgs.msg import (
 
 from .pointcloud import iter_xyz
 from .point_components import connected_components
+from .wall_evidence import WallEvidence
 
 
 @dataclass
@@ -394,6 +395,8 @@ class DynamicObstacleTracker(Node):
         self.declare_parameter("object_near_range", 4.0)
         self.declare_parameter("object_near_min_points", 6)
         self.declare_parameter("require_person_shape_for_object_detection", True)
+        self.declare_parameter("reject_wall_supported_clusters", True)
+        self.reject_wall_supported_clusters = bool(self.get_parameter("reject_wall_supported_clusters").value)
         self.declare_parameter("local_tracking_radius", 7.0)
 
         self.min_height = float(self.get_parameter("min_height").value)
@@ -731,8 +734,11 @@ class DynamicObstacleTracker(Node):
 
     def _cloud_callback(self, msg: PointCloud2) -> None:
         stamp = msg.header.stamp.sec + msg.header.stamp.nanosec * 1e-9
+        if not math.isfinite(stamp) or stamp<=getattr(self,'last_processed_stamp',-math.inf):
+            return
         query_time = rclpy.time.Time.from_msg(msg.header.stamp)
         points = []
+        wall_points = []
         transform = None
         if msg.header.frame_id and msg.header.frame_id != self.target_frame:
             try:
@@ -758,13 +764,28 @@ class DynamicObstacleTracker(Node):
                 continue
             if z < self.ground_rejection_height:
                 continue
+            if (getattr(self,'reject_wall_supported_clusters',False) and
+                    self.max_person_height+.15<z<=self.max_height+1.5 and
+                    not self._outside_local_tracking_radius(x,y,robot_xy) and
+                    len(wall_points)<self.max_accumulated_points):
+                wall_points.append((x,y,z))
             if z < self.min_height or z > self.max_height:
                 continue
             if self._outside_local_tracking_radius(x, y, robot_xy):
                 continue
             points.append((x, y, z))
 
-        self._publish_points(points, stamp, self.target_frame if transform is not None else msg.header.frame_id)
+        frame = self.target_frame if transform is not None else msg.header.frame_id
+        if not hasattr(self,'wall_history'):
+            self.wall_history = deque(maxlen=8)
+        self.wall_history.append((stamp,frame,wall_points))
+        while self.wall_history and (stamp-self.wall_history[0][0]>.25 or self.wall_history[0][1]!=frame):
+            self.wall_history.popleft()
+        # Static structural returns can be accumulated longer than close moving
+        # bodies. Keep the history independently bounded and in one frame.
+        high = [point for _,source,points_in_frame in self.wall_history if source==frame for point in points_in_frame]
+        self.wall_observation = stamp,frame,high[-getattr(self,'max_accumulated_points',20000):]
+        self._publish_points(points, stamp, frame)
 
     def _iter_cloud_points(self, msg: PointCloud2) -> Iterable[tuple[float, float, float, bool]]:
         offsets = {field.name: field.offset for field in msg.fields}
@@ -932,6 +953,13 @@ class DynamicObstacleTracker(Node):
             ]
             clusters = self._dedupe_clusters(raw_clusters + self._clusters(foreground_points, robot_xy=robot_xy) + person_clusters)
         clusters, self.effective_people_source = self._effective_people_clusters(clusters, stamp)
+        evidence = getattr(self,'wall_observation',None)
+        wall = (WallEvidence(evidence[2],self.max_person_height+.15)
+                if getattr(self,'reject_wall_supported_clusters',False) and evidence is not None and
+                evidence[0]==stamp and evidence[1]==frame_id else None)
+        def wall_supported(cluster):
+            return (wall is not None and wall.supports(cluster.x,cluster.y) and
+                    self._cluster_detection_confidence(cluster,stamp)<self.person_detection_confirm_confidence)
         eligible_clusters = []
         for cluster in clusters:
             self._annotate_cluster_quality(cluster, robot_xy)
@@ -944,6 +972,11 @@ class DynamicObstacleTracker(Node):
                 else:
                     self.debug_events.append(self._cluster_debug_event(cluster, "rejected", "object_gate"))
                     continue
+            # Run the more expensive structural check only after the cheap
+            # size/shape gate; rejected full wall clusters need no line fitting.
+            if wall_supported(cluster):
+                self.debug_events.append(self._cluster_debug_event(cluster,"rejected","wall_continuation"))
+                continue
             if not self.use_object_motion_detection and self._is_livox_pattern_artifact(cluster):
                 self.debug_events.append(self._cluster_debug_event(cluster, "rejected", "livox_pattern_artifact"))
                 continue
@@ -958,7 +991,11 @@ class DynamicObstacleTracker(Node):
             eligible_clusters.append(cluster)
         clusters = eligible_clusters
         if self.use_track_conditioned_crops:
-            clusters.extend(self._track_conditioned_crops(points, clusters, stamp))
+            for cluster in self._track_conditioned_crops(points, clusters, stamp):
+                if wall_supported(cluster):
+                    self.debug_events.append(self._cluster_debug_event(cluster,"rejected","wall_continuation"))
+                else:
+                    clusters.append(cluster)
         if not hasattr(self, "processing_phases_ms"):
             self.processing_phases_ms = {}
         self.processing_phases_ms["cluster"] = 1000.*(time.perf_counter()-phase_started)

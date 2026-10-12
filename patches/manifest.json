@@ -3,22 +3,22 @@
   "sources": [
     {
       "path": "ros2_ws/src/unitree_mujoco",
-      "base_commit": "fde35565f1816bf2c3ef0e56a6ab8e552ec50717",
+      "base_commit": "f8ca34e626e485cfff2911b4576d0212dd00449b",
       "patch": "unitree_mujoco.patch",
-      "sha256": "f75a8e2b3aa1e2778f2eccdab2ed6b51f4c97f5ee03d547741f978acdd0f6467",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "files": {
         ".gitignore": "11e76b8341c81453e4904286d1a2f129806f36463f61ec7c5a2e22ef81c31bd5",
         "simulate/CMakeLists.txt": "0307f1a10b83fd99c6693b9af08b48c093c24e1ede37dadee60ca0534cb6e179",
-        "simulate/src/main.cc": "d394bcf77798104a4df8f70679cc8be074c742b6efe61c577f992b853b842ce0",
+        "simulate/src/main.cc": "4ab649cb5a74d24d52d7ecebb2327a64fa51b16ae1402d9c898957192426ec86",
         "unitree_robots/g1/scene_29dof_extreme_lab.xml": "7e4a412eed5ad3635bcb80cb0c1953b297b024695e9e05d8837a51a701c9f960",
         "simulate/src/goal_overlay.cc": "616a952fa943c4a702f543932ca2984c7301d9befb15441161e42013098ff8e5",
         "simulate/src/goal_overlay.h": "5737bbd07c7cc7a33876436fe3dd288d4d78e5d6c5d1d936c6716adea04c3731",
         "simulate/src/natural_pedestrian_motion.h": "0a13861511700b88d61e2b5df1a04ba31f1a098dfa09f107163fca1712e58d6e",
-        "simulate/src/pedestrian_path_planner.h": "888e2cefec85b10fbf439553167ff710d1180dda96a5afaf2400f55f916b8992",
+        "simulate/src/pedestrian_path_planner.h": "7621d8e17180ce96b653e8c6fdd3f2f832520c690232b2f125503b4ed4bc30cf",
         "simulate/src/pedestrian_scenarios.h": "90936599d47c693aafebfa1e962bfc30e467e88de0f61d1da597acfa39283824",
         "simulate/test/goal_overlay_test.cc": "f64c5ac663b81d8f2be8f37b5c07c2440b9d314e9d6eb4a4c14ae044b5130c10",
-        "simulate/test/natural_pedestrians_test.cc": "bbbf26945fa266f8b9913d8be11aa0bcbe643ee47d88ac6c93c92fd59ddc4735",
-        "simulate/test/pedestrian_scenarios_test.cc": "37f57e299192fde62ebdc86b413e02e9e897087b0c8d43496610a185bbdd9ed0",
+        "simulate/test/natural_pedestrians_test.cc": "1a070283fd441388335517e03f8801dfa9391b1e12682b5ba5f77c999e663838",
+        "simulate/test/pedestrian_scenarios_test.cc": "03bdbd527c88aa6d4f7e07fb581aa9b06f537090bd51e75ebe10c536229eb72b",
         "simulate/src/pedestrian_start_gate.h": "f95e57b3a362e0590919a03cbe59f034df8873cc5d0305800d57d1b6d53309e8",
         "simulate/test/pedestrian_start_gate_test.cc": "51a6d306c687b6d498733905226f17f8e9488f470e87ad99b3ff164167a6c020",
         "simulate/src/mujoco_sensor_worker.h": "fcf3e2a2ae451bedc57f3050a9d46f6aa72ef959038d5d471ff7f07b66aa5b24",
@@ -39,15 +39,15 @@
     },
     {
       "path": "vendor/mjlab",
-      "base_commit": "ebfc96fa17f40ecd15ed9891cfdf59cd43d0c7b3",
+      "base_commit": "67e21d5f3782b7a0eece908117a16d76f9cb5458",
       "patch": "mjlab.patch",
-      "sha256": "4a4e9d1eebf751c349a801e77f020e4be3ec3982d00329c7c7676fa60836a7a6",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "files": {
         "docs/source/changelog.rst": "f7492c973de2d48d0515ebc6743db4b5215fd8f6d81c6e758e75fa1f39225804",
         "src/mjlab/tasks/velocity/config/g1/__init__.py": "e6edb280dd8c920e6f9b651a2e5541c04a8ce7b594eb982f03660b5393f30204",
         "src/mjlab/tasks/velocity/config/g1/env_cfgs.py": "b85c25cc32556bbe208379e07831f84c92140a79f45d53ecc5d9a6146d154a5d",
         "src/mjlab/tasks/velocity/config/g1/rl_cfg.py": "96d05ee103943df474169a0894d68362c4a5583c478e4d56bdbccdfb49a369b6",
-        "tests/test_g1_stand_creep_stop_task.py": "800bf126dddc2587c8253172872a9925e4a3a92048bd17c8a61d58ee8ffdcdfc"
+        "tests/test_g1_stand_creep_stop_task.py": "11e9bf71afce9642d6614d7c6b64f3154d8879007db8467e2abb5699c0a81f4b"
       }
     }
   ]

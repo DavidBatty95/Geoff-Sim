@@ -70,3 +70,45 @@ def test_pickup_approach_uses_measured_support_edge_under_rotation():
         assert abs(np.arctan2(np.sin(observed-yaw),np.cos(observed-yaw)))<.03
     assert support_approach(points,np.array((2.,0.,1.01))) is None
     assert support_approach(points,np.array((0.,0.,1.01))) is None
+
+
+def test_destination_side_comes_from_table_edge_not_square_rotation_or_robot_bearing():
+    x,y = np.meshgrid(np.linspace(-.55,.55,30),np.linspace(-.5,.5,30))
+    points = np.column_stack((x.ravel(),y.ravel(),np.ones(x.size)*.95))
+    pad = np.array((-.345,0.,.954))
+    for yaw in (0.,.4,1.2,2.7,-2.):
+        R = np.array(((np.cos(yaw),-np.sin(yaw),0.),(np.sin(yaw),np.cos(yaw),0.),(0.,0.,1.)))
+        shift = np.array((3.2,-1.7,0.))
+        observed = support_approach(points@R.T+shift,pad@R.T+shift,max_edge_gap=.30)
+        assert observed is not None
+        assert abs(np.arctan2(np.sin(observed-yaw),np.cos(observed-yaw)))<.03
+    assert support_approach(points,np.array((0.,0.,.954)),max_edge_gap=.30) is None
+    assert support_approach(points,np.array((-.345,-.295,.954)),max_edge_gap=.30) is None
+
+
+def test_rgbd_blue_pad_gets_table_side_and_pad_alone_does_not():
+    # Perspective rays intersect a complete horizontal tabletop. The blue pad
+    # sits by its near edge, which supplies direction despite square symmetry.
+    h,w = 240,320
+    K = np.array(((280.,0.,w/2),(0.,280.,h/2),(0.,0.,1.)))
+    origin = np.array((0.,0.,1.3))
+    pitch = np.deg2rad(25.)
+    rotation = np.array(((np.cos(pitch),0.,np.sin(pitch)),(0.,1.,0.),(-np.sin(pitch),0.,np.cos(pitch))))
+    optical = rotation@np.array(((0.,0.,1.),(-1.,0.,0.),(0.,-1.,0.)))
+    v,u = np.indices((h,w))
+    rays = np.stack(((u-K[0,2])/K[0,0],(v-K[1,2])/K[1,1],np.ones((h,w))),axis=-1)@optical.T
+    with np.errstate(divide='ignore',invalid='ignore'):
+        distance = (.95-origin[2])/rays[:,:,2]
+    points = origin+rays*distance[:,:,None]
+    table = (distance>0.)&(points[:,:,0]>=1.2)&(points[:,:,0]<=2.3)&(np.abs(points[:,:,1])<=.5)
+    pad = table&(np.abs(points[:,:,0]-1.405)<=.18)&(np.abs(points[:,:,1])<=.18)
+    rgb = np.zeros((h,w,3),dtype=np.uint8)
+    rgb[table] = (120,100,80)
+    rgb[pad] = (20,50,230)
+    depth = np.where(table,distance,10.)
+    detected = colour_detections(rgb,depth,K,origin,optical)
+    target = next(item for item in detected if item['id']=='target_blue')
+    assert abs(target['approach_yaw'])<.04
+    assert target['approach_source']=='rgbd_support_edge'
+    isolated = colour_detections(rgb,np.where(pad,distance,10.),K,origin,optical)
+    assert 'approach_yaw' not in next(item for item in isolated if item['id']=='target_blue')

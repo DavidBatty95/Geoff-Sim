@@ -35,9 +35,9 @@ def components(mask):
             yield np.array(group)
 
 
-def support_approach(points,box):
+def support_approach(points,box,max_edge_gap=.20,min_edge_separation=.08):
     """Face-normal approach from the visible support rectangle, not scene axes."""
-    if len(points)<20:
+    if len(points)<20 or not np.all(np.isfinite(points)) or not np.all(np.isfinite(box[:2])):
         return None
     lower,upper = np.min(points[:,:2],axis=0),np.max(points[:,:2],axis=0)
     if min(upper-lower)<.25 or np.any(np.asarray(box[:2])<lower-.04) or np.any(np.asarray(box[:2])>upper+.04):
@@ -59,7 +59,7 @@ def support_approach(points,box):
         return None
     gaps = [local[0]-lo[0],hi[0]-local[0],local[1]-lo[1],hi[1]-local[1]]
     edge = int(np.argmin(gaps))
-    if gaps[edge]>.20:
+    if gaps[edge]>max_edge_gap or sorted(gaps)[1]-gaps[edge]<min_edge_separation:
         return None  # No observed nearby edge to justify a tabletop approach.
     inward = axes[:,edge//2]*(1. if edge%2==0 else -1.)
     return math.atan2(inward[1],inward[0])
@@ -117,8 +117,8 @@ def colour_detections(rgb,depth,K,origin,R,table_height=.95,diagnostics=None):
                     detection['yaw'] = best[1]
                     detection['position'][:2] = best[2].tolist()
                 result.append(detection)
-    boxes = [item for item in result if item['kind']=='box']
-    if boxes:
+    supported = [item for item in result if item['kind'] in ('box','pad')]
+    if supported:
         v,u = np.indices(depth.shape)
         points = np.stack(((u-K[0,2])*depth/K[0,0],(v-K[1,2])*depth/K[1,1],depth),axis=-1)@R.T+origin
         # Support orientation needs broad plane coverage, not every pixel.
@@ -128,12 +128,22 @@ def colour_detections(rgb,depth,K,origin,R,table_height=.95,diagnostics=None):
         support_depth = depth[::2,::2]
         support = ((support_depth>.15)&(support_depth<8.)&(points[:,:,2]>table_height-.03)&
                    (points[:,:,2]<table_height+.07))
+        approaches = {id(item):[] for item in supported}
         for pixels in components(support):
             surface = points[pixels[:,0],pixels[:,1]]
-            for item in boxes:
-                approach = support_approach(surface,item['position'])
+            clipped = bool(np.any(pixels[:,0]==0) or np.any(pixels[:,0]==support.shape[0]-1) or
+                           np.any(pixels[:,1]==0) or np.any(pixels[:,1]==support.shape[1]-1))
+            for item in supported:
+                if item['kind']=='pad' and clipped:
+                    continue  # An image border is not an observed tabletop edge.
+                approach = support_approach(surface,item['position'],max_edge_gap=.30 if item['kind']=='pad' else .20)
                 if approach is not None:
-                    item['approach_yaw'] = approach
+                    approaches[id(item)].append(approach)
+        for item in supported:
+            choices = approaches[id(item)]
+            if choices and all(abs(math.atan2(math.sin(yaw-choices[0]),math.cos(yaw-choices[0])))<=.15 for yaw in choices):
+                item['approach_yaw'] = choices[0]
+                item['approach_source'] = 'rgbd_support_edge'
     return result
 
 
@@ -188,6 +198,7 @@ class ObservationConsensus:
                 self.confirmed[identifier] = dict(item)
                 if approach_count<2:
                     self.confirmed[identifier].pop('approach_yaw',None)
+                    self.confirmed[identifier].pop('approach_source',None)
             else:
                 self.confirmed.pop(identifier,None)
         self.confirmed = {key:item for key,item in self.confirmed.items()
@@ -338,4 +349,6 @@ class TransportPerception(Node):
             if 0. <= now-stamp <= 1.5:
                 self._process(stamp)
         self.objects = {key:value for key,value in self.objects.items() if now-value['observed_stamp'] < (60. if value['kind']=='pad' else 30.)}
-        self.pub.publish(String(data=json.dumps(dict(frame='odom',stamp=now,objects=list(self.objects.values()),source='registered_rgbd_joint_imu'))))
+        self.pub.publish(String(data=json.dumps(dict(frame='odom',stamp=now,
+            image_stamp=self.last_processed_stamp if math.isfinite(self.last_processed_stamp) else None,
+            objects=list(self.objects.values()),source='registered_rgbd_joint_imu'))))

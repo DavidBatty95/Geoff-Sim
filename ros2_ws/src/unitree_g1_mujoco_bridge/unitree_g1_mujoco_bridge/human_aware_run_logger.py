@@ -52,6 +52,7 @@ class HumanAwareRunLogger(Node):
         self.create_subscription(String,'/g1/policy_diagnostics',lambda msg:self._string_callback('policy_diagnostics',msg),10)
         self.create_subscription(String,'/g1/locomotion_diagnostics',lambda msg:self._string_callback('locomotion_diagnostics',msg),10)
         self.create_subscription(String,'/transport/mission_state',lambda msg:self._string_callback('transport_state',msg),10)
+        self.create_subscription(String,'/exploration/search_status',lambda msg:self._string_callback('search_status',msg),10)
         self.create_subscription(TwistStamped,'/g1/policy_cmd_vel',self._policy_command_callback,10)
 
         self.get_logger().info(f"Human-aware run logger writing {self.output_path}")

@@ -26,9 +26,29 @@ No hardware deployment or independent safety certification is claimed.
 - The development container uses host networking/IPC for ROS integration and
   explicitly mapped graphics devices. It does not require `privileged: true`.
   Review host mounts and X11 access before using shared machines.
-- Report sensitive issues through the team's private security channel. The new
-  repository owner should configure GitHub private vulnerability reporting and
-  an organization-owned contact as part of the handoff.
 
 Only the current maintained branch is supported. Third-party vulnerabilities
 should also be reported to the corresponding upstream project.
+
+## Reporting a vulnerability
+
+1. If GitHub offers **Security → Report a vulnerability**, use the
+   [private advisory form](https://github.com/DavidBatty95/Geoff-Sim/security/advisories/new).
+   Availability depends on the repository's owner-controlled settings.
+2. If that route is unavailable, use the maintainer's contact link in the
+   [project profile](profile/README.md) to request a confidential reporting channel.
+3. Include the affected commit, component, prerequisites, impact and a minimal
+   reproduction. Share credentials, exploit details and sensitive logs only through
+   the agreed private channel.
+
+Ordinary installation or simulation failures can use the public bug form.
+Sensitive vulnerabilities should not be reported through public issues.
+Maintainers should agree on disclosure and remediation with the reporter and
+notify affected upstream projects when relevant.
+
+## Maintainer controls
+
+The [maintainer guide](docs/MAINTAINER_GUIDE.md) lists the settings needed for
+private reporting, protected branches, required checks and dependency/security
+alerts. Checked-in workflow configuration alone does not enable these GitHub
+administrative features.

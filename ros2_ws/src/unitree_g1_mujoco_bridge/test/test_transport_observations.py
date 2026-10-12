@@ -59,14 +59,19 @@ def test_long_acquisition_gap_still_requires_reconfirmation():
     assert tracker.update([box()],4.)['box_red']['observation_count'] == 2
 
 
-def test_support_approach_requires_its_own_distinct_consistent_views():
+@pytest.mark.parametrize('identifier,kind', [('box_red','box'),('target_blue','pad')])
+def test_support_approach_requires_its_own_distinct_consistent_views(identifier,kind):
     tracker = ObservationConsensus()
-    tracker.update([box()],1.)
-    item = dict(box(),approach_yaw=.2)
-    assert 'approach_yaw' not in tracker.update([item],1.5)['box_red']
-    assert tracker.update([item],2.)['box_red']['approach_yaw'] == .2
+    detection = dict(box(),id=identifier,kind=kind)
+    tracker.update([detection],1.)
+    item = dict(detection,approach_yaw=.2,approach_source='rgbd_support_edge')
+    pending = tracker.update([item],1.5)[identifier]
+    assert 'approach_yaw' not in pending and 'approach_source' not in pending
+    assert tracker.update([item],2.)[identifier]['approach_yaw'] == .2
     item['approach_yaw'] = 1.7
-    assert 'approach_yaw' not in tracker.update([item],2.5)['box_red']
+    assert tracker.update([item],2.)[identifier]['approach_yaw']==.2
+    changed = tracker.update([item],2.5)[identifier]
+    assert 'approach_yaw' not in changed and 'approach_source' not in changed
 
 
 def test_search_hint_only_directs_view_and_does_not_accept_stale_geometry():

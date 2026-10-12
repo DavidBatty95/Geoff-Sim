@@ -927,6 +927,105 @@ def test_braked_step_does_not_pay_for_collision_beyond_its_stopping_point(planne
     assert result.score_terms['ttc'] == 0.
 
 
+@pytest.mark.parametrize('yaw', [0.,.7,math.pi])
+def test_forward_overtaking_risk_activates_before_short_horizon_collision(planner,yaw):
+    planner.horizon = planner.hard_collision_horizon = 3.
+    planner.body_prediction_margin = .25
+    c,s = math.cos(yaw),math.sin(yaw)
+    planner._simulate = lambda pose,cmd:[((c*cmd.vx-s*cmd.vy)*t,(s*cmd.vx+c*cmd.vy)*t,yaw,t)
+                                        for t in np.linspace(0.,3.,31)]
+    person = HumanTrack(1,'CONFIRMED',-3.5*c,-3.5*s,c,s,1.,1.,0,.002,.002,0.,.42)
+    forward = Candidate('forward',.45,0.,0.)
+    baseline = planner._score_candidate(forward,(0.,0.,yaw),[person],[],[],{},0.)
+    assert not baseline.rejected
+    planner.overtaking_terminal_horizon = 6.
+    guarded = planner._score_candidate(forward,(0.,0.,yaw),[person],[],[],{},0.)
+    side = planner._score_candidate(Candidate('side',0.,.45,0.),(0.,0.,yaw),[person],[],[],{},0.)
+    assert guarded.reason=='terminal_conflict'
+    assert guarded.score_terms['overtaking_conflict']>0.
+    assert not side.rejected
+
+
+def test_overtaking_cue_does_not_confuse_following_or_separating_motion():
+    from unitree_g1_mujoco_bridge.bridge_safety import being_overtaken
+    assert being_overtaken((0.,0.),(.45,0.),(-3.5,0.),(1.,0.))
+    assert not being_overtaken((0.,0.),(.45,0.),(3.5,0.),(1.,0.))
+    assert not being_overtaken((0.,0.),(.45,0.),(-3.5,0.),(.2,0.))
+    assert not being_overtaken((0.,0.),(.2,.45),(-3.5,0.),(1.,0.))
+
+
+def test_overtaking_reserve_leaves_response_aware_side_escape_available(planner):
+    planner.horizon = planner.hard_collision_horizon = 3.
+    planner.body_prediction_margin = .25
+    planner.motion_envelope = MotionEnvelope(max_x=.45,max_y=.45,max_planar_speed=.45,
+        accel_x=2.4,accel_y=2.4,forward_gain=.96,lateral_gain=.8,linear_time_constant=.4)
+    planner.measured_velocity = (.432,0.,0.)
+    planner.policy_command_stamp = None
+    person = HumanTrack(1,'CONFIRMED',-4.2,0.,1.,0.,1.,1.,0,.002,.002,0.,.42)
+    forward = Candidate('forward',.45,0.,0.)
+    assert not planner._score_candidate(forward,(0.,0.,0.),[person],[],[],{},0.).rejected
+    planner.overtaking_terminal_horizon = 6.
+    assert planner._score_candidate(forward,(0.,0.,0.),[person],[],[],{},0.).reason=='terminal_conflict'
+    side = planner._score_candidate(Candidate('side',0.,.45,0.),(0.,0.,0.),[person],[],[],{},0.)
+    assert not side.rejected
+
+
+def test_overtaking_reserve_starts_lateral_avoidance_earlier_in_planar_replay(planner):
+    from collections import deque
+    from pathlib import Path as FilePath
+    import yaml
+    profile = yaml.safe_load((FilePath(__file__).parents[2]/'unitree_g1_sim_bringup/config/social_navigation_onboard_v1.yaml').read_text())['human_aware_motion_planner']['ros__parameters']
+    for key in planner.weights:
+        if key in profile:
+            planner.weights[key] = profile[key]
+    planner.horizon = planner.hard_collision_horizon = 3.
+    planner.body_prediction_margin = .25
+    planner.nav2_path_reference = planner.prefer_forward_travel = True
+    planner.reference_goal_world = (8.,0.)
+    planner.reference_progress_target = None
+    planner.state = 'HUMAN_CAUTION'
+    planner.latest_cmd.linear.x = .45
+    planner.motion_envelope = MotionEnvelope(max_x=.45,max_y=.45,max_planar_speed=.45,
+        accel_x=2.4,accel_y=2.4,forward_gain=.96,lateral_gain=.8,linear_time_constant=.4)
+    commands = [(0.,0.),(.45,0.),(-.45,0.),(0.,.45),(0.,-.45),(.318,.318),(.318,-.318)]
+    def replay(reserve):
+        planner.overtaking_terminal_horizon = reserve
+        position,velocity,filtered = np.zeros(2),np.array((.432,0.)),np.array((.45,0.))
+        delayed = deque([filtered.copy(),filtered.copy()])
+        first_lateral = None
+        minimum = math.inf
+        planner.last_cmd = Twist()
+        for step in range(100):
+            t = step*.1
+            person = HumanTrack(1,'CONFIRMED',-4.2+t,0.,1.,0.,1.,1.,0,.002,.002,0.,.42)
+            planner.prediction_cache.clear()
+            planner.measured_velocity = (*velocity,0.)
+            planner.policy_command = (*filtered,0.)
+            planner.policy_command_stamp = planner.get_clock().now().nanoseconds*1e-9
+            scored = [planner._score_candidate(Candidate(str(index),x,y,0.),(*position,0.),[person],[],[],{},0.)
+                      for index,(x,y) in enumerate(commands)]
+            feasible = [result for result in scored if not result.rejected]
+            if not feasible:
+                feasible = [result for result in scored if result.reason in ('human_margin','terminal_conflict')]
+            selected = min(feasible,key=lambda result:result.score).candidate if feasible else Candidate('stop',0.,0.,0.)
+            requested = np.array((selected.vx,selected.vy))
+            if first_lateral is None and abs(requested[1])>.1:
+                first_lateral = t
+            planner.last_cmd.linear.x,planner.last_cmd.linear.y = map(float,requested)
+            delayed.append(requested)
+            target = delayed.popleft()
+            proposed = filtered+np.clip(target-filtered,-.24,.24)
+            filtered = np.asarray(planner.motion_envelope.limit_planar((*proposed,0.),(*filtered,0.))[:2])
+            before = velocity.copy()
+            velocity += (filtered*np.array((.96,.8))-velocity)*(1.-math.exp(-.1/.4))
+            position += .05*(before+velocity)
+            minimum = min(minimum,math.dist(position,(-4.2+t+.1,0.)))
+        return first_lateral,minimum
+    baseline,guarded = replay(0.),replay(6.)
+    assert guarded[0] is not None and (baseline[0] is None or guarded[0]<baseline[0]), (baseline,guarded)
+    assert guarded[1]>.8, (baseline,guarded)
+
+
 @pytest.mark.parametrize('distance,margin', [(2.5,.25), (3.5,.75)])
 def test_short_escape_does_not_choose_a_retreat_that_a_faster_person_catches(planner, distance, margin):
     planner.horizon = planner.hard_collision_horizon = 3.

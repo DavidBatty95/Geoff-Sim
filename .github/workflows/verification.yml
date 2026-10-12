@@ -4,6 +4,7 @@ name: Verification
   push:
     branches: [main]
   pull_request:
+  merge_group:
   workflow_dispatch:
 
 concurrency:
@@ -14,8 +15,102 @@ permissions:
   contents: read
 
 jobs:
+  changes:
+    name: Classify changes
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    outputs:
+      runtime: ${{ steps.scope.outputs.runtime }}
+      review: ${{ steps.scope.outputs.review }}
+    steps:
+      - name: Check out repository history
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - name: Determine required verification
+        id: scope
+        run: python3 scripts/ci_scope.py
+
+  quality:
+    name: Repository quality
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Install isolated quality tools
+        run: |
+          python3 -m venv .venv-quality
+          .venv-quality/bin/python -m pip install -r tools/requirements-quality.txt
+          python3 scripts/install_quality_tool.py actionlint --directory "$RUNNER_TEMP/geoff-tools"
+      - name: Validate metadata and workflows
+        run: |
+          .venv-quality/bin/python scripts/check_repository.py
+          .venv-quality/bin/cffconvert --infile CITATION.cff --validate
+          "$RUNNER_TEMP/geoff-tools/actionlint"
+      - name: Check documentation and published review
+        run: |
+          .venv-quality/bin/python scripts/check_docs.py --allow-uninitialized-submodules
+          .venv-quality/bin/python scripts/generate_readme_graphics.py --check
+          bash docs/literature_review/build.sh --check-only
+          .venv-quality/bin/python docs/literature_review/verify_pdf.py --check-report
+      - name: Test repository tooling
+        env:
+          PYTEST_DISABLE_PLUGIN_AUTOLOAD: '1'
+        run: |
+          .venv-quality/bin/python -m pytest -q \
+            scripts/test_readme_navigation.py scripts/test_check_docs.py \
+            scripts/test_repository_quality.py scripts/test_pdf_provenance.py
+      - name: Check staged-file policy against the source tree
+        run: .venv-quality/bin/pre-commit run --all-files --show-diff-on-failure
+      - name: Validate shell and Compose configuration
+        run: |
+          for script in geoff scripts/*.sh docker/scripts/*.sh docs/literature_review/build.sh; do
+            bash -n "$script"
+          done
+          docker compose config --quiet
+
+  review-pdf:
+    name: Review PDF rebuild
+    needs: [changes, quality]
+    if: needs.changes.outputs.review == 'true'
+    runs-on: ubuntu-22.04
+    timeout-minutes: 20
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Install pinned review tooling
+        run: |
+          python3 -m venv .venv-quality
+          .venv-quality/bin/python -m pip install -r tools/requirements-quality.txt
+          python3 scripts/install_quality_tool.py tectonic --directory "$RUNNER_TEMP/geoff-tools"
+      - name: Rebuild and compare to the published document
+        run: |
+          cp docs/literature_review/pdf_validation.json "$RUNNER_TEMP/published-pdf-validation.json"
+          TECTONIC="$RUNNER_TEMP/geoff-tools/tectonic" bash docs/literature_review/build.sh
+          .venv-quality/bin/python docs/literature_review/verify_pdf.py \
+            --compare-report "$RUNNER_TEMP/published-pdf-validation.json"
+      - name: Upload rebuilt review and logs
+        if: always()
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: literature-review-build
+          path: |
+            docs/literature_review/literature_review.pdf
+            docs/literature_review/build/literature_review.log
+            docs/literature_review/build_provenance.json
+          if-no-files-found: warn
+          retention-days: 14
+
   build-test-benchmark:
     name: Build, test, and benchmark
+    needs: [changes, quality]
+    if: needs.changes.outputs.runtime == 'true'
     runs-on: ubuntu-22.04
     timeout-minutes: 45
 
@@ -27,10 +122,9 @@ jobs:
           submodules: recursive
           persist-credentials: false
 
-      - name: Check documentation and generated diagrams
+      - name: Check upstream links and pristine source patches
         run: |
           python3 scripts/check_docs.py
-          python3 scripts/generate_readme_graphics.py --check
           python3 scripts/source_patches.py verify-pristine
 
       - name: Validate shell and Compose configuration
@@ -70,3 +164,24 @@ jobs:
             ros2_ws/src/unitree_mujoco/simulate/build/Testing/**
           if-no-files-found: ignore
           retention-days: 14
+
+  verification-gate:
+    name: Verification gate
+    if: always()
+    needs: [changes, quality, review-pdf, build-test-benchmark]
+    runs-on: ubuntu-22.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out gate implementation
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - name: Require successful applicable checks
+        env:
+          CHANGES_RESULT: ${{ needs.changes.result }}
+          QUALITY_RESULT: ${{ needs.quality.result }}
+          RUNTIME_REQUIRED: ${{ needs.changes.outputs.runtime }}
+          REVIEW_REQUIRED: ${{ needs.changes.outputs.review }}
+          RUNTIME_RESULT: ${{ needs.build-test-benchmark.result }}
+          REVIEW_RESULT: ${{ needs.review-pdf.result }}
+        run: python3 scripts/ci_scope.py --check-results
