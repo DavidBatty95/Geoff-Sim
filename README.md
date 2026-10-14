@@ -36,6 +36,19 @@ crowd acceptance is still open. [Hardware fidelity and measured limits](docs/HAR
 [Read the status and progression](docs/PROJECT_STATUS.md) ·
 [Follow the forward plan](docs/PROJECT_PLAN.md).
 
+**12 October performance follow-up:** smoother nominal motion and camera-aware
+exploration have completed zero-person medium-building deliveries, including a
+202.48-second red → blue trial. Other tasks and crowded runs retain failures.
+[Implementation, validation and remaining limits](docs/PERFORMANCE_IMPLEMENTATION_20261012.md).
+
+**14 October reliability checkpoint:** dependency pins and experiment accounting
+are aligned; compositor output publication is serialized with control-state
+changes, and navigation/inspection braking now fails explicitly when measured
+settling is unavailable. The integrated build passed 744 ROS test results,
+142 orchestration tests and 12 native CTests. Repeatable native delivery and
+crowd acceptance remain open; the delay-trained cycle-06 policy is not promoted.
+[Current implementation and next steps](docs/PERFORMANCE_FOUNDATION.md).
+
 ## Explore Geoff-Sim
 
 | Capability | What you can explore |

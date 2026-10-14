@@ -27,7 +27,8 @@ fi
 
 if ! git -C "/workspace/vendor/mjlab" rev-parse --git-dir >/dev/null 2>&1; then
   git clone https://github.com/DavidBatty95/Geoff-Sim-mjlab.git "/workspace/vendor/mjlab"
-  git -C "/workspace/vendor/mjlab" checkout --detach ebfc96fa17f40ecd15ed9891cfdf59cd43d0c7b3
+  mjlab_revision="$(python3 -c 'import json; print(next(s["base_commit"] for s in json.load(open("/workspace/patches/manifest.json"))["sources"] if s["path"] == "vendor/mjlab"))')"
+  git -C "/workspace/vendor/mjlab" checkout --detach "${mjlab_revision}"
 fi
 
 python3 /workspace/scripts/source_patches.py apply

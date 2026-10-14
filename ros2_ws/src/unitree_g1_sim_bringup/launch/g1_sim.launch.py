@@ -227,6 +227,7 @@ def generate_launch_description():
                 "body_gain_profile": policy_profile,
                 "arm_kp_override": bridge_arm_kp_override,
                 'arm_gains_require_authority': LaunchConfiguration('bridge_arm_gains_require_authority'),
+                'application_timing': LaunchConfiguration('mujoco_application_timing'),
                 "arm_kd_override": bridge_arm_kd_override,
                 "lock_waist": lock_waist,
                 "waist_lock_kp": waist_lock_kp,
@@ -254,7 +255,9 @@ def generate_launch_description():
         executable="g1_arm_command_compositor",
         name="g1_arm_command_compositor",
         output="screen",
-        parameters=[{"goal_tolerance": arm_compositor_goal_tolerance}],
+        parameters=[{"goal_tolerance": arm_compositor_goal_tolerance,
+                     "executor_threads": LaunchConfiguration('arm_compositor_executor_threads'),
+                     "repeat_publish_period": LaunchConfiguration('arm_compositor_repeat_publish_period')}],
     )
     sim_manipulation_io_node = Node(
         condition=IfCondition(run_sim_manipulation_io),
@@ -301,6 +304,7 @@ def generate_launch_description():
                 "policy_action_dim": policy_action_dim,
                 "policy_command_height": policy_command_height,
                 "rate_hz": policy_rate_hz,
+                "use_device_tick": ParameterValue(LaunchConfiguration('policy_use_device_tick'),value_type=bool),
                 "cmd_vel_topic": cmd_vel_topic,
                 "odom_topic": "/odom",
                 "body_command_topic": IfElseSubstitution(
@@ -453,6 +457,7 @@ def generate_launch_description():
         name="slam_toolbox",
         output="screen",
         parameters=[slam_params_file, {
+            "do_loop_closing": ParameterValue(LaunchConfiguration('slam_loop_closing'),value_type=bool),
             "odom_frame": IfElseSubstitution(LaunchConfiguration("onboard_only"), "odom", "world"),
             "min_pass_through": ParameterValue(IfElseSubstitution(LaunchConfiguration("onboard_only"), "1", "2"), value_type=int),
             "resolution": ParameterValue(IfElseSubstitution(LaunchConfiguration("onboard_only"), "0.10", "0.05"), value_type=float),
@@ -1167,6 +1172,9 @@ def generate_launch_description():
                 default_value="0",
                 description="Expected policy observation dimension. 0 infers from ONNX metadata/shape.",
             ),
+            DeclareLaunchArgument('mujoco_application_timing',default_value='false'),
+            DeclareLaunchArgument('arm_compositor_executor_threads',default_value='2'),
+            DeclareLaunchArgument('arm_compositor_repeat_publish_period',default_value='0.0'),
             DeclareLaunchArgument('bridge_arm_gains_require_authority',default_value='false',
                                   description='Use manipulation arm gains only while compositor owns the arms.'),
             DeclareLaunchArgument(
@@ -1421,6 +1429,10 @@ def generate_launch_description():
             DeclareLaunchArgument("nav2_decel_lim_y", default_value="0.0"),
             DeclareLaunchArgument("nav2_vy_samples", default_value="1"),
             DeclareLaunchArgument("nav2_planner_plugin", default_value="nav2_smac_planner/SmacPlannerHybrid"),
+            DeclareLaunchArgument('slam_loop_closing',default_value='true',
+                                 description='Enable SLAM loop closure; repetitive exploration fixtures can disable false loop matches.'),
+            DeclareLaunchArgument('policy_use_device_tick',default_value='false',
+                                 description='Use LowState millisecond device ticks for policy observation cadence; watchdogs retain wall time.'),
             DeclareLaunchArgument("nav2_world_costmap", default_value="false"),
             DeclareLaunchArgument("nav2_static_scene_map", default_value="false"),
             DeclareLaunchArgument("nav2_people_layer", default_value="false"),
@@ -1792,6 +1804,7 @@ def generate_launch_description():
                 cmd=[PathJoinSubstitution(["/workspace", "scripts", "run_mujoco_g1.sh"])],
                 additional_env={
                     "UNITREE_MUJOCO_SCENE": mujoco_scene,
+                    "UNITREE_MUJOCO_APPLICATION_TIMING": LaunchConfiguration('mujoco_application_timing'),
                     "UNITREE_MUJOCO_PEDESTRIANS_ENABLE": mujoco_pedestrians_enable,
                     "UNITREE_MUJOCO_PEDESTRIANS_COUNT": mujoco_pedestrians_count,
                     "UNITREE_MUJOCO_PEDESTRIAN_SCENARIO": mujoco_pedestrian_scenario,

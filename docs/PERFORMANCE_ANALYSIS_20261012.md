@@ -1,5 +1,7 @@
 # Performance analysis: turning, motion quality and exploration
 
+Implementation follow-up: [runtime improvements and retained native validation](PERFORMANCE_IMPLEMENTATION_20261012.md).
+
 Review date: 2026-10-12. This review covers the current working-tree launchers,
 navigation/control/perception/search implementations, training configuration,
 and retained native evidence. The working tree contains substantial staged

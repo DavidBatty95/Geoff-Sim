@@ -7,6 +7,7 @@ import numpy as np
 from unitree_g1_mujoco_bridge.human_aware_motion_planner import HumanAwareMotionPlanner
 from unitree_g1_mujoco_bridge.transport_demo import TransportEvaluator
 from unitree_g1_mujoco_bridge.transport_health import EvaluationHealth
+from unitree_g1_mujoco_bridge.motion_envelope import MotionEnvelope
 
 
 def evaluator_fixture(offset=0.):
@@ -58,6 +59,7 @@ def test_search_heading_does_not_chase_position_drift():
         pose=SimpleNamespace(position=SimpleNamespace(x=0.,y=0.),
                              orientation=SimpleNamespace(x=0.,y=0.,z=0.,w=1.)))
     planner = SimpleNamespace(reference_goal=goal,target_frame='odom',navigation_mode='scan',
+                              motion_envelope=MotionEnvelope(),
                               _wrap_pi=lambda value:math.atan2(math.sin(value),math.cos(value)))
     command = HumanAwareMotionPlanner._dock_reference(planner,(.4,.3,0.))
     assert command.linear.x == command.linear.y == command.angular.z == 0.

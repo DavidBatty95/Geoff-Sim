@@ -18,7 +18,7 @@ from rclpy.node import Node
 from rclpy.action import ActionClient
 from rclpy.executors import SingleThreadedExecutor
 from rclpy.qos import QoSProfile,ReliabilityPolicy,DurabilityPolicy
-from geometry_msgs.msg import PoseStamped,PointStamped,Vector3Stamped
+from geometry_msgs.msg import PoseStamped,PointStamped,Vector3Stamped,Polygon,Point32,TwistStamped
 from nav_msgs.msg import Odometry,Path as RosPath
 from nav2_msgs.action import NavigateToPose
 from control_msgs.action import FollowJointTrajectory
@@ -45,12 +45,37 @@ def angle(value):
     return math.atan2(math.sin(value),math.cos(value))
 
 
+def navigation_footprint(radius):
+    """Circumscribed polygon for the planner's circular navigation reserve."""
+    if not math.isfinite(radius) or radius<=0.:
+        raise ValueError('positive finite navigation radius required')
+    outer = radius/math.cos(math.pi/16)+1e-6
+    return Polygon(points=[Point32(x=outer*math.cos(2*math.pi*i/16),
+                                   y=outer*math.sin(2*math.pi*i/16),z=0.) for i in range(16)])
+
+
+def turn_command_drives_heading(feedback,now,error):
+    if feedback is None:
+        return False
+    stamp,command = feedback
+    return (0.<=now-stamp<=.3 and math.hypot(*command[:2])<.1 and
+            abs(command[2])>=.2 and command[2]*error>0.)
+
+
 class WorkspaceInterrupted(RuntimeError):
     """A terminated arm action may be retried after measured workspace recovery."""
 
 
 class ReachUnreachable(RuntimeError):
     """No trajectory was dispatched because sensed geometry is out of reach."""
+
+
+class MotionSettlingError(RuntimeError):
+    """Normal motion completion lacks measured settling; do not advance phase."""
+
+    def __init__(self,outcome):
+        self.outcome = outcome
+        super().__init__(f'base did not settle during braking: {outcome}')
 
 
 class TransportMission(Node):
@@ -66,9 +91,11 @@ class TransportMission(Node):
         self.search_hints = {}
         self.support_memory = []
         self.last_image_pose = None
+        self.last_image_hfov = math.pi/3
         self.last_image_stamp = None
         self.exploration = None
         self.people = None
+        self.policy_feedback = None
         self.kin = None
         self.active = False
         self.mode = 'navigate'
@@ -88,6 +115,11 @@ class TransportMission(Node):
         self.payload_pub = self.create_publisher(PointStamped,'/navigation/payload_pose',1)
         self.path_pub = self.create_publisher(RosPath,'/plan',1)
         self.status_pub = self.create_publisher(String,'/transport/mission_state',10)
+        self.footprint_pubs = [self.create_publisher(Polygon,topic,1) for topic in
+                               ('/local_costmap/footprint','/global_costmap/footprint')]
+        self.navigation_empty_radius = .48
+        self.navigation_radius = None
+        self.last_footprint_time = -math.inf
         self.nav = ActionClient(self,NavigateToPose,'/navigate_to_pose')
         self.arm = ActionClient(self,FollowJointTrajectory,'/arm_trajectory_controller/follow_joint_trajectory')
         self.authority = self.create_client(SetBool,'/g1_arm_command_compositor/set_arm_authority')
@@ -101,6 +133,7 @@ class TransportMission(Node):
         self.create_subscription(JointState,'/joint_states',lambda m:setattr(self,'joints',dict(zip(m.name,m.position))),qos)
         self.create_subscription(Vector3Stamped,'/onboard/measured_rpy',self._body_orientation,qos)
         self.create_subscription(TrackedPersons,'/tracked_persons',lambda m:setattr(self,'people',m),qos)
+        self.create_subscription(TwistStamped,'/g1/policy_cmd_vel',self._policy_feedback,qos)
         self.create_timer(.1,self._heartbeat)
         if getattr(args,'explore_unknown',False):
             from .exploration_mission import ExplorationMission
@@ -131,6 +164,9 @@ class TransportMission(Node):
                     self.last_image_stamp = image_stamp
                     pose = data.get('image_pose')
                     self.last_image_pose = tuple(pose) if pose is not None and len(pose)==3 and all(map(math.isfinite,pose)) else None
+                    hfov = data.get('image_hfov',math.pi/3)
+                    if isinstance(hfov,(int,float)) and math.isfinite(hfov) and 0.<hfov<math.pi:
+                        self.last_image_hfov = hfov
                 memory = getattr(self,'support_memory',[])
                 for surface in data.get('surfaces',[]):
                     point = surface.get('position',[])
@@ -152,6 +188,12 @@ class TransportMission(Node):
         velocity = msg.twist.twist
         self.base_velocity = velocity.linear.x,velocity.linear.y,velocity.angular.z
 
+    def _policy_feedback(self,msg):
+        stamp = msg.header.stamp.sec+msg.header.stamp.nanosec*1e-9
+        values = msg.twist.linear.x,msg.twist.linear.y,msg.twist.angular.z
+        if all(map(math.isfinite,(*values,stamp))):
+            self.policy_feedback = stamp,values
+
     def _body_orientation(self,msg):
         stamp = msg.header.stamp.sec+msg.header.stamp.nanosec*1e-9
         rpy = msg.vector.x,msg.vector.y,msg.vector.z
@@ -169,10 +211,17 @@ class TransportMission(Node):
         self.active_pub.publish(Bool(data=self.active))
         self.mode_pub.publish(String(data=self.mode))
         self.carry_pub.publish(Bool(data=self.object_may_be_held))
+        radius = self.navigation_empty_radius+(.16 if self.object_may_be_held else 0.)
+        if radius!=self.navigation_radius or time.monotonic()-self.last_footprint_time>=1.:
+            footprint = navigation_footprint(radius)
+            for publisher in self.footprint_pubs:
+                publisher.publish(footprint)
+            self.navigation_radius,self.last_footprint_time = radius,time.monotonic()
         self.status_pub.publish(String(data=json.dumps(dict(phase=self.phase,held=self.held,
             attachment_state=self.attachment_state,object_may_be_held=self.object_may_be_held,
+            navigation_radius_m=self.navigation_radius,
             elapsed=time.monotonic()-self.started))))
-        if self.active and self.mode in ('dock','scan') and self.pose is not None and self.goal is not None:
+        if self.active and self.mode in ('dock','scan','reserve_recovery') and self.pose is not None and self.goal is not None:
             path = RosPath()
             path.header.frame_id = 'odom'
             path.header.stamp = self.get_clock().now().to_msg()
@@ -252,6 +301,43 @@ class TransportMission(Node):
         self.active = False
         self._heartbeat()
 
+    def brake_motion(self,timeout=1.5):
+        """Normal completion requests checked deceleration before relinquishing.
+
+        Returns 'settled' or raises MotionSettlingError with a recorded outcome.
+        Fault cleanup continues to use immediate stop_intent, never this wait.
+        The planner and supervisor check every braking request against people.
+        """
+        if not math.isfinite(timeout) or timeout<0.:
+            raise ValueError('braking timeout must be finite and nonnegative')
+        self.mode = 'brake'
+        self._heartbeat()
+        started = time.monotonic()
+        deadline = started+timeout
+        stable = None
+        previous_stamp = None
+        outcome = 'timeout'
+        while time.monotonic()<deadline:
+            self.spin(min(.05,max(0.,deadline-time.monotonic())))
+            if time.monotonic()>=deadline:
+                break
+            velocity = getattr(self,'base_velocity',(math.inf,math.inf,math.inf))
+            stamp = getattr(self,'pose_stamp',-math.inf)
+            fresh = (0.<=self.seconds()-stamp<=.3 and all(map(math.isfinite,velocity)))
+            outcome = 'timeout' if fresh else 'stale_state'
+            if previous_stamp is not None and stamp<previous_stamp:
+                stable = None
+            previous_stamp = stamp
+            if (fresh and math.hypot(*velocity[:2])<.08 and abs(velocity[2])<.12):
+                stable = stamp if stable is None else stable
+                if stamp-stable>=.2:
+                    self.event(self.phase,brake_outcome='settled',brake_elapsed_s=time.monotonic()-started)
+                    return 'settled'
+            else:
+                stable = None
+        self.event(self.phase,brake_outcome=outcome,brake_elapsed_s=time.monotonic()-started)
+        raise MotionSettlingError(outcome)
+
     def service(self,client,request,*,attachment_after=None):
         self.wait(client.service_is_ready,15.,'manipulation service unavailable')
         if attachment_after is not None:
@@ -296,6 +382,7 @@ class TransportMission(Node):
     @recover_localization
     def navigate(self,pose,timeout=90.,stop_when_observed=None,settle_time=1.):
         deadline = time.monotonic()+timeout
+        discovery = None
         self.wait(self.nav.server_is_ready,min(30.,timeout),'Nav2 unavailable')
         self.set_goal(pose,'navigate')
         request = NavigateToPose.Goal()
@@ -303,7 +390,10 @@ class TransportMission(Node):
         try:
             with self.action('navigation',self.nav,request) as action:
                 def arrived():
-                    if stop_when_observed is not None and self.observe(stop_when_observed,5.) is not None:
+                    nonlocal discovery
+                    observed = self.observe(stop_when_observed,5.) if stop_when_observed is not None else None
+                    if observed is not None:
+                        discovery = dict(observed)
                         # ManagedAction cancels and awaits termination before
                         # handing the observed object to the next mission phase.
                         return True
@@ -321,32 +411,46 @@ class TransportMission(Node):
                             raise LocalizationInterrupted('navigation succeeded outside fresh sensed staging tolerance')
                     return close
                 self.wait(arrived,max(0.,deadline-time.monotonic()),'navigation did not reach sensed staging pose')
+                self.brake_motion(min(1.5,max(0.,deadline-time.monotonic())))
         finally:
             self.active = False
             self._heartbeat()
         self.spin(max(0.,settle_time))
+        # Discovery evidence can become occluded during braking/cancellation.
+        # Preserve the acquisition that caused the stop; manipulation still
+        # independently requires a fresh observation at its staging pose.
+        return discovery
 
     @recover_localization
     def dock(self,pose,timeout=75.):
         deadline = time.monotonic()+timeout
         corrections = 0
-        def arrived(position_tolerance=.07):
+        settling_bias = np.zeros(2)
+        def arrived(position_tolerance=.07,target=pose):
             return (self.pose is not None and 0. <= self.seconds()-self.pose_stamp <= .5 and
-                    math.hypot(self.pose[0]-pose[0],self.pose[1]-pose[1]) < position_tolerance and
-                    abs(angle(self.pose[2]-pose[2])) < .15)
+                    math.hypot(self.pose[0]-target[0],self.pose[1]-target[1]) < position_tolerance and
+                    abs(angle(self.pose[2]-target[2])) < .15)
         try:
             while time.monotonic() < deadline:
-                self.set_goal(pose,'dock')
+                target = (pose[0]-settling_bias[0],pose[1]-settling_bias[1],pose[2])
+                self.set_goal(target,'dock')
                 # Approach inside the final acceptance band before stopping:
                 # measured gait settling can move the base back by 3--4 cm.
-                self.wait(lambda:arrived(.035),max(0.,deadline-time.monotonic()),'precision docking failed')
+                self.wait(lambda:arrived(.035,target),max(0.,deadline-time.monotonic()),'precision docking failed')
+                stopped_at = np.asarray(self.pose[:2])
                 self.stop_intent()
                 self.spin(min(1.5,max(0.,deadline-time.monotonic())))
                 if time.monotonic() < deadline and arrived():
                     self.event(self.phase,dock_settled=True,corrections=corrections,settled_pose=self.pose)
                     return
                 corrections += 1
-                self.event(self.phase,dock_settled=False,corrections=corrections,settled_pose=self.pose)
+                if 0.<=self.seconds()-self.pose_stamp<=.5:
+                    settling_bias = .5*settling_bias+.5*(np.asarray(self.pose[:2])-stopped_at)
+                    length = float(np.linalg.norm(settling_bias))
+                    if length>.04:
+                        settling_bias *= .04/length
+                self.event(self.phase,dock_settled=False,corrections=corrections,settled_pose=self.pose,
+                           settling_compensation_m=settling_bias.tolist())
             raise RuntimeError('precision docking did not settle before deadline')
         finally:
             self.stop_intent()
@@ -361,14 +465,17 @@ class TransportMission(Node):
         forward = np.array((math.cos(yaw),math.sin(yaw)))
         target = start-distance*forward
         deadline = time.monotonic()+timeout
-        def clear():
+        def clear(reserve=.07):
             return (0. <= self.seconds()-self.pose_stamp <= .5 and
-                    float((start-np.array(self.pose[:2]))@forward) >= distance-.07)
+                    float((start-np.array(self.pose[:2]))@forward) >= distance-reserve)
         try:
             while time.monotonic()<deadline:
                 if not clear():
                     self.set_goal((*target,yaw),'dock')
-                    self.wait(clear,max(0.,deadline-time.monotonic()),'retreat clearance not reached')
+                    # Cross an inner band before stopping; otherwise millimetre
+                    # gait oscillations repeatedly satisfy the moving check and
+                    # fail the unchanged settled clearance requirement.
+                    self.wait(lambda:clear(.03),max(0.,deadline-time.monotonic()),'retreat clearance not reached')
                 self.stop_intent()
                 self.spin(min(1.5,max(0.,deadline-time.monotonic())))
                 if time.monotonic()<deadline and clear():
@@ -401,7 +508,7 @@ class TransportMission(Node):
                   8.,'camera did not verify post-release placement from retreat viewpoint')
 
     @recover_localization
-    def rotate(self,yaw,timeout=45.,settle_before_turn=False):
+    def rotate(self,yaw,timeout=45.,settle_before_turn=False,stop_when_observed=None):
         # Search requires a view direction, not centimetre-level base-position
         # recovery after every step of a loaded turn.
         deadline = time.monotonic()+timeout
@@ -423,12 +530,52 @@ class TransportMission(Node):
             self.wait(settled,min(2.,max(0.,deadline-time.monotonic())),
                       'base did not settle before inspection turn')
         self.set_goal((self.pose[0],self.pose[1],yaw),'scan')
+        turn_origin = tuple(self.pose[:2])
+        drifted = False
+        discovery = None
+        best_error = abs(angle(self.pose[2]-yaw))
+        progress_at = time.monotonic()
+        def aligned():
+            nonlocal best_error,progress_at,discovery,drifted
+            observed = self.observe(stop_when_observed,2.) if stop_when_observed is not None else None
+            if observed is not None:
+                discovery = dict(observed)
+                return True
+            if not 0.<=self.seconds()-self.pose_stamp<=.5:
+                return False
+            drift = math.dist(self.pose[:2],turn_origin)
+            if drift>.35:
+                # A view turn is not permission for metres of unplanned travel.
+                # Stop the scan through checked nominal braking; exploration
+                # can then inspect/replan from the actual acquisition pose.
+                drifted = True
+                self.event('turn_displaced',displacement_m=drift,limit_m=.35,
+                           start_pose_xy=list(turn_origin),measured_pose=list(self.pose))
+                return True
+            error = abs(angle(self.pose[2]-yaw))
+            if not turn_command_drives_heading(getattr(self,'policy_feedback',None),self.seconds(),angle(yaw-self.pose[2])):
+                # Safety/people intervention is not evidence of a weak turn.
+                # Keep the original overall deadline, but do not fail early
+                # while the checked command intentionally stops or sidesteps.
+                progress_at = time.monotonic()
+            if error<best_error-.03:
+                best_error,progress_at = error,time.monotonic()
+            if error<.14:
+                return True
+            if time.monotonic()-progress_at>6.:
+                self.event('turn_stalled',heading_error_rad=error,measured_velocity=getattr(self,'base_velocity',None))
+                raise RuntimeError('search heading stalled')
+            return False
         try:
-            self.wait(lambda: abs(angle(self.pose[2]-yaw)) < .14,max(0.,deadline-time.monotonic()),'search heading not reached')
+            self.wait(aligned,max(0.,deadline-time.monotonic()),'search heading not reached')
+            self.brake_motion(min(1.5,max(0.,deadline-time.monotonic())))
+            if drifted:
+                raise RuntimeError('search turn displaced beyond viewpoint reserve')
         finally:
             self.active = False
             self._heartbeat()
-        self.spin(1.)
+        self.spin(.2)
+        return discovery
 
     def discover(self,identifier):
         if getattr(self,'exploration',None) is not None:
@@ -541,7 +688,14 @@ class TransportMission(Node):
         joints = dict(self.joints,**dict(zip(self.kin.names,PAYLOAD_V1_POSTURES[0])))
         position,R,_,_ = self.kin.forward(joints)
         measured = self.arm_with_recovery(position,R,joint_solution=joints)
-        if np.linalg.norm(measured-position) > .035:
+        # The waist remains policy-controlled during a joint-space carry pose.
+        # Compare the same arm posture at the *current* waist configuration,
+        # not a Cartesian point computed before the torso balanced the reach.
+        expected = self.kin.forward(dict(self.joints,**dict(zip(self.kin.names,PAYLOAD_V1_POSTURES[0]))))[0]
+        measured = self.kin.forward(self.joints)[0]
+        error = float(np.linalg.norm(measured-expected))
+        self.event(self.phase,carry_posture_error_m=error,reference='current_waist_fixed_arm_posture')
+        if error > .035:
             raise RuntimeError('measured carry posture outside tolerance')
 
     def _move_arm(self,target,orientation=None,joint_solution=None):
@@ -637,6 +791,9 @@ class TransportMission(Node):
             raise RuntimeError('required effective parameter snapshot incomplete')
         if not snapshot['motion_parameter_agreement']['consistent']:
             raise RuntimeError('planner/supervisor/policy motion parameter mismatch; see effective_parameters.json')
+        self.navigation_empty_radius = float(snapshot['nodes']['/human_aware_motion_planner']['parameters']['static_clearance']['value'])
+        navigation_footprint(self.navigation_empty_radius)  # Validate before any motion.
+        self._heartbeat()
         self.spin(3.)
         for pair in self.args.pairs:
             identifier,destination = pair['object_id'],pair['destination_id']
@@ -652,7 +809,7 @@ class TransportMission(Node):
                 # A loaded blind search is slower and can obscure the camera.
                 # Establish both task locations while empty, then reobserve the
                 # box and destination at their respective manipulation stages.
-                if self.observe(destination,30.) is None:
+                if self.observe(destination,30.) is None and self.exploration.survey_before_pickup(item,destination):
                     self.event('survey_task_goal',object_id=identifier,destination_id=destination,
                                reason='avoid_loaded_blind_search')
                     destination_view = dict(self.discover(destination))
@@ -934,6 +1091,7 @@ def main():
     parser.add_argument('--camera-pitch-deg',type=float,default=0.)
     parser.add_argument('--explore-unknown',action='store_true')
     parser.add_argument('--search-max-viewpoints',type=int,default=20)
+    parser.add_argument('--response-profile',default='legacy',help='Policy-identified search-time estimate; motion parameters are audited independently')
     args = parser.parse_args()
     if args.search_max_viewpoints<=0:
         parser.error('--search-max-viewpoints must be positive')

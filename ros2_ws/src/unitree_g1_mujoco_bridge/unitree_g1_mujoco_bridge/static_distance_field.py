@@ -104,3 +104,22 @@ class StaticDistanceField:
         separation = np.linalg.norm(relative-fraction[:,:,None]*delta[:,None,:],axis=2)
         hits = np.any(separation < clearance,axis=1)
         return min(first,float(np.min(times[:-1][hits]))) if np.any(hits) else first
+
+
+class StaticFieldCache:
+    """One immutable geometry snapshot, invalidated by actual obstacle contents.
+
+    Quantized origin reuse adds window padding, never reuses clearance after an
+    obstacle insertion/removal, and keeps out-of-window queries conservative.
+    """
+    def __init__(self):
+        self.key = self.field = None
+
+    def get(self,points,origin,extent,influence):
+        points = np.asarray(points,dtype=float).reshape(-1,2)
+        anchor = tuple(round(float(value)/.25)*.25 for value in origin)
+        key = (points.shape,points.tobytes(),anchor,extent,influence)
+        if key!=self.key:
+            self.field = StaticDistanceField(points.copy(),anchor,extent+.25,influence)
+            self.key = key
+        return self.field

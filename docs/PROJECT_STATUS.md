@@ -16,12 +16,97 @@
 </p>
 <!-- geoff-nav:end -->
 
-**Last reviewed: 6 October 2026.** This page retains the historical development
+**Last reviewed: 14 October 2026.** This page retains the historical development
 baseline [`3a7ceac`](https://github.com/DavidBatty95/Geoff-Sim/commit/3a7ceac)
 alongside the dated follow-ups below. It is a manually maintained
 evidence snapshot, not an acceptance release. Later experiments need their own checks.
 
 ## At a glance
+
+**14 October integrated reliability checkpoint:** the experiment runner now
+retains planned attempts, explicit run identities and strict outcomes through
+malformed results and bounded outer timeouts. Bootstrap revisions match patch
+bases. Compositor selection/publication is serialized with action state;
+navigation and inspection braking reject missing measured settling rather than
+silently advancing. Full verification passed **744 ROS test results** (including
+**559 bridge tests**), **142 orchestration tests**, **12 native CTests**, the mock
+benchmark and the MJLab environment check. Pristine patch reconstruction passed.
+These are implementation checks; native delivery qualification of the new
+settling contract remains open. See [the checkpoint and next steps](PERFORMANCE_FOUNDATION.md).
+
+**14 October delay-robust candidate:** added coherent sensor-lag training and
+explicit applied/published action-feedback modes. Cycle-06 completed 500 iterations
+and passed **12/12** matched native delay cases versus cycle-05's **6/12**, while
+still moving. A broader turn sweep found a low-speed clockwise stop regression;
+two earlier checkpoints did not pass all selection probes. **The candidate is
+not promoted.** All 52 investigation probes, including failures and contact-
+confounded trials, are retained in the [training/qualification report](PERFORMANCE_IMPLEMENTATION_20261012.md#sensor-delay-training-candidate-and-qualification).
+
+**14 October actuation experiments:** arm execution is now asynchronous, with
+single-threaded action/watchdog regressions. The one-thread native comparison
+did not improve timing, so two threads remain the default. Opt-in 20 ms duplicate
+coalescing reduced recorded LowCmd traffic from 98.4 to 50.7/s and policy-to-application
+p95 from 35.3 to 30.3 ms in a development pair. Both missions still fell; coalescing
+remains disabled by default. A compact run completed an arm trajectory but fell
+during docking. **549 bridge tests and 26 diagnostic/orchestration tests pass.**
+[All five attempts and limitations are retained](PERFORMANCE_IMPLEMENTATION_20261012.md#14-october-actuation-pipeline-experiments).
+
+**13 October stability follow-up:** collision-checked scan/brake requests now take
+priority over obsolete escapes when clearance permits. The bridge suite passes
+**532 tests**. A mirrored medium-building blue → red mission completed in
+**389.19 seconds** with no fall/drop/recorded person contact, exercising the
+outward-shoulder IK fix through pickup and placement. The other layout stayed
+upright but failed with no reachable useful viewpoint before pickup; loaded
+retreat repeatability and all-layout completion remain open. See the
+[follow-up and both retained outcomes](PERFORMANCE_IMPLEMENTATION_20261012.md#13-october-navigation-stability-follow-up).
+
+**Later 13 October investigation:** the search dead end followed a lethal-start
+Nav2 failure and substantial inspection drift toward a wall, rather than full
+coverage. Added fresh-odometry turn-displacement detection and partial-inspection
+handling; **535 bridge tests pass**. Two native retries both fell before pickup
+and did not exercise the new guard. End-to-end recovery remains unverified; see
+the [retained failure analysis](PERFORMANCE_IMPLEMENTATION_20261012.md#search-dead-end-investigation-and-turn-displacement-guard).
+
+**Turn-to-rest diagnostics:** 25 isolated native probes (extended stopping,
+brief outages, irregular cadence, and an incident-command window) stayed upright.
+Added bounded, timestamped recovery-event telemetry; **536 bridge tests pass**.
+Instrumented layout-0 blue → red run `20261013T144107Z` completed in **254.09 s**,
+including loaded retreat, with no fall/drop/recorded person contact. Two
+stale-result holds were observed and recovered. Earlier falls remain unexplained
+by the isolated hypotheses; see the [probe report](PERFORMANCE_IMPLEMENTATION_20261012.md#controlled-turn-to-rest-probes-and-recovery-observability).
+
+**Inference-dropout continuity:** a subsequent instrumented failure exposed a
+1.055 rad recovery target jump. Brief inference faults now retain validated
+targets and policy history, with escalation after two deadline budgets and
+unchanged stale-result rejection. **539 bridge tests pass**. Two native follow-ups
+confirmed zero target jumps during those holds but still fell before pickup;
+this fixes a discontinuity, not overall stability. See the
+[retained comparison](PERFORMANCE_IMPLEMENTATION_20261012.md#inference-dropout-target-continuity).
+
+**Combined-motion delay investigation:** diagonal commands and a recorded
+command-window replay stayed upright in isolation, but adding 40/60 ms joint/IMU
+measurement delay to 40 ms action delay reproduced falls without sampled
+non-floor scene contacts. Added Humble-compatible DDS metadata timing; the
+instrumented mission still fell. DDS-publication-to-target-publication p95 was
+32.3 ms, with downstream actuation still unmeasured. **542 bridge tests pass**;
+[all probe and native outcomes are retained](PERFORMANCE_IMPLEMENTATION_20261012.md#combined-translation-and-measurement-delay-investigation).
+
+**Downstream timing:** opt-in native control-application sampling now closes the
+previously unmeasured downstream segment. A corrected transition-only run gave
+128 content-matched observation/application pairs: device-time age was 40 ms
+median, 90.6 ms p95 and 122 ms maximum. This overlaps the isolated delay-sensitive
+failure range, but does not prove causation. Both instrumented missions fell;
+all failures and matching ambiguities are retained. **543 bridge tests and 12
+native CTests pass**. See the [application-timing report](PERFORMANCE_IMPLEMENTATION_20261012.md#native-command-application-timing).
+
+**12 October performance follow-up:** continuous turn/walk transitions, checked
+nominal braking, full-route execution and camera-aware search have produced
+complete zero-person medium-building red → blue deliveries. A later development
+trial completed in **202.48 seconds** with six inspection stops, no fall/drop and
+zero recorded contacts. The colour/layout matrix retains failures, and crowded
+operation is still unqualified. Full CI passed with 704 ROS test results, 124
+orchestration tests and 11 native CTests. See the [implementation and evidence
+report](PERFORMANCE_IMPLEMENTATION_20261012.md).
 
 **Wider-table/people follow-up:** the current development layout widens the
 central aisle to 3.9 m and the gap between rows to 2.0 m. Added continuous

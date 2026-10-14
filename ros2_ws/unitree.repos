@@ -2,7 +2,7 @@ repositories:
   unitree_mujoco:
     type: git
     url: https://github.com/DavidBatty95/Geoff-Sim-unitree-mujoco.git
-    version: fde35565f1816bf2c3ef0e56a6ab8e552ec50717
+    version: f8ca34e626e485cfff2911b4576d0212dd00449b
   unitree_ros2:
     type: git
     url: https://github.com/unitreerobotics/unitree_ros2.git

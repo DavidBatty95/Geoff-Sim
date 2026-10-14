@@ -128,12 +128,16 @@ def test_uncertain_attachment_publishes_conservative_carrying_and_payload():
         setattr(mission,name+'_pub',SimpleNamespace(
             publish=lambda message,key=name:messages.__setitem__(key,message)))
     mission.active,mission.mode = False,'navigate'
+    mission.navigation_empty_radius,mission.navigation_radius = .48,None
+    mission.last_footprint_time = -float('inf')
+    mission.footprint_pubs = [SimpleNamespace(publish=lambda msg:messages.__setitem__('footprint',msg))]
     mission.started = time.monotonic()
     mission.kin = SimpleNamespace(forward=lambda joints:(np.zeros(3),np.eye(3),None,None))
     mission.joints,mission.rpy,mission.offset = {},(0.,0.,0.),np.array((.1,0.,0.))
     from builtin_interfaces.msg import Time
     mission.get_clock = lambda:SimpleNamespace(now=lambda:SimpleNamespace(to_msg=lambda:Time()))
     TransportMission._heartbeat(mission)
+    assert mission.navigation_radius == .64 and len(messages['footprint'].points)==16
     assert messages['carry'].data
     status = json.loads(messages['status'].data)
     assert status['attachment_state'] == 'uncertain'

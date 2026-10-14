@@ -1,4 +1,5 @@
 import math
+import time
 
 import rclpy
 from rclpy.duration import Duration
@@ -40,6 +41,8 @@ class ScanDynamicFilter(Node):
         self.latest_people = None
         self.carrying = False
         self.payload = None
+        self.pending_scan = None
+        self.last_scan_stamp = -math.inf
         self.latest_cloud_time = self.get_clock().now() - Duration(seconds=999.0)
         self.tf_buffer = Buffer()
         self.tf_listener = TransformListener(self.tf_buffer, self)
@@ -60,6 +63,7 @@ class ScanDynamicFilter(Node):
         self.create_subscription(TrackedPersons, "/tracked_persons", self._people_callback, 1)
         self.create_subscription(Bool,'/navigation/carrying',lambda msg:setattr(self,'carrying',bool(msg.data)),1)
         self.create_subscription(PointStamped,'/navigation/payload_pose',lambda msg:setattr(self,'payload',msg),1)
+        self.create_timer(.01,self._retry_scan)
         self.get_logger().info("Filtering confirmed dynamic people out of /scan for SLAM")
 
     def _cloud_callback(self, msg: PointCloud2) -> None:
@@ -70,6 +74,29 @@ class ScanDynamicFilter(Node):
         self.latest_people = msg
 
     def _scan_callback(self, msg: LaserScan) -> None:
+        stamp = rclpy.time.Time.from_msg(msg.header.stamp).nanoseconds*1e-9
+        if stamp<=self.last_scan_stamp:
+            return
+        if self.pending_scan is not None:
+            previous = rclpy.time.Time.from_msg(self.pending_scan[0].header.stamp).nanoseconds*1e-9
+            if stamp<=previous:
+                return
+        started = time.monotonic() if self.pending_scan is None else self.pending_scan[1]
+        self.pending_scan = msg,started
+        self._retry_scan()
+
+    def _publish_scan(self,filtered):
+        stamp = rclpy.time.Time.from_msg(filtered.header.stamp).nanoseconds*1e-9
+        if stamp>self.last_scan_stamp:
+            self.pub.publish(filtered)
+            self.last_scan_stamp = stamp
+        self.pending_scan = None
+
+    def _retry_scan(self):
+        if self.pending_scan is not None:
+            self._process_scan(self.pending_scan[0],time.monotonic()-self.pending_scan[1]<.2)
+
+    def _process_scan(self,msg,defer_transform=True):
         filtered = LaserScan()
         filtered.header = msg.header
         filtered.angle_min = msg.angle_min
@@ -87,12 +114,12 @@ class ScanDynamicFilter(Node):
                 self._remove_dynamic_return(filtered,self.payload.point.x,self.payload.point.y,.14)
 
         source = self.latest_people if self.latest_people is not None else self.latest_cloud
-        if source is None:
-            self.pub.publish(filtered)
+        if source is None or (source is self.latest_people and not source.persons):
+            self._publish_scan(filtered)
             return
         cloud_age = (self.get_clock().now() - rclpy.time.Time.from_msg(source.header.stamp)).nanoseconds * 1e-9
         if not 0.0 <= cloud_age <= self.cloud_timeout:
-            self.pub.publish(filtered)
+            self._publish_scan(filtered)
             return
 
         transform = None
@@ -100,11 +127,16 @@ class ScanDynamicFilter(Node):
             try:
                 transform = self.tf_buffer.lookup_transform(msg.header.frame_id, source.header.frame_id, rclpy.time.Time.from_msg(msg.header.stamp))
             except TransformException as exc:
+                if defer_transform:
+                    # TF and cloud packets use different subscriptions. Release
+                    # the executor so the acquisition-time transform can arrive;
+                    # retain only the latest scan and never restamp it as fresh.
+                    return
                 self.get_logger().warn(
                     f"No transform {msg.header.frame_id} <- {source.header.frame_id}: {exc}",
                     throttle_duration_sec=2.0,
                 )
-                self.pub.publish(filtered)
+                self._publish_scan(filtered)
                 return
 
         removed = 0
@@ -121,7 +153,7 @@ class ScanDynamicFilter(Node):
             removed += self._remove_dynamic_return(filtered, x, y, radius)
         if removed:
             self.get_logger().info(f"Removed {removed} scan bins near confirmed dynamic people", throttle_duration_sec=2.0)
-        self.pub.publish(filtered)
+        self._publish_scan(filtered)
 
     def _remove_dynamic_return(self, scan: LaserScan, x: float, y: float, body_radius=None) -> int:
         distance = math.hypot(x, y)

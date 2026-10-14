@@ -32,6 +32,7 @@ def analyze(rows):
     latest_counters = {}
     latest_counter_stamp = None
     interruption_counters = {}
+    policy_holds = {}
     budget_samples = budget_overruns = period_samples = period_overruns = 0
     active_period_samples = active_period_overruns = 0
     active_plans = no_feasible = 0
@@ -127,11 +128,23 @@ def analyze(rows):
             for name in ('submit_to_complete_ms','complete_to_publish_ms','submit_to_publish_ms'):
                 add('policy_'+name,data.get(name))
             if data.get('context_matched') is True:
+                for name in ('lowstate_dds_source_to_callback_ms','lowstate_dds_receive_to_callback_ms',
+                             'lowstate_dds_source_to_target_publish_ms'):
+                    add(name,data.get(name))
                 for name in ('command_receipt_age_at_target_publish_s','lowstate_receipt_age_at_target_publish_s'):
                     add(name,data.get(name))
             else:
                 invalid['policy_context'] += 1
         elif topic == 'policy_diagnostics':
+            events = data.get('policy_hold_events',[])
+            if not isinstance(events,list):
+                invalid['policy_hold_event'] += 1
+                events = []
+            for event in events:
+                if not isinstance(event,dict) or not finite(event.get('stamp')) or type(event.get('sequence')) is not int:
+                    invalid['policy_hold_event'] += 1
+                    continue
+                policy_holds[(event['stamp'],event['sequence'])] = event
             counters = data.get('counters',{})
             if isinstance(counters,dict) and all(finite(v) and v>=0 for v in counters.values()):
                 if any(value<latest_counters.get(key,0) for key,value in counters.items()):
@@ -157,6 +170,8 @@ def analyze(rows):
         'tracks_age_at_command_publish_s','prediction_age_at_command_publish_s',
         'policy_submit_to_complete_ms','policy_complete_to_publish_ms','policy_submit_to_publish_ms',
         'command_receipt_age_at_target_publish_s','lowstate_receipt_age_at_target_publish_s',
+        'lowstate_dds_source_to_callback_ms','lowstate_dds_receive_to_callback_ms',
+        'lowstate_dds_source_to_target_publish_ms',
         'odom_source_age_at_logger_receipt_s','supervisor_input_age_s','planner_wall_active_ms',
         'supervisor_tick_to_publication_ms','supervisor_tick_interval_ms',
         'supervisor_predictive_search_ms','supervisor_escape_control_path_ms',
@@ -188,6 +203,7 @@ def analyze(rows):
         policy_counters_latest=latest_counters,policy_counter_resets=counter_resets,
         policy_counters_last_ros_s=latest_counter_stamp,
         policy_interruption_counters_latest=interruption_counters,
+        policy_hold_events=[policy_holds[key] for key in sorted(policy_holds)],
         planner_supervisor_lineage=dict(eligible=len(supervisor_envelopes),matched=matched,
             missing_planner_record=missing,command_mismatch=mismatched,
             scope='atomic planner request considered by supervisor, not proof of physical execution'),

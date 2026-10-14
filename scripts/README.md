@@ -59,7 +59,12 @@ Use the exact policy and configuration recorded by the relevant experiment.
 | Results | `avoidance_results_gui.py`, `analyze_avoidance_dataset.py`, `collect_demo_results.py` |
 | Diagnostics | `summarize_social_run.py`, `inspect_social_trace.py`, `evaluate_onboard_perception.py`, `analyze_response_trace.py` |
 | Failure review | `review_transport_failures.py` — offline chronology, phase accounting and aligned perception diagnostics |
-| Native response probes | `probe_native_policy.py`, `summarize_native_probes.py` — version-checked dynamics diagnostics and compact export |
+| Native response probes | `probe_native_policy.py`, `summarize_native_probes.py` — version-checked dynamics diagnostics, independent measurement/action delay, outage/cadence injection, command-window replay and compact export |
+| Motion/exploration performance | `calibrate_native_turns.py`, `summarize_motion_incident.py`, `run_performance_matrix.py` — [implementation, measured outcomes and serial colour/layout validation](../docs/PERFORMANCE_IMPLEMENTATION_20261012.md) |
+| Reliable matrix execution | `run_performance_matrix.py --startup-cleanup-budget 900` — unique run IDs, atomic planned-cohort accounting, strict outcomes and timeout handling; [current contracts and limitations](../docs/PERFORMANCE_FOUNDATION.md) |
+| Native command application | `run_transport_demo.py --application-timing` and `analyze_command_application.py` — sampled content-transition timing with explicit lineage ambiguity and wall/device-clock separation |
+| Actuation experiments | `--arm-executor-threads {1,2}` and `--arm-repeat-period .02` on transport runners — optional scheduler/duplicate-refresh comparisons; defaults remain 2 threads and no coalescing |
+| Sensor-delay policy training | `g1_payload_training.py --max-sensor-delay-steps N --action-feedback published`, `payload_sensor_delay.py`, `export_payload_actor.py` — coherent sensor lag and parity-checked local candidate exports; use the MJLab uv environment and qualify before deployment |
 | Command replay | `policy_command_replay.py` — source-timed empty-hand command ingestion for the native probe |
 | General research batches | `benchmark_batch.py`, `aggregate_benchmark_batch.py` |
 | Response calibration | `measure_g1_fixed_command.py`, `process_g1_response_trial.py`, `assemble_g1_response_dataset.py` |

@@ -27,6 +27,7 @@ SOURCES = {
         "simulate/src/brainco_hand.h",
         "simulate/src/native_imu.h", "simulate/test/native_imu_test.cc",
         "simulate/src/unitree_sdk2_bridge.h",
+        "simulate/src/command_application_timing.h", "simulate/test/command_application_timing_test.cc",
         "unitree_robots/g1/g1_29dof.xml",
         "simulate/src/simulated_manipulation.cc", "simulate/test/simulated_manipulation_test.cc",
         "tools/generate_natural_pedestrians.py", "tools/test_natural_meshes.py",

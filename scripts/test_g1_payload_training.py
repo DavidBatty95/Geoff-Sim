@@ -114,3 +114,72 @@ def test_native_inertial_configuration_matches_torso_geometry_and_motor_limits(t
     assert actuators[1].effort_limit == 88.
     assert actuators[12].effort_limit == 88.
     assert cfg.actions['joint_pos'].max_delay_steps == 2
+
+
+def test_native_contact_profile_matches_deployment_feet_without_changing_actor_contract(training):
+    native = training.native_robot_model()
+    aligned = training.native_contact_payload_spec().compile()
+    for side in ('left','right'):
+        body = native.body(f'{side}_ankle_roll_link').id
+        contacts = [i for i in range(native.ngeom) if native.geom_bodyid[i]==body and
+                    (native.geom_contype[i] or native.geom_conaffinity[i])]
+        actual = [i for i in range(aligned.ngeom) if aligned.geom(i).name.startswith(side+'_foot')]
+        assert len(actual)==len(contacts)==4
+        for a,b in zip(actual,contacts):
+            assert aligned.geom_type[a]==native.geom_type[b]
+            for field in ('geom_pos','geom_size','geom_friction','geom_solref','geom_solimp'):
+                np.testing.assert_allclose(getattr(aligned,field)[a],getattr(native,field)[b])
+    cfg = training.build_env(2,74,dynamics='native_contact',objective='reactive',action_hold_probability=.05)
+    assert cfg.observations['actor'].history_length==5
+    assert cfg.actions['joint_pos'].action_hold_probability==.05
+    assert cfg.rewards['turn_drift'].weight<0.
+
+
+def test_turn_drift_penalty_is_scoped_to_pivots(training):
+    torch = training.torch
+    env = SimpleNamespace(command_manager=SimpleNamespace(get_command=lambda _:torch.tensor(
+        [[0.,0.,.6],[.4,0.,.6],[0.,0.,0.]])),scene={'robot':SimpleNamespace(data=SimpleNamespace(
+            root_link_lin_vel_b=torch.tensor([[.2,.1,0.],[.4,.1,0.],[.2,.1,0.]])))})
+    torch.testing.assert_close(training.turn_drift_penalty(env),torch.tensor([.05,0.,0.]))
+
+
+def test_sensor_delay_keeps_packet_coherence_and_does_not_leak_reset_history(training):
+    from payload_sensor_delay import SensorFrameDelay
+    torch = training.torch
+    a,b = SensorFrameDelay(3,1,2,'cpu'),SensorFrameDelay(3,1,2,'cpu')
+    lag = torch.tensor([0,1,2])
+    for step in range(4):
+        current = (torch.arange(3)+10.*step)[:,None]
+        delayed = a.push(current,lag,step)
+        torch.testing.assert_close(b.push(current+100.,lag,step)-delayed,torch.full((3,1),100.))
+    torch.testing.assert_close(delayed[:,0],torch.tensor([30.,21.,12.]))
+    torch.testing.assert_close(a.push(current+999.,lag,3),delayed)
+    a.reset(torch.tensor([1]))
+    fresh = current.clone()
+    fresh[1] = 400.
+    torch.testing.assert_close(a.push(fresh,lag,3)[:,0],torch.tensor([30.,400.,12.]))
+
+
+def test_sensor_delay_changes_only_actor_measurements_and_preserves_history_order(training):
+    cfg = training.build_env(2,75,dynamics='native_contact',max_delay_steps=2,
+                             max_sensor_delay_steps=3,action_feedback='published')
+    actor,critic = cfg.observations['actor'],cfg.observations['critic']
+    assert actor.history_length==5
+    assert list(actor.terms)==['base_ang_vel','projected_gravity','velocity_commands','joint_pos_rel','joint_vel_rel','last_action']
+    for name in ('base_ang_vel','projected_gravity','joint_pos_rel','joint_vel_rel'):
+        assert actor.terms[name].func is training.DelayedSensorTerm
+        assert critic.terms[name].func is not training.DelayedSensorTerm
+        assert actor.terms[name].params['max_lag']==3
+    assert actor.terms['last_action'].func is training.applied_policy_action
+    assert actor.terms['velocity_commands'].func is training.mdp.generated_commands
+    assert 'base_lin_vel' not in actor.terms
+
+
+def test_action_feedback_distinguishes_published_from_motor_applied(training):
+    torch = training.torch
+    action = SimpleNamespace(cfg=SimpleNamespace(action_feedback='published'),
+                             published_action=torch.ones(2,29),raw_action=torch.zeros(2,29))
+    env = SimpleNamespace(action_manager=SimpleNamespace(get_term=lambda _:action))
+    assert training.applied_policy_action(env) is action.published_action
+    action.cfg.action_feedback='applied'
+    assert training.applied_policy_action(env) is action.raw_action

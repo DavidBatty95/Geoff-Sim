@@ -97,6 +97,42 @@ class RoomTopology:
             self.keys[label] = [self.key(point) for point in points]
         self.labels[~np.isin(self.labels,list(self.points))] = 0
 
+    def reconcile(self,previous):
+        """Keep overlapping region identities through map growth/split/merge.
+
+        A one-to-one overlap match preserves the strongest child of a split;
+        new regions receive new labels. Coverage still belongs to sensed poses.
+        """
+        old = {label:set(keys) for label,keys in previous.keys.items()}
+        matches = []
+        for label,keys in self.keys.items():
+            cells = set(keys)
+            for prior,prior_cells in old.items():
+                overlap = len(cells&prior_cells)
+                union = len(cells|prior_cells)
+                if union and overlap/union>=.2:
+                    matches.append((overlap/union,overlap,label,prior))
+        mapping,used = {},set()
+        for _,_,label,prior in sorted(matches,reverse=True):
+            if label not in mapping and prior not in used:
+                mapping[label] = prior
+                used.add(prior)
+        next_label = max(old,default=0)+1
+        for label in self.points:
+            if label not in mapping:
+                while next_label in used:
+                    next_label += 1
+                mapping[label] = next_label
+                used.add(next_label)
+                next_label += 1
+        labels = np.zeros_like(self.labels)
+        for label,replacement in mapping.items():
+            labels[self.labels==label] = replacement
+        self.labels = labels
+        self.points = {mapping[label]:points for label,points in self.points.items()}
+        self.keys = {mapping[label]:keys for label,keys in self.keys.items()}
+        return self
+
     @staticmethod
     def key(point):
         return round(float(point[0])*2),round(float(point[1])*2)
@@ -106,19 +142,20 @@ class RoomTopology:
         x,y = x//self.stride,y//self.stride
         return int(self.labels[y,x]) if 0<=y<self.labels.shape[0] and 0<=x<self.labels.shape[1] else 0
 
-    def visible(self,position,yaw,current_grid):
+    def visible(self,position,yaw,current_grid,hfov=math.pi/3):
         seen = set()
         for points,keys in zip(self.points.values(),self.keys.values()):
             delta = points-np.asarray(position)
             distances = np.linalg.norm(delta,axis=1)
             bearings = np.arctan2(delta[:,1],delta[:,0])-yaw
-            valid = (distances>=.5)&(distances<=3.5)&(np.abs(np.arctan2(np.sin(bearings),np.cos(bearings)))<=math.pi/6)
+            valid = (distances>=.5)&(distances<=3.5)&(np.abs(np.arctan2(np.sin(bearings),np.cos(bearings)))<=hfov/2)
             indices = np.flatnonzero(valid)
             visible = current_grid.visible_points(position,points[indices])
             seen.update(keys[i] for i,clear in zip(indices,visible) if clear)
         return seen
 
-    def decide(self,goals,robot,seen,inspections,anchor=None):
+    def decide(self,goals,robot,seen,inspections,anchor=None,heading=None,hfov=math.pi/3,turn_rate=.18,
+               inspection_coverage=None):
         groups = {}
         for goal in goals:
             region = self.region((goal.x,goal.y))
@@ -129,15 +166,19 @@ class RoomTopology:
         for region,points in self.points.items():
             coverage = sum(key in seen for key in self.keys[region])/len(points)
             views = sum(self.region(view[:2])==region for view in inspections)
+            if inspection_coverage is not None:
+                keys = set(self.keys[region])
+                views = sum(len(keys&visible)>=min(3,len(keys)) for visible in inspection_coverage)
             candidates = groups.get(region,[])
             gain = max((g.information for g in candidates),default=0)
-            deferred = coverage>=.7 or views>=6 or (views>=4 and gain<3)
+            deferred = coverage>=.7 or views>=6 or (views>=3 and gain<3)
             summary = dict(region=region,centroid=points.mean(axis=0).tolist(),coverage_proxy=coverage,
                            inspections=views,candidates=len(candidates),deferred=deferred,active=False)
             summaries.append(summary)
             if candidates:
                 travel = min(g.path_length for g in candidates)
-                utility = (1.+4.*(1.-coverage)+.25*gain)/(1.+.15*travel)
+                support_gain = 4. if any(g.kind=='support_inspection' for g in candidates) else 0.
+                utility = (1.+4.*(1.-coverage)+.25*gain+support_gain)/(1.+.15*travel)
                 if region==active and not deferred:
                     utility *= 1.5  # Bounded room commitment reduces doorway ping-pong.
                 if deferred:
@@ -160,15 +201,16 @@ class RoomTopology:
                 nearby[indices] &= self.grid.visible_points((goal.x,goal.y),unseen[indices])
                 bearings = np.arctan2(delta[nearby,1],delta[nearby,0])
                 # Aim a useful camera view instead of a fixed quarter-turn.
-                for offset in ([0.] if goal.kind in ('support_inspection','semantic_reobserve','heading_inspection') else np.linspace(-math.pi/3,math.pi/3,5)):
+                for offset in ([0.] if goal.kind in ('support_inspection','known_support_inspection','semantic_reobserve','heading_inspection') else np.linspace(-math.pi/3,math.pi/3,5)):
                     direction = goal.yaw+float(offset)
-                    count = int(np.sum(np.abs(np.arctan2(np.sin(bearings-direction),np.cos(bearings-direction)))<=math.pi/6))
+                    count = int(np.sum(np.abs(np.arctan2(np.sin(bearings-direction),np.cos(bearings-direction)))<=hfov/2))
                     # Inspection has a physical turning cost. Prefer views
                     # aligned with arrival rather than costly half-turns.
                     value = count/(1.+4.*abs(offset))
                     if value>best:
                         best = value
                         yaw = float(direction)
-            score = goal.score+.08*best/(1.+.35*goal.path_length)
+            turn = 0. if heading is None else abs(math.atan2(math.sin(yaw-heading),math.cos(yaw-heading)))
+            score = goal.score+.08*best/(1.+goal.path_length/.45+turn/max(.05,turn_rate))
             ranked.append(SearchView(goal.x,goal.y,yaw,score,goal.path_length,goal.information,goal.kind))
         return sorted(ranked,key=lambda goal:(-goal.score,goal.path_length)),summaries

@@ -49,6 +49,7 @@ from mjlab.tasks.velocity.mdp import StandCreepStopVelocityCommandCfg
 from mjlab.tasks.velocity.rl import VelocityOnPolicyRunner
 from mjlab.utils.os import dump_yaml
 from payload_smoothness import FluidCarryPenalty,PayloadMotion,LOADED_TURN_SCHEDULE
+from payload_sensor_delay import DelayedSensorTerm
 
 POLICY_NAMES = tuple(G1_29DOF_JOINTS[i] for i in UNITREE_RL_LAB_G1_JOINT_IDS_MAP)
 ARM_POLICY_IDS = tuple(i for i, sdk in enumerate(UNITREE_RL_LAB_G1_JOINT_IDS_MAP) if sdk >= 15)
@@ -128,6 +129,41 @@ def native_inertial_payload_spec():
     return payload_spec(native_inertial=True)
 
 
+def native_contact_payload_spec():
+    """Also match deployment's four sphere contacts per foot, not seven capsules.
+
+    Other training collision assets still differ; this is a declared foot-contact
+    fidelity profile, not a claim that the two simulators are identical.
+    """
+    spec = native_inertial_payload_spec()
+    native = native_robot_model()
+    for side in ('left','right'):
+        body = native.body(f'{side}_ankle_roll_link').id
+        contacts = [index for index in range(native.ngeom) if native.geom_bodyid[index]==body and
+                    (native.geom_contype[index] or native.geom_conaffinity[index])]
+        for index in range(1,8):
+            geom = spec.geom(f'{side}_foot{index}_collision')
+            if index>len(contacts):
+                spec.delete(geom)
+                continue
+            source = contacts[index-1]
+            geom.type = mujoco.mjtGeom(int(native.geom_type[source]))
+            geom.fromto = [math.nan]*6
+            for target,name in (('pos','geom_pos'),('quat','geom_quat'),('size','geom_size'),
+                                ('friction','geom_friction'),('solref','geom_solref'),('solimp','geom_solimp')):
+                setattr(geom,target,getattr(native,name)[source].copy())
+            geom.condim = int(native.geom_condim[source])
+            geom.priority = int(native.geom_priority[source])
+    return spec
+
+
+def turn_drift_penalty(env):
+    command = env.command_manager.get_command('twist')
+    pivot = (torch.linalg.vector_norm(command[:,:2],dim=1)<.05)&(command[:,2].abs()>.2)
+    velocity = env.scene['robot'].data.root_link_lin_vel_b[:,:2]
+    return pivot*torch.sum(velocity*velocity,dim=1)
+
+
 @dataclass(kw_only=True)
 class PayloadActionCfg(JointPositionActionCfg):
     max_payload: float = .5
@@ -137,6 +173,8 @@ class PayloadActionCfg(JointPositionActionCfg):
     arm_transitions: bool = False
     max_delay_steps: int = 0
     action_hold_probability: float = 0.
+    max_sensor_delay_steps: int = 0
+    action_feedback: str = 'applied'
 
     def build(self, env):
         return PayloadAction(self, env)
@@ -157,6 +195,8 @@ class PayloadAction(JointPositionAction):
         self.postures = torch.tensor(arm_pose_bank(cfg.pose_bank == 'reach'), device=self.device)
         self.next_pose_step = torch.zeros(self.num_envs, dtype=torch.long, device=self.device)
         self.delay_steps = torch.zeros(self.num_envs,dtype=torch.long,device=self.device)
+        self.sensor_delay_steps = torch.zeros(self.num_envs,dtype=torch.long,device=self.device)
+        self.published_action = torch.zeros(self.num_envs,self.action_dim,device=self.device)
         self.action_history = torch.zeros(self.num_envs,cfg.max_delay_steps+1,self.action_dim,device=self.device)
         self.right_ids = torch.tensor([POLICY_NAMES.index(name) for name in G1_29DOF_JOINTS[22:]], device=self.device)
 
@@ -168,11 +208,14 @@ class PayloadAction(JointPositionAction):
             env_ids = torch.arange(self.num_envs, device=self.device)
         self.arm_commands[env_ids] = self._offset.expand(self.num_envs, -1)[env_ids]
         self.action_history[env_ids] = 0.
+        self.published_action[env_ids] = 0.
 
     def sample_episode(self, env_ids):
         count = len(env_ids)
         if self.cfg.max_delay_steps:
             self.delay_steps[env_ids] = torch.randint(self.cfg.max_delay_steps+1,(count,),device=self.device)
+        if self.cfg.max_sensor_delay_steps:
+            self.sensor_delay_steps[env_ids] = torch.randint(self.cfg.max_sensor_delay_steps+1,(count,),device=self.device)
         random = torch.rand(count, device=self.device)
         if self.cfg.profile == 'mixed':
             self.held[env_ids] = random >= .2
@@ -191,6 +234,7 @@ class PayloadAction(JointPositionAction):
         self.next_pose_step[env_ids] = round(8. / self._env.step_dt)
 
     def process_actions(self, actions):
+        self.published_action.copy_(actions)
         self.action_history = torch.roll(self.action_history,1,dims=1)
         self.action_history[:,0] = actions
         delayed = self.action_history[torch.arange(self.num_envs,device=self.device),self.delay_steps]
@@ -244,13 +288,16 @@ def joint_velocities(env):
 
 
 def applied_policy_action(env):
-    # Deployment reports the last published policy action, before external-arm
-    # composition, rather than a newer action still waiting for application.
-    return env.action_manager.get_term('joint_pos').raw_action
+    action = env.action_manager.get_term('joint_pos')
+    # Preserve the historical applied-action mode for reproducible baselines.
+    # Deployment instead reports the last publisher output, before downstream
+    # application delay and external arm composition.
+    return action.published_action if action.cfg.action_feedback=='published' else action.raw_action
 
 
 def build_env(num_envs, seed, profile='mixed', pose_index=0, pose_bank='carry', arm_transitions=False,
-              objective='tracking',smoothness_weight=.2,dynamics='historical',max_delay_steps=0,action_hold_probability=0.):
+              objective='tracking',smoothness_weight=.2,dynamics='historical',max_delay_steps=0,action_hold_probability=0.,
+              max_sensor_delay_steps=0,action_feedback='applied'):
     cfg = unitree_g1_flat_env_cfg()
     cfg.seed = seed
     cfg.scene.num_envs = num_envs
@@ -258,11 +305,16 @@ def build_env(num_envs, seed, profile='mixed', pose_index=0, pose_bank='carry', 
     cfg.decimation = 10
     cfg.sim.mujoco.timestep = .002
     robot = cfg.scene.entities['robot']
-    robot.spec_fn = native_inertial_payload_spec if dynamics=='native_inertial' else payload_spec
+    robot.spec_fn = {'historical':payload_spec,'native_inertial':native_inertial_payload_spec,
+                     'native_contact':native_contact_payload_spec}[dynamics]
+    if dynamics=='native_contact':
+        for collision in robot.collisions:
+            collision.friction = {r'^(left|right)_foot[1-7]_collision$':(1.,.005,.0001)}
+            collision.priority = {r'^(left|right)_foot[1-7]_collision$':0}
     robot.init_state.pos = (0., 0., .793)
     robot.init_state.joint_pos = dict(zip(POLICY_NAMES, UNITREE_RL_LAB_G1_DEFAULT_POS))
     actuators = []
-    native = native_robot_model() if dynamics=='native_inertial' else None
+    native = native_robot_model() if dynamics in ('native_inertial','native_contact') else None
     for sdk, name in enumerate(G1_29DOF_JOINTS):
         effort = 5. if 'wrist_pitch' in name or 'wrist_yaw' in name else 25. if sdk >= 15 else 139. if 'knee' in name or 'hip_roll' in name else 50. if 'ankle' in name or 'waist' in name else 88.
         if native is not None:
@@ -276,7 +328,8 @@ def build_env(num_envs, seed, profile='mixed', pose_index=0, pose_bank='carry', 
     cfg.actions = {'joint_pos': PayloadActionCfg(entity_name='robot', actuator_names=('.*',),
                     scale=.25, use_default_offset=True, profile=profile, pose_index=pose_index,
                     pose_bank=pose_bank, arm_transitions=arm_transitions,max_delay_steps=max_delay_steps,
-                    action_hold_probability=action_hold_probability)}
+                    action_hold_probability=action_hold_probability,max_sensor_delay_steps=max_sensor_delay_steps,
+                    action_feedback=action_feedback)}
     actor_terms = {
         'base_ang_vel': ObservationTermCfg(func=mdp.builtin_sensor, params={'sensor_name': 'robot/imu_ang_vel'}, scale=.2),
         'projected_gravity': ObservationTermCfg(func=mdp.projected_gravity),
@@ -285,9 +338,15 @@ def build_env(num_envs, seed, profile='mixed', pose_index=0, pose_bank='carry', 
         'joint_vel_rel': ObservationTermCfg(func=joint_velocities, scale=.05),
         'last_action': ObservationTermCfg(func=applied_policy_action),
     }
+    critic_terms = copy.deepcopy(actor_terms)
+    if max_sensor_delay_steps:
+        for name in ('base_ang_vel','projected_gravity','joint_pos_rel','joint_vel_rel'):
+            term = actor_terms[name]
+            term.func,term.params = DelayedSensorTerm,dict(source=term.func,source_params=term.params,
+                                                        max_lag=max_sensor_delay_steps)
     cfg.observations = {
         'actor': ObservationGroupCfg(terms=actor_terms, concatenate_terms=True, history_length=5, enable_corruption=False),
-        'critic': ObservationGroupCfg(terms={**actor_terms, 'base_lin_vel': ObservationTermCfg(func=mdp.base_lin_vel)}, concatenate_terms=True, enable_corruption=False),
+        'critic': ObservationGroupCfg(terms={**critic_terms, 'base_lin_vel': ObservationTermCfg(func=mdp.base_lin_vel)}, concatenate_terms=True, enable_corruption=False),
     }
     cfg.commands['twist'] = StandCreepStopVelocityCommandCfg(entity_name='robot',
         resampling_time_range=(2., 5.), heading_command=False, debug_vis=False,
@@ -325,6 +384,7 @@ def build_env(num_envs, seed, profile='mixed', pose_index=0, pose_bank='carry', 
         # pivots seen in cycle-03. Evaluate both progress and uprightness.
         cfg.rewards['track_angular_velocity'].weight *= 2.5
         cfg.rewards['track_linear_velocity'].weight *= 1.25
+        cfg.rewards['turn_drift'] = RewardTermCfg(func=turn_drift_penalty,weight=-3.)
     return cfg
 
 
@@ -448,14 +508,18 @@ def main():
     parser.add_argument('--objective',choices=('tracking','fluid','reactive'),default='tracking')
     parser.add_argument('--smoothness-weight',type=float,default=.2)
     parser.add_argument('--probe',choices=('tracking','loaded_turns'),default='tracking')
-    parser.add_argument('--dynamics',choices=('historical','native_inertial'),default='historical')
+    parser.add_argument('--dynamics',choices=('historical','native_inertial','native_contact'),default='historical')
     parser.add_argument('--max-delay-steps',type=int,default=0,help='Per-episode policy application delay sampled from 0..N periods')
     parser.add_argument('--action-hold-probability',type=float,default=0.,help='Per-tick missed-update exposure, retaining the previously applied action')
+    parser.add_argument('--max-sensor-delay-steps',type=int,default=0,help='Shared per-episode IMU/joint observation lag, in 20 ms control periods')
+    parser.add_argument('--action-feedback',choices=('applied','published'),default='applied')
     args = parser.parse_args()
     if args.num_envs <= 0 or args.iterations <= 0 or args.seed < 0 or args.pose_index < 0:
         parser.error('Environment/iteration counts must be positive and seed/pose index nonnegative')
     if not 0<=args.max_delay_steps<=5:
         parser.error('--max-delay-steps must be between 0 and 5')
+    if not 0<=args.max_sensor_delay_steps<=5:
+        parser.error('--max-sensor-delay-steps must be between 0 and 5')
     if not 0.<=args.action_hold_probability<=.2:
         parser.error('--action-hold-probability must be in [0, .2]')
     if args.pose_bank == 'carry' and args.pose_index > 2:
@@ -471,7 +535,8 @@ def main():
     sys.stdout = ConsoleTee(sys.stdout,output/'console.stdout.log')
     sys.stderr = ConsoleTee(sys.stderr,output/'console.stderr.log')
     cfg = build_env(args.num_envs, args.seed, args.profile, args.pose_index, args.pose_bank, args.arm_transitions,
-                    args.objective,args.smoothness_weight,args.dynamics,args.max_delay_steps,args.action_hold_probability)
+                    args.objective,args.smoothness_weight,args.dynamics,args.max_delay_steps,args.action_hold_probability,
+                    args.max_sensor_delay_steps,args.action_feedback)
     if args.mode == 'evaluate' and args.probe == 'loaded_turns':
         cfg.episode_length_s = sum(item[1] for item in LOADED_TURN_SCHEDULE)+2.
     agent = unitree_g1_ppo_runner_cfg()
@@ -487,6 +552,9 @@ def main():
     agent.experiment_name = 'g1_payload'
     manifest = dict(mode=args.mode, seed=args.seed, num_envs=args.num_envs, iterations=args.iterations,
                     dynamics=args.dynamics,max_delay_steps=args.max_delay_steps,action_hold_probability=args.action_hold_probability,
+                    max_sensor_delay_steps=args.max_sensor_delay_steps,action_feedback=args.action_feedback,
+                    control_period_s=.02,
+                    sensor_delay_scope='coherent IMU/joint packet, per-environment per-episode; commands/action feedback remain current',
                     profile=args.profile, source=str(SOURCE), source_sha256=hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
                     arm_input_initialization=args.arm_init,
                     evaluation_pose_index=args.pose_index,
@@ -502,7 +570,8 @@ def main():
     (output / 'manifest.json').write_text(json.dumps(manifest, indent=2)+'\n')
     (output / 'training_source.py').write_bytes(Path(__file__).read_bytes())
     (output / 'payload_smoothness.py').write_bytes((ROOT/'scripts/payload_smoothness.py').read_bytes())
-    if args.dynamics=='native_inertial':
+    (output / 'payload_sensor_delay.py').write_bytes((ROOT/'scripts/payload_sensor_delay.py').read_bytes())
+    if args.dynamics in ('native_inertial','native_contact'):
         native_source = ROOT/'ros2_ws/src/unitree_mujoco/unitree_robots/g1/g1_29dof.xml'
         (output/'native_robot_source.xml').write_bytes(native_source.read_bytes())
     for source in (URDF, *[ROOT/'ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge'/name
@@ -529,7 +598,9 @@ def main():
         {'params': runner.alg.critic.parameters(), 'lr': 3e-4},
     ])
     action = env.action_manager.get_term('joint_pos')
-    print('Payload reset audit:', dict(held=int(action.held.sum()), mass_min=float(action.mass.min()), mass_max=float(action.mass.max())), flush=True)
+    print('Payload reset audit:', dict(held=int(action.held.sum()), mass_min=float(action.mass.min()), mass_max=float(action.mass.max()),
+        application_delay_counts=torch.bincount(action.delay_steps,minlength=args.max_delay_steps+1).tolist(),
+        sensor_delay_counts=torch.bincount(action.sensor_delay_steps,minlength=args.max_sensor_delay_steps+1).tolist()), flush=True)
     try:
         if args.mode in ('smoke', 'train'):
             runner.learn(num_learning_iterations=2 if args.mode == 'smoke' else args.iterations,

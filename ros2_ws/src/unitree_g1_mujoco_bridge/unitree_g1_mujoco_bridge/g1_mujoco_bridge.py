@@ -1,4 +1,6 @@
 import math
+import json
+import time
 from typing import Iterable, List
 
 import rclpy
@@ -6,10 +8,11 @@ from rclpy.duration import Duration
 from rclpy.node import Node
 from rclpy.qos import QoSHistoryPolicy, QoSProfile, QoSReliabilityPolicy
 from sensor_msgs.msg import JointState
-from std_msgs.msg import Float64MultiArray,Bool
+from std_msgs.msg import Float64MultiArray,Bool,String
 from unitree_hg.msg import LowCmd, LowState
 from unitree_go.msg import MotorCmds, MotorCmd as BraincoMotorCmd, MotorStates
 from .unitree_crc import lowcmd_crc
+from .policy_timing import leg_target_fingerprint
 
 from .g1_constants import (
     BRAINCO_HAND_JOINTS,
@@ -51,6 +54,9 @@ class G1MujocoBridge(Node):
 
         self.declare_parameter("body_kp", 60.0)
         self.declare_parameter('legacy_rt_aliases',False)
+        self.application_timing = bool(self.declare_parameter('application_timing',False).value)
+        self.lowcmd_timing_pub = self.create_publisher(String,'/g1/lowcmd_timing',100)
+        self.lowcmd_publish_sequence = 0
         self.declare_parameter("body_kd", 2.5)
         self.declare_parameter("arm_kp_override", 0.0)
         self.declare_parameter('arm_gains_require_authority',False)
@@ -316,9 +322,18 @@ class G1MujocoBridge(Node):
 
     def _publish_lowcmd(self,cmd):
         cmd.crc = lowcmd_crc(cmd)
+        before = time.monotonic_ns() if self.application_timing else 0
         self.lowcmd_pub.publish(cmd)
         if self.lowcmd_rt_pub is not None:
             self.lowcmd_rt_pub.publish(cmd)
+        if self.application_timing:
+            after = time.monotonic_ns()
+            self.lowcmd_publish_sequence += 1
+            self.lowcmd_timing_pub.publish(String(data=json.dumps(dict(
+                role='lowcmd_publication_bracket_not_application',sequence=self.lowcmd_publish_sequence,
+                crc=int(cmd.crc),publish_before_monotonic_ns=before,publish_after_monotonic_ns=after,
+                leg_target_sha256=leg_target_fingerprint([motor.q for motor in cmd.motor_cmd[:15]])),
+                separators=(',',':'))))
 
     def _update_fallen_state(self) -> None:
         if not self.fall_damping_enable:

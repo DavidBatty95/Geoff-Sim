@@ -1,6 +1,15 @@
 from pathlib import Path
 
 import numpy as np
+from unitree_g1_mujoco_bridge.transport_demo import navigation_footprint
+
+
+def test_dynamic_navigation_polygon_contains_the_full_empty_and_loaded_circle():
+    for radius in (.48,.64):
+        polygon = navigation_footprint(radius)
+        xy = np.asarray([(point.x,point.y) for point in polygon.points])
+        midpoints = (xy+np.roll(xy,-1,axis=0))/2
+        assert len(xy)==16 and np.min(np.linalg.norm(midpoints,axis=1))>=radius
 
 from unitree_g1_mujoco_bridge.arm_kinematics import ArmKinematics
 from unitree_g1_mujoco_bridge.transport_perception import colour_detections,support_approach
@@ -45,6 +54,20 @@ def test_rgbd_box_projection_and_below_table_rejection():
     assert detections[0]['id'] == 'box_red'
     np.testing.assert_allclose(detections[0]['position'], (1., 0., 1.055), atol=1e-6)
     assert not colour_detections(rgb, depth, intrinsics, np.array((0., 0., .6)), optical)
+
+
+def test_ik_reaches_failed_native_pickup_without_inward_shoulder_branch():
+    kin = kinematics()
+    kin.tool_offset = np.array((.12,.01,0.))
+    # Recorded target from 20261012T165825Z: native geometry reports upper-arm
+    # penetration into the torso even though this is inside the URDF limits.
+    blocked = dict(zip(kin.names,(-.00567139,.1525948,.2773698,-.7602669,
+                                  -.2090796,.7514498,-.1019206)))
+    target,orientation,_,_ = kin.forward(blocked)
+    result,error = kin.solve(target,blocked,orientation)
+    assert error < .003
+    assert result['right_shoulder_roll_joint'] <= -.10
+    assert np.linalg.norm(kin.forward(result)[1]-orientation) < .05
 
 
 def test_trained_carry_posture_is_within_limits_and_lifts_fixture_hand():

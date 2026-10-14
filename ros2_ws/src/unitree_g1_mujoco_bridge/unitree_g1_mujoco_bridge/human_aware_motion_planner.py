@@ -7,7 +7,8 @@ from .observed_route import route_is_free, people_clear_corridor
 from .forward_reference import forward_reference,loaded_turn_reference,NominalMotionReference
 from .command_envelope import goal_signature
 from .avoidance_candidates import crossing_escape_directions, velocity_obstacle_command
-from dataclasses import dataclass
+from dataclasses import dataclass,replace
+from .policy_response import NATIVE_CONTACT_PROFILE,calibrated_turn_reference
 
 import rclpy
 from geometry_msgs.msg import Point, PoseStamped, Twist, TwistStamped
@@ -33,7 +34,7 @@ from .bridge_safety import (
 )
 from .pointcloud import iter_xyz
 from .motion_envelope import load_motion_envelope, advance_planar_pose
-from .static_distance_field import StaticDistanceField, observed_free_mask
+from .static_distance_field import StaticDistanceField, StaticFieldCache, observed_free_mask
 from .kinodynamic_search import remaining_schedule, rollout_schedule, search_sequence
 
 
@@ -616,13 +617,15 @@ class HumanAwareMotionPlanner(Node):
         return self.observed_route_valid
 
     def _mission_callback(self, msg: Bool) -> None:
+        was_active = self.mission_active
         self.mission_active = bool(msg.data)
         if not self.mission_active:
             if hasattr(self,'nominal_reference'):
                 self.nominal_reference.reset()
                 self.nominal_reference_stamp = None
-            self.escape_plan = None
-            self.warm_start_plan = None
+            if was_active:
+                self.escape_plan = None
+                self.warm_start_plan = None
             self.goal_progress_stamp = None
             self.goal_best_distance = math.inf
             self.goal_urgency = 1.
@@ -630,7 +633,11 @@ class HumanAwareMotionPlanner(Node):
         self.mission_state_time = self.get_clock().now()
 
     def _mode_callback(self,msg):
-        self.navigation_mode = msg.data if msg.data in ('navigate','dock','scan') else 'navigate'
+        mode = msg.data if msg.data in ('navigate','dock','scan','brake','reserve_recovery') else 'navigate'
+        if mode=='brake' and self.navigation_mode!='brake':
+            self.braking_reference = [self.last_cmd.linear.x,self.last_cmd.linear.y,self.last_cmd.angular.z]
+            self.braking_stamp = self.get_clock().now().nanoseconds*1e-9
+        self.navigation_mode = mode
         self.static_clearance = .26 if self.navigation_mode in ('dock','scan') else self.navigation_static_clearance+(.16 if self.payload_active else 0.)
 
     def _payload_callback(self,msg):
@@ -638,8 +645,20 @@ class HumanAwareMotionPlanner(Node):
             self.robot_radius += .16 if msg.data else -.16
             self.payload_active = bool(msg.data)
         self.static_clearance = .26 if self.navigation_mode in ('dock','scan') else self.navigation_static_clearance+(.16 if self.payload_active else 0.)
+        self.motion_envelope = replace(self.motion_envelope,payload_active=self.payload_active)
 
     def _dock_reference(self,pose):
+        if self.navigation_mode=='brake':
+            stamp = self.get_clock().now().nanoseconds*1e-9
+            dt = max(0.,min(.1,stamp-self.braking_stamp))
+            self.braking_stamp = stamp
+            cmd = Twist()
+            for index,deceleration in enumerate((.8,.8,.7)):
+                value = self.braking_reference[index]
+                self.braking_reference[index] = math.copysign(max(0.,abs(value)-deceleration*dt),value)
+            cmd.linear.x,cmd.linear.y,cmd.angular.z = self.braking_reference
+            self.path_reference_status = 'nominal_braking'
+            return cmd
         goal = self.reference_goal
         if goal is None or goal.header.frame_id != self.target_frame:
             return None
@@ -650,7 +669,9 @@ class HumanAwareMotionPlanner(Node):
         error = self._wrap_pi(yaw-pose[2])
         cmd = Twist()
         if abs(error) > .12:
-            if getattr(self,'payload_active',False):
+            if self.motion_envelope.response_profile==NATIVE_CONTACT_PROFILE:
+                cmd.angular.z = calibrated_turn_reference(error,self.measured_velocity[2],self.payload_active)
+            elif getattr(self,'payload_active',False):
                 cmd.angular.z = loaded_turn_reference(error)
             else:
                 cmd.angular.z = min(.6,max(.55,1.5*abs(error))) if error > 0. else -min(.9,max(.65,1.5*abs(error)))
@@ -775,6 +796,9 @@ class HumanAwareMotionPlanner(Node):
                 speed, self.max_angular_near_human,
                 getattr(self, "max_clockwise_angular_near_human", 0.) or None,
                 smooth_loaded=getattr(self,'payload_active',False))
+            if self.motion_envelope.response_profile==NATIVE_CONTACT_PROFILE and abs(command.linear.x)<.1:
+                heading = self._wrap_pi(math.atan2(dy,dx)-pose[2])
+                command.angular.z = calibrated_turn_reference(heading,self.measured_velocity[2],self.payload_active)
         elif getattr(self, "prefer_forward_travel", False) and goal_distance <= 1.0:
             # Finish short adjustments holonomically without circling the goal.
             scale = min(1., .30 / max(1e-6, math.hypot(command.linear.x, command.linear.y)))
@@ -1005,10 +1029,27 @@ class HumanAwareMotionPlanner(Node):
             self._publish(Twist(), "ODOMETRY_STALE_STOP", [], None)
             return
         if self.nav2_path_reference and self.mission_active:
-            reference = self._dock_reference(pose) if self.navigation_mode in ('dock','scan') else self._path_reference(pose)
+            reference = self._dock_reference(pose) if self.navigation_mode in ('dock','scan','brake','reserve_recovery') else self._path_reference(pose)
             if reference is not None:
                 self.latest_cmd = reference
         self._update_goal_urgency(pose,now_seconds)
+        if (self.prefer_safe_route_alignment and self.nav2_path_reference and self.mission_active and
+                self.navigation_mode in ('scan','brake')):
+            # A scan/brake is an explicit request to stop translating, not a
+            # new route-progress objective. Recheck its full stopping/turning
+            # rollout before continuing an old escape or optimizing comfort.
+            # Unsafe requests still fall through to the normal escape search.
+            nominal = self._executable_candidates(
+                self._candidate_commands(self.latest_cmd,'NORMAL_NAVIGATION',pose,tracks))[0]
+            checked = self._score_candidate(nominal,pose,tracks,tentative_points,
+                                             predicted_points,predictions,prediction_age)
+            if self._has_nominal_clearance(checked,tracks):
+                self.escape_plan = self.warm_start_plan = None
+                cmd = self._twist_from_candidate(nominal)
+                self.last_cmd = cmd
+                self.path_reference_status = 'safe_precision_reference'
+                self._publish(cmd,'NORMAL_NAVIGATION',[checked],checked)
+                return
         pending = self._pending_escape(now_seconds)
         if pending is not None:
             result = self._checked_continuation(pending, pose, tracks, tentative_points,
@@ -1058,9 +1099,10 @@ class HumanAwareMotionPlanner(Node):
         if self.warm_start_plan is not None:
             schedule,goal_key = self.warm_start_plan
             self.warm_start_plan = None
-            if goal_key == self._goal_key(self.reference_goal):
+            if goal_key == (self._goal_key(self.reference_goal) if self.mission_active else None):
                 candidates.insert(0,self._schedule_candidate('beam_warm_start',schedule))
-        if self.kinodynamic_search_enabled and self.mission_active and state != 'NORMAL_NAVIGATION' and tracks:
+        if (self.kinodynamic_search_enabled and state != 'NORMAL_NAVIGATION' and tracks and
+                (self.mission_active or any(math.hypot(t.vx,t.vy)>.25 for t in tracks))):
             proposed = self._kinodynamic_candidate(pose,tracks,tentative_points,predicted_points,predictions,prediction_age)
             if proposed is not None:
                 proposed = self._executable_candidates([proposed])[0]
@@ -1068,7 +1110,8 @@ class HumanAwareMotionPlanner(Node):
                 if not checked.rejected or checked.reason == 'human_margin':
                     cmd = self._twist_from_candidate(proposed)
                     self.last_cmd = cmd
-                    self.escape_plan = (proposed,self.get_clock().now().nanoseconds*1e-9,self._goal_key(self.reference_goal))
+                    self.escape_plan = (proposed,self.get_clock().now().nanoseconds*1e-9,
+                                        self._goal_key(self.reference_goal) if self.mission_active else None)
                     self._publish(cmd,'CLEARANCE_RECOVERY' if checked.rejected else 'HUMAN_CAUTION',[checked],checked)
                     return
                 candidates.insert(0,proposed)
@@ -1111,16 +1154,19 @@ class HumanAwareMotionPlanner(Node):
                 (selected.candidate.schedule is not None or selected.candidate.name in
                  ("crossing_then_route", "escape_then_route", "wait_then_route", "wait_then_escape"))):
             self.escape_plan = (selected.candidate, self.get_clock().now().nanoseconds*1e-9,
-                                self._goal_key(self.reference_goal))
+                                self._goal_key(self.reference_goal) if self.mission_active else None)
         self._publish(cmd, state, results, selected)
 
     def _can_prioritize_alignment(self,result,tracks):
         candidate = result.candidate
-        reserve = max([self.comfort_radius]+[self.robot_radius+t.body_radius+self.body_prediction_margin+.25 for t in tracks])
         return (self.prefer_safe_route_alignment and self.prefer_forward_travel and self.nav2_path_reference and
-                self.mission_active and self.navigation_mode=='navigate' and not self.goal_holonomic and
-                not self.payload_active and not result.rejected and result.min_human_distance>=reserve and
-                abs(candidate.vx)+abs(candidate.vy)<1e-6 and abs(candidate.wz)>.05)
+                 self.mission_active and self.navigation_mode=='navigate' and not self.goal_holonomic and
+                not self.payload_active and self._has_nominal_clearance(result,tracks) and
+                 abs(candidate.vx)+abs(candidate.vy)<1e-6 and abs(candidate.wz)>.05)
+
+    def _has_nominal_clearance(self,result,tracks):
+        reserve = max([self.comfort_radius]+[self.robot_radius+t.body_radius+self.body_prediction_margin+.25 for t in tracks])
+        return not result.rejected and result.min_human_distance>=reserve
 
     def _update_goal_urgency(self,pose,seconds):
         if not self.mission_active or self.reference_goal_world is None:
@@ -1174,6 +1220,17 @@ class HumanAwareMotionPlanner(Node):
         started = time.perf_counter()
         seconds = self.get_clock().now().nanoseconds*1e-9
         goal = self.reference_progress_target or self.reference_goal_world
+        if not self.mission_active:
+            moving = [track for track in tracks if math.hypot(track.vx,track.vy)>.25]
+            if not moving:
+                return None
+            track = min(moving,key=lambda t:math.hypot(t.x-pose[0],t.y-pose[1]))
+            speed = math.hypot(track.vx,track.vy)
+            nx,ny = -track.vy/speed,track.vx/speed
+            side = 1. if (pose[0]-track.x)*nx+(pose[1]-track.y)*ny>=0. else -1.
+            # The search can retreat before sidestepping around a jamb. Its
+            # target is separation from the walking lane, never the old mission.
+            goal = (pose[0]+side*1.5*nx,pose[1]+side*1.5*ny)
         if (goal is None or self.policy_command is None or self.policy_command_stamp is None or
                 not 0. <= seconds-self.policy_command_stamp <= .4):
             self.kinodynamic_status = 'missing_goal_or_feedback'
@@ -1222,7 +1279,7 @@ class HumanAwareMotionPlanner(Node):
         if self.escape_plan is None:
             return None
         candidate, started, goal = self.escape_plan
-        if not self.mission_active or goal != self._goal_key(self.reference_goal) or seconds < started:
+        if goal != (self._goal_key(self.reference_goal) if self.mission_active else None) or seconds < started:
             self.escape_plan = None
             return None
         if candidate.schedule is not None:
@@ -2262,7 +2319,10 @@ class HumanAwareMotionPlanner(Node):
         else:
             positions = np.asarray(trajectory)[:, :2]
             if self.static_field_cache is None:
-                self.static_field_cache = StaticDistanceField(obstacles, trajectory[0][:2], self.static_influence_range + self.horizon * self.motion_envelope.max_x, self.static_influence_range)
+                if not hasattr(self,'static_field_reuse'):
+                    self.static_field_reuse = StaticFieldCache()
+                self.static_field_cache = self.static_field_reuse.get(obstacles,trajectory[0][:2],
+                    self.static_influence_range+self.horizon*self.motion_envelope.max_x,self.static_influence_range)
             nearest = self.static_field_cache.query(positions)
             rejected = self.static_field_cache.trajectory_is_blocked(positions, self.static_clearance, nearest,
                                                                     recovery_radius=self.robot_radius)

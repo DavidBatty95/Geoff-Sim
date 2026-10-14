@@ -1,0 +1,176 @@
+diff --git a/simulate/CMakeLists.txt b/simulate/CMakeLists.txt
+index a976cfb227da9eff26382f8c7ecf734b27603ed4..b1f3c687551ebab4a09ec3aa9fa9b677cee6831a 100644
+--- a/simulate/CMakeLists.txt
++++ b/simulate/CMakeLists.txt
+@@ -51,6 +51,9 @@ add_executable(unitree_mujoco ${SIM_SRC} src/main.cc src/simulated_manipulation.
+ add_executable(jstest src/joystick/jstest.cc src/joystick/joystick.cc)
+ 
+ if(BUILD_TESTING)
++  add_executable(command_application_timing_test test/command_application_timing_test.cc)
++  target_include_directories(command_application_timing_test PRIVATE src)
++  add_test(NAME command_application_timing_test COMMAND command_application_timing_test)
+   add_executable(native_imu_test test/native_imu_test.cc)
+   target_include_directories(native_imu_test PRIVATE src)
+   add_test(NAME native_imu_test COMMAND native_imu_test)
+diff --git a/simulate/src/unitree_sdk2_bridge.h b/simulate/src/unitree_sdk2_bridge.h
+index 99192434c901df126ed00d2538ece67e2d39cab1..3385f4646683b989cd2e016540f9c4094b178131 100644
+--- a/simulate/src/unitree_sdk2_bridge.h
++++ b/simulate/src/unitree_sdk2_bridge.h
+@@ -14,6 +14,7 @@
+ #include <limits>
+ #include <memory>
+ #include <mutex>
++#include <sstream>
+ #include <stdexcept>
+ #include <string>
+ #include <tuple>
+@@ -31,6 +32,7 @@
+ #include "param.h"
+ #include "physics_joystick.h"
+ #include "bridge_command_safety.h"
++#include "command_application_timing.h"
+ 
+ extern std::atomic<bool> motor_command_seen;
+ extern std::atomic<bool> motor_command_started;
+@@ -93,6 +95,7 @@ protected:
+     {
+         std::array<MotorCommand, kMotorCapacity> motors{};
+         std::uint64_t sequence = 0;
++        std::uint32_t crc = 0;
+         Clock::time_point received_at{};
+         bool valid = false;
+     };
+@@ -153,6 +156,8 @@ public:
+         lowstate->joystick = joystick_;
+         highstate = std::make_unique<HighState_t>();
+         command_timeout_ = ReadCommandTimeout();
++        const char *timing = std::getenv("UNITREE_MUJOCO_APPLICATION_TIMING");
++        application_timing_enabled_ = timing && (std::string(timing) == "true" || std::string(timing) == "1");
+     }
+ 
+     ~RobotBridge() override { Stop(); }
+@@ -252,6 +257,14 @@ public:
+             motor_command_started.compare_exchange_strong(expected, true);
+             motor_command_seen.store(true);
+         }
++        if (application_timing_enabled_) {
++            const auto applied = Clock::now();
++            std::lock_guard<std::mutex> lock(application_timing_mutex_);
++            application_timing_.Record(command.sequence, command.crc,
++                std::chrono::duration_cast<std::chrono::nanoseconds>(command.received_at.time_since_epoch()).count(),
++                std::chrono::duration_cast<std::chrono::nanoseconds>(applied.time_since_epoch()).count(),
++                static_cast<std::uint32_t>(std::llround(data->time / 1e-3)));
++        }
+     }
+ 
+     void CaptureState(const mjModel *model, const mjData *data) override
+@@ -425,6 +438,25 @@ private:
+ 
+     void RunSDK()
+     {
++        // Sample at 10 Hz on the SDK thread, never format/write on physics.
++        const auto now = Clock::now();
++        if (application_timing_enabled_ && now - last_application_report_ >= std::chrono::milliseconds(100)) {
++            unitree_mujoco::CommandApplicationSample sample;
++            {
++                std::lock_guard<std::mutex> lock(application_timing_mutex_);
++                sample = application_timing_.latest_transition();
++            }
++            last_application_report_ = now;
++            if (sample.sequence && sample.sequence != reported_application_sequence_) {
++                reported_application_sequence_ = sample.sequence;
++                std::ostringstream line;
++                line << "[native_command_application] {\"content_transition\":true,\"sequence\":" << sample.sequence
++                     << ",\"crc\":" << sample.crc << ",\"received_monotonic_ns\":" << sample.received_ns
++                     << ",\"applied_monotonic_ns\":" << sample.applied_ns
++                     << ",\"device_tick_ms\":" << sample.tick_ms << "}\n";
++                std::cout << line.str();
++            }
++        }
+         if (lowstate->joystick) {
+             lowstate->joystick->update();
+         }
+@@ -436,6 +468,7 @@ private:
+                 std::lock_guard<std::mutex> lock(lowcmd->mutex_);
+                 command.sequence = lowcmd->sequence();
+                 command.received_at = lowcmd->received_at();
++                command.crc = lowcmd->msg_.crc();
+                 const auto &messages = lowcmd->msg_.motor_cmd();
+                 for (std::size_t i = 0; i < kMotorCapacity; ++i) {
+                     command.motors[i] = {messages[i].q(), messages[i].dq(), messages[i].kp(),
+@@ -518,6 +551,11 @@ private:
+     std::chrono::milliseconds command_timeout_{100};
+     std::uint64_t required_command_sequence_ = 1;
+     std::uint64_t copied_command_sequence_ = 0;
++    bool application_timing_enabled_ = false;
++    std::mutex application_timing_mutex_;
++    unitree_mujoco::CommandApplicationTiming application_timing_;
++    Clock::time_point last_application_report_{};
++    std::uint64_t reported_application_sequence_ = 0;
+     CommandSnapshot command_snapshot_;
+     StateSnapshot state_snapshot_;
+     std::mutex command_mutex_;
+diff --git a/simulate/src/command_application_timing.h b/simulate/src/command_application_timing.h
+new file mode 100644
+index 0000000..65902f6
+--- /dev/null
++++ b/simulate/src/command_application_timing.h
+@@ -0,0 +1,33 @@
++#pragma once
++#include <cstdint>
++
++namespace unitree_mujoco {
++struct CommandApplicationSample {
++  std::uint64_t sequence = 0;
++  std::uint32_t crc = 0;
++  std::int64_t received_ns = 0;
++  std::int64_t applied_ns = 0;
++  std::uint32_t tick_ms = 0;
++};
++
++// Called only after a usable command has actually filled the physics controls.
++// Repeated physics steps holding that command are not new applications.
++class CommandApplicationTiming {
++ public:
++  bool Record(std::uint64_t sequence, std::uint32_t crc, std::int64_t received_ns,
++              std::int64_t applied_ns, std::uint32_t tick_ms) {
++    if (sequence <= latest_.sequence || received_ns <= 0 || applied_ns < received_ns) {
++      return false;
++    }
++    const bool changed = latest_.sequence == 0 || latest_.crc != crc;
++    latest_ = {sequence, crc, received_ns, applied_ns, tick_ms};
++    if (changed) transition_ = latest_;
++    return true;
++  }
++  const CommandApplicationSample& latest() const { return latest_; }
++  const CommandApplicationSample& latest_transition() const { return transition_; }
++ private:
++  CommandApplicationSample latest_;
++  CommandApplicationSample transition_;
++};
++}  // namespace unitree_mujoco
+diff --git a/simulate/test/command_application_timing_test.cc b/simulate/test/command_application_timing_test.cc
+new file mode 100644
+index 0000000..1c2b10d
+--- /dev/null
++++ b/simulate/test/command_application_timing_test.cc
+@@ -0,0 +1,19 @@
++#include "command_application_timing.h"
++#include <cstdlib>
++
++int main() {
++  unitree_mujoco::CommandApplicationTiming timing;
++  if (timing.Record(0, 7, 100, 102, 2)) return EXIT_FAILURE;
++  if (!timing.Record(1, 7, 100, 102, 2)) return EXIT_FAILURE;
++  if (timing.Record(1, 7, 100, 110, 10)) return EXIT_FAILURE;
++  if (timing.latest().applied_ns != 102) return EXIT_FAILURE;
++  // Identical wire content can be a distinct DDS command. Never merge by CRC.
++  if (!timing.Record(2, 7, 110, 113, 12)) return EXIT_FAILURE;
++  if (timing.latest_transition().sequence != 1) return EXIT_FAILURE;
++  if (timing.Record(1, 8, 110, 113, 12)) return EXIT_FAILURE;
++  if (timing.Record(3, 9, 120, 119, 14)) return EXIT_FAILURE;
++  if (timing.latest().sequence != 2 || timing.latest().received_ns != 110) return EXIT_FAILURE;
++  if (!timing.Record(3, 8, 120, 122, 14)) return EXIT_FAILURE;
++  if (timing.latest_transition().applied_ns != 122) return EXIT_FAILURE;
++  return EXIT_SUCCESS;
++}

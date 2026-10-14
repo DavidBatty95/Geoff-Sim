@@ -1,6 +1,7 @@
 import json
 import math
 import time
+from dataclasses import replace
 
 import rclpy
 from geometry_msgs.msg import Point, PoseStamped, Twist, TwistStamped
@@ -313,6 +314,7 @@ class HumanCollisionAvoidance(Node):
             self._invalidate_escape()
         self.prediction_collision_radius = radius
         self.recovery_min_clearance = .96 if msg.data else .80
+        self.motion_envelope = replace(self.motion_envelope,payload_active=bool(msg.data))
 
     def _goal_callback(self,msg):
         signature = goal_signature(msg)

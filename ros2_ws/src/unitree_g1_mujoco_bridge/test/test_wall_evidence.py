@@ -33,6 +33,21 @@ def test_overhead_beam_does_not_erase_a_person_beneath_it():
     assert not WallEvidence(points,2.3).supports(0.,0.)
 
 
+def test_near_wall_sheet_does_not_require_unobservable_upper_returns():
+    wall = [(x,0.,z) for x in np.linspace(-.5,.5,16) for z in np.linspace(.2,2.,12)]
+    evidence = WallEvidence([],2.3,wall)
+    assert evidence.supports(0.,0.)
+    assert not evidence.supports(0.,.25)
+
+
+def test_body_height_sheet_requires_wide_vertical_columns_not_flat_torso_and_arms():
+    torso = [(x,0.,z) for x in np.linspace(-.22,.22,12) for z in np.linspace(.5,1.8,15)]
+    arms = [(x,0.,z) for x in np.linspace(-.5,.5,20) for z in (1.2,1.25,1.3)]
+    assert not WallEvidence([],2.3,torso+arms).supports(0.,0.)
+    floor = [(x,y,.95) for x in np.linspace(-.5,.5,15) for y in np.linspace(-.5,.5,15)]
+    assert not WallEvidence([],2.3,floor).supports(0.,0.)
+
+
 def test_wall_returns_are_retained_separately_and_replays_cannot_replace_them():
     from types import SimpleNamespace as S
     from builtin_interfaces.msg import Time

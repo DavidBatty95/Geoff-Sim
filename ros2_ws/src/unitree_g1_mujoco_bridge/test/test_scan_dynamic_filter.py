@@ -48,3 +48,46 @@ class ScanDynamicFilterTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def test_transform_wait_is_latest_only_bounded_and_never_restamps(monkeypatch):
+    from types import SimpleNamespace as S
+    from rclpy.time import Time
+    from tf2_ros import TransformException
+    from unitree_social_navigation_msgs.msg import TrackedPersons,TrackedPerson
+    import unitree_g1_mujoco_bridge.scan_dynamic_filter as module
+    clock = [0.]
+    monkeypatch.setattr(module.time,'monotonic',lambda:clock[0])
+    node = object.__new__(ScanDynamicFilter)
+    node.carrying,node.payload = False,None
+    node.pending_scan,node.last_scan_stamp = None,-math.inf
+    node.latest_people = TrackedPersons(persons=[TrackedPerson()])
+    node.latest_people.header.frame_id = 'odom'
+    node.latest_people.header.stamp = Time(seconds=10.).to_msg()
+    node.latest_cloud,node.cloud_timeout = None,.8
+    node.get_clock = lambda:S(now=lambda:Time.from_msg(Time(seconds=10.15).to_msg()))
+    node.get_logger = lambda:S(warn=lambda *args,**kwargs:None)
+    def missing(*args):
+        raise TransformException('not yet received')
+    node.tf_buffer = S(lookup_transform=missing)
+    published = []
+    node.pub = S(publish=published.append)
+    first = LaserScan()
+    first.header.frame_id = 'base_footprint'
+    first.header.stamp = Time(seconds=10.).to_msg()
+    first.ranges = [2.,3.]
+    node._scan_callback(first)
+    assert not published
+    second = LaserScan()
+    second.header.frame_id = 'base_footprint'
+    second.header.stamp = Time(seconds=10.1).to_msg()
+    second.ranges = [1.,4.]
+    clock[0] = .1
+    node._scan_callback(second)
+    assert not published
+    clock[0] = .21
+    node._retry_scan()
+    assert len(published)==1 and published[0].header.stamp==second.header.stamp
+    assert list(published[0].ranges)==[1.,4.] and node.pending_scan is None
+    node._scan_callback(first)
+    assert len(published)==1

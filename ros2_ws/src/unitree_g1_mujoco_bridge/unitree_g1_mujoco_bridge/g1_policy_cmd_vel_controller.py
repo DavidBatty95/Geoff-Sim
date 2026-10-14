@@ -2,6 +2,7 @@ import json
 import math
 import threading
 import time
+from collections import deque
 from dataclasses import asdict,dataclass
 from pathlib import Path
 from typing import List, Optional, Sequence
@@ -17,7 +18,8 @@ from unitree_hg.msg import LowState
 
 from .g1_constants import G1_29DOF_JOINTS
 from .motion_envelope import load_motion_envelope
-from .policy_timing import inference_timing,result_is_stale
+from .dds_metadata_executor import DDSMetadataExecutor
+from .policy_timing import inference_timing,result_is_stale,DeviceTickCadence,dds_delivery_timing,leg_target_fingerprint
 from .policy_safety import (
     advance_gait_phase,
     apply_command_deadband,
@@ -583,6 +585,10 @@ class G1PolicyCmdVelController(Node):
         self.policy_diagnostics_pub = self.create_publisher(String,'/g1/policy_diagnostics',10)
         self.inference_context = None
         self.stop_request_invalidations = 0
+        self.policy_hold_events = deque(maxlen=16)
+        self.policy_hold_count = 0
+        self.last_lowstate_dds_delivery = {}
+        self.inference_hold_started = None
         self.stale_result_rejections = 0
         self.create_subscription(
             LowState, "/lowstate", self._lowstate_callback, LATEST_RELIABLE_QOS
@@ -605,6 +611,8 @@ class G1PolicyCmdVelController(Node):
 
         period = 1.0 / float(self.get_parameter("rate_hz").value)
         self.control_period = period
+        self.use_device_tick = bool(self.declare_parameter('use_device_tick',False).value)
+        self.device_tick_cadence = DeviceTickCadence(period)
         self.create_timer(period, self._control_tick)
         # Inference cadence stays at the policy rate; collect finished work
         # promptly instead of inserting a whole extra policy-period delay.
@@ -740,7 +748,7 @@ class G1PolicyCmdVelController(Node):
         if self.policy_action_dim is None and action_dim in (12, 29):
             self.policy_action_dim = int(action_dim)
 
-    def _lowstate_callback(self, msg: LowState) -> None:
+    def _lowstate_callback(self, msg: LowState, info=None) -> None:
         if len(msg.motor_state) < len(self.body_joint_names):
             self.get_logger().warn(
                 f"Ignoring short lowstate with {len(msg.motor_state)} motor states",
@@ -781,7 +789,13 @@ class G1PolicyCmdVelController(Node):
         self.previous_tilt = tilt
         self.last_lowstate = msg
         self.last_lowstate_arrival = time.monotonic()
+        timestamp = info.get if isinstance(info,dict) else lambda key:getattr(info,key,0)
+        self.last_lowstate_dds_delivery = dds_delivery_timing(
+            timestamp('source_timestamp'),timestamp('received_timestamp'),self.get_clock().now().nanoseconds*1e-9)
         self.lowstate_stale = False
+
+        if getattr(self,'use_device_tick',False) and self.device_tick_cadence.due(msg.tick):
+            self._control_tick()
 
     def _tilt_guard_holding(self) -> bool:
         if not bool(self.get_parameter("tilt_guard_enable").value):
@@ -868,6 +882,8 @@ class G1PolicyCmdVelController(Node):
         return max(abs(roll), abs(pitch))
 
     def _reset_controller_state(self, joint_positions: Sequence[float], reason: str) -> None:
+        if getattr(self,'use_device_tick',False):
+            self.device_tick_cadence = DeviceTickCadence(self.control_period)
         now = self.get_clock().now()
         self.policy_worker.invalidate()
         self.first_lowstate_time = now
@@ -1009,6 +1025,19 @@ class G1PolicyCmdVelController(Node):
         if odom_age > float(self.get_parameter("odom_timeout").value):
             self.base_lin_vel = [0.0, 0.0, 0.0]
         dt = max(1e-3, min(0.1, (now - self.last_control_time).nanoseconds * 1e-9))
+        device_wait = False
+        if not consume_only and getattr(self,'use_device_tick',False):
+            step = self.device_tick_cadence.take(self.last_lowstate.tick)
+            if step is None:
+                consume_only,device_wait = True,True
+            else:
+                dt,reset = step
+                dt = max(.001,min(.1,dt))
+                if reset:
+                    self.policy_worker.invalidate()
+                    self.inference_context = None
+                    self._policy_safe_hold('device_clock_reset_hold')
+                    return
         if consume_only:
             dt = self.control_period
         if not consume_only:
@@ -1041,7 +1070,7 @@ class G1PolicyCmdVelController(Node):
             self.inference_context = None
             self.stale_result_rejections += 1
             self._publish_policy_command((0.0,0.0,0.0))
-            self._policy_safe_hold('policy_result_stale_hold')
+            self._policy_safe_hold('policy_result_stale_hold',reset_history=False)
             return
         if result is not None and (result.error is not None or result.deadline_missed):
             self.get_logger().error(
@@ -1050,14 +1079,14 @@ class G1PolicyCmdVelController(Node):
             )
             state = "policy_deadline_hold" if result.deadline_missed else "policy_error_hold"
             self._publish_policy_command((0.0, 0.0, 0.0))
-            self._policy_safe_hold(state)
+            self._policy_safe_hold(state,reset_history=state!='policy_deadline_hold')
             return
         if self.policy_worker.invalidate_expired():
             self.get_logger().error(
                 "Policy inference deadline missed", throttle_duration_sec=2.0
             )
             self._publish_policy_command((0.0, 0.0, 0.0))
-            self._policy_safe_hold("policy_deadline_hold")
+            self._policy_safe_hold("policy_deadline_hold",reset_history=False)
             return
 
         if result is not None:
@@ -1096,9 +1125,12 @@ class G1PolicyCmdVelController(Node):
             if self.policy_timing_pub.get_subscription_count():
                 timing = inference_timing(result,self.inference_context,time.monotonic(),
                                           self.get_clock().now().nanoseconds*1e-9)
+                timing['leg_target_sha256'] = leg_target_fingerprint(self.last_safe_targets)
                 self.policy_timing_pub.publish(String(data=json.dumps(timing,separators=(',',':'))))
 
         if consume_only:
+            if device_wait and result is None:
+                self._publish_targets(pending_target(self.last_safe_targets,self._safe_hold_positions()))
             return
 
         self.gait_phase = advance_gait_phase(
@@ -1115,7 +1147,10 @@ class G1PolicyCmdVelController(Node):
         if request is not None:
             self.inference_context = dict(key=(request.generation,request.sequence),command=list(command),
                 command_received_ros_s=self.last_cmd_time.nanoseconds*1e-9,
-                lowstate_receipt_age_at_submit_s=sample_age(request.submitted_at,self.last_lowstate_arrival))
+                device_tick_ms=int(self.last_lowstate.tick),observation_dt_s=dt,
+                observation_clock='device_tick' if self.use_device_tick else 'ros_wall',
+                lowstate_receipt_age_at_submit_s=sample_age(request.submitted_at,self.last_lowstate_arrival),
+                lowstate_dds_delivery=dict(self.last_lowstate_dds_delivery))
         if result is None:
             self.control_state = "policy_wait"
             self._publish_targets(
@@ -1131,19 +1166,49 @@ class G1PolicyCmdVelController(Node):
             self.inference_context = None
             self.stop_request_invalidations += 1
 
-    def _policy_safe_hold(self, state: str) -> None:
+    def _policy_safe_hold(self, state: str, reset_history: bool = True) -> None:
+        # A missed inference is an action hold, not a robot reset. Preserve the
+        # last validated target and matching action/history until fresh work
+        # completes; never apply the expired result or jump to measured joints.
+        now = time.monotonic()
+        if not reset_history:
+            if self.inference_hold_started is None:
+                self.inference_hold_started = now
+            # Consecutive dropouts must not indefinitely retain a gait target.
+            # Escalate to the existing state hold after two inference budgets.
+            reset_history = now-self.inference_hold_started>2*self.policy_inference_deadline
+        targets = (self._safe_hold_positions() if reset_history else
+                   pending_target(self.last_safe_targets,self._safe_hold_positions()))
+        kind = 'state_hold' if reset_history else 'validated_target_hold'
+        if self.control_state != state or not self.policy_hold_events or self.policy_hold_events[-1]['recovery_kind']!=kind:
+            # Preserve short recovery transitions which can occur entirely
+            # between periodic diagnostic publications. Receipt/device timing
+            # and the target jump distinguish a dropout from a normal stop.
+            self.policy_hold_count += 1
+            previous = self.last_safe_targets
+            self.policy_hold_events.append(dict(
+                sequence=self.policy_hold_count,state=state,recovery_kind=kind,
+                stamp=self.get_clock().now().nanoseconds*1e-9,
+                monotonic_s=now,
+                device_tick_ms=None if self.last_lowstate is None else int(self.last_lowstate.tick),
+                command_before_hold=list(self.filtered_command),
+                action_norm_before_hold=self.last_action_norm,
+                measured_tilt_rad=self.last_tilt,
+                target_jump_rad=None if previous is None else max(abs(a-b) for a,b in zip(targets,previous)),
+                history_reset=reset_history and self.unitree_rl_lab_adapter is not None))
         self.control_state = state
         self.filtered_command = [0.0, 0.0, 0.0]
-        self.gait_phase = 0.0
-        self.last_actions = {
-            12: [0.0] * len(self.lower_joint_indexes),
-            29: [0.0] * len(self.body_joint_names),
-        }
-        if self.unitree_rl_lab_adapter is not None:
-            self.unitree_rl_lab_adapter.reset()
-        self.last_action_norm = 0.0
-        self.first_policy_time = None
-        self._publish_targets(self._safe_hold_positions())
+        if reset_history:
+            self.gait_phase = 0.0
+            self.last_actions = {
+                12: [0.0] * len(self.lower_joint_indexes),
+                29: [0.0] * len(self.body_joint_names),
+            }
+            if self.unitree_rl_lab_adapter is not None:
+                self.unitree_rl_lab_adapter.reset()
+            self.last_action_norm = 0.0
+            self.first_policy_time = None
+        self._publish_targets(targets)
 
     def _build_inference_candidates(
         self, command: Sequence[float]
@@ -1243,8 +1308,11 @@ class G1PolicyCmdVelController(Node):
                 stamp=self.get_clock().now().nanoseconds*1e-9,state=self.control_state,
                 counters=asdict(inference),body_command_count=self.body_command_count,
                 stop_request_invalidations=self.stop_request_invalidations,
+                policy_hold_count=self.policy_hold_count,policy_hold_events=list(self.policy_hold_events),
                 stale_result_rejections=self.stale_result_rejections,
                 inference_deadline_s=self.policy_inference_deadline,
+                use_device_tick=self.use_device_tick,device_tick_missed_periods=self.device_tick_cadence.missed,
+                device_tick_resets=self.device_tick_cadence.resets,
                 control_period_s=self.control_period),separators=(',',':'))))
         self.get_logger().info(
             "policy status: "
@@ -1369,6 +1437,8 @@ class G1PolicyCmdVelController(Node):
 
         self._publish_targets(targets)
 
+        self.inference_hold_started = None
+
     def _publish_targets(self, targets: Sequence[float]) -> None:
         safe_targets = clamp_joint_targets(targets)
         msg = Float64MultiArray()
@@ -1430,9 +1500,12 @@ class TorchPolicy:
 def main() -> None:
     rclpy.init()
     node = G1PolicyCmdVelController()
+    executor = DDSMetadataExecutor(metadata_callbacks=(node._lowstate_callback,))
+    executor.add_node(node)
     try:
-        rclpy.spin(node)
+        executor.spin()
     finally:
+        executor.shutdown()
         node.destroy_node()
         rclpy.shutdown()
 

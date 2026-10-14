@@ -3,6 +3,7 @@ import math
 import time
 import copy
 import json
+from collections import deque
 from concurrent.futures import ThreadPoolExecutor
 
 import rclpy
@@ -18,6 +19,7 @@ from .localization_recovery import BodyInstabilityError
 from .transport_people import closest_person_distance
 from .search_visualization import search_markers
 from .room_search import RoomTopology
+from .policy_response import NATIVE_CONTACT_PROFILE
 
 
 class ExplorationMission:
@@ -25,6 +27,7 @@ class ExplorationMission:
         self.mission = mission
         self.objective = getattr(mission.args,'objective','')
         self.max_views = max_views
+        self.turn_rate = .30 if getattr(mission.args,'response_profile','legacy')==NATIVE_CONTACT_PROFILE else .18
         self.map = None
         self.visits,self.failures = {},[]
         self.target,self.selected = None,None
@@ -35,8 +38,13 @@ class ExplorationMission:
         self.pending,self.prepared = None,None
         self.planning_ms = 0.
         self.topology,self.room_anchor,self.inspection_heading = None,None,None
+        self.inspection_kind = None
         self.rooms,self.coverage,self.inspections,self.coverage_stamp = [],{},{},{}
+        self.inspection_coverage = deque(maxlen=160)
         self.geometry_cache = None
+        self.memory_transform = None
+        self.coverage_transform = None
+
         qos = QoSProfile(depth=1,durability=DurabilityPolicy.TRANSIENT_LOCAL,reliability=ReliabilityPolicy.RELIABLE)
         self.subscription = mission.create_subscription(OccupancyGrid,'/map',self._map,qos)
         self.markers = mission.create_publisher(MarkerArray,'/exploration/search_markers',1)
@@ -81,8 +89,10 @@ class ExplorationMission:
         info = message.info
         key = (radius,info.width,info.height,info.resolution,str(info.origin),bytes((value+1 for value in message.data)))
         if self.geometry_cache is None or self.geometry_cache[0]!=key:
-            grid = ObservedSearchMap(message,radius)
+            grid = ObservedSearchMap(message,radius,self.turn_rate)
             topology = RoomTopology(grid)
+            if self.geometry_cache is not None:
+                topology.reconcile(self.geometry_cache[2])
             self.geometry_cache = key,grid,topology
         else:
             _,grid,topology = self.geometry_cache
@@ -117,6 +127,7 @@ class ExplorationMission:
             tf = self._transform('map','odom')
         except TransformException:
             return
+        self._sync_memory(tf)
         people = self._people(tf)
         if people is None:
             return
@@ -127,7 +138,11 @@ class ExplorationMission:
         # Detached inputs; one outstanding computation, no ROS operations in worker.
         future = self.pool.submit(self._compute,copy.deepcopy(self.map),self.robot,
             tuple(self.inspections.get(self.target,())),tuple(failed),tuple(people),.65 if key[2] else .55,node.pose[2]+tf[2],
-            tuple(self._point(item['position'],tf) for item in getattr(node,'support_memory',[])
+            tuple((*self._point(item['position'],tf),.2 if any(
+                identifier!=self.target and 0.<=node.seconds()-hint['observed_stamp']<300. and
+                math.dist(item['position'][:2],hint['position'][:2])<.85
+                for identifier,hint in node.search_hints.items()) else 1.)
+                for item in getattr(node,'support_memory',[])
                   if 0.<=node.seconds()-item['observed_stamp']<120.))
         self.pending = key,future,submitted
 
@@ -161,12 +176,16 @@ class ExplorationMission:
             # was recorded. Refresh novelty and travel cost as well as admission;
             # otherwise stale high novelty repeatedly selects nearby floor.
             cost = float(reachable[y,x])*grid.resolution
-            yaw = goal.yaw if goal.kind in ('support_inspection','heading_inspection') else math.atan2(point[1]-robot[1],point[0]-robot[0])
+            yaw = goal.yaw if goal.kind in ('support_inspection','known_support_inspection','heading_inspection') else math.atan2(point[1]-robot[1],point[0]-robot[0])
             turn = abs(math.atan2(math.sin(yaw-node.pose[2]-tf[2]),math.cos(yaw-node.pose[2]-tf[2])))
+            if goal.kind in ('support_inspection','known_support_inspection'):
+                bearing = math.atan2(point[1]-robot[1],point[0]-robot[0])
+                turn = (abs(math.atan2(math.sin(bearing-node.pose[2]-tf[2]),math.cos(bearing-node.pose[2]-tf[2])))+
+                        abs(math.atan2(math.sin(yaw-bearing),math.cos(yaw-bearing))))
             risk = sum(1./max(.2,closest_person_distance((px,py),(vx,vy),point,0.)-radius)
                        for px,py,vx,vy,radius in people)
-            gain = 16 if goal.kind=='support_inspection' else goal.information
-            result.append(SearchView(*point,yaw,view_score(cost,gain,novelty,turn,risk),
+            gain = 16 if goal.kind=='support_inspection' else 3 if goal.kind=='known_support_inspection' else goal.information
+            result.append(SearchView(*point,yaw,view_score(cost,gain,novelty,turn,risk,getattr(self,'turn_rate',.18)),
                                      cost,goal.information,goal.kind))
         return sorted(result,key=lambda goal:(-goal.score,goal.path_length,goal.x,goal.y))
 
@@ -192,6 +211,41 @@ class ExplorationMission:
         c,s = math.cos(yaw),math.sin(yaw)
         return x+c*point[0]-s*point[1],y+s*point[0]+c*point[1]
 
+    def _sync_memory(self,tf):
+        """Carry soft view memory through SLAM frame corrections, not region IDs."""
+        previous = self.memory_transform
+        self.memory_transform = tf
+        if previous is None or previous==tf:
+            if self.coverage_transform is None:
+                self.coverage_transform = tf
+            return
+        c,s = math.cos(previous[2]),math.sin(previous[2])
+        inverse = (-c*previous[0]-s*previous[1],s*previous[0]-c*previous[1],-previous[2])
+        def moved(point):
+            return self._point(self._point(point,inverse),tf)
+        yaw_delta = tf[2]-previous[2]
+        for points in self.visits.values():
+            points[:] = [moved(p) for p in points]
+        for points in self.inspections.values():
+            points[:] = [(*moved(p[:2]),p[2]+yaw_delta) for p in points]
+        # Coverage cells are a lossy proxy. Reproject only for a material frame
+        # correction; repeated sub-cell rounding would otherwise diffuse memory.
+        if math.dist(previous[:2],tf[:2])>.25 or abs(yaw_delta)>.1:
+            # A large pose-graph correction may be non-rigid. Discard the
+            # coarse negative-evidence proxy instead of claiming unseen space
+            # has been inspected. Positive object memory remains in odom.
+            self.coverage = {key:set() for key in self.coverage}
+            if hasattr(self,'inspection_coverage'):
+                self.inspection_coverage.clear()
+            self.coverage_transform = tf
+            self.generation += 1
+            self.prepared = None
+            self.mission.event(getattr(self.mission,'phase','search_frame_correction'),search_frame_correction=True,
+                               translation_m=math.dist(previous[:2],tf[:2]),yaw_rad=yaw_delta)
+        self.failures = [(moved(p),stamp) for p,stamp in self.failures]
+        if self.room_anchor is not None:
+            self.room_anchor = moved(self.room_anchor)
+
     def _people(self,tf):
         node = self.mission
         if node.people is None or node.people.header.frame_id!='odom':
@@ -214,6 +268,7 @@ class ExplorationMission:
         self.target,self.selected = identifier,None
         self.last_target = identifier
         self.room_anchor,self.inspection_heading = None,None
+        self.inspection_kind = None
         # Every registered image processes all task colours. Reuse its soft
         # visibility evidence across box/goal searches, but never as discovery.
         shared_seen = set().union(*self.coverage.values()) if self.coverage else set()
@@ -261,6 +316,8 @@ class ExplorationMission:
             views = [view for view in grid.semantic_viewpoints(robot,target,people)
                      if all(math.dist((view.x,view.y),point)>.6 for point in visited)]
             if not views:
+                if self.recover_search_reserve():
+                    continue
                 raise RuntimeError('no observed-clear support inspection viewpoint')
             view = views[0]
             visited.append((view.x,view.y))
@@ -280,6 +337,74 @@ class ExplorationMission:
             return latest
         raise RuntimeError(f'support edge not confirmed for {identifier}')
 
+    def recover_search_reserve(self,timeout=8.):
+        """Recover from coasting into the extra search inflation, not into a wall."""
+        node = self.mission
+        if not self._fresh_map() or node.pose is None or not 0.<=node.seconds()-node.pose_stamp<=.5:
+            return False
+        tf = self._transform('map','odom')
+        people = self._people(tf)
+        if people is None:
+            return False
+        radius = .65 if node.object_may_be_held else .55
+        physical_radius = .54 if node.object_may_be_held else .38
+        grid = ObservedSearchMap(self.map,radius)
+        robot = self._point(node.pose[:2],tf)
+        point = grid.clearance_recovery_view(robot,node.pose[2]+tf[2],physical_radius,people)
+        if point is None:
+            return False
+        x,y = self._point(point,self._transform('odom','map'))
+        node.event('search_reserve_recovery',goal_odom=[x,y,node.pose[2]],
+                   physical_radius_m=physical_radius,search_radius_m=radius)
+        try:
+            node.set_goal((x,y,node.pose[2]),'reserve_recovery')
+            def recovered():
+                if not self._fresh_map() or not 0.<=node.seconds()-node.pose_stamp<=.5:
+                    return False
+                current = self._point(node.pose[:2],self._transform('map','odom'))
+                return math.dist(current,point)<.08 and ObservedSearchMap(self.map,radius).segment_free(current,current)
+            node.wait(recovered,timeout,'search clearance reserve did not recover')
+        finally:
+            node.stop_intent()
+        self.generation += 1
+        self.prepared = None
+        return True
+
+    def survey_before_pickup(self,box,destination):
+        """Compare sensed empty/loaded travel when a confirmed goal hint exists.
+
+        Unknown destinations retain empty-hand survey. An old sighting is only
+        a route hint; loaded delivery still requires fresh RGB-D confirmation.
+        """
+        node = self.mission
+        hint = node.search_hints.get(destination)
+        if hint is None or not self._fresh_map() or not 0.<=node.seconds()-hint['observed_stamp']<=90.:
+            return True
+        try:
+            tf = self._transform('map','odom')
+            people = self._people(tf)
+        except TransformException:
+            return True
+        if people is None:
+            return True
+        grid = ObservedSearchMap(self.map,.65)
+        robot = self._point(node.pose[:2],tf)
+        pickup = grid.semantic_viewpoints(robot,self._point(box['position'],tf),people)
+        delivery = grid.semantic_viewpoints(robot,self._point(hint['position'],tf),people)
+        if not pickup or not delivery:
+            return True
+        source,target = (pickup[0].x,pickup[0].y),(delivery[0].x,delivery[0].y)
+        route = grid.route(source,target)
+        if not route:
+            return True
+        length = sum(math.dist(a,b) for a,b in zip([source]+route,route))
+        hint_age = node.seconds()-hint['observed_stamp']
+        pick_first = pickup[0].path_length/.45+length/.35+5.+.1*hint_age
+        survey_first = delivery[0].path_length/.45+length/.45+length/.35+5.
+        node.event('task_order',pickup_first_s=pick_first,survey_first_s=survey_first,
+                   hint_age_s=hint_age,source='observed_routes_and_confirmed_rgbd_memory')
+        return pick_first>survey_first
+
     def navigate_observed(self,goal,timeout=90.,stop_when_observed=None,phase='pickup_route'):
         """Replan observed corner checkpoints instead of chasing a blocked bearing."""
         node = self.mission
@@ -287,7 +412,7 @@ class ExplorationMission:
         visited = []
         for attempt in range(8):
             if stop_when_observed is not None and node.observe(stop_when_observed,5.) is not None:
-                return
+                return dict(node.observe(stop_when_observed,5.))
             node.wait(lambda:self._fresh_map() and node.pose is not None and
                       0.<=node.seconds()-node.pose_stamp<=.5,5.,'fresh pickup route inputs unavailable')
             tf = self._transform('map','odom')
@@ -301,7 +426,9 @@ class ExplorationMission:
             if not route:
                 grid = ObservedSearchMap(message,radius)
                 node.event(phase+'_blocked',start_clear=grid.segment_free(start,start),
-                           goal_clear=grid.segment_free(target,target),radius_m=radius)
+                            goal_clear=grid.segment_free(target,target),radius_m=radius)
+                if self.recover_search_reserve(timeout=min(8.,max(0.,deadline-time.monotonic()))):
+                    continue
                 raise RuntimeError('no observed-clear route')
             # Revalidate the first segment from the latest sensed pose. People
             # still arbitrate every command through the existing navigation chain.
@@ -327,10 +454,12 @@ class ExplorationMission:
             remaining = deadline-time.monotonic()
             if remaining<=0.:
                 break
-            node.navigate((x,y,yaw),timeout=remaining if complete else min(45.,remaining),
-                          settle_time=.1,stop_when_observed=stop_when_observed)
+            discovery = node.navigate((x,y,yaw),timeout=remaining if complete else min(45.,remaining),
+                                      settle_time=.1,stop_when_observed=stop_when_observed)
+            if discovery is not None:
+                return discovery
             if stop_when_observed is not None and node.observe(stop_when_observed,5.) is not None:
-                return
+                return dict(node.observe(stop_when_observed,5.))
             if final:
                 self.selected,self.state = None,phase+'_ready'
                 return
@@ -369,7 +498,11 @@ class ExplorationMission:
         node.event('search_request',object_id=identifier,carrying=node.object_may_be_held,
                    initially_visible=node.observe(identifier,5.) is not None)
         hint_tried = False
+        blocked_scans = 0
+        stalled_turns,stalled_at = 0,None
         for attempt in range(self.max_views):
+            if stalled_at is not None and math.dist(node.pose[:2],stalled_at)>.6:
+                stalled_turns,stalled_at = 0,None
             observed = node.observe(identifier,5.)
             if observed is not None:
                 node.event('search_found',object_id=identifier,observed_stamp=observed['observed_stamp'],view_count=len(visited))
@@ -383,19 +516,34 @@ class ExplorationMission:
             # an arbitrary quarter-turn after each short translation.
             offset = 0. if self.inspection_heading is None else math.atan2(
                 math.sin(self.inspection_heading-start_yaw),math.cos(self.inspection_heading-start_yaw))
-            offset = max(-math.pi/3,min(math.pi/3,offset))
+            # Route visualization replaces/clears self.selected while travelling;
+            # preserve the camera task independently through navigation cleanup.
+            semantic = self.inspection_kind in ('support_inspection','known_support_inspection','semantic_reobserve')
+            offset = offset if semantic else max(-math.pi/3,min(math.pi/3,offset))
+            if stalled_turns>=2:
+                offset = 0.
             self.inspection_heading = None
+            self.inspection_kind = None
             for offset in ((offset if abs(offset)>.25 else 0.),):
                 if offset:
                     try:
-                        node.rotate(math.atan2(math.sin(start_yaw+offset),math.cos(start_yaw+offset)),
-                                    timeout=12.,settle_before_turn=True)
+                        discovery = node.rotate(math.atan2(math.sin(start_yaw+offset),math.cos(start_yaw+offset)),
+                                    timeout=30. if semantic else 12.,settle_before_turn=True,stop_when_observed=identifier)
+                        if discovery is not None:
+                            node.event('search_found',object_id=identifier,observed_stamp=discovery['observed_stamp'],
+                                       view_count=len(visited),source='confirmed_acquisition_before_turn_braking')
+                            return discovery
+                        stalled_turns,stalled_at = 0,None
                     except RuntimeError as exc:
-                        if str(exc) not in ('search heading not reached','base did not settle before inspection turn') or time.monotonic()-node.started>=node.args.duration:
+                        if str(exc) not in ('search heading not reached','search heading stalled','base did not settle before inspection turn',
+                                            'search turn displaced beyond viewpoint reserve') or time.monotonic()-node.started>=node.args.duration:
                             raise
                         # An exploratory camera view may be partial. Its actual
                         # sensed heading determines coverage after fresh images.
                         node.event('search_partial_turn',actual_yaw=node.pose[2],reason=str(exc))
+                        stalled_turns += 1
+                        if stalled_at is None:
+                            stalled_at = node.pose[:2]
                         node.spin(.5)
                 settled = node.seconds()
                 node.wait(lambda: node.last_image_stamp is not None and node.last_image_stamp>settled,
@@ -418,7 +566,6 @@ class ExplorationMission:
             self.state = 'select_viewpoint'
             selection_start = time.monotonic()
             node.wait(self._ready,5.,'no fresh exploration plan available')
-            candidates = self._revalidated(self.inspections.get(identifier,[]) or visited)
             if self.topology is not None:
                 tf = self._transform('map','odom')
                 robot = self._point(node.pose[:2],tf)
@@ -429,14 +576,40 @@ class ExplorationMission:
                 inspections = self.inspections.setdefault(identifier,[])
                 if node.last_image_stamp!=self.coverage_stamp.get(identifier):
                     self.coverage_stamp[identifier] = node.last_image_stamp
-                    seen.update(self.topology.visible(acquisition_position,yaw,ObservedSearchMap(self.map,.55)))
+                    visible_keys = self.topology.visible(acquisition_position,yaw,ObservedSearchMap(self.map,.55),
+                                                         getattr(node,'last_image_hfov',math.pi/3))
+                    seen.update(visible_keys)
                     if not any(math.dist(acquisition_position,view[:2])<.6 and
                                abs(math.atan2(math.sin(yaw-view[2]),math.cos(yaw-view[2])))<.35 for view in inspections):
                         inspections.append((*acquisition_position,yaw))
-                candidates,self.rooms = self.topology.decide(candidates,robot,seen,inspections,self.room_anchor)
+                        self.inspection_coverage.append(frozenset(visible_keys))
+                candidates = self._revalidated(inspections or visited)
+                if stalled_turns>=2:
+                    candidates = [view for view in candidates if view.kind!='heading_inspection']
+                # A local camera sweep is cheaper than leaving an already
+                # observed room and returning, especially after an immediate
+                # box discovery. Consider the uninspected adjacent camera cone
+                # before an unnecessary translation during the first views.
+                local_views = [view for view in inspections if math.dist(view[:2],robot)<.8]
+                root_grid = ObservedSearchMap(self.map,.65 if node.object_may_be_held else .55)
+                if len(local_views)<3 and stalled_turns<2 and root_grid.segment_free(robot,robot):
+                    for offset in (-math.pi/3,math.pi/3):
+                        direction = node.pose[2]+tf[2]+offset
+                        novelty = view_novelty(robot,direction,inspections)
+                        if novelty>1.1:
+                            visible = self.topology.visible(robot,direction,ObservedSearchMap(self.map,.55),
+                                                            getattr(node,'last_image_hfov',math.pi/3))
+                            gain = len(visible-seen)
+                            if gain>=5:
+                                candidates.append(SearchView(*robot,direction,.06*gain,0.,0,'heading_inspection'))
+                candidates,self.rooms = self.topology.decide(candidates,robot,seen,inspections,self.room_anchor,
+                                                           heading=node.pose[2]+tf[2],hfov=getattr(node,'last_image_hfov',math.pi/3),
+                                                           turn_rate=self.turn_rate,inspection_coverage=self.inspection_coverage)
                 node.event('search_room_decision',object_id=identifier,regions=len(self.rooms),
                            selected=next((room for room in self.rooms if room['active']),None),
-                           coverage_source='fresh_rgbd_inspection_with_observed_map_visibility_proxy')
+                            coverage_source='fresh_rgbd_inspection_with_observed_map_visibility_proxy')
+            else:
+                candidates = self._revalidated(visited)
             hint = node.search_hints.get(identifier)
             if (hint is not None and not hint_tried and self._fresh_map() and
                     0.<=node.seconds()-node.pose_stamp<=.5):
@@ -452,13 +625,19 @@ class ExplorationMission:
                         node.event('search_memory',object_id=identifier,hint_age_s=node.seconds()-hint['observed_stamp'],
                                    source='previous_confirmed_rgbd')
             if not candidates:
-                self.state = 'blocked_start' if not self.prepared[3] else 'no_reachable_unvisited_view'
+                self.state = 'blocked_start' if self.prepared is None or not self.prepared[3] else 'no_reachable_unvisited_view'
+                if self.state=='blocked_start' and self.recover_search_reserve():
+                    continue
+                blocked_scans += 1
+                if blocked_scans>=3:
+                    raise RuntimeError('search has no reachable useful viewpoint after three fresh inspections')
                 self.generation += 1
                 self._visualize()
                 node.stop_intent()
-                self.inspection_heading = node.pose[2]+math.pi/2
+                self.inspection_heading = node.pose[2]+math.pi/2 if stalled_turns<2 else None
                 node.spin(.5)
                 continue  # No frontier is not proof that the requested object exists nowhere.
+            blocked_scans = 0
             selected = candidates[0]
             self.room_anchor = selected.x,selected.y
             self.candidates = candidates
@@ -471,11 +650,16 @@ class ExplorationMission:
             inverse = self._transform('odom','map')
             x,y = self._point((selected.x,selected.y),inverse)
             self.inspection_heading = selected.yaw+inverse[2]
+            self.inspection_kind = selected.kind
             if selected.kind=='heading_inspection':
                 continue  # Inspect another camera cone without a redundant Nav2 action.
             try:
-                self.navigate_observed((x,y,selected.yaw+inverse[2]),
+                discovery = self.navigate_observed((x,y,selected.yaw+inverse[2]),
                     timeout=min(120.,max(45.,selected.path_length/.35+15.)),stop_when_observed=identifier,phase='search_route')
+                if discovery is not None:
+                    node.event('search_found',object_id=identifier,observed_stamp=discovery['observed_stamp'],
+                               view_count=len(visited),source='confirmed_acquisition_before_navigation_termination')
+                    return discovery
             except (ActionTerminationError,BodyInstabilityError):
                 raise  # Never dispatch another goal if previous ownership is uncertain.
             except RuntimeError as exc:

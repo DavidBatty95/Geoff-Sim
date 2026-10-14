@@ -90,6 +90,12 @@ and [development](DEVELOPMENT.md).
 
 ### S1 — Measurement and lifecycle correctness · In progress
 
+**14 October implementation checkpoint:** cohort accounting and bootstrap pins
+are hardened; compositor selection/publication is serialized; normal navigation
+and inspection braking has explicit failure outcomes. The integrated regression
+suite passes, while native settling and repeated mission qualification remain
+open. [Implementation, verification and remaining work](PERFORMANCE_FOUNDATION.md).
+
 **Goal:** mission success, object possession and termination are reported truthfully
 under timeouts, dropped updates and asynchronous action/service races.
 

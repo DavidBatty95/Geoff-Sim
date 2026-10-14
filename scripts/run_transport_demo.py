@@ -13,13 +13,18 @@ import copy
 import math
 import random
 import secrets
+import re
 import yaml
+import sys
 
 from avoidance_worlds import ROOT,SCENES
 from demo_suite import case_catalog
 from transport_worlds import TRANSPORT_WORLDS,INITIAL_KEYFRAME,generate
 from transport_evidence import capture_source
 from analyze_response_trace import write_report
+
+sys.path.insert(0,str(ROOT/'ros2_ws/src/unitree_g1_mujoco_bridge'))
+from unitree_g1_mujoco_bridge.policy_response import NATIVE_CONTACT_POLICY_SHA256,NATIVE_CONTACT_PROFILE
 
 
 def select_transport_task(pairs,task='random',seed=None):
@@ -77,19 +82,28 @@ def pedestrian_settings(people,seed,start_delay):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--run-id',help='Unique artifact-directory name supplied by an experiment runner')
     parser.add_argument('--world',choices=TRANSPORT_WORLDS,default='transport_dual')
     parser.add_argument('--people',type=int,choices=range(9),default=0)
     parser.add_argument('--pedestrian-start-delay',type=float,default=10.,
                         help='Seconds before natural walking starts (0..120); independent of robot goals')
     parser.add_argument('--tracker-wall-evidence',action=argparse.BooleanOptionalAction,default=True,
-                        help='Use upper-wall continuation to reject structural person hypotheses; toggle for A/B tests')
+                        help='Use structural sheet evidence to reject wall-shaped person hypotheses; toggle for A/B tests')
+    parser.add_argument('--tracker-body-wall-sheets',action=argparse.BooleanOptionalAction,default=True,
+                        help='Use strict body-height sheet geometry where upper wall returns are outside the LiDAR field of view')
     parser.add_argument('--early-overtaking-avoidance',action=argparse.BooleanOptionalAction,default=False,
                         help='Experimental: penalize forward routes a faster following walker will catch beyond the short rollout')
+    parser.add_argument('--predictive-refuge',action=argparse.BooleanOptionalAction,default=False,
+                        help='Experimental bounded multi-stage clearance search, including during inspection stops')
+    parser.add_argument('--policy-device-clock',action=argparse.BooleanOptionalAction,default=True,
+                        help='Physical-tick policy cadence for the native simulator; retains wall-clock watchdogs')
     parser.add_argument('--seed',type=int,default=42)
     parser.add_argument('--layout-seed',type=int,default=0,help='Simulator-only mirrored search/building layout')
     parser.add_argument('--task',help='random, all, or box-color:goal-color (e.g. red:blue); exploration defaults to random')
     parser.add_argument('--task-seed',type=int,help='Replay random objective selection; a fresh seed is recorded by default')
     parser.add_argument('--explore-unknown',action='store_true',help='Search cube first using observed-map viewpoints; find destination after pickup')
+    parser.add_argument('--slam-loop-closing',action=argparse.BooleanOptionalAction,default=None,
+                        help='Online loop closure; defaults off for repetitive unknown-building exploration')
     parser.add_argument('--search-max-viewpoints',type=int,default=20)
     parser.add_argument('--people-clearance-extra',type=float,default=.1,
                         help='Additional planner/supervisor human clearance in metres for runs with people (0..0.5)')
@@ -97,6 +111,11 @@ def main():
     parser.add_argument('--headless',action='store_true',help='Disable RViz; the native MuJoCo viewer may still open')
     parser.add_argument('--no-rviz',action='store_true')
     parser.add_argument('--fast-start',action='store_true')
+    parser.add_argument('--application-timing',action='store_true',help='Sample native command application and log LowCmd publication brackets')
+    parser.add_argument('--arm-executor-threads',type=int,choices=(1,2),default=2,
+                        help='Compare compositor executor scheduling with asynchronous arm actions')
+    parser.add_argument('--arm-repeat-period',type=float,default=0.,
+                        help='Coalesce identical composed targets for this many seconds (0 disables, max .05)')
     parser.add_argument('--camera-width',type=int,default=192,
                         help='Native raycast image width; 192 keeps dual-scene acquisition within the confirmation interval')
     parser.add_argument('--camera-height',type=int,default=108)
@@ -104,10 +123,20 @@ def main():
                         help='Explicit cycle-01 trained posture or historical Cartesian IK carry')
     parser.add_argument('--policy',type=Path,help='Repository-local 480/29 ONNX checkpoint; uses measured arm observations')
     args = parser.parse_args()
+    if args.run_id is not None and not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]{0,127}',args.run_id):
+        parser.error('--run-id must be a simple alphanumeric, underscore or hyphen name')
+    if not math.isfinite(args.arm_repeat_period) or not 0.<=args.arm_repeat_period<=.05:
+        parser.error('--arm-repeat-period must be finite and between 0 and .05 seconds')
     if args.policy is None and args.explore_unknown:
-        native_policy = ROOT/'vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx'
-        if native_policy.is_file():
-            args.policy = native_policy
+        candidates = (
+            ('native_contact_cycle_05_20261012',NATIVE_CONTACT_POLICY_SHA256),
+            ('native_delay_cycle_03_20261006','25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc'),
+        )
+        for name,expected in candidates:
+            native_policy = ROOT/'vendor/mjlab/logs/payload_training'/name/'policy.onnx'
+            if native_policy.is_file() and hashlib.sha256(native_policy.read_bytes()).hexdigest()==expected:
+                args.policy = native_policy
+                break
     try:
         crowd_settings = pedestrian_settings(args.people,args.seed,args.pedestrian_start_delay)
     except ValueError as exc:
@@ -129,7 +158,7 @@ def main():
     except ValueError as exc:
         parser.error(str(exc))
     print(f'Objective: {objective["description"]} (task seed: {objective["task_seed"]})',flush=True)
-    run = ROOT/'ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo'/datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')
+    run = ROOT/'ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo'/(args.run_id or datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ'))
     run.mkdir(parents=True)
     (run/'objective.json').write_text(json.dumps(objective,indent=2)+'\n')
     install = '/workspace/ros2_ws/.verification/install'
@@ -147,7 +176,15 @@ def main():
     profile = yaml.safe_load(base_file.read_text())
     if args.people:
         profile = transport_navigation_profile(profile,args.people_clearance_extra,early_overtaking=args.early_overtaking_avoidance)
+        if args.predictive_refuge:
+            profile['human_aware_motion_planner']['ros__parameters'].update(
+                kinodynamic_search_enabled=True,kinodynamic_budget_ms=12.)
     profile.setdefault('dynamic_obstacle_tracker',{}).setdefault('ros__parameters',{})['reject_wall_supported_clusters'] = args.tracker_wall_evidence
+    profile['dynamic_obstacle_tracker']['ros__parameters']['reject_body_wall_sheets'] = args.tracker_body_wall_sheets
+    if args.policy is not None and hashlib.sha256(args.policy.read_bytes()).hexdigest()==NATIVE_CONTACT_POLICY_SHA256:
+        for node in ('human_aware_motion_planner','human_collision_avoidance','g1_policy_cmd_vel_controller'):
+            profile.setdefault(node,{}).setdefault('ros__parameters',{})['response_profile'] = NATIVE_CONTACT_PROFILE
+        profile['human_aware_motion_planner']['ros__parameters']['max_clockwise_angular_near_human'] = .6
     profile_bytes = yaml.safe_dump(profile,sort_keys=False).encode()
     (run/'transport_navigation.yaml').write_bytes(profile_bytes)
     navigation_profile_hash = hashlib.sha256(profile_bytes).hexdigest()
@@ -163,10 +200,15 @@ def main():
         run_rviz='false' if args.headless or args.no_rviz else 'true',publish_camera='true',
         camera_width=str(args.camera_width),camera_height=str(args.camera_height),camera_rate_hz='2.0',
         camera_mount_pitch_deg=str(TRANSPORT_WORLDS[args.world].get('camera_pitch_deg',0.)),
-        startup_current_pose_hold_time='0.0',startup_blend_time='0.0',startup_hold_time='0.0',
+        startup_current_pose_hold_time='0.0',startup_blend_time='0.0',startup_hold_time='1.0',
         startup_max_recovery_time='0.0',policy_action_ramp_time='0.0',mujoco_reset_on_controller_start='false',
         run_human_aware_run_logger='true',human_aware_run_log_path=container_run+'/trace.jsonl')
     settings.update(crowd_settings)
+    settings['policy_use_device_tick'] = str(args.policy_device_clock).lower()
+    settings['mujoco_application_timing'] = str(args.application_timing).lower()
+    settings['arm_compositor_executor_threads'] = str(args.arm_executor_threads)
+    settings['arm_compositor_repeat_publish_period'] = str(args.arm_repeat_period)
+    settings['slam_loop_closing'] = str(args.slam_loop_closing if args.slam_loop_closing is not None else not args.explore_unknown).lower()
     if args.policy is not None:
         settings.update(policy_path='/workspace/'+str(args.policy.relative_to(ROOT)),external_arm_observation_mask='false')
     print(f'Locomotion policy: {settings["policy_path"]}; posture: {args.carry_posture}',flush=True)
@@ -184,7 +226,9 @@ def main():
         navigation_profile_sha256=navigation_profile_hash,
         pedestrian_scenario=crowd_settings['mujoco_pedestrian_scenario'],pedestrian_start_delay_s=args.pedestrian_start_delay,
         tracker_wall_evidence=args.tracker_wall_evidence,
+        tracker_body_wall_sheets=args.tracker_body_wall_sheets,
         early_overtaking_avoidance=args.early_overtaking_avoidance if args.people else False,
+        predictive_refuge=args.predictive_refuge if args.people else False,
         layout_seed=args.layout_seed if args.world=='transport_search' or TRANSPORT_WORLDS[args.world].get('building') else None,
         objective=objective,
         mission_kind='explore_pick_find_place' if args.explore_unknown else 'transport',
@@ -207,6 +251,7 @@ def main():
                 '--carry-posture',args.carry_posture,
                 '--camera-pitch-deg',str(TRANSPORT_WORLDS[args.world].get('camera_pitch_deg',0.)),
                 '--search-max-viewpoints',str(args.search_max_viewpoints),
+                '--response-profile',profile.get('g1_policy_cmd_vel_controller',{}).get('ros__parameters',{}).get('response_profile','legacy'),
                 *(['--explore-unknown'] if args.explore_unknown else [])],cwd=ROOT)
             print(f'Transport artifacts: {run}',flush=True)
             return result.returncode
@@ -224,6 +269,9 @@ def main():
             subprocess.run(['docker','rm','-f',name+'-mission'],stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
             if (run/'trace.jsonl').is_file():
                 write_report(run/'trace.jsonl',run/'response_diagnostics.json')
+                if args.application_timing:
+                    subprocess.run([sys.executable,str(ROOT/'scripts/analyze_command_application.py'),str(run),
+                                    '--output',str(run/'command_application_diagnostics.json')],check=False)
 
 
 if __name__=='__main__':

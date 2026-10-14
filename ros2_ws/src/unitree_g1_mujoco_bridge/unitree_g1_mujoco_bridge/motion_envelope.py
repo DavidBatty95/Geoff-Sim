@@ -8,6 +8,7 @@ import math
 from dataclasses import dataclass
 
 from .policy_safety import apply_command_deadband, axis_isolated_command, ensure_forward_turning_arc
+from .policy_response import NATIVE_CONTACT_PROFILE,pivot_yaw_rate
 
 
 def advance_planar_pose(pose, velocity, duration):
@@ -50,6 +51,8 @@ class MotionEnvelope:
     walking_yaw_gain: float = 0.0
     negative_lateral_gain: float = 0.0
     positive_lateral_time_constant: float = 0.0
+    response_profile: str = 'legacy'
+    payload_active: bool = False
 
     def lateral_response_gain(self, command):
         return self.negative_lateral_gain if command < 0. and self.negative_lateral_gain > 0. else self.lateral_gain
@@ -99,8 +102,12 @@ class MotionEnvelope:
             lateral = command[1]*self.lateral_response_gain(command[1])
             moving = min(1., math.hypot(command[0]*gains[0],lateral)/.25)
             yaw_gain = gains[2]+moving*((self.walking_yaw_gain or gains[2])-gains[2])
+            angular = command[2]*yaw_gain
+            if self.response_profile==NATIVE_CONTACT_PROFILE:
+                angular = ((1.-moving)*pivot_yaw_rate(command[2],self.payload_active)+
+                           moving*command[2]*(self.walking_yaw_gain or gains[2]))
             return (command[0]*gains[0], lateral,
-                    command[2]*yaw_gain + command[1]*self.lateral_yaw_gain)
+                     angular + command[1]*self.lateral_yaw_gain)
         target = response(requested)
         following = response(next_requested)
         filtered = None if filtered_command is None else list(filtered_command)
@@ -171,6 +178,7 @@ _PARAMETERS = {
     "response_walking_yaw_gain": ("walking_yaw_gain", 0.0),
     "response_negative_lateral_gain": ("negative_lateral_gain", 0.0),
     "response_positive_lateral_time_constant": ("positive_lateral_time_constant", 0.0),
+    "response_profile": ("response_profile", 'legacy'),
 }
 
 
@@ -180,4 +188,6 @@ def load_motion_envelope(node) -> MotionEnvelope:
         if not node.has_parameter(name):
             node.declare_parameter(name, default)
         values[field] = node.get_parameter(name).value
+    if values['response_profile'] not in ('legacy',NATIVE_CONTACT_PROFILE):
+        raise ValueError('unknown policy response profile')
     return MotionEnvelope(**values)

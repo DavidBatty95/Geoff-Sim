@@ -23,9 +23,9 @@ class SearchView:
     kind: str
 
 
-def view_score(cost,gain,novelty,turn,risk):
+def view_score(cost,gain,novelty,turn,risk,turn_rate=.18):
     # Time proxy includes slow measured humanoid yaw response and acquisition.
-    return (1.+.35*gain+min(9.,novelty*novelty))/(1.+cost/.45+turn/.18)-.25*risk
+    return (1.+.35*gain+min(9.,novelty*novelty))/(1.+cost/.45+turn/max(.05,turn_rate))-.25*risk
 
 
 def view_novelty(point,yaw,visited):
@@ -41,10 +41,13 @@ def view_novelty(point,yaw,visited):
 
 
 class ObservedSearchMap:
-    def __init__(self,message,radius=.55):
+    def __init__(self,message,radius=.55,turn_rate=.18):
+        self.message = message
+        self.turn_rate = turn_rate
         info = message.info
         self.resolution = float(info.resolution)
         self.radius = radius
+        self._reach_cache = None
         self.width,self.height = int(info.width),int(info.height)
         if (self.resolution<=0. or not math.isfinite(self.resolution) or
                 self.width<=0 or self.height<=0 or self.width*self.height>500000 or
@@ -81,6 +84,9 @@ class ObservedSearchMap:
 
     def reachable(self,robot,max_distance):
         x,y = self.cell(robot)
+        key = x,y,max_distance
+        if self._reach_cache is not None and self._reach_cache[0]==key:
+            return self._reach_cache[1]
         width,height = self.width,self.height
         distance = [[-1]*width for _ in range(height)]
         if not (0<=x<self.width and 0<=y<self.height and self.free[y,x]):
@@ -100,7 +106,10 @@ class ObservedSearchMap:
                 if 0<=nx<width and 0<=ny<height and free[ny][nx] and distance[ny][nx]<0:
                     distance[ny][nx] = current+1
                     queue.append((nx,ny))
-        return np.asarray(distance,dtype=np.int32)
+        result = np.asarray(distance,dtype=np.int32)
+        result.flags.writeable = False
+        self._reach_cache = key,result
+        return result
 
     def information(self,x,y,view_range=3.):
         return self.information_batch([(x,y)],view_range)[0]
@@ -241,7 +250,7 @@ class ObservedSearchMap:
             cost = steps*self.resolution
             yaw = math.atan2(point[1]-robot[1],point[0]-robot[0])
             turn = abs(math.atan2(math.sin(yaw-heading),math.cos(yaw-heading))) if heading is not None else 0.
-            score = view_score(cost,gain,novelty,turn,risk)
+            score = view_score(cost,gain,novelty,turn,risk,self.turn_rate)
             result.append(SearchView(*point,yaw,
                                       score,cost,gain,'frontier' if gain else 'visual_coverage'))
         if heading is not None and visited:
@@ -251,7 +260,7 @@ class ObservedSearchMap:
                     yaw = heading+offset
                     novelty = view_novelty(robot,yaw,visited)
                     if novelty>=1.1:
-                        result.append(SearchView(*robot,yaw,view_score(0.,0,novelty,abs(offset),0.),
+                        result.append(SearchView(*robot,yaw,view_score(0.,0,novelty,abs(offset),0.,self.turn_rate),
                                                  0.,0,'heading_inspection'))
         return sorted(result,key=lambda goal:(-goal.score,goal.path_length,goal.x,goal.y))
 
@@ -261,6 +270,7 @@ class ObservedSearchMap:
         result = []
         for surface in surfaces:
             target = surface[:2]
+            explained = len(surface)>2 and surface[2]<1.
             for offset in np.linspace(0.,2*math.pi,12,endpoint=False):
                 point = (target[0]+1.5*math.cos(offset),target[1]+1.5*math.sin(offset))
                 x,y = self.cell(point)
@@ -277,8 +287,12 @@ class ObservedSearchMap:
                 if not self.visible_points(point,[near])[0]:
                     continue
                 cost = float(reachable[y,x]*self.resolution)
-                turn = abs(math.atan2(math.sin(yaw-heading),math.cos(yaw-heading)))
-                result.append(SearchView(*point,yaw,view_score(cost,16,novelty,turn,0.),cost,0,'support_inspection'))
+                bearing = math.atan2(point[1]-robot[1],point[0]-robot[0])
+                turn = (abs(math.atan2(math.sin(bearing-heading),math.cos(bearing-heading)))+
+                        abs(math.atan2(math.sin(yaw-bearing),math.cos(yaw-bearing))))
+                gain = 3 if explained else 16
+                kind = 'known_support_inspection' if explained else 'support_inspection'
+                result.append(SearchView(*point,yaw,view_score(cost,gain,novelty,turn,0.,self.turn_rate),cost,0,kind))
         return sorted(result,key=lambda goal:-goal.score)
 
     def semantic_viewpoints(self,robot,target,people=()):
@@ -296,3 +310,26 @@ class ObservedSearchMap:
             cost = float(distances[y,x]*self.resolution)
             result.append(SearchView(*point,math.atan2(target[1]-point[1],target[0]-point[0]),100.-cost,cost,0,'semantic_reobserve'))
         return sorted(result,key=lambda goal:goal.path_length)
+
+    def clearance_recovery_view(self,robot,heading,physical_radius,people=()):
+        """Leave an inflated search reserve through a checked physical footprint.
+
+        Only straight body-axis moves are offered, matching precision control.
+        Unknown space and actual body clearance are never waived.
+        """
+        if self.segment_free(robot,robot):
+            return None
+        physical = ObservedSearchMap(self.message,physical_radius)
+        if not physical.segment_free(robot,robot):
+            return None
+        for distance in np.arange(.2,.91,.1):
+            for offset in (0.,math.pi/2,-math.pi/2,math.pi):
+                direction = heading+offset
+                goal = robot[0]+distance*math.cos(direction),robot[1]+distance*math.sin(direction)
+                if not self.segment_free(goal,goal) or not physical.segment_free(robot,goal):
+                    continue
+                if any(closest_person_distance((px,py),(vx,vy),goal,0.)<radius+self.radius+.4
+                       for px,py,vx,vy,radius in people):
+                    continue
+                return goal
+        return None

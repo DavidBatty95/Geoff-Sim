@@ -37,6 +37,17 @@ class ArmKinematics:
         self.chain = list(reversed(chain))
         self.names = [name for name,kind,*_ in self.chain if name.startswith(side+'_') and kind != 'fixed']
         self.limits = np.array([bounds for name,kind,xyz,R,axis,bounds in self.chain if name in self.names])
+        self.solve_lower = self.limits[:,0]+.02
+        self.solve_upper = self.limits[:,1]-.02
+        # Joint limits alone permit folding the upper arm through the torso.
+        # Keep tabletop IK in an outward-shoulder workspace. Native replay of
+        # 20261012T165825Z found 21 mm torso penetration on the inward branch.
+        # This conservative workspace bound is not a full collision checker.
+        roll = self.names.index(side+'_shoulder_roll_joint')
+        if side == 'right':
+            self.solve_upper[roll] = min(self.solve_upper[roll],-.10)
+        else:
+            self.solve_lower[roll] = max(self.solve_lower[roll],.10)
 
     def forward(self,joints):
         position,R = np.zeros(3),np.eye(3)
@@ -76,7 +87,7 @@ class ArmKinematics:
         return min(results,key=cost)
 
     def _solve(self,target,joints,orientation=None,iterations=120):
-        values = np.array([joints.get(name,0.) for name in self.names],dtype=float)
+        values = np.clip([joints.get(name,0.) for name in self.names],self.solve_lower,self.solve_upper)
         best = None
         for _ in range(iterations):
             state = dict(joints,**dict(zip(self.names,values)))
@@ -94,5 +105,5 @@ class ArmKinematics:
             if np.linalg.norm(error) < .003:
                 break
             step = J.T@np.linalg.solve(J@J.T+.0025*np.eye(len(error)),error)
-            values = np.clip(values+np.clip(step,-.12,.12),self.limits[:,0]+.02,self.limits[:,1]-.02)
+            values = np.clip(values+np.clip(step,-.12,.12),self.solve_lower,self.solve_upper)
         return dict(zip(self.names,map(float,best[1]))),best[2]

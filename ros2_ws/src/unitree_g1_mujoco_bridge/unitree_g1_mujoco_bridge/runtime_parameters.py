@@ -21,6 +21,7 @@ COMMAND_PARAMETERS = (
     'axis_exclusive_cmd_vel','axis_exclusive_yaw_threshold','allow_reverse_cmd_vel',
 )
 RESPONSE_PARAMETERS = (
+    'response_profile',
     'response_forward_gain','response_lateral_gain','response_yaw_gain',
     'response_linear_time_constant','response_yaw_time_constant','response_lateral_yaw_gain',
     'response_walking_yaw_gain','response_negative_lateral_gain','response_positive_lateral_time_constant',

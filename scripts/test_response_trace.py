@@ -35,6 +35,17 @@ def test_duplicate_and_unmatched_policy_context_are_not_counted_twice():
     assert report['metrics']['command_receipt_age_at_target_publish_s']['count'] == 0
 
 
+def test_recovery_ring_deduplicates_heartbeats_but_keeps_restarted_sequences():
+    first = dict(sequence=1,stamp=100.,state='policy_deadline_hold',target_jump_rad=.2)
+    restarted = dict(first,stamp=110.)
+    report = analyze([row('policy_diagnostics',dict(policy_hold_events=[first])),
+                      row('policy_diagnostics',dict(policy_hold_events=[first,restarted,{}])),
+                      row('policy_diagnostics',dict(policy_hold_events=None))])
+    assert report['policy_hold_events']==[first,restarted]
+    assert report['invalid_samples']['policy_hold_event']==2
+    assert analyze([row('policy_diagnostics',{})])['policy_hold_events']==[]
+
+
 def test_bad_clock_values_are_visible_not_reported_as_zero_latency():
     report = analyze([row('odom',dict(source_stamp=101.)),
                       row('planner_debug',dict(planning_ms=float('nan')),99.)])

@@ -49,6 +49,7 @@ class HumanAwareRunLogger(Node):
         self.create_subscription(String, "/onboard/localization_status", lambda msg: self._string_callback("localization_status", msg), 10)
         self.create_subscription(String, "/navigation/replanning_status", lambda msg: self._string_callback("replanning_status", msg), 10)
         self.create_subscription(String,'/g1/policy_timing',lambda msg:self._string_callback('policy_timing',msg),100)
+        self.create_subscription(String,'/g1/lowcmd_timing',lambda msg:self._string_callback('lowcmd_timing',msg),100)
         self.create_subscription(String,'/g1/policy_diagnostics',lambda msg:self._string_callback('policy_diagnostics',msg),10)
         self.create_subscription(String,'/g1/locomotion_diagnostics',lambda msg:self._string_callback('locomotion_diagnostics',msg),10)
         self.create_subscription(String,'/transport/mission_state',lambda msg:self._string_callback('transport_state',msg),10)

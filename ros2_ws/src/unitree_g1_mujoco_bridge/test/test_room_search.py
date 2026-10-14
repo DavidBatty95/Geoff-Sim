@@ -73,3 +73,38 @@ def test_camera_view_heading_avoids_half_turns_and_keeps_heading_without_gain():
     seen = {key for keys in topology.keys.values() for key in keys}
     selected,_ = topology.decide([goal],position,seen,[])
     assert selected[0].yaw==goal.yaw
+
+
+def test_region_identity_follows_overlap_rather_than_construction_order():
+    observed,previous = rooms()
+    current = RoomTopology(observed)
+    labels = list(previous.points)
+    mapping = {label:label+50 for label in labels}
+    original = previous.labels.copy()
+    for label in labels:
+        previous.labels[original==label] = mapping[label]
+    previous.points = {mapping[label]:points for label,points in previous.points.items()}
+    previous.keys = {mapping[label]:keys for label,keys in previous.keys.items()}
+    current.reconcile(previous)
+    assert np.array_equal(current.labels,previous.labels)
+
+
+def test_coverage_uses_calibrated_camera_horizontal_fov():
+    observed,topology = rooms()
+    position = observed.world(40,50)
+    narrow = topology.visible(position,0.,observed,hfov=math.pi/6)
+    wide = topology.visible(position,0.,observed,hfov=math.pi/2)
+    assert narrow < wide
+
+
+def test_inspection_is_credited_to_seen_region_not_camera_standing_region():
+    observed,topology = rooms()
+    left,right = observed.world(40,50),observed.world(120,50)
+    region = topology.region(left)
+    goals = [SearchView(*left,0.,100.,2.,0,'visual_coverage'),
+             SearchView(*right,0.,1.,10.,0,'visual_coverage')]
+    coverage = [frozenset(topology.keys[region]) for _ in range(3)]
+    chosen,summary = topology.decide(goals,left,set(),[(*right,0.)],left,inspection_coverage=coverage)
+    record = next(room for room in summary if room['region']==region)
+    assert record['inspections']==3 and record['deferred']
+    assert topology.region((chosen[0].x,chosen[0].y))==topology.region(right)

@@ -36,6 +36,19 @@ def test_failed_overlap_cannot_update_pose_or_reference():
     assert not odom.update(np.empty((0, 2)), 0.)
 
 
+def test_full_band_recovers_when_upper_structure_changes_visibility():
+    odom = ScanOdometry()
+    world = room()
+    assert odom.update(world,0.,fallback_points=world*.7)
+    translation = np.array((.1,-.04))
+    assert odom.update(world+20.,0.,fallback_points=world*.7-translation)
+    assert odom.quality['registration_fallback']
+    np.testing.assert_allclose(odom.xy,translation,atol=.02)
+    previous = odom.xy.copy()
+    assert not odom.update(world+100.,0.,fallback_points=world+100.)
+    np.testing.assert_array_equal(odom.xy,previous)
+
+
 def test_point_to_plane_rejects_tangential_resampling_bias():
     axis = np.arange(-3.8,3.8,.19)
     def walls(shift):

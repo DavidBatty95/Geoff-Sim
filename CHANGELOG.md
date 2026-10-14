@@ -25,6 +25,57 @@ for measured outcomes and [release policy](docs/RELEASES.md) for promotion crite
 
 ### Added
 
+- Shared strict performance-outcome validation, explicit matrix run IDs,
+  pre-recorded cohorts, atomic summaries, bounded outer execution and concurrent
+  matrix exclusion. Malformed/startup-failed attempts remain visible.
+- Deterministic concurrent compositor publication and measured-braking regressions,
+  including frozen/future/nonfinite state, clock regression and action cleanup.
+
+- Coherent joint/IMU sensor-delay training, explicit published-action feedback,
+  and parity-checked intermediate actor export. Retained cycle-06 qualification
+  gains and its low-speed turn/stop regression; deployment defaults are not promoted.
+- Opt-in native command-application sampling, LowCmd publication brackets, and
+  content-matched downstream timing with duplicate ambiguity and device-time ages.
+- Independent measurement-delay and scene-contact diagnostics for native probes;
+  Humble-compatible DDS message timing for matched policy observations.
+- Extended native turn-to-rest, inference-outage and observation-cadence probes;
+  bounded timestamped policy-recovery telemetry and deduplicated evidence export.
+- Native turn-calibration and serial exploration colour/layout validation tools,
+  with retained failed attempts and policy/source identities.
+- Heading-aware camera search, independent support-surface proposals, calibrated
+  camera coverage and stable overlapping region identities.
+- Reactive payload training with missed-update exposure and an explicit
+  native-foot-contact fidelity profile; candidates require native qualification.
+
+### Changed
+
+- Compositor target selection and publication share the control-state lock.
+  Normal navigation/inspection braking records `settled`, `timeout` or
+  `stale_state`; unsuccessful settling raises instead of silently advancing.
+- Bootstrap simulator pins match reviewed patch bases; MJLab fallback reads its
+  revision from the patch manifest. Integrated verification passed 744 ROS test
+  results, 142 orchestration tests and 12 native CTests on 14 October.
+
+- Arm actions use asynchronous completion so command/watchdog callbacks remain
+  serviceable with one executor thread; two threads remain the default. Added
+  opt-in duplicate-target coalescing with immediate changed-target forwarding.
+- Brief inference dropouts retain validated joint targets and policy history;
+  sustained faults escalate to state hold without extending inference deadlines.
+- Inspection turns detect excessive fresh measured displacement and request
+  braking; optional search can retain the partial view and replan.
+- Collision-checked scan/brake requests supersede obsolete escape plans when
+  nominal clearance permits, avoiding unnecessary inspection/braking translation.
+- Tabletop IK uses an outward-shoulder workspace to avoid the diagnosed inward
+  torso-contact branch; native geometry and mission follow-ups are retained.
+- Continuous nominal alignment, bounded braking, whole-route navigation, prompt
+  arm-compositor forwarding, static-field reuse and vectorized tracker decoding.
+- Discovery evidence survives managed navigation termination; retreat settling,
+  carry-posture reference and bounded search-reserve recovery are improved.
+- Recorded zero-person medium-building delivery progress and unresolved crowd
+  failures in the [performance implementation report](docs/PERFORMANCE_IMPLEMENTATION_20261012.md).
+
+### Repository maintenance
+
 - Software citation metadata, community conduct guidance and actionable security-reporting routes.
 - Maintainer/release runbooks and a contributor test-selection guide.
 - Focused repository-quality checks, generated-document validation and PDF build provenance.

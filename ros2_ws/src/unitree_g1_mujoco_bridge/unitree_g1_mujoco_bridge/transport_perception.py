@@ -68,16 +68,35 @@ def support_approach(points,box,max_edge_gap=.20,min_edge_separation=.08):
 def support_surfaces(depth,K,origin,R,table_height=.95):
     """Bounded, colour-independent support proposals; never object discoveries."""
     v,u = np.indices(depth.shape)
-    z = depth[::4,::4]
-    points = np.stack(((u[::4,::4]-K[0,2])*z/K[0,0],
-                       (v[::4,::4]-K[1,2])*z/K[1,1],z),axis=-1)@R.T+origin
-    mask = (z>.3)&(z<6.)&(np.abs(points[:,:,2]-table_height)<.05)
+    z = depth
+    points = np.stack(((u-K[0,2])*z/K[0,0],(v-K[1,2])*z/K[1,1],z),axis=-1)@R.T+origin
+    height_band = (z>.3)&(z<6.)&(np.abs(points[:,:,2]-table_height)<.05)
+    if min(z.shape)<3:
+        return []
+    # A horizontal height slice through a wall is not a tabletop. Require the
+    # measured surface normal itself to be upright before connected components.
+    normals = np.cross(np.gradient(points,axis=0),np.gradient(points,axis=1))
+    lengths = np.linalg.norm(normals,axis=2)
+    horizontal = height_band&(lengths>1e-8)&(np.abs(normals[:,:,2])>=.9*lengths)
+    # A distant tabletop can occupy only 3--4 image rows. Decimating before
+    # fitting destroyed its depth extent and made support search effectively
+    # near-sighted. Recover height-consistent edge pixels beside plane normals,
+    # then bound the point set after component extraction instead.
+    padded = np.pad(horizontal,1)
+    adjacent = np.logical_or.reduce([padded[y:y+z.shape[0],x:x+z.shape[1]]
+                                    for y in range(3) for x in range(3)])
+    mask = height_band&adjacent
     result = []
     for pixels in components(mask):
         surface = points[pixels[:,0],pixels[:,1]]
+        if len(surface)>600:
+            surface = surface[np.linspace(0,len(surface)-1,600,dtype=int)]
         lo,hi = np.min(surface,axis=0),np.max(surface,axis=0)
         extent = hi-lo
-        if .3<max(extent[:2])<2.5 and min(extent[:2])>.12:
+        xy = surface[:,:2]-np.mean(surface[:,:2],axis=0)
+        _,axes = np.linalg.eigh(xy.T@xy)
+        dimensions = np.ptp(xy@axes,axis=0)
+        if .3<max(dimensions)<2.5 and min(dimensions)>.22:
             result.append(dict(position=((lo+hi)/2).tolist(),extent=extent.tolist(),pixels=len(surface)))
     return sorted(result,key=lambda item:-item['pixels'])[:16]
 
@@ -236,6 +255,7 @@ class TransportPerception(Node):
         self.objects = {}
         self.surfaces = []
         self.image_pose = None
+        self.image_hfov = math.pi/3
         self.consensus = ObservationConsensus()
         self.camera_pitch_deg = float(camera_pitch_deg)
         self.snapshot = None
@@ -326,7 +346,11 @@ class TransportPerception(Node):
         for surface in self.surfaces:
             surface['position'] = (world_R@surface['position']+offset).tolist()
             surface['observed_stamp'] = stamp
-        self.image_pose = [float(offset[0]),float(offset[1]),yaw]
+        camera_origin = world_R@origin+offset
+        camera_rotation = world_R@torso_R@rpy_matrix((0.,math.radians(self.camera_pitch_deg),0.))@optical_R
+        self.image_pose = [float(camera_origin[0]),float(camera_origin[1]),
+                           math.atan2(camera_rotation[1,2],camera_rotation[0,2])]
+        self.image_hfov = 2.*math.atan(colour.width/(2.*self.info[0,0]))
         self.snapshot = dict(rgb=rgb.copy(),depth=depth.copy(),stamp=stamp,origin=origin.tolist(),
                              rpy=list(imu[1]),torso_rotation=torso_R.tolist(),regions=diagnostics,detections=detections)
         for item in detections:
@@ -376,5 +400,5 @@ class TransportPerception(Node):
         self.objects = {key:value for key,value in self.objects.items() if now-value['observed_stamp'] < (60. if value['kind']=='pad' else 30.)}
         self.pub.publish(String(data=json.dumps(dict(frame='odom',stamp=now,
             image_stamp=self.last_processed_stamp if math.isfinite(self.last_processed_stamp) else None,
-            image_pose=self.image_pose,surfaces=self.surfaces,
+            image_pose=self.image_pose,image_hfov=self.image_hfov,surfaces=self.surfaces,
             objects=list(self.objects.values()),source='registered_rgbd_joint_imu'))))

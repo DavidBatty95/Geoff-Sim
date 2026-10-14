@@ -486,6 +486,31 @@ def planner():
     node.destroy_node()
 
 
+def test_idle_avoidance_continuation_survives_idle_heartbeat_but_not_new_goal(planner):
+    from std_msgs.msg import Bool
+    planner.mission_active = False
+    candidate = Candidate('escape_then_route',-.3,.2,0.,'',0.,.8)
+    planner.escape_plan = (candidate,10.,None)
+    planner._mission_callback(Bool(data=False))
+    assert planner._pending_escape(10.2).switch_time == pytest.approx(.6)
+    planner._mission_callback(Bool(data=True))
+    # An explicit goal key separates autonomous clearance from mission routes.
+    from geometry_msgs.msg import PoseStamped
+    planner._goal_callback(PoseStamped())
+    assert planner._pending_escape(10.3) is None
+
+
+def test_nominal_brake_reference_decelerates_before_zero(planner):
+    from std_msgs.msg import String
+    planner.last_cmd.linear.x = .45
+    planner.last_cmd.angular.z = -.6
+    planner._mode_callback(String(data='brake'))
+    planner.braking_stamp -= .05
+    command = planner._dock_reference((0.,0.,0.))
+    assert .35<command.linear.x<.45
+    assert -.6<command.angular.z<-.5
+
+
 def test_tentative_typed_track_reaches_planner(tracker, planner):
     track = Track(2.0, 0.0, 10.0, 2.0, 0.0)
     track.state = "TENTATIVE"
@@ -844,6 +869,68 @@ def test_alignment_priority_never_bypasses_forecast_or_static_collision(planner)
     result = planner._score_candidate(candidate,(0.,0.,0.),[person],[],[],{},0.)
     assert result.reason == 'static_obstacle'
     assert not planner._can_prioritize_alignment(result,[person])
+
+
+def configure_precision_request(planner,mode,loaded=False):
+    planner.prefer_safe_route_alignment = planner.nav2_path_reference = True
+    planner.prefer_forward_travel = planner.holonomic_avoidance = True
+    planner.mission_active = True
+    planner.mission_state_time = planner.get_clock().now()
+    planner.tracks_epoch = planner.mission_state_time.nanoseconds*1e-9
+    planner.reference_goal = PoseStamped()
+    planner.reference_path = Path()
+    planner.navigation_mode = mode
+    planner.payload_active = loaded
+    planner.robot_radius += .16 if loaded else 0.
+    planner.local_safe_space_enabled = False
+    planner.state = 'HUMAN_CAUTION'
+    planner.motion_envelope = MotionEnvelope(max_x=.65,max_y=.45,max_yaw=.6)
+    planner.max_lateral_near_human = .45
+    planner.max_reverse_velocity = .45
+    planner.comfort_radius = 1.8
+    planner.measured_velocity = (0.,0.,0.)
+    planner.horizon = planner.hard_collision_horizon = 3.
+    requested = Twist()
+    if mode == 'scan':
+        requested.angular.z = -.55
+    else:
+        requested.linear.x = -.12  # Still decelerating from reverse travel.
+    planner._dock_reference = lambda pose:requested
+    return requested
+
+
+@pytest.mark.parametrize('mode',['scan','brake'])
+@pytest.mark.parametrize('loaded',[False,True])
+def test_safe_precision_request_supersedes_escape_and_comfort_translation(planner,mode,loaded):
+    requested = configure_precision_request(planner,mode,loaded)
+    person = HumanTrack(1,'CONFIRMED',2.8,0.,0.,0.,1.,1.,0,.002,.002,planner.tracks_epoch,.42)
+    planner._fresh_tracks = lambda now:[person]
+    planner.last_cmd.linear.y = .45
+    candidate = Candidate('escape_then_route',0.,.45,0.,'',0.,1.2)
+    planner.escape_plan = (candidate,planner.tracks_epoch,planner._goal_key(planner.reference_goal))
+    planner._timer_callback()
+    command,_,_,selected = planner.published[-1]
+    assert (command.linear.x,command.linear.y,command.angular.z) == (
+        requested.linear.x,requested.linear.y,requested.angular.z)
+    assert not selected.rejected
+    assert planner.path_reference_status == 'safe_precision_reference'
+    assert planner.escape_plan is None and planner.warm_start_plan is None
+
+
+@pytest.mark.parametrize('mode',['scan','brake'])
+@pytest.mark.parametrize('hazard',['incoming_person','static_obstacle','comfort_reserve'])
+def test_precision_priority_retains_collision_and_clearance_checks(planner,mode,hazard):
+    configure_precision_request(planner,mode)
+    person = HumanTrack(1,'CONFIRMED',3.,0.,0.,0.,1.,1.,0,.002,.002,planner.tracks_epoch,.42)
+    if hazard == 'incoming_person':
+        person.vx = -1.
+    elif hazard == 'static_obstacle':
+        planner._static_obstacle_cost = lambda trajectory:(math.inf,True)
+    else:
+        person.x = 1.5
+    planner._fresh_tracks = lambda now:[person]
+    planner._timer_callback()
+    assert planner.path_reference_status != 'safe_precision_reference'
 
 
 def test_heading_alignment_keeps_translating_and_stops_turning_near_people(planner):

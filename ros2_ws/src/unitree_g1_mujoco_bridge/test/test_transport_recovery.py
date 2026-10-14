@@ -5,6 +5,7 @@ import pytest
 
 from unitree_g1_mujoco_bridge.transport_actions import ActionTerminationError
 from unitree_g1_mujoco_bridge.transport_demo import TransportMission,WorkspaceInterrupted,ReachUnreachable
+from unitree_g1_mujoco_bridge.transport_demo import turn_command_drives_heading
 
 
 def mission_fixture():
@@ -17,6 +18,15 @@ def mission_fixture():
     mission.event = event
     mission.arm_with_recovery = lambda *args,**kwargs:TransportMission.arm_with_recovery(mission,*args,**kwargs)
     return mission
+
+
+def test_turn_stall_monitor_requires_fresh_unopposed_turn_intent():
+    assert turn_command_drives_heading((10.,(0.,0.,.5)),10.1,1.)
+    assert not turn_command_drives_heading((10.,(.3,0.,.5)),10.1,1.)
+    assert not turn_command_drives_heading((10.,(0.,0.,0.)),10.1,1.)
+    assert not turn_command_drives_heading((10.,(0.,0.,-.5)),10.1,1.)
+    assert not turn_command_drives_heading((10.,(0.,0.,.5)),11.,1.)
+    assert not turn_command_drives_heading(None,10.,1.)
 
 
 def test_arm_resumes_from_measured_state_after_terminated_workspace_interruption():
@@ -111,9 +121,11 @@ def test_search_detection_terminates_navigation_before_returning():
             events.append('terminated')
     mission = SimpleNamespace(goal=PoseStamped(),active=True,nav=SimpleNamespace(server_is_ready=lambda:True),
         set_goal=lambda *args:None,_heartbeat=lambda:None,wait=lambda predicate,*args:predicate(),action=action,
+        brake_motion=lambda timeout:events.append('braking'),
         observe=lambda *args:{'id':'box_red','confirmed':True},spin=lambda duration:events.append(('settle',duration)))
-    TransportMission.navigate.__wrapped__(mission,(3.,0.,0.),stop_when_observed='box_red',settle_time=.1)
-    assert events==['dispatched','terminated',('settle',.1)]
+    observed = TransportMission.navigate.__wrapped__(mission,(3.,0.,0.),stop_when_observed='box_red',settle_time=.1)
+    assert observed['id']=='box_red' and observed['confirmed']
+    assert events==['dispatched','braking','terminated',('settle',.1)]
     assert not mission.active
 
 
@@ -125,6 +137,7 @@ def test_inspection_turn_waits_for_fresh_measured_settling():
     mission.stop_intent = lambda:setattr(mission,'active',False)
     mission._heartbeat = lambda:None
     mission.spin = lambda _:None
+    mission.brake_motion = lambda timeout:None
     goals = []
     mission.set_goal = lambda *args:goals.append(args)
     def wait(predicate,*args):
@@ -156,6 +169,61 @@ def test_unsettled_inspection_does_not_issue_a_rotation_goal():
     with pytest.raises(RuntimeError,match='base did not settle'):
         TransportMission.rotate(mission,1.,settle_before_turn=True)
     assert not mission.active
+
+
+def test_turn_discovery_survives_occlusion_during_braking():
+    seen = [{'id':'target_blue','observed_stamp':10.,'confirmed':True}]
+    mission = mission_fixture()
+    mission.active = True
+    mission.set_goal = lambda *args:None
+    mission.observe = lambda *args:seen[0] if seen else None
+    mission.wait = lambda predicate,*args:predicate()
+    mission.brake_motion = lambda *args:seen.clear()
+    mission._heartbeat = lambda:None
+    mission.spin = lambda duration:None
+    observed = TransportMission.rotate.__wrapped__(mission,1.,stop_when_observed='target_blue')
+    assert observed['id']=='target_blue' and not seen and not mission.active
+
+
+def test_displaced_turn_brakes_before_revoking_intent():
+    mission = mission_fixture()
+    events = []
+    mission.pose = (4.35,1.67,-1.17)
+    mission.pose_stamp = 10.
+    mission.seconds = lambda:10.
+    mission.active = True
+    mission.set_goal = lambda *args:None
+    mission.event = lambda name,**kw:events.append(name)
+    mission.brake_motion = lambda *args:events.append(('brake',mission.active))
+    mission._heartbeat = lambda:events.append(('active',mission.active))
+    def wait(predicate,*args):
+        mission.pose = (4.35,1.87,-1.2)
+        assert not predicate()
+        mission.pose = (4.35,2.04,-1.3)
+        assert predicate()  # Braking occurs before any further scan request.
+    mission.wait = wait
+    with pytest.raises(RuntimeError,match='turn displaced'):
+        TransportMission.rotate.__wrapped__(mission,-1.66)
+    assert events == ['turn_displaced',('brake',True),('active',False)]
+
+
+def test_stale_displaced_pose_does_not_trigger_turn_drift_decision():
+    mission = mission_fixture()
+    mission.pose = (0.,0.,0.)
+    mission.pose_stamp = 9.
+    mission.seconds = lambda:10.
+    mission.set_goal = lambda *args:None
+    mission.brake_motion = lambda *args:None
+    mission._heartbeat = lambda:None
+    mission.spin = lambda *args:None
+    def wait(predicate,*args):
+        mission.pose = (1.,0.,0.)
+        assert not predicate()
+        mission.pose_stamp = 10.
+        mission.pose = (0.,0.,1.)
+        assert predicate()
+    mission.wait = wait
+    TransportMission.rotate.__wrapped__(mission,1.)
 
 
 def test_placement_reobserves_from_retreat_viewpoint_after_release_ack():
@@ -231,6 +299,23 @@ def test_docking_recloses_after_coasting_outside_tolerance():
     assert len(goals) == 2
     assert not mission.active
     assert mission.events[-1][1]['dock_settled']
+
+
+def test_docking_learns_bounded_coast_offset_without_changing_settled_goal():
+    mission = mission_fixture()
+    mission.pose_stamp = 12.
+    mission.seconds = lambda:12.
+    goals = []
+    def goal(pose,mode):
+        goals.append(pose)
+        mission.pose = pose
+    mission.set_goal = goal
+    mission.stop_intent = lambda:None
+    mission.wait = lambda predicate,*args:predicate()
+    mission.spin = lambda _:setattr(mission,'pose',(mission.pose[0]+.08,mission.pose[1],mission.pose[2]))
+    TransportMission.dock(mission,(0.,0.,0.))
+    assert len(goals)==2 and -.040001<=goals[-1][0]<0.
+    assert abs(mission.pose[0])<.07
 
 
 def test_docking_retries_share_original_deadline(monkeypatch):

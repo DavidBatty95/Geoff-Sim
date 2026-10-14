@@ -9,6 +9,10 @@ dynamic_obstacle_tracker:
     use_ml_person_detections: false
     use_object_motion_detection: true
     use_track_conditioned_crops: true
+    # Sparse upper-wall returns need more than a quarter second to establish a
+    # doorway jamb; this bounded structural history is separate from people.
+    wall_evidence_history_s: 1.5
+    reject_body_wall_sheets: true
     enable_point_noise_filter: false
     voxel_leaf_size: 0.12
     max_cluster_points: 600

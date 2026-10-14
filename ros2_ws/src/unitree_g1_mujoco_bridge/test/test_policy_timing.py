@@ -2,7 +2,7 @@ from types import SimpleNamespace
 
 import pytest
 
-from unitree_g1_mujoco_bridge.policy_timing import inference_timing,result_is_stale
+from unitree_g1_mujoco_bridge.policy_timing import inference_timing,result_is_stale,dds_delivery_timing,leg_target_fingerprint
 
 
 def fixture():
@@ -45,3 +45,33 @@ def test_completed_inference_cannot_be_applied_after_a_delayed_control_tick():
     assert result_is_stale(result,10.1,.05)
     assert result_is_stale(result,9.,.05)
     assert result_is_stale(result,float('nan'),.05)
+
+
+def test_dds_delivery_exposes_queue_age_hidden_by_callback_receipt_time():
+    result,context = fixture()
+    context['lowstate_dds_delivery'] = dds_delivery_timing(999_970_000_000,999_990_000_000,1000.)
+    event = inference_timing(result,context,10.02,1000.035)
+    assert event['lowstate_dds_source_to_callback_ms']==pytest.approx(30.)
+    assert event['lowstate_dds_receive_to_callback_ms']==pytest.approx(10.)
+    assert event['lowstate_dds_source_to_target_publish_ms']==pytest.approx(65.)
+    assert event['lowstate_receipt_age_at_target_publish_s']==pytest.approx(.022)
+    context['key'] = (3,7)
+    assert 'lowstate_dds_source_to_callback_ms' not in inference_timing(result,context,10.02,1000.035)
+
+
+def test_missing_and_future_dds_timestamps_are_not_fabricated_latencies():
+    assert dds_delivery_timing(0,0,1000.)=={}
+    assert dds_delivery_timing(1001_000_000_000,-1,1000.)=={}
+    assert dds_delivery_timing(float('nan'),float('inf'),1000.)=={}
+
+
+def test_target_lineage_matches_wire_float_rounding_and_excludes_arm_composition():
+    import struct
+    targets = [.123456789]*29
+    wire = list(struct.unpack('<29f',struct.pack('<29f',*targets)))
+    wire[15:] = [.8]*14
+    assert leg_target_fingerprint(targets)==leg_target_fingerprint(wire)
+    wire[0] += .01
+    assert leg_target_fingerprint(targets)!=leg_target_fingerprint(wire)
+    with pytest.raises(ValueError):
+        leg_target_fingerprint([float('nan')]*15)

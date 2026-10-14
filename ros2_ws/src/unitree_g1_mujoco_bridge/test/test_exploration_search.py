@@ -36,6 +36,15 @@ def test_different_camera_heading_can_revisit_same_position():
     assert any(goal.kind=='heading_inspection' for goal in goals)
 
 
+def test_unexplained_tables_are_preferred_without_forbidding_known_table_reinspection():
+    observed = ObservedSearchMap(grid(np.zeros((60,60),dtype=int)),.4)
+    unknown = observed.support_viewpoints((0.,0.),[(3.,3.,1.)])
+    explained = observed.support_viewpoints((0.,0.),[(3.,3.,.2)])
+    assert unknown and explained and len(unknown)==len(explained)
+    assert unknown[0].score>explained[0].score
+    assert all(view.kind=='known_support_inspection' for view in explained)
+
+
 def test_camera_ray_can_pass_near_obstacle_without_robot_footprint_clearance():
     data = np.zeros((40,40),dtype=int)
     data[15,15] = 100
@@ -44,6 +53,19 @@ def test_camera_ray_can_pass_near_obstacle_without_robot_footprint_clearance():
     assert not observed.segment_free(start,end)
     assert observed.visible_points(start,[end])[0]
     assert not observed.visible_points(observed.world(5,15),[observed.world(25,15)])[0]
+
+
+def test_search_reserve_recovery_never_crosses_physical_or_unknown_footprint():
+    data = np.zeros((80,80),dtype=int)
+    data[:,20] = 100
+    observed = ObservedSearchMap(grid(data,resolution=.05),.55)
+    robot = observed.world(30,40)
+    assert not observed.segment_free(robot,robot)
+    goal = observed.clearance_recovery_view(robot,0.,.38)
+    assert goal is not None and goal[0]>robot[0]
+    assert ObservedSearchMap(observed.message,.38).segment_free(robot,goal)
+    assert observed.segment_free(goal,goal)
+    assert observed.clearance_recovery_view(observed.world(24,40),0.,.38) is None
 
 
 def test_fully_mapped_space_still_has_visual_search_viewpoints():

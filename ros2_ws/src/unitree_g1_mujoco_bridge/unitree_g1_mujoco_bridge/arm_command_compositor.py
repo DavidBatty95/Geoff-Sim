@@ -33,6 +33,24 @@ ARM_MAX_SPEEDS = {name: 0.8 for name in ARM_JOINTS}
 START_POSITION_TOLERANCE = 0.05
 
 
+class TargetPublicationGate:
+    """Coalesce identical refreshes; changed targets never wait for a timer."""
+    def __init__(self,period=0.):
+        if not math.isfinite(period) or not 0.<=period<=.05:
+            raise ValueError('repeat publication period must be between 0 and 50 ms')
+        self.period = period
+        self.targets = None
+        self.stamp = None
+
+    def accept(self,targets,now):
+        if (self.targets==targets and self.stamp is not None and
+                0.<=now-self.stamp<self.period):
+            return False
+        self.targets = list(targets)
+        self.stamp = now
+        return True
+
+
 class TrajectoryError(ValueError):
     pass
 
@@ -312,16 +330,21 @@ def _message_trajectory(trajectory) -> Tuple[Tuple[str, ...], Tuple[TrajectoryPo
 
 def _run_ros_node() -> None:
     import rclpy
-    from rclpy.executors import MultiThreadedExecutor
+    from rclpy.executors import MultiThreadedExecutor,SingleThreadedExecutor
 
     rclpy.init()
     node = ArmCommandCompositorNode()
-    executor = MultiThreadedExecutor(num_threads=2)
+    threads = int(node.get_parameter('executor_threads').value)
+    executor = SingleThreadedExecutor() if threads==1 else MultiThreadedExecutor(num_threads=threads)
     executor.add_node(node)
     try:
         executor.spin()
     finally:
-        executor.shutdown()
+        node.stop_execution()
+        deadline = time.monotonic()+1.
+        while rclpy.ok() and node._execution_waiter is not None and time.monotonic()<deadline:
+            executor.spin_once(timeout_sec=.01)
+        executor.shutdown(timeout_sec=1.)
         node.destroy_node()
         rclpy.shutdown()
 
@@ -333,6 +356,7 @@ try:
     from rclpy.callback_groups import ReentrantCallbackGroup
     from rclpy.node import Node
     from rclpy.qos import QoSHistoryPolicy, QoSProfile, QoSReliabilityPolicy
+    from rclpy.task import Future
     from std_msgs.msg import Float64MultiArray,Bool
     from std_srvs.srv import SetBool
     from unitree_hg.msg import LowState
@@ -351,6 +375,12 @@ try:
             self.declare_parameter("goal_tolerance", 0.05)
             self.declare_parameter("completion_timeout", 1.0)
             self.declare_parameter("lowstate_topic", "/lowstate")
+            threads = int(self.declare_parameter('executor_threads',2).value)
+            if threads not in (1,2):
+                raise ValueError('executor_threads must be 1 or 2')
+            self._execution_waiter = None
+            self.publication_gate = TargetPublicationGate(float(self.declare_parameter('repeat_publish_period',0.).value))
+            self.publish_on_locomotion = bool(self.declare_parameter('publish_on_locomotion',True).value)
             rate = float(self.get_parameter("output_rate").value)
             if not math.isfinite(rate) or rate <= 0.0:
                 raise ValueError("output_rate must be positive")
@@ -392,11 +422,23 @@ try:
         def _now(self) -> float:
             return self.get_clock().now().nanoseconds * 1.0e-9
 
+        def stop_execution(self):
+            with self._lock:
+                if self._execution_waiter is not None and not self._execution_waiter.done():
+                    self.core.cancel(self._now())
+                    self._execution_waiter.set_result(('shutdown','ROS shutdown'))
+
         def _locomotion_callback(self, msg: Float64MultiArray) -> None:
             with self._lock:
                 valid = self.core.update_locomotion(msg.data, self._now())
             if not valid:
                 self.get_logger().warning("Ignoring malformed locomotion command")
+            elif self.publish_on_locomotion:
+                # A completed inference need not wait another 0--10 ms for the
+                # arm timer. The same authority, freshness and trajectory core
+                # composes this immediate publication; the timer remains the
+                # watchdog and arm-interpolation heartbeat.
+                self._publish()
 
         def _lowstate_callback(self, msg: LowState) -> None:
             if len(msg.motor_state) < BODY_DOF:
@@ -427,7 +469,7 @@ try:
 
         def _goal_callback(self, goal_request):
             with self._lock:
-                if not self.core.authority or self.core.trajectory is not None:
+                if not self.core.authority or self.core.trajectory is not None or self._execution_waiter is not None:
                     return GoalResponse.REJECT
                 try:
                     self._parse_request(goal_request)
@@ -441,25 +483,25 @@ try:
                 self.core.cancel(self._now())
             return CancelResponse.ACCEPT
 
-        def _execute_callback(self, goal_handle):
+        async def _execute_callback(self, goal_handle):
             result = FollowJointTrajectory.Result()
             with self._lock:
                 try:
                     trajectory = self._parse_request(goal_handle.request)
                     self.core.start_trajectory(trajectory, self._now())
+                    waiter = Future()
+                    self._execution_waiter = waiter
                 except TrajectoryError as error:
                     result.error_code = FollowJointTrajectory.Result.INVALID_GOAL
                     result.error_string = str(error)
                     goal_handle.abort()
                     return result
 
-            while rclpy.ok():
-                time.sleep(0.01)
-                with self._lock:
-                    outcome = self.core.outcome
-                if outcome is None:
-                    continue
-                status, message = outcome
+            try:
+                # The existing output/watchdog timer resolves this future.
+                # Awaiting yields the executor instead of reserving a worker
+                # thread for the whole arm trajectory.
+                status,message = await waiter
                 result.error_string = message
                 if status == "succeeded":
                     result.error_code = FollowJointTrajectory.Result.SUCCESSFUL
@@ -474,20 +516,28 @@ try:
                     result.error_code = FollowJointTrajectory.Result.PATH_TOLERANCE_VIOLATED
                     goal_handle.abort()
                 return result
-
-            result.error_code = FollowJointTrajectory.Result.PATH_TOLERANCE_VIOLATED
-            result.error_string = "ROS shutdown"
-            goal_handle.abort()
-            return result
+            finally:
+                with self._lock:
+                    if self._execution_waiter is waiter:
+                        self._execution_waiter = None
 
         def _publish(self) -> None:
             with self._lock:
-                targets = self.core.output(self._now())
-            if targets is None:
-                return
-            msg = Float64MultiArray()
-            msg.data = targets
-            self._publisher.publish(msg)
+                now = self._now()
+                targets = self.core.output(now)
+                waiter = self._execution_waiter
+                if waiter is not None and not waiter.done() and self.core.outcome is not None:
+                    waiter.set_result(self.core.outcome)
+                if targets is not None and not self.publication_gate.accept(targets,now):
+                    return
+                if targets is None:
+                    return
+                # Keep output selection and publication in the same critical
+                # section. Action cancellation/authority changes must not slip
+                # between them, nor may concurrent output calls publish B then A.
+                msg = Float64MultiArray()
+                msg.data = targets
+                self._publisher.publish(msg)
 
 except ImportError:
     ArmCommandCompositorNode = None

@@ -45,6 +45,7 @@ class ScanOdometry:
         self.cell_size = 0.20
         self.offsets = np.array([(x, y) for x in range(-2, 3) for y in range(-2, 3)])
         self.quality = {}
+        self.fallback = None
 
     @staticmethod
     def _keys(cells):
@@ -68,7 +69,35 @@ class ScanOdometry:
         self.normals = eigenvectors[:,:,0]
         self.normal_valid = (count >= 3) & (eigenvalues[:,1] > 1e-5) & (eigenvalues[:,0] < .1*eigenvalues[:,1])
 
-    def update(self, points, heading):
+    def update(self,points,heading,fallback_points=None):
+        """Prefer upper structure but retain a pose-anchored full-band reference.
+
+        Sparse upper returns can disappear at a doorway or near a wall. A
+        fallback must independently pass the same registration gates; failure
+        of both bands never creates a fresh pose.
+        """
+        accepted = self._update(points,heading)
+        if not accepted and fallback_points is not None and self.fallback is not None:
+            rejection = dict(self.quality)
+            self.fallback.xy,self.fallback.yaw = self.xy.copy(),self.yaw
+            if self.fallback._update(fallback_points,heading):
+                self.xy,self.yaw = self.fallback.xy.copy(),self.fallback.yaw
+                self.quality = dict(self.fallback.quality,registration_fallback=True,primary_rejection=rejection)
+                primary = voxel_points(points)
+                if len(primary)>=60:
+                    self._set_reference(primary@rotation(self.yaw).T+self.xy)
+                accepted = True
+        if accepted and fallback_points is not None:
+            full = voxel_points(fallback_points)
+            if len(full)>=60:
+                if self.fallback is None:
+                    self.fallback = ScanOdometry()
+                self.fallback.initial_heading = self.initial_heading
+                self.fallback.xy,self.fallback.yaw = self.xy.copy(),self.yaw
+                self.fallback._set_reference(full@rotation(self.yaw).T+self.xy)
+        return accepted
+
+    def _update(self, points, heading):
         points = voxel_points(points)
         if len(points) < 60 or not math.isfinite(heading):
             self.quality = {"accepted": False, "reason": "insufficient_returns"}

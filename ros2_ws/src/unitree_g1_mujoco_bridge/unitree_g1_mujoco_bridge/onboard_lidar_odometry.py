@@ -53,6 +53,8 @@ class OnboardLidarOdometry(Node):
         self.previous_stamp = None
         self.previous_xy = np.zeros(2)
         self.velocity = np.zeros(2)
+        self.last_attitude_time = -math.inf
+        self.last_attitude_tick = None
         self.odom_pub = self.create_publisher(Odometry, "/odom", 1)
         self.attitude_pub = self.create_publisher(Vector3Stamped, "/onboard/measured_rpy", qos)
         self.cloud_pub = self.create_publisher(PointCloud2, "/onboard/lidar", qos)
@@ -66,8 +68,21 @@ class OnboardLidarOdometry(Node):
         self.create_subscription(PointCloud2, "/livox/lidar", self._cloud, qos)
 
     def _imu(self, msg):
-        self.imu.append((self.get_clock().now().nanoseconds * 1e-9,
-                         tuple(msg.imu_state.rpy), float(msg.imu_state.gyroscope[2])))
+        now = self.get_clock().now().nanoseconds*1e-9
+        rpy,rate = tuple(msg.imu_state.rpy),float(msg.imu_state.gyroscope[2])
+        if not all(map(math.isfinite,(*rpy,rate))):
+            return
+        self.imu.append((now,rpy,rate))
+        tick = int(msg.tick)
+        if tick!=self.last_attitude_tick and now-self.last_attitude_time>=.019:
+            self.last_attitude_time,self.last_attitude_tick = now,tick
+            attitude = Vector3Stamped()
+            # LowState has a device tick, not a synchronized ROS acquisition
+            # epoch. Keep the existing receipt-time contract explicit.
+            attitude.header.stamp = rclpy.time.Time(seconds=now).to_msg()
+            attitude.header.frame_id = 'pelvis'
+            attitude.vector.x,attitude.vector.y,attitude.vector.z = map(float,rpy)
+            self.attitude_pub.publish(attitude)
 
     def _joints(self, msg):
         self.joints.append((msg.header.stamp.sec + msg.header.stamp.nanosec * 1e-9,
@@ -82,11 +97,6 @@ class OnboardLidarOdometry(Node):
         joints = min(self.joints, key=lambda item: abs(item[0] - stamp))
         if abs(imu[0] - stamp) > 0.15 or abs(joints[0] - stamp) > 0.15:
             return
-        attitude_msg = Vector3Stamped()
-        attitude_msg.header.stamp = rclpy.time.Time(seconds=imu[0]).to_msg()
-        attitude_msg.header.frame_id = 'pelvis'
-        attitude_msg.vector.x,attitude_msg.vector.y,attitude_msg.vector.z = map(float,imu[1])
-        self.attitude_pub.publish(attitude_msg)
         if max(abs(imu[1][0]), abs(imu[1][1])) > 0.65:
             return
         try:
@@ -121,7 +131,8 @@ class OnboardLidarOdometry(Node):
             if np.quantile(np.abs(floor_candidates - ground), 0.7) < 0.04:
                 data[:, 2] -= ground
         registration,band = registration_points(data[:,:3])
-        accepted = self.estimator.update(registration, imu[1][2])
+        fallback = data[(radius>1.)&(radius<18.)&(data[:,2]>.25)&(data[:,2]<1.8),:2]
+        accepted = self.estimator.update(registration,imu[1][2],fallback_points=fallback)
         status = String()
         status.data = json.dumps({**self.estimator.quality, "source": "lidar_imu_joint_encoders",
                                   "source_stamp": stamp, "input_age_s": self.get_clock().now().nanoseconds * 1e-9 - stamp,

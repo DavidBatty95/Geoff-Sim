@@ -48,6 +48,50 @@ def test_running_search_does_not_enqueue_more_work():
     assert search.pending[1] is future
 
 
+def test_semantic_camera_heading_survives_cleared_navigation_visualization():
+    import math
+    turns,found = [],[]
+    def rotate(yaw,**kwargs):
+        turns.append(yaw)
+        found.append({'id':'target_blue','observed_stamp':1.})
+    node = S(pose=(0.,0.,0.),object_may_be_held=False,observe=lambda *args:found[-1] if found else None,
+             event=lambda *args,**kwargs:None,rotate=rotate,seconds=lambda:0.,last_image_stamp=1.,
+             wait=lambda predicate,*args:predicate())
+    search = S(mission=node,visits={},_prepare=lambda:None,max_views=1,inspection_heading=math.pi,
+               inspection_kind='semantic_reobserve',selected=None)
+    result = ExplorationMission._discover(search,'target_blue')
+    assert result['id']=='target_blue' and turns==[math.pi]
+
+
+def test_displaced_optional_inspection_keeps_fresh_discovery():
+    import time
+    found,events = [],[]
+    def rotate(*args,**kwargs):
+        raise RuntimeError('search turn displaced beyond viewpoint reserve')
+    node = S(pose=(.4,0.,.2),object_may_be_held=False,
+             observe=lambda *args:found[-1] if found else None,
+             event=lambda name,**kwargs:events.append(name),rotate=rotate,
+             seconds=lambda:10.,last_image_stamp=11.,started=time.monotonic(),args=S(duration=600.),
+             spin=lambda _:found.append({'id':'target_blue','observed_stamp':11.}),
+             wait=lambda predicate,*args:predicate())
+    search = S(mission=node,visits={},_prepare=lambda:None,max_views=1,
+               inspection_heading=1.,inspection_kind='heading_inspection',selected=None)
+    assert ExplorationMission._discover(search,'target_blue')['observed_stamp']==11.
+    assert 'search_partial_turn' in events and events[-1]=='search_found'
+
+
+def test_slam_frame_correction_rebases_live_visit_list_and_revokes_prepared_plan():
+    visits = [(1.,2.)]
+    search = S(memory_transform=(0.,0.,0.),coverage_transform=(0.,0.,0.),
+        visits={'box':visits},inspections={'box':[(1.,2.,.3)]},coverage={'box':{(2,4)}},
+        failures=[((3.,4.),10.)],room_anchor=(1.,2.),generation=1,prepared=object(),
+        mission=S(event=lambda *args,**kwargs:None),_point=ExplorationMission._point)
+    ExplorationMission._sync_memory(search,(3.,0.,0.))
+    assert visits==[(4.,2.)]  # The executive keeps this list reference during search.
+    assert search.inspections['box']==[(4.,2.,.3)]
+    assert not search.coverage['box'] and search.prepared is None and search.generation==2
+
+
 def test_dispatch_reranks_worker_novelty_after_latest_inspection():
     import numpy as np
     from .test_exploration_search import grid
