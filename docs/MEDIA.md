@@ -18,11 +18,67 @@
 
 [README gallery](../README.md#recorded-demo-gallery) · [Demo walkthrough](DEMO_GUIDE.md)
 
-The README features all five project demo GIFs under `docs/media/`. These are
-recordings of visual sessions, not generated illustrations or scored acceptance
-summaries. Upstream training-library example media belongs to its own documentation.
+The README now leads with three freshly captured locomanipulation GIFs under
+`docs/media/locomanipulation/`. The five earlier navigation GIFs remain in a
+collapsed historical gallery. All are actual window recordings, not generated
+robot motion. Upstream training-library media belongs to its own documentation.
 
-## Recordings
+## Locomanipulation recordings — 14 October 2026
+
+| Asset | Recorded content | Source outcome |
+| --- | --- | --- |
+| [Mission overview](media/locomanipulation/mission-overview.gif) | Survey, approach, pickup, lift, retreat and attempted delivery navigation | Incomplete: navigation succeeded outside fresh sensed staging tolerance |
+| [Pickup and lift](media/locomanipulation/pickup-and-lift.gif) | Close-up reach, magnetic attachment, lift and retreat | Source run later fell during delivery navigation |
+| [Loaded transport](media/locomanipulation/loaded-transport.gif) | Close-up retreat and loaded navigation from the overview run | Incomplete: navigation/localization check |
+
+These zero-person clips show development behavior, **not a completed delivery**.
+Fresh placement and restoration footage is still missing. Earlier complete-run
+logs are available in the [performance report](PERFORMANCE_IMPLEMENTATION_20261012.md).
+Attachment is the capture-radius weld fixture, not contact-only finger grasping.
+Each animation ends with its source outcome. PNG stills with matching basenames
+provide a nonanimated alternative.
+
+The [recording manifest](media/locomanipulation/recordings.json) retains all seven
+fresh capture attempts, including startup/settling failures and falls. It records
+commands, policy/source manifests, result hashes, frame timestamps, crops, selected
+frame hashes and output GIF hashes. Raw frames and logs remain in ignored
+`ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_recordings/` and
+`transport_demo/`. Run IDs are identifiers; `recorded_at` records the capture date/time.
+
+| Capture ID suffix | Configuration | Outcome |
+| --- | --- | --- |
+| `readme-dual` | Cycle-03, dual task, device clock | Stale-state braking failure during discovery |
+| `readme-contact` | Cycle-05, red → red, device clock | Braking timeout during discovery |
+| `readme-settling` | Cycle-05, red → red, bounded 5-second braking allowance | Picked up and retreated; fell during delivery navigation |
+| `readme-delay` | Cycle-03, red → red, bounded 5-second braking allowance | Picked up and carried; navigation/localization failure |
+| `readme-exploration` | Cycle-05, medium-building red → blue | Body instability before search |
+| `readme-wall-clock` | Cycle-03, dual fixture, wall-clock policy cadence | Body instability during discovery |
+| `readme-aisle` | Cycle-03, aisle fixture | Body instability during discovery |
+
+Capture samples the live X11 MuJoCo window at 3 fps. Exports crop simulator UI,
+resize, overlay phase/time labels and subsample into time-lapse GIFs; they do not
+interpolate poses or generate missing task stages. Timestamps are capture wall
+time and phase labels are the latest received mission state, not exact physics
+alignment. The recording workload can affect scheduling, so these are neither a
+controlled speed comparison nor a reliability cohort.
+
+To capture another attempt, first ensure exclusive simulator access:
+
+```bash
+python3 scripts/record_transport_preview.py --run-id <unique-id> --fps 3 -- \
+  --world transport_dual --task red:red --people 0 --seed 48 --duration 600 \
+  --carry-posture payload_v1 --policy <repository-local-policy.onnx> --fast-start --no-rviz
+
+python3 scripts/export_transport_gifs.py \
+  --pickup-run 20261014T164500Z-readme-settling \
+  --carry-run 20261014T164700Z-readme-delay
+```
+
+The exporter uses documented crops for the captured 960 × 600 window. Inspect
+new frames and adjust crops before publishing a different window layout. Capture
+has a 780-second outer bound and saves partial evidence during cleanup.
+
+## Earlier navigation recordings
 
 | Asset | View | Context |
 | --- | --- | --- |
@@ -48,7 +104,7 @@ dataset and its configuration using the [results-review guide](RESULTS_REVIEW.md
 | Asset | Purpose |
 | --- | --- |
 | [Results dashboard](media/results-dashboard.png) | Screenshot of dataset filtering and recorded-trajectory replay |
-| [Animated title banner](media/title-banner.svg) | Original title-led design restored for the README, with animated humanoid, LiDAR sweep and data flow |
+| [Locomanipulation title banner](media/title-banner.svg) | Static, accessible title and observe → approach → pick up → carry → place schematic |
 | [Overview banner](media/banner.svg) | Generated three-panel summary of the onboard demonstration |
 | [Installation pipeline](media/install-pipeline.svg) | Setup stages and dependency flow |
 | [Architecture](media/architecture.svg) | High-level system organization |
@@ -63,11 +119,10 @@ dataset and its configuration using the [results-review guide](RESULTS_REVIEW.md
 The SVGs are schematics, not sensor output. The dashboard screenshot is a static
 example; launch `./geoff results` to inspect the checked-in datasets interactively.
 
-The title banner adapts the original design from commit
-[`3176006`](https://github.com/DavidBatty95/Geoff-Sim/commit/3176006).
+The title banner was refreshed on 14 October for the locomanipulation workflow.
 It is maintained directly in `title-banner.svg`, separately from the generated
-overview diagrams. Its CSS animation respects reduced-motion preferences; the
-decorative indicators describe project components rather than live system status.
+overview diagrams. It is static and schematic; the GIF gallery supplies actual
+recorded robot behavior.
 
 The folder, progression and roadmap graphics use a shared two-column layout with
 readable static content, descriptive SVG titles and reduced-motion support.

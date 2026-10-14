@@ -97,6 +97,39 @@ invalidation on both control/result paths, recovery and legacy compatibility.
 Native frozen-stream injection and physical hold/recovery behavior remain to be
 qualified; the existing sensor-fault hold is not a guarantee of standing balance.
 
+## Fixed-arm posture completion and native capture follow-up
+
+Carry and final restoration now share `move_arm_posture`. A fixed arm target
+contains only the commanded arm joints; completion compares measured and requested
+arm geometry at the same current measured waist configuration. The 3.5 cm hand
+error limit is unchanged. Missing/nonfinite arm or waist joints fail explicitly
+instead of entering FK as zero defaults. Restoration releases arm authority only
+after this validation. Cartesian reach/IK targets retain their separate contract.
+
+Sixteen real-URDF regressions cover yaw/roll/pitch waist movement, true arm error,
+incomplete/nonfinite measurements, interrupted restoration, invalid arm-only
+targets, retained authority on failure and Cartesian carry behavior.
+
+The README capture session also exercised the new braking contract natively.
+Initial 1.5-second limits rejected two attempts; a retained trace showed measured
+settling shortly after that limit. Normal navigation/inspection braking now has
+up to five seconds **inside the original operation deadline**, with identical
+freshness, velocity and 0.2-second measurement dwell thresholds. It returns as
+soon as measured settling succeeds; five regressions cover slower settling and
+deadline caps. Subsequent native stops included 2.83-second settling, but no
+capture attempt completed a mission. No failed outcome was upgraded.
+
+The [media manifest](media/locomanipulation/recordings.json) retains all seven
+attempts, commands, source/policy identities, errors and events. Captures include
+successful pickup and loaded motion, alongside falls and a navigation/localization
+failure. They are development evidence under screen-capture workload, not a
+controlled reliability cohort or proof of the final restoration path.
+
+The complete bridge suite now passes **588 tests**. Documentation links, generated
+graphics/navigation checks, repository metadata checks and nine README-navigation
+tests also pass. Native repeated delivery, contact-only grasping, swept-path arm
+collision checking and physical fault recovery remain open.
+
 ## Verification and next steps
 
 Focused tests cover malformed/missing results, nonzero exits, strict outcomes,

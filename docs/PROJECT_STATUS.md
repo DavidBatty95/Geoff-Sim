@@ -23,6 +23,17 @@ evidence snapshot, not an acceptance release. Later experiments need their own c
 
 ## At a glance
 
+**14 October locomanipulation media and posture follow-up:** the README now shows
+fresh pickup/lift and loaded-motion recordings with an updated workflow banner.
+**All seven capture attempts were incomplete**; the manifest retains settling,
+localization and body-instability failures. New clips do not establish placement
+or restoration. Fixed arm carry/rest checks now use the same current-waist
+reference and reject missing/nonfinite measured joints. Braking can use up to
+five seconds of the existing operation deadline after captures showed measured
+settling beyond 1.5 seconds. **588 bridge tests pass.**
+[Media/provenance](MEDIA.md#locomanipulation-recordings--14-october-2026) ·
+[Control changes and qualification limits](PERFORMANCE_FOUNDATION.md#fixed-arm-posture-completion-and-native-capture-follow-up).
+
 **14 October observation-freshness follow-up:** live DDS traffic can no longer
 mask a frozen device tick when `use_device_tick` is enabled. Duplicate/reordered
 packets are rejected before accepted-state/upright updates. The existing

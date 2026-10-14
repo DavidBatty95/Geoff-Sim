@@ -1,6 +1,6 @@
 <div align="center">
-  <img src="docs/media/title-banner.svg" width="100%" alt="Geoff-Sim — animated humanoid autonomy title banner with a LiDAR sweep and flowing data">
-  <p><strong>Unitree G1 · MuJoCo · ROS 2 Humble · Onboard social navigation</strong></p>
+  <img src="docs/media/title-banner.svg" width="100%" alt="Geoff-Sim — humanoid locomanipulation: observe, approach, pick up, carry and place">
+  <p><strong>Unitree G1 · MuJoCo · ROS 2 Humble · Sensor-driven mobile manipulation</strong></p>
   <a href="https://github.com/DavidBatty95/Geoff-Sim/actions/workflows/verification.yml"><img src="https://github.com/DavidBatty95/Geoff-Sim/actions/workflows/verification.yml/badge.svg" alt="Verification workflow status"></a>
 <!-- geoff-nav:start -->
 <p align="center">
@@ -19,41 +19,42 @@
 <!-- geoff-nav:end -->
 </div>
 
-Geoff-Sim is a simulation research platform for locomotion, online mapping,
-human-aware navigation and reproducible avoidance experiments.
+Geoff-Sim brings locomotion, online mapping, human-aware navigation and object
+transport into one humanoid simulation platform. The robot observes its scene,
+approaches a table, lifts a cube, carries it to a destination and checks placement.
 
-**Current status:** the onboard pipeline and visual demonstrations run, but
-collision-free navigation is not yet reliable. Published datasets include
-collisions, incomplete goals and invalid attempts. Historical oracle results
-and unscored visual sessions are labelled separately.
+**Current progress · 14 October 2026:** complete zero-person deliveries are recorded
+in earlier development runs. The fresh GIF captures below show pickup and loaded
+motion, but **none of the seven capture attempts completed a delivery**. Reliable
+end-to-end execution and crowd navigation remain open. Attachment uses a magnetic
+capture-radius fixture, not a demonstrated finger grasp.
 
-**Project update — 6 October 2026:** the hardware-facing fidelity pass adds
-canonical G1 topics with valid command CRCs, measured sensor-site IMUs, portable
-point-cloud decoding and an articulated BrainCo interface probe. The recorded full build/test suite passed;
-the latest unchanged-code zero-person **two-cube/four-table** pair completed both
-deliveries. The latest retained full navigation matrix, v84, remains **10/18**;
-crowd acceptance is still open. [Hardware fidelity and measured limits](docs/HARDWARE_FIDELITY.md) ·
-[Read the status and progression](docs/PROJECT_STATUS.md) ·
-[Follow the forward plan](docs/PROJECT_PLAN.md).
+[Current status](docs/PROJECT_STATUS.md) · [Implementation and verification](docs/PERFORMANCE_FOUNDATION.md) ·
+[Retained delivery evidence](docs/PERFORMANCE_IMPLEMENTATION_20261012.md) · [Roadmap](docs/PROJECT_PLAN.md)
 
-**12 October performance follow-up:** smoother nominal motion and camera-aware
-exploration have completed zero-person medium-building deliveries, including a
-202.48-second red → blue trial. Other tasks and crowded runs retain failures.
-[Implementation, validation and remaining limits](docs/PERFORMANCE_IMPLEMENTATION_20261012.md).
+## Recorded demo gallery
 
-**14 October reliability checkpoint:** dependency pins and experiment accounting
-are aligned; compositor output publication is serialized with control-state
-changes, and navigation/inspection braking now fails explicitly when measured
-settling is unavailable. The integrated build passed 744 ROS test results,
-142 orchestration tests and 12 native CTests. Repeatable native delivery and
-crowd acceptance remain open; the delay-trained cycle-06 policy is not promoted.
-[Current implementation and next steps](docs/PERFORMANCE_FOUNDATION.md).
+### From perception to loaded motion
 
-**Observation-freshness follow-up:** device-clock policy execution now detects
-frozen LowState streams even while DDS packets keep arriving; duplicate/reordered
-ticks cannot refresh measurement progress. All **567 bridge tests pass**. This
-closes a stale-observation path; native fault-injection and delivery qualification
-remain open. [Freshness contract](docs/PERFORMANCE_FOUNDATION.md#device-observation-progress-watchdog).
+<p align="center">
+  <img src="docs/media/locomanipulation/mission-overview.gif" width="800" alt="Recorded G1 transport attempt: scan the room, approach the red cube, lift it, retreat and navigate toward delivery; the attempt ends incomplete">
+</p>
+
+**Actual MuJoCo window capture, sampled time-lapse.** This zero-person attempt
+reached loaded delivery navigation, then stopped on a sensed staging/localization
+check. The animation includes its outcome; it does not show successful placement.
+[Still image](docs/media/locomanipulation/mission-overview.png) ·
+[Recording provenance and all attempts](docs/media/locomanipulation/recordings.json)
+
+| Reach, attach and lift | Retreat and carry |
+| --- | --- |
+| ![Close-up recorded G1 reaching for a red cube, attaching it and lifting into the carry posture](docs/media/locomanipulation/pickup-and-lift.gif) | ![Close-up recorded G1 retreating from the pickup table and walking with the payload](docs/media/locomanipulation/loaded-transport.gif) |
+| RGB-D-guided approach and measured arm execution. This source run later fell during delivery navigation. | Loaded motion from a separate run; that run ended on a navigation/localization check. |
+
+The full implemented workflow is **observe → approach → dock → attach → lift →
+carry → place → verify → restore**. These new GIFs cover the recorded portions
+through carrying. Earlier complete delivery logs are linked above; fresh placement
+and restoration footage is still needed. [Media guide and reproduction](docs/MEDIA.md).
 
 ## Explore Geoff-Sim
 
@@ -85,7 +86,8 @@ For external references, open the
 ROS 2 Humble learning paths, package APIs, Nav2, MoveIt, MuJoCo, Unitree, training,
 perception and diagnostic tools—all grouped on one page.
 
-## Recorded demo gallery
+<details>
+<summary><strong>Earlier navigation-only recordings: plaza, courtyard and station</strong></summary>
 
 ### Pedestrian plaza: simulation and onboard decisions
 
@@ -109,6 +111,8 @@ viewer outputs, not collision-free endurance or the performance of the latest
 controller. See the [media catalogue](docs/MEDIA.md) for provenance and the
 [visual runbook](docs/ONBOARD_VISUAL_DEMO.md) to launch your own session.
 The SVG diagrams below are architectural schematics.
+
+</details>
 
 ## Quick start
 

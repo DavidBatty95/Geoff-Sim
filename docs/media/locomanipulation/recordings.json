@@ -1,0 +1,3883 @@
+{
+  "schema_version": 1,
+  "kind": "edited actual MuJoCo window recordings",
+  "scope": "Fresh development attempts, not a controlled acceptance cohort; all capture attempts retained",
+  "clips": [
+    {
+      "file": "mission-overview.gif",
+      "sha256": "fe6548b51a4fb5c1b61b83d2ca64ce952fa588690545c9b609379831bb6b7763",
+      "bytes": 7548759,
+      "run": "ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/20261014T164700Z-readme-delay",
+      "capture_sha256": "586e810a60cb1f7394058ad5f94025abb7d36c04390c54466e5ba031de4313a5",
+      "crop": [
+        303,
+        0,
+        960,
+        600
+      ],
+      "playback": "sampled time-lapse with 3-second outcome card",
+      "frame_stride": 4,
+      "source_frames": [
+        {
+          "file": "frame-00000.jpg",
+          "monotonic_s": 189540.623792315,
+          "phase": "initializing",
+          "sha256": "bd82c4bfe211a4a0b4cdfb535786032168dd74fee82b063c3cfb57fdc68e57ac"
+        },
+        {
+          "file": "frame-00004.jpg",
+          "monotonic_s": 189541.958319137,
+          "phase": "initializing",
+          "sha256": "be0cb521fdf4eed8d7f98fdaa8f243d6161e61291614fbcc8ed96620c5824529"
+        },
+        {
+          "file": "frame-00008.jpg",
+          "monotonic_s": 189543.301287906,
+          "phase": "initializing",
+          "sha256": "d6861d7decc2bb16dfb89ff78dae376c75ddcabdce8277b0d988592c4a7397e6"
+        },
+        {
+          "file": "frame-00012.jpg",
+          "monotonic_s": 189544.63748388,
+          "phase": "runtime_parameters",
+          "sha256": "fc339b1f5cf655b29e91dd0850f151f4634c13d4293668bfda9b6d7e5a21c35a"
+        },
+        {
+          "file": "frame-00016.jpg",
+          "monotonic_s": 189545.972688641,
+          "phase": "runtime_parameters",
+          "sha256": "5de6d9eedd45eb7e59ac43721857501fa5678cd9ef6d482aa298699f786fa38d"
+        },
+        {
+          "file": "frame-00020.jpg",
+          "monotonic_s": 189547.309249712,
+          "phase": "discover",
+          "sha256": "2d7e063fc19a77c2e75fcca9010ed4c6ec1820fd8d86038dd1cfcdf700212fd0"
+        },
+        {
+          "file": "frame-00024.jpg",
+          "monotonic_s": 189548.643729905,
+          "phase": "discover",
+          "sha256": "319e0e128eced40172ed9f129a9b412afe32cdedcd06986b2747fa7d9396fbba"
+        },
+        {
+          "file": "frame-00028.jpg",
+          "monotonic_s": 189549.984266166,
+          "phase": "discover",
+          "sha256": "e70be057c42089dffc7ab5ec9944263be70c9405f7f0751ce7203ce452252f71"
+        },
+        {
+          "file": "frame-00032.jpg",
+          "monotonic_s": 189551.322230058,
+          "phase": "discover",
+          "sha256": "89ba1d214f5920d682b260fac47a2aa8ab66f2329cb7d172fc6edbd2083a5310"
+        },
+        {
+          "file": "frame-00036.jpg",
+          "monotonic_s": 189552.65670509,
+          "phase": "discover",
+          "sha256": "19b8767c56faaad9e40b5a878a58469c93f23c0f0f40e798099a282c486f1b3b"
+        },
+        {
+          "file": "frame-00040.jpg",
+          "monotonic_s": 189553.99105686,
+          "phase": "discover",
+          "sha256": "508349b29882e1bba1163f39a8f2f7ab6ee5abb80b270b84c8a5a186248a274e"
+        },
+        {
+          "file": "frame-00044.jpg",
+          "monotonic_s": 189555.328782652,
+          "phase": "discover",
+          "sha256": "def92b89f769db69ad805023b7fbe6aad83dac928a0104fa19dbc823a81e83c7"
+        },
+        {
+          "file": "frame-00048.jpg",
+          "monotonic_s": 189556.664647535,
+          "phase": "discover",
+          "sha256": "76ef5cd2ad22d3c4428b910b81a2e04ad3cd7fb2a4c82c8a358cd8676cd09afd"
+        },
+        {
+          "file": "frame-00052.jpg",
+          "monotonic_s": 189558.000266591,
+          "phase": "discover",
+          "sha256": "59e6c0513e828ac9ca5a9d8b66bdd59412aa2c21fc4e4431346e5848f5ed5c94"
+        },
+        {
+          "file": "frame-00056.jpg",
+          "monotonic_s": 189559.336892788,
+          "phase": "discover",
+          "sha256": "6f1d74e39fe85e2b54cf73b1b99890dce8a1910279d333d70f1df8c7c5e88efa"
+        },
+        {
+          "file": "frame-00060.jpg",
+          "monotonic_s": 189560.671761592,
+          "phase": "discover",
+          "sha256": "ae647229fd68a120d3351527d9fc2f744366ca0a92506cfff14215329483b56d"
+        },
+        {
+          "file": "frame-00064.jpg",
+          "monotonic_s": 189562.014065609,
+          "phase": "discover",
+          "sha256": "76f3d540e9fd5d4a8baaa36df8015529381fa1a4d49672347d298635febd659c"
+        },
+        {
+          "file": "frame-00068.jpg",
+          "monotonic_s": 189563.355129485,
+          "phase": "discover",
+          "sha256": "b47d653463bf4b42dfb836962c21415c0622f81577071c38842a6144473e2a7a"
+        },
+        {
+          "file": "frame-00072.jpg",
+          "monotonic_s": 189564.690078908,
+          "phase": "discover",
+          "sha256": "20e4823a429f8e18b44c363f841f8c10c453c3adfad35e1d86555feb3f6175eb"
+        },
+        {
+          "file": "frame-00076.jpg",
+          "monotonic_s": 189566.027468832,
+          "phase": "discover",
+          "sha256": "9999a138a7cab361fe81e614806269b685590fdf13be966e01ece71eb914a568"
+        },
+        {
+          "file": "frame-00080.jpg",
+          "monotonic_s": 189567.376067463,
+          "phase": "discover",
+          "sha256": "892e543ce27d4be68355c9ece405a8232bdfc1a7610c4562d161c7dfdb6c178c"
+        },
+        {
+          "file": "frame-00084.jpg",
+          "monotonic_s": 189568.713086544,
+          "phase": "discover",
+          "sha256": "98c18c74e1c98ed0c4ab350e772e16f832341ae45a2f2c9a672fe1c954a7718e"
+        },
+        {
+          "file": "frame-00088.jpg",
+          "monotonic_s": 189570.047510344,
+          "phase": "discover",
+          "sha256": "8a3db06ebfff5760e903e7729b58402183f9bd0055c0117ab04e773e14810372"
+        },
+        {
+          "file": "frame-00092.jpg",
+          "monotonic_s": 189571.382088096,
+          "phase": "discover",
+          "sha256": "e09eb7c61b47dfe692ad0d04dfc51624fe8a58e1094900de3e4ac7b18df0e869"
+        },
+        {
+          "file": "frame-00096.jpg",
+          "monotonic_s": 189572.71670146,
+          "phase": "discover",
+          "sha256": "a93750687db0351d21ba9950524c7c87987063abe269dc471704385ab49e8129"
+        },
+        {
+          "file": "frame-00100.jpg",
+          "monotonic_s": 189574.051060774,
+          "phase": "discover",
+          "sha256": "980ba9b95b1958745b369e04963206128cdb308dd3f0704eb104a1fefc30c2a5"
+        },
+        {
+          "file": "frame-00104.jpg",
+          "monotonic_s": 189575.386321507,
+          "phase": "discover",
+          "sha256": "59184f67e2a76fcf1f5d6c5c8062bc86379acef999f641bf67a1c93e739b4f1d"
+        },
+        {
+          "file": "frame-00108.jpg",
+          "monotonic_s": 189576.723322346,
+          "phase": "discover",
+          "sha256": "10f3ceab7ee47c508030317ffc67a1995290c0837cbcb1fec3ca1872df3e6f2f"
+        },
+        {
+          "file": "frame-00112.jpg",
+          "monotonic_s": 189578.0577919,
+          "phase": "discover",
+          "sha256": "e6f4904b3d6d2b420a3c14d83f5803b121d50f165cacdcc63187bbeb95defdde"
+        },
+        {
+          "file": "frame-00116.jpg",
+          "monotonic_s": 189579.398124452,
+          "phase": "discover",
+          "sha256": "274520c350fc9e29098683433929e0f3c8a0699c12d0afb83920d4f28269d31f"
+        },
+        {
+          "file": "frame-00120.jpg",
+          "monotonic_s": 189580.734669463,
+          "phase": "discover",
+          "sha256": "0989e2e3fde79bececf8b3145d73513eb9c7536533c93d61e7f941555e2fb12d"
+        },
+        {
+          "file": "frame-00124.jpg",
+          "monotonic_s": 189582.072273221,
+          "phase": "discover",
+          "sha256": "9277618550419996e1a0ff3d8de7615b5929c5e01c7d221203da4d802e390304"
+        },
+        {
+          "file": "frame-00128.jpg",
+          "monotonic_s": 189583.406671406,
+          "phase": "discover",
+          "sha256": "40fdc08f4dc4d706b3659c7ad5453b9e246940d2f5fdb29f09b08a5a5418a5b4"
+        },
+        {
+          "file": "frame-00132.jpg",
+          "monotonic_s": 189584.741302442,
+          "phase": "discover",
+          "sha256": "a4d829b02c65f638a8755b939ede3be9ea2b9910725f966fa2d178e6b125932e"
+        },
+        {
+          "file": "frame-00136.jpg",
+          "monotonic_s": 189586.075771057,
+          "phase": "discover",
+          "sha256": "0ffbd9495d4249b12c3a4c1b70891f1a0c06f5d7809cb2fb87bebdc9991c5653"
+        },
+        {
+          "file": "frame-00140.jpg",
+          "monotonic_s": 189587.414090598,
+          "phase": "discover",
+          "sha256": "cf7b05809ec49d65234006105d447cb14dbe5b1cfa27c21f8a6bf1ff4580f2d4"
+        },
+        {
+          "file": "frame-00144.jpg",
+          "monotonic_s": 189588.753124,
+          "phase": "discover",
+          "sha256": "e415de131bc463c1382c2aff7959494dfcfaea2d4dd098161b208c19204243a8"
+        },
+        {
+          "file": "frame-00148.jpg",
+          "monotonic_s": 189590.087380229,
+          "phase": "discover",
+          "sha256": "7b27dbe1121138ab37ded126c25e6d01c6d1c55ef50af08ef5d972c2a14307f9"
+        },
+        {
+          "file": "frame-00152.jpg",
+          "monotonic_s": 189591.425062272,
+          "phase": "discover",
+          "sha256": "5e4382da175c8a8441b0daa9014ada2bde3e7bd524fef53b78836485ae910cd2"
+        },
+        {
+          "file": "frame-00156.jpg",
+          "monotonic_s": 189592.760267417,
+          "phase": "discover",
+          "sha256": "ad865211b14ca40677166114d2618c0421de127b670af02adf9bc42a7cc12675"
+        },
+        {
+          "file": "frame-00160.jpg",
+          "monotonic_s": 189594.09468666,
+          "phase": "discover",
+          "sha256": "d2a91e6a38c6aa56aa60ed8d6f77c6a2ce1223088a7badf34f8540151ae96b4b"
+        },
+        {
+          "file": "frame-00164.jpg",
+          "monotonic_s": 189595.429125238,
+          "phase": "navigate_pickup",
+          "sha256": "cbc6ec93cf5bf82cc362abc2d6fd355b92758bc4c9bf77448dba6a68aceec561"
+        },
+        {
+          "file": "frame-00168.jpg",
+          "monotonic_s": 189596.765181107,
+          "phase": "navigate_pickup",
+          "sha256": "c5de22d87fa3282ec53423198194548f7afcb80a834e1f313cb9136bddf2d0ae"
+        },
+        {
+          "file": "frame-00172.jpg",
+          "monotonic_s": 189598.100660568,
+          "phase": "navigate_pickup",
+          "sha256": "e841b22fa2215e52897a61a0187bf758cad2dcaf666201fe209099a6e388832a"
+        },
+        {
+          "file": "frame-00176.jpg",
+          "monotonic_s": 189599.435067449,
+          "phase": "navigate_pickup",
+          "sha256": "416c45468e5d3760985e99550022444febfc10c3cb235a42ebd20d110f3043b2"
+        },
+        {
+          "file": "frame-00180.jpg",
+          "monotonic_s": 189600.77240673,
+          "phase": "navigate_pickup",
+          "sha256": "0063fd8d5c51d60c7293c6aa6d5f066c29243e3e335073e0f5249558f7974079"
+        },
+        {
+          "file": "frame-00184.jpg",
+          "monotonic_s": 189602.110673429,
+          "phase": "navigate_pickup",
+          "sha256": "3e0b9e296ea13f72e234086cd9803bbbf77eccf4e47170b65faa9e1533d95c23"
+        },
+        {
+          "file": "frame-00188.jpg",
+          "monotonic_s": 189603.447305847,
+          "phase": "prepare_pickup",
+          "sha256": "8b630273d7ee415970a3cf72c519d4297d531a7b3ef4d2a08544f9779c2511df"
+        },
+        {
+          "file": "frame-00192.jpg",
+          "monotonic_s": 189604.783076838,
+          "phase": "prepare_pickup",
+          "sha256": "42b62b77f5044bf8322b880d11f9075cb76c74981c0ad933394d7a5c7f96f8bf"
+        },
+        {
+          "file": "frame-00196.jpg",
+          "monotonic_s": 189606.117453213,
+          "phase": "prepare_pickup",
+          "sha256": "0f28b63cdc356516a94d0b372bcb835f78a8195346715ccc419f923fddb0f9d0"
+        },
+        {
+          "file": "frame-00200.jpg",
+          "monotonic_s": 189607.451894296,
+          "phase": "prepare_pickup",
+          "sha256": "ded5f259314f580bd8cb34803004d76a0abac838b12d8446f7930c62e2b7a1f3"
+        },
+        {
+          "file": "frame-00204.jpg",
+          "monotonic_s": 189608.788060239,
+          "phase": "dock_pickup",
+          "sha256": "d2d681c4e1bb8ddf9566bf23af1e5df71be71fab4bddf0dd17f32f8d3f904af9"
+        },
+        {
+          "file": "frame-00208.jpg",
+          "monotonic_s": 189610.125059622,
+          "phase": "dock_pickup",
+          "sha256": "9145803f659650a5f14638af09712dbce03262220841b5e8df11f15ed8013a26"
+        },
+        {
+          "file": "frame-00212.jpg",
+          "monotonic_s": 189611.462310862,
+          "phase": "dock_pickup",
+          "sha256": "6a3b6529f1cb5bd18979d5e4880269d92c8dd6e2c8ab769b04ed5660fc446282"
+        },
+        {
+          "file": "frame-00216.jpg",
+          "monotonic_s": 189612.798084986,
+          "phase": "dock_pickup",
+          "sha256": "eab65fa9b11dc8b653eb521a70a7deca179d2eebbac4dab1b54d5b6bc2a430c7"
+        },
+        {
+          "file": "frame-00220.jpg",
+          "monotonic_s": 189614.132922545,
+          "phase": "dock_pickup",
+          "sha256": "be8505c6c76dca5876544e37a50c2cece1062d784cf93de141bbb72159050c6d"
+        },
+        {
+          "file": "frame-00224.jpg",
+          "monotonic_s": 189615.467360373,
+          "phase": "dock_pickup",
+          "sha256": "bc72516a9a27308ea9d38eaed2089d13bb48a5044521c857c07b5d31c3873901"
+        },
+        {
+          "file": "frame-00228.jpg",
+          "monotonic_s": 189616.802337998,
+          "phase": "dock_pickup",
+          "sha256": "f99811c8c0f045cc6d89e4a448cd9c3a8c1255f71b7c0290374e4438e952a52c"
+        },
+        {
+          "file": "frame-00232.jpg",
+          "monotonic_s": 189618.138659828,
+          "phase": "dock_pickup",
+          "sha256": "02bd398273e630d66d1c08385249a3e30c1d9033aeac98b4a76712ca73916f35"
+        },
+        {
+          "file": "frame-00236.jpg",
+          "monotonic_s": 189619.473059625,
+          "phase": "dock_pickup",
+          "sha256": "02d0c26c065bfd74b8104a6bf44fcbedd57d5b4cd41c309d2eb8162bdc27e6af"
+        },
+        {
+          "file": "frame-00240.jpg",
+          "monotonic_s": 189620.81006319,
+          "phase": "dock_pickup",
+          "sha256": "e1f5b225d4f2f7fd95e983e1053d6e92ccda2b0c11e2d7efd452fe7d1cd2351f"
+        },
+        {
+          "file": "frame-00244.jpg",
+          "monotonic_s": 189622.146982216,
+          "phase": "dock_pickup",
+          "sha256": "22a087f22617e00bd93e53b06e1433f3635682cd3898ee185012ac940f7a4099"
+        },
+        {
+          "file": "frame-00248.jpg",
+          "monotonic_s": 189623.481684159,
+          "phase": "dock_pickup",
+          "sha256": "e6ba1f997780c398be7b1cd6e8819d109fcfc6847953da740754a1b9b27003bf"
+        },
+        {
+          "file": "frame-00252.jpg",
+          "monotonic_s": 189624.816095726,
+          "phase": "dock_pickup",
+          "sha256": "4611fe97104f6622d4da92e72fcab18675bd9b46e37ee2a70342bcd87abf15a8"
+        },
+        {
+          "file": "frame-00256.jpg",
+          "monotonic_s": 189626.153067854,
+          "phase": "dock_pickup",
+          "sha256": "243bd579d15b0262dbe89e59612f66a7d1d7687629ed48a8fcd59cbdc72fea7c"
+        },
+        {
+          "file": "frame-00260.jpg",
+          "monotonic_s": 189627.488631539,
+          "phase": "dock_pickup",
+          "sha256": "56510a6a223ae89fc6529a395ab6c7ee1a3eb003a6fc6ca7317b9e61970f2efc"
+        },
+        {
+          "file": "frame-00264.jpg",
+          "monotonic_s": 189628.825687262,
+          "phase": "dock_pickup",
+          "sha256": "d5ec3bad3c683b48a78b08493f2713c3f42a9f9f2c0bed9d8233b13731933029"
+        },
+        {
+          "file": "frame-00268.jpg",
+          "monotonic_s": 189630.160671755,
+          "phase": "dock_pickup",
+          "sha256": "25c2479f2f52695bc68a101bd9dd1f2ba57c2d32676d362bb7ea2ef7c8df1337"
+        },
+        {
+          "file": "frame-00272.jpg",
+          "monotonic_s": 189631.495686423,
+          "phase": "dock_pickup",
+          "sha256": "791dd18d73fc16e4b5ddf0d3f4bad9428709f812956d290a6b9ad98884b7a678"
+        },
+        {
+          "file": "frame-00276.jpg",
+          "monotonic_s": 189632.830925677,
+          "phase": "dock_pickup",
+          "sha256": "47c3333b96d2ffa05a0deea1b16294ab0eca4a76fab1dc031346736619dfdd9f"
+        },
+        {
+          "file": "frame-00280.jpg",
+          "monotonic_s": 189634.166908547,
+          "phase": "dock_pickup",
+          "sha256": "3424a50e899857203c82a89f79ba1641c674a8020c6fe1387c8b51a9b736a8ba"
+        },
+        {
+          "file": "frame-00284.jpg",
+          "monotonic_s": 189635.504059768,
+          "phase": "dock_pickup",
+          "sha256": "1baf62d5c2f811f3022541a433e9f7e05b464640a9119c7a03fe6cc88b5a7011"
+        },
+        {
+          "file": "frame-00288.jpg",
+          "monotonic_s": 189636.842461866,
+          "phase": "dock_pickup",
+          "sha256": "64b49660f9b56c0d83582ecb55ef5b35ff38522f4cbbc522734363d8158076db"
+        },
+        {
+          "file": "frame-00292.jpg",
+          "monotonic_s": 189638.179702661,
+          "phase": "dock_pickup",
+          "sha256": "081ba6f091f247f02c66e3096c2b3376fb4dc8cbaa004bf78b32c54a348bce82"
+        },
+        {
+          "file": "frame-00296.jpg",
+          "monotonic_s": 189639.513950587,
+          "phase": "dock_pickup",
+          "sha256": "82c9024939036b4f5c2804cceb7cd30acfd15fdea641716e280e3e49ec2a2b93"
+        },
+        {
+          "file": "frame-00300.jpg",
+          "monotonic_s": 189640.851639864,
+          "phase": "dock_pickup",
+          "sha256": "c32dc93e0a455cba354266aa9a97c0564ef0bf0a98594f81c9f0b01c7aa37a22"
+        },
+        {
+          "file": "frame-00304.jpg",
+          "monotonic_s": 189642.186682653,
+          "phase": "dock_pickup",
+          "sha256": "ac8dce284bad42156e04076edcd5daa5d38acf6abfd53a1c6cb75de8c2b03195"
+        },
+        {
+          "file": "frame-00308.jpg",
+          "monotonic_s": 189643.523078708,
+          "phase": "dock_pickup",
+          "sha256": "90aaa7dc304984e5e155b7948e641f473e23b77a8cc2e10fb9a370f579f1b695"
+        },
+        {
+          "file": "frame-00312.jpg",
+          "monotonic_s": 189644.858785659,
+          "phase": "dock_pickup",
+          "sha256": "5f809167fbea4a6c4e605d13cdace28bd3379c866863f88ce3042d038a033703"
+        },
+        {
+          "file": "frame-00316.jpg",
+          "monotonic_s": 189646.193072863,
+          "phase": "dock_pickup",
+          "sha256": "6a7b5bb14db7832abd956a6da7f05da257a6ae47d85cd4e300d582ad6d6a0f38"
+        },
+        {
+          "file": "frame-00320.jpg",
+          "monotonic_s": 189647.533631162,
+          "phase": "dock_pickup",
+          "sha256": "8d8eb9ed77dd976fa17b0cf635950653212e83a692c659c2b379e7f03d41f992"
+        },
+        {
+          "file": "frame-00324.jpg",
+          "monotonic_s": 189648.867884897,
+          "phase": "dock_pickup",
+          "sha256": "6b6e62e5fac2a81a0fed73685e720f749dda1d83e4be5cd02a3c4a94aaf1854e"
+        },
+        {
+          "file": "frame-00328.jpg",
+          "monotonic_s": 189650.205231548,
+          "phase": "dock_pickup",
+          "sha256": "2328889264aaf3a1c601919842352263dc51220cf4ac6256fe50d725504fa94f"
+        },
+        {
+          "file": "frame-00332.jpg",
+          "monotonic_s": 189651.543316432,
+          "phase": "dock_pickup",
+          "sha256": "2f65fc301d4df25e4b7a9680058a9341633d3db89e502c6a9f3cbb444f53303b"
+        },
+        {
+          "file": "frame-00336.jpg",
+          "monotonic_s": 189652.877733986,
+          "phase": "dock_pickup",
+          "sha256": "8b75d483ede2bab94a7753191d2974aa4f177c961e8f0ad0eff5e613732791a6"
+        },
+        {
+          "file": "frame-00340.jpg",
+          "monotonic_s": 189654.21204083,
+          "phase": "reach",
+          "sha256": "bb5e080b1492ac4b431bfbeefdd4dd529d6fbff8313ff6f3d15f35c35c274a9d"
+        },
+        {
+          "file": "frame-00344.jpg",
+          "monotonic_s": 189655.552063352,
+          "phase": "reach",
+          "sha256": "c55f702edcdba7419adb1cbc2f287c82da1fe0d402a476014d60b52bceaa6aab"
+        },
+        {
+          "file": "frame-00348.jpg",
+          "monotonic_s": 189656.887976946,
+          "phase": "reach",
+          "sha256": "0581766d9a5342d63b927db190407132192e1291de8296d073a72baf679c1e92"
+        },
+        {
+          "file": "frame-00352.jpg",
+          "monotonic_s": 189658.225637452,
+          "phase": "lift",
+          "sha256": "b39e197b34e3c73c546e03db7b19287e5d14a554dfddc5a1bce97643b30a0f1a"
+        },
+        {
+          "file": "frame-00356.jpg",
+          "monotonic_s": 189659.559883902,
+          "phase": "lift",
+          "sha256": "630271813f02d09f4751fd9f2fc768cfe813ad4baf057cb91676a3e4bba6ec26"
+        },
+        {
+          "file": "frame-00360.jpg",
+          "monotonic_s": 189660.895093841,
+          "phase": "lift",
+          "sha256": "faa7fb2c6ba77c8364ef52940d07df2158c62eda7c3e95cb9f56d026f2ac280c"
+        },
+        {
+          "file": "frame-00364.jpg",
+          "monotonic_s": 189662.233107372,
+          "phase": "retreat_pickup",
+          "sha256": "b09633b63e57878ec816f110248438c27fc920a1e69d2c55fc83f6ba22b38b1f"
+        },
+        {
+          "file": "frame-00368.jpg",
+          "monotonic_s": 189663.571698666,
+          "phase": "retreat_pickup",
+          "sha256": "77288e4cd2982be36097cb041d46cca10bf350a81bf39f689c5c21a3e7f2c4e0"
+        },
+        {
+          "file": "frame-00372.jpg",
+          "monotonic_s": 189664.90706478,
+          "phase": "retreat_pickup",
+          "sha256": "ec08c8e18547f73fbf55221ce895d2ec747151aae2c7788d199ebc22b5767e88"
+        },
+        {
+          "file": "frame-00376.jpg",
+          "monotonic_s": 189666.246273081,
+          "phase": "retreat_pickup",
+          "sha256": "f9b0731501b99450bc56f25be160a7e5997091df9c79445b37faecb3049f4c6c"
+        },
+        {
+          "file": "frame-00380.jpg",
+          "monotonic_s": 189667.589450886,
+          "phase": "retreat_pickup",
+          "sha256": "a3ed7fbe936d9d782e83a50bbc1d80c6412664716581399dce8cf347ba625baa"
+        },
+        {
+          "file": "frame-00384.jpg",
+          "monotonic_s": 189668.925651972,
+          "phase": "retreat_pickup",
+          "sha256": "b0552104095721a628f552cf7a34bb6efac7a4fbbf1aea2f8e5863394ce07d80"
+        },
+        {
+          "file": "frame-00388.jpg",
+          "monotonic_s": 189670.262808332,
+          "phase": "retreat_pickup",
+          "sha256": "ec3891d7f85fde571ff40d06b86ccff010a876eaf35f9eb291b18b9e12847d27"
+        },
+        {
+          "file": "frame-00392.jpg",
+          "monotonic_s": 189671.598076522,
+          "phase": "wait_localization",
+          "sha256": "8208ce60421cf5d3403ffc079ee5de045eef727b78427ac788cd90108ef10d3a"
+        },
+        {
+          "file": "frame-00396.jpg",
+          "monotonic_s": 189672.932499727,
+          "phase": "navigate_delivery",
+          "sha256": "13db5d5f3ddd0b57404b071801f83da44da8c978ab5cbf2408c51868fca5d95d"
+        },
+        {
+          "file": "frame-00397.jpg",
+          "monotonic_s": 189673.266066442,
+          "phase": "navigate_delivery",
+          "sha256": "1f818a25a4d70a41204cdc3b2e8c55be1a4ce39858030a026d30eaee99ec631b"
+        }
+      ],
+      "displayed_frames": 102,
+      "duration_ms": 20170,
+      "success": false,
+      "mission_complete": false,
+      "error": "navigation succeeded outside fresh sensed staging tolerance",
+      "result_sha256": "1bc6e3140bb6717b399e262a9a8d906dc19258fa7af70785541556b42e1bf71a"
+    },
+    {
+      "file": "pickup-and-lift.gif",
+      "sha256": "a18dc6ae06e6dddf0de9161bf2e0e54217bcf84e6fb23275e9397d83a54b4be5",
+      "bytes": 4818400,
+      "run": "ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/20261014T164500Z-readme-settling",
+      "capture_sha256": "38b88374e40ed1c77167689b62d6a9248ee704a1e4c0193026f4a28aa03cab8b",
+      "crop": [
+        420,
+        240,
+        750,
+        500
+      ],
+      "playback": "sampled time-lapse with 3-second outcome card",
+      "frame_stride": 1,
+      "source_frames": [
+        {
+          "file": "frame-00175.jpg",
+          "monotonic_s": 189487.235060658,
+          "phase": "reach",
+          "sha256": "7102495d8120bc6702bd2bf1807fc2973ae5c42790fef0b6c3948ca75ee74545"
+        },
+        {
+          "file": "frame-00176.jpg",
+          "monotonic_s": 189487.568701827,
+          "phase": "reach",
+          "sha256": "6bb4df97269ff62714bdf284b353dde4fe7bf0afc5c802775962308aa516c6ad"
+        },
+        {
+          "file": "frame-00177.jpg",
+          "monotonic_s": 189487.903066531,
+          "phase": "reach",
+          "sha256": "525dc4bf84e10feeea9cc9d5e77d18e5dffd66f392d34e62149f3197a51ecca0"
+        },
+        {
+          "file": "frame-00178.jpg",
+          "monotonic_s": 189488.236686065,
+          "phase": "reach",
+          "sha256": "09376890b5839a4e4af98a7799d091d81f09dcc2196c5bd76dcfc30dafaae51a"
+        },
+        {
+          "file": "frame-00179.jpg",
+          "monotonic_s": 189488.570292375,
+          "phase": "reach",
+          "sha256": "5b5f2deaff804a10c5ca07f2cf5e75b87688c9cf017300fd9de4b89ad19b06ce"
+        },
+        {
+          "file": "frame-00180.jpg",
+          "monotonic_s": 189488.903883483,
+          "phase": "reach",
+          "sha256": "e1020c47397108609b3f8a58881d91bf8da374db1133318b8347f0c5f22a534d"
+        },
+        {
+          "file": "frame-00181.jpg",
+          "monotonic_s": 189489.237451071,
+          "phase": "reach",
+          "sha256": "4b12ef92376ed7c6c63cf95df486f41ff6b53543359c03e93fab6c6cce3ebdf2"
+        },
+        {
+          "file": "frame-00182.jpg",
+          "monotonic_s": 189489.571816254,
+          "phase": "reach",
+          "sha256": "838263fb7deb991d46981b82f27129549d373a37f3dbae8cee1f3b0c8085547b"
+        },
+        {
+          "file": "frame-00183.jpg",
+          "monotonic_s": 189489.906089918,
+          "phase": "reach",
+          "sha256": "4ee345979e180e180c2db6d0fcb1e5fb54c1c3456c1c7f4fc537cb2916aafea6"
+        },
+        {
+          "file": "frame-00184.jpg",
+          "monotonic_s": 189490.244062597,
+          "phase": "reach",
+          "sha256": "0bf26731c4ad15fcaa9893a380cb0a255f11a505fd02fff878788c9854f095c5"
+        },
+        {
+          "file": "frame-00185.jpg",
+          "monotonic_s": 189490.577690318,
+          "phase": "reach",
+          "sha256": "9b8681a1d21e774551d408b54350b111b777d771fe44015572375ecd9a8f8ba8"
+        },
+        {
+          "file": "frame-00186.jpg",
+          "monotonic_s": 189490.9113308,
+          "phase": "lift",
+          "sha256": "c139ef630809b9c9aab391ff3ccb273677b6a2be8e76caa1860b94ab23644199"
+        },
+        {
+          "file": "frame-00187.jpg",
+          "monotonic_s": 189491.244950163,
+          "phase": "lift",
+          "sha256": "9c2de7df51ec1fb4f001e24a20cecc38b42f0af8de489b31494127e71a5f1cd6"
+        },
+        {
+          "file": "frame-00188.jpg",
+          "monotonic_s": 189491.578566827,
+          "phase": "lift",
+          "sha256": "e32eab52bd32b384f3c501ffbfb2aab28e0bd87ba96b96b14d7129a91d06cb3f"
+        },
+        {
+          "file": "frame-00189.jpg",
+          "monotonic_s": 189491.912136157,
+          "phase": "lift",
+          "sha256": "40777d5366b34378b37da22e044ab49211424449cc062eebcff2955376fb255a"
+        },
+        {
+          "file": "frame-00190.jpg",
+          "monotonic_s": 189492.246387474,
+          "phase": "lift",
+          "sha256": "ee4c021457dfe73b720e64eefe8b95de83da5e0d9b4feef00957bae8fa9fa0b5"
+        },
+        {
+          "file": "frame-00191.jpg",
+          "monotonic_s": 189492.579977389,
+          "phase": "lift",
+          "sha256": "7bf078b9e45ac8cdc80b19653b30d08fa748cc7cf7b4a18754cec4f4059ab37a"
+        },
+        {
+          "file": "frame-00192.jpg",
+          "monotonic_s": 189492.913567991,
+          "phase": "lift",
+          "sha256": "550337f71d98d53d7d6473bf4fde1a7281dce1f5c215beb3e7f6d119c8150377"
+        },
+        {
+          "file": "frame-00193.jpg",
+          "monotonic_s": 189493.247065758,
+          "phase": "lift",
+          "sha256": "d1984c5cfe5c997edd26a20660f218e4713694052a9f9f22f8616853af20e25e"
+        },
+        {
+          "file": "frame-00194.jpg",
+          "monotonic_s": 189493.580782361,
+          "phase": "lift",
+          "sha256": "42ae2b88538663a780d6c8ff2465a7b21feff086373297a13d21882a8aecd143"
+        },
+        {
+          "file": "frame-00195.jpg",
+          "monotonic_s": 189493.916052926,
+          "phase": "lift",
+          "sha256": "79f9644d9291325a632d9d4998f6b854ef36798809d26ff8b1697ba46f593616"
+        },
+        {
+          "file": "frame-00196.jpg",
+          "monotonic_s": 189494.249645845,
+          "phase": "lift",
+          "sha256": "4f8def1c666725d76edbb5712a08d1085e4fe009059a6fec91a4624e41038136"
+        },
+        {
+          "file": "frame-00197.jpg",
+          "monotonic_s": 189494.586077179,
+          "phase": "lift",
+          "sha256": "0d4f25e78de6d73616ff5f1af4daac582e51737e14d09f7dbfdbcfffb7f1b9ec"
+        },
+        {
+          "file": "frame-00198.jpg",
+          "monotonic_s": 189494.919695721,
+          "phase": "lift",
+          "sha256": "d7315898a85ec8aeb1ef4366f72ce2964c492d5780268c3a436fbe6a2d956608"
+        },
+        {
+          "file": "frame-00199.jpg",
+          "monotonic_s": 189495.254096175,
+          "phase": "retreat_pickup",
+          "sha256": "00dc825371a1d04eeebd7c6d479efcdc65ff616dc37a24df6cffc14d4d6beddb"
+        },
+        {
+          "file": "frame-00200.jpg",
+          "monotonic_s": 189495.589697972,
+          "phase": "retreat_pickup",
+          "sha256": "6836b76e711de0fb137904720490c5668e9bdbd0e296a83f99ec9f0057851863"
+        },
+        {
+          "file": "frame-00201.jpg",
+          "monotonic_s": 189495.923375454,
+          "phase": "retreat_pickup",
+          "sha256": "409a0c2b80c99716aafda9e5c6982265703a69f541a40521e0a119f033e0a07f"
+        },
+        {
+          "file": "frame-00202.jpg",
+          "monotonic_s": 189496.256873985,
+          "phase": "retreat_pickup",
+          "sha256": "0e744e15fbd375700a4e84254a56d191d50aa7eeec14560889dbd4b92cbd9a80"
+        },
+        {
+          "file": "frame-00203.jpg",
+          "monotonic_s": 189496.59052435,
+          "phase": "retreat_pickup",
+          "sha256": "29d7b59f773376752bb582a19be0958c422e6bd9fbd8b1bb1368a18a06db2f96"
+        },
+        {
+          "file": "frame-00204.jpg",
+          "monotonic_s": 189496.92662898,
+          "phase": "retreat_pickup",
+          "sha256": "2e73d5245286f108ebe3a888941cbfa018beb750e5d391fa9f7530317d293ac9"
+        },
+        {
+          "file": "frame-00205.jpg",
+          "monotonic_s": 189497.260085005,
+          "phase": "retreat_pickup",
+          "sha256": "6d57de1f41b5f8259746fa2fe7d2e5fe009b6de91ae13c673fb7fdbc6088efb6"
+        },
+        {
+          "file": "frame-00206.jpg",
+          "monotonic_s": 189497.595058058,
+          "phase": "retreat_pickup",
+          "sha256": "4906935e4eb9d42418a2af13faec086ee9d403855dba1b8df2a1a579e9e65edc"
+        },
+        {
+          "file": "frame-00207.jpg",
+          "monotonic_s": 189497.92867733,
+          "phase": "retreat_pickup",
+          "sha256": "686e3621f3abe5980a1c53b87d9e9b622ac932f67265200f4fa4a592919b6c3d"
+        },
+        {
+          "file": "frame-00208.jpg",
+          "monotonic_s": 189498.262263401,
+          "phase": "retreat_pickup",
+          "sha256": "9f70011b00fdae13112cb094d6ece01b68d4f4481fc2fd17e3d4c4be08737960"
+        },
+        {
+          "file": "frame-00209.jpg",
+          "monotonic_s": 189498.595774857,
+          "phase": "retreat_pickup",
+          "sha256": "a97299527079908f6aa22d67efb314048a819262a3c5586054b86ef6d1161ede"
+        },
+        {
+          "file": "frame-00210.jpg",
+          "monotonic_s": 189498.929393323,
+          "phase": "retreat_pickup",
+          "sha256": "068fae7ccaee88e9e54a1f9db1700790393e70f7ccea806d541f9f22e3b2df05"
+        },
+        {
+          "file": "frame-00211.jpg",
+          "monotonic_s": 189499.263020577,
+          "phase": "retreat_pickup",
+          "sha256": "3b0b27a4e4ee9a60232462e0b75f54a5b98e0bcc609a5485d02c4a76268104ea"
+        },
+        {
+          "file": "frame-00212.jpg",
+          "monotonic_s": 189499.59666907,
+          "phase": "retreat_pickup",
+          "sha256": "cdc6f2269c5e687e068ad7a3585adfb9ae040bc7a9f8c105340f4deb01d85d81"
+        },
+        {
+          "file": "frame-00213.jpg",
+          "monotonic_s": 189499.932779315,
+          "phase": "retreat_pickup",
+          "sha256": "9e1fd0d30db4111af0cb00bd7cf6a71943d126c4b9dfa84ea729919cd846bd5f"
+        },
+        {
+          "file": "frame-00214.jpg",
+          "monotonic_s": 189500.266483924,
+          "phase": "retreat_pickup",
+          "sha256": "79b9549e89a8a0e3cb803bc93ecbeb43efbb5588ea06d10354181e35f6ffe3ff"
+        },
+        {
+          "file": "frame-00215.jpg",
+          "monotonic_s": 189500.600066471,
+          "phase": "retreat_pickup",
+          "sha256": "cf32b578e46af0e789e250384b36400d64f6e3a9f40760055fb951ff9531123a"
+        },
+        {
+          "file": "frame-00216.jpg",
+          "monotonic_s": 189500.933693699,
+          "phase": "retreat_pickup",
+          "sha256": "66d8f715df16c8cc87876a52fde029465562e7f6ac245df67e00ae423251c720"
+        },
+        {
+          "file": "frame-00217.jpg",
+          "monotonic_s": 189501.267311437,
+          "phase": "retreat_pickup",
+          "sha256": "ae7cf508c4e7e8f46d0f16229aa0d2645033d0fa89f69aa86e43747fc6663f0f"
+        },
+        {
+          "file": "frame-00218.jpg",
+          "monotonic_s": 189501.600935814,
+          "phase": "retreat_pickup",
+          "sha256": "558e3a54eb1dae141f0b4b34eaca793ee5e2ad1a0c395090eb4703b2d7a99f52"
+        },
+        {
+          "file": "frame-00219.jpg",
+          "monotonic_s": 189501.934532603,
+          "phase": "retreat_pickup",
+          "sha256": "5ce56356c850ff9d7f8debf299c97412f6a4d1500135a798f34e42592fe3492d"
+        },
+        {
+          "file": "frame-00220.jpg",
+          "monotonic_s": 189502.268062543,
+          "phase": "retreat_pickup",
+          "sha256": "6ae1d60ce2e2d9d94185cd57eff3c2d86d711fc1f8b36198fb910f52b9b3d41e"
+        },
+        {
+          "file": "frame-00221.jpg",
+          "monotonic_s": 189502.601684188,
+          "phase": "retreat_pickup",
+          "sha256": "800fb38d98030d7b228005c54f37478d1bb8a0c70e3c18783cdfc9edd88d7588"
+        },
+        {
+          "file": "frame-00222.jpg",
+          "monotonic_s": 189502.936085073,
+          "phase": "retreat_pickup",
+          "sha256": "c8ebabd1ed16370bf0ed4973822eea00c5c14b1dc566c8f84239733351a08dcf"
+        },
+        {
+          "file": "frame-00223.jpg",
+          "monotonic_s": 189503.272062659,
+          "phase": "retreat_pickup",
+          "sha256": "abfb628fb4d1676c3218a7d1975b46ec6e8a35f7c7e9b42ea80bfc4a17bc7bcb"
+        },
+        {
+          "file": "frame-00224.jpg",
+          "monotonic_s": 189503.606076126,
+          "phase": "retreat_pickup",
+          "sha256": "c51ed917a0afd58b8f5e9b77817a521c0e7656562ec364e0863cf6de3d36c582"
+        },
+        {
+          "file": "frame-00225.jpg",
+          "monotonic_s": 189503.939688578,
+          "phase": "retreat_pickup",
+          "sha256": "5dd44691d7942f4864210cc444d2442e26740669e6c92db49ade64dc13f7e557"
+        },
+        {
+          "file": "frame-00226.jpg",
+          "monotonic_s": 189504.274068991,
+          "phase": "retreat_pickup",
+          "sha256": "42645eae2a4ff0e855c7fe0b1f47a475eab04b6d540d5e0f102f5512c3341a89"
+        },
+        {
+          "file": "frame-00227.jpg",
+          "monotonic_s": 189504.610080434,
+          "phase": "retreat_pickup",
+          "sha256": "8d0d7803e6f4c04f969034cbd8ec7912880846e68c5e7aef9f1b76ded81deb04"
+        },
+        {
+          "file": "frame-00228.jpg",
+          "monotonic_s": 189504.943682358,
+          "phase": "retreat_pickup",
+          "sha256": "11608f9675efa8cfd872504b30843cc2348518d8448dc9137167f6c8550ce17d"
+        },
+        {
+          "file": "frame-00229.jpg",
+          "monotonic_s": 189505.277275098,
+          "phase": "retreat_pickup",
+          "sha256": "95ad7944798fe1fb7de2677b874c43c0b548790be1d1fefc89fbafcad4ec340e"
+        },
+        {
+          "file": "frame-00230.jpg",
+          "monotonic_s": 189505.610884555,
+          "phase": "retreat_pickup",
+          "sha256": "350e09d30a52668a52eec5df07c5bfd0f5ecd312f96bf08755b1da71423eab1e"
+        }
+      ],
+      "displayed_frames": 57,
+      "duration_ms": 12520,
+      "success": false,
+      "mission_complete": false,
+      "error": "sustained measured body instability",
+      "result_sha256": "2ccb8c8856d9d992241cb44a933c3bbafbcaf663f4d36ebb480c46b22b57da77"
+    },
+    {
+      "file": "loaded-transport.gif",
+      "sha256": "46ff92989f995932882b296a3d0314bb4e2062d17d461bf5a8fef0b4decdf76a",
+      "bytes": 2432704,
+      "run": "ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/20261014T164700Z-readme-delay",
+      "capture_sha256": "586e810a60cb1f7394058ad5f94025abb7d36c04390c54466e5ba031de4313a5",
+      "crop": [
+        400,
+        150,
+        820,
+        510
+      ],
+      "playback": "sampled time-lapse with 3-second outcome card",
+      "frame_stride": 1,
+      "source_frames": [
+        {
+          "file": "frame-00362.jpg",
+          "monotonic_s": 189661.564060325,
+          "phase": "retreat_pickup",
+          "sha256": "4419f2abcd9c4c37b6422a6399d9d8489f32933b39384fc91caa8c9022db545b"
+        },
+        {
+          "file": "frame-00363.jpg",
+          "monotonic_s": 189661.897594722,
+          "phase": "retreat_pickup",
+          "sha256": "0fc7c1f856fbc52f35a284fa329d77e662d3a694b0389ef5469c82056a567c18"
+        },
+        {
+          "file": "frame-00364.jpg",
+          "monotonic_s": 189662.233107372,
+          "phase": "retreat_pickup",
+          "sha256": "b09633b63e57878ec816f110248438c27fc920a1e69d2c55fc83f6ba22b38b1f"
+        },
+        {
+          "file": "frame-00365.jpg",
+          "monotonic_s": 189662.570115878,
+          "phase": "retreat_pickup",
+          "sha256": "7cd291a3edd41a3862678934e439f29cf1aa8bd0329e03e723751a14e218c9d2"
+        },
+        {
+          "file": "frame-00366.jpg",
+          "monotonic_s": 189662.904430428,
+          "phase": "retreat_pickup",
+          "sha256": "2731a598eac2eeb315bfdb409d3c8a185230821299e7549e68deeca0ce71c279"
+        },
+        {
+          "file": "frame-00367.jpg",
+          "monotonic_s": 189663.238067889,
+          "phase": "retreat_pickup",
+          "sha256": "b407f4a82de917d97c59bcb20d0a02a620b4dccfe307291b541329a808fa4e2e"
+        },
+        {
+          "file": "frame-00368.jpg",
+          "monotonic_s": 189663.571698666,
+          "phase": "retreat_pickup",
+          "sha256": "77288e4cd2982be36097cb041d46cca10bf350a81bf39f689c5c21a3e7f2c4e0"
+        },
+        {
+          "file": "frame-00369.jpg",
+          "monotonic_s": 189663.905320963,
+          "phase": "retreat_pickup",
+          "sha256": "1bf9df05fc951c93463aa02fe4b2f28f78a1a980a34d3e52c1891a27995e0e8a"
+        },
+        {
+          "file": "frame-00370.jpg",
+          "monotonic_s": 189664.238917811,
+          "phase": "retreat_pickup",
+          "sha256": "a472bda8a8a91fae53f19282f097321fcd1fcf6ed33e1aa6ec80cd3b0c862e87"
+        },
+        {
+          "file": "frame-00371.jpg",
+          "monotonic_s": 189664.572371511,
+          "phase": "retreat_pickup",
+          "sha256": "c617f7cdfd2a6c5d72875ff0adb9ca2c1ef3b648a8d6138f0b8caaf86e8daaab"
+        },
+        {
+          "file": "frame-00372.jpg",
+          "monotonic_s": 189664.90706478,
+          "phase": "retreat_pickup",
+          "sha256": "ec08c8e18547f73fbf55221ce895d2ec747151aae2c7788d199ebc22b5767e88"
+        },
+        {
+          "file": "frame-00373.jpg",
+          "monotonic_s": 189665.24290407,
+          "phase": "retreat_pickup",
+          "sha256": "fdcb25f79b4b34e7da08418c8f35cd936a7b7bbaa6c066e029d20efe85c95e0f"
+        },
+        {
+          "file": "frame-00374.jpg",
+          "monotonic_s": 189665.579140241,
+          "phase": "retreat_pickup",
+          "sha256": "edfb48dc82d336cb14efb92e8833e7288fae1d1baeea02fd687326d45b619cf3"
+        },
+        {
+          "file": "frame-00375.jpg",
+          "monotonic_s": 189665.912690217,
+          "phase": "retreat_pickup",
+          "sha256": "c251c90dab16df713e90a210c4edf5bad9fba2b0c2a1137b3ea49ec38a083270"
+        },
+        {
+          "file": "frame-00376.jpg",
+          "monotonic_s": 189666.246273081,
+          "phase": "retreat_pickup",
+          "sha256": "f9b0731501b99450bc56f25be160a7e5997091df9c79445b37faecb3049f4c6c"
+        },
+        {
+          "file": "frame-00377.jpg",
+          "monotonic_s": 189666.587717834,
+          "phase": "retreat_pickup",
+          "sha256": "2ea6761adf704d8d0b840f5ca2bceb4ad8e340f801c4acdabb766fba8869e855"
+        },
+        {
+          "file": "frame-00378.jpg",
+          "monotonic_s": 189666.921344362,
+          "phase": "retreat_pickup",
+          "sha256": "9e2315dd53e28e34f970deadc07b7cc013f03f0719b79ae814c0f69c43c6c463"
+        },
+        {
+          "file": "frame-00379.jpg",
+          "monotonic_s": 189667.254947326,
+          "phase": "retreat_pickup",
+          "sha256": "7a7d3996e883cfa79bb4cfc5e21927d0c5810e3da6add080d82638f7e07db756"
+        },
+        {
+          "file": "frame-00380.jpg",
+          "monotonic_s": 189667.589450886,
+          "phase": "retreat_pickup",
+          "sha256": "a3ed7fbe936d9d782e83a50bbc1d80c6412664716581399dce8cf347ba625baa"
+        },
+        {
+          "file": "frame-00381.jpg",
+          "monotonic_s": 189667.925068218,
+          "phase": "retreat_pickup",
+          "sha256": "d44624907fbdcab5de7377eb238edaeb80aaa922f03bdf42e73c0df6bab15ac2"
+        },
+        {
+          "file": "frame-00382.jpg",
+          "monotonic_s": 189668.258505991,
+          "phase": "retreat_pickup",
+          "sha256": "c0af930e22f3dc02197b7528d632a2ac7a63640a5ba9ce7287d3c77e63097bd9"
+        },
+        {
+          "file": "frame-00383.jpg",
+          "monotonic_s": 189668.592064041,
+          "phase": "retreat_pickup",
+          "sha256": "42b1e36fcb13208c64885a4dcbfe7f79e204a9ef1f3bc1fe10cd1f41305c68a7"
+        },
+        {
+          "file": "frame-00384.jpg",
+          "monotonic_s": 189668.925651972,
+          "phase": "retreat_pickup",
+          "sha256": "b0552104095721a628f552cf7a34bb6efac7a4fbbf1aea2f8e5863394ce07d80"
+        },
+        {
+          "file": "frame-00385.jpg",
+          "monotonic_s": 189669.260827921,
+          "phase": "retreat_pickup",
+          "sha256": "d6b8f58ca2a796b789bbb81144993b699ef3b6403d6711f68ce5fce54930fe3f"
+        },
+        {
+          "file": "frame-00386.jpg",
+          "monotonic_s": 189669.594821333,
+          "phase": "retreat_pickup",
+          "sha256": "b7e6b0e25943edcffb3e470f624ea709f4a1ae89d5edcb695be638240f6210be"
+        },
+        {
+          "file": "frame-00387.jpg",
+          "monotonic_s": 189669.929191162,
+          "phase": "retreat_pickup",
+          "sha256": "0c58ad7e5792c17ea9578b090b24fbd29280508a4c6f59d94119ef0b11bc1ecd"
+        },
+        {
+          "file": "frame-00388.jpg",
+          "monotonic_s": 189670.262808332,
+          "phase": "retreat_pickup",
+          "sha256": "ec3891d7f85fde571ff40d06b86ccff010a876eaf35f9eb291b18b9e12847d27"
+        },
+        {
+          "file": "frame-00389.jpg",
+          "monotonic_s": 189670.596420377,
+          "phase": "retreat_pickup",
+          "sha256": "6d375bd42bf39f3ddb49f7b578501c68e35f9517f7261660933dedd23fde852f"
+        },
+        {
+          "file": "frame-00390.jpg",
+          "monotonic_s": 189670.930077294,
+          "phase": "retreat_pickup",
+          "sha256": "bbbd65d1acd54b43675e6788b885579b80af1b8b25e49646fcfde2c3d3a21aaf"
+        },
+        {
+          "file": "frame-00393.jpg",
+          "monotonic_s": 189671.931671791,
+          "phase": "navigate_delivery",
+          "sha256": "78b3048ae105e42befe80b9d59ee1d5f4b1fb3bc4de3ad183cde89c85ebbfe0e"
+        },
+        {
+          "file": "frame-00394.jpg",
+          "monotonic_s": 189672.265296263,
+          "phase": "navigate_delivery",
+          "sha256": "53907943a8b0a203a2482f7639df6f9e6ea32a8d9c6cfc36275196b7a7b1ff77"
+        },
+        {
+          "file": "frame-00395.jpg",
+          "monotonic_s": 189672.598894958,
+          "phase": "navigate_delivery",
+          "sha256": "4a4a45ff0b350182812b918547514f05d7fb81fe8552aa25924cf6c829cb20c3"
+        },
+        {
+          "file": "frame-00396.jpg",
+          "monotonic_s": 189672.932499727,
+          "phase": "navigate_delivery",
+          "sha256": "13db5d5f3ddd0b57404b071801f83da44da8c978ab5cbf2408c51868fca5d95d"
+        },
+        {
+          "file": "frame-00397.jpg",
+          "monotonic_s": 189673.266066442,
+          "phase": "navigate_delivery",
+          "sha256": "1f818a25a4d70a41204cdc3b2e8c55be1a4ce39858030a026d30eaee99ec631b"
+        }
+      ],
+      "displayed_frames": 35,
+      "duration_ms": 8780,
+      "success": false,
+      "mission_complete": false,
+      "error": "navigation succeeded outside fresh sensed staging tolerance",
+      "result_sha256": "1bc6e3140bb6717b399e262a9a8d906dc19258fa7af70785541556b42e1bf71a"
+    }
+  ],
+  "attempts": [
+    {
+      "run": "ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/20261014T164000Z-readme-dual",
+      "recorded_at": "2026-10-14T16:37:17.604992+00:00",
+      "command": [
+        "/usr/bin/python3",
+        "/home/david/unitree_g1_ros2_mujoco/scripts/run_transport_demo.py",
+        "--run-id",
+        "20261014T164000Z-readme-dual",
+        "--world",
+        "transport_dual",
+        "--task",
+        "all",
+        "--people",
+        "0",
+        "--seed",
+        "48",
+        "--duration",
+        "600",
+        "--carry-posture",
+        "payload_v1",
+        "--policy",
+        "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+        "--fast-start",
+        "--no-rviz"
+      ],
+      "capture_sha256": "825f2917aca52955c541641f82c714e56d58af602a8fd63e760552a2e4affeee",
+      "frame_count": 45,
+      "capture_errors": 1,
+      "returncode": 1,
+      "success": false,
+      "mission_complete": false,
+      "fallen": false,
+      "error": "base did not settle during braking: stale_state",
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_red",
+          "color": "red",
+          "verified": false,
+          "lift_m": 0.0,
+          "travel_m": 4.52660136925975e-12
+        },
+        {
+          "object_id": "box_blue",
+          "destination_id": "target_blue",
+          "color": "blue",
+          "verified": false,
+          "lift_m": 0.0,
+          "travel_m": 4.518623618846701e-12
+        }
+      ],
+      "events": [
+        {
+          "phase": "runtime_parameters",
+          "elapsed_s": 9.12320140999509,
+          "required_complete": true,
+          "sha256": "7434a32ab73166c2a4cd5c82ea45226648e795c8b6914aeb7ec12e38f98a86b3",
+          "incomplete_required_nodes": []
+        },
+        {
+          "phase": "survey_destination",
+          "elapsed_s": 12.357344313000795,
+          "destination_id": "target_red"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 12.358586565998849,
+          "object_id": "target_red"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 12.360760433977703,
+          "goal_odom": [
+            0.10651454064198333,
+            -0.02874353102229118,
+            0.728499990452664
+          ],
+          "start_pose": [
+            0.10651454064198333,
+            -0.02874353102229118,
+            -0.05689817294478415
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 19.70378158299718,
+          "brake_outcome": "stale_state",
+          "brake_elapsed_s": 1.5061149230168667
+        }
+      ],
+      "source_manifest": {
+        "world": "transport_dual",
+        "people": 0,
+        "seed": 48,
+        "duration_s": 600.0,
+        "build_reused": true,
+        "carry_posture": "payload_v1",
+        "people_clearance_extra_m": 0.0,
+        "navigation_profile_sha256": "7e15970996e71a99133c8590b36cacf937ba14d8705e972f66b1f8385b31a653",
+        "pedestrian_scenario": "social_natural_plaza",
+        "pedestrian_start_delay_s": 10.0,
+        "tracker_wall_evidence": true,
+        "tracker_body_wall_sheets": true,
+        "early_overtaking_avoidance": false,
+        "predictive_refuge": false,
+        "layout_seed": null,
+        "objective": {
+          "pairs": [
+            {
+              "object_id": "box_red",
+              "destination_id": "target_red",
+              "color": "red"
+            },
+            {
+              "object_id": "box_blue",
+              "destination_id": "target_blue",
+              "color": "blue"
+            }
+          ],
+          "task_seed": null,
+          "description": "Deliver all matching box/goal pairs",
+          "mode": "all"
+        },
+        "mission_kind": "transport",
+        "search_max_viewpoints": null,
+        "camera_pitch_deg": 25.0,
+        "settings": {
+          "policy_action_rate_limit": "0.0",
+          "policy_path": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+          "policy_profile": "unitree_rl_lab_g1_29dof",
+          "policy_obs_dim": "480",
+          "policy_action_dim": "29",
+          "mujoco_initial_keyframe": "transport_unitree_rl_lab_stand",
+          "max_lin_vel_y": "0.45",
+          "max_lin_vel_x": "0.65",
+          "nav2_observation_sources": "scan",
+          "nav2_max_vel_y": "0.35",
+          "nav2_min_vel_y": "-0.35",
+          "nav2_acc_lim_y": "0.60",
+          "nav2_decel_lim_y": "-0.60",
+          "nav2_vy_samples": "7",
+          "nav2_planner_plugin": "nav2_smac_planner/SmacPlanner2D",
+          "nav2_people_layer": "true",
+          "turning_arc_min_forward_speed": "0.0",
+          "turning_arc_min_yaw_speed": "0.0",
+          "max_ang_vel_z": "0.90",
+          "cmd_accel_yaw": "0.90",
+          "cmd_accel_x": "2.40",
+          "cmd_accel_y": "2.40",
+          "mujoco_pedestrian_scenario": "social_natural_plaza",
+          "mujoco_pedestrian_start_delay": "10.0",
+          "mujoco_pedestrian_start_gate": "false",
+          "onboard_only": "true",
+          "nav2_dynamic_replanning": "true",
+          "nav2_world_costmap": "false",
+          "nav2_static_scene_map": "false",
+          "tracker_use_sensor_input": "true",
+          "tracker_local_tracking_radius": "10.0",
+          "livox_scan_points": "2400",
+          "lidar_rate_hz": "15.0",
+          "publish_lidar_tf": "false",
+          "use_mujoco_lidar_pose": "false",
+          "use_cmd_vel_lidar_fallback": "false",
+          "run_slam_reset_monitor": "false",
+          "run_lidar_person_detector": "false",
+          "lidar_output_frame": "mujoco_livox_frame",
+          "show_mujoco_goal": "true",
+          "rviz_config": "/workspace/ros2_ws/src/unitree_g1_sim_bringup/rviz/g1_onboard_waypoints.rviz",
+          "social_navigation_params_file": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/20261014T164000Z-readme-dual/transport_navigation.yaml",
+          "mujoco_scene": "scene_29dof_transport_transport_dual.xml",
+          "mujoco_pedestrians_enable": "true",
+          "mujoco_pedestrians_count": "0",
+          "mujoco_pedestrian_seed": "48",
+          "run_nav2": "true",
+          "run_waypoint_explorer": "false",
+          "run_waypoint_patrol": "false",
+          "run_frontier_explorer": "false",
+          "run_human_aware_motion_planner": "true",
+          "run_human_collision_avoidance": "true",
+          "run_dynamic_obstacle_tracker": "true",
+          "run_arm_compositor": "true",
+          "run_sim_manipulation_io": "true",
+          "arm_compositor_goal_tolerance": "0.08",
+          "bridge_arm_kp_override": "160.0",
+          "bridge_arm_kd_override": "4.0",
+          "bridge_arm_gains_require_authority": "true",
+          "external_arm_observation_mask": "false",
+          "run_rviz": "false",
+          "publish_camera": "true",
+          "camera_width": "192",
+          "camera_height": "108",
+          "camera_rate_hz": "2.0",
+          "camera_mount_pitch_deg": "25.0",
+          "startup_current_pose_hold_time": "0.0",
+          "startup_blend_time": "0.0",
+          "startup_hold_time": "1.0",
+          "startup_max_recovery_time": "0.0",
+          "policy_action_ramp_time": "0.0",
+          "mujoco_reset_on_controller_start": "false",
+          "run_human_aware_run_logger": "true",
+          "human_aware_run_log_path": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/20261014T164000Z-readme-dual/trace.jsonl",
+          "policy_use_device_tick": "true",
+          "mujoco_application_timing": "false",
+          "arm_compositor_executor_threads": "2",
+          "arm_compositor_repeat_publish_period": "0.0",
+          "slam_loop_closing": "true"
+        },
+        "source_sha256": {
+          "scripts/run_transport_demo.py": "b1d1464e1d5c2932d1a28463aa5d6b789863197afb6c81e6eb34f444df856dee",
+          "scripts/transport_worlds.py": "2f0bec7ec4f153bf664fc95dad107367bd6718bf123e64836921802b0ca707d9",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "edb9bd8a357a467421e4bccaa0029f040c10a19b3f39272b328ce2aca7e1fb55",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "64c9e2410cd8b6f6f31314ea8f79ee6f350c668802c1180448e4493390e494aa",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "9280d4a61aaecb89259f1e063a9b27d1e3b59cd98395ae5bad0405cf938a01dd",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "8450cbb4117473056826beac9673dd8c27794393ba24710f6d66c45392b24fef",
+          "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+        }
+      },
+      "result_sha256": "ef4ec28363969cab698aee33055085e46d36e9272337d7d20f95181f4d64f518",
+      "source_provenance_sha256": "320a94e55dfd5b3fcb880298f1d6c7091a530390ad88fb1b29dc0b5c3859291f"
+    },
+    {
+      "run": "ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/20261014T164200Z-readme-contact",
+      "recorded_at": "2026-10-14T16:38:10.518271+00:00",
+      "command": [
+        "/usr/bin/python3",
+        "/home/david/unitree_g1_ros2_mujoco/scripts/run_transport_demo.py",
+        "--run-id",
+        "20261014T164200Z-readme-contact",
+        "--world",
+        "transport_dual",
+        "--task",
+        "red:red",
+        "--people",
+        "0",
+        "--seed",
+        "48",
+        "--duration",
+        "600",
+        "--carry-posture",
+        "payload_v1",
+        "--policy",
+        "vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+        "--fast-start",
+        "--no-rviz"
+      ],
+      "capture_sha256": "94385ae18fe8fd932acc44520bd3239be1a9b7063eaa4f3f18f9afc4a94208d4",
+      "frame_count": 40,
+      "capture_errors": 1,
+      "returncode": 1,
+      "success": false,
+      "mission_complete": false,
+      "fallen": false,
+      "error": "base did not settle during braking: timeout",
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_red",
+          "color": "red",
+          "destination_color": "red",
+          "verified": false,
+          "lift_m": 0.0,
+          "travel_m": 4.526601333610565e-12
+        }
+      ],
+      "events": [
+        {
+          "phase": "runtime_parameters",
+          "elapsed_s": 9.381562818016391,
+          "required_complete": true,
+          "sha256": "b2f1212a55b0cf3c58e5853850b3218c8edd473da91d6cde59753882779a7b05",
+          "incomplete_required_nodes": []
+        },
+        {
+          "phase": "survey_destination",
+          "elapsed_s": 12.874884706019657,
+          "destination_id": "target_red"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 12.878298816009192,
+          "object_id": "target_red"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 12.885700531012844,
+          "goal_odom": [
+            0.027423865878084017,
+            0.011542919492457334,
+            0.7084313561512401
+          ],
+          "start_pose": [
+            0.027423865878084017,
+            0.011542919492457334,
+            -0.0769668072462082
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 18.349271693004994,
+          "brake_outcome": "timeout",
+          "brake_elapsed_s": 1.5182962779945228
+        }
+      ],
+      "source_manifest": {
+        "world": "transport_dual",
+        "people": 0,
+        "seed": 48,
+        "duration_s": 600.0,
+        "build_reused": true,
+        "carry_posture": "payload_v1",
+        "people_clearance_extra_m": 0.0,
+        "navigation_profile_sha256": "3c20b55a91b027dcdcf65bc8b01493bd6206b3b3348a94b00d895d6c6f018ff1",
+        "pedestrian_scenario": "social_natural_plaza",
+        "pedestrian_start_delay_s": 10.0,
+        "tracker_wall_evidence": true,
+        "tracker_body_wall_sheets": true,
+        "early_overtaking_avoidance": false,
+        "predictive_refuge": false,
+        "layout_seed": null,
+        "objective": {
+          "pairs": [
+            {
+              "object_id": "box_red",
+              "destination_id": "target_red",
+              "color": "red",
+              "destination_color": "red"
+            }
+          ],
+          "task_seed": null,
+          "mode": "red:red",
+          "description": "Put the red box on the red goal"
+        },
+        "mission_kind": "transport",
+        "search_max_viewpoints": null,
+        "camera_pitch_deg": 25.0,
+        "settings": {
+          "policy_action_rate_limit": "0.0",
+          "policy_path": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+          "policy_profile": "unitree_rl_lab_g1_29dof",
+          "policy_obs_dim": "480",
+          "policy_action_dim": "29",
+          "mujoco_initial_keyframe": "transport_unitree_rl_lab_stand",
+          "max_lin_vel_y": "0.45",
+          "max_lin_vel_x": "0.65",
+          "nav2_observation_sources": "scan",
+          "nav2_max_vel_y": "0.35",
+          "nav2_min_vel_y": "-0.35",
+          "nav2_acc_lim_y": "0.60",
+          "nav2_decel_lim_y": "-0.60",
+          "nav2_vy_samples": "7",
+          "nav2_planner_plugin": "nav2_smac_planner/SmacPlanner2D",
+          "nav2_people_layer": "true",
+          "turning_arc_min_forward_speed": "0.0",
+          "turning_arc_min_yaw_speed": "0.0",
+          "max_ang_vel_z": "0.90",
+          "cmd_accel_yaw": "0.90",
+          "cmd_accel_x": "2.40",
+          "cmd_accel_y": "2.40",
+          "mujoco_pedestrian_scenario": "social_natural_plaza",
+          "mujoco_pedestrian_start_delay": "10.0",
+          "mujoco_pedestrian_start_gate": "false",
+          "onboard_only": "true",
+          "nav2_dynamic_replanning": "true",
+          "nav2_world_costmap": "false",
+          "nav2_static_scene_map": "false",
+          "tracker_use_sensor_input": "true",
+          "tracker_local_tracking_radius": "10.0",
+          "livox_scan_points": "2400",
+          "lidar_rate_hz": "15.0",
+          "publish_lidar_tf": "false",
+          "use_mujoco_lidar_pose": "false",
+          "use_cmd_vel_lidar_fallback": "false",
+          "run_slam_reset_monitor": "false",
+          "run_lidar_person_detector": "false",
+          "lidar_output_frame": "mujoco_livox_frame",
+          "show_mujoco_goal": "true",
+          "rviz_config": "/workspace/ros2_ws/src/unitree_g1_sim_bringup/rviz/g1_onboard_waypoints.rviz",
+          "social_navigation_params_file": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/20261014T164200Z-readme-contact/transport_navigation.yaml",
+          "mujoco_scene": "scene_29dof_transport_transport_dual.xml",
+          "mujoco_pedestrians_enable": "true",
+          "mujoco_pedestrians_count": "0",
+          "mujoco_pedestrian_seed": "48",
+          "run_nav2": "true",
+          "run_waypoint_explorer": "false",
+          "run_waypoint_patrol": "false",
+          "run_frontier_explorer": "false",
+          "run_human_aware_motion_planner": "true",
+          "run_human_collision_avoidance": "true",
+          "run_dynamic_obstacle_tracker": "true",
+          "run_arm_compositor": "true",
+          "run_sim_manipulation_io": "true",
+          "arm_compositor_goal_tolerance": "0.08",
+          "bridge_arm_kp_override": "160.0",
+          "bridge_arm_kd_override": "4.0",
+          "bridge_arm_gains_require_authority": "true",
+          "external_arm_observation_mask": "false",
+          "run_rviz": "false",
+          "publish_camera": "true",
+          "camera_width": "192",
+          "camera_height": "108",
+          "camera_rate_hz": "2.0",
+          "camera_mount_pitch_deg": "25.0",
+          "startup_current_pose_hold_time": "0.0",
+          "startup_blend_time": "0.0",
+          "startup_hold_time": "1.0",
+          "startup_max_recovery_time": "0.0",
+          "policy_action_ramp_time": "0.0",
+          "mujoco_reset_on_controller_start": "false",
+          "run_human_aware_run_logger": "true",
+          "human_aware_run_log_path": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/20261014T164200Z-readme-contact/trace.jsonl",
+          "policy_use_device_tick": "true",
+          "mujoco_application_timing": "false",
+          "arm_compositor_executor_threads": "2",
+          "arm_compositor_repeat_publish_period": "0.0",
+          "slam_loop_closing": "true"
+        },
+        "source_sha256": {
+          "scripts/run_transport_demo.py": "b1d1464e1d5c2932d1a28463aa5d6b789863197afb6c81e6eb34f444df856dee",
+          "scripts/transport_worlds.py": "2f0bec7ec4f153bf664fc95dad107367bd6718bf123e64836921802b0ca707d9",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "edb9bd8a357a467421e4bccaa0029f040c10a19b3f39272b328ce2aca7e1fb55",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "64c9e2410cd8b6f6f31314ea8f79ee6f350c668802c1180448e4493390e494aa",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "9280d4a61aaecb89259f1e063a9b27d1e3b59cd98395ae5bad0405cf938a01dd",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "8450cbb4117473056826beac9673dd8c27794393ba24710f6d66c45392b24fef",
+          "vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c"
+        }
+      },
+      "result_sha256": "4623874706b772d948f715392a3d528d1a72607f9597031b34010f05bd11b3f5",
+      "source_provenance_sha256": "2b2870d5e3b09b638d9f73e0b36139bb329cb32d35eea28ae0c5e1ce8d4f8263"
+    },
+    {
+      "run": "ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/20261014T164500Z-readme-settling",
+      "recorded_at": "2026-10-14T16:39:27.186733+00:00",
+      "command": [
+        "/usr/bin/python3",
+        "/home/david/unitree_g1_ros2_mujoco/scripts/run_transport_demo.py",
+        "--run-id",
+        "20261014T164500Z-readme-settling",
+        "--world",
+        "transport_dual",
+        "--task",
+        "red:red",
+        "--people",
+        "0",
+        "--seed",
+        "48",
+        "--duration",
+        "600",
+        "--carry-posture",
+        "payload_v1",
+        "--policy",
+        "vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+        "--fast-start",
+        "--no-rviz"
+      ],
+      "capture_sha256": "38b88374e40ed1c77167689b62d6a9248ee704a1e4c0193026f4a28aa03cab8b",
+      "frame_count": 239,
+      "capture_errors": 1,
+      "returncode": 1,
+      "success": false,
+      "mission_complete": false,
+      "fallen": true,
+      "error": "sustained measured body instability",
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_red",
+          "color": "red",
+          "destination_color": "red",
+          "verified": false,
+          "lift_m": 0.2533225916647812,
+          "travel_m": 3.4017378486135
+        }
+      ],
+      "events": [
+        {
+          "phase": "runtime_parameters",
+          "elapsed_s": 6.768703586014453,
+          "required_complete": true,
+          "sha256": "81599d352c956d830c4ae8dba68b5ceca889a2a74cffcaf3c0e7539d0f5a6477",
+          "incomplete_required_nodes": []
+        },
+        {
+          "phase": "survey_destination",
+          "elapsed_s": 10.136436320986832,
+          "destination_id": "target_red"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 10.143801188998623,
+          "object_id": "target_red"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 10.14948933699634,
+          "goal_odom": [
+            0.09362757284657781,
+            -0.022127037130722428,
+            0.8257174385084083
+          ],
+          "start_pose": [
+            0.09362757284657781,
+            -0.022127037130722428,
+            0.04031927511096001
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 14.527850474987645,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 1.1976248610008042
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 16.2575389110134,
+          "goal_odom": [
+            0.10917552836106775,
+            0.011522132246964365,
+            1.5286052604509761
+          ],
+          "start_pose": [
+            0.10917552836106775,
+            0.011522132246964365,
+            0.7432070970535278
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 19.90897458398831,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 0.3399831439892296
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 21.641649005003273,
+          "goal_odom": [
+            0.11695843928964177,
+            0.03648894899187601,
+            2.2195650716616084
+          ],
+          "start_pose": [
+            0.11695843928964177,
+            0.03648894899187601,
+            1.4341669082641602
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 25.129199176008115,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 0.8758062190026976
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 26.83684263000032,
+          "goal_odom": [
+            0.13416167714387722,
+            0.019803441324404657,
+            2.9716667314363887
+          ],
+          "start_pose": [
+            0.13416167714387722,
+            0.019803441324404657,
+            2.1862685680389404
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 29.911391683999682,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 0.3325467469985597
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 31.653697983012535,
+          "object_id": "box_red"
+        },
+        {
+          "phase": "pickup_approach",
+          "elapsed_s": 31.668737266008975,
+          "source": "box_bearing",
+          "yaw": -0.012306656732460723
+        },
+        {
+          "phase": "navigate_pickup",
+          "elapsed_s": 31.681590288004372,
+          "object_id": "box_red"
+        },
+        {
+          "phase": "navigate_pickup",
+          "elapsed_s": 31.688691696996102,
+          "goal_odom": [
+            0.9547323175260779,
+            0.1806484517759953,
+            -0.012306656732460723
+          ],
+          "start_pose": [
+            0.13821394187447106,
+            0.04068621071988666,
+            2.832144021987915
+          ],
+          "mode": "navigate"
+        },
+        {
+          "phase": "navigate_pickup",
+          "elapsed_s": 39.65943699199124,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 1.23010495500057
+        },
+        {
+          "phase": "navigate_pickup",
+          "elapsed_s": 39.72027023200644,
+          "action": "navigation",
+          "cancel_return_code": 0
+        },
+        {
+          "phase": "navigate_pickup",
+          "elapsed_s": 39.723007269989466,
+          "action": "navigation",
+          "terminal_status": 5
+        },
+        {
+          "phase": "prepare_pickup",
+          "elapsed_s": 40.72727738998947,
+          "object_id": "box_red"
+        },
+        {
+          "phase": "prepare_pickup",
+          "elapsed_s": 41.1284933029965,
+          "hand_target_pelvis": [
+            0.3475010097862694,
+            -0.2087022167389061,
+            0.3784910902509033
+          ],
+          "ik_error_m": 0.0
+        },
+        {
+          "phase": "prepare_pickup",
+          "elapsed_s": 41.13251996500185,
+          "commanded_joints": {
+            "right_shoulder_pitch_joint": -0.92,
+            "right_shoulder_roll_joint": -1.04,
+            "right_shoulder_yaw_joint": 0.01,
+            "right_elbow_joint": -0.2,
+            "right_wrist_roll_joint": 1.45,
+            "right_wrist_pitch_joint": 0.89,
+            "right_wrist_yaw_joint": -0.65
+          },
+          "duration_s": 4.65927084854671
+        },
+        {
+          "phase": "prepare_pickup",
+          "elapsed_s": 45.86940648400923,
+          "action": "arm",
+          "terminal_status": 4
+        },
+        {
+          "phase": "prepare_pickup",
+          "elapsed_s": 45.879147636005655,
+          "joint_target": {
+            "right_shoulder_pitch_joint": -0.92,
+            "right_shoulder_roll_joint": -1.04,
+            "right_shoulder_yaw_joint": 0.01,
+            "right_elbow_joint": -0.2,
+            "right_wrist_roll_joint": 1.45,
+            "right_wrist_pitch_joint": 0.89,
+            "right_wrist_yaw_joint": -0.65
+          },
+          "joint_measured": {
+            "right_shoulder_pitch_joint": -0.8848943710327148,
+            "right_shoulder_roll_joint": -1.0167959928512573,
+            "right_shoulder_yaw_joint": 0.019564229995012283,
+            "right_elbow_joint": -0.18736937642097473,
+            "right_wrist_roll_joint": 1.436875343322754,
+            "right_wrist_pitch_joint": 0.8850875496864319,
+            "right_wrist_yaw_joint": -0.6446347236633301
+          },
+          "body_rpy": [
+            -0.00653908820822835,
+            -0.05251770466566086,
+            1.575339913368225
+          ]
+        },
+        {
+          "phase": "prepare_pickup",
+          "elapsed_s": 46.491259391012136,
+          "measured_hand_pelvis": [
+            0.3571969635852519,
+            -0.20973943719346333,
+            0.35670746658930086
+          ],
+          "hand_error_m": 0.0131216492403048,
+          "reference": "current_waist_fixed_arm_posture"
+        },
+        {
+          "phase": "prepare_pickup",
+          "elapsed_s": 46.52646296899184,
+          "carry_posture_error_m": 0.0131216492403048,
+          "reference": "current_waist_fixed_arm_posture",
+          "posture_joint_error_rad": 0.02440748929977421
+        },
+        {
+          "phase": "dock_pickup",
+          "elapsed_s": 46.53366304200608
+        },
+        {
+          "phase": "dock_pickup",
+          "elapsed_s": 46.540146379004,
+          "goal_odom": [
+            1.574685367440668,
+            0.17301851720237024,
+            -0.012306656732460723
+          ],
+          "start_pose": [
+            0.6833997299018267,
+            0.040836029312726556,
+            1.5751581192016602
+          ],
+          "mode": "dock"
+        },
+        {
+          "phase": "dock_pickup",
+          "elapsed_s": 61.84020715299994,
+          "dock_settled": true,
+          "corrections": 0,
+          "settled_pose": [
+            1.6310571979132817,
+            0.17293263792961205,
+            0.08964043855667114
+          ]
+        },
+        {
+          "phase": "reach",
+          "elapsed_s": 61.846100880997255
+        },
+        {
+          "phase": "reach",
+          "elapsed_s": 62.49908661399968,
+          "hand_target_pelvis": [
+            0.330709553548797,
+            -0.21321574055938244,
+            0.19226141794500362
+          ],
+          "ik_error_m": 0.0006871465570331625
+        },
+        {
+          "phase": "reach",
+          "elapsed_s": 62.50614398100879,
+          "commanded_joints": {
+            "right_shoulder_pitch_joint": -0.14517827849989998,
+            "right_shoulder_roll_joint": -0.6219174156703239,
+            "right_shoulder_yaw_joint": -0.00018848355249054607,
+            "right_elbow_joint": -0.3289497916246449,
+            "right_wrist_roll_joint": 0.6652434378455491,
+            "right_wrist_pitch_joint": 0.3695671490654077,
+            "right_wrist_yaw_joint": -0.203875367672603
+          },
+          "duration_s": 2.2432107841428093
+        },
+        {
+          "phase": "reach",
+          "elapsed_s": 64.85121849301504,
+          "action": "arm",
+          "terminal_status": 4
+        },
+        {
+          "phase": "reach",
+          "elapsed_s": 64.85373139299918,
+          "joint_target": {
+            "right_shoulder_pitch_joint": -0.14517827849989998,
+            "right_shoulder_roll_joint": -0.6219174156703239,
+            "right_shoulder_yaw_joint": -0.00018848355249054607,
+            "right_elbow_joint": -0.3289497916246449,
+            "right_wrist_roll_joint": 0.6652434378455491,
+            "right_wrist_pitch_joint": 0.3695671490654077,
+            "right_wrist_yaw_joint": -0.203875367672603
+          },
+          "joint_measured": {
+            "right_shoulder_pitch_joint": -0.13705016672611237,
+            "right_shoulder_roll_joint": -0.6128029227256775,
+            "right_shoulder_yaw_joint": 0.008117537945508957,
+            "right_elbow_joint": -0.3176267445087433,
+            "right_wrist_roll_joint": 0.6731231212615967,
+            "right_wrist_pitch_joint": 0.37713751196861267,
+            "right_wrist_yaw_joint": -0.20820629596710205
+          },
+          "body_rpy": [
+            -0.006207241211086512,
+            -0.04554562270641327,
+            0.10623785853385925
+          ]
+        },
+        {
+          "phase": "reach",
+          "elapsed_s": 65.45650788900093,
+          "measured_hand_pelvis": [
+            0.3294563223082524,
+            -0.21110005396632772,
+            0.18308175269751292
+          ],
+          "hand_error_m": 0.009503313756700708,
+          "reference": "cartesian_target"
+        },
+        {
+          "phase": "reach",
+          "elapsed_s": 65.45783873301116,
+          "hand_error_m": 0.009503313756700708,
+          "servo_iteration": 0
+        },
+        {
+          "phase": "attachment_check",
+          "elapsed_s": 65.52104853099445,
+          "hand_to_box_m": 0.04609539658832216,
+          "correction": 0
+        },
+        {
+          "phase": "grasp",
+          "elapsed_s": 65.53670652001165,
+          "object_id": "box_red",
+          "perception_source": "registered_rgbd",
+          "observed_position": [
+            2.0331814753343447,
+            -0.00044046567613198473,
+            1.0421812717352597
+          ],
+          "observation_age_s": 2.0744659900665283,
+          "observation_count": 4
+        },
+        {
+          "phase": "grasp",
+          "elapsed_s": 65.53972724400228,
+          "attachment_state": "uncertain"
+        },
+        {
+          "phase": "grasp",
+          "elapsed_s": 65.60749255001429,
+          "attachment_state": "held"
+        },
+        {
+          "phase": "lift",
+          "elapsed_s": 65.61568856000667
+        },
+        {
+          "phase": "lift",
+          "elapsed_s": 65.96660556498682,
+          "hand_target_pelvis": [
+            0.3527305559861283,
+            -0.21055881071311908,
+            0.37172351959156424
+          ],
+          "ik_error_m": 0.0
+        },
+        {
+          "phase": "lift",
+          "elapsed_s": 65.97214072401403,
+          "commanded_joints": {
+            "right_shoulder_pitch_joint": -0.92,
+            "right_shoulder_roll_joint": -1.04,
+            "right_shoulder_yaw_joint": 0.01,
+            "right_elbow_joint": -0.2,
+            "right_wrist_roll_joint": 1.45,
+            "right_wrist_pitch_joint": 0.89,
+            "right_wrist_yaw_joint": -0.65
+          },
+          "duration_s": 2.2613369941711428
+        },
+        {
+          "phase": "lift",
+          "elapsed_s": 68.31241506600054,
+          "action": "arm",
+          "terminal_status": 4
+        },
+        {
+          "phase": "lift",
+          "elapsed_s": 68.3242894540017,
+          "joint_target": {
+            "right_shoulder_pitch_joint": -0.92,
+            "right_shoulder_roll_joint": -1.04,
+            "right_shoulder_yaw_joint": 0.01,
+            "right_elbow_joint": -0.2,
+            "right_wrist_roll_joint": 1.45,
+            "right_wrist_pitch_joint": 0.89,
+            "right_wrist_yaw_joint": -0.65
+          },
+          "joint_measured": {
+            "right_shoulder_pitch_joint": -0.88409823179245,
+            "right_shoulder_roll_joint": -1.0185294151306152,
+            "right_shoulder_yaw_joint": 0.020528608933091164,
+            "right_elbow_joint": -0.19901126623153687,
+            "right_wrist_roll_joint": 1.4407014846801758,
+            "right_wrist_pitch_joint": 0.8869098424911499,
+            "right_wrist_yaw_joint": -0.64456707239151
+          },
+          "body_rpy": [
+            -0.005784185137599707,
+            -0.04831676557660103,
+            0.0978129506111145
+          ]
+        },
+        {
+          "phase": "lift",
+          "elapsed_s": 68.93759521000902,
+          "measured_hand_pelvis": [
+            0.3585870058470838,
+            -0.21033400010981432,
+            0.35283503904806524
+          ],
+          "hand_error_m": 0.015474064240437674,
+          "reference": "current_waist_fixed_arm_posture"
+        },
+        {
+          "phase": "lift",
+          "elapsed_s": 68.96672130998923,
+          "carry_posture_error_m": 0.015474064240437674,
+          "reference": "current_waist_fixed_arm_posture",
+          "posture_joint_error_rad": 0.027974767684936563
+        },
+        {
+          "phase": "retreat_pickup",
+          "elapsed_s": 69.86023123699124
+        },
+        {
+          "phase": "retreat_pickup",
+          "elapsed_s": 69.87284965498839,
+          "goal_odom": [
+            0.5485717489895148,
+            0.19372063080673288,
+            -0.012306656732460723
+          ],
+          "start_pose": [
+            1.6484884504508843,
+            0.1801836501115916,
+            0.09466413408517838
+          ],
+          "mode": "dock"
+        },
+        {
+          "phase": "retreat_pickup",
+          "elapsed_s": 80.71493321700837,
+          "retreat_settled": true,
+          "distance_m": 1.1961431502838067
+        },
+        {
+          "phase": "remembered_destination",
+          "elapsed_s": 80.72288381701219,
+          "destination_id": "target_red",
+          "observation_age_s": 50.094903230667114
+        },
+        {
+          "phase": "delivery_approach",
+          "elapsed_s": 80.7291562060127,
+          "source": "rgbd_support_edge",
+          "yaw": 3.13210208560221,
+          "approach_observation_count": 3
+        },
+        {
+          "phase": "navigate_delivery",
+          "elapsed_s": 80.73027463300969
+        },
+        {
+          "phase": "navigate_delivery",
+          "elapsed_s": 80.74101544899167,
+          "goal_odom": [
+            -0.7531574504870431,
+            -0.1570444117057584,
+            3.13210208560221
+          ],
+          "start_pose": [
+            0.4573496501351502,
+            0.594161125034318,
+            -0.26626458764076233
+          ],
+          "mode": "navigate"
+        },
+        {
+          "phase": "body_instability",
+          "elapsed_s": 82.21257707299083,
+          "rpy": [
+            -1.7940982580184937,
+            -0.7534658312797546,
+            1.6966724395751953
+          ],
+          "duration_s": 0.20392513275146484,
+          "source": "onboard_measured_rpy"
+        },
+        {
+          "phase": "body_instability",
+          "elapsed_s": 82.2685116629873,
+          "action": "navigation",
+          "cancel_return_code": 0
+        },
+        {
+          "phase": "body_instability",
+          "elapsed_s": 82.27048266498605,
+          "action": "navigation",
+          "terminal_status": 5
+        }
+      ],
+      "source_manifest": {
+        "world": "transport_dual",
+        "people": 0,
+        "seed": 48,
+        "duration_s": 600.0,
+        "build_reused": true,
+        "carry_posture": "payload_v1",
+        "people_clearance_extra_m": 0.0,
+        "navigation_profile_sha256": "3c20b55a91b027dcdcf65bc8b01493bd6206b3b3348a94b00d895d6c6f018ff1",
+        "pedestrian_scenario": "social_natural_plaza",
+        "pedestrian_start_delay_s": 10.0,
+        "tracker_wall_evidence": true,
+        "tracker_body_wall_sheets": true,
+        "early_overtaking_avoidance": false,
+        "predictive_refuge": false,
+        "layout_seed": null,
+        "objective": {
+          "pairs": [
+            {
+              "object_id": "box_red",
+              "destination_id": "target_red",
+              "color": "red",
+              "destination_color": "red"
+            }
+          ],
+          "task_seed": null,
+          "mode": "red:red",
+          "description": "Put the red box on the red goal"
+        },
+        "mission_kind": "transport",
+        "search_max_viewpoints": null,
+        "camera_pitch_deg": 25.0,
+        "settings": {
+          "policy_action_rate_limit": "0.0",
+          "policy_path": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+          "policy_profile": "unitree_rl_lab_g1_29dof",
+          "policy_obs_dim": "480",
+          "policy_action_dim": "29",
+          "mujoco_initial_keyframe": "transport_unitree_rl_lab_stand",
+          "max_lin_vel_y": "0.45",
+          "max_lin_vel_x": "0.65",
+          "nav2_observation_sources": "scan",
+          "nav2_max_vel_y": "0.35",
+          "nav2_min_vel_y": "-0.35",
+          "nav2_acc_lim_y": "0.60",
+          "nav2_decel_lim_y": "-0.60",
+          "nav2_vy_samples": "7",
+          "nav2_planner_plugin": "nav2_smac_planner/SmacPlanner2D",
+          "nav2_people_layer": "true",
+          "turning_arc_min_forward_speed": "0.0",
+          "turning_arc_min_yaw_speed": "0.0",
+          "max_ang_vel_z": "0.90",
+          "cmd_accel_yaw": "0.90",
+          "cmd_accel_x": "2.40",
+          "cmd_accel_y": "2.40",
+          "mujoco_pedestrian_scenario": "social_natural_plaza",
+          "mujoco_pedestrian_start_delay": "10.0",
+          "mujoco_pedestrian_start_gate": "false",
+          "onboard_only": "true",
+          "nav2_dynamic_replanning": "true",
+          "nav2_world_costmap": "false",
+          "nav2_static_scene_map": "false",
+          "tracker_use_sensor_input": "true",
+          "tracker_local_tracking_radius": "10.0",
+          "livox_scan_points": "2400",
+          "lidar_rate_hz": "15.0",
+          "publish_lidar_tf": "false",
+          "use_mujoco_lidar_pose": "false",
+          "use_cmd_vel_lidar_fallback": "false",
+          "run_slam_reset_monitor": "false",
+          "run_lidar_person_detector": "false",
+          "lidar_output_frame": "mujoco_livox_frame",
+          "show_mujoco_goal": "true",
+          "rviz_config": "/workspace/ros2_ws/src/unitree_g1_sim_bringup/rviz/g1_onboard_waypoints.rviz",
+          "social_navigation_params_file": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/20261014T164500Z-readme-settling/transport_navigation.yaml",
+          "mujoco_scene": "scene_29dof_transport_transport_dual.xml",
+          "mujoco_pedestrians_enable": "true",
+          "mujoco_pedestrians_count": "0",
+          "mujoco_pedestrian_seed": "48",
+          "run_nav2": "true",
+          "run_waypoint_explorer": "false",
+          "run_waypoint_patrol": "false",
+          "run_frontier_explorer": "false",
+          "run_human_aware_motion_planner": "true",
+          "run_human_collision_avoidance": "true",
+          "run_dynamic_obstacle_tracker": "true",
+          "run_arm_compositor": "true",
+          "run_sim_manipulation_io": "true",
+          "arm_compositor_goal_tolerance": "0.08",
+          "bridge_arm_kp_override": "160.0",
+          "bridge_arm_kd_override": "4.0",
+          "bridge_arm_gains_require_authority": "true",
+          "external_arm_observation_mask": "false",
+          "run_rviz": "false",
+          "publish_camera": "true",
+          "camera_width": "192",
+          "camera_height": "108",
+          "camera_rate_hz": "2.0",
+          "camera_mount_pitch_deg": "25.0",
+          "startup_current_pose_hold_time": "0.0",
+          "startup_blend_time": "0.0",
+          "startup_hold_time": "1.0",
+          "startup_max_recovery_time": "0.0",
+          "policy_action_ramp_time": "0.0",
+          "mujoco_reset_on_controller_start": "false",
+          "run_human_aware_run_logger": "true",
+          "human_aware_run_log_path": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/20261014T164500Z-readme-settling/trace.jsonl",
+          "policy_use_device_tick": "true",
+          "mujoco_application_timing": "false",
+          "arm_compositor_executor_threads": "2",
+          "arm_compositor_repeat_publish_period": "0.0",
+          "slam_loop_closing": "true"
+        },
+        "source_sha256": {
+          "scripts/run_transport_demo.py": "b1d1464e1d5c2932d1a28463aa5d6b789863197afb6c81e6eb34f444df856dee",
+          "scripts/transport_worlds.py": "2f0bec7ec4f153bf664fc95dad107367bd6718bf123e64836921802b0ca707d9",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "3466848b2867a8ab325fe4287e7b7670ec793855b02f8de5ac186fe0e1926101",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "64c9e2410cd8b6f6f31314ea8f79ee6f350c668802c1180448e4493390e494aa",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "9280d4a61aaecb89259f1e063a9b27d1e3b59cd98395ae5bad0405cf938a01dd",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "8450cbb4117473056826beac9673dd8c27794393ba24710f6d66c45392b24fef",
+          "vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c"
+        }
+      },
+      "result_sha256": "2ccb8c8856d9d992241cb44a933c3bbafbcaf663f4d36ebb480c46b22b57da77",
+      "source_provenance_sha256": "969dd567a4952ea93f2a1c73d37500dc9f90b484364fb5366094aa3e6ad8c269"
+    },
+    {
+      "run": "ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/20261014T164700Z-readme-delay",
+      "recorded_at": "2026-10-14T16:41:16.719393+00:00",
+      "command": [
+        "/usr/bin/python3",
+        "/home/david/unitree_g1_ros2_mujoco/scripts/run_transport_demo.py",
+        "--run-id",
+        "20261014T164700Z-readme-delay",
+        "--world",
+        "transport_dual",
+        "--task",
+        "red:red",
+        "--people",
+        "0",
+        "--seed",
+        "48",
+        "--duration",
+        "600",
+        "--carry-posture",
+        "payload_v1",
+        "--policy",
+        "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+        "--fast-start",
+        "--no-rviz"
+      ],
+      "capture_sha256": "586e810a60cb1f7394058ad5f94025abb7d36c04390c54466e5ba031de4313a5",
+      "frame_count": 398,
+      "capture_errors": 1,
+      "returncode": 1,
+      "success": false,
+      "mission_complete": false,
+      "fallen": false,
+      "error": "navigation succeeded outside fresh sensed staging tolerance",
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_red",
+          "color": "red",
+          "destination_color": "red",
+          "verified": false,
+          "lift_m": 0.23022828571460918,
+          "travel_m": 1.2561297999267527
+        }
+      ],
+      "events": [
+        {
+          "phase": "runtime_parameters",
+          "elapsed_s": 7.523253607010702,
+          "required_complete": true,
+          "sha256": "f791a1e53c9990d03636aa99684428466a1b67e2ffca9e93f76e9e31e96202b5",
+          "incomplete_required_nodes": []
+        },
+        {
+          "phase": "survey_destination",
+          "elapsed_s": 11.04612916300539,
+          "destination_id": "target_red"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 11.050138535007136,
+          "object_id": "target_red"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 11.05402130400762,
+          "goal_odom": [
+            0.028861253829542854,
+            0.0055160142362647045,
+            0.665617526073592
+          ],
+          "start_pose": [
+            0.028861253829542854,
+            0.0055160142362647045,
+            -0.11978063732385637
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 20.24164457700681,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 1.3193713660002686
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 21.952465985988965,
+          "goal_odom": [
+            0.010380450664110157,
+            -0.12122768283937672,
+            1.3955461164308955
+          ],
+          "start_pose": [
+            0.010380450664110157,
+            -0.12122768283937672,
+            0.6101479530334472
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 28.77590366199729,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 0.9703807909972966
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 30.494452170009026,
+          "goal_odom": [
+            0.030044370163561547,
+            -0.07093087437049148,
+            2.0619318862749507
+          ],
+          "start_pose": [
+            0.030044370163561547,
+            -0.07093087437049148,
+            1.2765337228775024
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 37.70218255301006,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 0.540772211010335
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 39.44050149299437,
+          "goal_odom": [
+            0.04188265121479304,
+            -0.03884295152843177,
+            2.7769006868196895
+          ],
+          "start_pose": [
+            0.04188265121479304,
+            -0.03884295152843177,
+            1.9915025234222414
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 45.82506104200729,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 1.546304102987051
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 47.548261089017615,
+          "object_id": "box_red"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 47.55164459400112,
+          "search_hint": "box_red",
+          "hint_age_s": 22.513663053512573
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 47.55406243799371,
+          "goal_odom": [
+            0.054888366385653656,
+            -0.06930228737517687,
+            0.05330575848166602
+          ],
+          "start_pose": [
+            0.054888366385653656,
+            -0.06930228737517687,
+            2.826281785964966
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 57.121211329998914,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 0.7573939269932453
+        },
+        {
+          "phase": "pickup_approach",
+          "elapsed_s": 58.87600640999153,
+          "source": "observed_support_edge",
+          "yaw": -0.008452374781583394
+        },
+        {
+          "phase": "navigate_pickup",
+          "elapsed_s": 58.92773014301201,
+          "object_id": "box_red"
+        },
+        {
+          "phase": "navigate_pickup",
+          "elapsed_s": 58.93670362100238,
+          "goal_odom": [
+            0.9331718880106573,
+            0.08576465820167012,
+            -0.008452374781583394
+          ],
+          "start_pose": [
+            0.03809356721953876,
+            -0.351018917797391,
+            0.25151935219764704
+          ],
+          "mode": "navigate"
+        },
+        {
+          "phase": "navigate_pickup",
+          "elapsed_s": 65.4676242400019,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 2.8302981260058004
+        },
+        {
+          "phase": "navigate_pickup",
+          "elapsed_s": 65.47057774101268,
+          "action": "navigation",
+          "terminal_status": 4
+        },
+        {
+          "phase": "prepare_pickup",
+          "elapsed_s": 66.48372743400978,
+          "object_id": "box_red"
+        },
+        {
+          "phase": "prepare_pickup",
+          "elapsed_s": 66.87334656101302,
+          "hand_target_pelvis": [
+            0.3510642616460972,
+            -0.20673531600592684,
+            0.3759627082337811
+          ],
+          "ik_error_m": 0.0
+        },
+        {
+          "phase": "prepare_pickup",
+          "elapsed_s": 66.88815660699038,
+          "commanded_joints": {
+            "right_shoulder_pitch_joint": -0.92,
+            "right_shoulder_roll_joint": -1.04,
+            "right_shoulder_yaw_joint": 0.01,
+            "right_elbow_joint": -0.2,
+            "right_wrist_roll_joint": 1.45,
+            "right_wrist_pitch_joint": 0.89,
+            "right_wrist_yaw_joint": -0.65
+          },
+          "duration_s": 4.620339563914708
+        },
+        {
+          "phase": "prepare_pickup",
+          "elapsed_s": 71.61151002699626,
+          "action": "arm",
+          "terminal_status": 4
+        },
+        {
+          "phase": "prepare_pickup",
+          "elapsed_s": 71.62612909800373,
+          "joint_target": {
+            "right_shoulder_pitch_joint": -0.92,
+            "right_shoulder_roll_joint": -1.04,
+            "right_shoulder_yaw_joint": 0.01,
+            "right_elbow_joint": -0.2,
+            "right_wrist_roll_joint": 1.45,
+            "right_wrist_pitch_joint": 0.89,
+            "right_wrist_yaw_joint": -0.65
+          },
+          "joint_measured": {
+            "right_shoulder_pitch_joint": -0.8866205811500549,
+            "right_shoulder_roll_joint": -1.0182068347930908,
+            "right_shoulder_yaw_joint": 0.018551615998148918,
+            "right_elbow_joint": -0.18918579816818237,
+            "right_wrist_roll_joint": 1.4403547048568726,
+            "right_wrist_pitch_joint": 0.8870195150375366,
+            "right_wrist_yaw_joint": -0.6461888551712036
+          },
+          "body_rpy": [
+            -0.007967096753418446,
+            -0.040795519948005676,
+            0.2938549518585205
+          ]
+        },
+        {
+          "phase": "prepare_pickup",
+          "elapsed_s": 72.24566728901118,
+          "measured_hand_pelvis": [
+            0.3614651936166562,
+            -0.20735659800356737,
+            0.3533777413725132
+          ],
+          "hand_error_m": 0.01312604448570033,
+          "reference": "current_waist_fixed_arm_posture"
+        },
+        {
+          "phase": "prepare_pickup",
+          "elapsed_s": 72.2578340950131,
+          "carry_posture_error_m": 0.01312604448570033,
+          "reference": "current_waist_fixed_arm_posture",
+          "posture_joint_error_rad": 0.024275882244110147
+        },
+        {
+          "phase": "dock_pickup",
+          "elapsed_s": 72.26319342499482
+        },
+        {
+          "phase": "dock_pickup",
+          "elapsed_s": 72.27837312099291,
+          "goal_odom": [
+            1.5531497409242827,
+            0.08052424823572846,
+            -0.008452374781583394
+          ],
+          "start_pose": [
+            0.6899007994098685,
+            -0.04845674580627889,
+            0.28864267468452454
+          ],
+          "mode": "dock"
+        },
+        {
+          "phase": "dock_pickup",
+          "elapsed_s": 89.16196629600017,
+          "dock_settled": false,
+          "corrections": 1,
+          "settled_pose": [
+            1.6423536688256675,
+            0.0833238614815089,
+            0.09010317921638492
+          ],
+          "settling_compensation_m": [
+            0.039874579492022465,
+            0.0031651082658231498
+          ]
+        },
+        {
+          "phase": "dock_pickup",
+          "elapsed_s": 89.1640688579937,
+          "goal_odom": [
+            1.5132751614322602,
+            0.0773591399699053,
+            -0.008452374781583394
+          ],
+          "start_pose": [
+            1.6423536688256675,
+            0.0833238614815089,
+            0.09010317921638492
+          ],
+          "mode": "dock"
+        },
+        {
+          "phase": "dock_pickup",
+          "elapsed_s": 91.9914711320016,
+          "dock_settled": false,
+          "corrections": 2,
+          "settled_pose": [
+            1.1467406430814409,
+            -0.06873298213687207,
+            0.09877025336027145
+          ],
+          "settling_compensation_m": [
+            -0.037006260393607146,
+            -0.015183434778749606
+          ]
+        },
+        {
+          "phase": "dock_pickup",
+          "elapsed_s": 92.00852567199036,
+          "goal_odom": [
+            1.59015600131789,
+            0.09570768301447806,
+            -0.008452374781583394
+          ],
+          "start_pose": [
+            1.1467406430814409,
+            -0.06873298213687207,
+            0.09877025336027145
+          ],
+          "mode": "dock"
+        },
+        {
+          "phase": "dock_pickup",
+          "elapsed_s": 117.55665942298947,
+          "dock_settled": true,
+          "corrections": 2,
+          "settled_pose": [
+            1.5936707198749402,
+            0.10841758880473516,
+            0.006974211428314446
+          ]
+        },
+        {
+          "phase": "reach",
+          "elapsed_s": 117.56858883801033
+        },
+        {
+          "phase": "reach",
+          "elapsed_s": 118.33552370400866,
+          "hand_target_pelvis": [
+            0.3422831746850416,
+            -0.3001016865079165,
+            0.1878420818621735
+          ],
+          "ik_error_m": 0.000849489957244651
+        },
+        {
+          "phase": "reach",
+          "elapsed_s": 118.33822041301755,
+          "commanded_joints": {
+            "right_shoulder_pitch_joint": -0.21075641853283808,
+            "right_shoulder_roll_joint": -0.6767789827376179,
+            "right_shoulder_yaw_joint": -0.25750947100897426,
+            "right_elbow_joint": 0.04197562547664588,
+            "right_wrist_roll_joint": 0.6188354831837604,
+            "right_wrist_pitch_joint": 0.3017978273719603,
+            "right_wrist_yaw_joint": 0.205301582324305
+          },
+          "duration_s": 2.4438112108701717
+        },
+        {
+          "phase": "reach",
+          "elapsed_s": 120.85290502299904,
+          "action": "arm",
+          "terminal_status": 4
+        },
+        {
+          "phase": "reach",
+          "elapsed_s": 120.86601230601082,
+          "joint_target": {
+            "right_shoulder_pitch_joint": -0.21075641853283808,
+            "right_shoulder_roll_joint": -0.6767789827376179,
+            "right_shoulder_yaw_joint": -0.25750947100897426,
+            "right_elbow_joint": 0.04197562547664588,
+            "right_wrist_roll_joint": 0.6188354831837604,
+            "right_wrist_pitch_joint": 0.3017978273719603,
+            "right_wrist_yaw_joint": 0.205301582324305
+          },
+          "joint_measured": {
+            "right_shoulder_pitch_joint": -0.1989241987466812,
+            "right_shoulder_roll_joint": -0.6604716181755066,
+            "right_shoulder_yaw_joint": -0.2460288107395172,
+            "right_elbow_joint": 0.04879399761557579,
+            "right_wrist_roll_joint": 0.6274105310440063,
+            "right_wrist_pitch_joint": 0.3106570243835449,
+            "right_wrist_yaw_joint": 0.19665026664733887
+          },
+          "body_rpy": [
+            0.011657231487333775,
+            -0.029181547462940216,
+            -0.015761611983180046
+          ]
+        },
+        {
+          "phase": "reach",
+          "elapsed_s": 121.47795210799086,
+          "measured_hand_pelvis": [
+            0.3402184573941261,
+            -0.2974373580305943,
+            0.17532708028823765
+          ],
+          "hand_error_m": 0.012960978671461978,
+          "reference": "cartesian_target"
+        },
+        {
+          "phase": "reach",
+          "elapsed_s": 121.47920869899099,
+          "hand_error_m": 0.012960978671461978,
+          "servo_iteration": 0
+        },
+        {
+          "phase": "attachment_check",
+          "elapsed_s": 121.49798383601592,
+          "hand_to_box_m": 0.07159256545064215,
+          "correction": 0
+        },
+        {
+          "phase": "grasp",
+          "elapsed_s": 121.53973037799005,
+          "object_id": "box_red",
+          "perception_source": "registered_rgbd",
+          "observed_position": [
+            1.9887250628835647,
+            -0.1811879778883907,
+            1.0426294646829362
+          ],
+          "observation_age_s": 1.6908986568450928,
+          "observation_count": 10
+        },
+        {
+          "phase": "grasp",
+          "elapsed_s": 121.54682408299414,
+          "attachment_state": "uncertain"
+        },
+        {
+          "phase": "grasp",
+          "elapsed_s": 121.62044359001447,
+          "attachment_state": "held"
+        },
+        {
+          "phase": "lift",
+          "elapsed_s": 121.62769828698947
+        },
+        {
+          "phase": "lift",
+          "elapsed_s": 121.95294652599841,
+          "hand_target_pelvis": [
+            0.3550121797388421,
+            -0.21257571184266327,
+            0.3679049873918131
+          ],
+          "ik_error_m": 0.0
+        },
+        {
+          "phase": "lift",
+          "elapsed_s": 121.95450375799555,
+          "commanded_joints": {
+            "right_shoulder_pitch_joint": -0.92,
+            "right_shoulder_roll_joint": -1.04,
+            "right_shoulder_yaw_joint": 0.01,
+            "right_elbow_joint": -0.2,
+            "right_wrist_roll_joint": 1.45,
+            "right_wrist_pitch_joint": 0.89,
+            "right_wrist_yaw_joint": -0.65
+          },
+          "duration_s": 2.4447428584098816
+        },
+        {
+          "phase": "lift",
+          "elapsed_s": 124.52751161699416,
+          "action": "arm",
+          "terminal_status": 4
+        },
+        {
+          "phase": "lift",
+          "elapsed_s": 124.55008149001515,
+          "joint_target": {
+            "right_shoulder_pitch_joint": -0.92,
+            "right_shoulder_roll_joint": -1.04,
+            "right_shoulder_yaw_joint": 0.01,
+            "right_elbow_joint": -0.2,
+            "right_wrist_roll_joint": 1.45,
+            "right_wrist_pitch_joint": 0.89,
+            "right_wrist_yaw_joint": -0.65
+          },
+          "joint_measured": {
+            "right_shoulder_pitch_joint": -0.877568244934082,
+            "right_shoulder_roll_joint": -1.01567804813385,
+            "right_shoulder_yaw_joint": 0.019131483510136604,
+            "right_elbow_joint": -0.19044160842895508,
+            "right_wrist_roll_joint": 1.4382330179214478,
+            "right_wrist_pitch_joint": 0.8864269852638245,
+            "right_wrist_yaw_joint": -0.6376954317092896
+          },
+          "body_rpy": [
+            0.009241088293492794,
+            -0.03967248648405075,
+            -0.07665631920099258
+          ]
+        },
+        {
+          "phase": "lift",
+          "elapsed_s": 125.18988342801458,
+          "measured_hand_pelvis": [
+            0.3604223547792309,
+            -0.21073718475013103,
+            0.35046149683563316
+          ],
+          "hand_error_m": 0.015478009952089908,
+          "reference": "current_waist_fixed_arm_posture"
+        },
+        {
+          "phase": "lift",
+          "elapsed_s": 125.20437479400425,
+          "carry_posture_error_m": 0.015478009952089908,
+          "reference": "current_waist_fixed_arm_posture",
+          "posture_joint_error_rad": 0.027832729816436808
+        },
+        {
+          "phase": "retreat_pickup",
+          "elapsed_s": 125.22685854599695
+        },
+        {
+          "phase": "retreat_pickup",
+          "elapsed_s": 125.25464653401286,
+          "goal_odom": [
+            0.4910923963351428,
+            0.12242918631559005,
+            -0.008452374781583394
+          ],
+          "start_pose": [
+            1.5910531031173814,
+            0.11313168476311292,
+            -0.08292342722415924
+          ],
+          "mode": "dock"
+        },
+        {
+          "phase": "retreat_pickup",
+          "elapsed_s": 134.76879482899676,
+          "retreat_settled": true,
+          "distance_m": 1.2209516493394248
+        },
+        {
+          "phase": "remembered_destination",
+          "elapsed_s": 134.77288025899907,
+          "destination_id": "target_red",
+          "observation_age_s": 88.12913966178894
+        },
+        {
+          "phase": "delivery_approach",
+          "elapsed_s": 134.77465665401542,
+          "source": "rgbd_support_edge",
+          "yaw": 3.1270523139066557,
+          "approach_observation_count": 6
+        },
+        {
+          "phase": "navigate_delivery",
+          "elapsed_s": 134.7795867699897
+        },
+        {
+          "phase": "navigate_delivery",
+          "elapsed_s": 134.7855045289907,
+          "goal_odom": [
+            -0.7503901784341908,
+            -0.19221152051490192,
+            3.1270523139066557
+          ],
+          "start_pose": [
+            0.3702145183938388,
+            0.13166803593861548,
+            0.14305827021598816
+          ],
+          "mode": "navigate"
+        },
+        {
+          "phase": "navigate_delivery",
+          "elapsed_s": 134.95128936201218,
+          "action": "navigation",
+          "terminal_status": 4
+        },
+        {
+          "phase": "wait_localization",
+          "elapsed_s": 134.98498633501003,
+          "resume_phase": "navigate_delivery",
+          "recovery": 1
+        },
+        {
+          "phase": "navigate_delivery",
+          "elapsed_s": 135.11340565700084,
+          "localization_recovered": true,
+          "recovery": 1
+        },
+        {
+          "phase": "navigate_delivery",
+          "elapsed_s": 135.1363137869921,
+          "goal_odom": [
+            -0.7503901784341908,
+            -0.19221152051490192,
+            3.1270523139066557
+          ],
+          "start_pose": [
+            0.3237576532413015,
+            0.1583702216515557,
+            0.19809015095233923
+          ],
+          "mode": "navigate"
+        },
+        {
+          "phase": "navigate_delivery",
+          "elapsed_s": 135.25738095701672,
+          "action": "navigation",
+          "terminal_status": 4
+        },
+        {
+          "phase": "wait_localization",
+          "elapsed_s": 135.31132060001255,
+          "resume_phase": "navigate_delivery",
+          "recovery": 2
+        },
+        {
+          "phase": "navigate_delivery",
+          "elapsed_s": 135.48447372601368,
+          "localization_recovered": true,
+          "recovery": 2
+        },
+        {
+          "phase": "navigate_delivery",
+          "elapsed_s": 135.49220111701288,
+          "goal_odom": [
+            -0.7503901784341908,
+            -0.19221152051490192,
+            3.1270523139066557
+          ],
+          "start_pose": [
+            0.370554488385921,
+            0.16423152582421902,
+            0.21040044724941248
+          ],
+          "mode": "navigate"
+        },
+        {
+          "phase": "navigate_delivery",
+          "elapsed_s": 135.67248669301625,
+          "action": "navigation",
+          "terminal_status": 4
+        }
+      ],
+      "source_manifest": {
+        "world": "transport_dual",
+        "people": 0,
+        "seed": 48,
+        "duration_s": 600.0,
+        "build_reused": true,
+        "carry_posture": "payload_v1",
+        "people_clearance_extra_m": 0.0,
+        "navigation_profile_sha256": "7e15970996e71a99133c8590b36cacf937ba14d8705e972f66b1f8385b31a653",
+        "pedestrian_scenario": "social_natural_plaza",
+        "pedestrian_start_delay_s": 10.0,
+        "tracker_wall_evidence": true,
+        "tracker_body_wall_sheets": true,
+        "early_overtaking_avoidance": false,
+        "predictive_refuge": false,
+        "layout_seed": null,
+        "objective": {
+          "pairs": [
+            {
+              "object_id": "box_red",
+              "destination_id": "target_red",
+              "color": "red",
+              "destination_color": "red"
+            }
+          ],
+          "task_seed": null,
+          "mode": "red:red",
+          "description": "Put the red box on the red goal"
+        },
+        "mission_kind": "transport",
+        "search_max_viewpoints": null,
+        "camera_pitch_deg": 25.0,
+        "settings": {
+          "policy_action_rate_limit": "0.0",
+          "policy_path": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+          "policy_profile": "unitree_rl_lab_g1_29dof",
+          "policy_obs_dim": "480",
+          "policy_action_dim": "29",
+          "mujoco_initial_keyframe": "transport_unitree_rl_lab_stand",
+          "max_lin_vel_y": "0.45",
+          "max_lin_vel_x": "0.65",
+          "nav2_observation_sources": "scan",
+          "nav2_max_vel_y": "0.35",
+          "nav2_min_vel_y": "-0.35",
+          "nav2_acc_lim_y": "0.60",
+          "nav2_decel_lim_y": "-0.60",
+          "nav2_vy_samples": "7",
+          "nav2_planner_plugin": "nav2_smac_planner/SmacPlanner2D",
+          "nav2_people_layer": "true",
+          "turning_arc_min_forward_speed": "0.0",
+          "turning_arc_min_yaw_speed": "0.0",
+          "max_ang_vel_z": "0.90",
+          "cmd_accel_yaw": "0.90",
+          "cmd_accel_x": "2.40",
+          "cmd_accel_y": "2.40",
+          "mujoco_pedestrian_scenario": "social_natural_plaza",
+          "mujoco_pedestrian_start_delay": "10.0",
+          "mujoco_pedestrian_start_gate": "false",
+          "onboard_only": "true",
+          "nav2_dynamic_replanning": "true",
+          "nav2_world_costmap": "false",
+          "nav2_static_scene_map": "false",
+          "tracker_use_sensor_input": "true",
+          "tracker_local_tracking_radius": "10.0",
+          "livox_scan_points": "2400",
+          "lidar_rate_hz": "15.0",
+          "publish_lidar_tf": "false",
+          "use_mujoco_lidar_pose": "false",
+          "use_cmd_vel_lidar_fallback": "false",
+          "run_slam_reset_monitor": "false",
+          "run_lidar_person_detector": "false",
+          "lidar_output_frame": "mujoco_livox_frame",
+          "show_mujoco_goal": "true",
+          "rviz_config": "/workspace/ros2_ws/src/unitree_g1_sim_bringup/rviz/g1_onboard_waypoints.rviz",
+          "social_navigation_params_file": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/20261014T164700Z-readme-delay/transport_navigation.yaml",
+          "mujoco_scene": "scene_29dof_transport_transport_dual.xml",
+          "mujoco_pedestrians_enable": "true",
+          "mujoco_pedestrians_count": "0",
+          "mujoco_pedestrian_seed": "48",
+          "run_nav2": "true",
+          "run_waypoint_explorer": "false",
+          "run_waypoint_patrol": "false",
+          "run_frontier_explorer": "false",
+          "run_human_aware_motion_planner": "true",
+          "run_human_collision_avoidance": "true",
+          "run_dynamic_obstacle_tracker": "true",
+          "run_arm_compositor": "true",
+          "run_sim_manipulation_io": "true",
+          "arm_compositor_goal_tolerance": "0.08",
+          "bridge_arm_kp_override": "160.0",
+          "bridge_arm_kd_override": "4.0",
+          "bridge_arm_gains_require_authority": "true",
+          "external_arm_observation_mask": "false",
+          "run_rviz": "false",
+          "publish_camera": "true",
+          "camera_width": "192",
+          "camera_height": "108",
+          "camera_rate_hz": "2.0",
+          "camera_mount_pitch_deg": "25.0",
+          "startup_current_pose_hold_time": "0.0",
+          "startup_blend_time": "0.0",
+          "startup_hold_time": "1.0",
+          "startup_max_recovery_time": "0.0",
+          "policy_action_ramp_time": "0.0",
+          "mujoco_reset_on_controller_start": "false",
+          "run_human_aware_run_logger": "true",
+          "human_aware_run_log_path": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/20261014T164700Z-readme-delay/trace.jsonl",
+          "policy_use_device_tick": "true",
+          "mujoco_application_timing": "false",
+          "arm_compositor_executor_threads": "2",
+          "arm_compositor_repeat_publish_period": "0.0",
+          "slam_loop_closing": "true"
+        },
+        "source_sha256": {
+          "scripts/run_transport_demo.py": "b1d1464e1d5c2932d1a28463aa5d6b789863197afb6c81e6eb34f444df856dee",
+          "scripts/transport_worlds.py": "2f0bec7ec4f153bf664fc95dad107367bd6718bf123e64836921802b0ca707d9",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "3466848b2867a8ab325fe4287e7b7670ec793855b02f8de5ac186fe0e1926101",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "64c9e2410cd8b6f6f31314ea8f79ee6f350c668802c1180448e4493390e494aa",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "9280d4a61aaecb89259f1e063a9b27d1e3b59cd98395ae5bad0405cf938a01dd",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "8450cbb4117473056826beac9673dd8c27794393ba24710f6d66c45392b24fef",
+          "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+        }
+      },
+      "result_sha256": "1bc6e3140bb6717b399e262a9a8d906dc19258fa7af70785541556b42e1bf71a",
+      "source_provenance_sha256": "b39c8b1bc730676aafa4419bf9b4d730c2e810847cf236ae614216e5d0c42fb4"
+    },
+    {
+      "run": "ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/20261014T165100Z-readme-exploration",
+      "recorded_at": "2026-10-14T16:44:03.727854+00:00",
+      "command": [
+        "/usr/bin/python3",
+        "/home/david/unitree_g1_ros2_mujoco/scripts/run_transport_demo.py",
+        "--run-id",
+        "20261014T165100Z-readme-exploration",
+        "--world",
+        "transport_medium",
+        "--explore-unknown",
+        "--task",
+        "red:blue",
+        "--layout-seed",
+        "0",
+        "--people",
+        "0",
+        "--seed",
+        "48",
+        "--duration",
+        "600",
+        "--carry-posture",
+        "payload_v1",
+        "--policy",
+        "vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+        "--fast-start",
+        "--no-rviz"
+      ],
+      "capture_sha256": "bd1949854f98d0da2455c5363505f48e0613fdfbbb6d39374335097ac2b6c0d1",
+      "frame_count": 24,
+      "capture_errors": 1,
+      "returncode": 1,
+      "success": false,
+      "mission_complete": false,
+      "fallen": true,
+      "error": "sustained measured body instability",
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_blue",
+          "color": "red",
+          "destination_color": "blue",
+          "verified": false,
+          "lift_m": 0.0,
+          "travel_m": 3.897679185652518e-12
+        }
+      ],
+      "events": [
+        {
+          "phase": "runtime_parameters",
+          "elapsed_s": 7.398392978007905,
+          "required_complete": true,
+          "sha256": "09e6f9302790c778c8e00884482d425ee30468a2a2a1f3c68e9f4b99922745c1",
+          "incomplete_required_nodes": []
+        },
+        {
+          "phase": "body_instability",
+          "elapsed_s": 10.96986138599459,
+          "rpy": [
+            -2.161940574645996,
+            0.732698917388916,
+            1.2558485269546509
+          ],
+          "duration_s": 1.4779508113861084,
+          "source": "onboard_measured_rpy"
+        }
+      ],
+      "source_manifest": {
+        "world": "transport_medium",
+        "people": 0,
+        "seed": 48,
+        "duration_s": 600.0,
+        "build_reused": true,
+        "carry_posture": "payload_v1",
+        "people_clearance_extra_m": 0.0,
+        "navigation_profile_sha256": "3c20b55a91b027dcdcf65bc8b01493bd6206b3b3348a94b00d895d6c6f018ff1",
+        "pedestrian_scenario": "social_natural_plaza",
+        "pedestrian_start_delay_s": 10.0,
+        "tracker_wall_evidence": true,
+        "tracker_body_wall_sheets": true,
+        "early_overtaking_avoidance": false,
+        "predictive_refuge": false,
+        "layout_seed": 0,
+        "objective": {
+          "pairs": [
+            {
+              "object_id": "box_red",
+              "destination_id": "target_blue",
+              "color": "red",
+              "destination_color": "blue"
+            }
+          ],
+          "task_seed": null,
+          "mode": "red:blue",
+          "description": "Put the red box on the blue goal"
+        },
+        "mission_kind": "explore_pick_find_place",
+        "search_max_viewpoints": 20,
+        "camera_pitch_deg": 25.0,
+        "settings": {
+          "policy_action_rate_limit": "0.0",
+          "policy_path": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+          "policy_profile": "unitree_rl_lab_g1_29dof",
+          "policy_obs_dim": "480",
+          "policy_action_dim": "29",
+          "mujoco_initial_keyframe": "transport_unitree_rl_lab_stand",
+          "max_lin_vel_y": "0.45",
+          "max_lin_vel_x": "0.65",
+          "nav2_observation_sources": "scan",
+          "nav2_max_vel_y": "0.35",
+          "nav2_min_vel_y": "-0.35",
+          "nav2_acc_lim_y": "0.60",
+          "nav2_decel_lim_y": "-0.60",
+          "nav2_vy_samples": "7",
+          "nav2_planner_plugin": "nav2_smac_planner/SmacPlanner2D",
+          "nav2_people_layer": "true",
+          "turning_arc_min_forward_speed": "0.0",
+          "turning_arc_min_yaw_speed": "0.0",
+          "max_ang_vel_z": "0.90",
+          "cmd_accel_yaw": "0.90",
+          "cmd_accel_x": "2.40",
+          "cmd_accel_y": "2.40",
+          "mujoco_pedestrian_scenario": "social_natural_plaza",
+          "mujoco_pedestrian_start_delay": "10.0",
+          "mujoco_pedestrian_start_gate": "false",
+          "onboard_only": "true",
+          "nav2_dynamic_replanning": "true",
+          "nav2_world_costmap": "false",
+          "nav2_static_scene_map": "false",
+          "tracker_use_sensor_input": "true",
+          "tracker_local_tracking_radius": "10.0",
+          "livox_scan_points": "2400",
+          "lidar_rate_hz": "15.0",
+          "publish_lidar_tf": "false",
+          "use_mujoco_lidar_pose": "false",
+          "use_cmd_vel_lidar_fallback": "false",
+          "run_slam_reset_monitor": "false",
+          "run_lidar_person_detector": "false",
+          "lidar_output_frame": "mujoco_livox_frame",
+          "show_mujoco_goal": "true",
+          "rviz_config": "/workspace/ros2_ws/src/unitree_g1_sim_bringup/rviz/g1_onboard_waypoints.rviz",
+          "social_navigation_params_file": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/20261014T165100Z-readme-exploration/transport_navigation.yaml",
+          "mujoco_scene": "scene_29dof_transport_transport_medium.xml",
+          "mujoco_pedestrians_enable": "true",
+          "mujoco_pedestrians_count": "0",
+          "mujoco_pedestrian_seed": "48",
+          "run_nav2": "true",
+          "run_waypoint_explorer": "false",
+          "run_waypoint_patrol": "false",
+          "run_frontier_explorer": "false",
+          "run_human_aware_motion_planner": "true",
+          "run_human_collision_avoidance": "true",
+          "run_dynamic_obstacle_tracker": "true",
+          "run_arm_compositor": "true",
+          "run_sim_manipulation_io": "true",
+          "arm_compositor_goal_tolerance": "0.08",
+          "bridge_arm_kp_override": "160.0",
+          "bridge_arm_kd_override": "4.0",
+          "bridge_arm_gains_require_authority": "true",
+          "external_arm_observation_mask": "false",
+          "run_rviz": "false",
+          "publish_camera": "true",
+          "camera_width": "192",
+          "camera_height": "108",
+          "camera_rate_hz": "2.0",
+          "camera_mount_pitch_deg": "25.0",
+          "startup_current_pose_hold_time": "0.0",
+          "startup_blend_time": "0.0",
+          "startup_hold_time": "1.0",
+          "startup_max_recovery_time": "0.0",
+          "policy_action_ramp_time": "0.0",
+          "mujoco_reset_on_controller_start": "false",
+          "run_human_aware_run_logger": "true",
+          "human_aware_run_log_path": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/20261014T165100Z-readme-exploration/trace.jsonl",
+          "policy_use_device_tick": "true",
+          "mujoco_application_timing": "false",
+          "arm_compositor_executor_threads": "2",
+          "arm_compositor_repeat_publish_period": "0.0",
+          "slam_loop_closing": "false"
+        },
+        "source_sha256": {
+          "scripts/run_transport_demo.py": "b1d1464e1d5c2932d1a28463aa5d6b789863197afb6c81e6eb34f444df856dee",
+          "scripts/transport_worlds.py": "2f0bec7ec4f153bf664fc95dad107367bd6718bf123e64836921802b0ca707d9",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "3466848b2867a8ab325fe4287e7b7670ec793855b02f8de5ac186fe0e1926101",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "64c9e2410cd8b6f6f31314ea8f79ee6f350c668802c1180448e4493390e494aa",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "9280d4a61aaecb89259f1e063a9b27d1e3b59cd98395ae5bad0405cf938a01dd",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "8450cbb4117473056826beac9673dd8c27794393ba24710f6d66c45392b24fef",
+          "vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c"
+        }
+      },
+      "result_sha256": "4e43a215e174e6b1809606ea635c60b7974e47343a05c05a23ec4da6fbc27385",
+      "source_provenance_sha256": "69899165c5a0043143a33ddb41f1161f688d2d013582dd953dc09abbce9f0862"
+    },
+    {
+      "run": "ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/20261014T165300Z-readme-wall-clock",
+      "recorded_at": "2026-10-14T16:44:45.579846+00:00",
+      "command": [
+        "/usr/bin/python3",
+        "/home/david/unitree_g1_ros2_mujoco/scripts/run_transport_demo.py",
+        "--run-id",
+        "20261014T165300Z-readme-wall-clock",
+        "--world",
+        "transport_dual",
+        "--task",
+        "red:red",
+        "--people",
+        "0",
+        "--seed",
+        "48",
+        "--duration",
+        "600",
+        "--carry-posture",
+        "payload_v1",
+        "--policy",
+        "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+        "--no-policy-device-clock",
+        "--fast-start",
+        "--no-rviz"
+      ],
+      "capture_sha256": "83585f91061848d5b62edab9710b8a3c396a5f22f142a1f22afabafd3207d512",
+      "frame_count": 164,
+      "capture_errors": 1,
+      "returncode": 1,
+      "success": false,
+      "mission_complete": false,
+      "fallen": true,
+      "error": "sustained measured body instability",
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_red",
+          "color": "red",
+          "destination_color": "red",
+          "verified": false,
+          "lift_m": 0.0,
+          "travel_m": 4.526601448209729e-12
+        }
+      ],
+      "events": [
+        {
+          "phase": "runtime_parameters",
+          "elapsed_s": 7.4316610069945455,
+          "required_complete": true,
+          "sha256": "81a9b64a5cac5850ec92a499c1e6058feaad8e10c56673eac9435bf18a767a9e",
+          "incomplete_required_nodes": []
+        },
+        {
+          "phase": "survey_destination",
+          "elapsed_s": 10.753863419988193,
+          "destination_id": "target_red"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 10.75619436998386,
+          "object_id": "target_red"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 10.766767427994637,
+          "goal_odom": [
+            0.026808815144603225,
+            0.008128262819715442,
+            0.6826927741362026
+          ],
+          "start_pose": [
+            0.026808815144603225,
+            0.008128262819715442,
+            -0.10270538926124573
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 20.865034152986482,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 2.0705334180092905
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 22.57308206599555,
+          "goal_odom": [
+            0.08468597550250868,
+            0.02400078153116666,
+            1.3336334606005122
+          ],
+          "start_pose": [
+            0.08468597550250868,
+            0.02400078153116666,
+            0.5482352972030641
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 33.091679542994825,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 2.4947797400236595
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 34.8057100159931,
+          "goal_odom": [
+            0.12485439800014574,
+            0.08879720894554541,
+            1.9039553781343865
+          ],
+          "start_pose": [
+            0.12485439800014574,
+            0.08879720894554541,
+            1.1185572147369383
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 43.388679605996,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 1.794106877001468
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 45.112525935983285,
+          "goal_odom": [
+            0.23831025867392144,
+            0.07831321008516368,
+            2.4988226075960567
+          ],
+          "start_pose": [
+            0.23831025867392144,
+            0.07831321008516368,
+            1.7134244441986084
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "body_instability",
+          "elapsed_s": 57.7707010069862,
+          "rpy": [
+            -0.06856135278940201,
+            -0.779974102973938,
+            2.639988660812378
+          ],
+          "duration_s": 0.23451781272888184,
+          "source": "onboard_measured_rpy"
+        }
+      ],
+      "source_manifest": {
+        "world": "transport_dual",
+        "people": 0,
+        "seed": 48,
+        "duration_s": 600.0,
+        "build_reused": true,
+        "carry_posture": "payload_v1",
+        "people_clearance_extra_m": 0.0,
+        "navigation_profile_sha256": "7e15970996e71a99133c8590b36cacf937ba14d8705e972f66b1f8385b31a653",
+        "pedestrian_scenario": "social_natural_plaza",
+        "pedestrian_start_delay_s": 10.0,
+        "tracker_wall_evidence": true,
+        "tracker_body_wall_sheets": true,
+        "early_overtaking_avoidance": false,
+        "predictive_refuge": false,
+        "layout_seed": null,
+        "objective": {
+          "pairs": [
+            {
+              "object_id": "box_red",
+              "destination_id": "target_red",
+              "color": "red",
+              "destination_color": "red"
+            }
+          ],
+          "task_seed": null,
+          "mode": "red:red",
+          "description": "Put the red box on the red goal"
+        },
+        "mission_kind": "transport",
+        "search_max_viewpoints": null,
+        "camera_pitch_deg": 25.0,
+        "settings": {
+          "policy_action_rate_limit": "0.0",
+          "policy_path": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+          "policy_profile": "unitree_rl_lab_g1_29dof",
+          "policy_obs_dim": "480",
+          "policy_action_dim": "29",
+          "mujoco_initial_keyframe": "transport_unitree_rl_lab_stand",
+          "max_lin_vel_y": "0.45",
+          "max_lin_vel_x": "0.65",
+          "nav2_observation_sources": "scan",
+          "nav2_max_vel_y": "0.35",
+          "nav2_min_vel_y": "-0.35",
+          "nav2_acc_lim_y": "0.60",
+          "nav2_decel_lim_y": "-0.60",
+          "nav2_vy_samples": "7",
+          "nav2_planner_plugin": "nav2_smac_planner/SmacPlanner2D",
+          "nav2_people_layer": "true",
+          "turning_arc_min_forward_speed": "0.0",
+          "turning_arc_min_yaw_speed": "0.0",
+          "max_ang_vel_z": "0.90",
+          "cmd_accel_yaw": "0.90",
+          "cmd_accel_x": "2.40",
+          "cmd_accel_y": "2.40",
+          "mujoco_pedestrian_scenario": "social_natural_plaza",
+          "mujoco_pedestrian_start_delay": "10.0",
+          "mujoco_pedestrian_start_gate": "false",
+          "onboard_only": "true",
+          "nav2_dynamic_replanning": "true",
+          "nav2_world_costmap": "false",
+          "nav2_static_scene_map": "false",
+          "tracker_use_sensor_input": "true",
+          "tracker_local_tracking_radius": "10.0",
+          "livox_scan_points": "2400",
+          "lidar_rate_hz": "15.0",
+          "publish_lidar_tf": "false",
+          "use_mujoco_lidar_pose": "false",
+          "use_cmd_vel_lidar_fallback": "false",
+          "run_slam_reset_monitor": "false",
+          "run_lidar_person_detector": "false",
+          "lidar_output_frame": "mujoco_livox_frame",
+          "show_mujoco_goal": "true",
+          "rviz_config": "/workspace/ros2_ws/src/unitree_g1_sim_bringup/rviz/g1_onboard_waypoints.rviz",
+          "social_navigation_params_file": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/20261014T165300Z-readme-wall-clock/transport_navigation.yaml",
+          "mujoco_scene": "scene_29dof_transport_transport_dual.xml",
+          "mujoco_pedestrians_enable": "true",
+          "mujoco_pedestrians_count": "0",
+          "mujoco_pedestrian_seed": "48",
+          "run_nav2": "true",
+          "run_waypoint_explorer": "false",
+          "run_waypoint_patrol": "false",
+          "run_frontier_explorer": "false",
+          "run_human_aware_motion_planner": "true",
+          "run_human_collision_avoidance": "true",
+          "run_dynamic_obstacle_tracker": "true",
+          "run_arm_compositor": "true",
+          "run_sim_manipulation_io": "true",
+          "arm_compositor_goal_tolerance": "0.08",
+          "bridge_arm_kp_override": "160.0",
+          "bridge_arm_kd_override": "4.0",
+          "bridge_arm_gains_require_authority": "true",
+          "external_arm_observation_mask": "false",
+          "run_rviz": "false",
+          "publish_camera": "true",
+          "camera_width": "192",
+          "camera_height": "108",
+          "camera_rate_hz": "2.0",
+          "camera_mount_pitch_deg": "25.0",
+          "startup_current_pose_hold_time": "0.0",
+          "startup_blend_time": "0.0",
+          "startup_hold_time": "1.0",
+          "startup_max_recovery_time": "0.0",
+          "policy_action_ramp_time": "0.0",
+          "mujoco_reset_on_controller_start": "false",
+          "run_human_aware_run_logger": "true",
+          "human_aware_run_log_path": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/20261014T165300Z-readme-wall-clock/trace.jsonl",
+          "policy_use_device_tick": "false",
+          "mujoco_application_timing": "false",
+          "arm_compositor_executor_threads": "2",
+          "arm_compositor_repeat_publish_period": "0.0",
+          "slam_loop_closing": "true"
+        },
+        "source_sha256": {
+          "scripts/run_transport_demo.py": "b1d1464e1d5c2932d1a28463aa5d6b789863197afb6c81e6eb34f444df856dee",
+          "scripts/transport_worlds.py": "2f0bec7ec4f153bf664fc95dad107367bd6718bf123e64836921802b0ca707d9",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "3466848b2867a8ab325fe4287e7b7670ec793855b02f8de5ac186fe0e1926101",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "64c9e2410cd8b6f6f31314ea8f79ee6f350c668802c1180448e4493390e494aa",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "9280d4a61aaecb89259f1e063a9b27d1e3b59cd98395ae5bad0405cf938a01dd",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "8450cbb4117473056826beac9673dd8c27794393ba24710f6d66c45392b24fef",
+          "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+        }
+      },
+      "result_sha256": "bc6938cac254a8bfb59cef06add1367f95be5ad3bc600ea1f840f8888b40955a",
+      "source_provenance_sha256": "1c6fb25cc41336fbc72aa979dfecd05894c69332a3a1704fee96ea34a6c3ce2c"
+    },
+    {
+      "run": "ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/20261014T165600Z-readme-aisle",
+      "recorded_at": "2026-10-14T16:46:25.946153+00:00",
+      "command": [
+        "/usr/bin/python3",
+        "/home/david/unitree_g1_ros2_mujoco/scripts/run_transport_demo.py",
+        "--run-id",
+        "20261014T165600Z-readme-aisle",
+        "--world",
+        "transport_aisle",
+        "--task",
+        "red:red",
+        "--people",
+        "0",
+        "--seed",
+        "48",
+        "--duration",
+        "600",
+        "--carry-posture",
+        "payload_v1",
+        "--policy",
+        "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+        "--fast-start",
+        "--no-rviz"
+      ],
+      "capture_sha256": "4fcb4cbd7c09338875e91500c0df92ee63c456886d3104c50bee6e98da64b8a8",
+      "frame_count": 27,
+      "capture_errors": 1,
+      "returncode": 1,
+      "success": false,
+      "mission_complete": false,
+      "fallen": true,
+      "error": "sustained measured body instability",
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_red",
+          "color": "red",
+          "destination_color": "red",
+          "verified": false,
+          "lift_m": 0.0,
+          "travel_m": 3.5122020478410956e-12
+        }
+      ],
+      "events": [
+        {
+          "phase": "runtime_parameters",
+          "elapsed_s": 7.9146063690132,
+          "required_complete": true,
+          "sha256": "e008bda13928e5b546d4c84200e0b776516263a58b32f5026525d476b6959bf1",
+          "incomplete_required_nodes": []
+        },
+        {
+          "phase": "survey_destination",
+          "elapsed_s": 11.375460670009488,
+          "destination_id": "target_red"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 11.386989127000561,
+          "object_id": "target_red"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 11.39754093499505,
+          "goal_odom": [
+            -2.437745639226219,
+            -1.3221597919014492,
+            1.3845996638132503
+          ],
+          "start_pose": [
+            -2.437745639226219,
+            -1.3221597919014492,
+            0.599201500415802
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "turn_displaced",
+          "elapsed_s": 11.917326444003265,
+          "displacement_m": 0.43667426640029944,
+          "limit_m": 0.35,
+          "start_pose_xy": [
+            -2.437745639226219,
+            -1.3221597919014492
+          ],
+          "measured_pose": [
+            -2.7498710129092454,
+            -1.6275483411947567,
+            1.0564329624176025
+          ]
+        },
+        {
+          "phase": "body_instability",
+          "elapsed_s": 12.498763542011147,
+          "rpy": [
+            -1.6898399591445923,
+            -0.4029907286167145,
+            2.4410107135772705
+          ],
+          "duration_s": 0.2449204921722412,
+          "source": "onboard_measured_rpy"
+        }
+      ],
+      "source_manifest": {
+        "world": "transport_aisle",
+        "people": 0,
+        "seed": 48,
+        "duration_s": 600.0,
+        "build_reused": true,
+        "carry_posture": "payload_v1",
+        "people_clearance_extra_m": 0.0,
+        "navigation_profile_sha256": "7e15970996e71a99133c8590b36cacf937ba14d8705e972f66b1f8385b31a653",
+        "pedestrian_scenario": "social_natural_plaza",
+        "pedestrian_start_delay_s": 10.0,
+        "tracker_wall_evidence": true,
+        "tracker_body_wall_sheets": true,
+        "early_overtaking_avoidance": false,
+        "predictive_refuge": false,
+        "layout_seed": null,
+        "objective": {
+          "pairs": [
+            {
+              "object_id": "box_red",
+              "destination_id": "target_red",
+              "color": "red",
+              "destination_color": "red"
+            }
+          ],
+          "task_seed": null,
+          "mode": "red:red",
+          "description": "Put the red box on the red goal"
+        },
+        "mission_kind": "transport",
+        "search_max_viewpoints": null,
+        "camera_pitch_deg": 0.0,
+        "settings": {
+          "policy_action_rate_limit": "0.0",
+          "policy_path": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx",
+          "policy_profile": "unitree_rl_lab_g1_29dof",
+          "policy_obs_dim": "480",
+          "policy_action_dim": "29",
+          "mujoco_initial_keyframe": "transport_unitree_rl_lab_stand",
+          "max_lin_vel_y": "0.45",
+          "max_lin_vel_x": "0.65",
+          "nav2_observation_sources": "scan",
+          "nav2_max_vel_y": "0.35",
+          "nav2_min_vel_y": "-0.35",
+          "nav2_acc_lim_y": "0.60",
+          "nav2_decel_lim_y": "-0.60",
+          "nav2_vy_samples": "7",
+          "nav2_planner_plugin": "nav2_smac_planner/SmacPlanner2D",
+          "nav2_people_layer": "true",
+          "turning_arc_min_forward_speed": "0.0",
+          "turning_arc_min_yaw_speed": "0.0",
+          "max_ang_vel_z": "0.90",
+          "cmd_accel_yaw": "0.90",
+          "cmd_accel_x": "2.40",
+          "cmd_accel_y": "2.40",
+          "mujoco_pedestrian_scenario": "social_natural_plaza",
+          "mujoco_pedestrian_start_delay": "10.0",
+          "mujoco_pedestrian_start_gate": "false",
+          "onboard_only": "true",
+          "nav2_dynamic_replanning": "true",
+          "nav2_world_costmap": "false",
+          "nav2_static_scene_map": "false",
+          "tracker_use_sensor_input": "true",
+          "tracker_local_tracking_radius": "10.0",
+          "livox_scan_points": "2400",
+          "lidar_rate_hz": "15.0",
+          "publish_lidar_tf": "false",
+          "use_mujoco_lidar_pose": "false",
+          "use_cmd_vel_lidar_fallback": "false",
+          "run_slam_reset_monitor": "false",
+          "run_lidar_person_detector": "false",
+          "lidar_output_frame": "mujoco_livox_frame",
+          "show_mujoco_goal": "true",
+          "rviz_config": "/workspace/ros2_ws/src/unitree_g1_sim_bringup/rviz/g1_onboard_waypoints.rviz",
+          "social_navigation_params_file": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/20261014T165600Z-readme-aisle/transport_navigation.yaml",
+          "mujoco_scene": "scene_29dof_transport_transport_aisle.xml",
+          "mujoco_pedestrians_enable": "true",
+          "mujoco_pedestrians_count": "0",
+          "mujoco_pedestrian_seed": "48",
+          "run_nav2": "true",
+          "run_waypoint_explorer": "false",
+          "run_waypoint_patrol": "false",
+          "run_frontier_explorer": "false",
+          "run_human_aware_motion_planner": "true",
+          "run_human_collision_avoidance": "true",
+          "run_dynamic_obstacle_tracker": "true",
+          "run_arm_compositor": "true",
+          "run_sim_manipulation_io": "true",
+          "arm_compositor_goal_tolerance": "0.08",
+          "bridge_arm_kp_override": "160.0",
+          "bridge_arm_kd_override": "4.0",
+          "bridge_arm_gains_require_authority": "true",
+          "external_arm_observation_mask": "false",
+          "run_rviz": "false",
+          "publish_camera": "true",
+          "camera_width": "192",
+          "camera_height": "108",
+          "camera_rate_hz": "2.0",
+          "camera_mount_pitch_deg": "0.0",
+          "startup_current_pose_hold_time": "0.0",
+          "startup_blend_time": "0.0",
+          "startup_hold_time": "1.0",
+          "startup_max_recovery_time": "0.0",
+          "policy_action_ramp_time": "0.0",
+          "mujoco_reset_on_controller_start": "false",
+          "run_human_aware_run_logger": "true",
+          "human_aware_run_log_path": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/20261014T165600Z-readme-aisle/trace.jsonl",
+          "policy_use_device_tick": "true",
+          "mujoco_application_timing": "false",
+          "arm_compositor_executor_threads": "2",
+          "arm_compositor_repeat_publish_period": "0.0",
+          "slam_loop_closing": "true"
+        },
+        "source_sha256": {
+          "scripts/run_transport_demo.py": "b1d1464e1d5c2932d1a28463aa5d6b789863197afb6c81e6eb34f444df856dee",
+          "scripts/transport_worlds.py": "2f0bec7ec4f153bf664fc95dad107367bd6718bf123e64836921802b0ca707d9",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "3466848b2867a8ab325fe4287e7b7670ec793855b02f8de5ac186fe0e1926101",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "64c9e2410cd8b6f6f31314ea8f79ee6f350c668802c1180448e4493390e494aa",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "9280d4a61aaecb89259f1e063a9b27d1e3b59cd98395ae5bad0405cf938a01dd",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "8450cbb4117473056826beac9673dd8c27794393ba24710f6d66c45392b24fef",
+          "vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/policy.onnx": "25bab45eda339e314c7b15156ba9e3695cfdcfffa157b990a720e59d3d3e65cc"
+        }
+      },
+      "result_sha256": "91eda2c20d618b5ade9699038875525c72cb9eaa923b9186d8b106c6f639e4e4",
+      "source_provenance_sha256": "97db024709baf7b5a4bff43cef84a03110041f261caab6869e863cf2a121676f"
+    }
+  ]
+}

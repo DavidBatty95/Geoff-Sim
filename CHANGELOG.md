@@ -25,6 +25,12 @@ for measured outcomes and [release policy](docs/RELEASES.md) for promotion crite
 
 ### Added
 
+- Fresh locomanipulation window recordings, time-lapse overview, pickup/lift and
+  loaded-transport GIFs with still-image alternatives. Source manifests retain
+  all seven failed capture attempts; no complete-delivery footage is claimed.
+- Reproducible window-capture/GIF-export tools and a locomanipulation-led README
+  banner and gallery; earlier navigation recordings remain available separately.
+
 - Shared strict performance-outcome validation, explicit matrix run IDs,
   pre-recorded cohorts, atomic summaries, bounded outer execution and concurrent
   matrix exclusion. Malformed/startup-failed attempts remain visible.
@@ -48,6 +54,14 @@ for measured outcomes and [release policy](docs/RELEASES.md) for promotion crite
   native-foot-contact fidelity profile; candidates require native qualification.
 
 ### Changed
+
+- Fixed carry/rest postures share current-waist measured completion validation;
+  incomplete/nonfinite arm or waist measurements cannot pass via FK defaults.
+  Restoration retains arm authority until the existing 3.5 cm tolerance passes.
+- Native capture traces exposed stops longer than the initial 1.5-second braking
+  allowance. Braking now has up to five seconds within the original operation
+  deadline, retaining freshness, velocity and dwell requirements. The complete
+  bridge suite passes **588 tests**; native capture failures remain documented.
 
 - Device-clock policy execution now requires LowState tick progression within
   the existing sensor timeout. Duplicate/reordered packets cannot replace

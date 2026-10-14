@@ -1,188 +1,42 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 380" width="1200" height="380" role="img" aria-labelledby="title desc">
-  <title id="title">Geoff-Sim — Humanoid Autonomy</title>
-  <desc id="desc">Animated Geoff-Sim title banner with a humanoid silhouette, scanning LiDAR and flowing data. Decorative schematic, not live telemetry or recorded robot footage. Restored from the original project banner.</desc>
-  <style>
-    text { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif }
-    .mono { font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,"Liberation Mono",monospace }
-    .wordmark { font-size:62px; font-weight:800; letter-spacing:.025em }
-    .eyebrow { font-size:11px; font-weight:750; letter-spacing:.2em; fill:#74dfff }
-    .tagline { font-size:18px; font-weight:650; fill:#d8e8f4 }
-    .meta { font-size:11px; font-weight:650; letter-spacing:.08em; fill:#7e9aae }
-    .status-title { font-size:10px; font-weight:750; letter-spacing:.11em; fill:#e8f6ff }
-    .status-detail { font-size:8.5px; font-weight:650; letter-spacing:.08em; fill:#7390a5 }
-    .grid { animation:grid-drift 18s linear infinite }
-    .glow { animation:glow 3.6s ease-in-out infinite }
-    .blink { animation:blink 2.2s ease-in-out infinite }
-    .bob { animation:bob 1.35s ease-in-out infinite; transform-origin:930px 222px }
-    .radar { animation:radar 3.2s linear infinite; transform-origin:930px 218px }
-    .ring { fill:none; stroke:#54d8ff; animation:ring 3s ease-out infinite }
-    .flow { stroke-dasharray:8 10; animation:flow .9s linear infinite }
-    .wave { stroke-dasharray:5 7; animation:flow 1.1s linear infinite }
-    .particle-a { animation:particle-a 9s linear infinite }
-    .particle-b { animation:particle-b 12s linear infinite }
-    .arm-left { animation:arm-left 1.35s ease-in-out infinite; transform-origin:-27px -32px }
-    .arm-right { animation:arm-right 1.35s ease-in-out infinite; transform-origin:27px -32px }
-    .leg-left { animation:leg-left 1.35s ease-in-out infinite; transform-origin:-13px 38px }
-    .leg-right { animation:leg-right 1.35s ease-in-out infinite; transform-origin:13px 38px }
-    @keyframes grid-drift { to { transform:translate(-32px,16px) } }
-    @keyframes glow { 0%,100% { opacity:.45 } 50% { opacity:1 } }
-    @keyframes blink { 0%,100% { opacity:.3 } 50% { opacity:1 } }
-    @keyframes bob { 0%,100% { transform:translateY(0) } 50% { transform:translateY(-7px) } }
-    @keyframes radar { to { transform:rotate(360deg) } }
-    @keyframes ring { 0% { r:18; opacity:.65 } 100% { r:132; opacity:0 } }
-    @keyframes flow { to { stroke-dashoffset:-18 } }
-    @keyframes particle-a { from { transform:translateX(-40px) } to { transform:translateX(1240px) } }
-    @keyframes particle-b { from { transform:translateX(40px) } to { transform:translateX(-1240px) } }
-    @keyframes arm-left { 0%,100% { transform:rotate(-16deg) } 50% { transform:rotate(12deg) } }
-    @keyframes arm-right { 0%,100% { transform:rotate(14deg) } 50% { transform:rotate(-12deg) } }
-    @keyframes leg-left { 0%,100% { transform:rotate(18deg) } 50% { transform:rotate(-15deg) } }
-    @keyframes leg-right { 0%,100% { transform:rotate(-15deg) } 50% { transform:rotate(18deg) } }
-    @media (prefers-reduced-motion:reduce) { * { animation:none !important } }
-  </style>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 310" width="1200" height="310" role="img" aria-labelledby="title desc">
+  <title id="title">Geoff-Sim — Humanoid locomanipulation</title>
+  <desc id="desc">Project title and the observe, approach, pick up, carry and place workflow. The robot and delivery route are decorative schematics; recorded simulation footage appears below.</desc>
   <defs>
-    <linearGradient id="background" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#061321"/>
-      <stop offset=".52" stop-color="#071c30"/>
-      <stop offset="1" stop-color="#100d2b"/>
-    </linearGradient>
-    <linearGradient id="frame" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#11bfe9"/>
-      <stop offset=".48" stop-color="#65e6ff"/>
-      <stop offset="1" stop-color="#9d72ff"/>
-    </linearGradient>
-    <linearGradient id="wordmark" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#f4fbff"/>
-      <stop offset=".48" stop-color="#72e5ff"/>
-      <stop offset="1" stop-color="#b495ff"/>
-    </linearGradient>
-    <radialGradient id="halo">
-      <stop offset="0" stop-color="#20c9f4" stop-opacity=".17"/>
-      <stop offset=".58" stop-color="#7656e8" stop-opacity=".06"/>
-      <stop offset="1" stop-color="#071829" stop-opacity="0"/>
-    </radialGradient>
-    <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
-      <path d="M32 0H0V32" fill="none" stroke="#17384e" stroke-width="1" opacity=".48"/>
-      <circle cx="0" cy="0" r="1.2" fill="#2c7895" opacity=".45"/>
-    </pattern>
-    <filter id="cyan-glow" x="-60%" y="-60%" width="220%" height="220%">
-      <feGaussianBlur stdDeviation="5" result="blur"/>
-      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-    </filter>
-    <filter id="soft-shadow" x="-20%" y="-30%" width="140%" height="170%">
-      <feDropShadow dx="0" dy="6" stdDeviation="7" flood-color="#000814" flood-opacity=".55"/>
-    </filter>
-    <clipPath id="frame-clip"><rect x="12" y="12" width="1176" height="356" rx="18"/></clipPath>
+    <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#071724"/><stop offset="1" stop-color="#123547"/></linearGradient>
+    <pattern id="grid" width="38" height="38" patternUnits="userSpaceOnUse"><path d="M38 0H0V38" fill="none" stroke="#234355" stroke-width=".6"/></pattern>
   </defs>
-
-  <rect width="1200" height="380" rx="20" fill="#030a12"/>
-  <rect x="12" y="12" width="1176" height="356" rx="18" fill="url(#background)"/>
-  <g clip-path="url(#frame-clip)">
-    <g class="grid"><rect x="-32" y="-16" width="1264" height="412" fill="url(#grid)"/></g>
-    <ellipse cx="926" cy="210" rx="285" ry="250" fill="url(#halo)"/>
-
-    <!-- Decorative data traffic and circuit traces. -->
-    <g opacity=".55">
-      <circle class="particle-a" cx="0" cy="78" r="2.5" fill="#57dcff"/>
-      <circle class="particle-a" cx="-190" cy="302" r="2" fill="#9d72ff" style="animation-delay:-3s"/>
-      <circle class="particle-b" cx="1200" cy="118" r="2" fill="#57dcff" style="animation-delay:-4s"/>
-      <circle class="particle-b" cx="1450" cy="326" r="2.5" fill="#9d72ff" style="animation-delay:-7s"/>
-    </g>
-    <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-      <path class="flow" d="M34 250H162L194 218H318L350 250H510" stroke="#1fa9d0" stroke-width="1.4" opacity=".55"/>
-      <path class="flow" d="M1166 88H1090L1058 120H986" stroke="#8d6df0" stroke-width="1.4" opacity=".5" style="animation-delay:-.4s"/>
-      <path class="wave" d="M530 305H590L606 289L622 321L638 297L654 305H750" stroke="#62dcff" stroke-width="1.5" opacity=".55"/>
-    </g>
-    <g fill="#58dcff" opacity=".8">
-      <circle cx="162" cy="250" r="3"/><circle cx="194" cy="218" r="3"/><circle cx="350" cy="250" r="3"/>
-    </g>
-
-    <!-- Original title-led layout. -->
-    <text class="mono eyebrow" x="58" y="72">HUMANOID AUTONOMY PLATFORM</text>
-    <text class="wordmark" x="54" y="142" fill="url(#wordmark)">Geoff-Sim</text>
-    <text class="tagline" x="59" y="178">Perceive. Plan. Move.</text>
-    <text class="mono meta" x="59" y="207">UNITREE G1  ·  ROS 2 HUMBLE  ·  MUJOCO</text>
-    <g transform="translate(59 229)">
-      <circle class="blink" cx="5" cy="5" r="5" fill="#44e89a" filter="url(#cyan-glow)"/>
-      <text class="mono status-title" x="19" y="9">SIMULATION RESEARCH</text>
-      <circle class="blink" cx="174" cy="5" r="5" fill="#58dcff" style="animation-delay:-.7s"/>
-      <text class="mono status-title" x="188" y="9">ROS 2 / DDS</text>
-      <circle class="blink" cx="306" cy="5" r="5" fill="#a789ff" style="animation-delay:-1.4s"/>
-      <text class="mono status-title" x="320" y="9">ONBOARD PLANNING</text>
-    </g>
-
-    <g filter="url(#soft-shadow)">
-      <g transform="translate(58 278)">
-        <rect width="142" height="50" rx="9" fill="#07121f" fill-opacity=".88" stroke="#19415a"/>
-        <circle class="blink" cx="17" cy="17" r="4" fill="#58dcff"/>
-        <text class="mono status-title" x="29" y="20">PERCEPTION</text>
-        <text class="mono status-detail" x="16" y="37">LIDAR · IMU · TF</text>
-      </g>
-      <g transform="translate(216 278)">
-        <rect width="142" height="50" rx="9" fill="#07121f" fill-opacity=".88" stroke="#19415a"/>
-        <circle class="blink" cx="17" cy="17" r="4" fill="#44e89a" style="animation-delay:-.5s"/>
-        <text class="mono status-title" x="29" y="20">NAVIGATION</text>
-        <text class="mono status-detail" x="16" y="37">SLAM · NAV2 · GOALS</text>
-      </g>
-      <g transform="translate(374 278)">
-        <rect width="142" height="50" rx="9" fill="#07121f" fill-opacity=".88" stroke="#352d68"/>
-        <circle class="blink" cx="17" cy="17" r="4" fill="#a789ff" style="animation-delay:-1s"/>
-        <text class="mono status-title" x="29" y="20">LOCOMOTION</text>
-        <text class="mono status-detail" x="16" y="37">POLICY · 29 DOF</text>
-      </g>
-    </g>
-
-    <!-- Scanning field and original animated humanoid silhouette. -->
-    <circle cx="930" cy="218" r="132" fill="none" stroke="#1b526d" stroke-width="1" opacity=".55"/>
-    <circle cx="930" cy="218" r="92" fill="none" stroke="#1b526d" stroke-width="1" opacity=".65"/>
-    <circle cx="930" cy="218" r="52" fill="none" stroke="#1b526d" stroke-width="1" opacity=".75"/>
-    <path d="M798 218H1062M930 86V350" stroke="#1b526d" stroke-width="1" opacity=".42" stroke-dasharray="4 7"/>
-    <g class="radar" opacity=".7">
-      <path d="M930 218L930 86A132 132 0 0 1 1037 141Z" fill="#55dcff" opacity=".12"/>
-      <path d="M930 218L930 86" stroke="#61e2ff" stroke-width="2"/>
-    </g>
-    <circle class="ring" cx="930" cy="218" r="18" style="animation-delay:0s"/>
-    <circle class="ring" cx="930" cy="218" r="18" style="animation-delay:-1s"/>
-    <circle class="ring" cx="930" cy="218" r="18" style="animation-delay:-2s"/>
-    <g class="bob" filter="url(#soft-shadow)">
-      <g transform="translate(930 224)">
-        <ellipse cx="0" cy="113" rx="54" ry="9" fill="#02070d" opacity=".7"/>
-        <g transform="translate(0 -55)">
-          <rect x="-18" y="-20" width="36" height="28" rx="10" fill="#091725" stroke="#73e4ff" stroke-width="2.4"/>
-          <rect x="-11" y="-12" width="22" height="7" rx="3.5" fill="#57dcff" class="glow"/>
-          <circle cx="0" cy="-24" r="4" fill="#a98cff" class="blink"/>
-        </g>
-        <rect x="-27" y="-43" width="54" height="72" rx="15" fill="#091725" stroke="#73e4ff" stroke-width="2.8"/>
-        <path d="M-15 -20H15M-14 -7H14" stroke="#9b83ff" stroke-width="2" opacity=".75"/>
-        <circle cx="0" cy="35" r="9" fill="#091725" stroke="#a98cff" stroke-width="2.4"/>
-        <g class="arm-left">
-          <path d="M-27 -32L-50 8L-43 48" fill="none" stroke="#63ddff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="-50" cy="8" r="5" fill="#0a1827" stroke="#a98cff" stroke-width="2"/>
-        </g>
-        <g class="arm-right">
-          <path d="M27 -32L50 8L43 48" fill="none" stroke="#63ddff" stroke-width="9" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="50" cy="8" r="5" fill="#0a1827" stroke="#a98cff" stroke-width="2"/>
-        </g>
-        <g class="leg-left">
-          <path d="M-13 38L-27 74L-20 108" fill="none" stroke="#76e5ff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="-27" cy="74" r="6" fill="#0a1827" stroke="#a98cff" stroke-width="2"/>
-          <path d="M-24 109H-4" stroke="#76e5ff" stroke-width="8" stroke-linecap="round"/>
-        </g>
-        <g class="leg-right">
-          <path d="M13 38L27 74L20 108" fill="none" stroke="#76e5ff" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
-          <circle cx="27" cy="74" r="6" fill="#0a1827" stroke="#a98cff" stroke-width="2"/>
-          <path d="M16 109H36" stroke="#76e5ff" stroke-width="8" stroke-linecap="round"/>
-        </g>
-      </g>
-    </g>
-    <g transform="translate(1045 275)" opacity=".9">
-      <text class="mono status-detail" x="0" y="0">CMD_VEL</text>
-      <path class="wave" d="M0 12H18L25 4L32 20L40 8L48 12H88" fill="none" stroke="#58dcff" stroke-width="1.5"/>
-      <text class="mono status-detail" x="0" y="39">LOWSTATE</text>
-      <path class="wave" d="M0 51H14L20 43L28 59L36 45L43 51H88" fill="none" stroke="#a98cff" stroke-width="1.5" style="animation-delay:-.4s"/>
-    </g>
+  <rect width="1200" height="310" rx="18" fill="url(#bg)"/>
+  <rect x="740" width="460" height="310" fill="url(#grid)" opacity=".5"/>
+  <g font-family="Segoe UI,Helvetica,Arial,sans-serif">
+    <text x="46" y="49" fill="#72dcd4" font-size="13" font-weight="700" letter-spacing="3">UNITREE G1 / MUJOCO / ROS 2</text>
+    <text x="42" y="122" fill="#f0f6fa" font-size="68" font-weight="800" letter-spacing="-2">Geoff-Sim</text>
+    <text x="46" y="163" fill="#d0e0e9" font-size="24">Humanoid locomanipulation</text>
+    <text x="46" y="194" fill="#91acbc" font-size="17">Observed scenes. Whole-body motion. Object delivery.</text>
+    <path d="M46 220H690" stroke="#315263"/>
+    <text x="46" y="254" fill="#72dcd4" font-size="15" font-weight="700">OBSERVE</text>
+    <text x="150" y="254" fill="#587889" font-size="20">→</text>
+    <text x="185" y="254" fill="#d0e0e9" font-size="15" font-weight="700">APPROACH</text>
+    <text x="305" y="254" fill="#587889" font-size="20">→</text>
+    <text x="340" y="254" fill="#d0e0e9" font-size="15" font-weight="700">PICK UP</text>
+    <text x="435" y="254" fill="#587889" font-size="20">→</text>
+    <text x="470" y="254" fill="#d0e0e9" font-size="15" font-weight="700">CARRY</text>
+    <text x="550" y="254" fill="#587889" font-size="20">→</text>
+    <text x="585" y="254" fill="#d0e0e9" font-size="15" font-weight="700">PLACE</text>
+    <text x="46" y="286" fill="#7895a6" font-size="12">SIMULATION RESEARCH PLATFORM · DEVELOPMENT EVIDENCE, NOT HARDWARE ACCEPTANCE</text>
   </g>
-  <rect x="12.8" y="12.8" width="1174.4" height="354.4" rx="17" fill="none" stroke="url(#frame)" stroke-width="1.8"/>
-  <circle cx="37" cy="37" r="5" fill="#ff6b81" opacity=".75"/>
-  <circle cx="54" cy="37" r="5" fill="#ffd166" opacity=".75"/>
-  <circle cx="71" cy="37" r="5" fill="#44e89a" opacity=".75"/>
+  <ellipse cx="925" cy="253" rx="130" ry="26" fill="#163d4b"/>
+  <path d="M785 250Q870 275 952 250T1138 244" fill="none" stroke="#72dcd4" stroke-width="2" stroke-dasharray="5 8"/>
+  <g fill="none" stroke="#d6e8ee" stroke-width="12" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M899 108L897 169M897 169L875 209L868 247M897 169L926 204L944 247"/>
+    <path d="M899 115L866 141L855 171M905 115L938 150L981 144"/>
+  </g>
+  <rect x="881" y="69" width="37" height="31" rx="10" fill="#d6e8ee"/>
+  <path d="M888 84H911" stroke="#0b2331" stroke-width="5" stroke-linecap="round"/>
+  <rect x="884" y="109" width="28" height="52" rx="8" fill="#356c7e"/>
+  <circle cx="898" cy="121" r="5" fill="#72dcd4"/>
+  <path d="M970 120L997 113L1018 126L991 134Z" fill="#ffbf86"/>
+  <path d="M970 120V149L991 162V134Z" fill="#e77c65"/>
+  <path d="M991 134L1018 126V153L991 162Z" fill="#ba584f"/>
+  <path d="M1054 174H1141M1064 174V233M1130 174V233" fill="none" stroke="#668898" stroke-width="7" stroke-linecap="round"/>
+  <path d="M1072 169H1124" stroke="#72dcd4" stroke-width="5" stroke-linecap="round"/>
 </svg>

@@ -60,6 +60,31 @@ def test_zero_remaining_budget_cannot_confirm_settling(monkeypatch):
         TransportMission.brake_motion(mission,0.)
 
 
+def test_measured_stop_after_old_allowance_can_settle_within_original_deadline(monkeypatch):
+    def update(m,t):
+        m.pose_stamp = t
+        m.base_velocity = (.15,0.,0.) if t<12. else (0.,0.,0.)
+    mission,events = harness(monkeypatch,update)
+    assert TransportMission.brake_motion(mission,5.)=='settled'
+    assert 2.2<=events[-1]['brake_elapsed_s']<5.
+
+
+@pytest.mark.parametrize('operation',['navigate','rotate'])
+@pytest.mark.parametrize('timeout,expected',[(.7,.7),(20.,5.)])
+def test_braking_allowance_never_extends_motion_deadline(monkeypatch,operation,timeout,expected):
+    from contextlib import nullcontext
+    monkeypatch.setattr(module.time,'monotonic',lambda:10.)
+    budgets = []
+    mission = S(pose=(0.,0.,0.),goal=PoseStamped(),active=True,
+        nav=S(server_is_ready=lambda:True),set_goal=lambda *args:None,
+        _heartbeat=lambda:None,wait=lambda predicate,*args:predicate(),
+        action=lambda *args:nullcontext(S(result=S(done=lambda:False))),
+        brake_motion=budgets.append,observe=lambda *args:{'id':'box_red'},spin=lambda _:None)
+    getattr(TransportMission,operation).__wrapped__(mission,(0.,0.,0.) if operation=='navigate' else 1.,
+        timeout=timeout,stop_when_observed='box_red')
+    assert budgets==[pytest.approx(expected)]
+
+
 def test_navigation_braking_failure_terminates_action_and_revokes_intent():
     events = []
     @contextmanager

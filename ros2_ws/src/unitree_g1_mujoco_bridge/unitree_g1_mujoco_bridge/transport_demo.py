@@ -301,7 +301,7 @@ class TransportMission(Node):
         self.active = False
         self._heartbeat()
 
-    def brake_motion(self,timeout=1.5):
+    def brake_motion(self,timeout=5.):
         """Normal completion requests checked deceleration before relinquishing.
 
         Returns 'settled' or raises MotionSettlingError with a recorded outcome.
@@ -411,7 +411,7 @@ class TransportMission(Node):
                             raise LocalizationInterrupted('navigation succeeded outside fresh sensed staging tolerance')
                     return close
                 self.wait(arrived,max(0.,deadline-time.monotonic()),'navigation did not reach sensed staging pose')
-                self.brake_motion(min(1.5,max(0.,deadline-time.monotonic())))
+                self.brake_motion(min(5.,max(0.,deadline-time.monotonic())))
         finally:
             self.active = False
             self._heartbeat()
@@ -568,7 +568,7 @@ class TransportMission(Node):
             return False
         try:
             self.wait(aligned,max(0.,deadline-time.monotonic()),'search heading not reached')
-            self.brake_motion(min(1.5,max(0.,deadline-time.monotonic())))
+            self.brake_motion(min(5.,max(0.,deadline-time.monotonic())))
             if drifted:
                 raise RuntimeError('search turn displaced beyond viewpoint reserve')
         finally:
@@ -685,18 +685,40 @@ class TransportMission(Node):
             return self.move_arm(np.array((.36,-.20,.37)),orientation)
         # Keep the locomotion actor inside its explicitly trained arm-posture
         # distribution instead of selecting a new redundant IK branch each lift.
-        joints = dict(self.joints,**dict(zip(self.kin.names,PAYLOAD_V1_POSTURES[0])))
-        position,R,_,_ = self.kin.forward(joints)
-        measured = self.arm_with_recovery(position,R,joint_solution=joints)
-        # The waist remains policy-controlled during a joint-space carry pose.
-        # Compare the same arm posture at the *current* waist configuration,
-        # not a Cartesian point computed before the torso balanced the reach.
-        expected = self.kin.forward(dict(self.joints,**dict(zip(self.kin.names,PAYLOAD_V1_POSTURES[0]))))[0]
-        measured = self.kin.forward(self.joints)[0]
+        self.move_arm_posture(dict(zip(self.kin.names,PAYLOAD_V1_POSTURES[0])),'carry')
+
+    def measured_posture_state(self):
+        """Do not let FK's zero defaults stand in for measured arm/waist joints."""
+        joints = dict(self.joints)
+        required = [name for name,kind,*_ in self.kin.chain if kind in ('revolute','continuous')]
+        if any(name not in joints or not math.isfinite(joints[name]) for name in required):
+            raise RuntimeError('fixed arm posture requires finite measured arm and waist joints')
+        return joints
+
+    def move_arm_posture(self,posture,label):
+        if (posture is None or set(posture)!=set(self.kin.names) or
+                not all(math.isfinite(value) for value in posture.values())):
+            raise RuntimeError('fixed arm posture requires a complete finite arm-only target')
+        # Snapshot the requested arm joints; never freeze policy-owned waist
+        # coordinates into a joint-space completion reference.
+        posture = dict(posture)
+        joints = self.measured_posture_state()
+        position,orientation,_,_ = self.kin.forward(dict(joints,**posture))
+        self.arm_with_recovery(position,orientation,joint_solution=posture)
+        joints = self.measured_posture_state()
+        expected = self.kin.forward(dict(joints,**posture))[0]
+        measured = self.kin.forward(joints)[0]
         error = float(np.linalg.norm(measured-expected))
-        self.event(self.phase,carry_posture_error_m=error,reference='current_waist_fixed_arm_posture')
-        if error > .035:
-            raise RuntimeError('measured carry posture outside tolerance')
+        self.event(self.phase,**{label+'_posture_error_m':error},
+                   reference='current_waist_fixed_arm_posture',
+                   posture_joint_error_rad=max(abs(joints[name]-value) for name,value in posture.items()))
+        if not math.isfinite(error) or error > .035:
+            raise RuntimeError(f'measured {label} posture outside tolerance')
+
+    def restore_arm(self):
+        self.event('restore_arm')
+        self.move_arm_posture(self.rest_arm_positions,'rest')
+        self.service(self.authority,SetBool.Request(data=False))
 
     def _move_arm(self,target,orientation=None,joint_solution=None):
         self.wait_workspace()
@@ -749,8 +771,11 @@ class TransportMission(Node):
             raise RuntimeError(f'arm execution failed: {wrapped.result.error_string}')
         self.spin(.6)
         measured = self.kin.forward(self.joints)[0]
-        measured_error = float(np.linalg.norm(measured-target))
-        self.event(self.phase,measured_hand_pelvis=measured.tolist(),hand_error_m=measured_error)
+        reference = (self.kin.forward(dict(self.joints,**{name:solution[name] for name in names}))[0]
+                     if joint_solution is not None else target)
+        measured_error = float(np.linalg.norm(measured-reference))
+        self.event(self.phase,measured_hand_pelvis=measured.tolist(),hand_error_m=measured_error,
+                   reference='current_waist_fixed_arm_posture' if joint_solution is not None else 'cartesian_target')
         return measured
 
     def reach_box(self,identifier,forward,left,yaw):
@@ -941,13 +966,7 @@ class TransportMission(Node):
             self.event('delivered',object_id=identifier,destination_id=destination)
         # Keep the already-retracted arm under continuous ownership between
         # deliveries, avoiding an unnecessary down/up and gain handover cycle.
-        self.event('restore_arm')
-        rest = dict(self.joints,**self.rest_arm_positions)
-        position,orientation,_,_ = self.kin.forward(rest)
-        measured = self.arm_with_recovery(position,orientation,joint_solution=rest)
-        if np.linalg.norm(measured-position) > .035:
-            raise RuntimeError('arm did not return to its measured rest pose')
-        self.service(self.authority,SetBool.Request(data=False))
+        self.restore_arm()
         self.event('complete')
 
 
