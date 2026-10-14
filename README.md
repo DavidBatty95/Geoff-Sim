@@ -49,6 +49,12 @@ settling is unavailable. The integrated build passed 744 ROS test results,
 crowd acceptance remain open; the delay-trained cycle-06 policy is not promoted.
 [Current implementation and next steps](docs/PERFORMANCE_FOUNDATION.md).
 
+**Observation-freshness follow-up:** device-clock policy execution now detects
+frozen LowState streams even while DDS packets keep arriving; duplicate/reordered
+ticks cannot refresh measurement progress. All **567 bridge tests pass**. This
+closes a stale-observation path; native fault-injection and delivery qualification
+remain open. [Freshness contract](docs/PERFORMANCE_FOUNDATION.md#device-observation-progress-watchdog).
+
 ## Explore Geoff-Sim
 
 | Capability | What you can explore |

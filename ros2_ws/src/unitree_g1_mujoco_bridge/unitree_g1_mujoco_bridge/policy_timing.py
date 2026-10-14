@@ -35,6 +35,40 @@ def dds_delivery_timing(source_ns,received_ns,callback_ros):
     return output
 
 
+class DeviceTickFreshness:
+    """Receipt-time watchdog for advancing device observations, not source age.
+
+    Repeated/reordered packets cannot renew the progress lease. The near-zero
+    restart convention matches DeviceTickCadence; uint32 wrap is normal progress.
+    This cannot detect an advancing but consistently delayed stream.
+    """
+    def __init__(self):
+        self.last = self.progress_at = None
+        self.duplicates = self.reordered = self.resets = 0
+
+    def observe(self,tick,now):
+        tick = int(tick)
+        if not math.isfinite(now) or not 0<=tick<=0xffffffff:
+            return False
+        if self.last is not None:
+            delta = (tick-self.last)&0xffffffff
+            if delta==0:
+                self.duplicates += 1
+                return False
+            if delta>0x7fffffff:
+                if not (tick<=100 and self.last>1000):
+                    self.reordered += 1
+                    return False
+                self.resets += 1
+        self.last,self.progress_at = tick,now
+        return True
+
+    def age(self,now):
+        if self.progress_at is None or not math.isfinite(now) or now<self.progress_at:
+            return math.inf
+        return now-self.progress_at
+
+
 class DeviceTickCadence:
     """Phase-locked observation cadence for a uint32 millisecond device clock.
 

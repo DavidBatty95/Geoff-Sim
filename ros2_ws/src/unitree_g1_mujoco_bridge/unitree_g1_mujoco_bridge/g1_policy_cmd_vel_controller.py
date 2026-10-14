@@ -19,7 +19,7 @@ from unitree_hg.msg import LowState
 from .g1_constants import G1_29DOF_JOINTS
 from .motion_envelope import load_motion_envelope
 from .dds_metadata_executor import DDSMetadataExecutor
-from .policy_timing import inference_timing,result_is_stale,DeviceTickCadence,dds_delivery_timing,leg_target_fingerprint
+from .policy_timing import inference_timing,result_is_stale,DeviceTickCadence,DeviceTickFreshness,dds_delivery_timing,leg_target_fingerprint
 from .policy_safety import (
     advance_gait_phase,
     apply_command_deadband,
@@ -613,6 +613,7 @@ class G1PolicyCmdVelController(Node):
         self.control_period = period
         self.use_device_tick = bool(self.declare_parameter('use_device_tick',False).value)
         self.device_tick_cadence = DeviceTickCadence(period)
+        self.device_tick_freshness = DeviceTickFreshness()
         self.create_timer(period, self._control_tick)
         # Inference cadence stays at the policy rate; collect finished work
         # promptly instead of inserting a whole extra policy-period delay.
@@ -775,6 +776,13 @@ class G1PolicyCmdVelController(Node):
             )
             return
         self.lowstate_count += 1
+        received_at = time.monotonic()
+        self.last_lowstate_arrival = received_at
+        if getattr(self,'use_device_tick',False):
+            if not self.device_tick_freshness.observe(msg.tick,received_at):
+                # Liveness is not measurement progress. Do not let duplicates
+                # renew upright evidence or reordered samples replace state.
+                return
         tilt = self._lowstate_tilt(msg)
         self.last_tilt = tilt
         if self._detect_robot_reset(joint_positions, tilt):
@@ -788,7 +796,6 @@ class G1PolicyCmdVelController(Node):
         self.previous_joint_positions = list(joint_positions)
         self.previous_tilt = tilt
         self.last_lowstate = msg
-        self.last_lowstate_arrival = time.monotonic()
         timestamp = info.get if isinstance(info,dict) else lambda key:getattr(info,key,0)
         self.last_lowstate_dds_delivery = dds_delivery_timing(
             timestamp('source_timestamp'),timestamp('received_timestamp'),self.get_clock().now().nanoseconds*1e-9)
@@ -1011,15 +1018,20 @@ class G1PolicyCmdVelController(Node):
         now = self.get_clock().now()
         monotonic_now = time.monotonic()
         lowstate_age = sample_age(monotonic_now, self.last_lowstate_arrival)
-        if lowstate_age > float(self.get_parameter("lowstate_timeout").value):
+        progress_age = (self.device_tick_freshness.age(monotonic_now)
+                        if getattr(self,'use_device_tick',False) else lowstate_age)
+        timeout = float(self.get_parameter("lowstate_timeout").value)
+        if lowstate_age > timeout or progress_age > timeout:
             if not self.lowstate_stale:
                 self.policy_worker.invalidate()
+                self.inference_context = None
                 self.lowstate_stale = True
             self.get_logger().error(
-                f"Lowstate stale ({lowstate_age:.3f}s); holding last safe target",
+                f"Lowstate stale (receipt={lowstate_age:.3f}s, progress={progress_age:.3f}s); holding last safe target",
                 throttle_duration_sec=1.0,
             )
-            self._policy_safe_hold("stale_lowstate_hold")
+            self._publish_policy_command((0.0,0.0,0.0))
+            self._policy_safe_hold("frozen_lowstate_hold" if lowstate_age<=timeout else "stale_lowstate_hold")
             return
         odom_age = sample_age(monotonic_now, self.last_odom_arrival)
         if odom_age > float(self.get_parameter("odom_timeout").value):
@@ -1313,6 +1325,11 @@ class G1PolicyCmdVelController(Node):
                 inference_deadline_s=self.policy_inference_deadline,
                 use_device_tick=self.use_device_tick,device_tick_missed_periods=self.device_tick_cadence.missed,
                 device_tick_resets=self.device_tick_cadence.resets,
+                lowstate_receipt_age_s=lowstate_age if math.isfinite(lowstate_age) else None,
+                lowstate_progress_age_s=(self.device_tick_freshness.age(now)
+                    if self.use_device_tick and self.device_tick_freshness.progress_at is not None else None),
+                lowstate_duplicate_ticks=self.device_tick_freshness.duplicates,
+                lowstate_reordered_ticks=self.device_tick_freshness.reordered,
                 control_period_s=self.control_period),separators=(',',':'))))
         self.get_logger().info(
             "policy status: "

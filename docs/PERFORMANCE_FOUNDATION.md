@@ -68,6 +68,35 @@ This contract covers `navigate` and inspection `rotate`; docking and retreat
 retain their existing geometric settling checks. There is no new automatic retry
 for failed braking, nor a claim that these thresholds guarantee physical balance.
 
+## Device-observation progress watchdog
+
+The subsequent 14 October follow-up separates valid packet receipt from device
+measurement progression in policy execution. With `use_device_tick=true`, the
+controller rejects duplicate and reordered ticks before replacing accepted
+LowState or updating upright/reset evidence. Packet receipt is still counted;
+it cannot renew the independent progress lease.
+
+Both missing traffic and frozen progress use the existing `lowstate_timeout`
+(default 0.1 s). Timeout invalidates pending inference, clears its lineage context,
+publishes zero policy motion feedback, and invokes the existing sensor-fault
+state hold. A frozen-but-live stream is labelled `frozen_lowstate_hold`; missing
+traffic retains `stale_lowstate_hold`. The result-consumption callback performs
+the same checks, so completed work cannot bypass the watchdog. Only a newly
+accepted tick clears the stale latch. Device wrap and the existing near-zero
+restart convention match the policy-cadence contract.
+
+Diagnostics expose receipt age, progress age, duplicate count and reordered
+count. Legacy wall-clock profiles do not require advancing ticks. No synchronized
+source-age or physical actuator guarantee is implied: a consistently delayed
+but advancing stream can still pass this check, and the restart heuristic is
+not a unique device-session identifier.
+
+Verification: the complete bridge suite passed **567 tests**, including eight
+new tests for duplicates/reordering, wrap/restart, callback rejection, inference
+invalidation on both control/result paths, recovery and legacy compatibility.
+Native frozen-stream injection and physical hold/recovery behavior remain to be
+qualified; the existing sensor-fault hold is not a guarantee of standing balance.
+
 ## Verification and next steps
 
 Focused tests cover malformed/missing results, nonzero exits, strict outcomes,

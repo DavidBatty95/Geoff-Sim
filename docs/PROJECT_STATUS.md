@@ -23,6 +23,15 @@ evidence snapshot, not an acceptance release. Later experiments need their own c
 
 ## At a glance
 
+**14 October observation-freshness follow-up:** live DDS traffic can no longer
+mask a frozen device tick when `use_device_tick` is enabled. Duplicate/reordered
+packets are rejected before accepted-state/upright updates. The existing
+LowState timeout now also bounds lack of measurement progress; fault handling
+invalidates inference and publishes zero motion feedback before the existing
+sensor-state hold. **567 bridge tests pass**, including eight new freshness
+regressions. This does not detect an advancing but consistently delayed stream
+or qualify physical fault recovery. [Contract and remaining gaps](PERFORMANCE_FOUNDATION.md#device-observation-progress-watchdog).
+
 **14 October integrated reliability checkpoint:** the experiment runner now
 retains planned attempts, explicit run identities and strict outcomes through
 malformed results and bounded outer timeouts. Bootstrap revisions match patch

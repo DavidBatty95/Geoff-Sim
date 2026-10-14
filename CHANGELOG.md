@@ -49,6 +49,13 @@ for measured outcomes and [release policy](docs/RELEASES.md) for promotion crite
 
 ### Changed
 
+- Device-clock policy execution now requires LowState tick progression within
+  the existing sensor timeout. Duplicate/reordered packets cannot replace
+  accepted measurements or renew upright evidence. Frozen streams invalidate
+  pending inference and enter the sensor-fault hold with zero motion feedback;
+  diagnostics distinguish receipt age, progress age and rejected tick counts.
+  The complete bridge suite passes 567 tests.
+
 - Compositor target selection and publication share the control-state lock.
   Normal navigation/inspection braking records `settled`, `timeout` or
   `stale_state`; unsuccessful settling raises instead of silently advancing.
