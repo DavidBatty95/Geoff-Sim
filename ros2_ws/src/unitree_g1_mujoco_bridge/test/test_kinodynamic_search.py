@@ -8,7 +8,8 @@ from unitree_g1_mujoco_bridge.motion_envelope import MotionEnvelope
 
 
 @pytest.mark.parametrize('seed',range(10))
-def test_vectorized_response_matches_the_shared_scalar_rollout(seed):
+@pytest.mark.parametrize('delay,duration',((.1,.6),(.08,.03),(.8,.45)))
+def test_vectorized_response_matches_the_shared_scalar_rollout(seed,delay,duration):
     rng = np.random.default_rng(seed)
     envelope = MotionEnvelope(max_x=.55,max_y=.45,max_yaw=.9,accel_x=2.4,accel_y=2.4,accel_yaw=.9,
                               forward_gain=.9,lateral_gain=.8,yaw_gain=.32,walking_yaw_gain=.55,
@@ -19,8 +20,8 @@ def test_vectorized_response_matches_the_shared_scalar_rollout(seed):
     filtered = tuple(rng.uniform(-.3,.3,3))
     first = tuple(rng.uniform(-.6,.6,3)) if seed%2 else (0.,0.,0.)
     second = tuple(rng.uniform(-.6,.6,3)) if seed%3 else (0.,0.,0.)
-    expected = envelope.rollout(pose,first,velocity,3.,.15,.1,.6,second,filtered)
-    actual = rollout_schedule(envelope,pose,velocity,filtered,((.6,*first),(2.4,*second)),3.,.15,.1)
+    expected = envelope.rollout(pose,first,velocity,3.,.15,delay,duration,second,filtered)
+    actual = rollout_schedule(envelope,pose,velocity,filtered,((duration,*first),(3.-duration,*second)),3.,.15,delay)
     np.testing.assert_allclose(actual,expected,atol=1e-12)
 
 

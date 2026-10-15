@@ -277,13 +277,17 @@ def test_lateral_response_includes_measured_signed_heading_drift(filtered):
     assert right[-1][1] == pytest.approx(-left[-1][1])
 
 
-def test_signed_lateral_response_matches_distinct_stop_distances():
+def test_signed_lateral_stop_response_includes_delay_and_distinct_decay():
     envelope = MotionEnvelope(max_y=.45,accel_y=2.4,lateral_gain=.8,negative_lateral_gain=.9,
                               linear_time_constant=.4,positive_lateral_time_constant=.3)
     left = envelope.rollout((0.,0.,0.),(0.,0.,0.),(0.,.36,0.),3.,.15,.1,filtered_command=(0.,.45,0.))
     right = envelope.rollout((0.,0.,0.),(0.,0.,0.),(0.,-.405,0.),3.,.15,.1,filtered_command=(0.,-.45,0.))
-    assert .10 < left[-1][1] < .13
-    assert .14 < -right[-1][1] < .18
+    # Analytic first-order model: coast during delay, then decay. This checks
+    # the declared model, not native-policy stopping qualification.
+    expected_left = .36*(.1+.3*(1.-math.exp(-2.9/.3)))
+    expected_right = .405*(.1+.4*(1.-math.exp(-2.9/.4)))
+    assert left[-1][1] == pytest.approx(expected_left,abs=.003)
+    assert -right[-1][1] == pytest.approx(expected_right,abs=.003)
 
 
 def test_turn_response_distinguishes_walking_from_a_stationary_pivot():

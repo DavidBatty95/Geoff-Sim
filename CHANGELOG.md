@@ -25,6 +25,13 @@ for measured outcomes and [release policy](docs/RELEASES.md) for promotion crite
 
 ### Added
 
+- Fail-closed native stopping scorer with dwell, travel, complete-window and
+  sample-coverage checks, retained failures and source hashes. Eight held-empty
+  probes pass 4/8; three integrated attempts complete 1/3.
+- Correct delayed handoffs and boundary integration in scalar/vectorized
+  rollouts and sequence search. Final CI passes 866 ROS results and 172
+  orchestration tests. [Evidence and limits](docs/NATIVE_STOPPING_20261015.md).
+
 - Explicit settled-view displacement recovery with post-stop acquisitions,
   invalidated viewpoint caches and the original mission deadline.
 - Docking workspace yield/resume and age-aware predicted approach-corridor

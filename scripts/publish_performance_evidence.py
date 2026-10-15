@@ -57,6 +57,7 @@ def attempt(run):
         contacts=result.get('contact_samples'),error=result.get('error','missing_result' if not result else None),
         minimum_person_clearance_m=result.get('minimum_person_clearance_m'),
         deliveries=result.get('deliveries',[]),dropped_objects=result.get('dropped_objects'),
+        attachment_state=result.get('attachment_state'),object_may_be_held=result.get('object_may_be_held'),
         completion_s=complete,last_recorded_event_s=events[-1].get('elapsed_s') if events else None,
         deadline_s=manifest.get('duration_s'),search=result.get('search_summary'),
         discoveries=[item for item in events if item.get('phase')=='search_found'],

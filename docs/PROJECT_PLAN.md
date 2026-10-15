@@ -19,6 +19,12 @@
 Related: [Technical implementation roadmap](SOCIAL_LOCOMANIPULATION_ROADMAP.md) ·
 [Gap-aligned research and publication programme](RESEARCH_PROGRAMME.md).
 
+**15 October stopping update:** delayed rollout integration is corrected and
+regression-tested. [Eight native probes](NATIVE_STOPPING_20261015.md) expose
+state/feedback-dependent stopping; only four pass the declared gate. Next:
+controlled action-history/loaded-stop measurements and final-tree mission repeats
+before promoting response calibration or people-present delivery.
+
 **Planning snapshot: 5 October 2026.** The target is repeated, sensor-driven
 table-to-table delivery by a Unitree G1 with BrainCo hands in a declared indoor
 operating environment. The robot should navigate around people, grasp and carry

@@ -63,14 +63,18 @@ def rollout_schedule(envelope,pose,velocity,filtered,schedule,horizon,dt,delay):
     steps = max(1,math.ceil(horizon/max(.02,dt)))
     dt = horizon/steps
     state = np.array([[*pose,*velocity,*filtered]],dtype=float)
-    boundaries = np.cumsum([item[0] for item in schedule])
+    delay = max(0.,delay)
+    boundaries = delay+np.cumsum([item[0] for item in schedule])
     commands = [envelope.normalize(item[1:]) for item in schedule]
     trajectory = [(*pose,0.)]
     for step in range(steps):
-        index = int(np.searchsorted(boundaries,step*dt,side='right'))
-        command = commands[index] if index < len(commands) else (0.,0.,0.)
-        active_dt = max(0.,(step+1)*dt-max(step*dt,delay))
-        state = response_step(state,np.array([command]),envelope,dt,active_dt)
+        start,end = step*dt,(step+1)*dt
+        cuts = [start]+sorted({float(t) for t in (delay,*boundaries) if start<t<end})+[end]
+        for begin,finish in zip(cuts,cuts[1:]):
+            index = int(np.searchsorted(boundaries,begin,side='right'))
+            command = commands[index] if index < len(commands) else (0.,0.,0.)
+            interval = finish-begin
+            state = response_step(state,np.array([command]),envelope,interval,interval if begin>=delay else 0.)
         trajectory.append((*map(float,state[0,:3]),(step+1)*dt))
     return trajectory
 
@@ -88,6 +92,7 @@ def search_sequence(envelope,pose,velocity,filtered,actions,people,radii,goal,
     started = time.perf_counter()
     steps = max(1,math.ceil(horizon/max(.02,dt)))
     dt = horizon/steps
+    delay = max(0.,delay)
     actions = np.asarray([envelope.normalize(command) for command in actions],dtype=float)
     people,radii = np.asarray(people),np.asarray(radii)
     if radii.ndim != 2 or people.shape != (steps+1,radii.shape[1],2) or radii.shape != people.shape[:2]:
@@ -112,10 +117,18 @@ def search_sequence(envelope,pose,velocity,filtered,actions,people,radii,goal,
         origins = np.tile(np.arange(count),len(states)) if phase == 0 else first_actions[parents]
         valid = np.ones(len(expanded),dtype=bool)
         duration = min(phase_steps,steps-step_index)*dt
+        arrivals = [delay]+list(delay+np.cumsum([item[0] for item in histories[0]]))
+        phase_commands = [np.array([histories[parent][index][1:] for parent in parents])
+                          for index in range(phase)]+[commands]
         for _ in range(min(phase_steps,steps-step_index)):
             before = expanded[:,:2].copy()
-            active_dt = max(0.,(step_index+1)*dt-max(step_index*dt,delay))
-            expanded = response_step(expanded,commands,envelope,dt,active_dt)
+            start,end = step_index*dt,(step_index+1)*dt
+            cuts = [start]+sorted({t for t in arrivals if start<t<end})+[end]
+            for begin,finish in zip(cuts,cuts[1:]):
+                interval = finish-begin
+                index = max(0,int(np.searchsorted(arrivals,begin,side='right'))-1)
+                applied = phase_commands[index]
+                expanded = response_step(expanded,applied,envelope,interval,interval if begin>=delay else 0.)
             if len(radii[0]):
                 relative = before[:,None,:]-people[step_index]
                 next_relative = expanded[:,None,:2]-people[step_index+1]

@@ -27,6 +27,11 @@ For normal use, run `./geoff` from the repository root:
 ./geoff results
 ```
 
+For offline stopping qualification, `score_native_stopping.py INPUT... --output
+NEW_REPORT.json --require-pass` retains failed/unreadable probes and returns
+nonzero when any selected probe fails. It refuses report overwrite and requires
+the full requested observation window. [Criteria and measured outcomes](../docs/NATIVE_STOPPING_20261015.md).
+
 Every generated world and the original plaza can run as a continuous demo. The
 demo launcher handles goal handoff, session duration, episode restart and logs.
 Use `./geoff demo --help`, `./geoff benchmark --help` or `./geoff results --help`

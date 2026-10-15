@@ -26,6 +26,9 @@ collections. Start there for topic-based exploration, or use the catalogue below
 
 ## Project orientation
 
+Latest checkpoint: [delayed rollout timing and native stopping](NATIVE_STOPPING_20261015.md)
+— declared stopping gate, eight probes, three mission outcomes and verification.
+
 | Page | Purpose |
 | --- | --- |
 | [Visual resource library](resources/README.md) | Clickable topic cards and annotated links across project content |

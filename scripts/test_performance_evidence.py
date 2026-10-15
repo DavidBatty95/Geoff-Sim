@@ -8,12 +8,14 @@ import publish_performance_evidence as publisher
 
 def test_verified_placement_does_not_upgrade_failed_mission(tmp_path):
     result = dict(success=False,mission_complete=False,data_valid=True,fallen=False,contact_samples=0,
+                  attachment_state='held',object_may_be_held=True,
                   deliveries=[{'verified':True}],events=[{'phase':'delivered','elapsed_s':40.}],
                   error='deadline during restoration')
     (tmp_path/'result.json').write_text(json.dumps(result))
     record = attempt(tmp_path)
     assert not record['success'] and record['completion_s'] is None
     assert record['deliveries'][0]['verified'] and record['error']==result['error']
+    assert record['attachment_state']=='held' and record['object_may_be_held']
 
 
 def test_missing_result_is_retained_without_fabricated_evaluator_data(tmp_path):

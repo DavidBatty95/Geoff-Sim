@@ -23,6 +23,10 @@ described by the [repository guide](../REPOSITORY_GUIDE.md#where-results-go).
 
 ## Start with a dataset
 
+Latest stopping records: [eight scored probes](native_stopping_20261015.json)
+(4/8 pass) and [three integrated follow-ups](rollout_timing_20261015.json)
+(1/3 complete). [Interpretation and scope](../NATIVE_STOPPING_20261015.md).
+
 | Record | Purpose |
 | --- | --- |
 | [avoidance_dataset.json](avoidance_dataset.json) | Published v12 representative-world cohort used by the default dashboard |

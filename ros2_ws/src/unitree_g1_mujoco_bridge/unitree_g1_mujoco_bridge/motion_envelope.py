@@ -114,42 +114,52 @@ class MotionEnvelope:
         acceleration = (self.accel_x, self.accel_y, self.accel_yaw)
         steps = max(1, math.ceil(horizon / max(0.02, dt)))
         step_dt = horizon / steps
-        linear_response = 1.0 - math.exp(-step_dt / max(.01, self.linear_time_constant))
-        response_fraction = (linear_response, linear_response,
-                             1.0 - math.exp(-step_dt / max(.01, self.yaw_time_constant)))
+        delay = max(0.,delay)
+        handoff = delay+max(0.,command_duration)
         trajectory = [(x, y, yaw, 0.0)]
         for step in range(steps):
-            # Integrate midpoint velocity; zero target still has a stopping path.
-            previous = velocity[:]
-            active_dt = max(0.0, (step + 1) * step_dt - max(step * step_dt, delay))
-            step_target = target if step * step_dt < command_duration else following
-            if filtered is None:
-                for axis, limit in enumerate(acceleration):
-                    change = max(0.0, limit) * active_dt
-                    velocity[axis] += max(-change, min(change, step_target[axis] - velocity[axis]))
-            else:
-                step_command = requested if step * step_dt < command_duration else next_requested
-                immediate_stop = active_dt > 0.0 and not any(step_command)
-                previous_filtered = filtered[:]
-                for axis, limit in enumerate(acceleration):
-                    change = max(0.0, limit) * active_dt
-                    if immediate_stop:
-                        filtered[axis] = 0.0  # Policy stop bypasses command slew.
-                    else:
-                        filtered[axis] += max(-change, min(change, step_command[axis] - filtered[axis]))
-                filtered = list(self.limit_planar(filtered,previous_filtered))
-                physical_target = response(filtered)
-                direction = filtered[1] if abs(filtered[1]) > 1e-9 else velocity[1]
-                lateral_tau = (self.positive_lateral_time_constant if direction >= 0. and self.positive_lateral_time_constant > 0.
-                               else self.linear_time_constant)
-                for axis in range(3):
-                    fraction = 1.-math.exp(-step_dt/max(.01,lateral_tau)) if axis == 1 else response_fraction[axis]
-                    velocity[axis] += (physical_target[axis] - velocity[axis]) * fraction
-            vx, vy, wz = [(old + new) * 0.5 for old, new in zip(previous, velocity)]
-            heading = yaw + wz * step_dt * 0.5
-            x += (math.cos(heading) * vx - math.sin(heading) * vy) * step_dt
-            y += (math.sin(heading) * vx + math.cos(heading) * vy) * step_dt
-            yaw += wz * step_dt
+            start,end = step*step_dt,(step+1)*step_dt
+            cuts = [start]
+            # Delay belongs to both command transitions. Split integration at
+            # physical arrival boundaries without changing the output time grid.
+            if start<delay<end:
+                cuts.append(delay)
+            if start<handoff<end and handoff!=delay:
+                cuts.append(handoff)
+            cuts.append(end)
+            for begin,finish in zip(cuts,cuts[1:]):
+                interval = finish-begin
+                previous = velocity[:]
+                active_dt = interval if begin>=delay else 0.
+                step_target = target if begin<handoff else following
+                if filtered is None:
+                    for axis,limit in enumerate(acceleration):
+                        change = max(0.,limit)*active_dt
+                        velocity[axis] += max(-change,min(change,step_target[axis]-velocity[axis]))
+                else:
+                    step_command = requested if begin<handoff else next_requested
+                    immediate_stop = active_dt>0. and not any(step_command)
+                    previous_filtered = filtered[:]
+                    for axis,limit in enumerate(acceleration):
+                        change = max(0.,limit)*active_dt
+                        if immediate_stop:
+                            filtered[axis] = 0.  # Policy stop bypasses command slew.
+                        else:
+                            filtered[axis] += max(-change,min(change,step_command[axis]-filtered[axis]))
+                    filtered = list(self.limit_planar(filtered,previous_filtered))
+                    physical_target = response(filtered)
+                    direction = filtered[1] if abs(filtered[1])>1e-9 else velocity[1]
+                    lateral_tau = (self.positive_lateral_time_constant if direction>=0. and self.positive_lateral_time_constant>0.
+                                   else self.linear_time_constant)
+                    for axis,tau in enumerate((self.linear_time_constant,lateral_tau,self.yaw_time_constant)):
+                        fraction = 1.-math.exp(-interval/max(.01,tau))
+                        velocity[axis] += (physical_target[axis]-velocity[axis])*fraction
+                # Midpoint integration retains a stopping path for zero targets.
+                vx,vy,wz = [(old+new)*.5 for old,new in zip(previous,velocity)]
+                heading = yaw+wz*interval*.5
+                x += (math.cos(heading)*vx-math.sin(heading)*vy)*interval
+                y += (math.sin(heading)*vx+math.cos(heading)*vy)*interval
+                yaw += wz*interval
             trajectory.append((x, y, yaw, (step + 1) * step_dt))
         return trajectory
 

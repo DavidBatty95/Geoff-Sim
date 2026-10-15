@@ -23,6 +23,14 @@ evidence snapshot, not an acceptance release. Later experiments need their own c
 
 ## At a glance
 
+**Latest 15 October stopping checkpoint:** delayed command transitions now agree
+across scalar rollouts, vectorized checks and sequence search. Held-empty stop
+probes pass **4/8**; all four negative published-feedback cases fail. Integrated
+follow-ups complete **1/3** (zero-person repeat: **169.04 s**); they precede the
+final vectorized correction. No reliability or speedup claim follows. **866 ROS
+results (670 bridge), 172 orchestration tests and 12 native CTests pass.**
+[Stopping criteria, failures and next qualification step](NATIVE_STOPPING_20261015.md).
+
 **Latest 15 October workspace checkpoint:** support inspection can reobserve and
 replan after a settled displaced scan; docking withdraws nominal intent when its
 predicted approach corridor is occupied. The zero-person control completed in
