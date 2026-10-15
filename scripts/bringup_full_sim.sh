@@ -23,6 +23,15 @@ for arg in "$@"; do
 done
 
 RUN_OPTIONS=(--rm)
+if [ -n "${GEOFF_NUMERIC_THREADS:-}" ]; then
+  if [[ ! "${GEOFF_NUMERIC_THREADS}" =~ ^([1-9]|[12][0-9]|3[0-2])$ ]]; then
+    echo "GEOFF_NUMERIC_THREADS must be an integer from 1 to 32" >&2
+    exit 2
+  fi
+  for variable in OPENBLAS_NUM_THREADS OMP_NUM_THREADS MKL_NUM_THREADS NUMEXPR_NUM_THREADS; do
+    RUN_OPTIONS+=(-e "${variable}=${GEOFF_NUMERIC_THREADS}")
+  done
+fi
 if [ -n "${UNITREE_G1_CONTAINER_NAME:-}" ]; then
   RUN_OPTIONS+=(--name "${UNITREE_G1_CONTAINER_NAME}")
 fi

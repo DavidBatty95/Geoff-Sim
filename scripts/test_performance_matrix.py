@@ -105,3 +105,14 @@ def test_bootstrap_revisions_match_patch_bases_and_gitlinks():
         assert entry.split()[2]==source['base_commit']
         if source['path'].startswith('ros2_ws/src/'):
             assert repos[source['path'].split('/')[-1]]['version']==source['base_commit']
+
+
+def test_numeric_thread_experiment_is_recorded_and_forwarded(tmp_path,monkeypatch):
+    output = configure(tmp_path,monkeypatch)
+    sys.argv += ['--numeric-threads','1']
+    def execute(command,budget,log):
+        assert command[command.index('--numeric-threads')+1]=='1'
+        return 1
+    monkeypatch.setattr(matrix,'execute',execute)
+    assert matrix.main()==1
+    assert json.loads((output/'summary.json').read_text())['numeric_threads']==1

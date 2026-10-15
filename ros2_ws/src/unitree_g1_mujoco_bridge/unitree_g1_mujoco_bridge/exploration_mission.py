@@ -3,6 +3,8 @@ import math
 import time
 import copy
 import json
+import hashlib
+import numpy as np
 from collections import deque
 from concurrent.futures import ThreadPoolExecutor
 
@@ -56,6 +58,17 @@ class ExplorationMission:
         self.timer.cancel()
         self.visual_timer.cancel()
         self.pool.shutdown(wait=True,cancel_futures=True)
+
+    def save_snapshot(self,directory):
+        snapshot = getattr(self,'route_blockage_snapshot',None)
+        if snapshot is None:
+            return
+        data,evidence = snapshot
+        directory.mkdir(parents=True,exist_ok=True)
+        path = directory/'route_blockage_map.npz'
+        np.savez_compressed(path,occupancy=data)
+        (directory/'route_blockage.json').write_text(json.dumps(dict(evidence,
+            map_file=path.name,map_sha256=hashlib.sha256(path.read_bytes()).hexdigest()),indent=2)+'\n')
 
     def _visualize(self):
         age = None if self.prepared is None else time.monotonic()-self.prepared[1]
@@ -425,8 +438,19 @@ class ExplorationMission:
                 continue
             if not route:
                 grid = ObservedSearchMap(message,radius)
+                physical_radius = .54 if node.object_may_be_held else .38
+                physical = ObservedSearchMap(message,physical_radius)
+                evidence = dict(source='observed_slam_occupancy_only',
+                    start_map=list(start),goal_map=list(target),
+                    start=grid.footprint_evidence(start),goal=grid.footprint_evidence(target),
+                    physical_start=physical.footprint_evidence(start),
+                    resolution=grid.resolution,origin=list(grid.origin),yaw=grid.yaw,
+                    width=grid.width,height=grid.height,
+                    map_stamp=message.header.stamp.sec+message.header.stamp.nanosec*1e-9)
+                self.route_blockage_snapshot = grid.data.copy(),evidence
                 node.event(phase+'_blocked',start_clear=grid.segment_free(start,start),
-                            goal_clear=grid.segment_free(target,target),radius_m=radius)
+                            goal_clear=grid.segment_free(target,target),radius_m=radius,
+                            footprint_evidence=evidence)
                 if self.recover_search_reserve(timeout=min(8.,max(0.,deadline-time.monotonic()))):
                     continue
                 raise RuntimeError('no observed-clear route')

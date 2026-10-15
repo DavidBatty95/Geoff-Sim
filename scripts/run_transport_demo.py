@@ -80,6 +80,14 @@ def pedestrian_settings(people,seed,start_delay):
                 mujoco_pedestrian_start_delay=str(float(start_delay)),mujoco_pedestrian_start_gate='false')
 
 
+def numeric_thread_environment(threads):
+    if threads is None:
+        return {}
+    if type(threads) is not int or not 1<=threads<=32:
+        raise ValueError('numeric thread count must be an integer from 1 to 32')
+    return {key:str(threads) for key in ('OPENBLAS_NUM_THREADS','OMP_NUM_THREADS','MKL_NUM_THREADS','NUMEXPR_NUM_THREADS')}
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--run-id',help='Unique artifact-directory name supplied by an experiment runner')
@@ -111,6 +119,8 @@ def main():
     parser.add_argument('--headless',action='store_true',help='Disable RViz; the native MuJoCo viewer may still open')
     parser.add_argument('--no-rviz',action='store_true')
     parser.add_argument('--fast-start',action='store_true')
+    parser.add_argument('--numeric-threads',type=int,choices=range(1,33),
+                        help='Experimental BLAS/OpenMP worker limit in simulator and mission containers; default inherits image settings')
     parser.add_argument('--application-timing',action='store_true',help='Sample native command application and log LowCmd publication brackets')
     parser.add_argument('--arm-executor-threads',type=int,choices=(1,2),default=2,
                         help='Compare compositor executor scheduling with asynchronous arm actions')
@@ -214,6 +224,10 @@ def main():
     print(f'Locomotion policy: {settings["policy_path"]}; posture: {args.carry_posture}',flush=True)
     name = 'geoff-transport-'+str(os.getpid())
     env = dict(os.environ,COLCON_INSTALL_BASE=install,UNITREE_G1_CONTAINER_NAME=name)
+    thread_environment = numeric_thread_environment(args.numeric_threads)
+    env.pop('GEOFF_NUMERIC_THREADS',None)
+    if args.numeric_threads is not None:
+        env['GEOFF_NUMERIC_THREADS'] = str(args.numeric_threads)
     sources = [Path(__file__),ROOT/'scripts/transport_worlds.py',
                *[ROOT/'ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge'/name
                  for name in ('transport_demo.py','transport_perception.py','arm_kinematics.py','human_aware_motion_planner.py')]]
@@ -222,6 +236,7 @@ def main():
     hashes = {str(path.relative_to(ROOT)):hashlib.sha256(path.read_bytes()).hexdigest() for path in sources}
     (run/'manifest.json').write_text(json.dumps(dict(world=args.world,people=args.people,seed=args.seed,
         duration_s=args.duration,build_reused=args.fast_start,carry_posture=args.carry_posture,
+        numeric_thread_environment=thread_environment,
         people_clearance_extra_m=args.people_clearance_extra if args.people else 0.,
         navigation_profile_sha256=navigation_profile_hash,
         pedestrian_scenario=crowd_settings['mujoco_pedestrian_scenario'],pedestrian_start_delay_s=args.pedestrian_start_delay,
@@ -246,7 +261,9 @@ def main():
             shell = ('source /opt/ros/humble/setup.bash && source /workspace/ros2_ws/.verification/install/setup.bash && '
                      f'python3 /workspace/scripts/transport_evidence.py {container_run}/runtime_provenance.json && '
                      'exec python3 -m unitree_g1_mujoco_bridge.transport_demo "$@"')
-            result = subprocess.run(['docker','compose','run','--rm','--no-deps','--name',name+'-mission','unitree-g1-sim','bash','-lc',shell,'bash',
+            result = subprocess.run(['docker','compose','run','--rm','--no-deps','--name',name+'-mission',
+                *[token for key,value in thread_environment.items() for token in ('-e',f'{key}={value}')],
+                'unitree-g1-sim','bash','-lc',shell,'bash',
                 '--pairs',pairs,'--output',container_run+'/result.json','--duration',str(args.duration),'--people',str(args.people),
                 '--carry-posture',args.carry_posture,
                 '--camera-pitch-deg',str(TRANSPORT_WORLDS[args.world].get('camera_pitch_deg',0.)),

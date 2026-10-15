@@ -36,6 +36,7 @@ collections. Start there for topic-based exploration, or use the catalogue below
 | [Detailed project plan](PROJECT_PLAN.md) | Work packages, dependencies, exit criteria and update process |
 | [Performance reliability checkpoint](PERFORMANCE_FOUNDATION.md) | Experiment accounting, ordered command publication, explicit settling outcomes and current verification |
 | [15 October navigation integrity](NAVIGATION_INTEGRITY_20261015.md) | Checked goal transforms, motion-bounded localization, native deliveries and retained failures |
+| [Placement alignment and route diagnostics](PLACEMENT_ALIGNMENT_20261015.md) | World-relative pre-release correction, blocked-map snapshots and optional worker limits; native qualification remains open |
 | [Gap-aligned research programme](RESEARCH_PROGRAMME.md) | P0–P7 phases, G1–G5 traceability, experiment design, novelty gates and candidate papers |
 | [ROS workspace map](../ros2_ws/src/README.md) | Every local package and the two manipulation integration paths |
 | [Published dataset catalogue](results/README.md) | Entry points into the portable experiment records |

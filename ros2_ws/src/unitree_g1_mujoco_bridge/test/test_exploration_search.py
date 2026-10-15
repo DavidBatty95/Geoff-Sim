@@ -190,3 +190,26 @@ def test_large_atrium_candidate_budget_includes_distant_views():
     goals = observed.viewpoints(robot,limit=40)
     assert len(goals)<=40
     assert max(goal.path_length for goal in goals)>8.
+
+
+def test_footprint_evidence_distinguishes_unknown_occupied_and_map_boundary():
+    data = np.zeros((30,30),dtype=int)
+    data[15,15] = 100
+    data[5,5] = -1
+    observed = ObservedSearchMap(grid(data),.4)
+    for cell,reason in [((15,15),'occupied_square_reserve'),((5,5),'unknown_square_reserve'),
+                        ((0,15),'map_boundary'),((10,22),'clear')]:
+        evidence = observed.footprint_evidence(observed.world(*cell))
+        assert evidence['reason']==reason
+        assert evidence['clear']==observed.segment_free(observed.world(*cell),observed.world(*cell))
+    np.testing.assert_array_equal(observed.data,data)
+
+
+def test_reserve_only_blockage_is_not_misreported_as_physical_collision():
+    data = np.zeros((80,80),dtype=int)
+    data[:,20] = 100
+    search = ObservedSearchMap(grid(data,resolution=.05),.65)
+    physical = ObservedSearchMap(search.message,.54)
+    point = search.world(32,40)
+    assert not search.footprint_evidence(point)['clear']
+    assert physical.footprint_evidence(point)['clear']

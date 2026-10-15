@@ -23,6 +23,15 @@ evidence snapshot, not an acceptance release. Later experiments need their own c
 
 ## At a glance
 
+**Later 15 October placement follow-up:** the prior red → blue failure exposed
+about 32° of base rotation during a pelvis-accurate lower action. A bounded
+world-relative payload-alignment guard now precedes release; route blockage
+snapshots and an opt-in numerical-worker limit improve diagnosis. **All five
+new native attempts fell before placement**, including the one-worker experiment.
+The new guard remains natively unqualified; the earlier 2/4 cohort is not a result
+for this later candidate. **803 ROS results (607 bridge), 152 orchestration tests
+and 12 native CTests pass.** [Detailed scope and all outcomes](PLACEMENT_ALIGNMENT_20261015.md).
+
 **15 October navigation-integrity checkpoint:** checked path-goal transforms
 prevent Humble's reproduced false-arrival path; acquisition-time motion bounds
 reject abrupt primary/fallback scan matches. A scripted red → red delivery

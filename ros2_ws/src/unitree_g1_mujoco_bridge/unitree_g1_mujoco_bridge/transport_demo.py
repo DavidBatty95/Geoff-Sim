@@ -492,6 +492,46 @@ class TransportMission(Node):
             np.linalg.norm(np.array(item['position'])[:2]-pad[:2]) < .13 and
             abs(item['position'][2]-pad[2]-.055) < .06)
 
+    def lower_to_pad(self,destination,timeout=30.):
+        """Reproject the world target after base/waist movement, before release.
+
+        An accurate pelvis-frame arm reach is not evidence that a carried object
+        stayed over the table while the free-floating base balanced that reach.
+        Keep attachment/authority until the measured payload estimate aligns.
+        """
+        deadline = time.monotonic()+timeout
+        for attempt in range(3):
+            def fresh():
+                return (self.pose is not None and 0.<=self.seconds()-self.pose_stamp<=.3 and
+                        self.observe(destination,45.) is not None)
+            self.wait(fresh,min(2.,max(0.,deadline-time.monotonic())),
+                      'recent destination and fresh pose unavailable before placement alignment')
+            pad = np.asarray(self.observe(destination,45.)['position'],dtype=float)
+            anchor = tuple(self.pose)
+            target = self.to_pelvis(pad+np.array((0.,0.,.075)))-self.grasp_R@self.offset
+            self.move_arm(target,self.grasp_R)
+            if time.monotonic()>=deadline:
+                raise RuntimeError('placement alignment deadline exceeded; payload retained')
+            self.wait(fresh,min(2.,max(0.,deadline-time.monotonic())),
+                      'recent destination and fresh pose unavailable after lowering')
+            observation = self.observe(destination,45.)
+            pad = np.asarray(observation['position'],dtype=float)
+            joints = self.measured_posture_state()
+            wrist,orientation,_,_ = self.kin.forward(joints)
+            estimated_payload = wrist+orientation@self.offset
+            desired = self.to_pelvis(pad+np.array((0.,0.,.075)))
+            error = float(np.linalg.norm(estimated_payload-desired))
+            self.event('lower',placement_iteration=attempt,payload_alignment_error_m=error,
+                pad=pad.tolist(),pad_observed_stamp=observation['observed_stamp'],
+                base_translation_m=math.dist(anchor[:2],self.pose[:2]),
+                base_yaw_change_rad=angle(self.pose[2]-anchor[2]),
+                reference='current_measured_pose_and_hand_object_offset')
+            if time.monotonic()>=deadline:
+                raise RuntimeError('placement alignment deadline exceeded; payload retained')
+            if math.isfinite(error) and error<=.035:
+                return pad
+        raise RuntimeError('payload not aligned with destination after lowering; payload retained')
+
     def release_and_verify(self,identifier,destination,pad,forward,yaw):
         self.event('release')
         self.service(self.release,Trigger.Request(),attachment_after='empty')
@@ -961,7 +1001,7 @@ class TransportMission(Node):
                 pad = np.array(latest['position'])
                 hand_target = self.to_pelvis(pad+np.array((0.,0.,.075)))-self.grasp_R@self.offset
             self.event('lower')
-            self.move_arm(hand_target,self.grasp_R)
+            pad = self.lower_to_pad(destination)
             self.release_and_verify(identifier,destination,pad,forward,yaw)
             self.event('delivered',object_id=identifier,destination_id=destination)
         # Keep the already-retracted arm under continuous ownership between
@@ -1146,6 +1186,7 @@ def main():
         mission.ik_worker.shutdown(wait=True,cancel_futures=True)
         if mission.exploration is not None:
             mission.exploration.close()
+            mission.exploration.save_snapshot(args.output.parent)
         for worker,thread in background:
             worker.shutdown()
             thread.join()

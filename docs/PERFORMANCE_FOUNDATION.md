@@ -1,6 +1,10 @@
 # Performance implementation: evaluation foundation
 
-**Latest follow-up:** [15 October navigation integrity](NAVIGATION_INTEGRITY_20261015.md)
+**Placement follow-up:** [world-relative alignment and route diagnostics](PLACEMENT_ALIGNMENT_20261015.md)
+are regression-tested; all five native follow-ups fell before placement. Optional
+numerical worker limits remain experimental with no default change.
+
+**Earlier checkpoint:** [15 October navigation integrity](NAVIGATION_INTEGRITY_20261015.md)
 adds checked path-goal transforms and time-bounded scan registration, with three
 complete deliveries among eight retained development attempts. The unchanged-code
 four-task exploration cohort is 2/4, not an all-task qualification.

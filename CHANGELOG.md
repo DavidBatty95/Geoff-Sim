@@ -25,6 +25,16 @@ for measured outcomes and [release policy](docs/RELEASES.md) for promotion crite
 
 ### Added
 
+- World-relative pre-release payload alignment with bounded reprojection/correction
+  after base motion; attachment remains held on failed/stale alignment.
+- Blocked-route footprint categories and hashed occupancy/query snapshots for
+  diagnosing loaded navigation without weakening clearance.
+- Opt-in `--numeric-threads` experiment, forwarded to simulation/mission containers
+  and recorded in source/runtime evidence. Defaults remain unchanged.
+- Supplemental 15 October outcomes: five follow-ups fell before placement; no new
+  native pass or thread-performance improvement is claimed. Full verification
+  passes 803 ROS results, 152 orchestration tests and 12 native CTests.
+
 - Checked DWB/goal-checker plugin pair reproduces and blocks Humble false arrival
   after failed path-endpoint transforms; nine real-TF/plugin regressions retain
   arrival tolerances and verify recovery.

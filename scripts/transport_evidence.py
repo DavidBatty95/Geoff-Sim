@@ -4,6 +4,7 @@ import hashlib
 import importlib
 import importlib.metadata
 import json
+import os
 from pathlib import Path
 import platform
 import subprocess
@@ -80,6 +81,8 @@ def capture_runtime(root,output):
     if binary.is_file():
         artifacts[str(binary.relative_to(root))] = digest(binary)
     result = dict(schema_version=1,python=sys.version,platform=platform.platform(),packages=packages,
+        numeric_thread_limits={name:os.environ.get(name) for name in
+            ('OPENBLAS_NUM_THREADS','OMP_NUM_THREADS','MKL_NUM_THREADS','NUMEXPR_NUM_THREADS')},
         artifacts_sha256=artifacts,dependencies={dist.metadata['Name']:dist.version
             for dist in importlib.metadata.distributions() if dist.metadata['Name']})
     source = json.loads((output.parent/'source_provenance.json').read_text())

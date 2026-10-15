@@ -34,6 +34,12 @@ a magnetic capture-radius fixture, not a demonstrated finger grasp.
 The GIFs below retain their **14 October** capture scope: none of those seven
 recording attempts completed a delivery. They are not footage of the newer passes.
 
+**Latest follow-up:** world-relative payload alignment before release, replayable
+route-blockage diagnostics and an opt-in numerical-thread experiment are now
+implemented. Five follow-up runs fell before placement, so the new alignment
+guard is regression-tested but not natively qualified. **803 ROS test results
+pass.** [Implementation and retained outcomes](docs/PLACEMENT_ALIGNMENT_20261015.md).
+
 [Current status](docs/PROJECT_STATUS.md) · [Implementation and verification](docs/PERFORMANCE_FOUNDATION.md) ·
 [Retained delivery evidence](docs/PERFORMANCE_IMPLEMENTATION_20261012.md) · [Roadmap](docs/PROJECT_PLAN.md)
 

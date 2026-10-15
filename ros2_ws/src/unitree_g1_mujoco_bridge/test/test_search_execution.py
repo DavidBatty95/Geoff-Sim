@@ -125,3 +125,18 @@ def test_mission_pump_preserves_callback_iterator_fairness(monkeypatch):
     monkeypatch.setattr(module.rclpy,'ok',lambda:True)
     TransportMission.spin(mission,.05)
     assert mission.pose_stamp>10. and set(timeouts)=={.01}
+
+
+def test_blocked_route_snapshot_preserves_map_and_query_identity(tmp_path):
+    import hashlib
+    import json
+    import numpy as np
+    data = np.array([[0,-1],[100,0]],dtype=np.int16)
+    evidence = dict(start_map=[1.,2.],goal_map=[3.,4.],resolution=.1,origin=[0.,0.],yaw=.2)
+    search = S(route_blockage_snapshot=(data,evidence))
+    ExplorationMission.save_snapshot(search,tmp_path)
+    stored = json.loads((tmp_path/'route_blockage.json').read_text())
+    assert stored['start_map']==[1.,2.] and stored['yaw']==.2
+    assert stored['map_sha256']==hashlib.sha256((tmp_path/'route_blockage_map.npz').read_bytes()).hexdigest()
+    with np.load(tmp_path/'route_blockage_map.npz') as snapshot:
+        np.testing.assert_array_equal(snapshot['occupancy'],data)

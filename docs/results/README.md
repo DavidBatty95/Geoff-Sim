@@ -27,6 +27,7 @@ described by the [repository guide](../REPOSITORY_GUIDE.md#where-results-go).
 | --- | --- |
 | [avoidance_dataset.json](avoidance_dataset.json) | Published v12 representative-world cohort used by the default dashboard |
 | [performance_development_20261015.json](performance_development_20261015.json) | Eight native navigation-integrity attempts; scripted delivery and 2/4 unchanged-code exploration tasks complete, all failures retained |
+| [placement_alignment_20261015.json](placement_alignment_20261015.json) | Cumulative 15 October export: earlier eight attempts plus five later pre-placement falls; earlier passes are not new alignment qualifications |
 | [demo_results.json](demo_results.json) | Earlier visual, mock, oracle and locomotion records |
 | [avoidance_v82_matrix.json](avoidance_v82_matrix.json) | Consolidated investigation snapshot with recorded replay data |
 | [avoidance_v84_matrix.json](avoidance_v84_matrix.json) | Later complete matrix: 10/18 strict passes, six contacts |

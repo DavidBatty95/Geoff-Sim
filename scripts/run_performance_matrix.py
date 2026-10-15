@@ -82,6 +82,7 @@ def main():
     parser.add_argument('--people',type=int,default=0)
     parser.add_argument('--duration',type=float,default=600.)
     parser.add_argument('--fast-start',action='store_true')
+    parser.add_argument('--numeric-threads',type=int,choices=range(1,33))
     parser.add_argument('--policy-device-clock',action=argparse.BooleanOptionalAction,default=True)
     parser.add_argument('--detach',action='store_true')
     parser.add_argument('--output',type=Path)
@@ -118,6 +119,7 @@ def main():
         raise
     summary = dict(role='native_performance_development_matrix',world=args.world,people=args.people,
                    schema_version=2,duration_s=args.duration,
+                   numeric_threads=args.numeric_threads,
                    startup_cleanup_budget_s=args.startup_cleanup_budget,
                    policy_sha256=hashlib.sha256(args.policy.read_bytes()).hexdigest(),attempts=[],complete=False)
     for seed in args.seeds:
@@ -129,6 +131,7 @@ def main():
                     '--task',task,'--duration',str(args.duration),'--policy',str(args.policy.resolve()),'--no-rviz',
                     '--run-id',run_id,
                     '--policy-device-clock' if args.policy_device_clock else '--no-policy-device-clock',
+                    *(['--numeric-threads',str(args.numeric_threads)] if args.numeric_threads is not None else []),
                     *(['--fast-start'] if args.fast_start else [])]
                 summary['attempts'].append(dict(task=task,layout=layout,seed=seed,returncode=None,
                     command=command,runs=[run_id],success=False,status='planned'))

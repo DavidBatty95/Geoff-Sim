@@ -77,6 +77,23 @@ class ObservedSearchMap:
         c,s = math.cos(self.yaw),math.sin(self.yaw)
         return math.floor((c*dx+s*dy)/self.resolution),math.floor((-s*dx+c*dy)/self.resolution)
 
+    def footprint_evidence(self,point):
+        """Explain the conservative square reserve; never clear map evidence."""
+        x,y = self.cell(point)
+        cells = math.ceil(self.radius/self.resolution)
+        inside = 0<=x<self.width and 0<=y<self.height
+        x0,x1 = max(0,x-cells),min(self.width,x+cells+1)
+        y0,y1 = max(0,y-cells),min(self.height,y+cells+1)
+        values = self.data[y0:y1,x0:x1] if x1>x0 and y1>y0 else np.empty(0)
+        occupied = int(np.count_nonzero(values>=20))
+        unknown = int(np.count_nonzero(values<0))
+        outside = (2*cells+1)**2-values.size
+        reason = ('map_boundary' if outside else 'occupied_square_reserve' if occupied else
+                  'unknown_square_reserve' if unknown else 'clear')
+        return dict(clear=bool(inside and self.free[y,x]),reason=reason,
+                    radius_m=self.radius,cell=[x,y],occupied_cells=occupied,
+                    unknown_cells=unknown,outside_cells=int(outside))
+
     def world(self,x,y):
         c,s = math.cos(self.yaw),math.sin(self.yaw)
         px,py = (x+.5)*self.resolution,(y+.5)*self.resolution
