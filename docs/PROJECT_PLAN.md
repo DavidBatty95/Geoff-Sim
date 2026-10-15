@@ -19,6 +19,12 @@
 Related: [Technical implementation roadmap](SOCIAL_LOCOMANIPULATION_ROADMAP.md) ·
 [Gap-aligned research and publication programme](RESEARCH_PROGRAMME.md).
 
+**Loaded follow-up:** [150 g probes and action-history audits](LOADED_STOPPING_20261015.md)
+are implemented and measured; 3/4 pass. Corrected-rollout mission repeats include
+one zero-person completion and one people-present braking failure. Next work is
+delay-randomized candidate training under published-action feedback and controlled
+encounter replay, retaining cycle-05 until strict qualification supports promotion.
+
 **15 October stopping update:** delayed rollout integration is corrected and
 regression-tested. [Eight native probes](NATIVE_STOPPING_20261015.md) expose
 state/feedback-dependent stopping; only four pass the declared gate. Next:

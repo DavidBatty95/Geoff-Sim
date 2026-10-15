@@ -14,6 +14,7 @@ import mujoco
 import numpy as np
 import onnxruntime as ort
 from policy_command_replay import load_commands,command_at
+from native_probe_payload import attach_payload,payload_sample
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'ros2_ws/src/unitree_g1_mujoco_bridge'))
@@ -37,6 +38,8 @@ def main():
     parser.add_argument('--linear-y',type=float,default=0.)
     parser.add_argument('--command-duration',type=float,help='Stop after this many seconds of command; standing starts at t=0, command at t=5')
     parser.add_argument('--held-empty',action='store_true',help='Externally compose payload_v1 arms, without an attached load')
+    parser.add_argument('--payload',action='store_true',help='Offline loaded-start fixture: native red object welded to right wrist; compose carry arms')
+    parser.add_argument('--record-actions',action='store_true',help='Retain published/applied action vectors and publication/application sequence IDs')
     parser.add_argument('--ramp',action='store_true',help='Apply nominal acceleration-limited start/stop commands for transition comparison')
     parser.add_argument('--outage-at',type=float,help='Inject one inference outage at this simulation time')
     parser.add_argument('--outage-duration',type=float,default=.06)
@@ -51,6 +54,9 @@ def main():
     parser.add_argument('--replay-trace',type=Path,help='Replay empty-hand filtered command samples after 5 s standing; actors parked')
     parser.add_argument('--replay-start',type=float,default=0.,help='Seconds after the first moving command to begin command replay')
     args = parser.parse_args()
+    if args.payload and args.held_empty:
+        parser.error('--payload and --held-empty are mutually exclusive')
+    compose_arms = args.held_empty or args.payload
     if args.output.exists():
         parser.error('output already exists; retain each probe separately')
     if not np.isfinite(args.replay_start) or args.replay_start<0. or (args.replay_start and not args.replay_trace):
@@ -74,7 +80,7 @@ def main():
     command_end = 5.+args.command_duration if args.command_duration is not None else args.duration
     replay = None
     if args.replay_trace:
-        if args.held_empty or args.linear_x or args.linear_y or args.yaw or args.command_duration is not None or args.ramp:
+        if compose_arms or args.linear_x or args.linear_y or args.yaw or args.command_duration is not None or args.ramp:
             parser.error('replay cannot be combined with fixed commands or arm composition')
         try:
             replay = load_commands(args.replay_trace)
@@ -96,12 +102,13 @@ def main():
             if name.startswith('ped') and model.body_mocapid[body]>=0:
                 data.mocap_pos[model.body_mocapid[body]] = (0.,0.,-50.)
     mujoco.mj_forward(model,data)
+    payload = attach_payload(model,data) if args.payload else None
     joint_ids = np.array([model.joint(name).id for name in G1_29DOF_JOINTS])
     qids,dids = model.jnt_qposadr[joint_ids],model.jnt_dofadr[joint_ids]
     aids = np.array([np.flatnonzero(model.actuator_trnid[:,0]==index)[0] for index in joint_ids])
     kp,kd = np.asarray(G1_UNITREE_RL_LAB_BODY_KP),np.asarray(G1_UNITREE_RL_LAB_BODY_KD)
     kp,kd = kp.copy(),kd.copy()
-    if args.held_empty:
+    if compose_arms:
         kp[15:],kd[15:] = 160.,4.
     adapter = UnitreeRLLabG1PolicyAdapter()
     options = ort.SessionOptions()
@@ -116,6 +123,9 @@ def main():
     queue = deque()
     rows = []
     external_contacts = Counter()
+    payload_contacts = Counter()
+    payload_robot_contacts = Counter()
+    published_sequence = applied_sequence = -1
     robot_root = model.body('pelvis').id
     start = data.qpos[:2].copy()
     fallen = False
@@ -134,6 +144,13 @@ def main():
                 a,b = int(contact.geom1),int(contact.geom2)
                 robot_a = model.body_rootid[model.geom_bodyid[a]]==robot_root
                 robot_b = model.body_rootid[model.geom_bodyid[b]]==robot_root
+                if payload is not None:
+                    payload_a = model.geom_bodyid[a]==payload['body']
+                    payload_b = model.geom_bodyid[b]==payload['body']
+                    if payload_a != payload_b:
+                        other = b if payload_a else a
+                        counter = payload_robot_contacts if (robot_b if payload_a else robot_a) else payload_contacts
+                        counter[model.geom(other).name or f'geom_{other}'] += 1
                 if robot_a != robot_b:
                     other = b if robot_a else a
                     if model.geom_type[other]!=mujoco.mjtGeom.mjGEOM_PLANE:
@@ -164,11 +181,12 @@ def main():
                 observation = adapter.build_observation(command,*measurements[0],feedback)
                 proposed = session.run(None,{session.get_inputs()[0].name:observation})[0].reshape(-1)
                 published_action = proposed.copy()
-                queue.append(proposed)
+                published_sequence += 1
+                queue.append((published_sequence,proposed))
                 if len(queue)>args.delay_steps:
-                    action = queue.popleft()
+                    applied_sequence,action = queue.popleft()
                     target = np.asarray(clamp_joint_targets(adapter.action_targets(action)))
-            if args.held_empty:
+            if compose_arms:
                 arm_target += np.clip(arm_goal-arm_target,-.35*observation_dt,.35*observation_dt)
                 target[15:] = arm_target[15:]
             quat = data.sensor('imu_quat').data
@@ -178,7 +196,13 @@ def main():
             rows.append(dict(time=float(data.time),xy=data.qpos[:2].tolist(),height=float(data.qpos[2]),
                              tilt=tilt,yaw=yaw,body_velocity=[float(c*data.qvel[0]+s*data.qvel[1]),float(-s*data.qvel[0]+c*data.qvel[1])],
                               yaw_rate=float(data.sensor('imu_gyro').data[2]),
-                               command=command,inference_outage=outage,action_norm=float(np.linalg.norm(action))))
+                                command=command,inference_outage=outage,action_norm=float(np.linalg.norm(action))))
+            if payload is not None:
+                rows[-1].update(payload_sample(model,data,payload))
+            if args.record_actions:
+                rows[-1].update(published_action=published_action.tolist(),applied_action=action.tolist(),
+                                published_sequence=published_sequence,applied_sequence=applied_sequence,
+                                composed_joint_target=target.tolist())
             if tilt>.9 or data.qpos[2]<.45:
                 fallen = True
                 break
@@ -190,7 +214,12 @@ def main():
     stop_travel = [float(np.linalg.norm(np.asarray(row['xy'])-stopped[0]['xy'])) for row in stopped] if stopped else []
     result = dict(policy=str(args.policy),policy_sha256=hashlib.sha256(args.policy.read_bytes()).hexdigest(),
                   scene=str(scene),scene_sha256=hashlib.sha256(scene.read_bytes()).hexdigest(),
-                   mujoco_version=mujoco.__version__,ramp=args.ramp,scope='native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed empty-hand arm composition',
+                    mujoco_version=mujoco.__version__,ramp=args.ramp,scope='native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed carry arms and offline loaded-start magnetic fixture; not pickup qualification',
+                    payload=args.payload,payload_mass_kg=payload['mass_kg'] if payload else None,
+                    sampled_payload_scene_contacts=dict(payload_contacts),
+                    sampled_payload_robot_contacts=dict(payload_robot_contacts),
+                    record_actions=args.record_actions,probe_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                    payload_fixture_sha256=hashlib.sha256((ROOT/'scripts/native_probe_payload.py').read_bytes()).hexdigest(),
                    delay_steps=args.delay_steps,yaw=args.yaw,held_empty=args.held_empty,requested_duration_s=args.duration,
                    outage_at_s=args.outage_at,outage_duration_s=args.outage_duration if args.outage_at is not None else None,
                    outage_reset_history=args.outage_reset_history,outage_measured_hold=args.outage_measured_hold,

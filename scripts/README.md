@@ -32,6 +32,12 @@ NEW_REPORT.json --require-pass` retains failed/unreadable probes and returns
 nonzero when any selected probe fails. It refuses report overwrite and requires
 the full requested observation window. [Criteria and measured outcomes](../docs/NATIVE_STOPPING_20261015.md).
 
+`probe_native_policy.py --payload --record-actions` adds the native 150 g loaded-start
+fixture and auditable published/applied action vectors. Scoring checks retained
+attachment, payload/scene contacts and action-publication consistency.
+`test_native_probe_payload.py` runs separately in pinned MuJoCo 3.3.6 with pytest
+plugin autoload disabled. [Commands and loaded outcomes](../docs/LOADED_STOPPING_20261015.md).
+
 Every generated world and the original plaza can run as a continuous demo. The
 demo launcher handles goal handoff, session duration, episode restart and logs.
 Use `./geoff demo --help`, `./geoff benchmark --help` or `./geoff results --help`

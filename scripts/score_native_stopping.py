@@ -7,6 +7,39 @@ import math
 from pathlib import Path
 
 
+def action_history(data):
+    """Audit simulator-known queue history, not a deployment acknowledgement."""
+    published,times,delays = {},{},[]
+    try:
+        for row in data['samples']:
+            sequence,applied = row['published_sequence'],row['applied_sequence']
+            action,target = row['published_action'],row['applied_action']
+            if (type(sequence) is not int or type(applied) is not int or sequence<0 or applied< -1 or
+                    len(action)!=29 or len(target)!=29 or
+                    not all(type(v) in (int,float) and math.isfinite(v) for v in (*action,*target))):
+                raise ValueError('invalid action history')
+            if sequence in published:
+                if published[sequence]!=action:
+                    raise ValueError('publication sequence reused')
+            else:
+                if sequence!=len(published):
+                    raise ValueError('missing publication')
+                published[sequence],times[sequence] = action,row['time']
+            if applied==-1:
+                if any(target):
+                    raise ValueError('nonzero initial action')
+            else:
+                if applied not in published or published[applied]!=target:
+                    raise ValueError('applied action does not match publication')
+                delays.append(row['time']-times[applied])
+        if not delays:
+            raise ValueError('no applied actions')
+    except (KeyError,TypeError,ValueError):
+        return dict(valid=False)
+    return dict(valid=True,publications=len(published),applied_samples=len(delays),
+                min_application_age_s=min(delays),max_application_age_s=max(delays))
+
+
 def score_probe(data,*,max_travel=.30,max_speed=.08,max_yaw_rate=.12,dwell=1.,
                 settle_deadline=3.,minimum_observation=5.,max_sample_gap=.05):
     limits = dict(max_travel_m=max_travel,max_speed_mps=max_speed,max_yaw_rate_rps=max_yaw_rate,
@@ -15,6 +48,9 @@ def score_probe(data,*,max_travel=.30,max_speed=.08,max_yaw_rate=.12,dwell=1.,
     if not all(math.isfinite(v) and v>0. for v in limits.values()):
         raise ValueError('stopping limits must be finite and positive')
     reasons = []
+    history = action_history(data) if data.get('record_actions') else None
+    if history is not None and not history['valid']:
+        reasons.append('invalid_recorded_action_history')
     duration = data.get('command_duration_s')
     if (data.get('replay_trace') or data.get('ramp') or type(duration) not in (int,float) or
             not math.isfinite(duration) or duration<=0.):
@@ -75,7 +111,23 @@ def score_probe(data,*,max_travel=.30,max_speed=.08,max_yaw_rate=.12,dwell=1.,
         reasons.append('fall_or_missing_fall_status')
     if data.get('sampled_nonfloor_robot_contacts')!={}:
         reasons.append('scene_contact_or_missing_contact_coverage')
+    if data.get('payload'):
+        mass = data.get('payload_mass_kg')
+        if type(mass) not in (int,float) or not math.isfinite(mass) or mass<=0.:
+            reasons.append('missing_payload_mass')
+        if data.get('sampled_payload_scene_contacts')!={}:
+            reasons.append('payload_scene_contact_or_missing_coverage')
+        for row in data.get('samples',[]):
+            error = row.get('payload_position_error_m')
+            if (row.get('payload_attached') is not True or type(error) not in (int,float) or
+                    not math.isfinite(error) or not 0.<=error<=.03):
+                reasons.append('payload_attachment_lost_or_unverified')
+                break
     return dict(passed=not reasons,limits=limits,reasons=sorted(set(reasons)),
+        action_history=history,payload_position_error_limit_m=.03 if data.get('payload') else None,
+        max_payload_position_error_m=max((row.get('payload_position_error_m',math.inf)
+            for row in data['samples']),default=math.inf) if data.get('payload') and
+            'payload_attachment_lost_or_unverified' not in reasons else None,
         stop_samples=len(samples),command_end_s=command_end,first_stop_sample_s=first,
         observation_s=last-command_end,max_sample_gap_s=max(gaps),
         sampled_max_travel_m=travel,settled_at_s=settled_at,

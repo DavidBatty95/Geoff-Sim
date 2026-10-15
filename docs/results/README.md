@@ -23,6 +23,10 @@ described by the [repository guide](../REPOSITORY_GUIDE.md#where-results-go).
 
 ## Start with a dataset
 
+Loaded follow-up: [four loaded probes](loaded_stopping_20261015.json) (3/4 pass)
+and [two corrected-rollout missions](loaded_followups_20261015.json) (1/2 complete).
+[Conditions and limits](../LOADED_STOPPING_20261015.md).
+
 Latest stopping records: [eight scored probes](native_stopping_20261015.json)
 (4/8 pass) and [three integrated follow-ups](rollout_timing_20261015.json)
 (1/3 complete). [Interpretation and scope](../NATIVE_STOPPING_20261015.md).

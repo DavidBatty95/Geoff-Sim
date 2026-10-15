@@ -64,6 +64,25 @@ def test_requested_window_cannot_be_silently_truncated_after_a_good_stop():
     assert 'incomplete_requested_probe' in score_probe(data)['reasons']
 
 
+@pytest.mark.parametrize('fault',[None,'mass','contact','missing','detached','drift'])
+def test_loaded_probe_requires_retained_load_and_contact_coverage(fault):
+    data = stopped_probe()
+    data.update(payload=True,payload_mass_kg=.15,sampled_payload_scene_contacts={})
+    for row in data['samples']:
+        row.update(payload_attached=True,payload_position_error_m=.001)
+    if fault=='mass':
+        data['payload_mass_kg'] = 0.
+    elif fault=='contact':
+        data['sampled_payload_scene_contacts'] = {'floor':1}
+    elif fault=='missing':
+        del data['samples'][0]['payload_attached']
+    elif fault=='detached':
+        data['samples'][0]['payload_attached'] = False
+    elif fault=='drift':
+        data['samples'][0]['payload_position_error_m'] = .031
+    assert score_probe(data)['passed'] is (fault is None)
+
+
 def test_require_pass_returns_failure_but_retains_report(tmp_path,monkeypatch):
     data = stopped_probe()
     data['samples'][-1]['xy'] = [1.,0.]
@@ -74,3 +93,24 @@ def test_require_pass_returns_failure_but_retains_report(tmp_path,monkeypatch):
     report = json.loads(output.read_text())
     assert report['passed']==0 and len(report['attempts'])==1
     assert report['attempts'][0]['metadata']['fallen'] is False
+
+
+@pytest.mark.parametrize('fault',[None,'mismatch','missing','nonfinite'])
+def test_recorded_application_must_match_the_published_action(fault):
+    data = stopped_probe()
+    data['record_actions'] = True
+    for i,row in enumerate(data['samples']):
+        row.update(published_sequence=i,applied_sequence=i-2 if i>=2 else -1,
+                   published_action=[float(i)]*29,applied_action=[float(i-2) if i>=2 else 0.]*29)
+    if fault=='mismatch':
+        data['samples'][3]['applied_action'][0] += 1.
+    elif fault=='missing':
+        data['samples'][3]['published_sequence'] = 30
+    elif fault=='nonfinite':
+        data['samples'][3]['published_action'][0] = float('nan')
+    result = score_probe(data)
+    assert result['passed'] is (fault is None)
+    if fault is None:
+        assert result['action_history']['max_application_age_s']==pytest.approx(.04)
+    else:
+        assert 'invalid_recorded_action_history' in result['reasons']

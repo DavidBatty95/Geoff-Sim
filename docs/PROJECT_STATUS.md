@@ -23,6 +23,14 @@ evidence snapshot, not an acceptance release. Later experiments need their own c
 
 ## At a glance
 
+**Latest loaded follow-up:** native probes now use the actual 150 g object and
+audit published/applied action history. **3/4** pass; negative-lateral published
+feedback with 40 ms delay still fails (0.738 m post-stop travel). The final-rollout
+zero-person mission completes in **154.44 s**; the one-person mission fails while
+braking before pickup. **866 ROS results, 182 orchestration tests and 12 native
+CTests pass**, plus the isolated native fixture test.
+[Full conditions, provenance and limits](LOADED_STOPPING_20261015.md).
+
 **Latest 15 October stopping checkpoint:** delayed command transitions now agree
 across scalar rollouts, vectorized checks and sequence search. Held-empty stop
 probes pass **4/8**; all four negative published-feedback cases fail. Integrated

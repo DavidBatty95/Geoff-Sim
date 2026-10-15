@@ -26,6 +26,9 @@ collections. Start there for topic-based exploration, or use the catalogue below
 
 ## Project orientation
 
+Latest loaded follow-up: [payload stopping and action-history audit](LOADED_STOPPING_20261015.md)
+— four loaded probes and two corrected-rollout mission repeats.
+
 Latest checkpoint: [delayed rollout timing and native stopping](NATIVE_STOPPING_20261015.md)
 — declared stopping gate, eight probes, three mission outcomes and verification.
 

@@ -25,6 +25,13 @@ for measured outcomes and [release policy](docs/RELEASES.md) for promotion crite
 
 ### Added
 
+- Native loaded-start probe fixture with the original 150 g object, attachment
+  tracking and separate payload/scene contact evidence; recorded action vectors
+  and publication/application IDs are audited by the stopping scorer.
+- Four loaded probes (3/4 passing) and corrected-rollout integrated repeats:
+  zero-person delivery completes in 154.44 s; one-person braking still fails.
+  [Conditions, setup failure and results](docs/LOADED_STOPPING_20261015.md).
+
 - Fail-closed native stopping scorer with dwell, travel, complete-window and
   sample-coverage checks, retained failures and source hashes. Eight held-empty
   probes pass 4/8; three integrated attempts complete 1/3.

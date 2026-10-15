@@ -45,6 +45,11 @@ and vectorized rollouts. Eight held-empty stop probes pass the declared gate
 **4/8**; three integrated follow-ups complete **1/3**. **866 ROS test results
 pass.** [Measured limits and all outcomes](docs/NATIVE_STOPPING_20261015.md).
 
+**Loaded follow-up:** new 150 g payload probes retain and audit applied-action
+history; **3/4** pass the stopping gate. The corrected-rollout control completes
+in **154.44 s**; the one-person repeat still times out during braking.
+[Loaded measurements and both outcomes](docs/LOADED_STOPPING_20261015.md).
+
 [Current status](docs/PROJECT_STATUS.md) · [Implementation and verification](docs/PERFORMANCE_FOUNDATION.md) ·
 [Retained delivery evidence](docs/PERFORMANCE_IMPLEMENTATION_20261012.md) · [Roadmap](docs/PROJECT_PLAN.md)
 
