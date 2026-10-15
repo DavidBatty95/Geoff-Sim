@@ -1,0 +1,12 @@
+<library path="unitree_validated_goal_checker">
+  <class name="unitree_social_costmap::ValidatedGoalChecker"
+         type="unitree_social_costmap::ValidatedGoalChecker"
+         base_class_type="nav2_core::GoalChecker">
+    <description>Require an explicitly validated path-goal transform before standard Nav2 goal tolerances.</description>
+  </class>
+  <class name="unitree_social_costmap::ValidatedDWBLocalPlanner"
+         type="unitree_social_costmap::ValidatedDWBLocalPlanner"
+         base_class_type="nav2_core::Controller">
+    <description>DWB with checked path-endpoint handoff to ValidatedGoalChecker.</description>
+  </class>
+</library>

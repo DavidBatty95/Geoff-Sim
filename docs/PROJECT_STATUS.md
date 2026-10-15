@@ -16,12 +16,23 @@
 </p>
 <!-- geoff-nav:end -->
 
-**Last reviewed: 14 October 2026.** This page retains the historical development
+**Last reviewed: 15 October 2026.** This page retains the historical development
 baseline [`3a7ceac`](https://github.com/DavidBatty95/Geoff-Sim/commit/3a7ceac)
 alongside the dated follow-ups below. It is a manually maintained
 evidence snapshot, not an acceptance release. Later experiments need their own checks.
 
 ## At a glance
+
+**15 October navigation-integrity checkpoint:** checked path-goal transforms
+prevent Humble's reproduced false-arrival path; acquisition-time motion bounds
+reject abrupt primary/fallback scan matches. A scripted red → red delivery
+completed in **126.52 s**. The unchanged-code exploration cohort completed
+**2/4** colour tasks on one zero-person layout: red → red in **181.58 s**, blue →
+blue in **207.88 s**. All four stayed upright with valid evaluator data; red →
+blue failed placement verification and blue → red failed route admission. Two
+earlier development falls remain in the eight-attempt record. **791 ROS results,
+142 orchestration tests and 12 native CTests pass**.
+[Diagnosis, source changes and full outcomes](NAVIGATION_INTEGRITY_20261015.md).
 
 **14 October locomanipulation media and posture follow-up:** the README now shows
 fresh pickup/lift and loaded-motion recordings with an updated workflow banner.

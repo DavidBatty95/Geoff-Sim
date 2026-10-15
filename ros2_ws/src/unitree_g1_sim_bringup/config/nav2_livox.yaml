@@ -76,11 +76,14 @@ controller_server:
       movement_time_allowance: 20.0
     general_goal_checker:
       stateful: true
-      plugin: nav2_controller::SimpleGoalChecker
+      # Humble can call the checker after a failed goal transform. Reject its
+      # default pose instead of treating the odom origin as the goal. This pair
+      # validates the actual path endpoint before DWB execution/arrival checks.
+      plugin: unitree_social_costmap::ValidatedGoalChecker
       xy_goal_tolerance: 0.45
       yaw_goal_tolerance: 0.75
     FollowPath:
-      plugin: dwb_core::DWBLocalPlanner
+      plugin: unitree_social_costmap::ValidatedDWBLocalPlanner
       debug_trajectory_details: false
       min_vel_x: 0.0
       min_vel_y: 0.0

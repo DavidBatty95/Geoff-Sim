@@ -119,6 +119,12 @@ I/O, benchmark source contracts and [calibration](TRAINING_AND_CALIBRATION.md).
 
 ### S2 — Reliable onboard navigation · Open
 
+**15 October progress:** a checked DWB/goal-checker pair blocks the reproduced
+Humble failed-transform false-arrival path, and acquisition-time bounds constrain
+scan-registration jumps. Native transport follow-ups include three completed
+deliveries; the unchanged-code exploration cohort is 2/4. The crowd and held-out
+navigation gates below remain open. [Diagnosis and retained evidence](NAVIGATION_INTEGRITY_20261015.md).
+
 **Goal:** complete goals around people with valid sensing and no prohibited contacts.
 
 - **S2.1 Reproduce failures:** replay the v85 audited encounters; align predicted

@@ -23,11 +23,16 @@ Geoff-Sim brings locomotion, online mapping, human-aware navigation and object
 transport into one humanoid simulation platform. The robot observes its scene,
 approaches a table, lifts a cube, carries it to a destination and checks placement.
 
-**Current progress · 14 October 2026:** complete zero-person deliveries are recorded
-in earlier development runs. The fresh GIF captures below show pickup and loaded
-motion, but **none of the seven capture attempts completed a delivery**. Reliable
-end-to-end execution and crowd navigation remain open. Attachment uses a magnetic
-capture-radius fixture, not a demonstrated finger grasp.
+**Current progress · 15 October 2026:** checked Nav2 goal transforms and
+motion-bounded scan registration completed a scripted delivery and **2/4** tasks
+in an unchanged-code zero-person exploration cohort. All four cohort attempts
+stayed upright; cross-colour placement and route failures remain.
+[Results, diagnosis and all eight development attempts](docs/NAVIGATION_INTEGRITY_20261015.md).
+Reliable end-to-end execution and crowd navigation remain open. Attachment uses
+a magnetic capture-radius fixture, not a demonstrated finger grasp.
+
+The GIFs below retain their **14 October** capture scope: none of those seven
+recording attempts completed a delivery. They are not footage of the newer passes.
 
 [Current status](docs/PROJECT_STATUS.md) · [Implementation and verification](docs/PERFORMANCE_FOUNDATION.md) ·
 [Retained delivery evidence](docs/PERFORMANCE_IMPLEMENTATION_20261012.md) · [Roadmap](docs/PROJECT_PLAN.md)

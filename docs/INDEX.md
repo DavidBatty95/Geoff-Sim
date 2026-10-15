@@ -35,6 +35,7 @@ collections. Start there for topic-based exploration, or use the catalogue below
 | [Project status and progression](PROJECT_STATUS.md) | Dated published baseline, milestone timeline, latest evidence and blockers |
 | [Detailed project plan](PROJECT_PLAN.md) | Work packages, dependencies, exit criteria and update process |
 | [Performance reliability checkpoint](PERFORMANCE_FOUNDATION.md) | Experiment accounting, ordered command publication, explicit settling outcomes and current verification |
+| [15 October navigation integrity](NAVIGATION_INTEGRITY_20261015.md) | Checked goal transforms, motion-bounded localization, native deliveries and retained failures |
 | [Gap-aligned research programme](RESEARCH_PROGRAMME.md) | P0–P7 phases, G1–G5 traceability, experiment design, novelty gates and candidate papers |
 | [ROS workspace map](../ros2_ws/src/README.md) | Every local package and the two manipulation integration paths |
 | [Published dataset catalogue](results/README.md) | Entry points into the portable experiment records |

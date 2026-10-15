@@ -31,6 +31,14 @@ def _load_launch_module():
 
 
 class LaunchDescriptionTests(unittest.TestCase):
+    def test_goal_checker_rejects_failed_transform_without_relaxing_tolerances(self):
+        checker = yaml.safe_load(NAV2_CONFIG.read_text())["controller_server"]["ros__parameters"]["general_goal_checker"]
+        self.assertEqual(checker["plugin"], "unitree_social_costmap::ValidatedGoalChecker")
+        self.assertEqual(checker["xy_goal_tolerance"], .45)
+        self.assertEqual(checker["yaw_goal_tolerance"], .75)
+        controller = yaml.safe_load(NAV2_CONFIG.read_text())["controller_server"]["ros__parameters"]["FollowPath"]
+        self.assertEqual(controller["plugin"], "unitree_social_costmap::ValidatedDWBLocalPlanner")
+
     def test_onboard_view_shows_measured_sensors_map_and_predictions(self):
         path = Path(__file__).parents[1] / "rviz" / "g1_onboard_waypoints.rviz"
         manager = yaml.safe_load(path.read_text())["Visualization Manager"]

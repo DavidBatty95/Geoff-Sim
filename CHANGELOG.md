@@ -25,6 +25,13 @@ for measured outcomes and [release policy](docs/RELEASES.md) for promotion crite
 
 ### Added
 
+- Checked DWB/goal-checker plugin pair reproduces and blocks Humble false arrival
+  after failed path-endpoint transforms; nine real-TF/plugin regressions retain
+  arrival tolerances and verify recovery.
+- 15 October evidence: eight retained native attempts, including a complete
+  scripted delivery and 2/4 complete tasks in the unchanged-code exploration
+  cohort. All four cohort runs remained upright; cross-colour failures remain.
+
 - Fresh locomanipulation window recordings, time-lapse overview, pickup/lift and
   loaded-transport GIFs with still-image alternatives. Source manifests retain
   all seven failed capture attempts; no complete-delivery footage is claimed.
@@ -54,6 +61,12 @@ for measured outcomes and [release policy](docs/RELEASES.md) for promotion crite
   native-foot-contact fidelity profile; candidates require native qualification.
 
 ### Changed
+
+- Scan-registration displacement is bounded by time since the last accepted
+  acquisition, shared by primary/fallback matching and capped at the original
+  30 cm limit. Rejection diagnostics preserve pose/reference state.
+- Transport builds include the native navigation plugin package. Full integrated
+  verification passes 791 ROS results, 142 orchestration tests and 12 native CTests.
 
 - Fixed carry/rest postures share current-waist measured completion validation;
   incomplete/nonfinite arm or waist measurements cannot pass via FK defaults.

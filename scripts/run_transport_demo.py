@@ -166,7 +166,7 @@ def main():
         subprocess.run(['docker','compose','run','--rm','-e',f'COLCON_INSTALL_BASE={install}',
             '-e','COLCON_BUILD_BASE=/workspace/ros2_ws/.verification/build','-e','COLCON_LOG_BASE=/workspace/ros2_ws/.verification/log',
             'unitree-g1-sim','/workspace/scripts/build_ws.sh','--packages-select','g1_msgs','unitree_g1_mujoco_bridge',
-            'unitree_g1_sim_bringup','unitree_g1_description','dynamic_obstacle_benchmarks'],cwd=ROOT,check=True)
+            'unitree_g1_sim_bringup','unitree_g1_description','unitree_social_costmap','dynamic_obstacle_benchmarks'],cwd=ROOT,check=True)
         subprocess.run(['docker','compose','run','--rm','unitree-g1-sim','/workspace/scripts/build_unitree_mujoco.sh'],cwd=ROOT,check=True)
         generate(args.layout_seed)  # Build regenerates fixtures at the default layout.
     command = case_catalog(run,args.seed,True,True,3,onboard_people=max(1,args.people))['onboard-waypoints'].command

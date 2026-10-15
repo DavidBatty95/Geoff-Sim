@@ -23,6 +23,21 @@ support with Nav2. Current people footprints and predicted motion have distinct
 roles in navigation costs; the final collision supervisor remains a separate
 component in the bridge package.
 
+## Checked controller and arrival contract
+
+`ValidatedDWBLocalPlanner` and `ValidatedGoalChecker` form the configured Nav2
+controller/checker pair. The wrapper explicitly validates transformation of the
+actual path endpoint before ordinary DWB execution; the checker consumes that
+validated reference rather than Humble's unchecked transformed-goal argument.
+This blocks false arrival at the odometry origin following TF failure while
+retaining standard XY/yaw tolerances and Nav2's failure/retry behavior.
+
+Build this package before using an updated bringup profile with `--fast-start`.
+Keep the plugins paired in custom configurations. The real-TF regression
+reproduces the stock-checker failure, verifies rejection/recovery, and loads
+both plugins through Nav2 interfaces. See the
+[diagnosis and native follow-ups](../../../docs/NAVIGATION_INTEGRITY_20261015.md).
+
 ## Find the code
 
 - [`src/`](src/) and [`include/`](include/) contain the implementation and interfaces.

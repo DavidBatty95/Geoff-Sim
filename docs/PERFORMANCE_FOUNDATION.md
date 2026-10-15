@@ -1,5 +1,10 @@
 # Performance implementation: evaluation foundation
 
+**Latest follow-up:** [15 October navigation integrity](NAVIGATION_INTEGRITY_20261015.md)
+adds checked path-goal transforms and time-bounded scan registration, with three
+complete deliveries among eight retained development attempts. The unchanged-code
+four-task exploration cohort is 2/4, not an all-task qualification.
+
 The 14 October implementation increments strengthen reproducibility, experiment
 accounting and control transitions. They do not establish improved native mission
 performance. This checkpoint includes the preceding October 12–14 performance

@@ -16,7 +16,7 @@ from std_msgs.msg import String
 from tf2_ros import TransformBroadcaster
 from unitree_hg.msg import LowState
 
-from .lidar_odometry import ScanOdometry, registration_points, rotation
+from .lidar_odometry import ScanOdometry, registration_points, rotation, registration_displacement_limit
 from .pointcloud_layout import xyz_intensity
 from .sensor_geometry import matrix_to_quat_xyzw
 
@@ -48,6 +48,9 @@ class OnboardLidarOdometry(Node):
         super().__init__("onboard_lidar_odometry")
         qos = QoSProfile(depth=1, reliability=ReliabilityPolicy.BEST_EFFORT)
         self.estimator = ScanOdometry()
+        self.registration_max_speed = float(self.declare_parameter('registration_max_speed',1.5).value)
+        self.registration_translation_slack = float(self.declare_parameter('registration_translation_slack',.03).value)
+        registration_displacement_limit(None,self.registration_max_speed,self.registration_translation_slack)
         self.imu = deque(maxlen=150)
         self.joints = deque(maxlen=150)
         self.previous_stamp = None
@@ -132,7 +135,10 @@ class OnboardLidarOdometry(Node):
                 data[:, 2] -= ground
         registration,band = registration_points(data[:,:3])
         fallback = data[(radius>1.)&(radius<18.)&(data[:,2]>.25)&(data[:,2]<1.8),:2]
-        accepted = self.estimator.update(registration,imu[1][2],fallback_points=fallback)
+        elapsed = None if self.previous_stamp is None else stamp-self.previous_stamp
+        accepted = self.estimator.update(registration,imu[1][2],fallback_points=fallback,
+            elapsed_s=elapsed,max_speed=self.registration_max_speed,
+            translation_slack=self.registration_translation_slack)
         status = String()
         status.data = json.dumps({**self.estimator.quality, "source": "lidar_imu_joint_encoders",
                                   "source_stamp": stamp, "input_age_s": self.get_clock().now().nanoseconds * 1e-9 - stamp,

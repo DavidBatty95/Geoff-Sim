@@ -1,6 +1,8 @@
 import numpy as np
+import pytest
 
 from unitree_g1_mujoco_bridge.lidar_odometry import ScanOdometry, registration_points, rotation
+from unitree_g1_mujoco_bridge.lidar_odometry import registration_displacement_limit
 
 
 def room():
@@ -75,3 +77,51 @@ def test_upper_structure_registration_excludes_low_returns_with_fallback():
     selected,band = registration_points(low)
     assert band == 'full_band'
     np.testing.assert_array_equal(selected,low[:,:2])
+
+
+def test_short_interval_pose_jump_is_rejected_without_poisoning_reference():
+    world = room()
+    odom = ScanOdometry()
+    assert odom.update(world,0.)
+    reference = odom.reference.copy()
+    assert not odom.update(world-(.20,0.),0.,elapsed_s=.04)
+    assert odom.quality['reason']=='translation_exceeds_motion_bound'
+    assert odom.quality['translation_limit_m']==pytest.approx(.09)
+    assert odom.quality['translation_m']>.18
+    np.testing.assert_array_equal(odom.xy,(0.,0.))
+    np.testing.assert_array_equal(odom.reference,reference)
+    # A later scan uses time since the last ACCEPTED acquisition, not receipt
+    # or the rejected frame; real accumulated motion can still reacquire.
+    assert odom.update(world-(.20,0.),0.,elapsed_s=.20)
+    np.testing.assert_allclose(odom.xy,(.20,0.),atol=.02)
+
+
+def test_full_band_fallback_cannot_bypass_motion_bound():
+    world = room()
+    odom = ScanOdometry()
+    assert odom.update(world,0.,fallback_points=world*.7)
+    reference = odom.fallback.reference.copy()
+    assert not odom.update(world+20.,0.,fallback_points=world*.7-(.20,0.),elapsed_s=.04)
+    assert odom.quality['fallback_rejection']['reason']=='translation_exceeds_motion_bound'
+    np.testing.assert_array_equal(odom.xy,(0.,0.))
+    np.testing.assert_array_equal(odom.fallback.reference,reference)
+    assert odom.update(world+20.,0.,fallback_points=world*.7-(.20,0.),elapsed_s=.20)
+    assert odom.quality['registration_fallback']
+
+
+def test_registration_gate_keeps_normal_walk_and_original_long_gap_cap():
+    world = room()
+    odom = ScanOdometry()
+    assert odom.update(world,0.)
+    for i in range(1,12):
+        xy = np.array((.04*i,-.02*i))
+        assert odom.update(world-xy,0.,elapsed_s=.07)
+        np.testing.assert_allclose(odom.xy,xy,atol=.03)
+    assert registration_displacement_limit(20.)==.30
+    assert registration_displacement_limit(None)==.30
+
+
+@pytest.mark.parametrize('elapsed',[0.,-.1,float('nan'),float('inf')])
+def test_invalid_acquisition_intervals_are_rejected(elapsed):
+    with pytest.raises(ValueError,match='acquisition interval'):
+        registration_displacement_limit(elapsed)

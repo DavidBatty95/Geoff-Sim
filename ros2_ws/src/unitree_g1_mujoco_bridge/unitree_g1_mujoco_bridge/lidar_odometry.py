@@ -4,6 +4,22 @@ import math
 import numpy as np
 
 
+def registration_displacement_limit(elapsed_s,max_speed=1.5,translation_slack=.03):
+    """Gate scan corrections by acquisition interval, retaining the 30 cm cap.
+
+    The speed reserve is deliberately above configured walking commands. This
+    rejects abrupt matches, not accumulated drift, and is not a motion predictor.
+    """
+    if (not math.isfinite(max_speed) or max_speed<=0. or
+            not math.isfinite(translation_slack) or not 0.<=translation_slack<.30):
+        raise ValueError('positive finite registration speed and slack in [0,.30) required')
+    if elapsed_s is None:
+        return .30
+    if not math.isfinite(elapsed_s) or elapsed_s<=0.:
+        raise ValueError('positive finite acquisition interval required')
+    return min(.30,translation_slack+max_speed*elapsed_s)
+
+
 def rotation(angle):
     c, s = math.cos(angle), math.sin(angle)
     return np.array(((c, -s), (s, c)))
@@ -69,24 +85,27 @@ class ScanOdometry:
         self.normals = eigenvectors[:,:,0]
         self.normal_valid = (count >= 3) & (eigenvalues[:,1] > 1e-5) & (eigenvalues[:,0] < .1*eigenvalues[:,1])
 
-    def update(self,points,heading,fallback_points=None):
+    def update(self,points,heading,fallback_points=None,*,elapsed_s=None,max_speed=1.5,translation_slack=.03):
         """Prefer upper structure but retain a pose-anchored full-band reference.
 
         Sparse upper returns can disappear at a doorway or near a wall. A
         fallback must independently pass the same registration gates; failure
         of both bands never creates a fresh pose.
         """
-        accepted = self._update(points,heading)
+        limit = registration_displacement_limit(elapsed_s,max_speed,translation_slack)
+        accepted = self._update(points,heading,limit)
         if not accepted and fallback_points is not None and self.fallback is not None:
             rejection = dict(self.quality)
             self.fallback.xy,self.fallback.yaw = self.xy.copy(),self.yaw
-            if self.fallback._update(fallback_points,heading):
+            if self.fallback._update(fallback_points,heading,limit):
                 self.xy,self.yaw = self.fallback.xy.copy(),self.fallback.yaw
                 self.quality = dict(self.fallback.quality,registration_fallback=True,primary_rejection=rejection)
                 primary = voxel_points(points)
                 if len(primary)>=60:
                     self._set_reference(primary@rotation(self.yaw).T+self.xy)
                 accepted = True
+            else:
+                self.quality['fallback_rejection'] = dict(self.fallback.quality)
         if accepted and fallback_points is not None:
             full = voxel_points(fallback_points)
             if len(full)>=60:
@@ -97,7 +116,7 @@ class ScanOdometry:
                 self.fallback._set_reference(full@rotation(self.yaw).T+self.xy)
         return accepted
 
-    def _update(self, points, heading):
+    def _update(self, points, heading, displacement_limit=.30):
         points = voxel_points(points)
         if len(points) < 60 or not math.isfinite(heading):
             self.quality = {"accepted": False, "reason": "insufficient_returns"}
@@ -146,8 +165,12 @@ class ScanOdometry:
             if np.linalg.norm(delta) < 0.001:
                 break
         rmse = float(np.sqrt(np.mean(best[good])))
-        accepted = rmse < 0.18 and np.linalg.norm(estimate - self.xy) < 0.30
-        self.quality = {"accepted": bool(accepted), "inliers": int(good.sum()), "rmse": rmse, "method": method}
+        displacement = float(np.linalg.norm(estimate-self.xy))
+        accepted = rmse < 0.18 and displacement < displacement_limit
+        self.quality = {"accepted": bool(accepted), "inliers": int(good.sum()), "rmse": rmse, "method": method,
+                        "translation_m":displacement,"translation_limit_m":displacement_limit}
+        if displacement>=displacement_limit:
+            self.quality['reason'] = 'translation_exceeds_motion_bound'
         if not accepted:
             return False
         self.xy, self.yaw = estimate, yaw
