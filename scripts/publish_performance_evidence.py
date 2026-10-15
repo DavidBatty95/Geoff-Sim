@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import re
 from pathlib import Path
 
 from performance_outcome import strict_success
@@ -54,11 +55,15 @@ def attempt(run):
         success=strict,mission_complete=result.get('mission_complete'),data_valid=result.get('data_valid'),
         artifact_complete=(run/'result.json').is_file(),fallen=result.get('fallen'),
         contacts=result.get('contact_samples'),error=result.get('error','missing_result' if not result else None),
+        minimum_person_clearance_m=result.get('minimum_person_clearance_m'),
         deliveries=result.get('deliveries',[]),dropped_objects=result.get('dropped_objects'),
         completion_s=complete,last_recorded_event_s=events[-1].get('elapsed_s') if events else None,
         deadline_s=manifest.get('duration_s'),search=result.get('search_summary'),
         discoveries=[item for item in events if item.get('phase')=='search_found'],
         placement_alignment=[item for item in events if 'payload_alignment_error_m' in item],
+        workspace_recovery_events=[item for item in events if
+            item.get('phase')=='support_inspection_interrupted' or
+            'dock_workspace_interruption' in item or 'dock_workspace_resumed' in item],
         route_blockage=load(run/'route_blockage.json'),
         result_sha256=digest(run/'result.json'),manifest_sha256=digest(run/'manifest.json'),
         source_archive_sha256=provenance.get('source_archive_sha256'),
@@ -72,14 +77,20 @@ def attempt(run):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--date',default='20261012')
+    parser.add_argument('--run-prefix',help='Select mission/matrix names within this date; omit date-wide probe/training records')
     parser.add_argument('--output',type=Path,required=True)
     args = parser.parse_args()
     if len(args.date)!=8 or not args.date.isdigit():
         parser.error('--date must be YYYYMMDD')
-    attempts = [attempt(run) for run in sorted((RESULTS/'transport_demo').glob(args.date+'T*')) if run.is_dir()]
+    prefix = args.run_prefix or args.date+'T'
+    if not prefix.startswith(args.date+'T') or not re.fullmatch(r'[A-Za-z0-9_-]+',prefix):
+        parser.error('--run-prefix must be a plain run-name prefix within --date')
+    attempts = [attempt(run) for run in sorted((RESULTS/'transport_demo').glob(prefix+'*')) if run.is_dir()]
     probes = []
     directories = list(RESULTS.glob('turn_calibration_*'+args.date))
     directories.append(RESULTS/('turn_stop_'+args.date))
+    if args.run_prefix:
+        directories = []
     for directory in sorted(directories):
         for path in sorted(directory.rglob('*.json')):
             if path.name=='summary.json':
@@ -89,15 +100,16 @@ def main():
                 probes.append(dict(source=str(path.relative_to(ROOT)),sha256=digest(path),
                                    **{key:value for key,value in data.items() if key!='samples'}))
     matrices = []
-    for path in sorted((RESULTS/'performance_matrix').glob(args.date+'T*/summary.json')):
+    for path in sorted((RESULTS/'performance_matrix').glob(prefix+'*/summary.json')):
         data = load(path)
         records = [{key:value for key,value in row.items() if key!='command'} for row in data.get('attempts',[])]
         matrices.append(dict(source=str(path.relative_to(ROOT)),sha256=digest(path),complete=data.get('complete'),
                              policy_sha256=data.get('policy_sha256'),attempts=records))
     report = dict(schema_version=1,role='native_performance_development_evidence',date=args.date,
+                  selection=dict(run_prefix=args.run_prefix,includes_probes_and_training=args.run_prefix is None),
                   scope='Evolving implementation and asynchronous trajectories; not a controlled speedup or acceptance cohort',
                   attempts=attempts,probes=probes,matrices=matrices,
-                  training_runs=[training_attempt(path.parent) for path in sorted(
+                  training_runs=[] if args.run_prefix else [training_attempt(path.parent) for path in sorted(
                       (ROOT/'vendor/mjlab/logs/payload_training').glob('*'+args.date+'/manifest.json'))])
     args.output.parent.mkdir(parents=True,exist_ok=True)
     args.output.write_text(json.dumps(report,indent=2)+'\n')

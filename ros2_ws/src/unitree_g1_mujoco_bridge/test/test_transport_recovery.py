@@ -6,12 +6,13 @@ import pytest
 from unitree_g1_mujoco_bridge.transport_actions import ActionTerminationError
 from unitree_g1_mujoco_bridge.transport_demo import TransportMission,WorkspaceInterrupted,ReachUnreachable
 from unitree_g1_mujoco_bridge.transport_demo import turn_command_drives_heading
+from unitree_g1_mujoco_bridge.localization_recovery import ViewpointDisplaced
 
 
 def mission_fixture():
     events = []
     mission = SimpleNamespace(pose=(0.,0.,0.),phase='reach',events=events,
-                              wait_workspace=lambda:None)
+                              wait_workspace=lambda **kwargs:None,workspace_clear=lambda *args:True)
     def event(phase,**details):
         mission.phase = phase
         events.append((phase,details))
@@ -202,7 +203,7 @@ def test_displaced_turn_brakes_before_revoking_intent():
         mission.pose = (4.35,2.04,-1.3)
         assert predicate()  # Braking occurs before any further scan request.
     mission.wait = wait
-    with pytest.raises(RuntimeError,match='turn displaced'):
+    with pytest.raises(ViewpointDisplaced,match='turn displaced'):
         TransportMission.rotate.__wrapped__(mission,-1.66)
     assert events == ['turn_displaced',('brake',True),('active',False)]
 

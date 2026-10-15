@@ -1,0 +1,125 @@
+[
+  {
+    "run": "20261015T170800Z-support-reobserve",
+    "world": "transport_dual",
+    "people_requested": 1,
+    "tracker_wall_evidence": true,
+    "early_overtaking_avoidance": false,
+    "success": false,
+    "data_valid": true,
+    "fallen": true,
+    "error": "sustained measured body instability",
+    "chronology_clock": "logger receipt monotonic, relative to first trace row; topic delivery can introduce skew",
+    "first_geometric_person_overlap_s": 88.69770601403434,
+    "first_fall_threshold_s": 93.88175080803921,
+    "overlap_to_fall_s": 5.184044794004876,
+    "overlap_samples_before_first_fall": 57,
+    "overlap_samples_after_first_fall": 0,
+    "overlap_scope": "aligned robot .35 m disk against person radii; excludes carried-box contacts",
+    "first_overlap_planner_snapshot": {
+      "planner_state": "EMERGENCY_STOP",
+      "planner_snapshot_age_s": 0.0029923160327598453,
+      "closest_observed_track": {
+        "confidence": 1.0,
+        "dcpa": 0.51,
+        "distance": 0.85,
+        "front_cut": false,
+        "person_score": 1.0,
+        "state": "CONFIRMED",
+        "tcpa": 1.521,
+        "track_id": 2,
+        "vx": -0.125,
+        "vy": 0.429,
+        "x": 1.258,
+        "y": 0.197
+      },
+      "selected_cmd": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "policy_command": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "evaluated_candidates": 37,
+      "rejection_counts": {
+        "hard_human_collision": 37
+      },
+      "tracks_age_s": 0.3791,
+      "prediction_age_s": 0.3791
+    },
+    "max_observed_tracks": 2,
+    "tracker_rejection_counts": {
+      "object_gate": 6114,
+      "wall_continuation": 15
+    },
+    "mean_tracks_before_first_fall": 0.9547486033519553,
+    "fraction_samples_with_tracks_before_first_fall": 0.9368715083798883,
+    "planner_before_first_fall": {
+      "samples": 1790,
+      "median_ms": 9.699,
+      "p95_ms": 51.122049999999994
+    },
+    "planner_after_first_fall": {
+      "samples": 21,
+      "median_ms": 2.206,
+      "p95_ms": 65.401
+    },
+    "phase_time_s": {
+      "dock_pickup": 47.36814840399893,
+      "search_scan": 13.695720447052736,
+      "pickup_route": 12.77874210308073,
+      "prepare_pickup": 5.648780983989127,
+      "search_route": 4.821336328983307,
+      "runtime_parameters": 3.2229579720296897,
+      "search_inspected": 0.4553017079597339,
+      "navigate_pickup": 0.13788554695202038,
+      "search_viewpoint": 0.13529731496237218,
+      "inspect_support": 0.0598666409496218,
+      "search_found": 0.04009757598396391,
+      "survey_task_goal": 0.024347287020646036,
+      "body_instability": 0.019901125982869416,
+      "search_room_decision": 0.012777416035532951,
+      "pickup_approach": 0.012510435015428811,
+      "search_request": 0.010831755003891885
+    },
+    "phase_time_scope": "mission events through last logged heartbeat; includes waiting, travel and computation",
+    "onboard_perception": {
+      "odometry_drift_m": {
+        "count": 1044,
+        "p50": 0.015366348748958406,
+        "p95": 0.0702011296426374,
+        "max": 1.072030083533107
+      },
+      "nearby_truth_to_confirmed_track_m": {
+        "count": 885,
+        "p50": 0.11804224355025798,
+        "p95": 0.2907052300614004,
+        "max": 10.0
+      },
+      "within_2m_position_error_m": {
+        "count": 128,
+        "p50": 0.08755600793942114,
+        "p95": 10.0,
+        "max": 10.0
+      },
+      "within_2m_velocity_error_mps": {
+        "count": 100,
+        "p50": 0.10784975030324181,
+        "p95": 0.48868663456961897,
+        "max": 1.0053761068186655
+      },
+      "within_2m_radial_bias_m": {
+        "count": 100,
+        "p50": -0.06277681233906485,
+        "p95": 0.06704750387431418,
+        "max": 0.21666691487808198
+      },
+      "within_2m_unmatched_samples": 28,
+      "within_2m_samples": 128,
+      "note": "Offline diagnostic only; nearby people can be occluded. Unmatched observations are assigned 10 m."
+    }
+  }
+]

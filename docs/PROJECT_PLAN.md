@@ -169,6 +169,12 @@ contacts across the declared variation; compare against the real hand when avail
 
 ### S4 — Recoverable mission · Open
 
+**15 October workspace follow-up:** settled scan displacement now has a typed,
+bounded reinspection path; docking can withdraw/reissue intent after corridor
+clearance returns. Native support replanning and placement correction were
+observed, but all six people-present attempts remained incomplete. The stage
+remains open. [Implementation and seven retained outcomes](CROWDED_DOCKING_20261015.md).
+
 **Goal:** one persistent mission lifecycle resumes recoverable tasks and preserves
 known state when recovery is exhausted.
 

@@ -7,6 +7,7 @@ from visualization_msgs.msg import Marker
 from unitree_g1_mujoco_bridge.exploration_mission import ExplorationMission
 from unitree_g1_mujoco_bridge.exploration_search import SearchView
 from unitree_g1_mujoco_bridge.search_visualization import search_markers
+from unitree_g1_mujoco_bridge.localization_recovery import ViewpointDisplaced
 
 
 def test_search_overlay_shows_candidates_selected_view_and_semantic_memory():
@@ -67,7 +68,7 @@ def test_displaced_optional_inspection_keeps_fresh_discovery():
     import time
     found,events = [],[]
     def rotate(*args,**kwargs):
-        raise RuntimeError('search turn displaced beyond viewpoint reserve')
+        raise ViewpointDisplaced('search turn displaced beyond viewpoint reserve')
     node = S(pose=(.4,0.,.2),object_may_be_held=False,
              observe=lambda *args:found[-1] if found else None,
              event=lambda name,**kwargs:events.append(name),rotate=rotate,

@@ -25,6 +25,14 @@ for measured outcomes and [release policy](docs/RELEASES.md) for promotion crite
 
 ### Added
 
+- Explicit settled-view displacement recovery with post-stop acquisitions,
+  invalidated viewpoint caches and the original mission deadline.
+- Docking workspace yield/resume and age-aware predicted approach-corridor
+  admission, including compensated endpoints and finite/fresh robot-pose checks.
+- Prefix-selected evidence exports retain failed trials and recovery events.
+  Seven workspace trials include a complete zero-person control; all six
+  one-person attempts failed. Predictive refuge remains opt-in.
+
 - Policy observation-interval telemetry and catch-up/history regressions. Native
   follow-ups include a 4/4 complete compact colour-task cohort and a medium-building
   delivery; ten candidate attempts retain nine completions and one recording-run fall.
@@ -78,6 +86,10 @@ for measured outcomes and [release policy](docs/RELEASES.md) for promotion crite
   native-foot-contact fidelity profile; candidates require native qualification.
 
 ### Changed
+
+- Workspace interruptions revoke nominal docking intent and reset coasting
+  compensation without extending the docking deadline. Full verification passes
+  834 ROS results, 159 orchestration tests and 12 native CTests.
 
 - Device-tick sampling now enforces a full policy period after each accepted
   observation, avoiding 2–6 ms catch-up samples after late callbacks. Actual device

@@ -1,6 +1,10 @@
 # Performance implementation: evaluation foundation
 
-**Latest:** [minimum-spaced policy observations](POLICY_CADENCE_20261015.md) remove
+**Workspace follow-up:** [inspection recovery and docking admission](CROWDED_DOCKING_20261015.md)
+preserve deadlines and strict outcomes. The zero-person control completed after
+a native placement correction; all six one-person development attempts failed.
+
+**Earlier cadence checkpoint:** [minimum-spaced policy observations](POLICY_CADENCE_20261015.md) remove
 catch-up samples, with a 4/4 compact task cohort and complete medium-building
 delivery. One subsequent recording-run fall remains in the evidence.
 

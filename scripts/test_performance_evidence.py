@@ -1,6 +1,9 @@
 import json
+import sys
+import pytest
 
 from publish_performance_evidence import attempt,training_attempt
+import publish_performance_evidence as publisher
 
 
 def test_verified_placement_does_not_upgrade_failed_mission(tmp_path):
@@ -36,3 +39,32 @@ def test_training_export_does_not_upgrade_incomplete_artifacts_or_smoke_to_accep
     assert not record['artifact_complete'] and record['policy_sha256'] is None
     assert record['manifest']['mode']=='smoke' and 'success' not in record
     assert record['source_sha256']['payload_sensor_delay.py'] is None
+
+
+def test_prefix_export_keeps_failures_and_records_selection(tmp_path,monkeypatch):
+    results = tmp_path/'results'
+    for name,success in [('20261015T170001Z-pass',True),('20261015T170002Z-failure',False),
+                         ('20261015T150000Z-older',True)]:
+        run = results/'transport_demo'/name
+        run.mkdir(parents=True)
+        (run/'result.json').write_text(json.dumps(dict(success=success,mission_complete=success,
+            data_valid=True,fallen=False,contact_samples=0,minimum_person_clearance_m=.8,
+            events=[dict(phase='dock',dock_workspace_interruption=True,elapsed_s=1.)])))
+    output = tmp_path/'report.json'
+    monkeypatch.setattr(publisher,'RESULTS',results)
+    monkeypatch.setattr(sys,'argv',['publisher','--date','20261015','--run-prefix','20261015T17','--output',str(output)])
+    publisher.main()
+    report = json.loads(output.read_text())
+    assert len(report['attempts'])==2
+    assert [row['success'] for row in report['attempts']]==[True,False]
+    assert all(row['workspace_recovery_events'] for row in report['attempts'])
+    assert report['attempts'][1]['minimum_person_clearance_m']==.8
+    assert report['selection']==dict(run_prefix='20261015T17',includes_probes_and_training=False)
+    assert report['training_runs']==report['probes']==[]
+
+
+@pytest.mark.parametrize('prefix',['../','20261014T17','20261015T17*'])
+def test_prefix_export_rejects_paths_wildcards_and_other_dates(tmp_path,monkeypatch,prefix):
+    monkeypatch.setattr(sys,'argv',['publisher','--date','20261015','--run-prefix',prefix,'--output',str(tmp_path/'out.json')])
+    with pytest.raises(SystemExit):
+        publisher.main()

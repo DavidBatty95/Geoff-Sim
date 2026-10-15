@@ -37,8 +37,8 @@ from .transport_actions import ManagedAction
 from .transport_health import EvaluationHealth
 from .payload_postures import PAYLOAD_V1_POSTURES
 from .runtime_parameters import capture_parameters
-from .localization_recovery import BodyInstabilityError,LocalizationInterrupted,recover_localization
-from .transport_people import closest_person_distance
+from .localization_recovery import BodyInstabilityError,LocalizationInterrupted,ViewpointDisplaced,recover_localization
+from .transport_people import closest_person_distance,closest_person_corridor_distance
 
 
 def angle(value):
@@ -426,6 +426,18 @@ class TransportMission(Node):
         deadline = time.monotonic()+timeout
         corrections = 0
         settling_bias = np.zeros(2)
+        workspace_yields = 0
+        def yield_workspace(target):
+            nonlocal workspace_yields
+            self.stop_intent()
+            workspace_yields += 1
+            self.event(self.phase,dock_workspace_interruption=True,workspace_yields=workspace_yields,
+                       measured_pose=self.pose,goal_odom=list(target),workspace_scope='approach_corridor')
+            self.wait_workspace(timeout=min(30.,max(0.,deadline-time.monotonic())),target=target)
+            # Avoidance displacement is not a measurement of nominal gait coast.
+            settling_bias[:] = 0.
+            self.event(self.phase,dock_workspace_resumed=True,workspace_yields=workspace_yields,
+                       measured_pose=self.pose)
         def arrived(position_tolerance=.07,target=pose):
             return (self.pose is not None and 0. <= self.seconds()-self.pose_stamp <= .5 and
                     math.hypot(self.pose[0]-target[0],self.pose[1]-target[1]) < position_tolerance and
@@ -433,13 +445,23 @@ class TransportMission(Node):
         try:
             while time.monotonic() < deadline:
                 target = (pose[0]-settling_bias[0],pose[1]-settling_bias[1],pose[2])
+                if not self.workspace_clear(target):
+                    yield_workspace(target)
+                    continue
                 self.set_goal(target,'dock')
                 # Approach inside the final acceptance band before stopping:
                 # measured gait settling can move the base back by 3--4 cm.
-                self.wait(lambda:arrived(.035,target),max(0.,deadline-time.monotonic()),'precision docking failed')
+                self.wait(lambda:not self.workspace_clear(target) or arrived(.035,target),
+                          max(0.,deadline-time.monotonic()),'precision docking failed')
+                if not self.workspace_clear(target):
+                    yield_workspace(target)
+                    continue
                 stopped_at = np.asarray(self.pose[:2])
                 self.stop_intent()
                 self.spin(min(1.5,max(0.,deadline-time.monotonic())))
+                if not self.workspace_clear(target):
+                    yield_workspace(target)
+                    continue
                 if time.monotonic() < deadline and arrived():
                     self.event(self.phase,dock_settled=True,corrections=corrections,settled_pose=self.pose)
                     return
@@ -610,7 +632,7 @@ class TransportMission(Node):
             self.wait(aligned,max(0.,deadline-time.monotonic()),'search heading not reached')
             self.brake_motion(min(5.,max(0.,deadline-time.monotonic())))
             if drifted:
-                raise RuntimeError('search turn displaced beyond viewpoint reserve')
+                raise ViewpointDisplaced('search turn displaced beyond viewpoint reserve')
         finally:
             self.active = False
             self._heartbeat()
@@ -650,8 +672,12 @@ class TransportMission(Node):
             self.spin(1.5)
         raise RuntimeError(f'RGB-D did not discover {identifier}')
 
-    def workspace_clear(self):
-        if self.people is None:
+    def workspace_clear(self,target=None):
+        if (self.people is None or self.pose is None or
+                not 0.<=self.seconds()-getattr(self,'pose_stamp',-math.inf)<=.5 or
+                not all(map(math.isfinite,self.pose))):
+            return False
+        if target is not None and not all(map(math.isfinite,target)):
             return False
         stamp = self.people.header.stamp.sec+self.people.header.stamp.nanosec*1e-9
         age = self.seconds()-stamp
@@ -659,7 +685,9 @@ class TransportMission(Node):
             return False
         for person in self.people.persons:
             p,v = person.pose.pose.position,person.velocity.twist.linear
-            if closest_person_distance((p.x,p.y),(v.x,v.y),self.pose[:2],age)<1.6:
+            distance = (closest_person_distance((p.x,p.y),(v.x,v.y),self.pose[:2],age) if target is None else
+                        closest_person_corridor_distance((p.x,p.y),(v.x,v.y),self.pose[:2],target[:2],age))
+            if distance<1.6:
                 return False
         return True
 
@@ -705,13 +733,13 @@ class TransportMission(Node):
                 break
         raise RuntimeError(f'measured hand missed target ({distance:.3f} m)')
 
-    def wait_workspace(self,timeout=30.,dwell=.3):
+    def wait_workspace(self,timeout=30.,dwell=.3,target=None):
         clear_since = None
         def ready():
             nonlocal clear_since
             if max(abs(self.rpy[0]),abs(self.rpy[1])) > .35:
                 raise RuntimeError('body tilt exceeded manipulation limit while waiting')
-            if not self.workspace_clear():
+            if not self.workspace_clear(target):
                 clear_since = None
                 return False
             now = time.monotonic()

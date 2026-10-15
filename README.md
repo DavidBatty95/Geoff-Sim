@@ -34,6 +34,12 @@ follow-ups on this candidate included nine completed deliveries and one fall;
 worlds, executives and recording workloads differed. Attachment uses a magnetic
 capture-radius fixture, not a demonstrated finger grasp.
 
+**Latest people-present follow-up:** bounded support reinspection and approach-
+corridor docking admission are implemented. The zero-person control completed
+with a measured placement correction; all six one-person development attempts
+remained incomplete, including contact/fall failures. **834 ROS test results
+pass.** [Workspace changes and all seven outcomes](docs/CROWDED_DOCKING_20261015.md).
+
 [Current status](docs/PROJECT_STATUS.md) · [Implementation and verification](docs/PERFORMANCE_FOUNDATION.md) ·
 [Retained delivery evidence](docs/PERFORMANCE_IMPLEMENTATION_20261012.md) · [Roadmap](docs/PROJECT_PLAN.md)
 

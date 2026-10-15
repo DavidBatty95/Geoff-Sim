@@ -12,6 +12,14 @@ class BodyInstabilityError(RuntimeError):
     """Sustained measured body tilt; not a retryable localization outage."""
 
 
+class ViewpointDisplaced(RuntimeError):
+    """Inspection drift guard completed braking; reobserve/replan, not blind resume.
+
+    Raised only after measured settling; the motion owner's finally block revokes
+    intent before a caller handles it. It is distinct from failed braking or falls.
+    """
+
+
 def recover_localization(operation):
     parameters = signature(operation)
     @wraps(operation)

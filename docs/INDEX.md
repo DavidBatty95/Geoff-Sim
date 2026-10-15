@@ -38,6 +38,7 @@ collections. Start there for topic-based exploration, or use the catalogue below
 | [15 October navigation integrity](NAVIGATION_INTEGRITY_20261015.md) | Checked goal transforms, motion-bounded localization, native deliveries and retained failures |
 | [Placement alignment and route diagnostics](PLACEMENT_ALIGNMENT_20261015.md) | World-relative pre-release correction, blocked-map snapshots and optional worker limits; native qualification remains open |
 | [Policy cadence and delivery follow-up](POLICY_CADENCE_20261015.md) | Minimum-spaced observations, 4/4 compact tasks, medium-building delivery and complete-workflow footage |
+| [Crowded docking and workspace recovery](CROWDED_DOCKING_20261015.md) | Bounded support reinspection, corridor admission, native placement correction and unresolved people-present failures |
 | [Gap-aligned research programme](RESEARCH_PROGRAMME.md) | P0–P7 phases, G1–G5 traceability, experiment design, novelty gates and candidate papers |
 | [ROS workspace map](../ros2_ws/src/README.md) | Every local package and the two manipulation integration paths |
 | [Published dataset catalogue](results/README.md) | Entry points into the portable experiment records |

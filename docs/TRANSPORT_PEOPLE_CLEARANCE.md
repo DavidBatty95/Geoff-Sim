@@ -39,6 +39,11 @@ crossings between the former 0/1/2-second samples and rejects nonfinite tracks.
 
 ## Recovery and balance corrections
 
+**Later follow-up:** [15 October crowded docking](CROWDED_DOCKING_20261015.md)
+adds explicit support-view recovery and predicted approach-corridor admission.
+The six later one-person attempts remain incomplete; the historical outcomes below
+are retained separately.
+
 - Fixed joint carry/rest postures can resume after a person interruption despite
   base x/y/yaw drift. They restart from measured joints and retain workspace,
   tilt and final-pose checks. Cartesian reaches still require re-observation and

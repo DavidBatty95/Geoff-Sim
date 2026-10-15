@@ -23,6 +23,15 @@ evidence snapshot, not an acceptance release. Later experiments need their own c
 
 ## At a glance
 
+**Latest 15 October workspace checkpoint:** support inspection can reobserve and
+replan after a settled displaced scan; docking withdraws nominal intent when its
+predicted approach corridor is occupied. The zero-person control completed in
+**149.10 s**, with a native payload correction from **3.79 to 2.73 cm** before
+release. **All six one-person attempts failed**, including contact/fall cases;
+the final two people trials stayed upright/contact-free but did not complete.
+Predictive refuge remains opt-in. **834 ROS results (638 bridge), 159 orchestration
+tests and 12 native CTests pass.** [All outcomes and limits](CROWDED_DOCKING_20261015.md).
+
 **Latest 15 October cadence checkpoint:** minimum-spaced device observations
 remove compressed catch-up frames. The unchanged compact exploration cohort is
 **4/4 complete**; a separate compact pilot and medium-building red → blue run also

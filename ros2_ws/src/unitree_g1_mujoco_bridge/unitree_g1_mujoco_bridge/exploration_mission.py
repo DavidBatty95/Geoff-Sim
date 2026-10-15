@@ -17,7 +17,7 @@ from tf2_ros import TransformException
 
 from .exploration_search import ObservedSearchMap,SearchView,view_score,view_novelty
 from .transport_actions import ActionTerminationError
-from .localization_recovery import BodyInstabilityError
+from .localization_recovery import BodyInstabilityError,ViewpointDisplaced
 from .transport_people import closest_person_distance
 from .search_visualization import search_markers
 from .room_search import RoomTopology
@@ -311,14 +311,25 @@ class ExplorationMission:
         node = self.mission
         self.last_target = identifier
         visited = []
-        for attempt in range(3):
+        deadline = node.started+node.args.duration
+        required_after = -math.inf
+        def remaining(limit):
+            return min(limit,max(0.,deadline-time.monotonic()))
+        def confirmed_support():
             latest = node.observe(identifier,5.)
-            if latest is not None and 'approach_yaw' in latest:
-                return latest
+            return latest if (latest is not None and 'approach_yaw' in latest and
+                              latest.get('observed_stamp',-math.inf)>required_after) else None
+        for attempt in range(3):
+            if time.monotonic()>=deadline:
+                raise RuntimeError('support inspection deadline exceeded')
+            confirmed = confirmed_support()
+            if confirmed is not None:
+                return confirmed
+            latest = node.observe(identifier,5.)
             if latest is not None:
                 item = latest
             node.wait(lambda:self._fresh_map() and node.pose is not None and
-                      0.<=node.seconds()-node.pose_stamp<=.5,5.,'fresh support inspection inputs unavailable')
+                       0.<=node.seconds()-node.pose_stamp<=.5,remaining(5.),'fresh support inspection inputs unavailable')
             tf = self._transform('map','odom')
             people = self._people(tf)
             if people is None:
@@ -329,7 +340,7 @@ class ExplorationMission:
             views = [view for view in grid.semantic_viewpoints(robot,target,people)
                      if all(math.dist((view.x,view.y),point)>.6 for point in visited)]
             if not views:
-                if self.recover_search_reserve():
+                if self.recover_search_reserve(timeout=remaining(8.)):
                     continue
                 raise RuntimeError('no observed-clear support inspection viewpoint')
             view = views[0]
@@ -337,16 +348,30 @@ class ExplorationMission:
             inverse = self._transform('odom','map')
             x,y = self._point((view.x,view.y),inverse)
             node.event('inspect_support',object_id=identifier,attempt=attempt,source='confirmed_rgbd_and_observed_map')
-            self.navigate_observed((x,y,view.yaw+inverse[2]),phase='delivery_route' if identifier.startswith('target_') else 'pickup_route')
+            self.navigate_observed((x,y,view.yaw+inverse[2]),timeout=remaining(90.),
+                                   phase='delivery_route' if identifier.startswith('target_') else 'pickup_route')
             bearing = math.atan2(item['position'][1]-node.pose[1],item['position'][0]-node.pose[0])
-            node.rotate(bearing)
+            try:
+                node.rotate(bearing,timeout=remaining(45.))
+            except ViewpointDisplaced as exc:
+                # rotate has completed checked braking and revoked its intent.
+                # A new acquisition may already reveal the support edge; otherwise
+                # the next iteration plans afresh from the measured displaced pose.
+                self.generation += 1
+                self.prepared = None
+                self.state = 'support_inspection_reobserve'
+                node.event('support_inspection_interrupted',object_id=identifier,attempt=attempt,
+                           reason=str(exc),actual_pose=list(node.pose))
+            if time.monotonic()>=deadline:
+                raise RuntimeError('support inspection deadline exceeded')
             settled = node.seconds()
+            required_after = settled
             node.wait(lambda:node.last_image_stamp is not None and node.last_image_stamp>settled,
-                      5.,'no fresh support inspection image')
+                      remaining(5.),'no fresh support inspection image')
             first = node.last_image_stamp
-            node.wait(lambda:node.last_image_stamp>first,3.,'no second support inspection image')
-        latest = node.observe(identifier,5.)
-        if latest is not None and 'approach_yaw' in latest:
+            node.wait(lambda:node.last_image_stamp>first,remaining(3.),'no second support inspection image')
+        latest = confirmed_support()
+        if latest is not None and time.monotonic()<deadline:
             return latest
         raise RuntimeError(f'support edge not confirmed for {identifier}')
 
@@ -559,8 +584,9 @@ class ExplorationMission:
                             return discovery
                         stalled_turns,stalled_at = 0,None
                     except RuntimeError as exc:
-                        if str(exc) not in ('search heading not reached','search heading stalled','base did not settle before inspection turn',
-                                            'search turn displaced beyond viewpoint reserve') or time.monotonic()-node.started>=node.args.duration:
+                        if ((not isinstance(exc,ViewpointDisplaced) and str(exc) not in
+                             ('search heading not reached','search heading stalled','base did not settle before inspection turn')) or
+                                time.monotonic()-node.started>=node.args.duration):
                             raise
                         # An exploratory camera view may be partial. Its actual
                         # sensed heading determines coverage after fresh images.
