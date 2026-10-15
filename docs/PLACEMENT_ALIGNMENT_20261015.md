@@ -1,5 +1,9 @@
 # World-relative placement alignment and route diagnostics
 
+**Subsequent update:** the [cadence follow-up](POLICY_CADENCE_20261015.md) completed
+native deliveries that exercised this guard's acceptance path. The failures below
+remain the outcomes of the earlier placement-development attempts.
+
 ## Status
 
 The implementation and regression checks pass, but **native qualification remains

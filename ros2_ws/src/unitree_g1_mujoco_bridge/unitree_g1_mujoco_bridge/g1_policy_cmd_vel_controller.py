@@ -1037,6 +1037,7 @@ class G1PolicyCmdVelController(Node):
         if odom_age > float(self.get_parameter("odom_timeout").value):
             self.base_lin_vel = [0.0, 0.0, 0.0]
         dt = max(1e-3, min(0.1, (now - self.last_control_time).nanoseconds * 1e-9))
+        observation_dt = dt
         device_wait = False
         if not consume_only and getattr(self,'use_device_tick',False):
             step = self.device_tick_cadence.take(self.last_lowstate.tick)
@@ -1044,6 +1045,7 @@ class G1PolicyCmdVelController(Node):
                 consume_only,device_wait = True,True
             else:
                 dt,reset = step
+                observation_dt = dt
                 dt = max(.001,min(.1,dt))
                 if reset:
                     self.policy_worker.invalidate()
@@ -1159,7 +1161,9 @@ class G1PolicyCmdVelController(Node):
         if request is not None:
             self.inference_context = dict(key=(request.generation,request.sequence),command=list(command),
                 command_received_ros_s=self.last_cmd_time.nanoseconds*1e-9,
-                device_tick_ms=int(self.last_lowstate.tick),observation_dt_s=dt,
+                device_tick_ms=int(self.last_lowstate.tick),observation_dt_s=observation_dt,
+                observation_filter_dt_s=dt,observation_period_s=self.control_period,
+                observation_cadence='minimum_spaced' if self.use_device_tick else 'ros_wall_timer',
                 observation_clock='device_tick' if self.use_device_tick else 'ros_wall',
                 lowstate_receipt_age_at_submit_s=sample_age(request.submitted_at,self.last_lowstate_arrival),
                 lowstate_dds_delivery=dict(self.last_lowstate_dds_delivery))
@@ -1324,6 +1328,7 @@ class G1PolicyCmdVelController(Node):
                 stale_result_rejections=self.stale_result_rejections,
                 inference_deadline_s=self.policy_inference_deadline,
                 use_device_tick=self.use_device_tick,device_tick_missed_periods=self.device_tick_cadence.missed,
+                observation_cadence='minimum_spaced' if self.use_device_tick else 'ros_wall_timer',
                 device_tick_resets=self.device_tick_cadence.resets,
                 lowstate_receipt_age_s=lowstate_age if math.isfinite(lowstate_age) else None,
                 lowstate_progress_age_s=(self.device_tick_freshness.age(now)

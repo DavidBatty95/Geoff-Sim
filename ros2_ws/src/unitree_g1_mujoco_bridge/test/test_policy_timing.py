@@ -22,6 +22,17 @@ def test_timing_uses_monotonic_durations_and_explicit_ros_receipt_age():
     assert event['role'] == 'policy_joint_target_publication_not_actuator_ack'
 
 
+def test_actual_device_interval_remains_distinct_from_bounded_filter_dt():
+    result,context = fixture()
+    context.update(observation_dt_s=.24,observation_filter_dt_s=.1,
+                   observation_period_s=.02,observation_cadence='minimum_spaced')
+    event = inference_timing(result,context,10.02,1000.035)
+    assert event['observation_dt_s']==.24 and event['observation_filter_dt_s']==.1
+    assert event['observation_cadence']=='minimum_spaced'
+    context['key'] = (0,0)
+    assert 'observation_dt_s' not in inference_timing(result,context,10.02,1000.035)
+
+
 def test_old_generation_never_inherits_a_new_commands_context():
     result,context = fixture()
     context['key'] = (3,7)

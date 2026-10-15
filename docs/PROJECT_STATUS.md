@@ -23,6 +23,16 @@ evidence snapshot, not an acceptance release. Later experiments need their own c
 
 ## At a glance
 
+**Latest 15 October cadence checkpoint:** minimum-spaced device observations
+remove compressed catch-up frames. The unchanged compact exploration cohort is
+**4/4 complete**; a separate compact pilot and medium-building red → blue run also
+completed. The alignment acceptance path and restoration were exercised natively.
+Four recording attempts added three completions and one fall; two completed runs
+had unusable footage, and the final inspected recording now shows the full delivery.
+These ten attempts are not a pooled reliability cohort. **807 ROS results (611
+bridge), 155 orchestration tests and 12 native CTests pass**.
+[Timing diagnosis, all outcomes and limitations](POLICY_CADENCE_20261015.md).
+
 **Later 15 October placement follow-up:** the prior red → blue failure exposed
 about 32° of base rotation during a pelvis-accurate lower action. A bounded
 world-relative payload-alignment guard now precedes release; route blockage

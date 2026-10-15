@@ -23,49 +23,48 @@ Geoff-Sim brings locomotion, online mapping, human-aware navigation and object
 transport into one humanoid simulation platform. The robot observes its scene,
 approaches a table, lifts a cube, carries it to a destination and checks placement.
 
-**Current progress · 15 October 2026:** checked Nav2 goal transforms and
-motion-bounded scan registration completed a scripted delivery and **2/4** tasks
-in an unchanged-code zero-person exploration cohort. All four cohort attempts
-stayed upright; cross-colour placement and route failures remain.
-[Results, diagnosis and all eight development attempts](docs/NAVIGATION_INTEGRITY_20261015.md).
-Reliable end-to-end execution and crowd navigation remain open. Attachment uses
-a magnetic capture-radius fixture, not a demonstrated finger grasp.
+**Current progress · 15 October 2026:** minimum-spaced policy observations remove
+compressed catch-up samples. The unchanged compact-world exploration cohort
+completed **4/4 colour tasks**, followed by a complete medium-building delivery.
+The pre-release alignment guard and arm restoration were exercised natively.
+**807 ROS test results pass.** [Cadence change, timings and retained outcomes](docs/POLICY_CADENCE_20261015.md).
 
-The GIFs below retain their **14 October** capture scope: none of those seven
-recording attempts completed a delivery. They are not footage of the newer passes.
-
-**Latest follow-up:** world-relative payload alignment before release, replayable
-route-blockage diagnostics and an opt-in numerical-thread experiment are now
-implemented. Five follow-up runs fell before placement, so the new alignment
-guard is regression-tested but not natively qualified. **803 ROS test results
-pass.** [Implementation and retained outcomes](docs/PLACEMENT_ALIGNMENT_20261015.md).
+This is development evidence, not general reliability or crowd acceptance. Ten
+follow-ups on this candidate included nine completed deliveries and one fall;
+worlds, executives and recording workloads differed. Attachment uses a magnetic
+capture-radius fixture, not a demonstrated finger grasp.
 
 [Current status](docs/PROJECT_STATUS.md) · [Implementation and verification](docs/PERFORMANCE_FOUNDATION.md) ·
 [Retained delivery evidence](docs/PERFORMANCE_IMPLEMENTATION_20261012.md) · [Roadmap](docs/PROJECT_PLAN.md)
 
 ## Recorded demo gallery
 
-### From perception to loaded motion
+### A complete recorded delivery
 
 <p align="center">
-  <img src="docs/media/locomanipulation/mission-overview.gif" width="800" alt="Recorded G1 transport attempt: scan the room, approach the red cube, lift it, retreat and navigate toward delivery; the attempt ends incomplete">
+  <img src="docs/media/locomanipulation/mission-overview.gif" width="800" alt="Complete recorded G1 red-cube delivery: observe, approach, lift, carry, place, verify and restore the arm">
 </p>
 
-**Actual MuJoCo window capture, sampled time-lapse.** This zero-person attempt
-reached loaded delivery navigation, then stopped on a sensed staging/localization
-check. The animation includes its outcome; it does not show successful placement.
+**Actual MuJoCo window capture, sampled time-lapse.** This zero-person red → red
+mission completed in **122.14 seconds**, including post-release placement
+verification and arm restoration. All clips below come from that same run.
 [Still image](docs/media/locomanipulation/mission-overview.png) ·
 [Recording provenance and all attempts](docs/media/locomanipulation/recordings.json)
 
 | Reach, attach and lift | Retreat and carry |
 | --- | --- |
 | ![Close-up recorded G1 reaching for a red cube, attaching it and lifting into the carry posture](docs/media/locomanipulation/pickup-and-lift.gif) | ![Close-up recorded G1 retreating from the pickup table and walking with the payload](docs/media/locomanipulation/loaded-transport.gif) |
-| RGB-D-guided approach and measured arm execution. This source run later fell during delivery navigation. | Loaded motion from a separate run; that run ended on a navigation/localization check. |
+| RGB-D-guided approach, magnetic attachment and measured lift. | Retreat from the pickup table and loaded navigation to the destination. |
 
-The full implemented workflow is **observe → approach → dock → attach → lift →
-carry → place → verify → restore**. These new GIFs cover the recorded portions
-through carrying. Earlier complete delivery logs are linked above; fresh placement
-and restoration footage is still needed. [Media guide and reproduction](docs/MEDIA.md).
+<p align="center">
+  <img src="docs/media/locomanipulation/placement-and-verify.gif" width="640" alt="Recorded G1 lowering and releasing the cube onto the target pad, retreating for camera verification and restoring its arm">
+  <br><em>Lower → release → retreat for camera verification → restore.</em>
+</p>
+
+The recorded workflow is **observe → approach → dock → attach → lift → carry →
+place → verify → restore**. This one recording is separate from the exploration
+cohort. Failed runs and unusable captures remain in the manifest.
+[Media guide, still images and reproduction](docs/MEDIA.md).
 
 ## Explore Geoff-Sim
 

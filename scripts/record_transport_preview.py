@@ -23,6 +23,15 @@ ROOT = Path(__file__).resolve().parents[1]
 RUNS = ROOT/'ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo'
 
 
+def mujoco_windows(tree):
+    windows = {}
+    for line in tree.splitlines():
+        match = re.search(r'0x[0-9a-f]+',line)
+        if match and 'MuJoCo :' in line:
+            windows[match.group()] = line.strip()
+    return windows
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--run-id',required=True)
@@ -41,10 +50,12 @@ def main():
     recording.mkdir(parents=True,exist_ok=False)
     os.environ.setdefault('DISPLAY',':0')
     os.environ.setdefault('XAUTHORITY','/tmp/.docker.xauth')
+    existing = mujoco_windows(subprocess.check_output(['xwininfo','-root','-tree'],text=True))
     forwarded = args.transport_args[1:] if args.transport_args[:1]==['--'] else args.transport_args
     command = [sys.executable,str(ROOT/'scripts/run_transport_demo.py'),'--run-id',args.run_id,*forwarded]
     metadata = dict(recorded_at=datetime.now(timezone.utc).isoformat(),run=str(run.relative_to(ROOT)),
                     kind='live MuJoCo window capture',command=command,requested_fps=args.fps,
+                    excluded_window_ids=sorted(existing),window_id=None,window_title=None,
                     frames=[],capture_errors=0)
     trace = None
     phase = 'startup'
@@ -69,9 +80,10 @@ def main():
                             phase = row['data'].get('phase',phase)
                 if window is None:
                     tree = subprocess.check_output(['xwininfo','-root','-tree'],text=True)
-                    matches = [re.search(r'0x[0-9a-f]+',line).group() for line in tree.splitlines() if 'MuJoCo :' in line]
+                    matches = {key:title for key,title in mujoco_windows(tree).items() if key not in existing}
                     if len(matches)==1:
-                        window = matches[0]
+                        window = next(iter(matches))
+                        metadata.update(window_id=window,window_title=matches[window])
                         activate(window)
                 if window is not None:
                     try:
@@ -84,7 +96,8 @@ def main():
                         metadata['frames'].append(dict(file=name,monotonic_s=tick,phase=phase))
                     except (subprocess.SubprocessError,ValueError):
                         metadata['capture_errors'] += 1
-                        window = None
+                        # Never silently switch to another project's viewer.
+                        # A vanished selected window leaves missing frames.
                 time.sleep(max(0.,1/args.fps-(time.monotonic()-tick)))
         finally:
             if process.poll() is None:

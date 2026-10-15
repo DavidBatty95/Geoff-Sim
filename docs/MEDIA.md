@@ -18,32 +18,53 @@
 
 [README gallery](../README.md#recorded-demo-gallery) · [Demo walkthrough](DEMO_GUIDE.md)
 
-The README now leads with three freshly captured locomanipulation GIFs under
+The README now leads with four freshly captured locomanipulation GIFs under
 `docs/media/locomanipulation/`. The five earlier navigation GIFs remain in a
 collapsed historical gallery. All are actual window recordings, not generated
 robot motion. Upstream training-library media belongs to its own documentation.
 
-## Locomanipulation recordings — 14 October 2026
+## Locomanipulation recordings — 15 October 2026
 
 | Asset | Recorded content | Source outcome |
 | --- | --- | --- |
-| [Mission overview](media/locomanipulation/mission-overview.gif) | Survey, approach, pickup, lift, retreat and attempted delivery navigation | Incomplete: navigation succeeded outside fresh sensed staging tolerance |
-| [Pickup and lift](media/locomanipulation/pickup-and-lift.gif) | Close-up reach, magnetic attachment, lift and retreat | Source run later fell during delivery navigation |
-| [Loaded transport](media/locomanipulation/loaded-transport.gif) | Close-up retreat and loaded navigation from the overview run | Incomplete: navigation/localization check |
+| [Mission overview](media/locomanipulation/mission-overview.gif) | Survey, approach, pickup, lift, carry, placement and restoration | Complete, verified red → red delivery |
+| [Pickup and lift](media/locomanipulation/pickup-and-lift.gif) | Close-up reach, magnetic attachment, lift and retreat | Same complete source run |
+| [Loaded transport](media/locomanipulation/loaded-transport.gif) | Close-up retreat and loaded navigation | Same complete source run |
+| [Placement and verification](media/locomanipulation/placement-and-verify.gif) | Lower, release, retreat for camera verification and restore | Same complete source run |
 
-These zero-person clips show development behavior, **not a completed delivery**.
-Fresh placement and restoration footage is still missing. Earlier complete-run
-logs are available in the [performance report](PERFORMANCE_IMPLEMENTATION_20261012.md).
+All four clips come from `20261015T154429Z-readme-red-delivery`, a zero-person
+scripted-survey mission completed in **122.14 s** with valid evaluator data and
+no fall/drop. This is one recorded development success, not a crowd or endurance
+qualification. [Cadence candidate and separate exploration cohort](POLICY_CADENCE_20261015.md).
 Attachment is the capture-radius weld fixture, not contact-only finger grasping.
 Each animation ends with its source outcome. PNG stills with matching basenames
 provide a nonanimated alternative.
 
-The [recording manifest](media/locomanipulation/recordings.json) retains all seven
-fresh capture attempts, including startup/settling failures and falls. It records
+The [recording manifest](media/locomanipulation/recordings.json) retains all eleven
+capture attempts across 14–15 October, including failures and unusable footage. It records
 commands, policy/source manifests, result hashes, frame timestamps, crops, selected
 frame hashes and output GIF hashes. Raw frames and logs remain in ignored
 `ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_recordings/` and
 `transport_demo/`. Run IDs are identifiers; `recorded_at` records the capture date/time.
+
+| 15 October capture suffix | Native outcome | Media outcome |
+| --- | --- | --- |
+| `readme-cadence` | Complete red → blue | Rejected: pre-existing Dougie viewer selected |
+| `readme-owned-window` | Complete red → blue | Rejected: update notice obscured Geoff viewer |
+| `readme-complete` | Body-instability failure | Failed attempt retained |
+| `readme-red-delivery` | Complete red → red | Used for all four current clips |
+
+The recorder now excludes pre-existing MuJoCo windows, binds the selected new
+window and does not silently switch viewers. Visual review remains necessary for
+occluding desktop windows. Export refuses captures explicitly marked
+`media_valid=false`; native success and media usability remain separate facts.
+
+<a id="locomanipulation-recordings--14-october-2026"></a>
+
+### Earlier capture attempts — 14 October 2026
+
+The earlier partial-task GIFs are retained in Git history. Their seven source
+attempts remain in the current manifest:
 
 | Capture ID suffix | Configuration | Outcome |
 | --- | --- | --- |
@@ -56,7 +77,8 @@ frame hashes and output GIF hashes. Raw frames and logs remain in ignored
 | `readme-aisle` | Cycle-03, aisle fixture | Body instability during discovery |
 
 Capture samples the live X11 MuJoCo window at 3 fps. Exports crop simulator UI,
-resize, overlay phase/time labels and subsample into time-lapse GIFs; they do not
+resize, overlay phase/time labels and subsample into time-lapse GIFs. The overview
+omits initial viewer/loading frames; raw frames remain retained. Exports do not
 interpolate poses or generate missing task stages. Timestamps are capture wall
 time and phase labels are the latest received mission state, not exact physics
 alignment. The recording workload can affect scheduling, so these are neither a
@@ -70,8 +92,9 @@ python3 scripts/record_transport_preview.py --run-id <unique-id> --fps 3 -- \
   --carry-posture payload_v1 --policy <repository-local-policy.onnx> --fast-start --no-rviz
 
 python3 scripts/export_transport_gifs.py \
-  --pickup-run 20261014T164500Z-readme-settling \
-  --carry-run 20261014T164700Z-readme-delay
+  --pickup-run 20261015T154429Z-readme-red-delivery \
+  --carry-run 20261015T154429Z-readme-red-delivery \
+  --placement-run 20261015T154429Z-readme-red-delivery
 ```
 
 The exporter uses documented crops for the captured 960 × 600 window. Inspect

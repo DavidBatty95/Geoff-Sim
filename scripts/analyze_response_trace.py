@@ -128,6 +128,12 @@ def analyze(rows):
             for name in ('submit_to_complete_ms','complete_to_publish_ms','submit_to_publish_ms'):
                 add('policy_'+name,data.get(name))
             if data.get('context_matched') is True:
+                interval = data.get('observation_dt_s')
+                if finite(interval):
+                    add('policy_observation_interval_ms',1000.*interval)
+                period = data.get('observation_period_s')
+                if finite(interval) and finite(period) and period>0.:
+                    add('policy_observation_interval_over_period',interval/period)
                 for name in ('lowstate_dds_source_to_callback_ms','lowstate_dds_receive_to_callback_ms',
                              'lowstate_dds_source_to_target_publish_ms'):
                     add(name,data.get(name))
@@ -169,6 +175,7 @@ def analyze(rows):
     metric_names = ('planner_wall_ms','planner_thread_ms','scan_age_at_command_publish_s',
         'tracks_age_at_command_publish_s','prediction_age_at_command_publish_s',
         'policy_submit_to_complete_ms','policy_complete_to_publish_ms','policy_submit_to_publish_ms',
+        'policy_observation_interval_ms','policy_observation_interval_over_period',
         'command_receipt_age_at_target_publish_s','lowstate_receipt_age_at_target_publish_s',
         'lowstate_dds_source_to_callback_ms','lowstate_dds_receive_to_callback_ms',
         'lowstate_dds_source_to_target_publish_ms',

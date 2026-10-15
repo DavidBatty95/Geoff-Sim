@@ -1,5 +1,9 @@
 # Performance implementation: evaluation foundation
 
+**Latest:** [minimum-spaced policy observations](POLICY_CADENCE_20261015.md) remove
+catch-up samples, with a 4/4 compact task cohort and complete medium-building
+delivery. One subsequent recording-run fall remains in the evidence.
+
 **Placement follow-up:** [world-relative alignment and route diagnostics](PLACEMENT_ALIGNMENT_20261015.md)
 are regression-tested; all five native follow-ups fell before placement. Optional
 numerical worker limits remain experimental with no default change.

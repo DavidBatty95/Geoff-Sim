@@ -25,6 +25,13 @@ for measured outcomes and [release policy](docs/RELEASES.md) for promotion crite
 
 ### Added
 
+- Policy observation-interval telemetry and catch-up/history regressions. Native
+  follow-ups include a 4/4 complete compact colour-task cohort and a medium-building
+  delivery; ten candidate attempts retain nine completions and one recording-run fall.
+- Complete recorded red-cube delivery GIFs, including placement verification and
+  restoration. Recorder window ownership and unusable-footage checks prevent
+  mislabelling unrelated/obstructed captures; all capture outcomes are retained.
+
 - World-relative pre-release payload alignment with bounded reprojection/correction
   after base motion; attachment remains held on failed/stale alignment.
 - Blocked-route footprint categories and hashed occupancy/query snapshots for
@@ -71,6 +78,12 @@ for measured outcomes and [release policy](docs/RELEASES.md) for promotion crite
   native-foot-contact fidelity profile; candidates require native qualification.
 
 ### Changed
+
+- Device-tick sampling now enforces a full policy period after each accepted
+  observation, avoiding 2–6 ms catch-up samples after late callbacks. Actual device
+  gaps remain distinct from bounded filter integration time in diagnostics.
+- Integrated verification passes 807 ROS results, 155 orchestration tests and
+  12 native CTests. Zero-person passes do not establish general/crowd reliability.
 
 - Scan-registration displacement is bounded by time since the last accepted
   acquisition, shared by primary/fallback matching and capped at the original

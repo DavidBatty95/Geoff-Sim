@@ -70,10 +70,12 @@ class DeviceTickFreshness:
 
 
 class DeviceTickCadence:
-    """Phase-locked observation cadence for a uint32 millisecond device clock.
+    """Minimum-spaced observation cadence for a uint32 millisecond device clock.
 
     Wall-clock watchdogs remain separate. Duplicate/reordered ticks cannot add
     history frames; a device restart near zero starts a new inference epoch.
+    Late observations rebase the next deadline rather than compressing history
+    with a catch-up sample just before the next nominal phase boundary.
     """
     def __init__(self,period_s):
         if not math.isfinite(period_s) or period_s<=0.:
@@ -114,7 +116,7 @@ class DeviceTickCadence:
         dt = (self.elapsed-self.sample)/1000.
         skipped = max(0,int((self.elapsed-self.next)//self.period_ms))
         self.missed += skipped
-        self.next += (skipped+1)*self.period_ms
+        self.next = self.elapsed+self.period_ms
         self.sample = self.elapsed
         return dt,reset
 
@@ -146,7 +148,8 @@ def inference_timing(result,context,published_monotonic,published_ros):
         source_stamp = delivery.get('lowstate_dds_source_stamp_s')
         if source_stamp is not None and published_ros>=source_stamp:
             output['lowstate_dds_source_to_target_publish_ms'] = 1000.*(published_ros-source_stamp)
-        for key in ('device_tick_ms','observation_dt_s','observation_clock'):
+        for key in ('device_tick_ms','observation_dt_s','observation_clock','observation_filter_dt_s',
+                    'observation_cadence','observation_period_s'):
             if key in context:
                 output[key] = context[key]
         output['command_at_submit'] = context['command']

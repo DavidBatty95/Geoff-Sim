@@ -1,0 +1,524 @@
+{
+  "schema_version": 1,
+  "role": "response_observability_diagnostic_not_acceptance",
+  "topics": {
+    "planner_state": 782,
+    "planner_debug": 782,
+    "planner_cmd": 782,
+    "safe_cmd": 1801,
+    "safety_debug": 1801,
+    "locomotion_diagnostics": 78,
+    "transport_state": 359,
+    "search_status": 77,
+    "policy_diagnostics": 19,
+    "policy_cmd": 1414,
+    "evaluation_odom": 346,
+    "localization_status": 331,
+    "odom": 330,
+    "tracker_debug": 301,
+    "policy_timing": 1055,
+    "replanning_status": 28,
+    "raw_cmd": 162
+  },
+  "metrics": {
+    "command_receipt_age_at_target_publish_s": {
+      "count": 1055,
+      "min": 0.005078315734863281,
+      "median": 0.03054666519165039,
+      "p95": 0.07302784919738767,
+      "p99": 0.10055295467376714,
+      "max": 0.15349340438842773
+    },
+    "escape_worker_submit_to_complete_ms": {
+      "count": 0,
+      "min": null,
+      "median": null,
+      "p95": null,
+      "p99": null,
+      "max": null
+    },
+    "lowstate_dds_receive_to_callback_ms": {
+      "count": 0,
+      "min": null,
+      "median": null,
+      "p95": null,
+      "p99": null,
+      "max": null
+    },
+    "lowstate_dds_source_to_callback_ms": {
+      "count": 1055,
+      "min": 1.2960433959960938,
+      "median": 4.868984222412109,
+      "p95": 15.8177375793457,
+      "p99": 24.876480102539105,
+      "max": 38.96975517272949
+    },
+    "lowstate_dds_source_to_target_publish_ms": {
+      "count": 1055,
+      "min": 4.632234573364258,
+      "median": 17.31252670288086,
+      "p95": 45.48861980438232,
+      "p99": 59.19658184051524,
+      "max": 93.33968162536621
+    },
+    "lowstate_receipt_age_at_target_publish_s": {
+      "count": 1055,
+      "min": 0.002958216005936265,
+      "median": 0.011598429991863668,
+      "p95": 0.034730306902201837,
+      "p99": 0.04826150741078894,
+      "max": 0.07803574702120386
+    },
+    "odom_source_age_at_logger_receipt_s": {
+      "count": 330,
+      "min": 0.061138153076171875,
+      "median": 0.14103806018829346,
+      "p95": 0.22270437479019164,
+      "p99": 0.2594179344177246,
+      "max": 0.30420732498168945
+    },
+    "planner_thread_ms": {
+      "count": 782,
+      "min": 0.453,
+      "median": 3.37,
+      "p95": 12.653149999999997,
+      "p99": 14.845439999999995,
+      "max": 17.229
+    },
+    "planner_wall_active_ms": {
+      "count": 323,
+      "min": 1.774,
+      "median": 10.614,
+      "p95": 30.503099999999975,
+      "p99": 43.32634,
+      "max": 65.437
+    },
+    "planner_wall_ms": {
+      "count": 782,
+      "min": 0.453,
+      "median": 4.569000000000001,
+      "p95": 22.24194999999999,
+      "p99": 37.79175999999999,
+      "max": 65.437
+    },
+    "policy_cmd_source_age_at_logger_receipt_s": {
+      "count": 1414,
+      "min": 0.000675201416015625,
+      "median": 0.005562424659729004,
+      "p95": 0.04867942333221432,
+      "p99": 0.08609061002731319,
+      "max": 0.17281031608581543
+    },
+    "policy_complete_to_publish_ms": {
+      "count": 1055,
+      "min": 0.5275350122246891,
+      "median": 1.5959939919412136,
+      "p95": 8.936554088722914,
+      "p99": 15.679678044398356,
+      "max": 26.62052499363199
+    },
+    "policy_observation_interval_ms": {
+      "count": 1055,
+      "min": 2.0,
+      "median": 20.0,
+      "p95": 42.0,
+      "p99": 56.0,
+      "max": 96.0
+    },
+    "policy_observation_interval_over_period": {
+      "count": 0,
+      "min": null,
+      "median": null,
+      "p95": null,
+      "p99": null,
+      "max": null
+    },
+    "policy_submit_to_complete_ms": {
+      "count": 1055,
+      "min": 1.2357600207906216,
+      "median": 6.64839000091888,
+      "p95": 21.181339613394808,
+      "p99": 37.59639985975814,
+      "max": 47.95733900391497
+    },
+    "policy_submit_to_publish_ms": {
+      "count": 1055,
+      "min": 2.0692480029538274,
+      "median": 8.695861004525796,
+      "p95": 27.464960611541752,
+      "p99": 42.91524703381586,
+      "max": 51.72755700186826
+    },
+    "prediction_age_at_command_publish_s": {
+      "count": 646,
+      "min": 0.1506938934326172,
+      "median": 0.31073248386383057,
+      "p95": 0.47364169359207153,
+      "p99": 1.150625026226041,
+      "max": 1.4736688137054443
+    },
+    "prediction_age_at_planning_snapshot_s": {
+      "count": 646,
+      "min": 0.1497,
+      "median": 0.309,
+      "p95": 0.47297500000000003,
+      "p99": 1.1497899999999974,
+      "max": 1.4725
+    },
+    "rtf_monotonic_receipt_windows": {
+      "count": 0,
+      "min": null,
+      "median": null,
+      "p95": null,
+      "p99": null,
+      "max": null
+    },
+    "rtf_ros_legacy_receipt_windows": {
+      "count": 0,
+      "min": null,
+      "median": null,
+      "p95": null,
+      "p99": null,
+      "max": null
+    },
+    "scan_age_at_command_publish_s": {
+      "count": 646,
+      "min": 0.093,
+      "median": 0.2465,
+      "p95": 0.4165,
+      "p99": 1.1509999999999974,
+      "max": 1.474
+    },
+    "scan_age_at_planning_snapshot_s": {
+      "count": 646,
+      "min": 0.093,
+      "median": 0.244,
+      "p95": 0.41425,
+      "p99": 1.1499999999999972,
+      "max": 1.473
+    },
+    "scoring_candidate_total_ms": {
+      "count": 325,
+      "min": 1.271,
+      "median": 5.976,
+      "p95": 20.114600000000006,
+      "p99": 34.833759999999955,
+      "max": 41.084
+    },
+    "scoring_rollout_ms": {
+      "count": 325,
+      "min": 0.344,
+      "median": 0.752,
+      "p95": 2.563600000000004,
+      "p99": 5.383119999999984,
+      "max": 7.99
+    },
+    "scoring_static_ms": {
+      "count": 325,
+      "min": 0.701,
+      "median": 4.935,
+      "p95": 18.0686,
+      "p99": 29.837759999999996,
+      "max": 39.71
+    },
+    "supervisor_escape_control_path_ms": {
+      "count": 1801,
+      "min": 0.0,
+      "median": 0.0,
+      "p95": 0.0,
+      "p99": 0.0,
+      "max": 0.0
+    },
+    "supervisor_input_age_s": {
+      "count": 1784,
+      "min": 0.003,
+      "median": 0.037,
+      "p95": 0.074,
+      "p99": 0.09317000000000007,
+      "max": 0.143
+    },
+    "supervisor_predictive_search_ms": {
+      "count": 0,
+      "min": null,
+      "median": null,
+      "p95": null,
+      "p99": null,
+      "max": null
+    },
+    "supervisor_tick_interval_ms": {
+      "count": 1800,
+      "min": 3.6665139778051525,
+      "median": 20.034579996718094,
+      "p95": 38.719438952102784,
+      "p99": 53.22284355934244,
+      "max": 89.93725199252367
+    },
+    "supervisor_tick_to_publication_ms": {
+      "count": 1801,
+      "min": 0.2431199827697128,
+      "median": 1.1102230055257678,
+      "p95": 6.739248987287283,
+      "p99": 12.760457000695169,
+      "max": 32.16848798911087
+    },
+    "tracks_age_at_command_publish_s": {
+      "count": 646,
+      "min": 0.1506938934326172,
+      "median": 0.3092842102050781,
+      "p95": 0.47364169359207153,
+      "p99": 1.150625026226041,
+      "max": 1.4736688137054443
+    },
+    "tracks_age_at_planning_snapshot_s": {
+      "count": 646,
+      "min": 0.1497,
+      "median": 0.30795,
+      "p95": 0.47297500000000003,
+      "p99": 1.1497899999999974,
+      "max": 1.4725
+    }
+  },
+  "invalid_samples": {},
+  "ros_receipt_clock_regressions": 0,
+  "duplicate_policy_events": 0,
+  "planner_budget": {
+    "samples": 782,
+    "overruns": 3,
+    "fraction": 0.0038363171355498722
+  },
+  "planner_period": {
+    "samples": 782,
+    "overruns": 1,
+    "fraction": 0.0012787723785166241
+  },
+  "planner_active_period": {
+    "samples": 323,
+    "overruns": 1,
+    "fraction": 0.0030959752321981426
+  },
+  "active_plans": 323,
+  "no_feasible_plans": 1,
+  "planner_states": {
+    "MISSION_STALE_STOP": 37,
+    "NORMAL_NAVIGATION": 727,
+    "PERCEPTION_STALE_STOP": 18
+  },
+  "supervisor_modes": {
+    "missing_tf_stop": 318,
+    "inactive_input_hold": 744,
+    "stale_input": 24,
+    "planned_sequence": 715
+  },
+  "policy_counters_latest": {
+    "submitted": 1066,
+    "started": 1065,
+    "completed": 1065,
+    "succeeded": 1059,
+    "failed": 0,
+    "expired": 6,
+    "superseded": 0,
+    "invalidated": 17,
+    "discarded": 2
+  },
+  "policy_counter_resets": 0,
+  "policy_counters_last_ros_s": 1792051211.6897135,
+  "policy_interruption_counters_latest": {
+    "stop_request_invalidations": 3,
+    "stale_result_rejections": 6
+  },
+  "policy_hold_events": [
+    {
+      "sequence": 1,
+      "state": "frozen_lowstate_hold",
+      "recovery_kind": "state_hold",
+      "stamp": 1792051179.7036965,
+      "monotonic_s": 244626.921094356,
+      "device_tick_ms": 2,
+      "command_before_hold": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "action_norm_before_hold": 0.0,
+      "measured_tilt_rad": 0.0,
+      "target_jump_rad": 2.8610229518832853e-08,
+      "history_reset": true
+    },
+    {
+      "sequence": 2,
+      "state": "policy_result_stale_hold",
+      "recovery_kind": "validated_target_hold",
+      "stamp": 1792051191.8452797,
+      "monotonic_s": 244639.062702063,
+      "device_tick_ms": 10580,
+      "command_before_hold": [
+        0.0,
+        0.0,
+        -0.0162
+      ],
+      "action_norm_before_hold": 2.0354944497175005,
+      "measured_tilt_rad": 0.1175767034292221,
+      "target_jump_rad": 0.0,
+      "history_reset": false
+    },
+    {
+      "sequence": 3,
+      "state": "policy_result_stale_hold",
+      "recovery_kind": "validated_target_hold",
+      "stamp": 1792051196.8210683,
+      "monotonic_s": 244644.038357419,
+      "device_tick_ms": 14964,
+      "command_before_hold": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "action_norm_before_hold": 1.6808472902364104,
+      "measured_tilt_rad": 0.052268460392951965,
+      "target_jump_rad": 0.0,
+      "history_reset": false
+    },
+    {
+      "sequence": 4,
+      "state": "policy_result_stale_hold",
+      "recovery_kind": "validated_target_hold",
+      "stamp": 1792051197.6016767,
+      "monotonic_s": 244644.819094555,
+      "device_tick_ms": 15638,
+      "command_before_hold": [
+        0.0,
+        0.0,
+        -0.5562
+      ],
+      "action_norm_before_hold": 2.3192655023090976,
+      "measured_tilt_rad": 0.06320073455572128,
+      "target_jump_rad": 0.0,
+      "history_reset": false
+    },
+    {
+      "sequence": 5,
+      "state": "policy_deadline_hold",
+      "recovery_kind": "validated_target_hold",
+      "stamp": 1792051197.9357662,
+      "monotonic_s": 244645.153161398,
+      "device_tick_ms": 15852,
+      "command_before_hold": [
+        0.0,
+        0.0,
+        -0.19980000000000003
+      ],
+      "action_norm_before_hold": 2.1660981891757736,
+      "measured_tilt_rad": 0.06477740406990051,
+      "target_jump_rad": 0.0,
+      "history_reset": false
+    },
+    {
+      "sequence": 6,
+      "state": "policy_result_stale_hold",
+      "recovery_kind": "validated_target_hold",
+      "stamp": 1792051201.817291,
+      "monotonic_s": 244649.034683741,
+      "device_tick_ms": 19536,
+      "command_before_hold": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "action_norm_before_hold": 1.7651422523800446,
+      "measured_tilt_rad": 0.0384809710085392,
+      "target_jump_rad": 0.0,
+      "history_reset": false
+    },
+    {
+      "sequence": 7,
+      "state": "policy_deadline_hold",
+      "recovery_kind": "validated_target_hold",
+      "stamp": 1792051205.6595547,
+      "monotonic_s": 244652.876973206,
+      "device_tick_ms": 22802,
+      "command_before_hold": [
+        0.5970813025356754,
+        0.0,
+        0.10396229342090929
+      ],
+      "action_norm_before_hold": 2.1731909022570743,
+      "measured_tilt_rad": 0.14100049436092377,
+      "target_jump_rad": 0.0,
+      "history_reset": false
+    },
+    {
+      "sequence": 8,
+      "state": "policy_result_stale_hold",
+      "recovery_kind": "validated_target_hold",
+      "stamp": 1792051206.9218056,
+      "monotonic_s": 244654.139217563,
+      "device_tick_ms": 23856,
+      "command_before_hold": [
+        0.4820068526246414,
+        0.0,
+        0.14414071439148302
+      ],
+      "action_norm_before_hold": 2.492880672439105,
+      "measured_tilt_rad": 0.07754686474800111,
+      "target_jump_rad": 0.0,
+      "history_reset": false
+    },
+    {
+      "sequence": 9,
+      "state": "policy_result_stale_hold",
+      "recovery_kind": "validated_target_hold",
+      "stamp": 1792051210.0402908,
+      "monotonic_s": 244657.257708791,
+      "device_tick_ms": 26784,
+      "command_before_hold": [
+        0.5804663347862021,
+        0.0,
+        0.041944475896968925
+      ],
+      "action_norm_before_hold": 2.5552837764616463,
+      "measured_tilt_rad": 0.05453784018754959,
+      "target_jump_rad": 0.0,
+      "history_reset": false
+    }
+  ],
+  "planner_supervisor_lineage": {
+    "eligible": 1713,
+    "matched": 1713,
+    "missing_planner_record": 0,
+    "command_mismatch": 0,
+    "scope": "atomic planner request considered by supervisor, not proof of physical execution"
+  },
+  "async_escape_states": {
+    "idle": 1801
+  },
+  "escape_worker_latest": {
+    "busy": 0,
+    "completed": 0,
+    "discarded": 0,
+    "expired": 0,
+    "failed": 0,
+    "generation": 10,
+    "last_error": null,
+    "last_search_ms": null,
+    "no_candidate": 0,
+    "pending": false,
+    "proposed": 0,
+    "running": false,
+    "submitted": 0
+  },
+  "escape_worker_counter_resets": 0,
+  "unobserved_worker_completion_durations": 0,
+  "limitations": [
+    "Input ages are not causal end-to-end sensor-to-actuator latency.",
+    "Policy publication is upstream of arm composition and bridge/DDS; motor application is unmeasured.",
+    "LowState age is receipt-based; source acquisition time is unavailable.",
+    "Command-to-motion onset and stopping require the separate fixed-command measurement protocol.",
+    "RTF windows use logger receipt timing and include delivery jitter.",
+    "Periodic cumulative counters can precede the final inference event; their timestamp is retained.",
+    "Missing metrics remain null; legacy traces do not gain new measurements retroactively."
+  ],
+  "trace_name": "trace.jsonl",
+  "trace_sha256": "6070afbd1dba129175905e49fea29a90b89bc9db60e80f767b2e22eda5fcbc3d",
+  "malformed_lines": 0,
+  "analyzer_sha256": "d959a6d49418aa4429cc2eb9c0e95ed3c3a122f2ccd222912bfaf6203cc0dd55"
+}

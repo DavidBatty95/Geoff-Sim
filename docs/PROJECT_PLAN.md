@@ -119,6 +119,11 @@ I/O, benchmark source contracts and [calibration](TRAINING_AND_CALIBRATION.md).
 
 ### S2 — Reliable onboard navigation · Open
 
+**Latest 15 October check:** minimum-spaced device observations were followed by
+a 4/4 zero-person compact task cohort and one complete medium-building delivery.
+The separate recording attempts still include a fall. Wider-layout, repeated and
+people-present acceptance remains open. [Cadence evidence](POLICY_CADENCE_20261015.md).
+
 **15 October progress:** a checked DWB/goal-checker pair blocks the reproduced
 Humble failed-transform false-arrival path, and acquisition-time bounds constrain
 scan-registration jumps. Native transport follow-ups include three completed

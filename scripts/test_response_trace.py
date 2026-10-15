@@ -35,6 +35,18 @@ def test_duplicate_and_unmatched_policy_context_are_not_counted_twice():
     assert report['metrics']['command_receipt_age_at_target_publish_s']['count'] == 0
 
 
+def test_observation_intervals_are_matched_separately_from_inference_latency():
+    data = dict(generation=0,sequence=1,submitted_monotonic_s=10.,timing_valid=True,
+                context_matched=True,submit_to_publish_ms=5.,observation_dt_s=.038,
+                observation_filter_dt_s=.02,observation_period_s=.02)
+    report = analyze([row('policy_timing',data),row('policy_timing',data)])
+    assert report['metrics']['policy_observation_interval_ms']['median']==38.
+    assert report['metrics']['policy_observation_interval_over_period']['median']==pytest.approx(1.9)
+    assert report['metrics']['policy_submit_to_publish_ms']['median']==5.
+    data['context_matched'] = False
+    assert analyze([row('policy_timing',data)])['metrics']['policy_observation_interval_ms']['count']==0
+
+
 def test_recovery_ring_deduplicates_heartbeats_but_keeps_restarted_sequences():
     first = dict(sequence=1,stamp=100.,state='policy_deadline_hold',target_jump_rad=.2)
     restarted = dict(first,stamp=110.)
