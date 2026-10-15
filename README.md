@@ -55,6 +55,11 @@ negative-lateral stopping travel, but still fails both negative cases. It passes
 **2/4** matched conditions versus baseline **1/4** and remains unpromoted.
 [Training, eight probes and replay limitations](docs/STOPPING_CANDIDATE_20261015.md).
 
+**Latest matched ablation:** a 24-probe matrix finds **2/8 baseline, 2/8 stopping
+penalty and 3/8 without the added penalty**. Longer-command follow-ups expose
+tradeoffs, and all tested 60 ms conditions fail. Both candidates remain
+unpromoted. [Matrix runner, outcomes and limits](docs/STOPPING_ABLATION_20261015.md).
+
 [Current status](docs/PROJECT_STATUS.md) · [Implementation and verification](docs/PERFORMANCE_FOUNDATION.md) ·
 [Retained delivery evidence](docs/PERFORMANCE_IMPLEMENTATION_20261012.md) · [Roadmap](docs/PROJECT_PLAN.md)
 

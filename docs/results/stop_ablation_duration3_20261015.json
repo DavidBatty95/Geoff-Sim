@@ -1,0 +1,679 @@
+{
+  "schema_version": 1,
+  "complete": true,
+  "scope": "Predeclared serial native probes; not mission or hardware acceptance",
+  "sources": {
+    "run_native_stop_matrix.py": "a2346b4d70797a43ff6f71924b5dd83d70211427e68e9ca6121f799ed37f4d8b",
+    "probe_native_policy.py": "4f581a8a17a0b3afa9afeac18d26031a241b402f86f000ce950554748cb335c4",
+    "score_native_stopping.py": "796d7c924785aa4861b71da64a2113af313807df66d2637852373c9a9e90993e"
+  },
+  "policies": {
+    "stopping": {
+      "path": "/workspace/vendor/mjlab/logs/payload_training/stop_feedback_cycle_07_20261015/policy.onnx",
+      "sha256": "2230f6462bed6b707ca3276a55ef5b5e2c51a7ee0a9d5e43fe9372673af5e3fe",
+      "training": {
+        "run": "stop_feedback_cycle_07_20261015",
+        "manifest": {
+          "mode": "train",
+          "seed": 76,
+          "num_envs": 256,
+          "iterations": 100,
+          "dynamics": "native_contact",
+          "max_delay_steps": 2,
+          "action_hold_probability": 0.0,
+          "max_sensor_delay_steps": 0,
+          "action_feedback": "published",
+          "control_period_s": 0.02,
+          "sensor_delay_scope": "coherent IMU/joint packet, per-environment per-episode; commands/action feedback remain current",
+          "profile": "mixed",
+          "source": "/workspace/vendor/unitree_rl_lab/policies/g1_29dof_velocity_v0/policy.onnx",
+          "source_sha256": "610c27e463a8f666aa50a06346678c00b4df3859f10b54bcc1f817c28251406f",
+          "arm_input_initialization": "pretrained",
+          "evaluation_pose_index": 0,
+          "pose_bank": "carry",
+          "arm_transitions": false,
+          "optimizer_learning_rates": {
+            "actor": 1e-05,
+            "critic": 0.0003
+          },
+          "script_sha256": "4f5b86c016ba48be3cbe90508ed839d930de98589a4ed32b2b5a54e8a3d241a4",
+          "checkpoint": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/final.pt",
+          "checkpoint_sha256": "b76b230ac1ffea4dd18950863f534db0ac08a50d7e14d3ef7f3f53e1103eb2bc",
+          "objective": "stopping",
+          "smoothness_weight": 0.05,
+          "probe": "tracking",
+          "cup_up_axis_local": [
+            0.014551833262721126,
+            0.014180183079654438,
+            0.9997935619699306
+          ],
+          "actor_contract": "unitree_rl_lab_g1_29dof: 480 observations / 29 actions; measured arms",
+          "payload_mass_range_kg": [
+            0.0,
+            0.5
+          ],
+          "hand_offset_m": [
+            0.19,
+            0.01,
+            0.0
+          ],
+          "base_pinning": false,
+          "onnx_import_max_error": 1.2516975402832031e-06
+        },
+        "manifest_sha256": "91cfad14a5b30e0cd5db151e943bc1a2ff7bf1cbd383f8d50c78691d64dc5ad3",
+        "artifact_complete": true,
+        "checkpoint_sha256": "b1b2df1fe6b83aa49832b717f8843f56832f3c3e4b94a676e3b0af112acf40e1",
+        "policy_sha256": "2230f6462bed6b707ca3276a55ef5b5e2c51a7ee0a9d5e43fe9372673af5e3fe",
+        "source_sha256": {
+          "training_source.py": "4f5b86c016ba48be3cbe90508ed839d930de98589a4ed32b2b5a54e8a3d241a4",
+          "payload_sensor_delay.py": "36bab8f9bc8a2348e73dbe79450ce12896e7a08b515457f90d1fdb85c1a82386",
+          "payload_smoothness.py": "ea4fb36c3bf4a76b8d52dbf23e1019109b778c3db5b54932831259b4fe9742a8"
+        },
+        "exported_candidates": []
+      }
+    },
+    "ablation": {
+      "path": "/workspace/vendor/mjlab/logs/payload_training/stop_ablation_cycle_07_20261015/policy.onnx",
+      "sha256": "17cd8caa3fd46754e8a00d172590cea400ea056a354cce5949245e584745d1d1",
+      "training": {
+        "run": "stop_ablation_cycle_07_20261015",
+        "manifest": {
+          "mode": "train",
+          "seed": 76,
+          "num_envs": 256,
+          "iterations": 100,
+          "dynamics": "native_contact",
+          "max_delay_steps": 2,
+          "action_hold_probability": 0.0,
+          "max_sensor_delay_steps": 0,
+          "action_feedback": "published",
+          "control_period_s": 0.02,
+          "sensor_delay_scope": "coherent IMU/joint packet, per-environment per-episode; commands/action feedback remain current",
+          "profile": "mixed",
+          "source": "/workspace/vendor/unitree_rl_lab/policies/g1_29dof_velocity_v0/policy.onnx",
+          "source_sha256": "610c27e463a8f666aa50a06346678c00b4df3859f10b54bcc1f817c28251406f",
+          "arm_input_initialization": "pretrained",
+          "evaluation_pose_index": 0,
+          "pose_bank": "carry",
+          "arm_transitions": false,
+          "optimizer_learning_rates": {
+            "actor": 1e-05,
+            "critic": 0.0003
+          },
+          "script_sha256": "4f5b86c016ba48be3cbe90508ed839d930de98589a4ed32b2b5a54e8a3d241a4",
+          "checkpoint": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/final.pt",
+          "checkpoint_sha256": "b76b230ac1ffea4dd18950863f534db0ac08a50d7e14d3ef7f3f53e1103eb2bc",
+          "objective": "reactive",
+          "smoothness_weight": 0.05,
+          "probe": "tracking",
+          "cup_up_axis_local": [
+            0.014551833262721126,
+            0.014180183079654438,
+            0.9997935619699306
+          ],
+          "actor_contract": "unitree_rl_lab_g1_29dof: 480 observations / 29 actions; measured arms",
+          "payload_mass_range_kg": [
+            0.0,
+            0.5
+          ],
+          "hand_offset_m": [
+            0.19,
+            0.01,
+            0.0
+          ],
+          "base_pinning": false,
+          "onnx_import_max_error": 1.2516975402832031e-06
+        },
+        "manifest_sha256": "8df8026bb57a7696eca2f25990e1874b33f74f8cf88388de7a7e723e58dba6ad",
+        "artifact_complete": true,
+        "checkpoint_sha256": "5813e4409953c40cf85bc4420fd5e7920e71ef6fdfe532421616a5c1483a56bc",
+        "policy_sha256": "17cd8caa3fd46754e8a00d172590cea400ea056a354cce5949245e584745d1d1",
+        "source_sha256": {
+          "training_source.py": "4f5b86c016ba48be3cbe90508ed839d930de98589a4ed32b2b5a54e8a3d241a4",
+          "payload_sensor_delay.py": "36bab8f9bc8a2348e73dbe79450ce12896e7a08b515457f90d1fdb85c1a82386",
+          "payload_smoothness.py": "ea4fb36c3bf4a76b8d52dbf23e1019109b778c3db5b54932831259b4fe9742a8"
+        },
+        "exported_candidates": []
+      }
+    }
+  },
+  "plan": [
+    {
+      "case_id": "stopping-payload-delay2-y+0.45-duration3",
+      "policy": "stopping",
+      "load": "payload",
+      "delay_steps": 2,
+      "linear_y": 0.45,
+      "command_duration_s": 3.0
+    },
+    {
+      "case_id": "stopping-payload-delay2-y-0.45-duration3",
+      "policy": "stopping",
+      "load": "payload",
+      "delay_steps": 2,
+      "linear_y": -0.45,
+      "command_duration_s": 3.0
+    },
+    {
+      "case_id": "ablation-payload-delay2-y+0.45-duration3",
+      "policy": "ablation",
+      "load": "payload",
+      "delay_steps": 2,
+      "linear_y": 0.45,
+      "command_duration_s": 3.0
+    },
+    {
+      "case_id": "ablation-payload-delay2-y-0.45-duration3",
+      "policy": "ablation",
+      "load": "payload",
+      "delay_steps": 2,
+      "linear_y": -0.45,
+      "command_duration_s": 3.0
+    }
+  ],
+  "attempts": [
+    {
+      "case_id": "stopping-payload-delay2-y+0.45-duration3",
+      "policy": "stopping",
+      "load": "payload",
+      "delay_steps": 2,
+      "linear_y": 0.45,
+      "command_duration_s": 3.0,
+      "command": [
+        "/home/ros/.cache/uv/builds-v0/.tmpispeNX/bin/python",
+        "/workspace/scripts/probe_native_policy.py",
+        "--policy",
+        "/workspace/vendor/mjlab/logs/payload_training/stop_feedback_cycle_07_20261015/policy.onnx",
+        "--output",
+        "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/stop_ablation_duration3_20261015/stopping-payload-delay2-y+0.45-duration3.json",
+        "--duration",
+        "15.0",
+        "--delay-steps",
+        "2",
+        "--payload",
+        "--record-actions",
+        "--require-mujoco-version",
+        "3.3.6",
+        "--linear-y",
+        "0.45",
+        "--command-duration",
+        "3.0",
+        "--action-feedback",
+        "published"
+      ],
+      "source": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/stop_ablation_duration3_20261015/stopping-payload-delay2-y+0.45-duration3.json",
+      "log": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/stop_ablation_duration3_20261015/stopping-payload-delay2-y+0.45-duration3.log",
+      "passed": true,
+      "returncode": 0,
+      "source_sha256": "e7cec1bb6f7ebb44fe5c07a05a47af59d31ce6fdcf4ecdbdb0f7d7a2a1748e99",
+      "metadata": {
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/stop_feedback_cycle_07_20261015/policy.onnx",
+        "policy_sha256": "2230f6462bed6b707ca3276a55ef5b5e2c51a7ee0a9d5e43fe9372673af5e3fe",
+        "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+        "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+        "mujoco_version": "3.3.6",
+        "ramp": false,
+        "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed carry arms and offline loaded-start magnetic fixture; not pickup qualification",
+        "payload": true,
+        "payload_mass_kg": 0.15,
+        "sampled_payload_scene_contacts": {},
+        "sampled_payload_robot_contacts": {},
+        "record_actions": true,
+        "probe_sha256": "4f581a8a17a0b3afa9afeac18d26031a241b402f86f000ce950554748cb335c4",
+        "payload_fixture_sha256": "df38ce62fe4d66dd3a6819b0de309264a64cfd4c851a15278e457e5244f778df",
+        "delay_steps": 2,
+        "yaw": 0.0,
+        "held_empty": false,
+        "requested_duration_s": 15.0,
+        "outage_at_s": null,
+        "outage_duration_s": null,
+        "outage_reset_history": false,
+        "outage_measured_hold": false,
+        "outage_injected": false,
+        "observation_steps": [
+          10
+        ],
+        "action_feedback": "published",
+        "sensor_delay_steps": 0,
+        "sensor_delay_s": 0.0,
+        "sampled_nonfloor_robot_contacts": {},
+        "requested_command": [
+          0.0,
+          0.45,
+          0.0
+        ],
+        "command_duration_s": 3.0,
+        "response_samples": 125,
+        "stop_samples": 349,
+        "mean_body_velocity_after_half_second": [
+          0.02357920472842788,
+          0.3620100055844931
+        ],
+        "mean_yaw_rate_after_one_second": 0.054740067527047416,
+        "yaw_rate_std_after_one_second": 0.2006588391083846,
+        "max_displacement_after_stop_m": 0.14991064524696446,
+        "yaw_displacement_rad": 0.14781915160971013,
+        "elapsed_s": 15.000000000001679,
+        "fallen": false,
+        "displacement_m": 1.074262013453411,
+        "max_tilt_rad": 0.10332024415391496
+      },
+      "stopping": {
+        "passed": true,
+        "limits": {
+          "max_travel_m": 0.3,
+          "max_speed_mps": 0.08,
+          "max_yaw_rate_rps": 0.12,
+          "dwell_s": 1.0,
+          "settle_deadline_s": 3.0,
+          "minimum_observation_s": 5.0,
+          "max_sample_gap_s": 0.05
+        },
+        "reasons": [],
+        "action_history": {
+          "valid": true,
+          "publications": 750,
+          "applied_samples": 748,
+          "min_application_age_s": 0.039999999999995595,
+          "max_application_age_s": 0.04000000000001336
+        },
+        "payload_position_error_limit_m": 0.03,
+        "max_payload_position_error_m": 0.0004892786515503935,
+        "stop_samples": 349,
+        "command_end_s": 8.0,
+        "first_stop_sample_s": 8.019999999999348,
+        "observation_s": 6.980000000001672,
+        "max_sample_gap_s": 0.02000000000000668,
+        "sampled_max_travel_m": 0.14991064524696443,
+        "settled_at_s": 2.8200000000002827,
+        "terminal_speed_mps": 0.0008960453078349423,
+        "terminal_yaw_rate_rps": 0.0008103429930534351
+      }
+    },
+    {
+      "case_id": "stopping-payload-delay2-y-0.45-duration3",
+      "policy": "stopping",
+      "load": "payload",
+      "delay_steps": 2,
+      "linear_y": -0.45,
+      "command_duration_s": 3.0,
+      "command": [
+        "/home/ros/.cache/uv/builds-v0/.tmpispeNX/bin/python",
+        "/workspace/scripts/probe_native_policy.py",
+        "--policy",
+        "/workspace/vendor/mjlab/logs/payload_training/stop_feedback_cycle_07_20261015/policy.onnx",
+        "--output",
+        "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/stop_ablation_duration3_20261015/stopping-payload-delay2-y-0.45-duration3.json",
+        "--duration",
+        "15.0",
+        "--delay-steps",
+        "2",
+        "--payload",
+        "--record-actions",
+        "--require-mujoco-version",
+        "3.3.6",
+        "--linear-y",
+        "-0.45",
+        "--command-duration",
+        "3.0",
+        "--action-feedback",
+        "published"
+      ],
+      "source": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/stop_ablation_duration3_20261015/stopping-payload-delay2-y-0.45-duration3.json",
+      "log": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/stop_ablation_duration3_20261015/stopping-payload-delay2-y-0.45-duration3.log",
+      "passed": false,
+      "returncode": 0,
+      "source_sha256": "fa33052919df5f8cf655716e12218d65ea3da5f4c3ee1b47be31c47fee31bedf",
+      "metadata": {
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/stop_feedback_cycle_07_20261015/policy.onnx",
+        "policy_sha256": "2230f6462bed6b707ca3276a55ef5b5e2c51a7ee0a9d5e43fe9372673af5e3fe",
+        "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+        "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+        "mujoco_version": "3.3.6",
+        "ramp": false,
+        "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed carry arms and offline loaded-start magnetic fixture; not pickup qualification",
+        "payload": true,
+        "payload_mass_kg": 0.15,
+        "sampled_payload_scene_contacts": {},
+        "sampled_payload_robot_contacts": {},
+        "record_actions": true,
+        "probe_sha256": "4f581a8a17a0b3afa9afeac18d26031a241b402f86f000ce950554748cb335c4",
+        "payload_fixture_sha256": "df38ce62fe4d66dd3a6819b0de309264a64cfd4c851a15278e457e5244f778df",
+        "delay_steps": 2,
+        "yaw": 0.0,
+        "held_empty": false,
+        "requested_duration_s": 15.0,
+        "outage_at_s": null,
+        "outage_duration_s": null,
+        "outage_reset_history": false,
+        "outage_measured_hold": false,
+        "outage_injected": false,
+        "observation_steps": [
+          10
+        ],
+        "action_feedback": "published",
+        "sensor_delay_steps": 0,
+        "sensor_delay_s": 0.0,
+        "sampled_nonfloor_robot_contacts": {},
+        "requested_command": [
+          0.0,
+          -0.45,
+          0.0
+        ],
+        "command_duration_s": 3.0,
+        "response_samples": 125,
+        "stop_samples": 349,
+        "mean_body_velocity_after_half_second": [
+          -0.02622058547169271,
+          -0.43996934419799927
+        ],
+        "mean_yaw_rate_after_one_second": -0.003461817638534011,
+        "yaw_rate_std_after_one_second": 0.2516799366648902,
+        "max_displacement_after_stop_m": 0.36208526009549336,
+        "yaw_displacement_rad": 0.015227853227158993,
+        "elapsed_s": 15.000000000001679,
+        "fallen": false,
+        "displacement_m": 1.5089247233148144,
+        "max_tilt_rad": 0.1024896105581276
+      },
+      "stopping": {
+        "passed": false,
+        "limits": {
+          "max_travel_m": 0.3,
+          "max_speed_mps": 0.08,
+          "max_yaw_rate_rps": 0.12,
+          "dwell_s": 1.0,
+          "settle_deadline_s": 3.0,
+          "minimum_observation_s": 5.0,
+          "max_sample_gap_s": 0.05
+        },
+        "reasons": [
+          "post_stop_travel_exceeded",
+          "settling_deadline_exceeded"
+        ],
+        "action_history": {
+          "valid": true,
+          "publications": 750,
+          "applied_samples": 748,
+          "min_application_age_s": 0.039999999999995595,
+          "max_application_age_s": 0.04000000000001336
+        },
+        "payload_position_error_limit_m": 0.03,
+        "max_payload_position_error_m": 0.0005053451672431457,
+        "stop_samples": 349,
+        "command_end_s": 8.0,
+        "first_stop_sample_s": 8.019999999999348,
+        "observation_s": 6.980000000001672,
+        "max_sample_gap_s": 0.02000000000000668,
+        "sampled_max_travel_m": 0.36208526009549336,
+        "settled_at_s": 3.120000000000383,
+        "terminal_speed_mps": 0.0005253576281682445,
+        "terminal_yaw_rate_rps": -5.147600748078963e-05
+      }
+    },
+    {
+      "case_id": "ablation-payload-delay2-y+0.45-duration3",
+      "policy": "ablation",
+      "load": "payload",
+      "delay_steps": 2,
+      "linear_y": 0.45,
+      "command_duration_s": 3.0,
+      "command": [
+        "/home/ros/.cache/uv/builds-v0/.tmpispeNX/bin/python",
+        "/workspace/scripts/probe_native_policy.py",
+        "--policy",
+        "/workspace/vendor/mjlab/logs/payload_training/stop_ablation_cycle_07_20261015/policy.onnx",
+        "--output",
+        "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/stop_ablation_duration3_20261015/ablation-payload-delay2-y+0.45-duration3.json",
+        "--duration",
+        "15.0",
+        "--delay-steps",
+        "2",
+        "--payload",
+        "--record-actions",
+        "--require-mujoco-version",
+        "3.3.6",
+        "--linear-y",
+        "0.45",
+        "--command-duration",
+        "3.0",
+        "--action-feedback",
+        "published"
+      ],
+      "source": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/stop_ablation_duration3_20261015/ablation-payload-delay2-y+0.45-duration3.json",
+      "log": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/stop_ablation_duration3_20261015/ablation-payload-delay2-y+0.45-duration3.log",
+      "passed": false,
+      "returncode": 0,
+      "source_sha256": "4cc25439cf3d9048a7c9c5ba13919bf54898855204b2f99c5829fa9a0cab4a7b",
+      "metadata": {
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/stop_ablation_cycle_07_20261015/policy.onnx",
+        "policy_sha256": "17cd8caa3fd46754e8a00d172590cea400ea056a354cce5949245e584745d1d1",
+        "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+        "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+        "mujoco_version": "3.3.6",
+        "ramp": false,
+        "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed carry arms and offline loaded-start magnetic fixture; not pickup qualification",
+        "payload": true,
+        "payload_mass_kg": 0.15,
+        "sampled_payload_scene_contacts": {},
+        "sampled_payload_robot_contacts": {},
+        "record_actions": true,
+        "probe_sha256": "4f581a8a17a0b3afa9afeac18d26031a241b402f86f000ce950554748cb335c4",
+        "payload_fixture_sha256": "df38ce62fe4d66dd3a6819b0de309264a64cfd4c851a15278e457e5244f778df",
+        "delay_steps": 2,
+        "yaw": 0.0,
+        "held_empty": false,
+        "requested_duration_s": 15.0,
+        "outage_at_s": null,
+        "outage_duration_s": null,
+        "outage_reset_history": false,
+        "outage_measured_hold": false,
+        "outage_injected": false,
+        "observation_steps": [
+          10
+        ],
+        "action_feedback": "published",
+        "sensor_delay_steps": 0,
+        "sensor_delay_s": 0.0,
+        "sampled_nonfloor_robot_contacts": {},
+        "requested_command": [
+          0.0,
+          0.45,
+          0.0
+        ],
+        "command_duration_s": 3.0,
+        "response_samples": 125,
+        "stop_samples": 349,
+        "mean_body_velocity_after_half_second": [
+          0.02070548443750436,
+          0.35395542456001217
+        ],
+        "mean_yaw_rate_after_one_second": 0.051652684699249427,
+        "yaw_rate_std_after_one_second": 0.1857859217479986,
+        "max_displacement_after_stop_m": 0.15197186728464193,
+        "yaw_displacement_rad": 0.22122037024906793,
+        "elapsed_s": 15.000000000001679,
+        "fallen": false,
+        "displacement_m": 1.0593867385445728,
+        "max_tilt_rad": 0.10561750475907053
+      },
+      "stopping": {
+        "passed": false,
+        "limits": {
+          "max_travel_m": 0.3,
+          "max_speed_mps": 0.08,
+          "max_yaw_rate_rps": 0.12,
+          "dwell_s": 1.0,
+          "settle_deadline_s": 3.0,
+          "minimum_observation_s": 5.0,
+          "max_sample_gap_s": 0.05
+        },
+        "reasons": [
+          "settling_deadline_exceeded"
+        ],
+        "action_history": {
+          "valid": true,
+          "publications": 750,
+          "applied_samples": 748,
+          "min_application_age_s": 0.039999999999995595,
+          "max_application_age_s": 0.04000000000001336
+        },
+        "payload_position_error_limit_m": 0.03,
+        "max_payload_position_error_m": 0.0005422465754831903,
+        "stop_samples": 349,
+        "command_end_s": 8.0,
+        "first_stop_sample_s": 8.019999999999348,
+        "observation_s": 6.980000000001672,
+        "max_sample_gap_s": 0.02000000000000668,
+        "sampled_max_travel_m": 0.15197186728464193,
+        "settled_at_s": 3.0800000000003696,
+        "terminal_speed_mps": 0.001908477124216913,
+        "terminal_yaw_rate_rps": 0.010451126507116278
+      }
+    },
+    {
+      "case_id": "ablation-payload-delay2-y-0.45-duration3",
+      "policy": "ablation",
+      "load": "payload",
+      "delay_steps": 2,
+      "linear_y": -0.45,
+      "command_duration_s": 3.0,
+      "command": [
+        "/home/ros/.cache/uv/builds-v0/.tmpispeNX/bin/python",
+        "/workspace/scripts/probe_native_policy.py",
+        "--policy",
+        "/workspace/vendor/mjlab/logs/payload_training/stop_ablation_cycle_07_20261015/policy.onnx",
+        "--output",
+        "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/stop_ablation_duration3_20261015/ablation-payload-delay2-y-0.45-duration3.json",
+        "--duration",
+        "15.0",
+        "--delay-steps",
+        "2",
+        "--payload",
+        "--record-actions",
+        "--require-mujoco-version",
+        "3.3.6",
+        "--linear-y",
+        "-0.45",
+        "--command-duration",
+        "3.0",
+        "--action-feedback",
+        "published"
+      ],
+      "source": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/stop_ablation_duration3_20261015/ablation-payload-delay2-y-0.45-duration3.json",
+      "log": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/stop_ablation_duration3_20261015/ablation-payload-delay2-y-0.45-duration3.log",
+      "passed": false,
+      "returncode": 0,
+      "source_sha256": "8cf4ae56fe5eed18b05c6ae09a403f538931f887710dc5b07edc8c69edd5e9e8",
+      "metadata": {
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/stop_ablation_cycle_07_20261015/policy.onnx",
+        "policy_sha256": "17cd8caa3fd46754e8a00d172590cea400ea056a354cce5949245e584745d1d1",
+        "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+        "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+        "mujoco_version": "3.3.6",
+        "ramp": false,
+        "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed carry arms and offline loaded-start magnetic fixture; not pickup qualification",
+        "payload": true,
+        "payload_mass_kg": 0.15,
+        "sampled_payload_scene_contacts": {},
+        "sampled_payload_robot_contacts": {},
+        "record_actions": true,
+        "probe_sha256": "4f581a8a17a0b3afa9afeac18d26031a241b402f86f000ce950554748cb335c4",
+        "payload_fixture_sha256": "df38ce62fe4d66dd3a6819b0de309264a64cfd4c851a15278e457e5244f778df",
+        "delay_steps": 2,
+        "yaw": 0.0,
+        "held_empty": false,
+        "requested_duration_s": 15.0,
+        "outage_at_s": null,
+        "outage_duration_s": null,
+        "outage_reset_history": false,
+        "outage_measured_hold": false,
+        "outage_injected": false,
+        "observation_steps": [
+          10
+        ],
+        "action_feedback": "published",
+        "sensor_delay_steps": 0,
+        "sensor_delay_s": 0.0,
+        "sampled_nonfloor_robot_contacts": {},
+        "requested_command": [
+          0.0,
+          -0.45,
+          0.0
+        ],
+        "command_duration_s": 3.0,
+        "response_samples": 125,
+        "stop_samples": 349,
+        "mean_body_velocity_after_half_second": [
+          -0.0019762207506680255,
+          -0.4466573225106741
+        ],
+        "mean_yaw_rate_after_one_second": 0.0510698234398432,
+        "yaw_rate_std_after_one_second": 0.20923581464833163,
+        "max_displacement_after_stop_m": 0.5471664716171305,
+        "yaw_displacement_rad": 0.30684638768598876,
+        "elapsed_s": 15.000000000001679,
+        "fallen": false,
+        "displacement_m": 1.6784123377851243,
+        "max_tilt_rad": 0.11489564354003708
+      },
+      "stopping": {
+        "passed": false,
+        "limits": {
+          "max_travel_m": 0.3,
+          "max_speed_mps": 0.08,
+          "max_yaw_rate_rps": 0.12,
+          "dwell_s": 1.0,
+          "settle_deadline_s": 3.0,
+          "minimum_observation_s": 5.0,
+          "max_sample_gap_s": 0.05
+        },
+        "reasons": [
+          "post_stop_travel_exceeded",
+          "settling_deadline_exceeded"
+        ],
+        "action_history": {
+          "valid": true,
+          "publications": 750,
+          "applied_samples": 748,
+          "min_application_age_s": 0.039999999999995595,
+          "max_application_age_s": 0.04000000000001336
+        },
+        "payload_position_error_limit_m": 0.03,
+        "max_payload_position_error_m": 0.0004579625309537579,
+        "stop_samples": 349,
+        "command_end_s": 8.0,
+        "first_stop_sample_s": 8.019999999999348,
+        "observation_s": 6.980000000001672,
+        "max_sample_gap_s": 0.02000000000000668,
+        "sampled_max_travel_m": 0.5471664716171305,
+        "settled_at_s": 4.360000000000797,
+        "terminal_speed_mps": 0.0016356158559301599,
+        "terminal_yaw_rate_rps": 0.011283218178803657
+      }
+    }
+  ],
+  "duration_s": 15.0,
+  "timeout_s": 120.0,
+  "passed": 1,
+  "by_policy": {
+    "stopping": {
+      "planned": 2,
+      "attempted": 2,
+      "passed": 1,
+      "fallen": 0,
+      "process_or_protocol_errors": 0
+    },
+    "ablation": {
+      "planned": 2,
+      "attempted": 2,
+      "passed": 0,
+      "fallen": 0,
+      "process_or_protocol_errors": 0
+    }
+  },
+  "source_summary": {
+    "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/stop_ablation_duration3_20261015/summary.json",
+    "sha256": "45af64334c5e6b3e6a3f2349fc060b8cdb40cef92ac8f00931c2ab799ecbb980"
+  }
+}

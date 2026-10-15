@@ -19,6 +19,12 @@
 Related: [Technical implementation roadmap](SOCIAL_LOCOMANIPULATION_ROADMAP.md) ·
 [Gap-aligned research and publication programme](RESEARCH_PROGRAMME.md).
 
+**Matched ablation update:** [24 broader probes plus four duration follow-ups](STOPPING_ABLATION_20261015.md)
+show no consistently superior objective and failure at 60 ms delay. A serial
+matrix runner now preserves paired conditions and all failures. Next: multiple
+training seeds, longer-delay training exposure, varied gait starts and coherent
+physics/policy checkpoint capture with continuation-parity verification.
+
 **Stopping-training update:** [cycle-07 matched evaluation](STOPPING_CANDIDATE_20261015.md)
 improves travel but remains unpromoted (2/4 gates; both negative cases fail).
 Next: reward-only ablation, more initial states/delays and held-empty checks,

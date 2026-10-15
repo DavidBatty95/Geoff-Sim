@@ -25,6 +25,13 @@ for measured outcomes and [release policy](docs/RELEASES.md) for promotion crite
 
 ### Added
 
+- Serial native stopping matrix runner with predeclared paired conditions,
+  policy/protocol and measured-delay checks, retained process failures and
+  incomplete-plan host export. Eight regressions cover orchestration integrity.
+- Matched stopping-reward ablation: 24 broader probes and four longer-command
+  follow-ups show duration-dependent tradeoffs and 60 ms failures. Both candidates
+  remain unpromoted. [Full evidence](docs/STOPPING_ABLATION_20261015.md).
+
 - Opt-in stopping training objective and signed lateral stop evaluation schedule,
   retaining the deployed actor-input contract. Cycle-07 improves measured travel
   but remains unpromoted: 2/4 strict native gates versus baseline 1/4.

@@ -44,6 +44,13 @@ plugin autoload disabled. [Commands and loaded outcomes](../docs/LOADED_STOPPING
 Command replay rejects post-motion coverage gaps exceeding 250 ms.
 [Candidate results and reproduction](../docs/STOPPING_CANDIDATE_20261015.md).
 
+`run_native_stop_matrix.py --policy NAME=PATH ... --output NEW_DIRECTORY` runs
+paired serial native probes in the pinned probe environment, retaining failures
+and checking policy/protocol identity and measured delay. Defaults cover both
+lateral signs, loaded/held-empty states and 40/60 ms delays. Export on the host
+with `--export-summary ARTIFACT_SUMMARY --report NEW_REPORT`.
+[Commands, matched ablation and limits](../docs/STOPPING_ABLATION_20261015.md).
+
 Every generated world and the original plaza can run as a continuous demo. The
 demo launcher handles goal handoff, session duration, episode restart and logs.
 Use `./geoff demo --help`, `./geoff benchmark --help` or `./geoff results --help`

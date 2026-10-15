@@ -23,6 +23,11 @@ described by the [repository guide](../REPOSITORY_GUIDE.md#where-results-go).
 
 ## Start with a dataset
 
+Matched reward ablation: [24-probe matrix](stop_ablation_20261015.json),
+[four duration follow-ups](stop_ablation_duration3_20261015.json), and
+[zero-probe setup failure](stop_ablation_setup_failure_20261015.json).
+[Interpretation](../STOPPING_ABLATION_20261015.md).
+
 Stopping-trained candidate: [eight matched probes](stop_candidate_20261015.json),
 [training provenance](stop_candidate_training_20261015.json) and
 [two command-only replays](stop_replay_20261015.json).

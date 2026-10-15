@@ -23,6 +23,14 @@ evidence snapshot, not an acceptance release. Later experiments need their own c
 
 ## At a glance
 
+**Latest matched ablation:** a predeclared 24-probe matrix covers both lateral
+signs, 40/60 ms delays and loaded/held-empty states. Baseline and stopping-penalty
+candidate pass **2/8** each; the matched no-penalty fine-tune passes **3/8**.
+Four longer-command follow-ups expose the opposite tradeoff; neither candidate
+is promoted. All 60 ms conditions fail, including five falls across the matrix.
+**866 ROS results, 191 orchestration tests and 12 native CTests pass.**
+[Complete matrix, setup failure and follow-ups](STOPPING_ABLATION_20261015.md).
+
 **Latest stopping-training experiment:** cycle-07 adds an explicit zero-command
 residual-motion penalty and trains with published-action feedback and 0–40 ms
 application delay. Native loaded gates pass **2/4 versus cycle-05's 1/4**;

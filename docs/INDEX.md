@@ -26,6 +26,9 @@ collections. Start there for topic-based exploration, or use the catalogue below
 
 ## Project orientation
 
+Latest qualification tooling: [matched reward ablation and delay stress tests](STOPPING_ABLATION_20261015.md)
+— 28 native probes, a serial matrix runner and retained setup failure.
+
 Latest experiment: [stopping-trained candidate and incident replay](STOPPING_CANDIDATE_20261015.md)
 — eight matched native probes, training provenance and retained replay contacts.
 

@@ -1,0 +1,425 @@
+{
+  "schema_version": 1,
+  "complete": false,
+  "scope": "Predeclared serial native probes; not mission or hardware acceptance",
+  "sources": {
+    "run_native_stop_matrix.py": "166d3494056bb9e4fc23edce5c867d05e7c8922fd78375e64c01d69de6fbc085",
+    "probe_native_policy.py": "4f581a8a17a0b3afa9afeac18d26031a241b402f86f000ce950554748cb335c4",
+    "score_native_stopping.py": "796d7c924785aa4861b71da64a2113af313807df66d2637852373c9a9e90993e"
+  },
+  "policies": {
+    "baseline": {
+      "path": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+      "sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+      "training": {
+        "run": "native_contact_cycle_05_20261012",
+        "manifest": {
+          "mode": "train",
+          "seed": 74,
+          "num_envs": 1024,
+          "iterations": 500,
+          "dynamics": "native_contact",
+          "max_delay_steps": 2,
+          "action_hold_probability": 0.05,
+          "profile": "mixed",
+          "source": "/workspace/vendor/unitree_rl_lab/policies/g1_29dof_velocity_v0/policy.onnx",
+          "source_sha256": "610c27e463a8f666aa50a06346678c00b4df3859f10b54bcc1f817c28251406f",
+          "arm_input_initialization": "pretrained",
+          "evaluation_pose_index": 0,
+          "pose_bank": "carry",
+          "arm_transitions": true,
+          "optimizer_learning_rates": {
+            "actor": 1e-05,
+            "critic": 0.0003
+          },
+          "script_sha256": "9e7a03b51861325dd4c9ab8fb08cfe31cdefe299c1510997add4dfe42d836472",
+          "checkpoint": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/final.pt",
+          "checkpoint_sha256": "8d722cd24d1ca26e786e805685643cb277b8c134e76ace365dbe40840735db2b",
+          "objective": "reactive",
+          "smoothness_weight": 0.05,
+          "probe": "tracking",
+          "cup_up_axis_local": [
+            0.014551833262721126,
+            0.014180183079654438,
+            0.9997935619699306
+          ],
+          "actor_contract": "unitree_rl_lab_g1_29dof: 480 observations / 29 actions; measured arms",
+          "payload_mass_range_kg": [
+            0.0,
+            0.5
+          ],
+          "hand_offset_m": [
+            0.19,
+            0.01,
+            0.0
+          ],
+          "base_pinning": false,
+          "onnx_import_max_error": 1.2516975402832031e-06
+        },
+        "manifest_sha256": "0c30f271a7a4e6ea27538a888c19c0af0e26ab7382f56ac95b171e7cf140155b",
+        "artifact_complete": true,
+        "checkpoint_sha256": "b76b230ac1ffea4dd18950863f534db0ac08a50d7e14d3ef7f3f53e1103eb2bc",
+        "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+        "source_sha256": {
+          "training_source.py": "9e7a03b51861325dd4c9ab8fb08cfe31cdefe299c1510997add4dfe42d836472",
+          "payload_sensor_delay.py": null,
+          "payload_smoothness.py": "ea4fb36c3bf4a76b8d52dbf23e1019109b778c3db5b54932831259b4fe9742a8"
+        },
+        "exported_candidates": []
+      }
+    },
+    "stopping": {
+      "path": "/workspace/vendor/mjlab/logs/payload_training/stop_feedback_cycle_07_20261015/policy.onnx",
+      "sha256": "2230f6462bed6b707ca3276a55ef5b5e2c51a7ee0a9d5e43fe9372673af5e3fe",
+      "training": {
+        "run": "stop_feedback_cycle_07_20261015",
+        "manifest": {
+          "mode": "train",
+          "seed": 76,
+          "num_envs": 256,
+          "iterations": 100,
+          "dynamics": "native_contact",
+          "max_delay_steps": 2,
+          "action_hold_probability": 0.0,
+          "max_sensor_delay_steps": 0,
+          "action_feedback": "published",
+          "control_period_s": 0.02,
+          "sensor_delay_scope": "coherent IMU/joint packet, per-environment per-episode; commands/action feedback remain current",
+          "profile": "mixed",
+          "source": "/workspace/vendor/unitree_rl_lab/policies/g1_29dof_velocity_v0/policy.onnx",
+          "source_sha256": "610c27e463a8f666aa50a06346678c00b4df3859f10b54bcc1f817c28251406f",
+          "arm_input_initialization": "pretrained",
+          "evaluation_pose_index": 0,
+          "pose_bank": "carry",
+          "arm_transitions": false,
+          "optimizer_learning_rates": {
+            "actor": 1e-05,
+            "critic": 0.0003
+          },
+          "script_sha256": "4f5b86c016ba48be3cbe90508ed839d930de98589a4ed32b2b5a54e8a3d241a4",
+          "checkpoint": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/final.pt",
+          "checkpoint_sha256": "b76b230ac1ffea4dd18950863f534db0ac08a50d7e14d3ef7f3f53e1103eb2bc",
+          "objective": "stopping",
+          "smoothness_weight": 0.05,
+          "probe": "tracking",
+          "cup_up_axis_local": [
+            0.014551833262721126,
+            0.014180183079654438,
+            0.9997935619699306
+          ],
+          "actor_contract": "unitree_rl_lab_g1_29dof: 480 observations / 29 actions; measured arms",
+          "payload_mass_range_kg": [
+            0.0,
+            0.5
+          ],
+          "hand_offset_m": [
+            0.19,
+            0.01,
+            0.0
+          ],
+          "base_pinning": false,
+          "onnx_import_max_error": 1.2516975402832031e-06
+        },
+        "manifest_sha256": "91cfad14a5b30e0cd5db151e943bc1a2ff7bf1cbd383f8d50c78691d64dc5ad3",
+        "artifact_complete": true,
+        "checkpoint_sha256": "b1b2df1fe6b83aa49832b717f8843f56832f3c3e4b94a676e3b0af112acf40e1",
+        "policy_sha256": "2230f6462bed6b707ca3276a55ef5b5e2c51a7ee0a9d5e43fe9372673af5e3fe",
+        "source_sha256": {
+          "training_source.py": "4f5b86c016ba48be3cbe90508ed839d930de98589a4ed32b2b5a54e8a3d241a4",
+          "payload_sensor_delay.py": "36bab8f9bc8a2348e73dbe79450ce12896e7a08b515457f90d1fdb85c1a82386",
+          "payload_smoothness.py": "ea4fb36c3bf4a76b8d52dbf23e1019109b778c3db5b54932831259b4fe9742a8"
+        },
+        "exported_candidates": []
+      }
+    },
+    "ablation": {
+      "path": "/workspace/vendor/mjlab/logs/payload_training/stop_ablation_cycle_07_20261015/policy.onnx",
+      "sha256": "17cd8caa3fd46754e8a00d172590cea400ea056a354cce5949245e584745d1d1",
+      "training": {
+        "run": "stop_ablation_cycle_07_20261015",
+        "manifest": {
+          "mode": "train",
+          "seed": 76,
+          "num_envs": 256,
+          "iterations": 100,
+          "dynamics": "native_contact",
+          "max_delay_steps": 2,
+          "action_hold_probability": 0.0,
+          "max_sensor_delay_steps": 0,
+          "action_feedback": "published",
+          "control_period_s": 0.02,
+          "sensor_delay_scope": "coherent IMU/joint packet, per-environment per-episode; commands/action feedback remain current",
+          "profile": "mixed",
+          "source": "/workspace/vendor/unitree_rl_lab/policies/g1_29dof_velocity_v0/policy.onnx",
+          "source_sha256": "610c27e463a8f666aa50a06346678c00b4df3859f10b54bcc1f817c28251406f",
+          "arm_input_initialization": "pretrained",
+          "evaluation_pose_index": 0,
+          "pose_bank": "carry",
+          "arm_transitions": false,
+          "optimizer_learning_rates": {
+            "actor": 1e-05,
+            "critic": 0.0003
+          },
+          "script_sha256": "4f5b86c016ba48be3cbe90508ed839d930de98589a4ed32b2b5a54e8a3d241a4",
+          "checkpoint": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/final.pt",
+          "checkpoint_sha256": "b76b230ac1ffea4dd18950863f534db0ac08a50d7e14d3ef7f3f53e1103eb2bc",
+          "objective": "reactive",
+          "smoothness_weight": 0.05,
+          "probe": "tracking",
+          "cup_up_axis_local": [
+            0.014551833262721126,
+            0.014180183079654438,
+            0.9997935619699306
+          ],
+          "actor_contract": "unitree_rl_lab_g1_29dof: 480 observations / 29 actions; measured arms",
+          "payload_mass_range_kg": [
+            0.0,
+            0.5
+          ],
+          "hand_offset_m": [
+            0.19,
+            0.01,
+            0.0
+          ],
+          "base_pinning": false,
+          "onnx_import_max_error": 1.2516975402832031e-06
+        },
+        "manifest_sha256": "8df8026bb57a7696eca2f25990e1874b33f74f8cf88388de7a7e723e58dba6ad",
+        "artifact_complete": true,
+        "checkpoint_sha256": "5813e4409953c40cf85bc4420fd5e7920e71ef6fdfe532421616a5c1483a56bc",
+        "policy_sha256": "17cd8caa3fd46754e8a00d172590cea400ea056a354cce5949245e584745d1d1",
+        "source_sha256": {
+          "training_source.py": "4f5b86c016ba48be3cbe90508ed839d930de98589a4ed32b2b5a54e8a3d241a4",
+          "payload_sensor_delay.py": "36bab8f9bc8a2348e73dbe79450ce12896e7a08b515457f90d1fdb85c1a82386",
+          "payload_smoothness.py": "ea4fb36c3bf4a76b8d52dbf23e1019109b778c3db5b54932831259b4fe9742a8"
+        },
+        "exported_candidates": []
+      }
+    }
+  },
+  "plan": [
+    {
+      "case_id": "baseline-payload-delay2-y+0.45-duration2",
+      "policy": "baseline",
+      "load": "payload",
+      "delay_steps": 2,
+      "linear_y": 0.45,
+      "command_duration_s": 2.0
+    },
+    {
+      "case_id": "baseline-payload-delay2-y-0.45-duration2",
+      "policy": "baseline",
+      "load": "payload",
+      "delay_steps": 2,
+      "linear_y": -0.45,
+      "command_duration_s": 2.0
+    },
+    {
+      "case_id": "baseline-payload-delay3-y+0.45-duration2",
+      "policy": "baseline",
+      "load": "payload",
+      "delay_steps": 3,
+      "linear_y": 0.45,
+      "command_duration_s": 2.0
+    },
+    {
+      "case_id": "baseline-payload-delay3-y-0.45-duration2",
+      "policy": "baseline",
+      "load": "payload",
+      "delay_steps": 3,
+      "linear_y": -0.45,
+      "command_duration_s": 2.0
+    },
+    {
+      "case_id": "baseline-held-empty-delay2-y+0.45-duration2",
+      "policy": "baseline",
+      "load": "held-empty",
+      "delay_steps": 2,
+      "linear_y": 0.45,
+      "command_duration_s": 2.0
+    },
+    {
+      "case_id": "baseline-held-empty-delay2-y-0.45-duration2",
+      "policy": "baseline",
+      "load": "held-empty",
+      "delay_steps": 2,
+      "linear_y": -0.45,
+      "command_duration_s": 2.0
+    },
+    {
+      "case_id": "baseline-held-empty-delay3-y+0.45-duration2",
+      "policy": "baseline",
+      "load": "held-empty",
+      "delay_steps": 3,
+      "linear_y": 0.45,
+      "command_duration_s": 2.0
+    },
+    {
+      "case_id": "baseline-held-empty-delay3-y-0.45-duration2",
+      "policy": "baseline",
+      "load": "held-empty",
+      "delay_steps": 3,
+      "linear_y": -0.45,
+      "command_duration_s": 2.0
+    },
+    {
+      "case_id": "stopping-payload-delay2-y+0.45-duration2",
+      "policy": "stopping",
+      "load": "payload",
+      "delay_steps": 2,
+      "linear_y": 0.45,
+      "command_duration_s": 2.0
+    },
+    {
+      "case_id": "stopping-payload-delay2-y-0.45-duration2",
+      "policy": "stopping",
+      "load": "payload",
+      "delay_steps": 2,
+      "linear_y": -0.45,
+      "command_duration_s": 2.0
+    },
+    {
+      "case_id": "stopping-payload-delay3-y+0.45-duration2",
+      "policy": "stopping",
+      "load": "payload",
+      "delay_steps": 3,
+      "linear_y": 0.45,
+      "command_duration_s": 2.0
+    },
+    {
+      "case_id": "stopping-payload-delay3-y-0.45-duration2",
+      "policy": "stopping",
+      "load": "payload",
+      "delay_steps": 3,
+      "linear_y": -0.45,
+      "command_duration_s": 2.0
+    },
+    {
+      "case_id": "stopping-held-empty-delay2-y+0.45-duration2",
+      "policy": "stopping",
+      "load": "held-empty",
+      "delay_steps": 2,
+      "linear_y": 0.45,
+      "command_duration_s": 2.0
+    },
+    {
+      "case_id": "stopping-held-empty-delay2-y-0.45-duration2",
+      "policy": "stopping",
+      "load": "held-empty",
+      "delay_steps": 2,
+      "linear_y": -0.45,
+      "command_duration_s": 2.0
+    },
+    {
+      "case_id": "stopping-held-empty-delay3-y+0.45-duration2",
+      "policy": "stopping",
+      "load": "held-empty",
+      "delay_steps": 3,
+      "linear_y": 0.45,
+      "command_duration_s": 2.0
+    },
+    {
+      "case_id": "stopping-held-empty-delay3-y-0.45-duration2",
+      "policy": "stopping",
+      "load": "held-empty",
+      "delay_steps": 3,
+      "linear_y": -0.45,
+      "command_duration_s": 2.0
+    },
+    {
+      "case_id": "ablation-payload-delay2-y+0.45-duration2",
+      "policy": "ablation",
+      "load": "payload",
+      "delay_steps": 2,
+      "linear_y": 0.45,
+      "command_duration_s": 2.0
+    },
+    {
+      "case_id": "ablation-payload-delay2-y-0.45-duration2",
+      "policy": "ablation",
+      "load": "payload",
+      "delay_steps": 2,
+      "linear_y": -0.45,
+      "command_duration_s": 2.0
+    },
+    {
+      "case_id": "ablation-payload-delay3-y+0.45-duration2",
+      "policy": "ablation",
+      "load": "payload",
+      "delay_steps": 3,
+      "linear_y": 0.45,
+      "command_duration_s": 2.0
+    },
+    {
+      "case_id": "ablation-payload-delay3-y-0.45-duration2",
+      "policy": "ablation",
+      "load": "payload",
+      "delay_steps": 3,
+      "linear_y": -0.45,
+      "command_duration_s": 2.0
+    },
+    {
+      "case_id": "ablation-held-empty-delay2-y+0.45-duration2",
+      "policy": "ablation",
+      "load": "held-empty",
+      "delay_steps": 2,
+      "linear_y": 0.45,
+      "command_duration_s": 2.0
+    },
+    {
+      "case_id": "ablation-held-empty-delay2-y-0.45-duration2",
+      "policy": "ablation",
+      "load": "held-empty",
+      "delay_steps": 2,
+      "linear_y": -0.45,
+      "command_duration_s": 2.0
+    },
+    {
+      "case_id": "ablation-held-empty-delay3-y+0.45-duration2",
+      "policy": "ablation",
+      "load": "held-empty",
+      "delay_steps": 3,
+      "linear_y": 0.45,
+      "command_duration_s": 2.0
+    },
+    {
+      "case_id": "ablation-held-empty-delay3-y-0.45-duration2",
+      "policy": "ablation",
+      "load": "held-empty",
+      "delay_steps": 3,
+      "linear_y": -0.45,
+      "command_duration_s": 2.0
+    }
+  ],
+  "attempts": [],
+  "duration_s": 15.0,
+  "timeout_s": 120.0,
+  "passed": 0,
+  "by_policy": {
+    "baseline": {
+      "planned": 8,
+      "attempted": 0,
+      "passed": 0,
+      "fallen": 0,
+      "process_or_protocol_errors": 0
+    },
+    "stopping": {
+      "planned": 8,
+      "attempted": 0,
+      "passed": 0,
+      "fallen": 0,
+      "process_or_protocol_errors": 0
+    },
+    "ablation": {
+      "planned": 8,
+      "attempted": 0,
+      "passed": 0,
+      "fallen": 0,
+      "process_or_protocol_errors": 0
+    }
+  },
+  "source_summary": {
+    "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/stop_ablation_20261015/summary.json",
+    "sha256": "1eb002c17e7132733a8d84791e1e20c494f6be4cc5c854c69c56f1df7385cb92"
+  }
+}
