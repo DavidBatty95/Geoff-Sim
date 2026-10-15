@@ -4,7 +4,9 @@ import json
 import math
 
 
-def load_commands(path):
+def load_commands(path, max_gap_s=.25):
+    if not math.isfinite(max_gap_s) or max_gap_s<=0.:
+        raise ValueError('command coverage gap limit must be finite and positive')
     samples = []
     empty_state_seen = False
     arm_phases = {'prepare_pickup','dock_pickup','reach','grasp','lift','lower','release','retract','restore_arm'}
@@ -32,6 +34,8 @@ def load_commands(path):
     first = next((index for index,(_,cmd) in enumerate(samples) if max(map(abs,cmd))>.03),None)
     if first is None:
         raise ValueError('no motion commands in trace')
+    if any(b[0]-a[0]>max_gap_s+1e-9 for a,b in zip(samples[first:],samples[first+1:])):
+        raise ValueError('command coverage gap exceeds replay limit')
     origin = samples[first][0]
     return [stamp-origin for stamp,_ in samples[first:]],[cmd for _,cmd in samples[first:]]
 

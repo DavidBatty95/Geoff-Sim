@@ -26,6 +26,9 @@ collections. Start there for topic-based exploration, or use the catalogue below
 
 ## Project orientation
 
+Latest experiment: [stopping-trained candidate and incident replay](STOPPING_CANDIDATE_20261015.md)
+— eight matched native probes, training provenance and retained replay contacts.
+
 Latest loaded follow-up: [payload stopping and action-history audit](LOADED_STOPPING_20261015.md)
 — four loaded probes and two corrected-rollout mission repeats.
 

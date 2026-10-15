@@ -25,6 +25,13 @@ for measured outcomes and [release policy](docs/RELEASES.md) for promotion crite
 
 ### Added
 
+- Opt-in stopping training objective and signed lateral stop evaluation schedule,
+  retaining the deployed actor-input contract. Cycle-07 improves measured travel
+  but remains unpromoted: 2/4 strict native gates versus baseline 1/4.
+- Replay rejects command-coverage gaps over 250 ms. Both retained incident-command
+  replays contact scene geometry; neutral-state replay is not incident recreation.
+  [Training and comparison evidence](docs/STOPPING_CANDIDATE_20261015.md).
+
 - Native loaded-start probe fixture with the original 150 g object, attachment
   tracking and separate payload/scene contact evidence; recorded action vectors
   and publication/application IDs are audited by the stopping scorer.

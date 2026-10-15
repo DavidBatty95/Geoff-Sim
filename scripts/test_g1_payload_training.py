@@ -183,3 +183,26 @@ def test_action_feedback_distinguishes_published_from_motor_applied(training):
     assert training.applied_policy_action(env) is action.published_action
     action.cfg.action_feedback='applied'
     assert training.applied_policy_action(env) is action.raw_action
+
+
+def test_stop_objective_penalizes_residual_motion_only_on_explicit_stop(training):
+    torch = training.torch
+    env = SimpleNamespace(command_manager=SimpleNamespace(get_command=lambda _:torch.tensor(
+        [[0.,0.,0.],[0.,-.45,0.],[0.,0.,.6],[.001,0.,0.]])),
+        scene={'robot':SimpleNamespace(data=SimpleNamespace(
+            root_link_lin_vel_b=torch.tensor([[.3,.4,0.]]*4),
+            root_link_ang_vel_b=torch.tensor([[0.,0.,.2]]*4)))})
+    torch.testing.assert_close(training.stopping_velocity_penalty(env),torch.tensor([.26,0.,0.,0.]))
+    cfg = training.build_env(4,76,objective='stopping',dynamics='native_contact',
+                             max_delay_steps=2,action_feedback='published')
+    assert cfg.rewards['stop_velocity'].weight<0.
+    assert 'base_lin_vel' not in cfg.observations['actor'].terms
+    assert cfg.observations['actor'].history_length==5
+    assert cfg.actions['joint_pos'].action_feedback=='published'
+    assert cfg.commands['twist'].ranges.lin_vel_y==(-.45,.45)
+    phases = training.SIGNED_STOP_SCHEDULE
+    assert {values[1] for _,_,values in phases}=={-.45,0.,.45}
+    for index,(_,duration,values) in enumerate(phases):
+        if values[1]:
+            assert duration in (2.,3.)
+            assert phases[index+1][1:]==(6.,(0.,0.,0.))

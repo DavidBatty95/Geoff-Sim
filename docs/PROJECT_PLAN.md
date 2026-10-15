@@ -19,6 +19,11 @@
 Related: [Technical implementation roadmap](SOCIAL_LOCOMANIPULATION_ROADMAP.md) ·
 [Gap-aligned research and publication programme](RESEARCH_PROGRAMME.md).
 
+**Stopping-training update:** [cycle-07 matched evaluation](STOPPING_CANDIDATE_20261015.md)
+improves travel but remains unpromoted (2/4 gates; both negative cases fail).
+Next: reward-only ablation, more initial states/delays and held-empty checks,
+plus synchronized physical/policy-history snapshots for faithful encounter replay.
+
 **Loaded follow-up:** [150 g probes and action-history audits](LOADED_STOPPING_20261015.md)
 are implemented and measured; 3/4 pass. Corrected-rollout mission repeats include
 one zero-person completion and one people-present braking failure. Next work is

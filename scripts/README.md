@@ -38,6 +38,12 @@ attachment, payload/scene contacts and action-publication consistency.
 `test_native_probe_payload.py` runs separately in pinned MuJoCo 3.3.6 with pytest
 plugin autoload disabled. [Commands and loaded outcomes](../docs/LOADED_STOPPING_20261015.md).
 
+`g1_payload_training.py --objective stopping --action-feedback published
+--max-delay-steps 2` enables experimental explicit-stop training. Evaluation
+`--probe signed_stops` covers both lateral signs and two command durations.
+Command replay rejects post-motion coverage gaps exceeding 250 ms.
+[Candidate results and reproduction](../docs/STOPPING_CANDIDATE_20261015.md).
+
 Every generated world and the original plaza can run as a continuous demo. The
 demo launcher handles goal handoff, session duration, episode restart and logs.
 Use `./geoff demo --help`, `./geoff benchmark --help` or `./geoff results --help`

@@ -55,6 +55,10 @@ POLICY_NAMES = tuple(G1_29DOF_JOINTS[i] for i in UNITREE_RL_LAB_G1_JOINT_IDS_MAP
 ARM_POLICY_IDS = tuple(i for i, sdk in enumerate(UNITREE_RL_LAB_G1_JOINT_IDS_MAP) if sdk >= 15)
 SOURCE = ROOT / 'vendor/unitree_rl_lab/policies/g1_29dof_velocity_v0/policy.onnx'
 URDF = ROOT / 'ros2_ws/src/unitree_g1_description/urdf/g1_29dof_mode_15_brainco_hand.urdf'
+SIGNED_STOP_SCHEDULE = (('settle',5.,(0.,0.,0.)),)+tuple(
+    phase for direction in (1.,-1.) for duration in (2.,3.) for phase in (
+        (f'lateral_{direction:+g}_{duration:g}',duration,(0.,direction*.45,0.)),
+        (f'stop_{direction:+g}_{duration:g}',6.,(0.,0.,0.))))
 
 
 class ConsoleTee:
@@ -162,6 +166,15 @@ def turn_drift_penalty(env):
     pivot = (torch.linalg.vector_norm(command[:,:2],dim=1)<.05)&(command[:,2].abs()>.2)
     velocity = env.scene['robot'].data.root_link_lin_vel_b[:,:2]
     return pivot*torch.sum(velocity*velocity,dim=1)
+
+
+def stopping_velocity_penalty(env):
+    """Critic/reward truth only: residual motion after an explicit zero command."""
+    command = env.command_manager.get_command('twist')
+    stopped = torch.all(command==0.,dim=1)
+    data = env.scene['robot'].data
+    return stopped*(torch.sum(data.root_link_lin_vel_b[:,:2]**2,dim=1)+
+                    .25*data.root_link_ang_vel_b[:,2]**2)
 
 
 @dataclass(kw_only=True)
@@ -365,7 +378,7 @@ def build_env(num_envs, seed, profile='mixed', pose_index=0, pose_bank='carry', 
     cfg.rewards['track_linear_velocity'].params['std'] = .25
     cfg.rewards['track_angular_velocity'].params['std'] = .35
     cfg.rewards['action_rate_l2'].weight = -.02
-    if objective in ('fluid','reactive'):
+    if objective in ('fluid','reactive','stopping'):
         cfg.rewards['fluid_carry'] = RewardTermCfg(func=FluidCarryPenalty,weight=-smoothness_weight,
                                                   params={'up_axis':cup_up_axis()})
         # Match native clockwise pivots up to 0.9 rad/s, which cycle 01 did not
@@ -379,12 +392,14 @@ def build_env(num_envs, seed, profile='mixed', pose_index=0, pose_bank='carry', 
         command.yaw_speed_max = .90
         command.ranges.ang_vel_z = (-.90,.90)
         command.moving_stop_probability = .40
-    if objective == 'reactive':
+    if objective in ('reactive','stopping'):
         # Tracking must not be traded away for the smoother nearly-stationary
         # pivots seen in cycle-03. Evaluate both progress and uprightness.
         cfg.rewards['track_angular_velocity'].weight *= 2.5
         cfg.rewards['track_linear_velocity'].weight *= 1.25
         cfg.rewards['turn_drift'] = RewardTermCfg(func=turn_drift_penalty,weight=-3.)
+    if objective=='stopping':
+        cfg.rewards['stop_velocity'] = RewardTermCfg(func=stopping_velocity_penalty,weight=-4.)
     return cfg
 
 
@@ -428,6 +443,8 @@ def evaluate(runner, wrapped, profile, output,probe='tracking'):
     )
     if probe == 'loaded_turns':
         schedule = LOADED_TURN_SCHEDULE
+    elif probe == 'signed_stops':
+        schedule = SIGNED_STOP_SCHEDULE
     reports = []
     runner.alg.actor.eval()
     for case in profiles:
@@ -505,9 +522,9 @@ def main():
     parser.add_argument('--arm-transitions', action='store_true', help='Resample held-arm targets every eight seconds during training')
     parser.add_argument('--profile', choices=('mixed', 'unloaded', 'held_empty', 'loaded', 'heavy'), default='mixed')
     parser.add_argument('--output', type=Path)
-    parser.add_argument('--objective',choices=('tracking','fluid','reactive'),default='tracking')
+    parser.add_argument('--objective',choices=('tracking','fluid','reactive','stopping'),default='tracking')
     parser.add_argument('--smoothness-weight',type=float,default=.2)
-    parser.add_argument('--probe',choices=('tracking','loaded_turns'),default='tracking')
+    parser.add_argument('--probe',choices=('tracking','loaded_turns','signed_stops'),default='tracking')
     parser.add_argument('--dynamics',choices=('historical','native_inertial','native_contact'),default='historical')
     parser.add_argument('--max-delay-steps',type=int,default=0,help='Per-episode policy application delay sampled from 0..N periods')
     parser.add_argument('--action-hold-probability',type=float,default=0.,help='Per-tick missed-update exposure, retaining the previously applied action')
@@ -537,8 +554,9 @@ def main():
     cfg = build_env(args.num_envs, args.seed, args.profile, args.pose_index, args.pose_bank, args.arm_transitions,
                     args.objective,args.smoothness_weight,args.dynamics,args.max_delay_steps,args.action_hold_probability,
                     args.max_sensor_delay_steps,args.action_feedback)
-    if args.mode == 'evaluate' and args.probe == 'loaded_turns':
-        cfg.episode_length_s = sum(item[1] for item in LOADED_TURN_SCHEDULE)+2.
+    if args.mode == 'evaluate' and args.probe in ('loaded_turns','signed_stops'):
+        schedule = LOADED_TURN_SCHEDULE if args.probe=='loaded_turns' else SIGNED_STOP_SCHEDULE
+        cfg.episode_length_s = sum(item[1] for item in schedule)+2.
     agent = unitree_g1_ppo_runner_cfg()
     agent.actor.obs_normalization = False
     agent.critic.obs_normalization = True

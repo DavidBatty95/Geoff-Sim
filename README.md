@@ -50,6 +50,11 @@ history; **3/4** pass the stopping gate. The corrected-rollout control completes
 in **154.44 s**; the one-person repeat still times out during braking.
 [Loaded measurements and both outcomes](docs/LOADED_STOPPING_20261015.md).
 
+**Stopping-training experiment:** a published-feedback candidate reduces measured
+negative-lateral stopping travel, but still fails both negative cases. It passes
+**2/4** matched conditions versus baseline **1/4** and remains unpromoted.
+[Training, eight probes and replay limitations](docs/STOPPING_CANDIDATE_20261015.md).
+
 [Current status](docs/PROJECT_STATUS.md) · [Implementation and verification](docs/PERFORMANCE_FOUNDATION.md) ·
 [Retained delivery evidence](docs/PERFORMANCE_IMPLEMENTATION_20261012.md) · [Roadmap](docs/PROJECT_PLAN.md)
 

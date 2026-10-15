@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "scorer_sha256": "796d7c924785aa4861b71da64a2113af313807df66d2637852373c9a9e90993e",
+  "scope": "Declared sampled stopping gate, not hardware/crowd safety or policy promotion",
+  "limitations": [
+    "Displacement starts at the first post-command sample, not exact actuator stop time.",
+    "Sampled non-floor contacts do not establish continuous contact coverage.",
+    "Applied-feedback probes have simulator-known action history; deployment has no such acknowledgement."
+  ],
+  "attempts": [
+    {
+      "source": "ros2_ws/src/dynamic_obstacle_benchmarks/results/stop_replay_20261015/baseline.json",
+      "sha256": "74252e983ebf82b3184aff9a6c290c8f458123ebbaab6e205d37721066db7e5c",
+      "stopping": {
+        "passed": false,
+        "limits": {
+          "max_travel_m": 0.3,
+          "max_speed_mps": 0.08,
+          "max_yaw_rate_rps": 0.12,
+          "dwell_s": 1.0,
+          "settle_deadline_s": 3.0,
+          "minimum_observation_s": 5.0,
+          "max_sample_gap_s": 0.05
+        },
+        "reasons": [
+          "fixed_command_stop_required"
+        ]
+      },
+      "metadata": {
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+        "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+        "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+        "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+        "mujoco_version": "3.3.6",
+        "ramp": false,
+        "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed carry arms and offline loaded-start magnetic fixture; not pickup qualification",
+        "payload": false,
+        "payload_mass_kg": null,
+        "sampled_payload_scene_contacts": {},
+        "sampled_payload_robot_contacts": {},
+        "record_actions": true,
+        "probe_sha256": "4f581a8a17a0b3afa9afeac18d26031a241b402f86f000ce950554748cb335c4",
+        "payload_fixture_sha256": "df38ce62fe4d66dd3a6819b0de309264a64cfd4c851a15278e457e5244f778df",
+        "delay_steps": 2,
+        "yaw": 0.0,
+        "held_empty": false,
+        "requested_duration_s": 30.0,
+        "outage_at_s": null,
+        "outage_duration_s": null,
+        "outage_reset_history": false,
+        "outage_measured_hold": false,
+        "outage_injected": false,
+        "observation_steps": [
+          10
+        ],
+        "action_feedback": "published",
+        "sensor_delay_steps": 0,
+        "sensor_delay_s": 0.0,
+        "sampled_nonfloor_robot_contacts": {
+          "pickup_red_top": 21
+        },
+        "requested_command": null,
+        "command_duration_s": null,
+        "response_samples": 0,
+        "stop_samples": 0,
+        "mean_body_velocity_after_half_second": null,
+        "mean_yaw_rate_after_one_second": null,
+        "yaw_rate_std_after_one_second": null,
+        "max_displacement_after_stop_m": null,
+        "yaw_displacement_rad": 1.623780164627209,
+        "elapsed_s": 17.260000000001313,
+        "fallen": true,
+        "displacement_m": 0.8103552207417503,
+        "max_tilt_rad": 0.9453280365590102,
+        "replay_trace": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/20261015T202400Z-loaded-check-person/trace.jsonl",
+        "replay_trace_sha256": "9c140c9a47a90f29338dc2c53d63b104b89c107745eb365c06f2e1982d031f56",
+        "replay_samples": 3567,
+        "replay_duration_s": 80.68678855895996,
+        "replay_start_s": 60.0,
+        "replay_scope": "filtered command timeline only; neutral initial state, configured cadence and delay, no ROS or moving actors; not an exact incident replay"
+      }
+    },
+    {
+      "source": "ros2_ws/src/dynamic_obstacle_benchmarks/results/stop_replay_20261015/candidate.json",
+      "sha256": "ea33e9ab604f1d30da5a3c34493bdb189a68301c08a8de2ece2f24b6bfd23833",
+      "stopping": {
+        "passed": false,
+        "limits": {
+          "max_travel_m": 0.3,
+          "max_speed_mps": 0.08,
+          "max_yaw_rate_rps": 0.12,
+          "dwell_s": 1.0,
+          "settle_deadline_s": 3.0,
+          "minimum_observation_s": 5.0,
+          "max_sample_gap_s": 0.05
+        },
+        "reasons": [
+          "fixed_command_stop_required"
+        ]
+      },
+      "metadata": {
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/stop_feedback_cycle_07_20261015/policy.onnx",
+        "policy_sha256": "2230f6462bed6b707ca3276a55ef5b5e2c51a7ee0a9d5e43fe9372673af5e3fe",
+        "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+        "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+        "mujoco_version": "3.3.6",
+        "ramp": false,
+        "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed carry arms and offline loaded-start magnetic fixture; not pickup qualification",
+        "payload": false,
+        "payload_mass_kg": null,
+        "sampled_payload_scene_contacts": {},
+        "sampled_payload_robot_contacts": {},
+        "record_actions": true,
+        "probe_sha256": "4f581a8a17a0b3afa9afeac18d26031a241b402f86f000ce950554748cb335c4",
+        "payload_fixture_sha256": "df38ce62fe4d66dd3a6819b0de309264a64cfd4c851a15278e457e5244f778df",
+        "delay_steps": 2,
+        "yaw": 0.0,
+        "held_empty": false,
+        "requested_duration_s": 30.0,
+        "outage_at_s": null,
+        "outage_duration_s": null,
+        "outage_reset_history": false,
+        "outage_measured_hold": false,
+        "outage_injected": false,
+        "observation_steps": [
+          10
+        ],
+        "action_feedback": "published",
+        "sensor_delay_steps": 0,
+        "sensor_delay_s": 0.0,
+        "sampled_nonfloor_robot_contacts": {
+          "pickup_red_top": 12,
+          "pickup_red_leg_1": 12
+        },
+        "requested_command": null,
+        "command_duration_s": null,
+        "response_samples": 0,
+        "stop_samples": 0,
+        "mean_body_velocity_after_half_second": null,
+        "mean_yaw_rate_after_one_second": null,
+        "yaw_rate_std_after_one_second": null,
+        "max_displacement_after_stop_m": null,
+        "yaw_displacement_rad": 0.27580807227210125,
+        "elapsed_s": 29.99999999999425,
+        "fallen": false,
+        "displacement_m": 0.5732370494396569,
+        "max_tilt_rad": 0.17406912604228303,
+        "replay_trace": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/20261015T202400Z-loaded-check-person/trace.jsonl",
+        "replay_trace_sha256": "9c140c9a47a90f29338dc2c53d63b104b89c107745eb365c06f2e1982d031f56",
+        "replay_samples": 3567,
+        "replay_duration_s": 80.68678855895996,
+        "replay_start_s": 60.0,
+        "replay_scope": "filtered command timeline only; neutral initial state, configured cadence and delay, no ROS or moving actors; not an exact incident replay"
+      }
+    }
+  ],
+  "passed": 0
+}

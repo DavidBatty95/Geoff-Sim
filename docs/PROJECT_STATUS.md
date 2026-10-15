@@ -23,6 +23,15 @@ evidence snapshot, not an acceptance release. Later experiments need their own c
 
 ## At a glance
 
+**Latest stopping-training experiment:** cycle-07 adds an explicit zero-command
+residual-motion penalty and trains with published-action feedback and 0–40 ms
+application delay. Native loaded gates pass **2/4 versus cycle-05's 1/4**;
+both negative-lateral cases still fail. Cycle-07 remains unpromoted. Two
+command-only replays both contact scene geometry, showing the need for faithful
+initial-state capture. **866 ROS results, 183 orchestration tests, 12 native
+CTests and 12 separate training-contract tests pass.**
+[Complete comparison and provenance](STOPPING_CANDIDATE_20261015.md).
+
 **Latest loaded follow-up:** native probes now use the actual 150 g object and
 audit published/applied action history. **3/4** pass; negative-lateral published
 feedback with 40 ms delay still fails (0.738 m post-stop travel). The final-rollout

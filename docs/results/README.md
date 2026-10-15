@@ -23,6 +23,11 @@ described by the [repository guide](../REPOSITORY_GUIDE.md#where-results-go).
 
 ## Start with a dataset
 
+Stopping-trained candidate: [eight matched probes](stop_candidate_20261015.json),
+[training provenance](stop_candidate_training_20261015.json) and
+[two command-only replays](stop_replay_20261015.json).
+[Interpretation and unpromoted status](../STOPPING_CANDIDATE_20261015.md).
+
 Loaded follow-up: [four loaded probes](loaded_stopping_20261015.json) (3/4 pass)
 and [two corrected-rollout missions](loaded_followups_20261015.json) (1/2 complete).
 [Conditions and limits](../LOADED_STOPPING_20261015.md).

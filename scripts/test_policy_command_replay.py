@@ -33,3 +33,13 @@ def test_commands_without_possession_evidence_are_not_replayed(tmp_path):
     path.write_text(json.dumps(dict(topic='policy_cmd',data=dict(source_stamp=1.,x=.4,y=0.,z=0.)))+'\n')
     with pytest.raises(ValueError,match='state evidence'):
         load_commands(path)
+
+
+def test_missing_command_interval_is_not_silently_held(tmp_path):
+    rows = [dict(topic='transport_state',data=dict(attachment_state='empty',phase='search_route'))]
+    rows += [dict(topic='policy_cmd',data=dict(source_stamp=t,x=x,y=0.,z=0.))
+             for t,x in ((10.,.4),(10.5,0.))]
+    path = tmp_path/'trace.jsonl'
+    path.write_text(''.join(json.dumps(row)+'\n' for row in rows))
+    with pytest.raises(ValueError,match='coverage gap'):
+        load_commands(path)
