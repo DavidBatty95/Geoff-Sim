@@ -16,12 +16,20 @@
 </p>
 <!-- geoff-nav:end -->
 
-**Last reviewed: 15 October 2026.** This page retains the historical development
+**Last reviewed: 16 October 2026.** This page retains the historical development
 baseline [`3a7ceac`](https://github.com/DavidBatty95/Geoff-Sim/commit/3a7ceac)
 alongside the dated follow-ups below. It is a manually maintained
 evidence snapshot, not an acceptance release. Later experiments need their own checks.
 
 ## At a glance
+
+**16 October checkpoint/delay study:** synchronous native-probe checkpoints pass
+exact continuation in two scenarios, including reproduction of an outage-case
+fall. A 40-probe matrix across seeds 76/77 and short/long delay training yields
+baseline **2/8**, short76 **3/8**, long76 **3/8**, short77 **2/8**, long77 **3/8**.
+Four longer-command follow-ups all fail. All candidates remain experimental.
+**866 ROS results, 192 orchestration tests, 12 native CTests and eight separate
+native Python tests pass.** [Implementation, all outcomes and limits](CHECKPOINT_DELAY_20261016.md).
 
 **Latest matched ablation:** a predeclared 24-probe matrix covers both lateral
 signs, 40/60 ms delays and loaded/held-empty states. Baseline and stopping-penalty

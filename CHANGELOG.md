@@ -25,6 +25,14 @@ for measured outcomes and [release policy](docs/RELEASES.md) for promotion crite
 
 ### Added
 
+- Synchronous native-probe JSON checkpoint capture/restore with full integration
+  state, policy history, queues, delayed measurements, arm targets and scheduler
+  state. Dtype preservation fixes a reproduced continuation mismatch; both
+  end-to-end parity cases pass. Fresh-start matrices reject resumed prefixes.
+- Two-seed comparison of 0–40 ms versus 0–60 ms training exposure: 40 matched
+  probes and four duration follow-ups retain all failures. Candidates remain
+  unpromoted. [Results and scope](docs/CHECKPOINT_DELAY_20261016.md).
+
 - Serial native stopping matrix runner with predeclared paired conditions,
   policy/protocol and measured-delay checks, retained process failures and
   incomplete-plan host export. Eight regressions cover orchestration integrity.

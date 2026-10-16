@@ -51,6 +51,14 @@ lateral signs, loaded/held-empty states and 40/60 ms delays. Export on the host
 with `--export-summary ARTIFACT_SUMMARY --report NEW_REPORT`.
 [Commands, matched ablation and limits](../docs/STOPPING_ABLATION_20261015.md).
 
+`probe_native_policy.py --checkpoint-at TIME --checkpoint-output NEW.json` captures
+physics and controller state before a step. Restore with identical probe options
+and `--resume-checkpoint NEW.json`. `verify_native_probe_checkpoint.py --policy
+POLICY --output NEW_DIRECTORY` checks exact continuation in two scenarios; host
+export uses `--output ARTIFACT_DIRECTORY --export-report NEW_REPORT`.
+Checkpoint tests run in the pinned MuJoCo environment with pytest plugin autoload
+disabled. [Commands, parity results and limitations](../docs/CHECKPOINT_DELAY_20261016.md).
+
 Every generated world and the original plaza can run as a continuous demo. The
 demo launcher handles goal handoff, session duration, episode restart and logs.
 Use `./geoff demo --help`, `./geoff benchmark --help` or `./geoff results --help`

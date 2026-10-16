@@ -23,42 +23,21 @@ Geoff-Sim brings locomotion, online mapping, human-aware navigation and object
 transport into one humanoid simulation platform. The robot observes its scene,
 approaches a table, lifts a cube, carries it to a destination and checks placement.
 
-**Current progress · 15 October 2026:** minimum-spaced policy observations remove
-compressed catch-up samples. The unchanged compact-world exploration cohort
-completed **4/4 colour tasks**, followed by a complete medium-building delivery.
-The pre-release alignment guard and arm restoration were exercised natively.
-**807 ROS test results pass.** [Cadence change, timings and retained outcomes](docs/POLICY_CADENCE_20261015.md).
+**Current progress · 16 October 2026:** native physics/policy checkpoints now
+pass exact continuation tests, including delayed sensing and an inference outage.
+A 40-probe, two-seed comparison finds limited benefits from longer-delay training;
+four longer-command follow-ups all fail. Experimental policies remain unpromoted.
+**866 ROS results, 192 orchestration tests and 12 native CTests pass.**
+[Checkpoint implementation, training comparison and all outcomes](docs/CHECKPOINT_DELAY_20261016.md).
 
-This is development evidence, not general reliability or crowd acceptance. Ten
-follow-ups on this candidate included nine completed deliveries and one fall;
-worlds, executives and recording workloads differed. Attachment uses a magnetic
-capture-radius fixture, not a demonstrated finger grasp.
-
-**Latest people-present follow-up:** bounded support reinspection and approach-
-corridor docking admission are implemented. The zero-person control completed
-with a measured placement correction; all six one-person development attempts
-remained incomplete, including contact/fall failures. **834 ROS test results
-pass.** [Workspace changes and all seven outcomes](docs/CROWDED_DOCKING_20261015.md).
-
-**Latest stopping checkpoint:** delayed command handoffs are corrected in scalar
-and vectorized rollouts. Eight held-empty stop probes pass the declared gate
-**4/8**; three integrated follow-ups complete **1/3**. **866 ROS test results
-pass.** [Measured limits and all outcomes](docs/NATIVE_STOPPING_20261015.md).
-
-**Loaded follow-up:** new 150 g payload probes retain and audit applied-action
-history; **3/4** pass the stopping gate. The corrected-rollout control completes
-in **154.44 s**; the one-person repeat still times out during braking.
-[Loaded measurements and both outcomes](docs/LOADED_STOPPING_20261015.md).
-
-**Stopping-training experiment:** a published-feedback candidate reduces measured
-negative-lateral stopping travel, but still fails both negative cases. It passes
-**2/4** matched conditions versus baseline **1/4** and remains unpromoted.
-[Training, eight probes and replay limitations](docs/STOPPING_CANDIDATE_20261015.md).
-
-**Latest matched ablation:** a 24-probe matrix finds **2/8 baseline, 2/8 stopping
-penalty and 3/8 without the added penalty**. Longer-command follow-ups expose
-tradeoffs, and all tested 60 ms conditions fail. Both candidates remain
-unpromoted. [Matrix runner, outcomes and limits](docs/STOPPING_ABLATION_20261015.md).
+**Delivery evidence:** the earlier compact exploration cohort completed **4/4
+colour tasks**, followed by a medium-building delivery. A corrected-rollout
+zero-person control completed in **154.44 s**, while its one-person repeat timed
+out during braking. People-present delivery remains unqualified; attachment uses
+a magnetic capture-radius fixture rather than a demonstrated finger grasp.
+[Cadence cohort and retained failures](docs/POLICY_CADENCE_20261015.md) ·
+[Loaded control and people-present outcome](docs/LOADED_STOPPING_20261015.md) ·
+[Matched stopping-reward ablation](docs/STOPPING_ABLATION_20261015.md).
 
 [Current status](docs/PROJECT_STATUS.md) · [Implementation and verification](docs/PERFORMANCE_FOUNDATION.md) ·
 [Retained delivery evidence](docs/PERFORMANCE_IMPLEMENTATION_20261012.md) · [Roadmap](docs/PROJECT_PLAN.md)

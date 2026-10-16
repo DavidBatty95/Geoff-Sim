@@ -26,6 +26,9 @@ collections. Start there for topic-based exploration, or use the catalogue below
 
 ## Project orientation
 
+Latest checkpoint: [exact native continuation and two-seed delay comparison](CHECKPOINT_DELAY_20261016.md)
+— 44 native stopping probes, successful restart parity and retained initial mismatches.
+
 Latest qualification tooling: [matched reward ablation and delay stress tests](STOPPING_ABLATION_20261015.md)
 — 28 native probes, a serial matrix runner and retained setup failure.
 

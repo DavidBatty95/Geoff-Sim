@@ -15,6 +15,7 @@ import numpy as np
 import onnxruntime as ort
 from policy_command_replay import load_commands,command_at
 from native_probe_payload import attach_payload,payload_sample
+from native_probe_checkpoint import save_checkpoint,restore_checkpoint,array_state,restore_array
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'ros2_ws/src/unitree_g1_mujoco_bridge'))
@@ -53,7 +54,16 @@ def main():
     parser.add_argument('--scene',type=Path,help='Native fixture to use instead of transport_dual')
     parser.add_argument('--replay-trace',type=Path,help='Replay empty-hand filtered command samples after 5 s standing; actors parked')
     parser.add_argument('--replay-start',type=float,default=0.,help='Seconds after the first moving command to begin command replay')
+    parser.add_argument('--checkpoint-at',type=float,help='Save once at or after this simulation time, just before a physics step')
+    parser.add_argument('--checkpoint-output',type=Path,help='New checkpoint JSON path')
+    parser.add_argument('--resume-checkpoint',type=Path,help='Continue a matching probe checkpoint, retaining its recorded prefix')
     args = parser.parse_args()
+    if (args.checkpoint_at is None)!=(args.checkpoint_output is None):
+        parser.error('checkpoint time and output must be supplied together')
+    if args.checkpoint_at is not None and (not np.isfinite(args.checkpoint_at) or
+            not 0.<=args.checkpoint_at<args.duration or args.resume_checkpoint is not None or args.checkpoint_output.exists() or
+            args.checkpoint_output.resolve()==args.output.resolve()):
+        parser.error('checkpoint needs a finite in-range time, new path and no simultaneous resume')
     if args.payload and args.held_empty:
         parser.error('--payload and --held-empty are mutually exclusive')
     compose_arms = args.held_empty or args.payload
@@ -134,7 +144,38 @@ def main():
     next_observation = observation_index = 0
     last_observation = -.02
     measurements = deque(maxlen=args.sensor_delay_steps+1)
-    for step in range(round(args.duration/.002)):
+    checkpoint_saved = False
+    first_step = 0
+    identity = None
+    if args.checkpoint_output is not None or args.resume_checkpoint is not None:
+        excluded = {'output','policy','scene','require_mujoco_version','checkpoint_at','checkpoint_output','resume_checkpoint','replay_trace'}
+        bridge = ROOT/'ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge'
+        identity = dict(configuration={key:value for key,value in vars(args).items() if key not in excluded},
+            policy_sha256=hashlib.sha256(args.policy.read_bytes()).hexdigest(),
+            replay_sha256=hashlib.sha256(args.replay_trace.read_bytes()).hexdigest() if args.replay_trace else None,
+            sources={path.name:hashlib.sha256(path.read_bytes()).hexdigest() for path in
+                (Path(__file__),ROOT/'scripts/native_probe_checkpoint.py',ROOT/'scripts/native_probe_payload.py',
+                 ROOT/'scripts/policy_command_replay.py',bridge/'unitree_rl_lab_policy.py',bridge/'policy_safety.py',
+                 bridge/'payload_postures.py',bridge/'g1_constants.py')})
+    if args.resume_checkpoint is not None:
+        saved = restore_checkpoint(args.resume_checkpoint,model,data,identity)
+        target,arm_target,arm_goal,action,published_action = [restore_array(saved[key]) for key in
+            ('target','arm_target','arm_goal','action','published_action')]
+        queue = deque((sequence,restore_array(value)) for sequence,value in saved['queue'])
+        for name,history in adapter._history.items():
+            history.extend(saved['history'][name])
+        measurements.extend(tuple(np.asarray(value) for value in row) for row in saved['measurements'])
+        rows = saved['rows']
+        external_contacts,payload_contacts,payload_robot_contacts = [Counter(saved[key]) for key in
+            ('external_contacts','payload_contacts','payload_robot_contacts')]
+        published_sequence,applied_sequence = saved['published_sequence'],saved['applied_sequence']
+        next_observation,observation_index,last_observation = saved['next_observation'],saved['observation_index'],saved['last_observation']
+        filtered,outage_started,start = saved['filtered'],saved['outage_started'],np.asarray(saved['start'])
+        first_step = saved['pending_step']+1
+        # Complete the captured step exactly once; no extra mj_forward changes
+        # sensor/contact timing or warm-start state at this boundary.
+        mujoco.mj_step(model,data)
+    for step in range(first_step,round(args.duration/.002)):
         measurements.append((data.qpos[qids].copy(),data.qvel[dids].copy(),
                              data.sensor('imu_gyro').data.copy(),data.sensor('imu_quat').data.copy()))
         if step>=next_observation:
@@ -207,6 +248,18 @@ def main():
                 fallen = True
                 break
         data.ctrl[aids] = kp*(target-data.qpos[qids])-kd*data.qvel[dids]
+        if args.checkpoint_output is not None and not checkpoint_saved and data.time>=args.checkpoint_at:
+            save_checkpoint(args.checkpoint_output,model,data,identity,dict(
+                pending_step=step,target=array_state(target),arm_target=array_state(arm_target),
+                arm_goal=array_state(arm_goal),action=array_state(action),published_action=array_state(published_action),
+                queue=[(sequence,array_state(value)) for sequence,value in queue],
+                history={name:list(history) for name,history in adapter._history.items()},
+                measurements=list(measurements),rows=rows,external_contacts=dict(external_contacts),
+                payload_contacts=dict(payload_contacts),payload_robot_contacts=dict(payload_robot_contacts),
+                published_sequence=published_sequence,applied_sequence=applied_sequence,
+                next_observation=next_observation,observation_index=observation_index,last_observation=last_observation,
+                filtered=filtered,outage_started=outage_started,start=start))
+            checkpoint_saved = True
         mujoco.mj_step(model,data)
     steady = [row['body_velocity'] for row in rows if 5.5<=row['time']<command_end] if replay is None else []
     stopped = [row for row in rows if row['time']>=command_end] if replay is None else []
@@ -219,6 +272,8 @@ def main():
                     sampled_payload_scene_contacts=dict(payload_contacts),
                     sampled_payload_robot_contacts=dict(payload_robot_contacts),
                     record_actions=args.record_actions,probe_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
+                    checkpoint_saved=checkpoint_saved,
+                    resumed_checkpoint_sha256=hashlib.sha256(args.resume_checkpoint.read_bytes()).hexdigest() if args.resume_checkpoint else None,
                     payload_fixture_sha256=hashlib.sha256((ROOT/'scripts/native_probe_payload.py').read_bytes()).hexdigest(),
                    delay_steps=args.delay_steps,yaw=args.yaw,held_empty=args.held_empty,requested_duration_s=args.duration,
                    outage_at_s=args.outage_at,outage_duration_s=args.outage_duration if args.outage_at is not None else None,

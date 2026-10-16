@@ -1,0 +1,693 @@
+{
+  "schema_version": 1,
+  "complete": true,
+  "scope": "Predeclared serial native probes; not mission or hardware acceptance",
+  "sources": {
+    "run_native_stop_matrix.py": "7ab6d09ff09336ea836b8811de027463649ec1c878d126e4922e2343006a6ec4",
+    "probe_native_policy.py": "e7a0d3be2199a66ab26dabef5866987f1d70d7958aa78ac9578c6b83594732ae",
+    "score_native_stopping.py": "796d7c924785aa4861b71da64a2113af313807df66d2637852373c9a9e90993e"
+  },
+  "policies": {
+    "long76": {
+      "path": "/workspace/vendor/mjlab/logs/payload_training/delay3_seed76_20261016/policy.onnx",
+      "sha256": "b35d09211af9d4ab733fb9305b2d12d405facd496b00fc5b0fcb2070165edb6b",
+      "training": {
+        "run": "delay3_seed76_20261016",
+        "manifest": {
+          "mode": "train",
+          "seed": 76,
+          "num_envs": 256,
+          "iterations": 100,
+          "dynamics": "native_contact",
+          "max_delay_steps": 3,
+          "action_hold_probability": 0.0,
+          "max_sensor_delay_steps": 0,
+          "action_feedback": "published",
+          "control_period_s": 0.02,
+          "sensor_delay_scope": "coherent IMU/joint packet, per-environment per-episode; commands/action feedback remain current",
+          "profile": "mixed",
+          "source": "/workspace/vendor/unitree_rl_lab/policies/g1_29dof_velocity_v0/policy.onnx",
+          "source_sha256": "610c27e463a8f666aa50a06346678c00b4df3859f10b54bcc1f817c28251406f",
+          "arm_input_initialization": "pretrained",
+          "evaluation_pose_index": 0,
+          "pose_bank": "carry",
+          "arm_transitions": false,
+          "optimizer_learning_rates": {
+            "actor": 1e-05,
+            "critic": 0.0003
+          },
+          "script_sha256": "4f5b86c016ba48be3cbe90508ed839d930de98589a4ed32b2b5a54e8a3d241a4",
+          "checkpoint": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/final.pt",
+          "checkpoint_sha256": "b76b230ac1ffea4dd18950863f534db0ac08a50d7e14d3ef7f3f53e1103eb2bc",
+          "objective": "reactive",
+          "smoothness_weight": 0.05,
+          "probe": "tracking",
+          "cup_up_axis_local": [
+            0.014551833262721126,
+            0.014180183079654438,
+            0.9997935619699306
+          ],
+          "actor_contract": "unitree_rl_lab_g1_29dof: 480 observations / 29 actions; measured arms",
+          "payload_mass_range_kg": [
+            0.0,
+            0.5
+          ],
+          "hand_offset_m": [
+            0.19,
+            0.01,
+            0.0
+          ],
+          "base_pinning": false,
+          "onnx_import_max_error": 1.2516975402832031e-06
+        },
+        "manifest_sha256": "250259f86a0e27577bcb58271ab582651eab356f1003869a3bc7cf2a94514313",
+        "artifact_complete": true,
+        "checkpoint_sha256": "7d6be14435726c32f8b515fd4dfba628740df8736747d20fe18abad2b88a8201",
+        "policy_sha256": "b35d09211af9d4ab733fb9305b2d12d405facd496b00fc5b0fcb2070165edb6b",
+        "source_sha256": {
+          "training_source.py": "4f5b86c016ba48be3cbe90508ed839d930de98589a4ed32b2b5a54e8a3d241a4",
+          "payload_sensor_delay.py": "36bab8f9bc8a2348e73dbe79450ce12896e7a08b515457f90d1fdb85c1a82386",
+          "payload_smoothness.py": "ea4fb36c3bf4a76b8d52dbf23e1019109b778c3db5b54932831259b4fe9742a8"
+        },
+        "exported_candidates": []
+      }
+    },
+    "long77": {
+      "path": "/workspace/vendor/mjlab/logs/payload_training/delay3_seed77_20261016/policy.onnx",
+      "sha256": "58dd5f9bcb0fa370479907bc07ec491abeebc99fb89af3e7b0ef88cf589a57a6",
+      "training": {
+        "run": "delay3_seed77_20261016",
+        "manifest": {
+          "mode": "train",
+          "seed": 77,
+          "num_envs": 256,
+          "iterations": 100,
+          "dynamics": "native_contact",
+          "max_delay_steps": 3,
+          "action_hold_probability": 0.0,
+          "max_sensor_delay_steps": 0,
+          "action_feedback": "published",
+          "control_period_s": 0.02,
+          "sensor_delay_scope": "coherent IMU/joint packet, per-environment per-episode; commands/action feedback remain current",
+          "profile": "mixed",
+          "source": "/workspace/vendor/unitree_rl_lab/policies/g1_29dof_velocity_v0/policy.onnx",
+          "source_sha256": "610c27e463a8f666aa50a06346678c00b4df3859f10b54bcc1f817c28251406f",
+          "arm_input_initialization": "pretrained",
+          "evaluation_pose_index": 0,
+          "pose_bank": "carry",
+          "arm_transitions": false,
+          "optimizer_learning_rates": {
+            "actor": 1e-05,
+            "critic": 0.0003
+          },
+          "script_sha256": "4f5b86c016ba48be3cbe90508ed839d930de98589a4ed32b2b5a54e8a3d241a4",
+          "checkpoint": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/final.pt",
+          "checkpoint_sha256": "b76b230ac1ffea4dd18950863f534db0ac08a50d7e14d3ef7f3f53e1103eb2bc",
+          "objective": "reactive",
+          "smoothness_weight": 0.05,
+          "probe": "tracking",
+          "cup_up_axis_local": [
+            0.014551833262721126,
+            0.014180183079654438,
+            0.9997935619699306
+          ],
+          "actor_contract": "unitree_rl_lab_g1_29dof: 480 observations / 29 actions; measured arms",
+          "payload_mass_range_kg": [
+            0.0,
+            0.5
+          ],
+          "hand_offset_m": [
+            0.19,
+            0.01,
+            0.0
+          ],
+          "base_pinning": false,
+          "onnx_import_max_error": 1.2516975402832031e-06
+        },
+        "manifest_sha256": "dd19eca22ad9a8153fea59a860504c441d9ed72e0c1e504ac535ced461d91b76",
+        "artifact_complete": true,
+        "checkpoint_sha256": "f9fbc16c4012b92ecf4c02c58fbb1e3515253e231d58103ec2a79ce72bd7f008",
+        "policy_sha256": "58dd5f9bcb0fa370479907bc07ec491abeebc99fb89af3e7b0ef88cf589a57a6",
+        "source_sha256": {
+          "training_source.py": "4f5b86c016ba48be3cbe90508ed839d930de98589a4ed32b2b5a54e8a3d241a4",
+          "payload_sensor_delay.py": "36bab8f9bc8a2348e73dbe79450ce12896e7a08b515457f90d1fdb85c1a82386",
+          "payload_smoothness.py": "ea4fb36c3bf4a76b8d52dbf23e1019109b778c3db5b54932831259b4fe9742a8"
+        },
+        "exported_candidates": []
+      }
+    }
+  },
+  "plan": [
+    {
+      "case_id": "long76-payload-delay3-y+0.45-duration3",
+      "policy": "long76",
+      "load": "payload",
+      "delay_steps": 3,
+      "linear_y": 0.45,
+      "command_duration_s": 3.0
+    },
+    {
+      "case_id": "long76-payload-delay3-y-0.45-duration3",
+      "policy": "long76",
+      "load": "payload",
+      "delay_steps": 3,
+      "linear_y": -0.45,
+      "command_duration_s": 3.0
+    },
+    {
+      "case_id": "long77-payload-delay3-y+0.45-duration3",
+      "policy": "long77",
+      "load": "payload",
+      "delay_steps": 3,
+      "linear_y": 0.45,
+      "command_duration_s": 3.0
+    },
+    {
+      "case_id": "long77-payload-delay3-y-0.45-duration3",
+      "policy": "long77",
+      "load": "payload",
+      "delay_steps": 3,
+      "linear_y": -0.45,
+      "command_duration_s": 3.0
+    }
+  ],
+  "attempts": [
+    {
+      "case_id": "long76-payload-delay3-y+0.45-duration3",
+      "policy": "long76",
+      "load": "payload",
+      "delay_steps": 3,
+      "linear_y": 0.45,
+      "command_duration_s": 3.0,
+      "command": [
+        "/home/ros/.cache/uv/builds-v0/.tmpCjJNEe/bin/python",
+        "/workspace/scripts/probe_native_policy.py",
+        "--policy",
+        "/workspace/vendor/mjlab/logs/payload_training/delay3_seed76_20261016/policy.onnx",
+        "--output",
+        "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/delay_duration3_20261016/long76-payload-delay3-y+0.45-duration3.json",
+        "--duration",
+        "15.0",
+        "--delay-steps",
+        "3",
+        "--payload",
+        "--record-actions",
+        "--require-mujoco-version",
+        "3.3.6",
+        "--linear-y",
+        "0.45",
+        "--command-duration",
+        "3.0",
+        "--action-feedback",
+        "published"
+      ],
+      "source": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/delay_duration3_20261016/long76-payload-delay3-y+0.45-duration3.json",
+      "log": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/delay_duration3_20261016/long76-payload-delay3-y+0.45-duration3.log",
+      "passed": false,
+      "returncode": 0,
+      "source_sha256": "db4d72b97d86beaff9f812b6db1a4ffde0e379a0083f2ac35bb955b0cbf91a67",
+      "metadata": {
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/delay3_seed76_20261016/policy.onnx",
+        "policy_sha256": "b35d09211af9d4ab733fb9305b2d12d405facd496b00fc5b0fcb2070165edb6b",
+        "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+        "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+        "mujoco_version": "3.3.6",
+        "ramp": false,
+        "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed carry arms and offline loaded-start magnetic fixture; not pickup qualification",
+        "payload": true,
+        "payload_mass_kg": 0.15,
+        "sampled_payload_scene_contacts": {},
+        "sampled_payload_robot_contacts": {},
+        "record_actions": true,
+        "probe_sha256": "e7a0d3be2199a66ab26dabef5866987f1d70d7958aa78ac9578c6b83594732ae",
+        "checkpoint_saved": false,
+        "resumed_checkpoint_sha256": null,
+        "payload_fixture_sha256": "df38ce62fe4d66dd3a6819b0de309264a64cfd4c851a15278e457e5244f778df",
+        "delay_steps": 3,
+        "yaw": 0.0,
+        "held_empty": false,
+        "requested_duration_s": 15.0,
+        "outage_at_s": null,
+        "outage_duration_s": null,
+        "outage_reset_history": false,
+        "outage_measured_hold": false,
+        "outage_injected": false,
+        "observation_steps": [
+          10
+        ],
+        "action_feedback": "published",
+        "sensor_delay_steps": 0,
+        "sensor_delay_s": 0.0,
+        "sampled_nonfloor_robot_contacts": {},
+        "requested_command": [
+          0.0,
+          0.45,
+          0.0
+        ],
+        "command_duration_s": 3.0,
+        "response_samples": 125,
+        "stop_samples": 349,
+        "mean_body_velocity_after_half_second": [
+          0.0033487135144825942,
+          0.3605210561793993
+        ],
+        "mean_yaw_rate_after_one_second": 0.03207520457564127,
+        "yaw_rate_std_after_one_second": 0.2981572096338771,
+        "max_displacement_after_stop_m": 0.32746467741467655,
+        "yaw_displacement_rad": 0.18991250923785716,
+        "elapsed_s": 15.000000000001679,
+        "fallen": false,
+        "displacement_m": 1.2691673259977847,
+        "max_tilt_rad": 0.12472939346223856
+      },
+      "stopping": {
+        "passed": false,
+        "limits": {
+          "max_travel_m": 0.3,
+          "max_speed_mps": 0.08,
+          "max_yaw_rate_rps": 0.12,
+          "dwell_s": 1.0,
+          "settle_deadline_s": 3.0,
+          "minimum_observation_s": 5.0,
+          "max_sample_gap_s": 0.05
+        },
+        "reasons": [
+          "post_stop_travel_exceeded",
+          "settling_deadline_exceeded"
+        ],
+        "action_history": {
+          "valid": true,
+          "publications": 750,
+          "applied_samples": 747,
+          "min_application_age_s": 0.05999999999999339,
+          "max_application_age_s": 0.06000000000002004
+        },
+        "payload_position_error_limit_m": 0.03,
+        "max_payload_position_error_m": 0.0006128910147314941,
+        "stop_samples": 349,
+        "command_end_s": 8.0,
+        "first_stop_sample_s": 8.019999999999348,
+        "observation_s": 6.980000000001672,
+        "max_sample_gap_s": 0.02000000000000668,
+        "sampled_max_travel_m": 0.3274646774146765,
+        "settled_at_s": 3.6400000000005566,
+        "terminal_speed_mps": 0.000992474288653014,
+        "terminal_yaw_rate_rps": 0.008514426009978772
+      }
+    },
+    {
+      "case_id": "long76-payload-delay3-y-0.45-duration3",
+      "policy": "long76",
+      "load": "payload",
+      "delay_steps": 3,
+      "linear_y": -0.45,
+      "command_duration_s": 3.0,
+      "command": [
+        "/home/ros/.cache/uv/builds-v0/.tmpCjJNEe/bin/python",
+        "/workspace/scripts/probe_native_policy.py",
+        "--policy",
+        "/workspace/vendor/mjlab/logs/payload_training/delay3_seed76_20261016/policy.onnx",
+        "--output",
+        "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/delay_duration3_20261016/long76-payload-delay3-y-0.45-duration3.json",
+        "--duration",
+        "15.0",
+        "--delay-steps",
+        "3",
+        "--payload",
+        "--record-actions",
+        "--require-mujoco-version",
+        "3.3.6",
+        "--linear-y",
+        "-0.45",
+        "--command-duration",
+        "3.0",
+        "--action-feedback",
+        "published"
+      ],
+      "source": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/delay_duration3_20261016/long76-payload-delay3-y-0.45-duration3.json",
+      "log": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/delay_duration3_20261016/long76-payload-delay3-y-0.45-duration3.log",
+      "passed": false,
+      "returncode": 0,
+      "source_sha256": "b909156ebab460fb60348edb07fe7052503b3b072f9da4aae7368972857b1e23",
+      "metadata": {
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/delay3_seed76_20261016/policy.onnx",
+        "policy_sha256": "b35d09211af9d4ab733fb9305b2d12d405facd496b00fc5b0fcb2070165edb6b",
+        "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+        "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+        "mujoco_version": "3.3.6",
+        "ramp": false,
+        "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed carry arms and offline loaded-start magnetic fixture; not pickup qualification",
+        "payload": true,
+        "payload_mass_kg": 0.15,
+        "sampled_payload_scene_contacts": {},
+        "sampled_payload_robot_contacts": {},
+        "record_actions": true,
+        "probe_sha256": "e7a0d3be2199a66ab26dabef5866987f1d70d7958aa78ac9578c6b83594732ae",
+        "checkpoint_saved": false,
+        "resumed_checkpoint_sha256": null,
+        "payload_fixture_sha256": "df38ce62fe4d66dd3a6819b0de309264a64cfd4c851a15278e457e5244f778df",
+        "delay_steps": 3,
+        "yaw": 0.0,
+        "held_empty": false,
+        "requested_duration_s": 15.0,
+        "outage_at_s": null,
+        "outage_duration_s": null,
+        "outage_reset_history": false,
+        "outage_measured_hold": false,
+        "outage_injected": false,
+        "observation_steps": [
+          10
+        ],
+        "action_feedback": "published",
+        "sensor_delay_steps": 0,
+        "sensor_delay_s": 0.0,
+        "sampled_nonfloor_robot_contacts": {},
+        "requested_command": [
+          0.0,
+          -0.45,
+          0.0
+        ],
+        "command_duration_s": 3.0,
+        "response_samples": 125,
+        "stop_samples": 349,
+        "mean_body_velocity_after_half_second": [
+          0.0033590147898776993,
+          -0.47166826212484586
+        ],
+        "mean_yaw_rate_after_one_second": 0.10979985245253954,
+        "yaw_rate_std_after_one_second": 0.4255899569584375,
+        "max_displacement_after_stop_m": 2.0466225607772444,
+        "yaw_displacement_rad": 0.49002951262639594,
+        "elapsed_s": 15.000000000001679,
+        "fallen": false,
+        "displacement_m": 2.851924848459426,
+        "max_tilt_rad": 0.1744380104623229
+      },
+      "stopping": {
+        "passed": false,
+        "limits": {
+          "max_travel_m": 0.3,
+          "max_speed_mps": 0.08,
+          "max_yaw_rate_rps": 0.12,
+          "dwell_s": 1.0,
+          "settle_deadline_s": 3.0,
+          "minimum_observation_s": 5.0,
+          "max_sample_gap_s": 0.05
+        },
+        "reasons": [
+          "post_stop_travel_exceeded",
+          "settling_deadline_exceeded"
+        ],
+        "action_history": {
+          "valid": true,
+          "publications": 750,
+          "applied_samples": 747,
+          "min_application_age_s": 0.05999999999999339,
+          "max_application_age_s": 0.06000000000002004
+        },
+        "payload_position_error_limit_m": 0.03,
+        "max_payload_position_error_m": 0.0012355710053671676,
+        "stop_samples": 349,
+        "command_end_s": 8.0,
+        "first_stop_sample_s": 8.019999999999348,
+        "observation_s": 6.980000000001672,
+        "max_sample_gap_s": 0.02000000000000668,
+        "sampled_max_travel_m": 2.0466225607772444,
+        "settled_at_s": null,
+        "terminal_speed_mps": 0.2721436770869544,
+        "terminal_yaw_rate_rps": 0.32749952733664334
+      }
+    },
+    {
+      "case_id": "long77-payload-delay3-y+0.45-duration3",
+      "policy": "long77",
+      "load": "payload",
+      "delay_steps": 3,
+      "linear_y": 0.45,
+      "command_duration_s": 3.0,
+      "command": [
+        "/home/ros/.cache/uv/builds-v0/.tmpCjJNEe/bin/python",
+        "/workspace/scripts/probe_native_policy.py",
+        "--policy",
+        "/workspace/vendor/mjlab/logs/payload_training/delay3_seed77_20261016/policy.onnx",
+        "--output",
+        "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/delay_duration3_20261016/long77-payload-delay3-y+0.45-duration3.json",
+        "--duration",
+        "15.0",
+        "--delay-steps",
+        "3",
+        "--payload",
+        "--record-actions",
+        "--require-mujoco-version",
+        "3.3.6",
+        "--linear-y",
+        "0.45",
+        "--command-duration",
+        "3.0",
+        "--action-feedback",
+        "published"
+      ],
+      "source": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/delay_duration3_20261016/long77-payload-delay3-y+0.45-duration3.json",
+      "log": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/delay_duration3_20261016/long77-payload-delay3-y+0.45-duration3.log",
+      "passed": false,
+      "returncode": 0,
+      "source_sha256": "5f29a52e9e6cf0a5b292dcd1986747b05169673ab285a2327c953453841529da",
+      "metadata": {
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/delay3_seed77_20261016/policy.onnx",
+        "policy_sha256": "58dd5f9bcb0fa370479907bc07ec491abeebc99fb89af3e7b0ef88cf589a57a6",
+        "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+        "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+        "mujoco_version": "3.3.6",
+        "ramp": false,
+        "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed carry arms and offline loaded-start magnetic fixture; not pickup qualification",
+        "payload": true,
+        "payload_mass_kg": 0.15,
+        "sampled_payload_scene_contacts": {},
+        "sampled_payload_robot_contacts": {},
+        "record_actions": true,
+        "probe_sha256": "e7a0d3be2199a66ab26dabef5866987f1d70d7958aa78ac9578c6b83594732ae",
+        "checkpoint_saved": false,
+        "resumed_checkpoint_sha256": null,
+        "payload_fixture_sha256": "df38ce62fe4d66dd3a6819b0de309264a64cfd4c851a15278e457e5244f778df",
+        "delay_steps": 3,
+        "yaw": 0.0,
+        "held_empty": false,
+        "requested_duration_s": 15.0,
+        "outage_at_s": null,
+        "outage_duration_s": null,
+        "outage_reset_history": false,
+        "outage_measured_hold": false,
+        "outage_injected": false,
+        "observation_steps": [
+          10
+        ],
+        "action_feedback": "published",
+        "sensor_delay_steps": 0,
+        "sensor_delay_s": 0.0,
+        "sampled_nonfloor_robot_contacts": {},
+        "requested_command": [
+          0.0,
+          0.45,
+          0.0
+        ],
+        "command_duration_s": 3.0,
+        "response_samples": 125,
+        "stop_samples": 349,
+        "mean_body_velocity_after_half_second": [
+          -0.018803869213697186,
+          0.3286217710604459
+        ],
+        "mean_yaw_rate_after_one_second": 0.0039048215025622433,
+        "yaw_rate_std_after_one_second": 0.2779133147570553,
+        "max_displacement_after_stop_m": 0.2036796697242197,
+        "yaw_displacement_rad": 0.13208642620128566,
+        "elapsed_s": 15.000000000001679,
+        "fallen": false,
+        "displacement_m": 1.0291712309127579,
+        "max_tilt_rad": 0.12858434093857113
+      },
+      "stopping": {
+        "passed": false,
+        "limits": {
+          "max_travel_m": 0.3,
+          "max_speed_mps": 0.08,
+          "max_yaw_rate_rps": 0.12,
+          "dwell_s": 1.0,
+          "settle_deadline_s": 3.0,
+          "minimum_observation_s": 5.0,
+          "max_sample_gap_s": 0.05
+        },
+        "reasons": [
+          "settling_deadline_exceeded"
+        ],
+        "action_history": {
+          "valid": true,
+          "publications": 750,
+          "applied_samples": 747,
+          "min_application_age_s": 0.05999999999999339,
+          "max_application_age_s": 0.06000000000002004
+        },
+        "payload_position_error_limit_m": 0.03,
+        "max_payload_position_error_m": 0.0005771632027877904,
+        "stop_samples": 349,
+        "command_end_s": 8.0,
+        "first_stop_sample_s": 8.019999999999348,
+        "observation_s": 6.980000000001672,
+        "max_sample_gap_s": 0.02000000000000668,
+        "sampled_max_travel_m": 0.2036796697242197,
+        "settled_at_s": 3.0800000000003696,
+        "terminal_speed_mps": 0.0018355135063561302,
+        "terminal_yaw_rate_rps": 0.017090864868356627
+      }
+    },
+    {
+      "case_id": "long77-payload-delay3-y-0.45-duration3",
+      "policy": "long77",
+      "load": "payload",
+      "delay_steps": 3,
+      "linear_y": -0.45,
+      "command_duration_s": 3.0,
+      "command": [
+        "/home/ros/.cache/uv/builds-v0/.tmpCjJNEe/bin/python",
+        "/workspace/scripts/probe_native_policy.py",
+        "--policy",
+        "/workspace/vendor/mjlab/logs/payload_training/delay3_seed77_20261016/policy.onnx",
+        "--output",
+        "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/delay_duration3_20261016/long77-payload-delay3-y-0.45-duration3.json",
+        "--duration",
+        "15.0",
+        "--delay-steps",
+        "3",
+        "--payload",
+        "--record-actions",
+        "--require-mujoco-version",
+        "3.3.6",
+        "--linear-y",
+        "-0.45",
+        "--command-duration",
+        "3.0",
+        "--action-feedback",
+        "published"
+      ],
+      "source": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/delay_duration3_20261016/long77-payload-delay3-y-0.45-duration3.json",
+      "log": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/delay_duration3_20261016/long77-payload-delay3-y-0.45-duration3.log",
+      "passed": false,
+      "returncode": 0,
+      "source_sha256": "93cf56778762ce9920d69cbea33e099aba877b4a8254f37ff0551b38c5911295",
+      "metadata": {
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/delay3_seed77_20261016/policy.onnx",
+        "policy_sha256": "58dd5f9bcb0fa370479907bc07ec491abeebc99fb89af3e7b0ef88cf589a57a6",
+        "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+        "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+        "mujoco_version": "3.3.6",
+        "ramp": false,
+        "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed carry arms and offline loaded-start magnetic fixture; not pickup qualification",
+        "payload": true,
+        "payload_mass_kg": 0.15,
+        "sampled_payload_scene_contacts": {},
+        "sampled_payload_robot_contacts": {},
+        "record_actions": true,
+        "probe_sha256": "e7a0d3be2199a66ab26dabef5866987f1d70d7958aa78ac9578c6b83594732ae",
+        "checkpoint_saved": false,
+        "resumed_checkpoint_sha256": null,
+        "payload_fixture_sha256": "df38ce62fe4d66dd3a6819b0de309264a64cfd4c851a15278e457e5244f778df",
+        "delay_steps": 3,
+        "yaw": 0.0,
+        "held_empty": false,
+        "requested_duration_s": 15.0,
+        "outage_at_s": null,
+        "outage_duration_s": null,
+        "outage_reset_history": false,
+        "outage_measured_hold": false,
+        "outage_injected": false,
+        "observation_steps": [
+          10
+        ],
+        "action_feedback": "published",
+        "sensor_delay_steps": 0,
+        "sensor_delay_s": 0.0,
+        "sampled_nonfloor_robot_contacts": {},
+        "requested_command": [
+          0.0,
+          -0.45,
+          0.0
+        ],
+        "command_duration_s": 3.0,
+        "response_samples": 125,
+        "stop_samples": 223,
+        "mean_body_velocity_after_half_second": [
+          0.06067429409895735,
+          -0.484355992887406
+        ],
+        "mean_yaw_rate_after_one_second": 0.19120512883424262,
+        "yaw_rate_std_after_one_second": 0.6169596186647478,
+        "max_displacement_after_stop_m": 1.8510345745650165,
+        "yaw_displacement_rad": 1.7804380292005437,
+        "elapsed_s": 12.46000000000083,
+        "fallen": true,
+        "displacement_m": 2.943331031938371,
+        "max_tilt_rad": 0.9718602659954486
+      },
+      "stopping": {
+        "passed": false,
+        "limits": {
+          "max_travel_m": 0.3,
+          "max_speed_mps": 0.08,
+          "max_yaw_rate_rps": 0.12,
+          "dwell_s": 1.0,
+          "settle_deadline_s": 3.0,
+          "minimum_observation_s": 5.0,
+          "max_sample_gap_s": 0.05
+        },
+        "reasons": [
+          "fall_or_missing_fall_status",
+          "incomplete_requested_probe",
+          "insufficient_post_stop_observation",
+          "post_stop_travel_exceeded",
+          "settling_deadline_exceeded"
+        ],
+        "action_history": {
+          "valid": true,
+          "publications": 624,
+          "applied_samples": 621,
+          "min_application_age_s": 0.05999999999999339,
+          "max_application_age_s": 0.06000000000002004
+        },
+        "payload_position_error_limit_m": 0.03,
+        "max_payload_position_error_m": 0.006233841527044685,
+        "stop_samples": 223,
+        "command_end_s": 8.0,
+        "first_stop_sample_s": 8.019999999999348,
+        "observation_s": 4.46000000000083,
+        "max_sample_gap_s": 0.02000000000000668,
+        "sampled_max_travel_m": 1.8510345745650165,
+        "settled_at_s": null,
+        "terminal_speed_mps": 0.9017289688603558,
+        "terminal_yaw_rate_rps": 7.206396726438118
+      }
+    }
+  ],
+  "duration_s": 15.0,
+  "timeout_s": 120.0,
+  "passed": 0,
+  "by_policy": {
+    "long76": {
+      "planned": 2,
+      "attempted": 2,
+      "passed": 0,
+      "fallen": 0,
+      "process_or_protocol_errors": 0
+    },
+    "long77": {
+      "planned": 2,
+      "attempted": 2,
+      "passed": 0,
+      "fallen": 1,
+      "process_or_protocol_errors": 0
+    }
+  },
+  "source_summary": {
+    "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/delay_duration3_20261016/summary.json",
+    "sha256": "6bbb1417cc35a165f59cd9b034af9b57e189486a6a49b4c84debc3dfc8db6ca5"
+  }
+}

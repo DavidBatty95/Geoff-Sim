@@ -23,6 +23,12 @@ described by the [repository guide](../REPOSITORY_GUIDE.md#where-results-go).
 
 ## Start with a dataset
 
+16 October: [40-probe delay/seed matrix](delay_seeds_20261016.json),
+[four duration follow-ups](delay_duration3_20261016.json),
+[exact continuation results](checkpoint_parity_20261016.json) and
+[initial dtype mismatches](checkpoint_initial_20261016.json).
+[Interpretation](../CHECKPOINT_DELAY_20261016.md).
+
 Matched reward ablation: [24-probe matrix](stop_ablation_20261015.json),
 [four duration follow-ups](stop_ablation_duration3_20261015.json), and
 [zero-probe setup failure](stop_ablation_setup_failure_20261015.json).

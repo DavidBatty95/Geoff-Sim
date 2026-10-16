@@ -19,6 +19,12 @@
 Related: [Technical implementation roadmap](SOCIAL_LOCOMANIPULATION_ROADMAP.md) ·
 [Gap-aligned research and publication programme](RESEARCH_PROGRAMME.md).
 
+**16 October update:** [native checkpoint continuation and two-seed delay study](CHECKPOINT_DELAY_20261016.md)
+are implemented and measured. Exact synchronous continuation passes; longer-delay
+training remains insufficient across durations/load states. Next: captured-state
+transition analysis, wider initial-state coverage and shared-boundary live ROS
+checkpoint design. No trained candidate has passed promotion gates.
+
 **Matched ablation update:** [24 broader probes plus four duration follow-ups](STOPPING_ABLATION_20261015.md)
 show no consistently superior objective and failure at 60 ms delay. A serial
 matrix runner now preserves paired conditions and all failures. Next: multiple

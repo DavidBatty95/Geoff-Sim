@@ -68,7 +68,7 @@ def run_case(case,policy,policy_sha256,output,duration,timeout):
                 command_duration_s=case['command_duration_s'],action_feedback='published',
                 payload=case['load']=='payload',held_empty=case['load']=='held-empty',
                 observation_steps=[10],sensor_delay_steps=0,mujoco_version='3.3.6',record_actions=True,
-                ramp=False,outage_at_s=None)
+                ramp=False,outage_at_s=None,resumed_checkpoint_sha256=None)
             mismatches = [key for key,value in expected.items() if data.get(key)!=value]
             history = record['stopping'].get('action_history')
             if history and history.get('valid') and any(abs(history[key]-.02*case['delay_steps'])>1e-8
