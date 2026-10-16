@@ -23,12 +23,13 @@ Geoff-Sim brings locomotion, online mapping, human-aware navigation and object
 transport into one humanoid simulation platform. The robot observes its scene,
 approaches a table, lifts a cube, carries it to a destination and checks placement.
 
-**Current progress · 16 October 2026:** native physics/policy checkpoints now
-pass exact continuation tests, including delayed sensing and an inference outage.
-A 40-probe, two-seed comparison finds limited benefits from longer-delay training;
-four longer-command follow-ups all fail. Experimental policies remain unpromoted.
-**866 ROS results, 192 orchestration tests and 12 native CTests pass.**
-[Checkpoint implementation, training comparison and all outcomes](docs/CHECKPOINT_DELAY_20261016.md).
+**Current progress · 16 October 2026:** checkpoint stop branches expose sensitivity
+to a single 20 ms command update. New offline support diagnostics and an opt-in
+integer-step command clock make that sensitivity reproducible. Exact checkpoint
+continuation still passes; experimental policies remain unpromoted.
+**866 ROS results, 200 orchestration tests and 12 native CTests pass.**
+[Stop branches, timing correction and all outcomes](docs/STOP_BRANCHES_20261016.md) ·
+[Earlier two-seed training comparison](docs/CHECKPOINT_DELAY_20261016.md).
 
 **Delivery evidence:** the earlier compact exploration cohort completed **4/4
 colour tasks**, followed by a medium-building delivery. A corrected-rollout

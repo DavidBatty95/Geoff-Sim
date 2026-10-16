@@ -25,6 +25,13 @@ for measured outcomes and [release policy](docs/RELEASES.md) for promotion crite
 
 ### Added
 
+- Explicit checkpoint stop branches with preserved-prefix/physical-state checks,
+  offline foot-support diagnostics and branch-specific actual-transition scoring.
+- Opt-in integer-physics-step command clock avoids floating-point boundary
+  postponement; legacy timing remains reproducible. Native comparisons expose
+  one-update stopping sensitivity and retain all falls/failures.
+  [Evidence and verification](docs/STOP_BRANCHES_20261016.md).
+
 - Synchronous native-probe JSON checkpoint capture/restore with full integration
   state, policy history, queues, delayed measurements, arm targets and scheduler
   state. Dtype preservation fixes a reproduced continuation mismatch; both

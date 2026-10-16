@@ -6,6 +6,7 @@ import numpy as np
 import pytest
 
 from native_probe_checkpoint import save_checkpoint,restore_checkpoint,array_state,restore_array
+from native_probe_support import support_state
 
 
 def fixture_model():
@@ -21,6 +22,21 @@ def test_action_dtype_survives_json_roundtrip():
     assert restored.dtype==action.dtype
     assert np.linalg.norm(restored)==np.linalg.norm(action)
     np.testing.assert_array_equal(restored,action)
+
+
+def test_support_diagnostic_distinguishes_loaded_and_airborne_foot():
+    feet = ''.join(f'''<body name="{side}_ankle_roll_link" pos="{x} 0 {z}">
+      <joint name="{side}_hip_pitch_joint" type="slide" axis="1 0 0"/>
+      <joint name="{side}_knee_joint" type="slide" axis="0 0 1"/>
+      <geom type="sphere" size=".1" mass="1"/></body>'''
+      for side,x,z in (('left',0,.09),('right',1,1.)))
+    model = mujoco.MjModel.from_xml_string(f'<mujoco><worldbody><geom type="plane" size="2 2 .1"/>{feet}</worldbody></mujoco>')
+    data = mujoco.MjData(model)
+    mujoco.mj_forward(model,data)
+    state = support_state(model,data)
+    assert state['foot_normal_force_n']['left']>0.
+    assert state['foot_normal_force_n']['right']==0.
+    assert state['ankle_body_height_m']==dict(left=.09,right=1.)
 
 
 def test_pending_step_restores_contact_solver_and_applied_force(tmp_path):

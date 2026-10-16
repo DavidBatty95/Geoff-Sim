@@ -26,6 +26,9 @@ collections. Start there for topic-based exploration, or use the catalogue below
 
 ## Project orientation
 
+Latest diagnosis: [checkpoint stop branches and command-clock sensitivity](STOP_BRANCHES_20261016.md)
+— correlated stop interventions, foot-support diagnostics and integer-step timing.
+
 Latest checkpoint: [exact native continuation and two-seed delay comparison](CHECKPOINT_DELAY_20261016.md)
 — 44 native stopping probes, successful restart parity and retained initial mismatches.
 

@@ -5,6 +5,7 @@ import hashlib
 import json
 import math
 from pathlib import Path
+from native_probe_timing import command_steps
 
 
 def action_history(data):
@@ -56,6 +57,33 @@ def score_probe(data,*,max_travel=.30,max_speed=.08,max_yaw_rate=.12,dwell=1.,
             not math.isfinite(duration) or duration<=0.):
         return dict(passed=False,limits=limits,reasons=['fixed_command_stop_required'])
     command_end = 5.+duration  # Explicit native-probe standing/command contract.
+    if data.get('branch_stop'):
+        try:
+            stop,captured,prefix = data['branch_stop_time_s'],data['checkpoint_time_s'],data['branch_prefix_samples']
+            checkpoint = data['resumed_checkpoint_sha256']
+            if (type(stop) not in (int,float) or type(captured) not in (int,float) or
+                    not 5.<captured<stop<command_end or type(prefix) is not int or prefix<1 or
+                    not isinstance(checkpoint,str) or len(checkpoint)!=64 or
+                    any(c not in '0123456789abcdef' for c in checkpoint) or
+                    data['samples'][prefix]['time']!=stop or data['samples'][prefix-1]['time']>captured or
+                    not any(data['samples'][prefix-1]['command'])):
+                raise ValueError('invalid stop branch')
+            command_end = stop
+        except (KeyError,IndexError,TypeError,ValueError):
+            return dict(passed=False,limits=limits,reasons=['invalid_checkpoint_stop_branch'])
+    elif data.get('command_clock')=='physics_step':
+        try:
+            start_step,end_step = command_steps(duration,data['requested_duration_s'])
+            start_row = next(row for row in data['samples'] if row['physics_step']>=start_step)
+            end_row = next(row for row in data['samples'] if row['physics_step']>=end_step)
+            if (data['command_start_step']!=start_step or data['command_end_step']!=end_step or
+                    start_row['time']!=data['actual_command_start_s'] or
+                    end_row['time']!=data['actual_command_end_s'] or
+                    not any(start_row['command']) or any(end_row['command'])):
+                raise ValueError('command transition mismatch')
+            command_end = end_row['time']
+        except (KeyError,TypeError,ValueError,StopIteration):
+            return dict(passed=False,limits=limits,reasons=['invalid_physics_step_command_transition'])
     samples = []
     previous = None
     try:
@@ -124,6 +152,7 @@ def score_probe(data,*,max_travel=.30,max_speed=.08,max_yaw_rate=.12,dwell=1.,
                 reasons.append('payload_attachment_lost_or_unverified')
                 break
     return dict(passed=not reasons,limits=limits,reasons=sorted(set(reasons)),
+        scope='checkpoint_stop_branch' if data.get('branch_stop') else 'fixed_command_probe',
         action_history=history,payload_position_error_limit_m=.03 if data.get('payload') else None,
         max_payload_position_error_m=max((row.get('payload_position_error_m',math.inf)
             for row in data['samples']),default=math.inf) if data.get('payload') and

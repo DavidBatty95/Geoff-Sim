@@ -82,7 +82,7 @@ def main():
                           resumed_sha256=digest(resumed),checkpoint_time_s=saved['state'][0],
                           samples=len(before['samples']),recomputed_samples=len(after['samples'])-prefix,
                           first_mismatch=next((i for i,(a,b) in enumerate(zip(before['samples'],after['samples'])) if a!=b),None))
-            exclusions = {'checkpoint_saved','resumed_checkpoint_sha256'}
+            exclusions = {'checkpoint_saved','resumed_checkpoint_sha256','checkpoint_time_s','branch_prefix_samples'}
             record['passed'] = (record['recomputed_samples']>0 and
                 {k:v for k,v in before.items() if k not in exclusions}==
                 {k:v for k,v in after.items() if k not in exclusions})

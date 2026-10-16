@@ -16,6 +16,8 @@ import onnxruntime as ort
 from policy_command_replay import load_commands,command_at
 from native_probe_payload import attach_payload,payload_sample
 from native_probe_checkpoint import save_checkpoint,restore_checkpoint,array_state,restore_array
+from native_probe_support import support_state
+from native_probe_timing import command_steps
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'ros2_ws/src/unitree_g1_mujoco_bridge'))
@@ -57,7 +59,14 @@ def main():
     parser.add_argument('--checkpoint-at',type=float,help='Save once at or after this simulation time, just before a physics step')
     parser.add_argument('--checkpoint-output',type=Path,help='New checkpoint JSON path')
     parser.add_argument('--resume-checkpoint',type=Path,help='Continue a matching probe checkpoint, retaining its recorded prefix')
+    parser.add_argument('--branch-stop',action='store_true',help='Counterfactual stop at the first observation after checkpoint restore; not a fresh-start trial')
+    parser.add_argument('--record-support',action='store_true',help='Record offline foot normal forces, ankle heights and leg joint state')
+    parser.add_argument('--command-clock',choices=('legacy_float','physics_step'),default='legacy_float',
+                        help='Legacy accumulated-time comparison or explicit integer-step command boundaries')
     args = parser.parse_args()
+    if args.branch_stop and (args.resume_checkpoint is None or args.replay_trace or args.ramp or
+                            args.command_duration is None or not any((args.linear_x,args.linear_y,args.yaw))):
+        parser.error('stop branch requires a checkpoint and a nonzero fixed command, without ramp/replay')
     if (args.checkpoint_at is None)!=(args.checkpoint_output is None):
         parser.error('checkpoint time and output must be supplied together')
     if args.checkpoint_at is not None and (not np.isfinite(args.checkpoint_at) or
@@ -88,6 +97,7 @@ def main():
             (not np.isfinite(args.command_duration) or args.command_duration<=0.)):
         parser.error('finite commands/duration and positive command duration required')
     command_end = 5.+args.command_duration if args.command_duration is not None else args.duration
+    command_start_step,command_end_step = command_steps(args.command_duration,args.duration)
     replay = None
     if args.replay_trace:
         if compose_arms or args.linear_x or args.linear_y or args.yaw or args.command_duration is not None or args.ramp:
@@ -147,18 +157,23 @@ def main():
     checkpoint_saved = False
     first_step = 0
     identity = None
+    branch_stop_time = checkpoint_time = None
+    branch_prefix_samples = None
     if args.checkpoint_output is not None or args.resume_checkpoint is not None:
-        excluded = {'output','policy','scene','require_mujoco_version','checkpoint_at','checkpoint_output','resume_checkpoint','replay_trace'}
+        excluded = {'output','policy','scene','require_mujoco_version','checkpoint_at','checkpoint_output','resume_checkpoint','replay_trace','branch_stop'}
         bridge = ROOT/'ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge'
         identity = dict(configuration={key:value for key,value in vars(args).items() if key not in excluded},
             policy_sha256=hashlib.sha256(args.policy.read_bytes()).hexdigest(),
             replay_sha256=hashlib.sha256(args.replay_trace.read_bytes()).hexdigest() if args.replay_trace else None,
             sources={path.name:hashlib.sha256(path.read_bytes()).hexdigest() for path in
-                (Path(__file__),ROOT/'scripts/native_probe_checkpoint.py',ROOT/'scripts/native_probe_payload.py',
+                (Path(__file__),ROOT/'scripts/native_probe_checkpoint.py',ROOT/'scripts/native_probe_payload.py',ROOT/'scripts/native_probe_support.py',ROOT/'scripts/native_probe_timing.py',
                  ROOT/'scripts/policy_command_replay.py',bridge/'unitree_rl_lab_policy.py',bridge/'policy_safety.py',
                  bridge/'payload_postures.py',bridge/'g1_constants.py')})
     if args.resume_checkpoint is not None:
         saved = restore_checkpoint(args.resume_checkpoint,model,data,identity)
+        checkpoint_time = float(data.time)
+        if args.branch_stop and not 5.<checkpoint_time<command_end:
+            parser.error('stop branch checkpoint must lie inside the moving-command interval')
         target,arm_target,arm_goal,action,published_action = [restore_array(saved[key]) for key in
             ('target','arm_target','arm_goal','action','published_action')]
         queue = deque((sequence,restore_array(value)) for sequence,value in saved['queue'])
@@ -166,6 +181,7 @@ def main():
             history.extend(saved['history'][name])
         measurements.extend(tuple(np.asarray(value) for value in row) for row in saved['measurements'])
         rows = saved['rows']
+        branch_prefix_samples = len(rows)
         external_contacts,payload_contacts,payload_robot_contacts = [Counter(saved[key]) for key in
             ('external_contacts','payload_contacts','payload_robot_contacts')]
         published_sequence,applied_sequence = saved['published_sequence'],saved['applied_sequence']
@@ -200,7 +216,15 @@ def main():
             last_observation = data.time
             next_observation += args.observation_steps[observation_index%len(args.observation_steps)]
             observation_index += 1
-            command = [args.linear_x,args.linear_y,args.yaw] if 5.<=data.time<command_end else [0.,0.,0.]
+            moving = (command_start_step<=step<command_end_step if args.command_clock=='physics_step'
+                      else 5.<=data.time<command_end)
+            command = [args.linear_x,args.linear_y,args.yaw] if moving else [0.,0.,0.]
+            if args.branch_stop:
+                if branch_stop_time is None:
+                    if data.time>=command_end:
+                        parser.error('first resumed observation is already beyond the original command interval')
+                    branch_stop_time = float(data.time)
+                command = [0.,0.,0.]
             if replay is not None:
                 command = list(command_at(*replay,data.time-5.+args.replay_start)) if data.time>=5. else [0.,0.,0.]
             if args.ramp:
@@ -234,12 +258,14 @@ def main():
             tilt = float(np.arccos(np.clip(1.-2.*(quat[1]**2+quat[2]**2),-1.,1.)))
             yaw = float(np.arctan2(2*(quat[0]*quat[3]+quat[1]*quat[2]),1.-2*(quat[2]**2+quat[3]**2)))
             c,s = np.cos(yaw),np.sin(yaw)
-            rows.append(dict(time=float(data.time),xy=data.qpos[:2].tolist(),height=float(data.qpos[2]),
+            rows.append(dict(time=float(data.time),physics_step=step,xy=data.qpos[:2].tolist(),height=float(data.qpos[2]),
                              tilt=tilt,yaw=yaw,body_velocity=[float(c*data.qvel[0]+s*data.qvel[1]),float(-s*data.qvel[0]+c*data.qvel[1])],
                               yaw_rate=float(data.sensor('imu_gyro').data[2]),
                                 command=command,inference_outage=outage,action_norm=float(np.linalg.norm(action))))
             if payload is not None:
                 rows[-1].update(payload_sample(model,data,payload))
+            if args.record_support:
+                rows[-1].update(support_state(model,data))
             if args.record_actions:
                 rows[-1].update(published_action=published_action.tolist(),applied_action=action.tolist(),
                                 published_sequence=published_sequence,applied_sequence=applied_sequence,
@@ -261,6 +287,11 @@ def main():
                 filtered=filtered,outage_started=outage_started,start=start))
             checkpoint_saved = True
         mujoco.mj_step(model,data)
+    first_moving = next((i for i,row in enumerate(rows) if any(row['command'])),None)
+    actual_start = rows[first_moving]['time'] if first_moving is not None else None
+    actual_stop = next((row['time'] for row in rows[first_moving+1:] if not any(row['command'])),None) if first_moving is not None else None
+    command_end = branch_stop_time if branch_stop_time is not None else (
+        actual_stop if args.command_clock=='physics_step' and actual_stop is not None else command_end)
     steady = [row['body_velocity'] for row in rows if 5.5<=row['time']<command_end] if replay is None else []
     stopped = [row for row in rows if row['time']>=command_end] if replay is None else []
     turning = [row['yaw_rate'] for row in rows if 6.<=row['time']<command_end] if replay is None else []
@@ -273,6 +304,11 @@ def main():
                     sampled_payload_robot_contacts=dict(payload_robot_contacts),
                     record_actions=args.record_actions,probe_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
                     checkpoint_saved=checkpoint_saved,
+                    branch_stop=args.branch_stop,branch_stop_time_s=branch_stop_time,
+                    checkpoint_time_s=checkpoint_time,branch_prefix_samples=branch_prefix_samples,
+                    record_support=args.record_support,
+                    command_clock=args.command_clock,command_start_step=command_start_step,command_end_step=command_end_step,
+                    actual_command_start_s=actual_start,actual_command_end_s=actual_stop,
                     resumed_checkpoint_sha256=hashlib.sha256(args.resume_checkpoint.read_bytes()).hexdigest() if args.resume_checkpoint else None,
                     payload_fixture_sha256=hashlib.sha256((ROOT/'scripts/native_probe_payload.py').read_bytes()).hexdigest(),
                    delay_steps=args.delay_steps,yaw=args.yaw,held_empty=args.held_empty,requested_duration_s=args.duration,

@@ -39,7 +39,7 @@ def test_scored_success_cannot_hide_mismatched_policy_or_reused_prefix(tmp_path,
                 resumed_checkpoint_sha256='checkpoint' if fault=='resumed' else None,
                 requested_command=[0.,.45,0.],action_feedback='published',payload=False,
                 held_empty=True,observation_steps=[10],sensor_delay_steps=0,
-                mujoco_version='3.3.6',record_actions=True,ramp=False)
+                mujoco_version='3.3.6',record_actions=True,ramp=False,command_clock='legacy_float')
     for i,row in enumerate(data['samples']):
         row.update(published_sequence=i,applied_sequence=i-2 if i>=2 else -1,
                    published_action=[0.]*29,applied_action=[0.]*29)

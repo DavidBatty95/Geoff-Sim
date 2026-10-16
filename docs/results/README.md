@@ -23,6 +23,13 @@ described by the [repository guide](../REPOSITORY_GUIDE.md#where-results-go).
 
 ## Start with a dataset
 
+Stop-state investigation: [14 broad branches](stop_branches_20261016.json),
+[four adjacent-update branches](stop_branch_tick_20261016.json),
+[integer-clock probes](step_clock_20261016.json),
+[legacy-clock controls](legacy_clock_control_20261016.json), and
+[continuation regression](checkpoint_branch_regression_20261016.json).
+[Interpretation](../STOP_BRANCHES_20261016.md).
+
 16 October: [40-probe delay/seed matrix](delay_seeds_20261016.json),
 [four duration follow-ups](delay_duration3_20261016.json),
 [exact continuation results](checkpoint_parity_20261016.json) and

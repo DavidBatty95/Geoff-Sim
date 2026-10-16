@@ -19,6 +19,12 @@
 Related: [Technical implementation roadmap](SOCIAL_LOCOMANIPULATION_ROADMAP.md) ·
 [Gap-aligned research and publication programme](RESEARCH_PROGRAMME.md).
 
+**Stop-transition update:** [checkpoint branches and clock comparison](STOP_BRANCHES_20261016.md)
+show that a 20 ms stop-update shift can change pass/fail or induce a fall. An
+integer-step clock and recorded physical support state now support precise
+timing studies. Next: dense start/stop-offset evaluation and transition-state
+training; a support label alone is insufficient to choose when to stop.
+
 **16 October update:** [native checkpoint continuation and two-seed delay study](CHECKPOINT_DELAY_20261016.md)
 are implemented and measured. Exact synchronous continuation passes; longer-delay
 training remains insufficient across durations/load states. Next: captured-state

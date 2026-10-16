@@ -59,6 +59,13 @@ export uses `--output ARTIFACT_DIRECTORY --export-report NEW_REPORT`.
 Checkpoint tests run in the pinned MuJoCo environment with pytest plugin autoload
 disabled. [Commands, parity results and limitations](../docs/CHECKPOINT_DELAY_20261016.md).
 
+`run_checkpoint_stop_branches.py --policy NAME=PATH --output NEW_DIRECTORY`
+compares explicitly marked stop interventions while checking parent trajectory,
+prefix and physical-state identity. `probe_native_policy.py --record-support`
+adds offline foot forces/heights and leg state. Both the probe and native matrix
+runner accept `--command-clock physics_step`; `legacy_float` remains the default.
+[Stop-time findings and reproduction](../docs/STOP_BRANCHES_20261016.md).
+
 Every generated world and the original plaza can run as a continuous demo. The
 demo launcher handles goal handoff, session duration, episode restart and logs.
 Use `./geoff demo --help`, `./geoff benchmark --help` or `./geoff results --help`

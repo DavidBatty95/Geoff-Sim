@@ -1,0 +1,1001 @@
+{
+  "schema_version": 1,
+  "complete": true,
+  "scope": "Correlated checkpoint stop branches, not independent acceptance trials",
+  "configuration": {
+    "delay_steps": 3,
+    "command_duration_s": 4.0,
+    "duration_s": 15.0,
+    "linear_y": -0.45,
+    "payload": true
+  },
+  "sources": {
+    "run_checkpoint_stop_branches.py": "855c7642d2f5e5e8989be2900269b2c3c2cd4ab76dfa4a6cc453f523d53ee8fc",
+    "probe_native_policy.py": "6ed5b0837080bba01ab0ae96a9b7b36ff13bb0e52695bd73bc07db21d671a779",
+    "score_native_stopping.py": "4d68f163d96451d3befb2bfec05d26b620c793736b7a49fca564e0013c6a650a"
+  },
+  "policies": {
+    "baseline": {
+      "sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+      "training": {
+        "run": "native_contact_cycle_05_20261012",
+        "manifest": {
+          "mode": "train",
+          "seed": 74,
+          "num_envs": 1024,
+          "iterations": 500,
+          "dynamics": "native_contact",
+          "max_delay_steps": 2,
+          "action_hold_probability": 0.05,
+          "profile": "mixed",
+          "source": "/workspace/vendor/unitree_rl_lab/policies/g1_29dof_velocity_v0/policy.onnx",
+          "source_sha256": "610c27e463a8f666aa50a06346678c00b4df3859f10b54bcc1f817c28251406f",
+          "arm_input_initialization": "pretrained",
+          "evaluation_pose_index": 0,
+          "pose_bank": "carry",
+          "arm_transitions": true,
+          "optimizer_learning_rates": {
+            "actor": 1e-05,
+            "critic": 0.0003
+          },
+          "script_sha256": "9e7a03b51861325dd4c9ab8fb08cfe31cdefe299c1510997add4dfe42d836472",
+          "checkpoint": "/workspace/vendor/mjlab/logs/payload_training/native_delay_cycle_03_20261006/final.pt",
+          "checkpoint_sha256": "8d722cd24d1ca26e786e805685643cb277b8c134e76ace365dbe40840735db2b",
+          "objective": "reactive",
+          "smoothness_weight": 0.05,
+          "probe": "tracking",
+          "cup_up_axis_local": [
+            0.014551833262721126,
+            0.014180183079654438,
+            0.9997935619699306
+          ],
+          "actor_contract": "unitree_rl_lab_g1_29dof: 480 observations / 29 actions; measured arms",
+          "payload_mass_range_kg": [
+            0.0,
+            0.5
+          ],
+          "hand_offset_m": [
+            0.19,
+            0.01,
+            0.0
+          ],
+          "base_pinning": false,
+          "onnx_import_max_error": 1.2516975402832031e-06
+        },
+        "manifest_sha256": "0c30f271a7a4e6ea27538a888c19c0af0e26ab7382f56ac95b171e7cf140155b",
+        "artifact_complete": true,
+        "checkpoint_sha256": "b76b230ac1ffea4dd18950863f534db0ac08a50d7e14d3ef7f3f53e1103eb2bc",
+        "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+        "source_sha256": {
+          "training_source.py": "9e7a03b51861325dd4c9ab8fb08cfe31cdefe299c1510997add4dfe42d836472",
+          "payload_sensor_delay.py": null,
+          "payload_smoothness.py": "ea4fb36c3bf4a76b8d52dbf23e1019109b778c3db5b54932831259b4fe9742a8"
+        },
+        "exported_candidates": []
+      }
+    },
+    "long77": {
+      "sha256": "58dd5f9bcb0fa370479907bc07ec491abeebc99fb89af3e7b0ef88cf589a57a6",
+      "training": {
+        "run": "delay3_seed77_20261016",
+        "manifest": {
+          "mode": "train",
+          "seed": 77,
+          "num_envs": 256,
+          "iterations": 100,
+          "dynamics": "native_contact",
+          "max_delay_steps": 3,
+          "action_hold_probability": 0.0,
+          "max_sensor_delay_steps": 0,
+          "action_feedback": "published",
+          "control_period_s": 0.02,
+          "sensor_delay_scope": "coherent IMU/joint packet, per-environment per-episode; commands/action feedback remain current",
+          "profile": "mixed",
+          "source": "/workspace/vendor/unitree_rl_lab/policies/g1_29dof_velocity_v0/policy.onnx",
+          "source_sha256": "610c27e463a8f666aa50a06346678c00b4df3859f10b54bcc1f817c28251406f",
+          "arm_input_initialization": "pretrained",
+          "evaluation_pose_index": 0,
+          "pose_bank": "carry",
+          "arm_transitions": false,
+          "optimizer_learning_rates": {
+            "actor": 1e-05,
+            "critic": 0.0003
+          },
+          "script_sha256": "4f5b86c016ba48be3cbe90508ed839d930de98589a4ed32b2b5a54e8a3d241a4",
+          "checkpoint": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/final.pt",
+          "checkpoint_sha256": "b76b230ac1ffea4dd18950863f534db0ac08a50d7e14d3ef7f3f53e1103eb2bc",
+          "objective": "reactive",
+          "smoothness_weight": 0.05,
+          "probe": "tracking",
+          "cup_up_axis_local": [
+            0.014551833262721126,
+            0.014180183079654438,
+            0.9997935619699306
+          ],
+          "actor_contract": "unitree_rl_lab_g1_29dof: 480 observations / 29 actions; measured arms",
+          "payload_mass_range_kg": [
+            0.0,
+            0.5
+          ],
+          "hand_offset_m": [
+            0.19,
+            0.01,
+            0.0
+          ],
+          "base_pinning": false,
+          "onnx_import_max_error": 1.2516975402832031e-06
+        },
+        "manifest_sha256": "dd19eca22ad9a8153fea59a860504c441d9ed72e0c1e504ac535ced461d91b76",
+        "artifact_complete": true,
+        "checkpoint_sha256": "f9fbc16c4012b92ecf4c02c58fbb1e3515253e231d58103ec2a79ce72bd7f008",
+        "policy_sha256": "58dd5f9bcb0fa370479907bc07ec491abeebc99fb89af3e7b0ef88cf589a57a6",
+        "source_sha256": {
+          "training_source.py": "4f5b86c016ba48be3cbe90508ed839d930de98589a4ed32b2b5a54e8a3d241a4",
+          "payload_sensor_delay.py": "36bab8f9bc8a2348e73dbe79450ce12896e7a08b515457f90d1fdb85c1a82386",
+          "payload_smoothness.py": "ea4fb36c3bf4a76b8d52dbf23e1019109b778c3db5b54932831259b4fe9742a8"
+        },
+        "exported_candidates": []
+      }
+    }
+  },
+  "plan": [
+    {
+      "policy": "baseline",
+      "checkpoint_at": 6.99,
+      "case": "baseline-stop-6.99"
+    },
+    {
+      "policy": "baseline",
+      "checkpoint_at": 7.01,
+      "case": "baseline-stop-7.01"
+    },
+    {
+      "policy": "long77",
+      "checkpoint_at": 6.99,
+      "case": "long77-stop-6.99"
+    },
+    {
+      "policy": "long77",
+      "checkpoint_at": 7.01,
+      "case": "long77-stop-7.01"
+    }
+  ],
+  "attempts": [
+    {
+      "policy": "baseline",
+      "checkpoint_at": 6.99,
+      "case": "baseline-stop-6.99",
+      "passed": false,
+      "initial_state": {
+        "time": 6.999999999999451,
+        "xy": [
+          0.006465190034572383,
+          -0.7023765287420216
+        ],
+        "height": 0.7720612172621379,
+        "tilt": 0.06536182033324858,
+        "yaw": 0.1852604902896574,
+        "body_velocity": [
+          -0.10243193416129105,
+          -0.481730616072397
+        ],
+        "yaw_rate": -0.36041075479019136,
+        "foot_normal_force_n": {
+          "left": 266.04829434546235,
+          "right": 158.46636502206798
+        },
+        "ankle_body_height_m": {
+          "left": 0.031720488520860526,
+          "right": 0.03536687985024094
+        },
+        "leg_joint_pos_rad": {
+          "left_hip_pitch": -0.1538835325384553,
+          "left_knee": 0.43723293868742474,
+          "right_hip_pitch": -0.11097620896350839,
+          "right_knee": 0.36775091585213765
+        },
+        "payload_attached": true,
+        "payload_position_error_m": 0.00019526140238599642
+      },
+      "parent_trajectory_sha256": "ba8152e2ded6f3b76b603724de3e57f0649b4508276a2011196c5f36d0a9c7d2",
+      "parent_source": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/stop_branch_tick_20261016/baseline-stop-6.99_parent.json",
+      "parent_sha256": "6df863162d1f005ced48e40d56b1a2ce853aae53df4e2eb787e0bc3c4265c45b",
+      "branch_source": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/stop_branch_tick_20261016/baseline-stop-6.99_branch.json",
+      "branch_sha256": "842c5404cf1bcdb103572d32d4d5eb28ac3e0c9f4d0d248172ed66dce22b1b48",
+      "checkpoint_sha256": "acc63c1045752fd94b0fc079c6bc292eb211b44045b12942d7c88d595ebf5b68",
+      "parent_outcome": {
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+        "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+        "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+        "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+        "mujoco_version": "3.3.6",
+        "ramp": false,
+        "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed carry arms and offline loaded-start magnetic fixture; not pickup qualification",
+        "payload": true,
+        "payload_mass_kg": 0.15,
+        "sampled_payload_scene_contacts": {},
+        "sampled_payload_robot_contacts": {},
+        "record_actions": true,
+        "probe_sha256": "6ed5b0837080bba01ab0ae96a9b7b36ff13bb0e52695bd73bc07db21d671a779",
+        "checkpoint_saved": true,
+        "branch_stop": false,
+        "branch_stop_time_s": null,
+        "checkpoint_time_s": null,
+        "branch_prefix_samples": null,
+        "record_support": true,
+        "command_clock": "legacy_float",
+        "command_start_step": 2500,
+        "command_end_step": 4500,
+        "actual_command_start_s": 5.019999999999669,
+        "actual_command_end_s": 9.019999999999682,
+        "resumed_checkpoint_sha256": null,
+        "payload_fixture_sha256": "df38ce62fe4d66dd3a6819b0de309264a64cfd4c851a15278e457e5244f778df",
+        "delay_steps": 3,
+        "yaw": 0.0,
+        "held_empty": false,
+        "requested_duration_s": 15.0,
+        "outage_at_s": null,
+        "outage_duration_s": null,
+        "outage_reset_history": false,
+        "outage_measured_hold": false,
+        "outage_injected": false,
+        "observation_steps": [
+          10
+        ],
+        "action_feedback": "published",
+        "sensor_delay_steps": 0,
+        "sensor_delay_s": 0.0,
+        "sampled_nonfloor_robot_contacts": {},
+        "requested_command": [
+          0.0,
+          -0.45,
+          0.0
+        ],
+        "command_duration_s": 4.0,
+        "response_samples": 175,
+        "stop_samples": 286,
+        "mean_body_velocity_after_half_second": [
+          -0.003012931786028413,
+          -0.4173623269231923
+        ],
+        "mean_yaw_rate_after_one_second": 0.09600601662023528,
+        "yaw_rate_std_after_one_second": 0.46227896179808076,
+        "max_displacement_after_stop_m": 1.4074932432314304,
+        "yaw_displacement_rad": 1.9034698648309636,
+        "elapsed_s": 14.720000000001585,
+        "fallen": true,
+        "displacement_m": 2.6565406816862454,
+        "max_tilt_rad": 0.9950470735282252
+      },
+      "branch_outcome": {
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+        "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+        "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+        "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+        "mujoco_version": "3.3.6",
+        "ramp": false,
+        "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed carry arms and offline loaded-start magnetic fixture; not pickup qualification",
+        "payload": true,
+        "payload_mass_kg": 0.15,
+        "sampled_payload_scene_contacts": {},
+        "sampled_payload_robot_contacts": {},
+        "record_actions": true,
+        "probe_sha256": "6ed5b0837080bba01ab0ae96a9b7b36ff13bb0e52695bd73bc07db21d671a779",
+        "checkpoint_saved": false,
+        "branch_stop": true,
+        "branch_stop_time_s": 6.999999999999451,
+        "checkpoint_time_s": 6.991999999999452,
+        "branch_prefix_samples": 350,
+        "record_support": true,
+        "command_clock": "legacy_float",
+        "command_start_step": 2500,
+        "command_end_step": 4500,
+        "actual_command_start_s": 5.019999999999669,
+        "actual_command_end_s": 6.999999999999451,
+        "resumed_checkpoint_sha256": "acc63c1045752fd94b0fc079c6bc292eb211b44045b12942d7c88d595ebf5b68",
+        "payload_fixture_sha256": "df38ce62fe4d66dd3a6819b0de309264a64cfd4c851a15278e457e5244f778df",
+        "delay_steps": 3,
+        "yaw": 0.0,
+        "held_empty": false,
+        "requested_duration_s": 15.0,
+        "outage_at_s": null,
+        "outage_duration_s": null,
+        "outage_reset_history": false,
+        "outage_measured_hold": false,
+        "outage_injected": false,
+        "observation_steps": [
+          10
+        ],
+        "action_feedback": "published",
+        "sensor_delay_steps": 0,
+        "sensor_delay_s": 0.0,
+        "sampled_nonfloor_robot_contacts": {},
+        "requested_command": [
+          0.0,
+          -0.45,
+          0.0
+        ],
+        "command_duration_s": 4.0,
+        "response_samples": 74,
+        "stop_samples": 400,
+        "mean_body_velocity_after_half_second": [
+          -0.027503540966342666,
+          -0.41019174032714373
+        ],
+        "mean_yaw_rate_after_one_second": 0.12535012721145844,
+        "yaw_rate_std_after_one_second": 0.5564249495076711,
+        "max_displacement_after_stop_m": 0.16150064376716303,
+        "yaw_displacement_rad": 0.22814628582607158,
+        "elapsed_s": 15.000000000001679,
+        "fallen": false,
+        "displacement_m": 0.8097043621237946,
+        "max_tilt_rad": 0.10186060335908777
+      },
+      "stopping": {
+        "passed": false,
+        "limits": {
+          "max_travel_m": 0.3,
+          "max_speed_mps": 0.08,
+          "max_yaw_rate_rps": 0.12,
+          "dwell_s": 1.0,
+          "settle_deadline_s": 3.0,
+          "minimum_observation_s": 5.0,
+          "max_sample_gap_s": 0.05
+        },
+        "reasons": [
+          "settling_deadline_exceeded"
+        ],
+        "scope": "checkpoint_stop_branch",
+        "action_history": {
+          "valid": true,
+          "publications": 750,
+          "applied_samples": 747,
+          "min_application_age_s": 0.05999999999999339,
+          "max_application_age_s": 0.06000000000002004
+        },
+        "payload_position_error_limit_m": 0.03,
+        "max_payload_position_error_m": 0.0005917112037600165,
+        "stop_samples": 400,
+        "command_end_s": 6.999999999999451,
+        "first_stop_sample_s": 6.999999999999451,
+        "observation_s": 7.980000000002221,
+        "max_sample_gap_s": 0.02000000000000668,
+        "sampled_max_travel_m": 0.16150064376716303,
+        "settled_at_s": 3.6400000000007715,
+        "terminal_speed_mps": 0.0003497494197861869,
+        "terminal_yaw_rate_rps": 0.003015373745733083
+      }
+    },
+    {
+      "policy": "baseline",
+      "checkpoint_at": 7.01,
+      "case": "baseline-stop-7.01",
+      "passed": false,
+      "initial_state": {
+        "time": 7.019999999999449,
+        "xy": [
+          0.006283175336957684,
+          -0.7122586360048995
+        ],
+        "height": 0.774271743919769,
+        "tilt": 0.05921695801480778,
+        "yaw": 0.17899775106705942,
+        "body_velocity": [
+          -0.08877636085018689,
+          -0.4754620439860365
+        ],
+        "yaw_rate": -0.2544739402195684,
+        "foot_normal_force_n": {
+          "left": 201.257221588017,
+          "right": 158.6298119892067
+        },
+        "ankle_body_height_m": {
+          "left": 0.03318565202163941,
+          "right": 0.03585967426072911
+        },
+        "leg_joint_pos_rad": {
+          "left_hip_pitch": -0.1270111946419153,
+          "left_knee": 0.38054052273805117,
+          "right_hip_pitch": -0.12512573925407183,
+          "right_knee": 0.38788647708530616
+        },
+        "payload_attached": true,
+        "payload_position_error_m": 0.0003504249561222437
+      },
+      "parent_trajectory_sha256": "ba8152e2ded6f3b76b603724de3e57f0649b4508276a2011196c5f36d0a9c7d2",
+      "parent_source": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/stop_branch_tick_20261016/baseline-stop-7.01_parent.json",
+      "parent_sha256": "6df863162d1f005ced48e40d56b1a2ce853aae53df4e2eb787e0bc3c4265c45b",
+      "branch_source": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/stop_branch_tick_20261016/baseline-stop-7.01_branch.json",
+      "branch_sha256": "71144058b6bdaa6dc8a956a911d864d34cbbb5dae58e39d2b246c571e3ac8f76",
+      "checkpoint_sha256": "9744637567d492259084f861a9b3572c0cc3e8256c5c9b81ca283cb5bc10d540",
+      "parent_outcome": {
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+        "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+        "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+        "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+        "mujoco_version": "3.3.6",
+        "ramp": false,
+        "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed carry arms and offline loaded-start magnetic fixture; not pickup qualification",
+        "payload": true,
+        "payload_mass_kg": 0.15,
+        "sampled_payload_scene_contacts": {},
+        "sampled_payload_robot_contacts": {},
+        "record_actions": true,
+        "probe_sha256": "6ed5b0837080bba01ab0ae96a9b7b36ff13bb0e52695bd73bc07db21d671a779",
+        "checkpoint_saved": true,
+        "branch_stop": false,
+        "branch_stop_time_s": null,
+        "checkpoint_time_s": null,
+        "branch_prefix_samples": null,
+        "record_support": true,
+        "command_clock": "legacy_float",
+        "command_start_step": 2500,
+        "command_end_step": 4500,
+        "actual_command_start_s": 5.019999999999669,
+        "actual_command_end_s": 9.019999999999682,
+        "resumed_checkpoint_sha256": null,
+        "payload_fixture_sha256": "df38ce62fe4d66dd3a6819b0de309264a64cfd4c851a15278e457e5244f778df",
+        "delay_steps": 3,
+        "yaw": 0.0,
+        "held_empty": false,
+        "requested_duration_s": 15.0,
+        "outage_at_s": null,
+        "outage_duration_s": null,
+        "outage_reset_history": false,
+        "outage_measured_hold": false,
+        "outage_injected": false,
+        "observation_steps": [
+          10
+        ],
+        "action_feedback": "published",
+        "sensor_delay_steps": 0,
+        "sensor_delay_s": 0.0,
+        "sampled_nonfloor_robot_contacts": {},
+        "requested_command": [
+          0.0,
+          -0.45,
+          0.0
+        ],
+        "command_duration_s": 4.0,
+        "response_samples": 175,
+        "stop_samples": 286,
+        "mean_body_velocity_after_half_second": [
+          -0.003012931786028413,
+          -0.4173623269231923
+        ],
+        "mean_yaw_rate_after_one_second": 0.09600601662023528,
+        "yaw_rate_std_after_one_second": 0.46227896179808076,
+        "max_displacement_after_stop_m": 1.4074932432314304,
+        "yaw_displacement_rad": 1.9034698648309636,
+        "elapsed_s": 14.720000000001585,
+        "fallen": true,
+        "displacement_m": 2.6565406816862454,
+        "max_tilt_rad": 0.9950470735282252
+      },
+      "branch_outcome": {
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+        "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+        "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+        "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+        "mujoco_version": "3.3.6",
+        "ramp": false,
+        "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed carry arms and offline loaded-start magnetic fixture; not pickup qualification",
+        "payload": true,
+        "payload_mass_kg": 0.15,
+        "sampled_payload_scene_contacts": {},
+        "sampled_payload_robot_contacts": {},
+        "record_actions": true,
+        "probe_sha256": "6ed5b0837080bba01ab0ae96a9b7b36ff13bb0e52695bd73bc07db21d671a779",
+        "checkpoint_saved": false,
+        "branch_stop": true,
+        "branch_stop_time_s": 7.019999999999449,
+        "checkpoint_time_s": 7.01199999999945,
+        "branch_prefix_samples": 351,
+        "record_support": true,
+        "command_clock": "legacy_float",
+        "command_start_step": 2500,
+        "command_end_step": 4500,
+        "actual_command_start_s": 5.019999999999669,
+        "actual_command_end_s": 7.019999999999449,
+        "resumed_checkpoint_sha256": "9744637567d492259084f861a9b3572c0cc3e8256c5c9b81ca283cb5bc10d540",
+        "payload_fixture_sha256": "df38ce62fe4d66dd3a6819b0de309264a64cfd4c851a15278e457e5244f778df",
+        "delay_steps": 3,
+        "yaw": 0.0,
+        "held_empty": false,
+        "requested_duration_s": 15.0,
+        "outage_at_s": null,
+        "outage_duration_s": null,
+        "outage_reset_history": false,
+        "outage_measured_hold": false,
+        "outage_injected": false,
+        "observation_steps": [
+          10
+        ],
+        "action_feedback": "published",
+        "sensor_delay_steps": 0,
+        "sensor_delay_s": 0.0,
+        "sampled_nonfloor_robot_contacts": {},
+        "requested_command": [
+          0.0,
+          -0.45,
+          0.0
+        ],
+        "command_duration_s": 4.0,
+        "response_samples": 75,
+        "stop_samples": 184,
+        "mean_body_velocity_after_half_second": [
+          -0.028502586208941978,
+          -0.4111455920037471
+        ],
+        "mean_yaw_rate_after_one_second": 0.11563490957142544,
+        "yaw_rate_std_after_one_second": 0.5550148080743335,
+        "max_displacement_after_stop_m": 1.2254486820047137,
+        "yaw_displacement_rad": 0.9701006352428523,
+        "elapsed_s": 10.680000000000236,
+        "fallen": true,
+        "displacement_m": 1.6900443314545548,
+        "max_tilt_rad": 0.8565828223846934
+      },
+      "stopping": {
+        "passed": false,
+        "limits": {
+          "max_travel_m": 0.3,
+          "max_speed_mps": 0.08,
+          "max_yaw_rate_rps": 0.12,
+          "dwell_s": 1.0,
+          "settle_deadline_s": 3.0,
+          "minimum_observation_s": 5.0,
+          "max_sample_gap_s": 0.05
+        },
+        "reasons": [
+          "fall_or_missing_fall_status",
+          "incomplete_requested_probe",
+          "insufficient_post_stop_observation",
+          "post_stop_travel_exceeded",
+          "settling_deadline_exceeded"
+        ],
+        "scope": "checkpoint_stop_branch",
+        "action_history": {
+          "valid": true,
+          "publications": 535,
+          "applied_samples": 532,
+          "min_application_age_s": 0.05999999999999339,
+          "max_application_age_s": 0.06000000000002004
+        },
+        "payload_position_error_limit_m": 0.03,
+        "max_payload_position_error_m": 0.0038538741464362544,
+        "stop_samples": 184,
+        "command_end_s": 7.019999999999449,
+        "first_stop_sample_s": 7.019999999999449,
+        "observation_s": 3.660000000000787,
+        "max_sample_gap_s": 0.02000000000000668,
+        "sampled_max_travel_m": 1.2254486820047137,
+        "settled_at_s": null,
+        "terminal_speed_mps": 1.0832649573509938,
+        "terminal_yaw_rate_rps": 2.48287083053267
+      }
+    },
+    {
+      "policy": "long77",
+      "checkpoint_at": 6.99,
+      "case": "long77-stop-6.99",
+      "passed": false,
+      "initial_state": {
+        "time": 6.999999999999451,
+        "xy": [
+          0.17007625835986076,
+          -0.7665259395388052
+        ],
+        "height": 0.7791747201270012,
+        "tilt": 0.020655894372343123,
+        "yaw": 0.1482937714579745,
+        "body_velocity": [
+          -0.07090425986012301,
+          -0.5703611151379923
+        ],
+        "yaw_rate": -0.3198861646172289,
+        "foot_normal_force_n": {
+          "left": 0.0,
+          "right": 389.39037248246126
+        },
+        "ankle_body_height_m": {
+          "left": 0.03904906191980992,
+          "right": 0.036536662996813664
+        },
+        "leg_joint_pos_rad": {
+          "left_hip_pitch": 0.012806362143774931,
+          "left_knee": 0.24548800684323946,
+          "right_hip_pitch": -0.1981281584107118,
+          "right_knee": 0.32021736584721466
+        },
+        "payload_attached": true,
+        "payload_position_error_m": 0.0002585429304272618
+      },
+      "parent_trajectory_sha256": "4125aee181c9a36eca11bb1d47cb157eff074eefa87d767a6e0aa7656a56b1de",
+      "parent_source": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/stop_branch_tick_20261016/long77-stop-6.99_parent.json",
+      "parent_sha256": "7054542fdc59ad0026c2ce77099e6ea2ab79f299e572213f9146c4ac8fac1026",
+      "branch_source": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/stop_branch_tick_20261016/long77-stop-6.99_branch.json",
+      "branch_sha256": "7e3346c1948efab5f5a1decd9e48b5194c8cde6fbed069b71cb8bea52790ff67",
+      "checkpoint_sha256": "4a4eb7903440548242ccccea61253bb12990d428d2a2a154a3d500e1c9dcf35d",
+      "parent_outcome": {
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/delay3_seed77_20261016/policy.onnx",
+        "policy_sha256": "58dd5f9bcb0fa370479907bc07ec491abeebc99fb89af3e7b0ef88cf589a57a6",
+        "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+        "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+        "mujoco_version": "3.3.6",
+        "ramp": false,
+        "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed carry arms and offline loaded-start magnetic fixture; not pickup qualification",
+        "payload": true,
+        "payload_mass_kg": 0.15,
+        "sampled_payload_scene_contacts": {},
+        "sampled_payload_robot_contacts": {},
+        "record_actions": true,
+        "probe_sha256": "6ed5b0837080bba01ab0ae96a9b7b36ff13bb0e52695bd73bc07db21d671a779",
+        "checkpoint_saved": true,
+        "branch_stop": false,
+        "branch_stop_time_s": null,
+        "checkpoint_time_s": null,
+        "branch_prefix_samples": null,
+        "record_support": true,
+        "command_clock": "legacy_float",
+        "command_start_step": 2500,
+        "command_end_step": 4500,
+        "actual_command_start_s": 5.019999999999669,
+        "actual_command_end_s": 9.019999999999682,
+        "resumed_checkpoint_sha256": null,
+        "payload_fixture_sha256": "df38ce62fe4d66dd3a6819b0de309264a64cfd4c851a15278e457e5244f778df",
+        "delay_steps": 3,
+        "yaw": 0.0,
+        "held_empty": false,
+        "requested_duration_s": 15.0,
+        "outage_at_s": null,
+        "outage_duration_s": null,
+        "outage_reset_history": false,
+        "outage_measured_hold": false,
+        "outage_injected": false,
+        "observation_steps": [
+          10
+        ],
+        "action_feedback": "published",
+        "sensor_delay_steps": 0,
+        "sensor_delay_s": 0.0,
+        "sampled_nonfloor_robot_contacts": {},
+        "requested_command": [
+          0.0,
+          -0.45,
+          0.0
+        ],
+        "command_duration_s": 4.0,
+        "response_samples": 175,
+        "stop_samples": 5,
+        "mean_body_velocity_after_half_second": [
+          0.019879037804619547,
+          -0.5457270833114655
+        ],
+        "mean_yaw_rate_after_one_second": 0.030372413315660273,
+        "yaw_rate_std_after_one_second": 0.659846470163509,
+        "max_displacement_after_stop_m": 0.07870625435086932,
+        "yaw_displacement_rad": 0.28400446991410777,
+        "elapsed_s": 9.099999999999708,
+        "fallen": true,
+        "displacement_m": 2.0996490133428267,
+        "max_tilt_rad": 0.881493097984098
+      },
+      "branch_outcome": {
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/delay3_seed77_20261016/policy.onnx",
+        "policy_sha256": "58dd5f9bcb0fa370479907bc07ec491abeebc99fb89af3e7b0ef88cf589a57a6",
+        "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+        "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+        "mujoco_version": "3.3.6",
+        "ramp": false,
+        "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed carry arms and offline loaded-start magnetic fixture; not pickup qualification",
+        "payload": true,
+        "payload_mass_kg": 0.15,
+        "sampled_payload_scene_contacts": {},
+        "sampled_payload_robot_contacts": {},
+        "record_actions": true,
+        "probe_sha256": "6ed5b0837080bba01ab0ae96a9b7b36ff13bb0e52695bd73bc07db21d671a779",
+        "checkpoint_saved": false,
+        "branch_stop": true,
+        "branch_stop_time_s": 6.999999999999451,
+        "checkpoint_time_s": 6.991999999999452,
+        "branch_prefix_samples": 350,
+        "record_support": true,
+        "command_clock": "legacy_float",
+        "command_start_step": 2500,
+        "command_end_step": 4500,
+        "actual_command_start_s": 5.019999999999669,
+        "actual_command_end_s": 6.999999999999451,
+        "resumed_checkpoint_sha256": "4a4eb7903440548242ccccea61253bb12990d428d2a2a154a3d500e1c9dcf35d",
+        "payload_fixture_sha256": "df38ce62fe4d66dd3a6819b0de309264a64cfd4c851a15278e457e5244f778df",
+        "delay_steps": 3,
+        "yaw": 0.0,
+        "held_empty": false,
+        "requested_duration_s": 15.0,
+        "outage_at_s": null,
+        "outage_duration_s": null,
+        "outage_reset_history": false,
+        "outage_measured_hold": false,
+        "outage_injected": false,
+        "observation_steps": [
+          10
+        ],
+        "action_feedback": "published",
+        "sensor_delay_steps": 0,
+        "sensor_delay_s": 0.0,
+        "sampled_nonfloor_robot_contacts": {},
+        "requested_command": [
+          0.0,
+          -0.45,
+          0.0
+        ],
+        "command_duration_s": 4.0,
+        "response_samples": 74,
+        "stop_samples": 400,
+        "mean_body_velocity_after_half_second": [
+          0.06646961505987033,
+          -0.45578560027366277
+        ],
+        "mean_yaw_rate_after_one_second": 0.08802565998321801,
+        "yaw_rate_std_after_one_second": 0.47233147577193,
+        "max_displacement_after_stop_m": 0.49070187007516936,
+        "yaw_displacement_rad": 0.29709566323188374,
+        "elapsed_s": 15.000000000001679,
+        "fallen": false,
+        "displacement_m": 1.1755129486465554,
+        "max_tilt_rad": 0.11732680708766027
+      },
+      "stopping": {
+        "passed": false,
+        "limits": {
+          "max_travel_m": 0.3,
+          "max_speed_mps": 0.08,
+          "max_yaw_rate_rps": 0.12,
+          "dwell_s": 1.0,
+          "settle_deadline_s": 3.0,
+          "minimum_observation_s": 5.0,
+          "max_sample_gap_s": 0.05
+        },
+        "reasons": [
+          "post_stop_travel_exceeded",
+          "settling_deadline_exceeded"
+        ],
+        "scope": "checkpoint_stop_branch",
+        "action_history": {
+          "valid": true,
+          "publications": 750,
+          "applied_samples": 747,
+          "min_application_age_s": 0.05999999999999339,
+          "max_application_age_s": 0.06000000000002004
+        },
+        "payload_position_error_limit_m": 0.03,
+        "max_payload_position_error_m": 0.0005811649712660397,
+        "stop_samples": 400,
+        "command_end_s": 6.999999999999451,
+        "first_stop_sample_s": 6.999999999999451,
+        "observation_s": 7.980000000002221,
+        "max_sample_gap_s": 0.02000000000000668,
+        "sampled_max_travel_m": 0.49070187007516936,
+        "settled_at_s": 5.340000000001339,
+        "terminal_speed_mps": 0.0010465842379284158,
+        "terminal_yaw_rate_rps": 0.0018628695665371766
+      }
+    },
+    {
+      "policy": "long77",
+      "checkpoint_at": 7.01,
+      "case": "long77-stop-7.01",
+      "passed": true,
+      "initial_state": {
+        "time": 7.019999999999449,
+        "xy": [
+          0.17011080522194513,
+          -0.7771958824150181
+        ],
+        "height": 0.7801855176871435,
+        "tilt": 0.023513402578746397,
+        "yaw": 0.14919870158922982,
+        "body_velocity": [
+          -0.07200064249121169,
+          -0.502396132521522
+        ],
+        "yaw_rate": -0.07504635909658695,
+        "foot_normal_force_n": {
+          "left": 0.0,
+          "right": 405.22698969135837
+        },
+        "ankle_body_height_m": {
+          "left": 0.04857635628067336,
+          "right": 0.03482884082249523
+        },
+        "leg_joint_pos_rad": {
+          "left_hip_pitch": -0.05507673957467809,
+          "left_knee": 0.40057658233597954,
+          "right_hip_pitch": -0.1986479602407008,
+          "right_knee": 0.2808586093383669
+        },
+        "payload_attached": true,
+        "payload_position_error_m": 0.0003224844522010767
+      },
+      "parent_trajectory_sha256": "4125aee181c9a36eca11bb1d47cb157eff074eefa87d767a6e0aa7656a56b1de",
+      "parent_source": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/stop_branch_tick_20261016/long77-stop-7.01_parent.json",
+      "parent_sha256": "7054542fdc59ad0026c2ce77099e6ea2ab79f299e572213f9146c4ac8fac1026",
+      "branch_source": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/stop_branch_tick_20261016/long77-stop-7.01_branch.json",
+      "branch_sha256": "191a5a8a7eed49b3d1108f6f8a58e16467c86276ce8f080da184db93f0b48ff4",
+      "checkpoint_sha256": "c84b9ec076bf529350f12f2051bb77b4fe7045c7160b4cd1b45426d2faa8ee13",
+      "parent_outcome": {
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/delay3_seed77_20261016/policy.onnx",
+        "policy_sha256": "58dd5f9bcb0fa370479907bc07ec491abeebc99fb89af3e7b0ef88cf589a57a6",
+        "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+        "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+        "mujoco_version": "3.3.6",
+        "ramp": false,
+        "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed carry arms and offline loaded-start magnetic fixture; not pickup qualification",
+        "payload": true,
+        "payload_mass_kg": 0.15,
+        "sampled_payload_scene_contacts": {},
+        "sampled_payload_robot_contacts": {},
+        "record_actions": true,
+        "probe_sha256": "6ed5b0837080bba01ab0ae96a9b7b36ff13bb0e52695bd73bc07db21d671a779",
+        "checkpoint_saved": true,
+        "branch_stop": false,
+        "branch_stop_time_s": null,
+        "checkpoint_time_s": null,
+        "branch_prefix_samples": null,
+        "record_support": true,
+        "command_clock": "legacy_float",
+        "command_start_step": 2500,
+        "command_end_step": 4500,
+        "actual_command_start_s": 5.019999999999669,
+        "actual_command_end_s": 9.019999999999682,
+        "resumed_checkpoint_sha256": null,
+        "payload_fixture_sha256": "df38ce62fe4d66dd3a6819b0de309264a64cfd4c851a15278e457e5244f778df",
+        "delay_steps": 3,
+        "yaw": 0.0,
+        "held_empty": false,
+        "requested_duration_s": 15.0,
+        "outage_at_s": null,
+        "outage_duration_s": null,
+        "outage_reset_history": false,
+        "outage_measured_hold": false,
+        "outage_injected": false,
+        "observation_steps": [
+          10
+        ],
+        "action_feedback": "published",
+        "sensor_delay_steps": 0,
+        "sensor_delay_s": 0.0,
+        "sampled_nonfloor_robot_contacts": {},
+        "requested_command": [
+          0.0,
+          -0.45,
+          0.0
+        ],
+        "command_duration_s": 4.0,
+        "response_samples": 175,
+        "stop_samples": 5,
+        "mean_body_velocity_after_half_second": [
+          0.019879037804619547,
+          -0.5457270833114655
+        ],
+        "mean_yaw_rate_after_one_second": 0.030372413315660273,
+        "yaw_rate_std_after_one_second": 0.659846470163509,
+        "max_displacement_after_stop_m": 0.07870625435086932,
+        "yaw_displacement_rad": 0.28400446991410777,
+        "elapsed_s": 9.099999999999708,
+        "fallen": true,
+        "displacement_m": 2.0996490133428267,
+        "max_tilt_rad": 0.881493097984098
+      },
+      "branch_outcome": {
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/delay3_seed77_20261016/policy.onnx",
+        "policy_sha256": "58dd5f9bcb0fa370479907bc07ec491abeebc99fb89af3e7b0ef88cf589a57a6",
+        "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+        "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+        "mujoco_version": "3.3.6",
+        "ramp": false,
+        "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed carry arms and offline loaded-start magnetic fixture; not pickup qualification",
+        "payload": true,
+        "payload_mass_kg": 0.15,
+        "sampled_payload_scene_contacts": {},
+        "sampled_payload_robot_contacts": {},
+        "record_actions": true,
+        "probe_sha256": "6ed5b0837080bba01ab0ae96a9b7b36ff13bb0e52695bd73bc07db21d671a779",
+        "checkpoint_saved": false,
+        "branch_stop": true,
+        "branch_stop_time_s": 7.019999999999449,
+        "checkpoint_time_s": 7.01199999999945,
+        "branch_prefix_samples": 351,
+        "record_support": true,
+        "command_clock": "legacy_float",
+        "command_start_step": 2500,
+        "command_end_step": 4500,
+        "actual_command_start_s": 5.019999999999669,
+        "actual_command_end_s": 7.019999999999449,
+        "resumed_checkpoint_sha256": "c84b9ec076bf529350f12f2051bb77b4fe7045c7160b4cd1b45426d2faa8ee13",
+        "payload_fixture_sha256": "df38ce62fe4d66dd3a6819b0de309264a64cfd4c851a15278e457e5244f778df",
+        "delay_steps": 3,
+        "yaw": 0.0,
+        "held_empty": false,
+        "requested_duration_s": 15.0,
+        "outage_at_s": null,
+        "outage_duration_s": null,
+        "outage_reset_history": false,
+        "outage_measured_hold": false,
+        "outage_injected": false,
+        "observation_steps": [
+          10
+        ],
+        "action_feedback": "published",
+        "sensor_delay_steps": 0,
+        "sensor_delay_s": 0.0,
+        "sampled_nonfloor_robot_contacts": {},
+        "requested_command": [
+          0.0,
+          -0.45,
+          0.0
+        ],
+        "command_duration_s": 4.0,
+        "response_samples": 75,
+        "stop_samples": 399,
+        "mean_body_velocity_after_half_second": [
+          0.06463796339427041,
+          -0.45731327380518716
+        ],
+        "mean_yaw_rate_after_one_second": 0.07986742349120907,
+        "yaw_rate_std_after_one_second": 0.4710587721878336,
+        "max_displacement_after_stop_m": 0.2548890443733282,
+        "yaw_displacement_rad": 0.3121448051388068,
+        "elapsed_s": 15.000000000001679,
+        "fallen": false,
+        "displacement_m": 1.0185470638517333,
+        "max_tilt_rad": 0.08047455975799606
+      },
+      "stopping": {
+        "passed": true,
+        "limits": {
+          "max_travel_m": 0.3,
+          "max_speed_mps": 0.08,
+          "max_yaw_rate_rps": 0.12,
+          "dwell_s": 1.0,
+          "settle_deadline_s": 3.0,
+          "minimum_observation_s": 5.0,
+          "max_sample_gap_s": 0.05
+        },
+        "reasons": [],
+        "scope": "checkpoint_stop_branch",
+        "action_history": {
+          "valid": true,
+          "publications": 750,
+          "applied_samples": 747,
+          "min_application_age_s": 0.05999999999999339,
+          "max_application_age_s": 0.06000000000002004
+        },
+        "payload_position_error_limit_m": 0.03,
+        "max_payload_position_error_m": 0.0004809060879574898,
+        "stop_samples": 399,
+        "command_end_s": 7.019999999999449,
+        "first_stop_sample_s": 7.019999999999449,
+        "observation_s": 7.960000000002223,
+        "max_sample_gap_s": 0.02000000000000668,
+        "sampled_max_travel_m": 0.2548890443733282,
+        "settled_at_s": 2.360000000000353,
+        "terminal_speed_mps": 0.001864224142484078,
+        "terminal_yaw_rate_rps": 0.018078925475882125
+      }
+    }
+  ],
+  "by_policy": {
+    "baseline": {
+      "planned": 2,
+      "attempted": 2,
+      "gate_passes": 0
+    },
+    "long77": {
+      "planned": 2,
+      "attempted": 2,
+      "gate_passes": 1
+    }
+  },
+  "source_summary_sha256": "37e97369b02b49f00649af0d0c11220af87132f509b69a28816a5a48be19d5cb"
+}

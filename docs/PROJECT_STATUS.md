@@ -23,6 +23,15 @@ evidence snapshot, not an acceptance release. Later experiments need their own c
 
 ## At a glance
 
+**Latest 16 October stop-branch study:** preserved-state stop branches expose a
+one-observation timing sensitivity. All 14 broad branches fail; an adjacent-update
+follow-up passes 1/4. Fresh-start clock controls pass 1/4 with legacy timing and
+0/4 with explicit integer steps. New support diagnostics and actual-transition
+scoring improve reproducibility; no policy is promoted. **866 ROS results,
+200 orchestration tests and 12 native CTests pass**, plus eight separate native
+checkpoint/support tests and both exact continuation regressions.
+[Conditions, failures and timing limits](STOP_BRANCHES_20261016.md).
+
 **16 October checkpoint/delay study:** synchronous native-probe checkpoints pass
 exact continuation in two scenarios, including reproduction of an outage-case
 fall. A 40-probe matrix across seeds 76/77 and short/long delay training yields
