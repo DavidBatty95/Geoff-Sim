@@ -26,6 +26,9 @@ collections. Start there for topic-based exploration, or use the catalogue below
 
 ## Project orientation
 
+Latest experiment: [transition curriculum and dense stop timing](DENSE_TRANSITIONS_20261017.md)
+— audited training exposure, 38 native probes and all-offset neighborhood summaries.
+
 Latest diagnosis: [checkpoint stop branches and command-clock sensitivity](STOP_BRANCHES_20261016.md)
 — correlated stop interventions, foot-support diagnostics and integer-step timing.
 

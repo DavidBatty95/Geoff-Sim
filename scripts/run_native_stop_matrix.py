@@ -35,6 +35,20 @@ def update_counts(report):
             attempted=len(rows),passed=sum(row['passed'] for row in rows),
             fallen=sum(row.get('metadata',{}).get('fallen') is True for row in rows),
             process_or_protocol_errors=sum('error' in row for row in rows))
+    fields = ('policy','load','delay_steps','linear_y')
+    groups = {}
+    for row in report['plan']:
+        groups.setdefault(tuple(row[key] for key in fields),[]).append(row)
+    report['timing_neighborhoods'] = []
+    for key,planned in groups.items():
+        rows = [row for row in report['attempts'] if tuple(row[field] for field in fields)==key]
+        complete = (len(rows)==len(planned) and {row['case_id'] for row in rows}=={row['case_id'] for row in planned})
+        travel = [row['stopping']['sampled_max_travel_m'] for row in rows if 'sampled_max_travel_m' in row.get('stopping',{})]
+        report['timing_neighborhoods'].append(dict(zip(fields,key),
+            command_durations_s=sorted(row['command_duration_s'] for row in planned),
+            planned=len(planned),attempted=len(rows),passed=sum(row['passed'] for row in rows),
+            complete=complete,all_passed=complete and all(row['passed'] for row in rows),
+            worst_sampled_travel_m=max(travel) if travel else None))
 
 
 def run_case(case,policy,policy_sha256,output,duration,timeout,command_clock='legacy_float'):
@@ -104,6 +118,7 @@ def main():
         report = json.loads(args.export_summary.read_text())
         update_counts(report)
         report['source_summary'] = dict(path=str(args.export_summary),sha256=digest(args.export_summary))
+        report['exporter_sha256'] = digest(Path(__file__))
         args.report.parent.mkdir(parents=True,exist_ok=True)
         args.report.write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
         return 0

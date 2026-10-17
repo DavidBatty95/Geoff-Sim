@@ -41,6 +41,12 @@ def test_training_export_does_not_upgrade_incomplete_artifacts_or_smoke_to_accep
     assert not record['artifact_complete'] and record['policy_sha256'] is None
     assert record['manifest']['mode']=='smoke' and 'success' not in record
     assert record['source_sha256']['payload_sensor_delay.py'] is None
+    assert record['transition_audit']=={} and record['transition_audit_sha256'] is None
+    audit = dict(move_to_stop_requests=23,scope='sampled requests, not completed transitions')
+    (tmp_path/'transition_audit.json').write_text(json.dumps(audit))
+    record = training_attempt(tmp_path)
+    assert record['transition_audit']==audit and record['transition_audit_sha256'] is not None
+    assert not record['artifact_complete'] and 'success' not in record
 
 
 def test_prefix_export_keeps_failures_and_records_selection(tmp_path,monkeypatch):

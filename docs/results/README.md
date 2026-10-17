@@ -23,6 +23,10 @@ described by the [repository guide](../REPOSITORY_GUIDE.md#where-results-go).
 
 ## Start with a dataset
 
+17 October: [30-probe dense timing sweep and training audit](dense_transitions_20261017.json)
+and [eight lower-delay controls](transition_delay_controls_20261017.json).
+[Interpretation and unpromoted status](../DENSE_TRANSITIONS_20261017.md).
+
 Stop-state investigation: [14 broad branches](stop_branches_20261016.json),
 [four adjacent-update branches](stop_branch_tick_20261016.json),
 [integer-clock probes](step_clock_20261016.json),

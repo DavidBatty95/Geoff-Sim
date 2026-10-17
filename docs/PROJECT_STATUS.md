@@ -16,12 +16,20 @@
 </p>
 <!-- geoff-nav:end -->
 
-**Last reviewed: 16 October 2026.** This page retains the historical development
+**Last reviewed: 17 October 2026.** This page retains the historical development
 baseline [`3a7ceac`](https://github.com/DavidBatty95/Geoff-Sim/commit/3a7ceac)
 alongside the dated follow-ups below. It is a manually maintained
 evidence snapshot, not an acceptance release. Later experiments need their own checks.
 
 ## At a glance
+
+**17 October dense-transition checkpoint:** an opt-in curriculum audits 1,266
+move-to-stop requests and all 101 movement-duration ticks. The new candidate
+passes **0/10** dense 60 ms conditions; earlier long77 passes **1/10**, cycle-05
+**0/10**. None passes an entire five-offset neighborhood. Both fine-tunes pass
+3/4 separate lower-delay controls; the new candidate is not promoted.
+**866 ROS results, 201 orchestration tests, 12 native CTests and 14 separate
+training-contract tests pass.** [Evidence and next priority](DENSE_TRANSITIONS_20261017.md).
 
 **Latest 16 October stop-branch study:** preserved-state stop branches expose a
 one-observation timing sensitivity. All 14 broad branches fail; an adjacent-update

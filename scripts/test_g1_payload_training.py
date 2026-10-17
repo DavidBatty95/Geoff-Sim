@@ -206,3 +206,36 @@ def test_stop_objective_penalizes_residual_motion_only_on_explicit_stop(training
         if values[1]:
             assert duration in (2.,3.)
             assert phases[index+1][1:]==(6.,(0.,0.,0.))
+
+
+def test_transition_timer_resamples_on_exact_requested_control_tick(training):
+    from payload_transition_commands import phase_deadlines,sample_phase_ticks
+    torch = training.torch
+    ticks = torch.arange(75,301)
+    timers = phase_deadlines(ticks,.02)
+    fired = torch.zeros_like(ticks)
+    for step in range(1,302):
+        timers -= .02
+        fired[(timers<=0.)&(fired==0)] = step
+    torch.testing.assert_close(fired,ticks)
+    torch.manual_seed(77)
+    standing = torch.arange(4096)%2==0
+    samples = sample_phase_ticks(standing,(75,175),(250,300))
+    assert set(samples[~standing].tolist())==set(range(75,176))
+    assert set(samples[standing].tolist())==set(range(250,301))
+
+
+def test_transition_profile_preserves_actor_and_alternates_movement_with_long_stops(training):
+    from payload_transition_commands import TransitionVelocityCommandCfg
+    cfg = training.build_env(4,77,objective='reactive',dynamics='native_contact',max_delay_steps=3,
+                             action_feedback='published',command_profile='transitions')
+    command = cfg.commands['twist']
+    assert isinstance(command,TransitionVelocityCommandCfg)
+    assert command.initial_standing_probability==command.moving_stop_probability==1.
+    assert command.standing_hold_probability==0.
+    assert command.moving_ticks==(75,175) and command.standing_ticks==(250,300)
+    assert command.lateral_probability==.5 and command.lateral_endpoint_probability==.5
+    assert 'stop_velocity' not in cfg.rewards
+    assert cfg.observations['actor'].history_length==5
+    assert 'base_lin_vel' not in cfg.observations['actor'].terms
+    assert cfg.actions['joint_pos'].action_feedback=='published'

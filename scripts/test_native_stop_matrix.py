@@ -79,3 +79,17 @@ def test_matrix_continues_after_failed_probe_and_returns_failure(tmp_path,monkey
     assert matrix.main()==1
     report = json.loads((output/'summary.json').read_text())
     assert report['complete'] and len(report['attempts'])==2 and report['passed']==1
+
+
+def test_timing_neighborhood_needs_every_offset_and_retains_failures():
+    plan = matrix.cases(['candidate'],['payload'],[3],[1.98,2.,2.02])
+    rows = [dict(**row,passed=not (row['linear_y']<0. and row['command_duration_s']==2.)) for row in plan]
+    missing = rows.pop(0)
+    report = dict(plan=plan,attempts=rows,policies={'candidate':{}})
+    matrix.update_counts(report)
+    assert not any(group['all_passed'] for group in report['timing_neighborhoods'])
+    report['attempts'].append(missing)
+    matrix.update_counts(report)
+    groups = {group['linear_y']:group for group in report['timing_neighborhoods']}
+    assert groups[.45]['all_passed'] and groups[.45]['planned']==3
+    assert groups[-.45]['complete'] and groups[-.45]['passed']==2 and not groups[-.45]['all_passed']

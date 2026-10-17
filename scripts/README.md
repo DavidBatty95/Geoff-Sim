@@ -66,6 +66,12 @@ adds offline foot forces/heights and leg state. Both the probe and native matrix
 runner accept `--command-clock physics_step`; `legacy_float` remains the default.
 [Stop-time findings and reproduction](../docs/STOP_BRANCHES_20261016.md).
 
+`g1_payload_training.py --command-profile transitions` enables the experimental
+move/stop curriculum and writes `transition_audit.json` with sampled request and
+duration counts. The matrix runner now reports complete timing neighborhoods;
+an isolated passing offset does not make its neighborhood pass.
+[Dense sweep, controls and reproduction](../docs/DENSE_TRANSITIONS_20261017.md).
+
 Every generated world and the original plaza can run as a continuous demo. The
 demo launcher handles goal handoff, session duration, episode restart and logs.
 Use `./geoff demo --help`, `./geoff benchmark --help` or `./geoff results --help`

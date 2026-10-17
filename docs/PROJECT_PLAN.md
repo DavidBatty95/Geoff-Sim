@@ -19,6 +19,11 @@
 Related: [Technical implementation roadmap](SOCIAL_LOCOMANIPULATION_ROADMAP.md) ·
 [Gap-aligned research and publication programme](RESEARCH_PROGRAMME.md).
 
+**17 October transition update:** [audited curriculum and dense timing neighborhoods](DENSE_TRANSITIONS_20261017.md)
+are implemented and measured. More sampled stop exposure did not qualify the new
+candidate. Next: paired training/native state-action dynamics comparison before
+larger training runs, retaining all-offset qualification and unchanged gates.
+
 **Stop-transition update:** [checkpoint branches and clock comparison](STOP_BRANCHES_20261016.md)
 show that a 20 ms stop-update shift can change pass/fail or induce a fall. An
 integer-step clock and recorded physical support state now support precise

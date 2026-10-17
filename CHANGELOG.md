@@ -25,6 +25,12 @@ for measured outcomes and [release policy](docs/RELEASES.md) for promotion crite
 
 ### Added
 
+- Opt-in transition curriculum with tick-spaced movement durations, longer stop
+  dwells, signed lateral endpoint coverage and retained request/duration audits.
+- Timing-neighborhood summaries require every declared offset to be present and
+  pass. A 30-probe dense sweep rejects the new candidate; eight lower-delay
+  controls retain narrower successes. [Full evidence](docs/DENSE_TRANSITIONS_20261017.md).
+
 - Explicit checkpoint stop branches with preserved-prefix/physical-state checks,
   offline foot-support diagnostics and branch-specific actual-transition scoring.
 - Opt-in integer-physics-step command clock avoids floating-point boundary

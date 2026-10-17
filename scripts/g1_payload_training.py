@@ -50,6 +50,7 @@ from mjlab.tasks.velocity.rl import VelocityOnPolicyRunner
 from mjlab.utils.os import dump_yaml
 from payload_smoothness import FluidCarryPenalty,PayloadMotion,LOADED_TURN_SCHEDULE
 from payload_sensor_delay import DelayedSensorTerm
+from payload_transition_commands import TransitionVelocityCommandCfg
 
 POLICY_NAMES = tuple(G1_29DOF_JOINTS[i] for i in UNITREE_RL_LAB_G1_JOINT_IDS_MAP)
 ARM_POLICY_IDS = tuple(i for i, sdk in enumerate(UNITREE_RL_LAB_G1_JOINT_IDS_MAP) if sdk >= 15)
@@ -310,7 +311,7 @@ def applied_policy_action(env):
 
 def build_env(num_envs, seed, profile='mixed', pose_index=0, pose_bank='carry', arm_transitions=False,
               objective='tracking',smoothness_weight=.2,dynamics='historical',max_delay_steps=0,action_hold_probability=0.,
-              max_sensor_delay_steps=0,action_feedback='applied'):
+              max_sensor_delay_steps=0,action_feedback='applied',command_profile='mixed'):
     cfg = unitree_g1_flat_env_cfg()
     cfg.seed = seed
     cfg.scene.num_envs = num_envs
@@ -400,6 +401,13 @@ def build_env(num_envs, seed, profile='mixed', pose_index=0, pose_bank='carry', 
         cfg.rewards['turn_drift'] = RewardTermCfg(func=turn_drift_penalty,weight=-3.)
     if objective=='stopping':
         cfg.rewards['stop_velocity'] = RewardTermCfg(func=stopping_velocity_penalty,weight=-4.)
+    if command_profile=='transitions':
+        cfg.commands['twist'] = TransitionVelocityCommandCfg(**dict(vars(cfg.commands['twist']),
+            initial_standing_probability=1.,moving_stop_probability=1.,standing_hold_probability=0.,
+            low_speed_probability=.1,moderate_speed_probability=.1,lateral_probability=.5,
+            arc_probability=.1,diagonal_probability=.1,lateral_speed_min=.3,lateral_speed_max=.45))
+    elif command_profile!='mixed':
+        raise ValueError('unknown command profile')
     return cfg
 
 
@@ -530,6 +538,7 @@ def main():
     parser.add_argument('--action-hold-probability',type=float,default=0.,help='Per-tick missed-update exposure, retaining the previously applied action')
     parser.add_argument('--max-sensor-delay-steps',type=int,default=0,help='Shared per-episode IMU/joint observation lag, in 20 ms control periods')
     parser.add_argument('--action-feedback',choices=('applied','published'),default='applied')
+    parser.add_argument('--command-profile',choices=('mixed','transitions'),default='mixed')
     args = parser.parse_args()
     if args.num_envs <= 0 or args.iterations <= 0 or args.seed < 0 or args.pose_index < 0:
         parser.error('Environment/iteration counts must be positive and seed/pose index nonnegative')
@@ -553,7 +562,7 @@ def main():
     sys.stderr = ConsoleTee(sys.stderr,output/'console.stderr.log')
     cfg = build_env(args.num_envs, args.seed, args.profile, args.pose_index, args.pose_bank, args.arm_transitions,
                     args.objective,args.smoothness_weight,args.dynamics,args.max_delay_steps,args.action_hold_probability,
-                    args.max_sensor_delay_steps,args.action_feedback)
+                    args.max_sensor_delay_steps,args.action_feedback,args.command_profile)
     if args.mode == 'evaluate' and args.probe in ('loaded_turns','signed_stops'):
         schedule = LOADED_TURN_SCHEDULE if args.probe=='loaded_turns' else SIGNED_STOP_SCHEDULE
         cfg.episode_length_s = sum(item[1] for item in schedule)+2.
@@ -571,7 +580,10 @@ def main():
     manifest = dict(mode=args.mode, seed=args.seed, num_envs=args.num_envs, iterations=args.iterations,
                     dynamics=args.dynamics,max_delay_steps=args.max_delay_steps,action_hold_probability=args.action_hold_probability,
                     max_sensor_delay_steps=args.max_sensor_delay_steps,action_feedback=args.action_feedback,
-                    control_period_s=.02,
+                     control_period_s=.02,
+                     command_profile=args.command_profile,
+                     transition_configuration=dict(moving_ticks=[75,175],standing_ticks=[250,300],lateral_probability=.5,
+                        lateral_endpoint_probability=.5,deadline_margin_ticks=.5) if args.command_profile=='transitions' else None,
                     sensor_delay_scope='coherent IMU/joint packet, per-environment per-episode; commands/action feedback remain current',
                     profile=args.profile, source=str(SOURCE), source_sha256=hashlib.sha256(SOURCE.read_bytes()).hexdigest(),
                     arm_input_initialization=args.arm_init,
@@ -589,6 +601,7 @@ def main():
     (output / 'training_source.py').write_bytes(Path(__file__).read_bytes())
     (output / 'payload_smoothness.py').write_bytes((ROOT/'scripts/payload_smoothness.py').read_bytes())
     (output / 'payload_sensor_delay.py').write_bytes((ROOT/'scripts/payload_sensor_delay.py').read_bytes())
+    (output / 'payload_transition_commands.py').write_bytes((ROOT/'scripts/payload_transition_commands.py').read_bytes())
     if args.dynamics in ('native_inertial','native_contact'):
         native_source = ROOT/'ros2_ws/src/unitree_mujoco/unitree_robots/g1/g1_29dof.xml'
         (output/'native_robot_source.xml').write_bytes(native_source.read_bytes())
@@ -624,6 +637,14 @@ def main():
             runner.learn(num_learning_iterations=2 if args.mode == 'smoke' else args.iterations,
                          init_at_random_ep_len=False)
             runner.save(str(output / 'final.pt'))
+            if args.command_profile=='transitions':
+                command = env.command_manager.get_term('twist')
+                audit = dict(positive_lateral_requests=int(command.transition_counts[0]),
+                    negative_lateral_requests=int(command.transition_counts[1]),
+                    move_to_stop_requests=int(command.transition_counts[2]),
+                    duration_tick_counts=command.duration_counts.cpu().tolist(),
+                    scope='Sampled command requests across resets, not successful completed transitions')
+                (output/'transition_audit.json').write_text(json.dumps(audit,indent=2)+'\n')
             actor = copy.deepcopy(runner.alg.actor.mlp).cpu().eval()
             torch.onnx.export(actor, torch.zeros(1, 480), str(output / 'policy.onnx'),
                               input_names=['obs'], output_names=['actions'], opset_version=17, dynamo=False)

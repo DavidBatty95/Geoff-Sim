@@ -25,7 +25,8 @@ def training_attempt(directory):
         manifest_sha256=digest(directory/'manifest.json'),
         artifact_complete=(directory/'final.pt').is_file() and (directory/'policy.onnx').is_file(),
         checkpoint_sha256=digest(directory/'final.pt'),policy_sha256=digest(directory/'policy.onnx'),
-        source_sha256={name:digest(directory/name) for name in ('training_source.py','payload_sensor_delay.py','payload_smoothness.py')},
+        source_sha256={name:digest(directory/name) for name in ('training_source.py','payload_sensor_delay.py','payload_smoothness.py','payload_transition_commands.py')},
+        transition_audit=load(directory/'transition_audit.json'),transition_audit_sha256=digest(directory/'transition_audit.json'),
         exported_candidates=[dict(source=path.name,sha256=digest(path),metadata=load(path))
                              for path in sorted(directory.glob('policy_*.manifest.json'))])
 
