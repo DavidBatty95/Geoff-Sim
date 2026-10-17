@@ -25,6 +25,13 @@ for measured outcomes and [release policy](docs/RELEASES.md) for promotion crite
 
 ### Added
 
+- Matched-state actuator/integrator comparison and recorded-action soft-limit
+  audit. Explicit Euler and deployment target-limit training options preserve
+  raw action history and external-arm composition ordering.
+- Dense native candidate checks retain failures and an interrupted matrix with
+  separate follow-up. Both new policies remain unpromoted.
+  [Measured discrepancies and outcomes](docs/ACTUATION_PARITY_20261017.md).
+
 - Opt-in transition curriculum with tick-spaced movement durations, longer stop
   dwells, signed lateral endpoint coverage and retained request/duration audits.
 - Timing-neighborhood summaries require every declared offset to be present and

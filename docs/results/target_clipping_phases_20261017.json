@@ -1,0 +1,201 @@
+{
+  "scope": "Leg/waist target reconstruction only; composed arms excluded; not force or mission qualification",
+  "script_sha256": "de39e444dfcef458a461b07d0ea13f6bbfd37058992e1cada59110ea11fcfc59",
+  "attempts": [
+    {
+      "source": "ros2_ws/src/dynamic_obstacle_benchmarks/results/euler_dense_20261017/baseline-payload-delay3-y-0.45-duration2.json",
+      "sha256": "c97327cb90d5edb6e4bc2d8e8d7e183ccbb5c72dd93d32640c9cf4058e47147a",
+      "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+      "audit": {
+        "checked_samples": 514,
+        "clipped_samples": 125,
+        "clipped_fraction": 0.24319066147859922,
+        "max_reconstruction_error_rad": 0.0,
+        "phases": {
+          "standing": {
+            "checked_samples": 247,
+            "clipped_samples": 0,
+            "max_target_delta_rad": 0.0
+          },
+          "moving": {
+            "checked_samples": 100,
+            "clipped_samples": 35,
+            "max_target_delta_rad": 0.3611619872817994
+          },
+          "post_stop": {
+            "checked_samples": 167,
+            "clipped_samples": 90,
+            "max_target_delta_rad": 0.46676663587188727
+          }
+        },
+        "joints": [
+          {
+            "joint": "left_hip_roll_joint",
+            "clipped_samples": 2,
+            "max_target_delta_rad": 0.04834467750549298
+          },
+          {
+            "joint": "left_knee_joint",
+            "clipped_samples": 28,
+            "max_target_delta_rad": 0.21860686472663865
+          },
+          {
+            "joint": "left_ankle_pitch_joint",
+            "clipped_samples": 13,
+            "max_target_delta_rad": 0.3611619872817994
+          },
+          {
+            "joint": "left_ankle_roll_joint",
+            "clipped_samples": 32,
+            "max_target_delta_rad": 0.38613291776657105
+          },
+          {
+            "joint": "right_knee_joint",
+            "clipped_samples": 14,
+            "max_target_delta_rad": 0.08632278970489488
+          },
+          {
+            "joint": "right_ankle_pitch_joint",
+            "clipped_samples": 21,
+            "max_target_delta_rad": 0.46676663587188727
+          },
+          {
+            "joint": "right_ankle_roll_joint",
+            "clipped_samples": 40,
+            "max_target_delta_rad": 0.21682655013084412
+          }
+        ]
+      }
+    },
+    {
+      "source": "ros2_ws/src/dynamic_obstacle_benchmarks/results/euler_dense_20261017/long77-payload-delay3-y-0.45-duration2.json",
+      "sha256": "f31414983da28eef1d02bd14fe2201250bb1421bd6d569e3f1ea618afdcfa384",
+      "policy_sha256": "58dd5f9bcb0fa370479907bc07ec491abeebc99fb89af3e7b0ef88cf589a57a6",
+      "audit": {
+        "checked_samples": 747,
+        "clipped_samples": 206,
+        "clipped_fraction": 0.2757697456492637,
+        "max_reconstruction_error_rad": 0.0,
+        "phases": {
+          "standing": {
+            "checked_samples": 247,
+            "clipped_samples": 0,
+            "max_target_delta_rad": 0.0
+          },
+          "moving": {
+            "checked_samples": 100,
+            "clipped_samples": 29,
+            "max_target_delta_rad": 0.2843985361824036
+          },
+          "post_stop": {
+            "checked_samples": 400,
+            "clipped_samples": 177,
+            "max_target_delta_rad": 0.4169347504425049
+          }
+        },
+        "joints": [
+          {
+            "joint": "left_knee_joint",
+            "clipped_samples": 95,
+            "max_target_delta_rad": 0.25341022542724595
+          },
+          {
+            "joint": "left_ankle_pitch_joint",
+            "clipped_samples": 19,
+            "max_target_delta_rad": 0.2843985361824036
+          },
+          {
+            "joint": "left_ankle_roll_joint",
+            "clipped_samples": 36,
+            "max_target_delta_rad": 0.3042686203765869
+          },
+          {
+            "joint": "right_knee_joint",
+            "clipped_samples": 33,
+            "max_target_delta_rad": 0.07965517572174058
+          },
+          {
+            "joint": "right_ankle_pitch_joint",
+            "clipped_samples": 13,
+            "max_target_delta_rad": 0.20794800946807868
+          },
+          {
+            "joint": "right_ankle_roll_joint",
+            "clipped_samples": 44,
+            "max_target_delta_rad": 0.4169347504425049
+          }
+        ]
+      }
+    },
+    {
+      "source": "ros2_ws/src/dynamic_obstacle_benchmarks/results/euler_dense_20261017/euler77-payload-delay3-y-0.45-duration2.json",
+      "sha256": "ef6e59fbba1304fe45fa50bba3adebebe3f766926fa2f717ff86555af31f3694",
+      "policy_sha256": "f22d5d6bb8ff6513e7f6c605cde324561d97f85bfe8b7b84c109437963030b6e",
+      "audit": {
+        "checked_samples": 488,
+        "clipped_samples": 133,
+        "clipped_fraction": 0.2725409836065574,
+        "max_reconstruction_error_rad": 0.0,
+        "phases": {
+          "standing": {
+            "checked_samples": 247,
+            "clipped_samples": 0,
+            "max_target_delta_rad": 0.0
+          },
+          "moving": {
+            "checked_samples": 100,
+            "clipped_samples": 22,
+            "max_target_delta_rad": 0.0847852746295929
+          },
+          "post_stop": {
+            "checked_samples": 141,
+            "clipped_samples": 111,
+            "max_target_delta_rad": 0.8304179368591307
+          }
+        },
+        "joints": [
+          {
+            "joint": "left_hip_roll_joint",
+            "clipped_samples": 14,
+            "max_target_delta_rad": 0.8304179368591307
+          },
+          {
+            "joint": "left_knee_joint",
+            "clipped_samples": 8,
+            "max_target_delta_rad": 0.09092662266502366
+          },
+          {
+            "joint": "left_ankle_pitch_joint",
+            "clipped_samples": 38,
+            "max_target_delta_rad": 0.6956805391082764
+          },
+          {
+            "joint": "left_ankle_roll_joint",
+            "clipped_samples": 42,
+            "max_target_delta_rad": 0.4857668498802185
+          },
+          {
+            "joint": "right_hip_roll_joint",
+            "clipped_samples": 5,
+            "max_target_delta_rad": 0.295800036010742
+          },
+          {
+            "joint": "right_knee_joint",
+            "clipped_samples": 10,
+            "max_target_delta_rad": 0.1495330982566832
+          },
+          {
+            "joint": "right_ankle_pitch_joint",
+            "clipped_samples": 29,
+            "max_target_delta_rad": 0.4286127490768433
+          },
+          {
+            "joint": "right_ankle_roll_joint",
+            "clipped_samples": 84,
+            "max_target_delta_rad": 0.8006031731414796
+          }
+        ]
+      }
+    }
+  ]
+}

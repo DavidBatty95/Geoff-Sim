@@ -239,3 +239,35 @@ def test_transition_profile_preserves_actor_and_alternates_movement_with_long_st
     assert cfg.observations['actor'].history_length==5
     assert 'base_lin_vel' not in cfg.observations['actor'].terms
     assert cfg.actions['joint_pos'].action_feedback=='published'
+
+
+def test_native_euler_option_changes_only_integration_configuration(training):
+    implicit = training.build_env(2,77,objective='reactive',dynamics='native_contact',action_feedback='published')
+    explicit = training.build_env(2,77,objective='reactive',dynamics='native_contact',action_feedback='published',integrator='euler')
+    assert implicit.sim.mujoco.integrator=='implicitfast'
+    assert explicit.sim.mujoco.integrator=='euler'
+    assert explicit.sim.mujoco.timestep==implicit.sim.mujoco.timestep==.002
+    assert explicit.actions==implicit.actions and explicit.commands==implicit.commands
+    assert explicit.scene.entities['robot'].articulation.actuators==implicit.scene.entities['robot'].articulation.actuators
+    assert list(explicit.observations['actor'].terms)==list(implicit.observations['actor'].terms)
+    assert explicit.observations['actor'].history_length==5
+    with pytest.raises(ValueError,match='integration'):
+        training.build_env(2,77,integrator='unknown')
+
+
+def test_policy_order_soft_limits_match_deployment_sdk_clipping(training):
+    from unitree_g1_mujoco_bridge.policy_safety import clamp_joint_targets
+    from unitree_g1_mujoco_bridge.unitree_rl_lab_policy import UnitreeRLLabG1PolicyAdapter
+    torch = training.torch
+    torch.manual_seed(3)
+    targets = torch.randn(10,29)*3.
+    lower,upper = training.native_policy_target_bounds(.9,'cpu')
+    actual = torch.clamp(targets,lower,upper)
+    adapter = UnitreeRLLabG1PolicyAdapter()
+    expected = torch.tensor([adapter.sdk_to_policy(clamp_joint_targets(adapter.policy_to_sdk(row))) for row in targets.tolist()])
+    torch.testing.assert_close(actual,expected,atol=3e-7,rtol=1e-6)
+    cfg = training.build_env(2,77,target_soft_limit_factor=.9)
+    assert cfg.actions['joint_pos'].target_soft_limit_factor==.9
+    assert training.build_env(2,77).actions['joint_pos'].target_soft_limit_factor is None
+    with pytest.raises(ValueError,match='soft-limit'):
+        training.native_policy_target_bounds(1.1,'cpu')

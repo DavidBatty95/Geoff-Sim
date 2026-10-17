@@ -34,6 +34,7 @@ from unitree_g1_mujoco_bridge.unitree_rl_lab_policy import (
 )
 from unitree_g1_mujoco_bridge.arm_kinematics import ArmKinematics
 from unitree_g1_mujoco_bridge.payload_postures import PAYLOAD_V1_POSTURES
+from unitree_g1_mujoco_bridge.policy_safety import G1_JOINT_LIMITS
 from mjlab.actuator import BuiltinPositionActuatorCfg
 from mjlab.asset_zoo.robots.unitree_g1.g1_constants import get_spec
 from mjlab.envs import ManagerBasedRlEnv
@@ -189,9 +190,19 @@ class PayloadActionCfg(JointPositionActionCfg):
     action_hold_probability: float = 0.
     max_sensor_delay_steps: int = 0
     action_feedback: str = 'applied'
+    target_soft_limit_factor: float | None = None
 
     def build(self, env):
         return PayloadAction(self, env)
+
+
+def native_policy_target_bounds(factor,device):
+    if not math.isfinite(factor) or not 0.<factor<=1.:
+        raise ValueError('target soft-limit factor must be in (0, 1]')
+    limits = torch.tensor([G1_JOINT_LIMITS[sdk] for sdk in UNITREE_RL_LAB_G1_JOINT_IDS_MAP],device=device)
+    midpoint = limits.mean(dim=1)
+    half_range = .5*(limits[:,1]-limits[:,0])*factor
+    return midpoint-half_range,midpoint+half_range
 
 
 class PayloadAction(JointPositionAction):
@@ -213,6 +224,8 @@ class PayloadAction(JointPositionAction):
         self.published_action = torch.zeros(self.num_envs,self.action_dim,device=self.device)
         self.action_history = torch.zeros(self.num_envs,cfg.max_delay_steps+1,self.action_dim,device=self.device)
         self.right_ids = torch.tensor([POLICY_NAMES.index(name) for name in G1_29DOF_JOINTS[22:]], device=self.device)
+        self.target_bounds = (native_policy_target_bounds(cfg.target_soft_limit_factor,self.device)
+                              if cfg.target_soft_limit_factor is not None else None)
 
     def reset(self, env_ids=None):
         super().reset(env_ids)
@@ -256,6 +269,10 @@ class PayloadAction(JointPositionAction):
             held = torch.rand(self.num_envs,device=self.device)<self.cfg.action_hold_probability
             delayed = torch.where(held[:,None],self.raw_action,delayed)
         super().process_actions(delayed)
+        if self.target_bounds is not None:
+            # Clip position setpoints, not raw/published action history. External
+            # arm composition below follows the deployment compositor ordering.
+            self._processed_actions[:] = torch.clamp(self._processed_actions,*self.target_bounds)
         if self.cfg.profile == 'mixed' and self.cfg.arm_transitions:
             ids = torch.where(self.held & (self._env.episode_length_buf >= self.next_pose_step))[0]
             if len(ids):
@@ -311,13 +328,17 @@ def applied_policy_action(env):
 
 def build_env(num_envs, seed, profile='mixed', pose_index=0, pose_bank='carry', arm_transitions=False,
               objective='tracking',smoothness_weight=.2,dynamics='historical',max_delay_steps=0,action_hold_probability=0.,
-              max_sensor_delay_steps=0,action_feedback='applied',command_profile='mixed'):
+              max_sensor_delay_steps=0,action_feedback='applied',command_profile='mixed',integrator='implicitfast',
+              target_soft_limit_factor=None):
+    if integrator not in ('implicitfast','euler'):
+        raise ValueError('unknown integration method')
     cfg = unitree_g1_flat_env_cfg()
     cfg.seed = seed
     cfg.scene.num_envs = num_envs
     cfg.episode_length_s = 30.
     cfg.decimation = 10
     cfg.sim.mujoco.timestep = .002
+    cfg.sim.mujoco.integrator = integrator
     robot = cfg.scene.entities['robot']
     robot.spec_fn = {'historical':payload_spec,'native_inertial':native_inertial_payload_spec,
                      'native_contact':native_contact_payload_spec}[dynamics]
@@ -343,7 +364,7 @@ def build_env(num_envs, seed, profile='mixed', pose_index=0, pose_bank='carry', 
                     scale=.25, use_default_offset=True, profile=profile, pose_index=pose_index,
                     pose_bank=pose_bank, arm_transitions=arm_transitions,max_delay_steps=max_delay_steps,
                     action_hold_probability=action_hold_probability,max_sensor_delay_steps=max_sensor_delay_steps,
-                    action_feedback=action_feedback)}
+                    action_feedback=action_feedback,target_soft_limit_factor=target_soft_limit_factor)}
     actor_terms = {
         'base_ang_vel': ObservationTermCfg(func=mdp.builtin_sensor, params={'sensor_name': 'robot/imu_ang_vel'}, scale=.2),
         'projected_gravity': ObservationTermCfg(func=mdp.projected_gravity),
@@ -539,6 +560,9 @@ def main():
     parser.add_argument('--max-sensor-delay-steps',type=int,default=0,help='Shared per-episode IMU/joint observation lag, in 20 ms control periods')
     parser.add_argument('--action-feedback',choices=('applied','published'),default='applied')
     parser.add_argument('--command-profile',choices=('mixed','transitions'),default='mixed')
+    parser.add_argument('--integrator',choices=('implicitfast','euler'),default='implicitfast',
+                        help='Explicit training integration choice; native probe model uses Euler')
+    parser.add_argument('--target-soft-limit-factor',type=float,help='Opt-in deployment position-target clipping; native probe uses 0.9')
     args = parser.parse_args()
     if args.num_envs <= 0 or args.iterations <= 0 or args.seed < 0 or args.pose_index < 0:
         parser.error('Environment/iteration counts must be positive and seed/pose index nonnegative')
@@ -552,6 +576,9 @@ def main():
         parser.error('Pose indices above 2 require --pose-bank reach')
     if not math.isfinite(args.smoothness_weight) or args.smoothness_weight<=0.:
         parser.error('--smoothness-weight must be finite and positive')
+    if args.target_soft_limit_factor is not None and (not math.isfinite(args.target_soft_limit_factor) or
+                                                      not 0.<args.target_soft_limit_factor<=1.):
+        parser.error('--target-soft-limit-factor must be in (0, 1]')
     torch.set_num_threads(4)
     wp.config.kernel_cache_dir = str(ROOT / 'vendor/mjlab/logs/.warp_payload_cache')
     torch.manual_seed(args.seed)
@@ -562,7 +589,7 @@ def main():
     sys.stderr = ConsoleTee(sys.stderr,output/'console.stderr.log')
     cfg = build_env(args.num_envs, args.seed, args.profile, args.pose_index, args.pose_bank, args.arm_transitions,
                     args.objective,args.smoothness_weight,args.dynamics,args.max_delay_steps,args.action_hold_probability,
-                    args.max_sensor_delay_steps,args.action_feedback,args.command_profile)
+                    args.max_sensor_delay_steps,args.action_feedback,args.command_profile,args.integrator,args.target_soft_limit_factor)
     if args.mode == 'evaluate' and args.probe in ('loaded_turns','signed_stops'):
         schedule = LOADED_TURN_SCHEDULE if args.probe=='loaded_turns' else SIGNED_STOP_SCHEDULE
         cfg.episode_length_s = sum(item[1] for item in schedule)+2.
@@ -581,6 +608,8 @@ def main():
                     dynamics=args.dynamics,max_delay_steps=args.max_delay_steps,action_hold_probability=args.action_hold_probability,
                     max_sensor_delay_steps=args.max_sensor_delay_steps,action_feedback=args.action_feedback,
                      control_period_s=.02,
+                     integrator=args.integrator,training_mujoco_version=mujoco.__version__,
+                     target_soft_limit_factor=args.target_soft_limit_factor,
                      command_profile=args.command_profile,
                      transition_configuration=dict(moving_ticks=[75,175],standing_ticks=[250,300],lateral_probability=.5,
                         lateral_endpoint_probability=.5,deadline_margin_ticks=.5) if args.command_profile=='transitions' else None,
@@ -606,11 +635,13 @@ def main():
         native_source = ROOT/'ros2_ws/src/unitree_mujoco/unitree_robots/g1/g1_29dof.xml'
         (output/'native_robot_source.xml').write_bytes(native_source.read_bytes())
     for source in (URDF, *[ROOT/'ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge'/name
-                          for name in ('arm_kinematics.py','payload_postures.py')]):
+                          for name in ('arm_kinematics.py','payload_postures.py','policy_safety.py')]):
         (output / source.name).write_bytes(source.read_bytes())
     dump_yaml(output / 'env.yaml', asdict(cfg))
     dump_yaml(output / 'agent.yaml', asdict(agent))
     env = ManagerBasedRlEnv(cfg, device='cuda:0')
+    manifest['compiled_integrator'] = str(mujoco.mjtIntegrator(env.sim.mj_model.opt.integrator))
+    (output/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
     wrapped = RslRlVecEnvWrapper(env, clip_actions=None)
     runner = VelocityOnPolicyRunner(wrapped, asdict(agent), str(output), device='cuda:0')
     parity = load_onnx_actor(runner.alg.actor, SOURCE)

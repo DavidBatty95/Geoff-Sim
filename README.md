@@ -23,13 +23,13 @@ Geoff-Sim brings locomotion, online mapping, human-aware navigation and object
 transport into one humanoid simulation platform. The robot observes its scene,
 approaches a table, lifts a cube, carries it to a destination and checks placement.
 
-**Current progress · 17 October 2026:** transition-focused training now audits
-command-tick coverage, and evaluation reports require every tested nearby timing
-offset to pass. A 30-probe dense sweep rejects the new candidate; eight lower-delay
-controls are retained separately. Experimental policies remain unpromoted.
-**866 ROS results, 201 orchestration tests and 12 native CTests pass.**
-[Training coverage, dense evaluation and all outcomes](docs/DENSE_TRANSITIONS_20261017.md) ·
-[Checkpoint stop branches and timing diagnosis](docs/STOP_BRANCHES_20261016.md).
+**Current progress · 17 October 2026:** paired-state audits identify integration
+and joint-target clipping differences between training and native execution.
+Explicit training options reproduce these measured contracts; both resulting
+candidates remain unpromoted after dense stopping checks.
+**866 ROS results, 202 orchestration tests and 12 native CTests pass.**
+[Actuation audit, corrections and retained outcomes](docs/ACTUATION_PARITY_20261017.md) ·
+[Dense transition-training evaluation](docs/DENSE_TRANSITIONS_20261017.md).
 
 **Delivery evidence:** the earlier compact exploration cohort completed **4/4
 colour tasks**, followed by a medium-building delivery. A corrected-rollout

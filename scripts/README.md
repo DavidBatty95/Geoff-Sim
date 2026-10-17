@@ -72,6 +72,14 @@ duration counts. The matrix runner now reports complete timing neighborhoods;
 an isolated passing offset does not make its neighborhood pass.
 [Dense sweep, controls and reproduction](../docs/DENSE_TRANSITIONS_20261017.md).
 
+`compare_native_actuation.py --checkpoint PATH... --output NEW.json` isolates
+actuator/integrator behavior on captured native states in the pinned MuJoCo
+environment. `audit_native_targets.py INPUT... --output NEW.json` reconstructs
+deployment target clipping from recorded actions, excluding composed arms.
+Training flags `--integrator euler --target-soft-limit-factor .9` opt into the
+measured integration/target contract; historical defaults remain available.
+[Tests, candidate results and remaining gaps](../docs/ACTUATION_PARITY_20261017.md).
+
 Every generated world and the original plaza can run as a continuous demo. The
 demo launcher handles goal handoff, session duration, episode restart and logs.
 Use `./geoff demo --help`, `./geoff benchmark --help` or `./geoff results --help`

@@ -26,6 +26,9 @@ collections. Start there for topic-based exploration, or use the catalogue below
 
 ## Project orientation
 
+Latest diagnosis: [matched-state actuation and target-limit alignment](ACTUATION_PARITY_20261017.md)
+— measured integration mismatch, action reconstruction and unpromoted candidates.
+
 Latest experiment: [transition curriculum and dense stop timing](DENSE_TRANSITIONS_20261017.md)
 — audited training exposure, 38 native probes and all-offset neighborhood summaries.
 

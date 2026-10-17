@@ -23,6 +23,14 @@ described by the [repository guide](../REPOSITORY_GUIDE.md#where-results-go).
 
 ## Start with a dataset
 
+Actuation alignment: [four matched states](native_actuation_20261017.json),
+[initial target reconstruction](target_clipping_20261017.json),
+[phase-split target audit](target_clipping_phases_20261017.json),
+[Euler candidate matrix](euler_dense_20261017.json),
+[interrupted clipping matrix](euler_clipped_dense_20261017.json), and
+[separate follow-up](euler_clipped_followup_20261017.json).
+[Interpretation and limits](../ACTUATION_PARITY_20261017.md).
+
 17 October: [30-probe dense timing sweep and training audit](dense_transitions_20261017.json)
 and [eight lower-delay controls](transition_delay_controls_20261017.json).
 [Interpretation and unpromoted status](../DENSE_TRANSITIONS_20261017.md).

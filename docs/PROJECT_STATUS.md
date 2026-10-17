@@ -23,6 +23,16 @@ evidence snapshot, not an acceptance release. Later experiments need their own c
 
 ## At a glance
 
+**Latest 17 October actuation checkpoint:** identical-state tests isolate
+built-in-PD/implicit integration differences, and recorded actions confirm active
+deployment soft-limit clipping absent from historical training. Euler and target-
+limit options are implemented and tested. Euler-only passes **1/10** dense cases;
+Euler plus clipping passes **0/10 distinct conditions**, staying upright but
+failing stopping gates. The interrupted comparison and follow-up remain separate.
+**866 ROS results, 202 orchestration tests, 12 native CTests, 16 training-contract
+tests and 3 separate native actuator tests pass.**
+[Measured scope, residual mismatches and results](ACTUATION_PARITY_20261017.md).
+
 **17 October dense-transition checkpoint:** an opt-in curriculum audits 1,266
 move-to-stop requests and all 101 movement-duration ticks. The new candidate
 passes **0/10** dense 60 ms conditions; earlier long77 passes **1/10**, cycle-05

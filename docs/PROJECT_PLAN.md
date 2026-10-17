@@ -19,6 +19,11 @@
 Related: [Technical implementation roadmap](SOCIAL_LOCOMANIPULATION_ROADMAP.md) ·
 [Gap-aligned research and publication programme](RESEARCH_PROGRAMME.md).
 
+**Actuation-alignment update:** [paired-state integration and target audits](ACTUATION_PARITY_20261017.md)
+identify two active contract differences and provide tested opt-in training fixes.
+Neither trained candidate qualifies. Next: full training-plant/backend parity and
+native sensor/application-boundary comparison before broader policy promotion.
+
 **17 October transition update:** [audited curriculum and dense timing neighborhoods](DENSE_TRANSITIONS_20261017.md)
 are implemented and measured. More sampled stop exposure did not qualify the new
 candidate. Next: paired training/native state-action dynamics comparison before

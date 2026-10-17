@@ -1,0 +1,427 @@
+{
+  "schema_version": 1,
+  "complete": true,
+  "scope": "Predeclared serial native probes; not mission or hardware acceptance",
+  "sources": {
+    "run_native_stop_matrix.py": "1f5ced139ff057280dd0baa7c4d23b5653c266c95172bdb3d01973a988d112d8",
+    "probe_native_policy.py": "6ed5b0837080bba01ab0ae96a9b7b36ff13bb0e52695bd73bc07db21d671a779",
+    "score_native_stopping.py": "4d68f163d96451d3befb2bfec05d26b620c793736b7a49fca564e0013c6a650a"
+  },
+  "policies": {
+    "clipped77": {
+      "path": "/workspace/vendor/mjlab/logs/payload_training/euler_clipped_seed77_20261017/policy.onnx",
+      "sha256": "0e784840cb467472ae258084b9d2ea3fec2c65c3b381b9ed6d06304da6647e58",
+      "training": {
+        "run": "euler_clipped_seed77_20261017",
+        "manifest": {
+          "mode": "train",
+          "seed": 77,
+          "num_envs": 256,
+          "iterations": 100,
+          "dynamics": "native_contact",
+          "max_delay_steps": 3,
+          "action_hold_probability": 0.0,
+          "max_sensor_delay_steps": 0,
+          "action_feedback": "published",
+          "control_period_s": 0.02,
+          "integrator": "euler",
+          "training_mujoco_version": "3.8.1",
+          "target_soft_limit_factor": 0.9,
+          "command_profile": "mixed",
+          "transition_configuration": null,
+          "sensor_delay_scope": "coherent IMU/joint packet, per-environment per-episode; commands/action feedback remain current",
+          "profile": "mixed",
+          "source": "/workspace/vendor/unitree_rl_lab/policies/g1_29dof_velocity_v0/policy.onnx",
+          "source_sha256": "610c27e463a8f666aa50a06346678c00b4df3859f10b54bcc1f817c28251406f",
+          "arm_input_initialization": "pretrained",
+          "evaluation_pose_index": 0,
+          "pose_bank": "carry",
+          "arm_transitions": false,
+          "optimizer_learning_rates": {
+            "actor": 1e-05,
+            "critic": 0.0003
+          },
+          "script_sha256": "013b6b19dba59e078806e4783fd407c7f673fe400e47917d584e189bf87cb2be",
+          "checkpoint": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/final.pt",
+          "checkpoint_sha256": "b76b230ac1ffea4dd18950863f534db0ac08a50d7e14d3ef7f3f53e1103eb2bc",
+          "objective": "reactive",
+          "smoothness_weight": 0.05,
+          "probe": "tracking",
+          "cup_up_axis_local": [
+            0.014551833262721126,
+            0.014180183079654438,
+            0.9997935619699306
+          ],
+          "actor_contract": "unitree_rl_lab_g1_29dof: 480 observations / 29 actions; measured arms",
+          "payload_mass_range_kg": [
+            0.0,
+            0.5
+          ],
+          "hand_offset_m": [
+            0.19,
+            0.01,
+            0.0
+          ],
+          "base_pinning": false,
+          "compiled_integrator": "mjtIntegrator.mjINT_EULER",
+          "onnx_import_max_error": 1.2516975402832031e-06
+        },
+        "manifest_sha256": "eefa875ba58f358187851ffa7a1a4283b8911eff09b1fd23ec4cb047fdea79a5",
+        "artifact_complete": true,
+        "checkpoint_sha256": "ef6de5d8df4b216a3e460a5c85db85cff45259c0d55c1859c8020eb1be96f144",
+        "policy_sha256": "0e784840cb467472ae258084b9d2ea3fec2c65c3b381b9ed6d06304da6647e58",
+        "source_sha256": {
+          "training_source.py": "013b6b19dba59e078806e4783fd407c7f673fe400e47917d584e189bf87cb2be",
+          "payload_sensor_delay.py": "36bab8f9bc8a2348e73dbe79450ce12896e7a08b515457f90d1fdb85c1a82386",
+          "payload_smoothness.py": "ea4fb36c3bf4a76b8d52dbf23e1019109b778c3db5b54932831259b4fe9742a8",
+          "payload_transition_commands.py": "cf49ff783c42fe89d1aa44ba951eb4d67ba2cfefae72848cb4a76d9a702a3e1d",
+          "policy_safety.py": "2358db6c1d88ff87a0f0fe12f74a5d19abf25e75e77b47041cf045c4f2bbb279"
+        },
+        "transition_audit": {},
+        "transition_audit_sha256": null,
+        "exported_candidates": []
+      }
+    }
+  },
+  "plan": [
+    {
+      "case_id": "clipped77-payload-delay3-y+0.45-duration2.04",
+      "policy": "clipped77",
+      "load": "payload",
+      "delay_steps": 3,
+      "linear_y": 0.45,
+      "command_duration_s": 2.04
+    },
+    {
+      "case_id": "clipped77-payload-delay3-y-0.45-duration2.04",
+      "policy": "clipped77",
+      "load": "payload",
+      "delay_steps": 3,
+      "linear_y": -0.45,
+      "command_duration_s": 2.04
+    }
+  ],
+  "attempts": [
+    {
+      "case_id": "clipped77-payload-delay3-y+0.45-duration2.04",
+      "policy": "clipped77",
+      "load": "payload",
+      "delay_steps": 3,
+      "linear_y": 0.45,
+      "command_duration_s": 2.04,
+      "command": [
+        "/home/ros/.cache/uv/builds-v0/.tmpjV3czI/bin/python",
+        "/workspace/scripts/probe_native_policy.py",
+        "--policy",
+        "/workspace/vendor/mjlab/logs/payload_training/euler_clipped_seed77_20261017/policy.onnx",
+        "--output",
+        "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/euler_clipped_followup_20261017/clipped77-payload-delay3-y+0.45-duration2.04.json",
+        "--duration",
+        "15.0",
+        "--delay-steps",
+        "3",
+        "--payload",
+        "--record-actions",
+        "--require-mujoco-version",
+        "3.3.6",
+        "--linear-y",
+        "0.45",
+        "--command-duration",
+        "2.04",
+        "--action-feedback",
+        "published",
+        "--command-clock",
+        "physics_step"
+      ],
+      "source": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/euler_clipped_followup_20261017/clipped77-payload-delay3-y+0.45-duration2.04.json",
+      "log": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/euler_clipped_followup_20261017/clipped77-payload-delay3-y+0.45-duration2.04.log",
+      "passed": false,
+      "returncode": 0,
+      "source_sha256": "93554e23bcf64c07d32ae1caca60afa40f1664300c837b671d4546e9792393aa",
+      "metadata": {
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/euler_clipped_seed77_20261017/policy.onnx",
+        "policy_sha256": "0e784840cb467472ae258084b9d2ea3fec2c65c3b381b9ed6d06304da6647e58",
+        "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+        "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+        "mujoco_version": "3.3.6",
+        "ramp": false,
+        "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed carry arms and offline loaded-start magnetic fixture; not pickup qualification",
+        "payload": true,
+        "payload_mass_kg": 0.15,
+        "sampled_payload_scene_contacts": {},
+        "sampled_payload_robot_contacts": {},
+        "record_actions": true,
+        "probe_sha256": "6ed5b0837080bba01ab0ae96a9b7b36ff13bb0e52695bd73bc07db21d671a779",
+        "checkpoint_saved": false,
+        "branch_stop": false,
+        "branch_stop_time_s": null,
+        "checkpoint_time_s": null,
+        "branch_prefix_samples": null,
+        "record_support": false,
+        "command_clock": "physics_step",
+        "command_start_step": 2500,
+        "command_end_step": 3520,
+        "actual_command_start_s": 4.999999999999671,
+        "actual_command_end_s": 7.039999999999447,
+        "resumed_checkpoint_sha256": null,
+        "payload_fixture_sha256": "df38ce62fe4d66dd3a6819b0de309264a64cfd4c851a15278e457e5244f778df",
+        "delay_steps": 3,
+        "yaw": 0.0,
+        "held_empty": false,
+        "requested_duration_s": 15.0,
+        "outage_at_s": null,
+        "outage_duration_s": null,
+        "outage_reset_history": false,
+        "outage_measured_hold": false,
+        "outage_injected": false,
+        "observation_steps": [
+          10
+        ],
+        "action_feedback": "published",
+        "sensor_delay_steps": 0,
+        "sensor_delay_s": 0.0,
+        "sampled_nonfloor_robot_contacts": {},
+        "requested_command": [
+          0.0,
+          0.45,
+          0.0
+        ],
+        "command_duration_s": 2.04,
+        "response_samples": 76,
+        "stop_samples": 398,
+        "mean_body_velocity_after_half_second": [
+          -0.008309386811782631,
+          0.3294042186933865
+        ],
+        "mean_yaw_rate_after_one_second": 0.021157105321903843,
+        "yaw_rate_std_after_one_second": 0.2811565739325219,
+        "max_displacement_after_stop_m": 0.2493587407281305,
+        "yaw_displacement_rad": -0.02392109074386995,
+        "elapsed_s": 15.000000000001679,
+        "fallen": false,
+        "displacement_m": 0.7452376053357271,
+        "max_tilt_rad": 0.11740086488385824
+      },
+      "stopping": {
+        "passed": false,
+        "limits": {
+          "max_travel_m": 0.3,
+          "max_speed_mps": 0.08,
+          "max_yaw_rate_rps": 0.12,
+          "dwell_s": 1.0,
+          "settle_deadline_s": 3.0,
+          "minimum_observation_s": 5.0,
+          "max_sample_gap_s": 0.05
+        },
+        "reasons": [
+          "settling_deadline_exceeded"
+        ],
+        "scope": "fixed_command_probe",
+        "action_history": {
+          "valid": true,
+          "publications": 750,
+          "applied_samples": 747,
+          "min_application_age_s": 0.05999999999999339,
+          "max_application_age_s": 0.06000000000002004
+        },
+        "payload_position_error_limit_m": 0.03,
+        "max_payload_position_error_m": 0.0005440325036568741,
+        "stop_samples": 398,
+        "command_end_s": 7.039999999999447,
+        "first_stop_sample_s": 7.039999999999447,
+        "observation_s": 7.940000000002225,
+        "max_sample_gap_s": 0.02000000000000668,
+        "sampled_max_travel_m": 0.2493587407281305,
+        "settled_at_s": 3.4400000000007225,
+        "terminal_speed_mps": 0.001470187784020003,
+        "terminal_yaw_rate_rps": 0.0015339474049486492
+      }
+    },
+    {
+      "case_id": "clipped77-payload-delay3-y-0.45-duration2.04",
+      "policy": "clipped77",
+      "load": "payload",
+      "delay_steps": 3,
+      "linear_y": -0.45,
+      "command_duration_s": 2.04,
+      "command": [
+        "/home/ros/.cache/uv/builds-v0/.tmpjV3czI/bin/python",
+        "/workspace/scripts/probe_native_policy.py",
+        "--policy",
+        "/workspace/vendor/mjlab/logs/payload_training/euler_clipped_seed77_20261017/policy.onnx",
+        "--output",
+        "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/euler_clipped_followup_20261017/clipped77-payload-delay3-y-0.45-duration2.04.json",
+        "--duration",
+        "15.0",
+        "--delay-steps",
+        "3",
+        "--payload",
+        "--record-actions",
+        "--require-mujoco-version",
+        "3.3.6",
+        "--linear-y",
+        "-0.45",
+        "--command-duration",
+        "2.04",
+        "--action-feedback",
+        "published",
+        "--command-clock",
+        "physics_step"
+      ],
+      "source": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/euler_clipped_followup_20261017/clipped77-payload-delay3-y-0.45-duration2.04.json",
+      "log": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/euler_clipped_followup_20261017/clipped77-payload-delay3-y-0.45-duration2.04.log",
+      "passed": false,
+      "returncode": 0,
+      "source_sha256": "9995e9f7af0040568d0937db6012718ef895ff1ca91ba7a14ff0547a2c6f32db",
+      "metadata": {
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/euler_clipped_seed77_20261017/policy.onnx",
+        "policy_sha256": "0e784840cb467472ae258084b9d2ea3fec2c65c3b381b9ed6d06304da6647e58",
+        "scene": "/workspace/ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml",
+        "scene_sha256": "eca18c68dc91850aacbb69e245d48e3447a4c4ff1791f50423dff5fa1575db70",
+        "mujoco_version": "3.3.6",
+        "ramp": false,
+        "scope": "native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed carry arms and offline loaded-start magnetic fixture; not pickup qualification",
+        "payload": true,
+        "payload_mass_kg": 0.15,
+        "sampled_payload_scene_contacts": {},
+        "sampled_payload_robot_contacts": {},
+        "record_actions": true,
+        "probe_sha256": "6ed5b0837080bba01ab0ae96a9b7b36ff13bb0e52695bd73bc07db21d671a779",
+        "checkpoint_saved": false,
+        "branch_stop": false,
+        "branch_stop_time_s": null,
+        "checkpoint_time_s": null,
+        "branch_prefix_samples": null,
+        "record_support": false,
+        "command_clock": "physics_step",
+        "command_start_step": 2500,
+        "command_end_step": 3520,
+        "actual_command_start_s": 4.999999999999671,
+        "actual_command_end_s": 7.039999999999447,
+        "resumed_checkpoint_sha256": null,
+        "payload_fixture_sha256": "df38ce62fe4d66dd3a6819b0de309264a64cfd4c851a15278e457e5244f778df",
+        "delay_steps": 3,
+        "yaw": 0.0,
+        "held_empty": false,
+        "requested_duration_s": 15.0,
+        "outage_at_s": null,
+        "outage_duration_s": null,
+        "outage_reset_history": false,
+        "outage_measured_hold": false,
+        "outage_injected": false,
+        "observation_steps": [
+          10
+        ],
+        "action_feedback": "published",
+        "sensor_delay_steps": 0,
+        "sensor_delay_s": 0.0,
+        "sampled_nonfloor_robot_contacts": {},
+        "requested_command": [
+          0.0,
+          -0.45,
+          0.0
+        ],
+        "command_duration_s": 2.04,
+        "response_samples": 76,
+        "stop_samples": 398,
+        "mean_body_velocity_after_half_second": [
+          0.04085717272462222,
+          -0.47158154891559834
+        ],
+        "mean_yaw_rate_after_one_second": 0.0698900628149697,
+        "yaw_rate_std_after_one_second": 0.39972779621772897,
+        "max_displacement_after_stop_m": 0.6692629793341276,
+        "yaw_displacement_rad": -0.02447010919513767,
+        "elapsed_s": 15.000000000001679,
+        "fallen": false,
+        "displacement_m": 1.4204954995210166,
+        "max_tilt_rad": 0.15847692557745852
+      },
+      "stopping": {
+        "passed": false,
+        "limits": {
+          "max_travel_m": 0.3,
+          "max_speed_mps": 0.08,
+          "max_yaw_rate_rps": 0.12,
+          "dwell_s": 1.0,
+          "settle_deadline_s": 3.0,
+          "minimum_observation_s": 5.0,
+          "max_sample_gap_s": 0.05
+        },
+        "reasons": [
+          "post_stop_travel_exceeded",
+          "settling_deadline_exceeded"
+        ],
+        "scope": "fixed_command_probe",
+        "action_history": {
+          "valid": true,
+          "publications": 750,
+          "applied_samples": 747,
+          "min_application_age_s": 0.05999999999999339,
+          "max_application_age_s": 0.06000000000002004
+        },
+        "payload_position_error_limit_m": 0.03,
+        "max_payload_position_error_m": 0.0008485104606712093,
+        "stop_samples": 398,
+        "command_end_s": 7.039999999999447,
+        "first_stop_sample_s": 7.039999999999447,
+        "observation_s": 7.940000000002225,
+        "max_sample_gap_s": 0.02000000000000668,
+        "sampled_max_travel_m": 0.6692629793341276,
+        "settled_at_s": 4.66000000000113,
+        "terminal_speed_mps": 0.004183868347677325,
+        "terminal_yaw_rate_rps": -0.07722266036480976
+      }
+    }
+  ],
+  "duration_s": 15.0,
+  "timeout_s": 120.0,
+  "command_clock": "physics_step",
+  "passed": 0,
+  "by_policy": {
+    "clipped77": {
+      "planned": 2,
+      "attempted": 2,
+      "passed": 0,
+      "fallen": 0,
+      "process_or_protocol_errors": 0
+    }
+  },
+  "timing_neighborhoods": [
+    {
+      "policy": "clipped77",
+      "load": "payload",
+      "delay_steps": 3,
+      "linear_y": 0.45,
+      "command_durations_s": [
+        2.04
+      ],
+      "planned": 1,
+      "attempted": 1,
+      "passed": 0,
+      "complete": true,
+      "all_passed": false,
+      "worst_sampled_travel_m": 0.2493587407281305
+    },
+    {
+      "policy": "clipped77",
+      "load": "payload",
+      "delay_steps": 3,
+      "linear_y": -0.45,
+      "command_durations_s": [
+        2.04
+      ],
+      "planned": 1,
+      "attempted": 1,
+      "passed": 0,
+      "complete": true,
+      "all_passed": false,
+      "worst_sampled_travel_m": 0.6692629793341276
+    }
+  ],
+  "source_summary": {
+    "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/euler_clipped_followup_20261017/summary.json",
+    "sha256": "2ce11fae2e759e93c2b3d64464151b78b462067e45f8180a81ba2d8892b21aff"
+  },
+  "exporter_sha256": "1f5ced139ff057280dd0baa7c4d23b5653c266c95172bdb3d01973a988d112d8"
+}
