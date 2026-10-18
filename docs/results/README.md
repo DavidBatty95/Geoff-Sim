@@ -23,6 +23,20 @@ described by the [repository guide](../REPOSITORY_GUIDE.md#where-results-go).
 
 ## Start with a dataset
 
+18 October: [portable native states](portable_native_states_20261018.json),
+[compiled baseline](compiled_plants_20261018.json),
+[friction correction](compiled_plants_friction_20261018.json),
+[solver control](compiled_plants_solver_20261018.json),
+[full mass inventory](compiled_plants_final_20261018.json),
+[payload-offset control](compiled_plants_payload_20261018.json), and
+[CPU/Warp comparison](compiled_plants_warp_20261018.json).
+Feedback matrices: [state/state](feedback_state_state_20261018.json),
+[state/sensors](feedback_state_sensors_20261018.json),
+[sensors/state](feedback_sensors_state_20261018.json),
+[sensors/sensors](feedback_sensors_sensors_20261018.json), with
+[checkpoint parity](feedback_checkpoint_20261018.json).
+[Interpretation](../COMPILED_FEEDBACK_20261018.md).
+
 Actuation alignment: [four matched states](native_actuation_20261017.json),
 [initial target reconstruction](target_clipping_20261017.json),
 [phase-split target audit](target_clipping_phases_20261017.json),

@@ -57,6 +57,7 @@ def main():
         summary.write_text(json.dumps(report,indent=2,allow_nan=False)+'\n')
     save()
     cases = [('loaded',['--payload'],6.987),
+             ('native_sensors',['--payload','--joint-feedback','sensors','--pd-feedback','sensors'],6.987),
              ('sensor_cadence_outage',['--held-empty','--sensor-delay-steps','3','--observation-steps','7','13',
                                      '--outage-at','7.5','--outage-measured-hold'],6.991)]
     for name,options,at in cases:

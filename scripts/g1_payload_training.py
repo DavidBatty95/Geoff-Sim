@@ -107,7 +107,9 @@ def native_robot_model():
     return mujoco.MjModel.from_xml_path(str(ROOT/'ros2_ws/src/unitree_mujoco/unitree_robots/g1/g1_29dof.xml'))
 
 
-def payload_spec(native_inertial=False):
+def payload_spec(native_inertial=False,native_joint_friction=False):
+    if native_joint_friction and not native_inertial:
+        raise ValueError('native joint friction requires native inertial source')
     spec = get_spec()
     if native_inertial:
         native = native_robot_model()
@@ -125,23 +127,26 @@ def payload_spec(native_inertial=False):
         if joint.type == mujoco.mjtJoint.mjJNT_HINGE:
             joint.damping = [.05, 0., 0.]
             joint.frictionloss = .1 if 'wrist' in joint.name else .2
+            if native_joint_friction:
+                source = native.joint(joint.name).id
+                joint.frictionloss = float(native.dof_frictionloss[native.jnt_dofadr[source]])
     payload = spec.body('right_wrist_yaw_link').add_body(name='carried_payload', pos=[.19, .01, 0.])
     payload.add_geom(name='payload_collision', type=mujoco.mjtGeom.mjGEOM_BOX,
                      size=[.055, .055, .055], mass=.15, rgba=[.85, .08, .06, 1.])
     return spec
 
 
-def native_inertial_payload_spec():
-    return payload_spec(native_inertial=True)
+def native_inertial_payload_spec(native_joint_friction=False):
+    return payload_spec(native_inertial=True,native_joint_friction=native_joint_friction)
 
 
-def native_contact_payload_spec():
+def native_contact_payload_spec(native_joint_friction=False):
     """Also match deployment's four sphere contacts per foot, not seven capsules.
 
     Other training collision assets still differ; this is a declared foot-contact
     fidelity profile, not a claim that the two simulators are identical.
     """
-    spec = native_inertial_payload_spec()
+    spec = native_inertial_payload_spec(native_joint_friction)
     native = native_robot_model()
     for side in ('left','right'):
         body = native.body(f'{side}_ankle_roll_link').id
@@ -161,6 +166,10 @@ def native_contact_payload_spec():
             geom.condim = int(native.geom_condim[source])
             geom.priority = int(native.geom_priority[source])
     return spec
+
+
+def native_contact_joint_friction_spec():
+    return native_contact_payload_spec(native_joint_friction=True)
 
 
 def turn_drift_penalty(env):
@@ -329,7 +338,7 @@ def applied_policy_action(env):
 def build_env(num_envs, seed, profile='mixed', pose_index=0, pose_bank='carry', arm_transitions=False,
               objective='tracking',smoothness_weight=.2,dynamics='historical',max_delay_steps=0,action_hold_probability=0.,
               max_sensor_delay_steps=0,action_feedback='applied',command_profile='mixed',integrator='implicitfast',
-              target_soft_limit_factor=None):
+              target_soft_limit_factor=None,native_joint_friction=False):
     if integrator not in ('implicitfast','euler'):
         raise ValueError('unknown integration method')
     cfg = unitree_g1_flat_env_cfg()
@@ -342,6 +351,10 @@ def build_env(num_envs, seed, profile='mixed', pose_index=0, pose_bank='carry', 
     robot = cfg.scene.entities['robot']
     robot.spec_fn = {'historical':payload_spec,'native_inertial':native_inertial_payload_spec,
                      'native_contact':native_contact_payload_spec}[dynamics]
+    if native_joint_friction:
+        if dynamics!='native_contact':
+            raise ValueError('native joint friction requires native_contact dynamics')
+        robot.spec_fn = native_contact_joint_friction_spec
     if dynamics=='native_contact':
         for collision in robot.collisions:
             collision.friction = {r'^(left|right)_foot[1-7]_collision$':(1.,.005,.0001)}
@@ -563,7 +576,10 @@ def main():
     parser.add_argument('--integrator',choices=('implicitfast','euler'),default='implicitfast',
                         help='Explicit training integration choice; native probe model uses Euler')
     parser.add_argument('--target-soft-limit-factor',type=float,help='Opt-in deployment position-target clipping; native probe uses 0.9')
+    parser.add_argument('--native-joint-friction',action='store_true',help='Use native per-joint friction, including wrist-roll 0.2 rather than 0.1')
     args = parser.parse_args()
+    if args.native_joint_friction and args.dynamics!='native_contact':
+        parser.error('--native-joint-friction requires --dynamics native_contact')
     if args.num_envs <= 0 or args.iterations <= 0 or args.seed < 0 or args.pose_index < 0:
         parser.error('Environment/iteration counts must be positive and seed/pose index nonnegative')
     if not 0<=args.max_delay_steps<=5:
@@ -589,7 +605,8 @@ def main():
     sys.stderr = ConsoleTee(sys.stderr,output/'console.stderr.log')
     cfg = build_env(args.num_envs, args.seed, args.profile, args.pose_index, args.pose_bank, args.arm_transitions,
                     args.objective,args.smoothness_weight,args.dynamics,args.max_delay_steps,args.action_hold_probability,
-                    args.max_sensor_delay_steps,args.action_feedback,args.command_profile,args.integrator,args.target_soft_limit_factor)
+                    args.max_sensor_delay_steps,args.action_feedback,args.command_profile,args.integrator,args.target_soft_limit_factor,
+                    args.native_joint_friction)
     if args.mode == 'evaluate' and args.probe in ('loaded_turns','signed_stops'):
         schedule = LOADED_TURN_SCHEDULE if args.probe=='loaded_turns' else SIGNED_STOP_SCHEDULE
         cfg.episode_length_s = sum(item[1] for item in schedule)+2.
@@ -610,6 +627,7 @@ def main():
                      control_period_s=.02,
                      integrator=args.integrator,training_mujoco_version=mujoco.__version__,
                      target_soft_limit_factor=args.target_soft_limit_factor,
+                     native_joint_friction=args.native_joint_friction,
                      command_profile=args.command_profile,
                      transition_configuration=dict(moving_ticks=[75,175],standing_ticks=[250,300],lateral_probability=.5,
                         lateral_endpoint_probability=.5,deadline_margin_ticks=.5) if args.command_profile=='transitions' else None,

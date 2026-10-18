@@ -19,6 +19,11 @@
 Related: [Technical implementation roadmap](SOCIAL_LOCOMANIPULATION_ROADMAP.md) ·
 [Gap-aligned research and publication programme](RESEARCH_PROGRAMME.md).
 
+**18 October compiled-model update:** [plant/backend and feedback-boundary audits](COMPILED_FEEDBACK_20261018.md)
+now separate friction, load placement, solver budgets and one-step CPU/Warp
+differences. Next: measured sensor/PD timing in training, payload-attachment
+distributions and wider/longer backend comparisons before policy promotion.
+
 **Actuation-alignment update:** [paired-state integration and target audits](ACTUATION_PARITY_20261017.md)
 identify two active contract differences and provide tested opt-in training fixes.
 Neither trained candidate qualifies. Next: full training-plant/backend parity and

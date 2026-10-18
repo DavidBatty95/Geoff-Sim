@@ -80,6 +80,13 @@ Training flags `--integrator euler --target-soft-limit-factor .9` opt into the
 measured integration/target contract; historical defaults remain available.
 [Tests, candidate results and remaining gaps](../docs/ACTUATION_PARITY_20261017.md).
 
+`compare_compiled_plants.py --states PORTABLE_STATES --output NEW.json` audits
+final scene models. Optional solver/payload controls and `--warp` isolate further
+differences. Training `--native-joint-friction` requires `--dynamics native_contact`.
+Native probes/matrices accept independent `--joint-feedback state|sensors` and
+`--pd-feedback state|sensors` selections; both default to historical `state`.
+[Commands and measured outcomes](../docs/COMPILED_FEEDBACK_20261018.md).
+
 Every generated world and the original plaza can run as a continuous demo. The
 demo launcher handles goal handoff, session duration, episode restart and logs.
 Use `./geoff demo --help`, `./geoff benchmark --help` or `./geoff results --help`

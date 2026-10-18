@@ -1,0 +1,887 @@
+{
+  "schema_version": 1,
+  "mujoco_version": "3.8.1",
+  "scope": "CPU full compiled plants in one engine version; mapped root/joints, model-specific payload attachment; not Warp parity or mission replay",
+  "source_sha256": "becdf6cd8cec1c7942f0a9d87a96a7eb43108a0fdd9d4673c17d5a7020941612",
+  "script_sha256": "90a6c7c88bcc58d60db1ca348fb9de17c8c135a3671ea7a5ebc2d649269765f3",
+  "native_joint_friction": true,
+  "static": {
+    "options": {
+      "integrator": {
+        "native": 0.0,
+        "training": 0.0
+      },
+      "cone": {
+        "native": 0.0,
+        "training": 0.0
+      },
+      "impratio": {
+        "native": 1.0,
+        "training": 1.0
+      },
+      "iterations": {
+        "native": 100.0,
+        "training": 10.0
+      },
+      "tolerance": {
+        "native": 1e-08,
+        "training": 1e-08
+      },
+      "ls_iterations": {
+        "native": 50.0,
+        "training": 20.0
+      },
+      "ls_tolerance": {
+        "native": 0.01,
+        "training": 0.01
+      },
+      "disableflags": {
+        "native": 0.0,
+        "training": 0.0
+      },
+      "enableflags": {
+        "native": 0.0,
+        "training": 0.0
+      }
+    },
+    "joint_body_differences": [],
+    "foot_and_floor_geometries": {
+      "native": [
+        {
+          "name": "floor",
+          "body": "world",
+          "type": 0,
+          "pos": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            0.0,
+            0.0,
+            0.05
+          ],
+          "friction": [
+            1.0,
+            0.01,
+            0.001
+          ],
+          "condim": 3,
+          "priority": 0,
+          "solref": [
+            0.02,
+            1.0
+          ],
+          "solimp": [
+            0.9,
+            0.95,
+            0.001,
+            0.5,
+            2.0
+          ]
+        },
+        {
+          "name": "",
+          "body": "left_ankle_roll_link",
+          "type": 2,
+          "pos": [
+            -0.05,
+            0.025,
+            -0.03
+          ],
+          "size": [
+            0.005,
+            0.0,
+            0.0
+          ],
+          "friction": [
+            1.0,
+            0.005,
+            0.0001
+          ],
+          "condim": 3,
+          "priority": 0,
+          "solref": [
+            0.02,
+            1.0
+          ],
+          "solimp": [
+            0.9,
+            0.95,
+            0.001,
+            0.5,
+            2.0
+          ]
+        },
+        {
+          "name": "",
+          "body": "left_ankle_roll_link",
+          "type": 2,
+          "pos": [
+            -0.05,
+            -0.025,
+            -0.03
+          ],
+          "size": [
+            0.005,
+            0.0,
+            0.0
+          ],
+          "friction": [
+            1.0,
+            0.005,
+            0.0001
+          ],
+          "condim": 3,
+          "priority": 0,
+          "solref": [
+            0.02,
+            1.0
+          ],
+          "solimp": [
+            0.9,
+            0.95,
+            0.001,
+            0.5,
+            2.0
+          ]
+        },
+        {
+          "name": "",
+          "body": "left_ankle_roll_link",
+          "type": 2,
+          "pos": [
+            0.12,
+            0.03,
+            -0.03
+          ],
+          "size": [
+            0.005,
+            0.0,
+            0.0
+          ],
+          "friction": [
+            1.0,
+            0.005,
+            0.0001
+          ],
+          "condim": 3,
+          "priority": 0,
+          "solref": [
+            0.02,
+            1.0
+          ],
+          "solimp": [
+            0.9,
+            0.95,
+            0.001,
+            0.5,
+            2.0
+          ]
+        },
+        {
+          "name": "",
+          "body": "left_ankle_roll_link",
+          "type": 2,
+          "pos": [
+            0.12,
+            -0.03,
+            -0.03
+          ],
+          "size": [
+            0.005,
+            0.0,
+            0.0
+          ],
+          "friction": [
+            1.0,
+            0.005,
+            0.0001
+          ],
+          "condim": 3,
+          "priority": 0,
+          "solref": [
+            0.02,
+            1.0
+          ],
+          "solimp": [
+            0.9,
+            0.95,
+            0.001,
+            0.5,
+            2.0
+          ]
+        },
+        {
+          "name": "",
+          "body": "right_ankle_roll_link",
+          "type": 2,
+          "pos": [
+            -0.05,
+            0.025,
+            -0.03
+          ],
+          "size": [
+            0.005,
+            0.0,
+            0.0
+          ],
+          "friction": [
+            1.0,
+            0.005,
+            0.0001
+          ],
+          "condim": 3,
+          "priority": 0,
+          "solref": [
+            0.02,
+            1.0
+          ],
+          "solimp": [
+            0.9,
+            0.95,
+            0.001,
+            0.5,
+            2.0
+          ]
+        },
+        {
+          "name": "",
+          "body": "right_ankle_roll_link",
+          "type": 2,
+          "pos": [
+            -0.05,
+            -0.025,
+            -0.03
+          ],
+          "size": [
+            0.005,
+            0.0,
+            0.0
+          ],
+          "friction": [
+            1.0,
+            0.005,
+            0.0001
+          ],
+          "condim": 3,
+          "priority": 0,
+          "solref": [
+            0.02,
+            1.0
+          ],
+          "solimp": [
+            0.9,
+            0.95,
+            0.001,
+            0.5,
+            2.0
+          ]
+        },
+        {
+          "name": "",
+          "body": "right_ankle_roll_link",
+          "type": 2,
+          "pos": [
+            0.12,
+            0.03,
+            -0.03
+          ],
+          "size": [
+            0.005,
+            0.0,
+            0.0
+          ],
+          "friction": [
+            1.0,
+            0.005,
+            0.0001
+          ],
+          "condim": 3,
+          "priority": 0,
+          "solref": [
+            0.02,
+            1.0
+          ],
+          "solimp": [
+            0.9,
+            0.95,
+            0.001,
+            0.5,
+            2.0
+          ]
+        },
+        {
+          "name": "",
+          "body": "right_ankle_roll_link",
+          "type": 2,
+          "pos": [
+            0.12,
+            -0.03,
+            -0.03
+          ],
+          "size": [
+            0.005,
+            0.0,
+            0.0
+          ],
+          "friction": [
+            1.0,
+            0.005,
+            0.0001
+          ],
+          "condim": 3,
+          "priority": 0,
+          "solref": [
+            0.02,
+            1.0
+          ],
+          "solimp": [
+            0.9,
+            0.95,
+            0.001,
+            0.5,
+            2.0
+          ]
+        }
+      ],
+      "training": [
+        {
+          "name": "terrain",
+          "body": "terrain",
+          "type": 0,
+          "pos": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "size": [
+            0.0,
+            0.0,
+            0.01
+          ],
+          "friction": [
+            1.0,
+            0.005,
+            0.0001
+          ],
+          "condim": 3,
+          "priority": 0,
+          "solref": [
+            0.02,
+            1.0
+          ],
+          "solimp": [
+            0.9,
+            0.95,
+            0.001,
+            0.5,
+            2.0
+          ]
+        },
+        {
+          "name": "robot/left_foot1_collision",
+          "body": "robot/left_ankle_roll_link",
+          "type": 2,
+          "pos": [
+            -0.05,
+            0.025,
+            -0.03
+          ],
+          "size": [
+            0.005,
+            0.0,
+            0.0
+          ],
+          "friction": [
+            1.0,
+            0.005,
+            0.0001
+          ],
+          "condim": 3,
+          "priority": 0,
+          "solref": [
+            0.02,
+            1.0
+          ],
+          "solimp": [
+            0.9,
+            0.95,
+            0.001,
+            0.5,
+            2.0
+          ]
+        },
+        {
+          "name": "robot/left_foot2_collision",
+          "body": "robot/left_ankle_roll_link",
+          "type": 2,
+          "pos": [
+            -0.05,
+            -0.025,
+            -0.03
+          ],
+          "size": [
+            0.005,
+            0.0,
+            0.0
+          ],
+          "friction": [
+            1.0,
+            0.005,
+            0.0001
+          ],
+          "condim": 3,
+          "priority": 0,
+          "solref": [
+            0.02,
+            1.0
+          ],
+          "solimp": [
+            0.9,
+            0.95,
+            0.001,
+            0.5,
+            2.0
+          ]
+        },
+        {
+          "name": "robot/left_foot3_collision",
+          "body": "robot/left_ankle_roll_link",
+          "type": 2,
+          "pos": [
+            0.12,
+            0.03,
+            -0.03
+          ],
+          "size": [
+            0.005,
+            0.0,
+            0.0
+          ],
+          "friction": [
+            1.0,
+            0.005,
+            0.0001
+          ],
+          "condim": 3,
+          "priority": 0,
+          "solref": [
+            0.02,
+            1.0
+          ],
+          "solimp": [
+            0.9,
+            0.95,
+            0.001,
+            0.5,
+            2.0
+          ]
+        },
+        {
+          "name": "robot/left_foot4_collision",
+          "body": "robot/left_ankle_roll_link",
+          "type": 2,
+          "pos": [
+            0.12,
+            -0.03,
+            -0.03
+          ],
+          "size": [
+            0.005,
+            0.0,
+            0.0
+          ],
+          "friction": [
+            1.0,
+            0.005,
+            0.0001
+          ],
+          "condim": 3,
+          "priority": 0,
+          "solref": [
+            0.02,
+            1.0
+          ],
+          "solimp": [
+            0.9,
+            0.95,
+            0.001,
+            0.5,
+            2.0
+          ]
+        },
+        {
+          "name": "robot/right_foot1_collision",
+          "body": "robot/right_ankle_roll_link",
+          "type": 2,
+          "pos": [
+            -0.05,
+            0.025,
+            -0.03
+          ],
+          "size": [
+            0.005,
+            0.0,
+            0.0
+          ],
+          "friction": [
+            1.0,
+            0.005,
+            0.0001
+          ],
+          "condim": 3,
+          "priority": 0,
+          "solref": [
+            0.02,
+            1.0
+          ],
+          "solimp": [
+            0.9,
+            0.95,
+            0.001,
+            0.5,
+            2.0
+          ]
+        },
+        {
+          "name": "robot/right_foot2_collision",
+          "body": "robot/right_ankle_roll_link",
+          "type": 2,
+          "pos": [
+            -0.05,
+            -0.025,
+            -0.03
+          ],
+          "size": [
+            0.005,
+            0.0,
+            0.0
+          ],
+          "friction": [
+            1.0,
+            0.005,
+            0.0001
+          ],
+          "condim": 3,
+          "priority": 0,
+          "solref": [
+            0.02,
+            1.0
+          ],
+          "solimp": [
+            0.9,
+            0.95,
+            0.001,
+            0.5,
+            2.0
+          ]
+        },
+        {
+          "name": "robot/right_foot3_collision",
+          "body": "robot/right_ankle_roll_link",
+          "type": 2,
+          "pos": [
+            0.12,
+            0.03,
+            -0.03
+          ],
+          "size": [
+            0.005,
+            0.0,
+            0.0
+          ],
+          "friction": [
+            1.0,
+            0.005,
+            0.0001
+          ],
+          "condim": 3,
+          "priority": 0,
+          "solref": [
+            0.02,
+            1.0
+          ],
+          "solimp": [
+            0.9,
+            0.95,
+            0.001,
+            0.5,
+            2.0
+          ]
+        },
+        {
+          "name": "robot/right_foot4_collision",
+          "body": "robot/right_ankle_roll_link",
+          "type": 2,
+          "pos": [
+            0.12,
+            -0.03,
+            -0.03
+          ],
+          "size": [
+            0.005,
+            0.0,
+            0.0
+          ],
+          "friction": [
+            1.0,
+            0.005,
+            0.0001
+          ],
+          "condim": 3,
+          "priority": 0,
+          "solref": [
+            0.02,
+            1.0
+          ],
+          "solimp": [
+            0.9,
+            0.95,
+            0.001,
+            0.5,
+            2.0
+          ]
+        }
+      ]
+    }
+  },
+  "attempts": [
+    {
+      "checkpoint": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/stop_branch_tick_20261016/baseline-stop-6.99_checkpoint.json",
+      "max_abs_deltas": {
+        "joint_qpos": 4.180330432057566e-05,
+        "joint_qvel": 0.020901652160263462,
+        "joint_force": 1.9095836023552692e-14,
+        "root_qvel": 0.00012637449821362168
+      },
+      "worst_velocity_joint": "right_wrist_roll_joint",
+      "native_contacts": [
+        {
+          "geoms": [
+            "floor",
+            ""
+          ],
+          "distance": -0.0037171816036734055,
+          "position": [
+            -0.07850901537735838,
+            -0.4977531991089415,
+            -0.0018585908018367027
+          ],
+          "dimension": 3
+        },
+        {
+          "geoms": [
+            "floor",
+            ""
+          ],
+          "distance": -0.00484655881501066,
+          "position": [
+            -0.06799196662075013,
+            -0.5466215548472477,
+            -0.00242327940750533
+          ],
+          "dimension": 3
+        },
+        {
+          "geoms": [
+            "floor",
+            ""
+          ],
+          "distance": -0.0015242331942615433,
+          "position": [
+            0.08663153125340384,
+            -0.45714789359640096,
+            -0.0007621165971307721
+          ],
+          "dimension": 3
+        },
+        {
+          "geoms": [
+            "floor",
+            ""
+          ],
+          "distance": -0.0028794858478662496,
+          "position": [
+            0.09925198976133376,
+            -0.5157899204823683,
+            -0.0014397429239331248
+          ],
+          "dimension": 3
+        },
+        {
+          "geoms": [
+            "floor",
+            ""
+          ],
+          "distance": -0.002485584453263116,
+          "position": [
+            -0.009979095014060572,
+            -0.8859573135514625,
+            -0.001242792226631558
+          ],
+          "dimension": 3
+        },
+        {
+          "geoms": [
+            "floor",
+            ""
+          ],
+          "distance": -0.0010085597615606323,
+          "position": [
+            0.15671224744088733,
+            -0.8522406300160452,
+            -0.0005042798807803166
+          ],
+          "dimension": 3
+        }
+      ],
+      "training_contacts": [
+        {
+          "geoms": [
+            "terrain",
+            "robot/left_foot1_collision"
+          ],
+          "distance": -0.0037171816036734055,
+          "position": [
+            -0.07850901537735838,
+            -0.4977531991089415,
+            -0.0018585908018367027
+          ],
+          "dimension": 3
+        },
+        {
+          "geoms": [
+            "terrain",
+            "robot/left_foot2_collision"
+          ],
+          "distance": -0.00484655881501066,
+          "position": [
+            -0.06799196662075013,
+            -0.5466215548472477,
+            -0.00242327940750533
+          ],
+          "dimension": 3
+        },
+        {
+          "geoms": [
+            "terrain",
+            "robot/left_foot3_collision"
+          ],
+          "distance": -0.0015242331942615433,
+          "position": [
+            0.08663153125340384,
+            -0.45714789359640096,
+            -0.0007621165971307721
+          ],
+          "dimension": 3
+        },
+        {
+          "geoms": [
+            "terrain",
+            "robot/left_foot4_collision"
+          ],
+          "distance": -0.0028794858478662496,
+          "position": [
+            0.09925198976133376,
+            -0.5157899204823683,
+            -0.0014397429239331248
+          ],
+          "dimension": 3
+        },
+        {
+          "geoms": [
+            "terrain",
+            "robot/right_foot1_collision"
+          ],
+          "distance": -0.002485584453263116,
+          "position": [
+            -0.009979095014060572,
+            -0.8859573135514625,
+            -0.001242792226631558
+          ],
+          "dimension": 3
+        },
+        {
+          "geoms": [
+            "terrain",
+            "robot/right_foot3_collision"
+          ],
+          "distance": -0.0010085597615606323,
+          "position": [
+            0.15671224744088733,
+            -0.8522406300160452,
+            -0.0005042798807803166
+          ],
+          "dimension": 3
+        }
+      ]
+    },
+    {
+      "checkpoint": "/workspace/ros2_ws/src/dynamic_obstacle_benchmarks/results/stop_branch_tick_20261016/long77-stop-6.99_checkpoint.json",
+      "max_abs_deltas": {
+        "joint_qpos": 4.385652072391721e-06,
+        "joint_qvel": 0.002192826036214922,
+        "joint_force": 1.709743457922741e-14,
+        "root_qvel": 1.0281926086153081e-05
+      },
+      "worst_velocity_joint": "right_wrist_yaw_joint",
+      "native_contacts": [
+        {
+          "geoms": [
+            "floor",
+            ""
+          ],
+          "distance": -0.0011647783002318333,
+          "position": [
+            0.1719291759836161,
+            -0.9241759862921816,
+            -0.0005823891501159171
+          ],
+          "dimension": 3
+        },
+        {
+          "geoms": [
+            "floor",
+            ""
+          ],
+          "distance": -0.0010238980287346862,
+          "position": [
+            0.33997430720105437,
+            -0.8979879350690939,
+            -0.0005119490143673435
+          ],
+          "dimension": 3
+        }
+      ],
+      "training_contacts": [
+        {
+          "geoms": [
+            "terrain",
+            "robot/right_foot1_collision"
+          ],
+          "distance": -0.0011647783002318333,
+          "position": [
+            0.1719291759836161,
+            -0.9241759862921816,
+            -0.0005823891501159171
+          ],
+          "dimension": 3
+        },
+        {
+          "geoms": [
+            "terrain",
+            "robot/right_foot3_collision"
+          ],
+          "distance": -0.0010238980287346862,
+          "position": [
+            0.33997430720105437,
+            -0.8979879350690939,
+            -0.0005119490143673435
+          ],
+          "dimension": 3
+        }
+      ]
+    }
+  ]
+}

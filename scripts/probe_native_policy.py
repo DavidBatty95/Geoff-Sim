@@ -18,6 +18,7 @@ from native_probe_payload import attach_payload,payload_sample
 from native_probe_checkpoint import save_checkpoint,restore_checkpoint,array_state,restore_array
 from native_probe_support import support_state
 from native_probe_timing import command_steps
+from native_probe_feedback import joint_sensor_addresses,joint_feedback
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT/'ros2_ws/src/unitree_g1_mujoco_bridge'))
@@ -63,6 +64,10 @@ def main():
     parser.add_argument('--record-support',action='store_true',help='Record offline foot normal forces, ankle heights and leg joint state')
     parser.add_argument('--command-clock',choices=('legacy_float','physics_step'),default='legacy_float',
                         help='Legacy accumulated-time comparison or explicit integer-step command boundaries')
+    parser.add_argument('--joint-feedback',choices=('state','sensors'),default='state',
+                        help='Legacy current qpos/qvel or native bridge joint sensors for policy packets')
+    parser.add_argument('--pd-feedback',choices=('state','sensors'),default='state',
+                        help='Independent motor PD feedback source; native bridge uses joint sensors')
     args = parser.parse_args()
     if args.branch_stop and (args.resume_checkpoint is None or args.replay_trace or args.ramp or
                             args.command_duration is None or not any((args.linear_x,args.linear_y,args.yaw))):
@@ -125,6 +130,8 @@ def main():
     payload = attach_payload(model,data) if args.payload else None
     joint_ids = np.array([model.joint(name).id for name in G1_29DOF_JOINTS])
     qids,dids = model.jnt_qposadr[joint_ids],model.jnt_dofadr[joint_ids]
+    sensor_addresses = (joint_sensor_addresses(model,G1_29DOF_JOINTS)
+                        if 'sensors' in (args.joint_feedback,args.pd_feedback) else None)
     aids = np.array([np.flatnonzero(model.actuator_trnid[:,0]==index)[0] for index in joint_ids])
     kp,kd = np.asarray(G1_UNITREE_RL_LAB_BODY_KP),np.asarray(G1_UNITREE_RL_LAB_BODY_KD)
     kp,kd = kp.copy(),kd.copy()
@@ -166,7 +173,7 @@ def main():
             policy_sha256=hashlib.sha256(args.policy.read_bytes()).hexdigest(),
             replay_sha256=hashlib.sha256(args.replay_trace.read_bytes()).hexdigest() if args.replay_trace else None,
             sources={path.name:hashlib.sha256(path.read_bytes()).hexdigest() for path in
-                (Path(__file__),ROOT/'scripts/native_probe_checkpoint.py',ROOT/'scripts/native_probe_payload.py',ROOT/'scripts/native_probe_support.py',ROOT/'scripts/native_probe_timing.py',
+                (Path(__file__),ROOT/'scripts/native_probe_checkpoint.py',ROOT/'scripts/native_probe_payload.py',ROOT/'scripts/native_probe_support.py',ROOT/'scripts/native_probe_timing.py',ROOT/'scripts/native_probe_feedback.py',
                  ROOT/'scripts/policy_command_replay.py',bridge/'unitree_rl_lab_policy.py',bridge/'policy_safety.py',
                  bridge/'payload_postures.py',bridge/'g1_constants.py')})
     if args.resume_checkpoint is not None:
@@ -192,7 +199,9 @@ def main():
         # sensor/contact timing or warm-start state at this boundary.
         mujoco.mj_step(model,data)
     for step in range(first_step,round(args.duration/.002)):
-        measurements.append((data.qpos[qids].copy(),data.qvel[dids].copy(),
+        joint_position,joint_velocity = joint_feedback(data,qids,dids,sensor_addresses,args.joint_feedback)
+        pd_position,pd_velocity = joint_feedback(data,qids,dids,sensor_addresses,args.pd_feedback)
+        measurements.append((joint_position,joint_velocity,
                              data.sensor('imu_gyro').data.copy(),data.sensor('imu_quat').data.copy()))
         if step>=next_observation:
             # Offline diagnostics only: distinguish a gait failure from a
@@ -240,7 +249,7 @@ def main():
                         action = np.zeros(29)
                         published_action = action.copy()
                 if args.outage_measured_hold:
-                    target = data.qpos[qids].copy()
+                    target = joint_position.copy()
             else:
                 feedback = published_action if args.action_feedback=='published' else action
                 observation = adapter.build_observation(command,*measurements[0],feedback)
@@ -264,6 +273,10 @@ def main():
                                 command=command,inference_outage=outage,action_norm=float(np.linalg.norm(action))))
             if payload is not None:
                 rows[-1].update(payload_sample(model,data,payload))
+            rows[-1].update(joint_feedback_position_delta_rad=float(np.max(np.abs(data.qpos[qids]-joint_position))),
+                            joint_feedback_velocity_delta_rps=float(np.max(np.abs(data.qvel[dids]-joint_velocity))),
+                            pd_feedback_position_delta_rad=float(np.max(np.abs(data.qpos[qids]-pd_position))),
+                            pd_feedback_velocity_delta_rps=float(np.max(np.abs(data.qvel[dids]-pd_velocity))))
             if args.record_support:
                 rows[-1].update(support_state(model,data))
             if args.record_actions:
@@ -273,7 +286,7 @@ def main():
             if tilt>.9 or data.qpos[2]<.45:
                 fallen = True
                 break
-        data.ctrl[aids] = kp*(target-data.qpos[qids])-kd*data.qvel[dids]
+        data.ctrl[aids] = kp*(target-pd_position)-kd*pd_velocity
         if args.checkpoint_output is not None and not checkpoint_saved and data.time>=args.checkpoint_at:
             save_checkpoint(args.checkpoint_output,model,data,identity,dict(
                 pending_step=step,target=array_state(target),arm_target=array_state(arm_target),
@@ -307,6 +320,10 @@ def main():
                     branch_stop=args.branch_stop,branch_stop_time_s=branch_stop_time,
                     checkpoint_time_s=checkpoint_time,branch_prefix_samples=branch_prefix_samples,
                     record_support=args.record_support,
+                    joint_feedback=args.joint_feedback,
+                    pd_feedback=args.pd_feedback,
+                    max_joint_feedback_position_delta_rad=max(row['joint_feedback_position_delta_rad'] for row in rows),
+                    max_joint_feedback_velocity_delta_rps=max(row['joint_feedback_velocity_delta_rps'] for row in rows),
                     command_clock=args.command_clock,command_start_step=command_start_step,command_end_step=command_end_step,
                     actual_command_start_s=actual_start,actual_command_end_s=actual_stop,
                     resumed_checkpoint_sha256=hashlib.sha256(args.resume_checkpoint.read_bytes()).hexdigest() if args.resume_checkpoint else None,

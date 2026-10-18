@@ -75,6 +75,13 @@ def compare_checkpoint(path,scene):
     if config['held_empty'] or config['payload']:
         kp[15:],kd[15:] = 160.,4.
     target = restore_array(record['controller']['target'])
+    mujoco.mj_setState(model,data,state,mujoco.mjtState.mjSTATE_INTEGRATION)
+    portable = dict(root_qpos=data.qpos[:7].tolist(),root_qvel=data.qvel[:6].tolist(),
+                    joint_qpos_sdk=data.qpos[qids].tolist(),joint_qvel_sdk=data.qvel[dids].tolist())
+    if payload:
+        joint = model.body_jntadr[payload['body']]
+        q,d = model.jnt_qposadr[joint],model.jnt_dofadr[joint]
+        portable.update(payload_qpos=data.qpos[q:q+7].tolist(),payload_qvel=data.qvel[d:d+6].tolist())
     variants = {name:step_variant(model,state,target,qids,dids,aids,kp,kd,position,implicit)
                 for name,position,implicit in (('motor_native',False,False),('position_native',True,False),
                                                ('motor_implicitfast',False,True),('position_implicitfast',True,True))}
@@ -92,7 +99,7 @@ def compare_checkpoint(path,scene):
         checkpoint_time_s=float(state[0]),policy_sha256=record['identity']['policy_sha256'],
         model_sha256=record['model_sha256'],native_integrator=str(mujoco.mjtIntegrator(model.opt.integrator)),
         timestep_s=model.opt.timestep,payload_mass_kg=payload['mass_kg'] if payload else None,
-        target_sdk=target.tolist(),metrics=metrics)
+        target_sdk=target.tolist(),portable_state=portable,metrics=metrics)
 
 
 def main():

@@ -26,6 +26,9 @@ collections. Start there for topic-based exploration, or use the catalogue below
 
 ## Project orientation
 
+Latest audit: [compiled training plants, Warp and sensor feedback](COMPILED_FEEDBACK_20261018.md)
+— native friction correction, payload/solver controls and 16 retained stop failures.
+
 Latest diagnosis: [matched-state actuation and target-limit alignment](ACTUATION_PARITY_20261017.md)
 — measured integration mismatch, action reconstruction and unpromoted candidates.
 

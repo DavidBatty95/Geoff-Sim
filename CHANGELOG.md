@@ -25,6 +25,13 @@ for measured outcomes and [release policy](docs/RELEASES.md) for promotion crite
 
 ### Added
 
+- Final compiled-plant and CPU/Warp state comparisons, with solver-budget and
+  payload-offset diagnostic controls. An opt-in native-joint-friction profile
+  fixes the measured wrist-roll mismatch without changing historical profiles.
+- Independent policy-joint and motor-PD sensor-source probe modes, validated
+  sensor lookup and protocol checks. Sixteen stopping failures and three passing
+  exact-continuation comparisons are retained. [Evidence](docs/COMPILED_FEEDBACK_20261018.md).
+
 - Matched-state actuator/integrator comparison and recorded-action soft-limit
   audit. Explicit Euler and deployment target-limit training options preserve
   raw action history and external-arm composition ordering.

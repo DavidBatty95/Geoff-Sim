@@ -16,12 +16,21 @@
 </p>
 <!-- geoff-nav:end -->
 
-**Last reviewed: 17 October 2026.** This page retains the historical development
+**Last reviewed: 18 October 2026.** This page retains the historical development
 baseline [`3a7ceac`](https://github.com/DavidBatty95/Geoff-Sim/commit/3a7ceac)
 alongside the dated follow-ups below. It is a manually maintained
 evidence snapshot, not an acceptance release. Later experiments need their own checks.
 
 ## At a glance
+
+**18 October compiled-model/feedback checkpoint:** final scene compilation
+exposes wrist-roll friction loss 0.1 versus native 0.2; an opt-in correction
+matches all 29 joint friction values. Diagnostic load placement further reduces
+two-state joint-velocity gaps; CPU/Warp differences are small at one step.
+All **16 feedback-source stopping probes fail**. Exact continuation passes three
+cases, including native-sensor feedback. **866 ROS results, 204 orchestration
+tests, 12 native CTests, 17 training-contract tests and 6 separate native Python
+tests pass.** [Measurements, scope and remaining work](COMPILED_FEEDBACK_20261018.md).
 
 **Latest 17 October actuation checkpoint:** identical-state tests isolate
 built-in-PD/implicit integration differences, and recorded actions confirm active

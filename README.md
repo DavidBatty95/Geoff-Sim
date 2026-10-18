@@ -23,13 +23,13 @@ Geoff-Sim brings locomotion, online mapping, human-aware navigation and object
 transport into one humanoid simulation platform. The robot observes its scene,
 approaches a table, lifts a cube, carries it to a destination and checks placement.
 
-**Current progress · 17 October 2026:** paired-state audits identify integration
-and joint-target clipping differences between training and native execution.
-Explicit training options reproduce these measured contracts; both resulting
-candidates remain unpromoted after dense stopping checks.
-**866 ROS results, 202 orchestration tests and 12 native CTests pass.**
-[Actuation audit, corrections and retained outcomes](docs/ACTUATION_PARITY_20261017.md) ·
-[Dense transition-training evaluation](docs/DENSE_TRANSITIONS_20261017.md).
+**Current progress · 18 October 2026:** compiled-model audits identify and correct
+a wrist-friction mismatch, quantify payload-placement effects and compare CPU/Warp
+integration. Independent sensor/PD feedback modes expose the native sampling
+boundary; all 16 stopping probes fail the declared gate. Policies remain unpromoted.
+**866 ROS results, 204 orchestration tests and 12 native CTests pass.**
+[Compiled plants, feedback timing and all outcomes](docs/COMPILED_FEEDBACK_20261018.md) ·
+[Earlier actuation/target audit](docs/ACTUATION_PARITY_20261017.md).
 
 **Delivery evidence:** the earlier compact exploration cohort completed **4/4
 colour tasks**, followed by a medium-building delivery. A corrected-rollout

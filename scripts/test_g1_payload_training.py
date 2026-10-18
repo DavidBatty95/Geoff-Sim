@@ -271,3 +271,18 @@ def test_policy_order_soft_limits_match_deployment_sdk_clipping(training):
     assert training.build_env(2,77).actions['joint_pos'].target_soft_limit_factor is None
     with pytest.raises(ValueError,match='soft-limit'):
         training.native_policy_target_bounds(1.1,'cpu')
+
+
+def test_native_joint_friction_survives_final_scene_compilation(training):
+    from mjlab.scene import Scene
+    native = training.native_robot_model()
+    legacy = Scene(training.build_env(1,77,dynamics='native_contact').scene,device='cpu').compile()
+    aligned = Scene(training.build_env(1,77,dynamics='native_contact',native_joint_friction=True).scene,device='cpu').compile()
+    wrist = legacy.joint('robot/right_wrist_roll_joint').dofadr[0]
+    assert legacy.dof_frictionloss[wrist]==.1
+    for name in training.G1_29DOF_JOINTS:
+        expected = native.dof_frictionloss[native.joint(name).dofadr[0]]
+        actual = aligned.dof_frictionloss[aligned.joint('robot/'+name).dofadr[0]]
+        assert actual==pytest.approx(expected)
+    with pytest.raises(ValueError,match='native_contact'):
+        training.build_env(1,77,native_joint_friction=True)
