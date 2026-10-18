@@ -26,6 +26,9 @@ collections. Start there for topic-based exploration, or use the catalogue below
 
 ## Project orientation
 
+Latest implementation: [native-timing training and payload-offset variation](NATIVE_TIMING_TRAINING_20261018.md)
+— GPU timing/reset checks, 28 native probes and an unpromoted candidate.
+
 Latest audit: [compiled training plants, Warp and sensor feedback](COMPILED_FEEDBACK_20261018.md)
 — native friction correction, payload/solver controls and 16 retained stop failures.
 

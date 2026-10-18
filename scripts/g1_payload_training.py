@@ -52,6 +52,9 @@ from mjlab.utils.os import dump_yaml
 from payload_smoothness import FluidCarryPenalty,PayloadMotion,LOADED_TURN_SCHEDULE
 from payload_sensor_delay import DelayedSensorTerm
 from payload_transition_commands import TransitionVelocityCommandCfg
+from payload_native_timing import (add_packet_sensors,NativeSensorPacket,NativeSensorPd,NativeSensorPdCfg,
+    capture_native_packet,native_joint_positions,native_joint_velocities,native_gyro,native_gravity)
+from mjlab.managers.metrics_manager import MetricsTermCfg
 
 POLICY_NAMES = tuple(G1_29DOF_JOINTS[i] for i in UNITREE_RL_LAB_G1_JOINT_IDS_MAP)
 ARM_POLICY_IDS = tuple(i for i, sdk in enumerate(UNITREE_RL_LAB_G1_JOINT_IDS_MAP) if sdk >= 15)
@@ -172,6 +175,14 @@ def native_contact_joint_friction_spec():
     return native_contact_payload_spec(native_joint_friction=True)
 
 
+def native_packet_payload_spec():
+    return add_packet_sensors(native_contact_payload_spec(),G1_29DOF_JOINTS)
+
+
+def native_packet_friction_payload_spec():
+    return add_packet_sensors(native_contact_joint_friction_spec(),G1_29DOF_JOINTS)
+
+
 def turn_drift_penalty(env):
     command = env.command_manager.get_command('twist')
     pivot = (torch.linalg.vector_norm(command[:,:2],dim=1)<.05)&(command[:,2].abs()>.2)
@@ -200,6 +211,8 @@ class PayloadActionCfg(JointPositionActionCfg):
     max_sensor_delay_steps: int = 0
     action_feedback: str = 'applied'
     target_soft_limit_factor: float | None = None
+    native_timing: bool = False
+    payload_offset_range: tuple[float,float] | None = None
 
     def build(self, env):
         return PayloadAction(self, env)
@@ -235,6 +248,14 @@ class PayloadAction(JointPositionAction):
         self.right_ids = torch.tensor([POLICY_NAMES.index(name) for name in G1_29DOF_JOINTS[22:]], device=self.device)
         self.target_bounds = (native_policy_target_bounds(cfg.target_soft_limit_factor,self.device)
                               if cfg.target_soft_limit_factor is not None else None)
+        self.payload_offsets = torch.tensor((.19,.01,0.),device=self.device).expand(self.num_envs,-1).clone()
+        self.offset_min = torch.tensor(float('inf'),device=self.device)
+        self.offset_max = torch.tensor(float('-inf'),device=self.device)
+        self.native_packet = NativeSensorPacket(env,self._entity) if cfg.native_timing else None
+        if self.native_packet is not None:
+            for actuator in self._entity.actuators:
+                if isinstance(actuator,NativeSensorPd):
+                    actuator.packet = self.native_packet
 
     def reset(self, env_ids=None):
         super().reset(env_ids)
@@ -245,9 +266,13 @@ class PayloadAction(JointPositionAction):
         self.arm_commands[env_ids] = self._offset.expand(self.num_envs, -1)[env_ids]
         self.action_history[env_ids] = 0.
         self.published_action[env_ids] = 0.
+        if self.native_packet is not None:
+            self.native_packet.reset(env_ids)
 
     def sample_episode(self, env_ids):
         count = len(env_ids)
+        if not count:
+            return
         if self.cfg.max_delay_steps:
             self.delay_steps[env_ids] = torch.randint(self.cfg.max_delay_steps+1,(count,),device=self.device)
         if self.cfg.max_sensor_delay_steps:
@@ -268,6 +293,12 @@ class PayloadAction(JointPositionAction):
         noise = (torch.rand_like(poses) - .5) * .12 if self.cfg.profile == 'mixed' else 0.
         self.arm_targets[env_ids[:, None], self.right_ids[None, :]] = poses + noise
         self.next_pose_step[env_ids] = round(8. / self._env.step_dt)
+        if self.cfg.payload_offset_range is not None:
+            lower,upper = self.cfg.payload_offset_range
+            offsets = lower+torch.rand(count,device=self.device)*(upper-lower)
+            self.payload_offsets[env_ids,0] = offsets
+            self.offset_min = torch.minimum(self.offset_min,offsets.min())
+            self.offset_max = torch.maximum(self.offset_max,offsets.max())
 
     def process_actions(self, actions):
         self.published_action.copy_(actions)
@@ -312,9 +343,22 @@ def reset_payload(env, env_ids):
         actuator = robot.indexing.ctrl_ids[local]
         kp = torch.where(action.held[env_ids], 160., G1_UNITREE_RL_LAB_BODY_KP[sdk])
         kd = torch.where(action.held[env_ids], 4., G1_UNITREE_RL_LAB_BODY_KD[sdk])
-        env.sim.model.actuator_gainprm[env_ids, actuator, 0] = kp
-        env.sim.model.actuator_biasprm[env_ids, actuator, 1] = -kp
-        env.sim.model.actuator_biasprm[env_ids, actuator, 2] = -kd
+        if getattr(getattr(action,'cfg',None),'native_timing',False):
+            group = next(item for item in robot.actuators if isinstance(item,NativeSensorPd))
+            group.set_joint_gains(env_ids,name,kp,kd)
+        else:
+            env.sim.model.actuator_gainprm[env_ids, actuator, 0] = kp
+            env.sim.model.actuator_biasprm[env_ids, actuator, 1] = -kp
+            env.sim.model.actuator_biasprm[env_ids, actuator, 2] = -kd
+
+
+@requires_model_fields('body_pos',recompute=RecomputeLevel.set_const)
+def reset_payload_offset(env,env_ids):
+    if env_ids is None:
+        env_ids = torch.arange(env.num_envs,device=env.device)
+    robot = env.scene['robot']
+    body = robot.indexing.body_ids[robot.find_bodies('carried_payload')[0][0]]
+    env.sim.model.body_pos[env_ids,body] = env.action_manager.get_term('joint_pos').payload_offsets[env_ids]
 
 
 def joint_positions(env):
@@ -338,9 +382,14 @@ def applied_policy_action(env):
 def build_env(num_envs, seed, profile='mixed', pose_index=0, pose_bank='carry', arm_transitions=False,
               objective='tracking',smoothness_weight=.2,dynamics='historical',max_delay_steps=0,action_hold_probability=0.,
               max_sensor_delay_steps=0,action_feedback='applied',command_profile='mixed',integrator='implicitfast',
-              target_soft_limit_factor=None,native_joint_friction=False):
+              target_soft_limit_factor=None,native_joint_friction=False,native_timing=False,payload_offset_range=None):
     if integrator not in ('implicitfast','euler'):
         raise ValueError('unknown integration method')
+    if native_timing and (dynamics!='native_contact' or integrator!='euler'):
+        raise ValueError('native timing requires native_contact dynamics and Euler integration')
+    if payload_offset_range is not None and (len(payload_offset_range)!=2 or
+            not all(math.isfinite(v) for v in payload_offset_range) or not .05<=payload_offset_range[0]<=payload_offset_range[1]<=.3):
+        raise ValueError('payload offset range must be ordered and within [0.05, 0.3] m')
     cfg = unitree_g1_flat_env_cfg()
     cfg.seed = seed
     cfg.scene.num_envs = num_envs
@@ -355,6 +404,8 @@ def build_env(num_envs, seed, profile='mixed', pose_index=0, pose_bank='carry', 
         if dynamics!='native_contact':
             raise ValueError('native joint friction requires native_contact dynamics')
         robot.spec_fn = native_contact_joint_friction_spec
+    if native_timing:
+        robot.spec_fn = native_packet_friction_payload_spec if native_joint_friction else native_packet_payload_spec
     if dynamics=='native_contact':
         for collision in robot.collisions:
             collision.friction = {r'^(left|right)_foot[1-7]_collision$':(1.,.005,.0001)}
@@ -372,12 +423,18 @@ def build_env(num_envs, seed, profile='mixed', pose_index=0, pose_bank='carry', 
             stiffness=160. if sdk >= 15 and profile != 'unloaded' else G1_UNITREE_RL_LAB_BODY_KP[sdk],
             damping=4. if sdk >= 15 and profile != 'unloaded' else G1_UNITREE_RL_LAB_BODY_KD[sdk],
             effort_limit=effort, armature=.01))
-    robot.articulation.actuators = tuple(actuators)
+    if native_timing:
+        gains = {name:(cfg.stiffness,cfg.damping,cfg.effort_limit) for name,cfg in zip(G1_29DOF_JOINTS,actuators)}
+        robot.articulation.actuators = (NativeSensorPdCfg(target_names_expr=G1_29DOF_JOINTS,
+            stiffness=1.,damping=1.,effort_limit=139.,armature=.01,gains=gains),)
+    else:
+        robot.articulation.actuators = tuple(actuators)
     cfg.actions = {'joint_pos': PayloadActionCfg(entity_name='robot', actuator_names=('.*',),
                     scale=.25, use_default_offset=True, profile=profile, pose_index=pose_index,
                     pose_bank=pose_bank, arm_transitions=arm_transitions,max_delay_steps=max_delay_steps,
                     action_hold_probability=action_hold_probability,max_sensor_delay_steps=max_sensor_delay_steps,
-                    action_feedback=action_feedback,target_soft_limit_factor=target_soft_limit_factor)}
+                    action_feedback=action_feedback,target_soft_limit_factor=target_soft_limit_factor,
+                    native_timing=native_timing,payload_offset_range=payload_offset_range)}
     actor_terms = {
         'base_ang_vel': ObservationTermCfg(func=mdp.builtin_sensor, params={'sensor_name': 'robot/imu_ang_vel'}, scale=.2),
         'projected_gravity': ObservationTermCfg(func=mdp.projected_gravity),
@@ -387,6 +444,13 @@ def build_env(num_envs, seed, profile='mixed', pose_index=0, pose_bank='carry', 
         'last_action': ObservationTermCfg(func=applied_policy_action),
     }
     critic_terms = copy.deepcopy(actor_terms)
+    if native_timing:
+        for name,func,scale in (('base_ang_vel',native_gyro,.2),('projected_gravity',native_gravity,1.),
+                               ('joint_pos_rel',native_joint_positions,1.),('joint_vel_rel',native_joint_velocities,.05)):
+            actor_terms[name] = ObservationTermCfg(func=func,scale=scale)
+        # Required capture hook, not optional logging: it runs before the
+        # environment refreshes sensors for observation construction.
+        cfg.metrics['native_sensor_epoch_delta'] = MetricsTermCfg(func=capture_native_packet,per_substep=True)
     if max_sensor_delay_steps:
         for name in ('base_ang_vel','projected_gravity','joint_pos_rel','joint_vel_rel'):
             term = actor_terms[name]
@@ -408,6 +472,8 @@ def build_env(num_envs, seed, profile='mixed', pose_index=0, pose_bank='carry', 
     cfg.events = {name: cfg.events[name] for name in ('reset_base', 'reset_robot_joints')}
     cfg.events['reset_base'].params['pose_range'] = {'x': (0., 0.), 'y': (0., 0.), 'z': (0., 0.), 'yaw': (-math.pi, math.pi)}
     cfg.events['payload'] = EventTermCfg(func=reset_payload, mode='reset')
+    if payload_offset_range is not None:
+        cfg.events['payload_offset'] = EventTermCfg(func=reset_payload_offset,mode='reset')
     cfg.curriculum = {}
     cfg.rewards.pop('pose', None)  # External hand poses must not be penalized as bad posture.
     cfg.rewards['track_linear_velocity'].params['std'] = .25
@@ -577,9 +643,16 @@ def main():
                         help='Explicit training integration choice; native probe model uses Euler')
     parser.add_argument('--target-soft-limit-factor',type=float,help='Opt-in deployment position-target clipping; native probe uses 0.9')
     parser.add_argument('--native-joint-friction',action='store_true',help='Use native per-joint friction, including wrist-roll 0.2 rather than 0.1')
+    parser.add_argument('--native-timing',action='store_true',help='Latched post-substep sensor packet and explicit sensor-feedback motor PD')
+    parser.add_argument('--payload-offset-range',type=float,nargs=2,help='Diagnostic wrist-local load x-offset range in meters')
     args = parser.parse_args()
     if args.native_joint_friction and args.dynamics!='native_contact':
         parser.error('--native-joint-friction requires --dynamics native_contact')
+    if args.native_timing and (args.dynamics!='native_contact' or args.integrator!='euler'):
+        parser.error('--native-timing requires native_contact dynamics and Euler integration')
+    if args.payload_offset_range is not None and (not all(math.isfinite(v) for v in args.payload_offset_range) or
+            not .05<=args.payload_offset_range[0]<=args.payload_offset_range[1]<=.3):
+        parser.error('--payload-offset-range must be ordered within [0.05, 0.3] m')
     if args.num_envs <= 0 or args.iterations <= 0 or args.seed < 0 or args.pose_index < 0:
         parser.error('Environment/iteration counts must be positive and seed/pose index nonnegative')
     if not 0<=args.max_delay_steps<=5:
@@ -606,7 +679,7 @@ def main():
     cfg = build_env(args.num_envs, args.seed, args.profile, args.pose_index, args.pose_bank, args.arm_transitions,
                     args.objective,args.smoothness_weight,args.dynamics,args.max_delay_steps,args.action_hold_probability,
                     args.max_sensor_delay_steps,args.action_feedback,args.command_profile,args.integrator,args.target_soft_limit_factor,
-                    args.native_joint_friction)
+                    args.native_joint_friction,args.native_timing,args.payload_offset_range)
     if args.mode == 'evaluate' and args.probe in ('loaded_turns','signed_stops'):
         schedule = LOADED_TURN_SCHEDULE if args.probe=='loaded_turns' else SIGNED_STOP_SCHEDULE
         cfg.episode_length_s = sum(item[1] for item in schedule)+2.
@@ -628,6 +701,8 @@ def main():
                      integrator=args.integrator,training_mujoco_version=mujoco.__version__,
                      target_soft_limit_factor=args.target_soft_limit_factor,
                      native_joint_friction=args.native_joint_friction,
+                     native_timing=args.native_timing,payload_offset_range_m=args.payload_offset_range,
+                     native_timing_scope='Post-substep packet retained across forward refresh; reset rows seed current sensors; explicit sensor-feedback PD' if args.native_timing else None,
                      command_profile=args.command_profile,
                      transition_configuration=dict(moving_ticks=[75,175],standing_ticks=[250,300],lateral_probability=.5,
                         lateral_endpoint_probability=.5,deadline_margin_ticks=.5) if args.command_profile=='transitions' else None,
@@ -649,6 +724,7 @@ def main():
     (output / 'payload_smoothness.py').write_bytes((ROOT/'scripts/payload_smoothness.py').read_bytes())
     (output / 'payload_sensor_delay.py').write_bytes((ROOT/'scripts/payload_sensor_delay.py').read_bytes())
     (output / 'payload_transition_commands.py').write_bytes((ROOT/'scripts/payload_transition_commands.py').read_bytes())
+    (output / 'payload_native_timing.py').write_bytes((ROOT/'scripts/payload_native_timing.py').read_bytes())
     if args.dynamics in ('native_inertial','native_contact'):
         native_source = ROOT/'ros2_ws/src/unitree_mujoco/unitree_robots/g1/g1_29dof.xml'
         (output/'native_robot_source.xml').write_bytes(native_source.read_bytes())
@@ -686,6 +762,9 @@ def main():
             runner.learn(num_learning_iterations=2 if args.mode == 'smoke' else args.iterations,
                          init_at_random_ep_len=False)
             runner.save(str(output / 'final.pt'))
+            if args.payload_offset_range is not None:
+                manifest['sampled_payload_offset_range_m'] = [float(action.offset_min),float(action.offset_max)]
+                (output/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
             if args.command_profile=='transitions':
                 command = env.command_manager.get_term('twist')
                 audit = dict(positive_lateral_requests=int(command.transition_counts[0]),

@@ -1,0 +1,33 @@
+{
+  "scope": "GPU training timing/reset contract; short zero-action diagnostic, not policy qualification",
+  "script_sha256": "29d139449891e00e6eedfaec7b272fa331462a1c455b2b3354af05417c38a7b4",
+  "passed": true,
+  "steps": [
+    {
+      "epoch_identity_error_rad": 2.9409420676529408e-08,
+      "encoder_delta_rad": 0.00027276831679046154,
+      "actor_joint_error_rad": 0.0,
+      "actor_gyro_error": 0.0,
+      "actor_gravity_error": 0.0
+    },
+    {
+      "epoch_identity_error_rad": 2.954038791358471e-08,
+      "encoder_delta_rad": 0.00045242905616760254,
+      "actor_joint_error_rad": 0.0,
+      "actor_gyro_error": 0.0,
+      "actor_gravity_error": 0.0
+    },
+    {
+      "epoch_identity_error_rad": 2.943852450698614e-08,
+      "encoder_delta_rad": 0.004343628883361816,
+      "actor_joint_error_rad": 0.0,
+      "actor_gyro_error": 0.0,
+      "actor_gravity_error": 0.0
+    }
+  ],
+  "sampled_offset_range_m": [
+    0.12328813970088959,
+    0.1800883561372757
+  ],
+  "partial_reset_preserved_survivors": true
+}

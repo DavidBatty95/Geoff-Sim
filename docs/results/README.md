@@ -23,6 +23,12 @@ described by the [repository guide](../REPOSITORY_GUIDE.md#where-results-go).
 
 ## Start with a dataset
 
+Native-timing training: [final GPU contract check](training_timing_verified_20261018.json),
+[initial check](training_timing_contract_20261018.json),
+[20-probe dense comparison](native_timing_dense_20261018.json), and
+[eight offset controls](native_timing_offset_20261018.json).
+[Interpretation](../NATIVE_TIMING_TRAINING_20261018.md).
+
 18 October: [portable native states](portable_native_states_20261018.json),
 [compiled baseline](compiled_plants_20261018.json),
 [friction correction](compiled_plants_friction_20261018.json),

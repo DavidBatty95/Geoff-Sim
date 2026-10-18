@@ -3,17 +3,20 @@ from pathlib import Path
 
 import mujoco
 import numpy as np
+import pytest
 
 from native_probe_payload import attach_payload,payload_sample
 
 
-def test_native_payload_has_mass_and_pose_consistent_weld():
+@pytest.mark.parametrize('offset_x',[None,.19])
+def test_native_payload_has_mass_and_pose_consistent_weld(offset_x):
     root = Path(__file__).resolve().parents[1]
     model = mujoco.MjModel.from_xml_path(str(root/'ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml'))
     data = mujoco.MjData(model)
     mujoco.mj_resetDataKeyframe(model,data,model.key('transport_unitree_rl_lab_stand').id)
     mujoco.mj_forward(model,data)
-    payload = attach_payload(model,data)
+    payload = attach_payload(model,data,offset_x)
+    assert payload['offset'][0]==(.12 if offset_x is None else offset_x)
     assert payload['mass_kg']==.15
     sample = payload_sample(model,data,payload)
     assert sample['payload_attached'] and sample['payload_position_error_m']<1e-12

@@ -2,7 +2,7 @@
 import numpy as np
 
 
-def attach_payload(model,data):
+def attach_payload(model,data,offset_x=None):
     import mujoco
 
     wrist = model.body('right_wrist_yaw_link').id
@@ -12,6 +12,10 @@ def attach_payload(model,data):
     if model.jnt_type[joint]!=mujoco.mjtJoint.mjJNT_FREE:
         raise ValueError('probe payload must have a free joint')
     offset = model.numeric('transport_hand_capture').data[:3].copy()
+    if offset_x is not None:
+        if not np.isfinite(offset_x) or not .05<=offset_x<=.3:
+            raise ValueError('payload x offset must be finite and within [0.05, 0.3] m')
+        offset[0] = offset_x
     qpos = model.jnt_qposadr[joint]
     dof = model.jnt_dofadr[joint]
     data.qpos[qpos:qpos+3] = data.xpos[wrist]+data.xmat[wrist].reshape(3,3)@offset

@@ -1,0 +1,43 @@
+{
+  "scope": "GPU training timing/reset contract; short zero-action diagnostic, not policy qualification",
+  "script_sha256": "3eb64876bdd401f9ba96387e328a4514b93bdf00138caa2fc8a3cc62fd84fa3a",
+  "sources": {
+    "g1_payload_training.py": "e52393e1349b9a97218948df865d6da78bb3bad3eb64ed86e19727518e4e3cfe",
+    "payload_native_timing.py": "d761530af03de6fb433ff8cf935acf1a332d594c776979cfc8204ebb42d2ec39"
+  },
+  "passed": true,
+  "steps": [
+    {
+      "epoch_identity_error_rad": 2.9085867936373688e-08,
+      "encoder_delta_rad": 0.00027276831679046154,
+      "sensor_position_epoch_error_rad": 0.0,
+      "sensor_velocity_epoch_error_rps": 0.0,
+      "actor_joint_error_rad": 0.0,
+      "actor_gyro_error": 0.0,
+      "actor_gravity_error": 0.0
+    },
+    {
+      "epoch_identity_error_rad": 2.962769940495491e-08,
+      "encoder_delta_rad": 0.00045242905616760254,
+      "sensor_position_epoch_error_rad": 0.0,
+      "sensor_velocity_epoch_error_rps": 0.0,
+      "actor_joint_error_rad": 0.0,
+      "actor_gyro_error": 0.0,
+      "actor_gravity_error": 0.0
+    },
+    {
+      "epoch_identity_error_rad": 2.9744114726781845e-08,
+      "encoder_delta_rad": 0.004343628883361816,
+      "sensor_position_epoch_error_rad": 0.0,
+      "sensor_velocity_epoch_error_rps": 0.0,
+      "actor_joint_error_rad": 0.0,
+      "actor_gyro_error": 0.0,
+      "actor_gravity_error": 0.0
+    }
+  ],
+  "sampled_offset_range_m": [
+    0.12328813970088959,
+    0.1800883561372757
+  ],
+  "partial_reset_preserved_survivors": true
+}

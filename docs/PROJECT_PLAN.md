@@ -19,6 +19,11 @@
 Related: [Technical implementation roadmap](SOCIAL_LOCOMANIPULATION_ROADMAP.md) ·
 [Gap-aligned research and publication programme](RESEARCH_PROGRAMME.md).
 
+**Native-timing training update:** [sensor-epoch/PD training and load variation](NATIVE_TIMING_TRAINING_20261018.md)
+pass GPU contract checks but the short candidate fails stopping qualification.
+Next: isolate timing versus offset effects in matched ablations and assess
+optimization progress on held-out neighborhoods before policy promotion.
+
 **18 October compiled-model update:** [plant/backend and feedback-boundary audits](COMPILED_FEEDBACK_20261018.md)
 now separate friction, load placement, solver budgets and one-step CPU/Warp
 differences. Next: measured sensor/PD timing in training, payload-attachment

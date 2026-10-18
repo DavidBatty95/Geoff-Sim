@@ -43,6 +43,7 @@ def main():
     parser.add_argument('--command-duration',type=float,help='Stop after this many seconds of command; standing starts at t=0, command at t=5')
     parser.add_argument('--held-empty',action='store_true',help='Externally compose payload_v1 arms, without an attached load')
     parser.add_argument('--payload',action='store_true',help='Offline loaded-start fixture: native red object welded to right wrist; compose carry arms')
+    parser.add_argument('--payload-offset-x',type=float,help='Diagnostic loaded-start wrist-local x offset; default uses capture calibration')
     parser.add_argument('--record-actions',action='store_true',help='Retain published/applied action vectors and publication/application sequence IDs')
     parser.add_argument('--ramp',action='store_true',help='Apply nominal acceleration-limited start/stop commands for transition comparison')
     parser.add_argument('--outage-at',type=float,help='Inject one inference outage at this simulation time')
@@ -69,6 +70,9 @@ def main():
     parser.add_argument('--pd-feedback',choices=('state','sensors'),default='state',
                         help='Independent motor PD feedback source; native bridge uses joint sensors')
     args = parser.parse_args()
+    if args.payload_offset_x is not None and (not args.payload or not np.isfinite(args.payload_offset_x) or
+                                              not .05<=args.payload_offset_x<=.3):
+        parser.error('--payload-offset-x requires --payload and a finite value in [0.05, 0.3]')
     if args.branch_stop and (args.resume_checkpoint is None or args.replay_trace or args.ramp or
                             args.command_duration is None or not any((args.linear_x,args.linear_y,args.yaw))):
         parser.error('stop branch requires a checkpoint and a nonzero fixed command, without ramp/replay')
@@ -127,7 +131,7 @@ def main():
             if name.startswith('ped') and model.body_mocapid[body]>=0:
                 data.mocap_pos[model.body_mocapid[body]] = (0.,0.,-50.)
     mujoco.mj_forward(model,data)
-    payload = attach_payload(model,data) if args.payload else None
+    payload = attach_payload(model,data,args.payload_offset_x) if args.payload else None
     joint_ids = np.array([model.joint(name).id for name in G1_29DOF_JOINTS])
     qids,dids = model.jnt_qposadr[joint_ids],model.jnt_dofadr[joint_ids]
     sensor_addresses = (joint_sensor_addresses(model,G1_29DOF_JOINTS)
@@ -313,6 +317,7 @@ def main():
                   scene=str(scene),scene_sha256=hashlib.sha256(scene.read_bytes()).hexdigest(),
                     mujoco_version=mujoco.__version__,ramp=args.ramp,scope='native geometry, synchronous CPU MuJoCo; no ROS or camera; optional prescribed carry arms and offline loaded-start magnetic fixture; not pickup qualification',
                     payload=args.payload,payload_mass_kg=payload['mass_kg'] if payload else None,
+                    payload_offset_x_m=args.payload_offset_x,payload_offset_m=payload['offset'].tolist() if payload else None,
                     sampled_payload_scene_contacts=dict(payload_contacts),
                     sampled_payload_robot_contacts=dict(payload_robot_contacts),
                     record_actions=args.record_actions,probe_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),

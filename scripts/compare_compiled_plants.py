@@ -30,7 +30,8 @@ def run_state(model,record,prefix='',position=False,warp_backend=False):
     if not prefix:
         mujoco.mj_resetDataKeyframe(model,data,model.key('transport_unitree_rl_lab_stand').id)
         mujoco.mj_forward(model,data)
-        payload = attach_payload(model,data)
+        offset = record.get('payload_offset_m')
+        payload = attach_payload(model,data,offset[0] if offset else None)
     source = record['portable_state']
     q,d = model.jnt_qposadr[root],model.jnt_dofadr[root]
     data.qpos[q:q+7],data.qvel[d:d+6] = source['root_qpos'],source['root_qvel']
@@ -130,11 +131,15 @@ def main():
     cfg.sim.mujoco.apply(training)
     native = mujoco.MjModel.from_xml_path(str(ROOT/'ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml'))
     native.opt.timestep = .002
+    records = json.loads(args.states.read_text())['attempts']
     if args.match_native_solver:
         training.opt.iterations = native.opt.iterations
         training.opt.ls_iterations = native.opt.ls_iterations
     if args.match_payload_offset:
-        training.body('robot/carried_payload').pos[:] = native.numeric('transport_hand_capture').data[:3]
+        offsets = {tuple(record.get('payload_offset_m') or native.numeric('transport_hand_capture').data[:3]) for record in records}
+        if len(offsets)!=1:
+            raise ValueError('payload-offset matching requires one common captured offset')
+        training.body('robot/carried_payload').pos[:] = next(iter(offsets))
         mujoco.mj_setConst(training,mujoco.MjData(training))
     report = dict(schema_version=1,mujoco_version=mujoco.__version__,
         scope='Mapped root/joints and model-specific payload attachment; one-step CPU plant comparison with optional training-model Warp comparison; not mission replay',
@@ -146,7 +151,7 @@ def main():
         training_source_sha256=hashlib.sha256((ROOT/'scripts/g1_payload_training.py').read_bytes()).hexdigest(),
         compiled_model_sha256=dict(native=model_digest(native),training=model_digest(training)),
         static=static_report(native,training),attempts=[])
-    for record in json.loads(args.states.read_text())['attempts']:
+    for record in records:
         try:
             a,b = run_state(native,record),run_state(training,record,'robot/',True)
             errors = {key:float(np.max(np.abs(a[key]-b[key]))) for key in ('joint_qpos','joint_qvel','joint_force','root_qvel')}

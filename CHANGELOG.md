@@ -25,6 +25,12 @@ for measured outcomes and [release policy](docs/RELEASES.md) for promotion crite
 
 ### Added
 
+- Opt-in native-timing training with latched joint/IMU packets, grouped explicit
+  sensor-feedback PD, per-environment arm gains and reset-safe observation state.
+- Per-episode load-offset sampling and native probe offset controls. Actual GPU
+  contract checks pass; the candidate remains unpromoted after 28 retained probes.
+  [Implementation and evidence](docs/NATIVE_TIMING_TRAINING_20261018.md).
+
 - Final compiled-plant and CPU/Warp state comparisons, with solver-budget and
   payload-offset diagnostic controls. An opt-in native-joint-friction profile
   fixes the measured wrist-roll mismatch without changing historical profiles.

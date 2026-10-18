@@ -62,7 +62,7 @@ def compare_checkpoint(path,scene):
     data = mujoco.MjData(model)
     mujoco.mj_resetDataKeyframe(model,data,model.key('transport_unitree_rl_lab_stand').id)
     mujoco.mj_forward(model,data)
-    payload = attach_payload(model,data) if config['payload'] else None
+    payload = attach_payload(model,data,config.get('payload_offset_x')) if config['payload'] else None
     if model_digest(model)!=record['model_sha256']:
         raise ValueError('compiled native model differs from captured model')
     state = np.asarray(record['state'],dtype=float)
@@ -99,6 +99,7 @@ def compare_checkpoint(path,scene):
         checkpoint_time_s=float(state[0]),policy_sha256=record['identity']['policy_sha256'],
         model_sha256=record['model_sha256'],native_integrator=str(mujoco.mjtIntegrator(model.opt.integrator)),
         timestep_s=model.opt.timestep,payload_mass_kg=payload['mass_kg'] if payload else None,
+        payload_offset_m=payload['offset'].tolist() if payload else None,
         target_sdk=target.tolist(),portable_state=portable,metrics=metrics)
 
 

@@ -51,7 +51,7 @@ def update_counts(report):
             worst_sampled_travel_m=max(travel) if travel else None))
 
 
-def run_case(case,policy,policy_sha256,output,duration,timeout,command_clock='legacy_float',joint_feedback='state',pd_feedback='state'):
+def run_case(case,policy,policy_sha256,output,duration,timeout,command_clock='legacy_float',joint_feedback='state',pd_feedback='state',payload_offset_x=None):
     result_path = output/(case['case_id']+'.json')
     log_path = output/(case['case_id']+'.log')
     command = [sys.executable,str(HERE/'probe_native_policy.py'),'--policy',str(policy),
@@ -59,6 +59,8 @@ def run_case(case,policy,policy_sha256,output,duration,timeout,command_clock='le
         '--'+case['load'],'--record-actions','--require-mujoco-version','3.3.6',
         '--linear-y',str(case['linear_y']),'--command-duration',str(case['command_duration_s']),
         '--action-feedback','published','--command-clock',command_clock,'--joint-feedback',joint_feedback,'--pd-feedback',pd_feedback]
+    if payload_offset_x is not None:
+        command += ['--payload-offset-x',str(payload_offset_x)]
     record = dict(**case,command=command,source=str(result_path),log=str(log_path),passed=False)
     try:
         with log_path.open('x') as stream:
@@ -83,7 +85,7 @@ def run_case(case,policy,policy_sha256,output,duration,timeout,command_clock='le
                 payload=case['load']=='payload',held_empty=case['load']=='held-empty',
                 observation_steps=[10],sensor_delay_steps=0,mujoco_version='3.3.6',record_actions=True,
                 ramp=False,outage_at_s=None,resumed_checkpoint_sha256=None,command_clock=command_clock,
-                joint_feedback=joint_feedback,pd_feedback=pd_feedback)
+                joint_feedback=joint_feedback,pd_feedback=pd_feedback,payload_offset_x_m=payload_offset_x)
             mismatches = [key for key,value in expected.items() if data.get(key)!=value]
             history = record['stopping'].get('action_history')
             if history and history.get('valid') and any(abs(history[key]-.02*case['delay_steps'])>1e-8
@@ -114,6 +116,7 @@ def main():
     parser.add_argument('--command-clock',choices=('legacy_float','physics_step'),default='legacy_float')
     parser.add_argument('--joint-feedback',choices=('state','sensors'),default='state')
     parser.add_argument('--pd-feedback',choices=('state','sensors'),default='state')
+    parser.add_argument('--payload-offset-x',type=float)
     args = parser.parse_args()
     if args.export_summary is not None:
         if args.policy or args.output or args.report is None or args.report.exists():
@@ -127,6 +130,9 @@ def main():
         return 0
     if not args.policy or args.output is None:
         parser.error('execution requires --policy and --output')
+    if args.payload_offset_x is not None and (args.loads!=['payload'] or not math.isfinite(args.payload_offset_x) or
+                                               not .05<=args.payload_offset_x<=.3):
+        parser.error('payload offset override requires only payload loads and a finite value in [0.05, 0.3]')
     policies = {}
     for item in args.policy:
         name,separator,path = item.partition('=')
@@ -149,7 +155,7 @@ def main():
         sources={name:digest(HERE/name) for name in ('run_native_stop_matrix.py','probe_native_policy.py','score_native_stopping.py')},
         policies={name:dict(path=str(path),sha256=digest(path),training=training_attempt(path.parent)) for name,path in policies.items()},
         plan=plan,attempts=[],duration_s=args.duration,timeout_s=args.timeout,command_clock=args.command_clock,
-        joint_feedback=args.joint_feedback,pd_feedback=args.pd_feedback)
+        joint_feedback=args.joint_feedback,pd_feedback=args.pd_feedback,payload_offset_x_m=args.payload_offset_x)
     destination = args.output/'summary.json'
     def save():
         update_counts(report)
@@ -163,7 +169,7 @@ def main():
     try:
         for case in plan:
             record = run_case(case,policies[case['policy']],report['policies'][case['policy']]['sha256'],
-                              args.output,args.duration,args.timeout,args.command_clock,args.joint_feedback,args.pd_feedback)
+                              args.output,args.duration,args.timeout,args.command_clock,args.joint_feedback,args.pd_feedback,args.payload_offset_x)
             report['attempts'].append(record)
             save()
             print(json.dumps(dict(case=case['case_id'],passed=record['passed'],error=record.get('error'),

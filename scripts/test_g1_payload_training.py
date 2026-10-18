@@ -286,3 +286,48 @@ def test_native_joint_friction_survives_final_scene_compilation(training):
         assert actual==pytest.approx(expected)
     with pytest.raises(ValueError,match='native_contact'):
         training.build_env(1,77,native_joint_friction=True)
+
+
+def test_native_packet_survives_forward_refresh_and_resets_only_selected_rows(training):
+    from payload_native_timing import PacketLatch,sensor_pd_command
+    from mjlab.actuator.actuator import ActuatorCmd
+    torch = training.torch
+    latch = PacketLatch(2,65,'cpu')
+    old,fresh = torch.ones(2,65),torch.full((2,65),4.)
+    latch.capture(old)
+    torch.testing.assert_close(latch.read(fresh),old)
+    latch.reset(torch.tensor([0]))
+    command = ActuatorCmd(position_target=torch.full((2,1),8.),velocity_target=torch.zeros(2,1),
+        effort_target=torch.zeros(2,1),pos=torch.full((2,1),4.),vel=torch.full((2,1),3.))
+    sampled = sensor_pd_command(command,latch,torch.tensor([0]))
+    torch.testing.assert_close(sampled.pos,torch.tensor([[4.],[1.]]))
+    torch.testing.assert_close(sampled.vel,torch.tensor([[3.],[1.]]))
+    assert sampled.position_target is command.position_target
+    torch.testing.assert_close(latch.read(fresh),torch.stack((fresh[0],old[1])))
+
+
+def test_native_timing_uses_scalar_joint_sensors_and_preserves_actor_layout(training):
+    from mjlab.scene import Scene
+    from payload_native_timing import NativeSensorPdCfg,native_gyro,packet_gravity
+    from unitree_g1_mujoco_bridge.unitree_rl_lab_policy import UnitreeRLLabG1PolicyAdapter
+    torch = training.torch
+    cfg = training.build_env(2,77,dynamics='native_contact',integrator='euler',native_joint_friction=True,
+                             native_timing=True,payload_offset_range=(.12,.19))
+    assert isinstance(cfg.scene.entities['robot'].articulation.actuators[0],NativeSensorPdCfg)
+    model = Scene(cfg.scene,device='cpu').compile()
+    assert sum(model.sensor_type==training.mujoco.mjtSensor.mjSENS_JOINTPOS)==29
+    assert sum(model.sensor_type==training.mujoco.mjtSensor.mjSENS_JOINTVEL)==29
+    np.testing.assert_allclose(model.actuator_gainprm[:,0],1.)
+    np.testing.assert_allclose(model.actuator_biasprm,0.)
+    assert cfg.observations['actor'].history_length==5 and cfg.observations['actor'].terms['base_ang_vel'].func is native_gyro
+    assert cfg.observations['critic'].terms['base_ang_vel'].func is not native_gyro
+    assert cfg.metrics['native_sensor_epoch_delta'].per_substep
+    assert 'payload_offset' in cfg.events
+    quat = torch.tensor([[.8,.2,-.3,.4]])
+    adapter = UnitreeRLLabG1PolicyAdapter()
+    observed = adapter.build_observation([0.]*3,adapter.sdk_default_positions,[0.]*29,[0.]*3,quat[0].tolist(),[0.]*29)
+    np.testing.assert_allclose(packet_gravity(quat).numpy()[0],observed[0,15:18],atol=2e-7)
+    with pytest.raises(ValueError,match='native timing'):
+        training.build_env(2,77,native_timing=True)
+    with pytest.raises(ValueError,match='offset range'):
+        training.build_env(2,77,payload_offset_range=(.19,.12))

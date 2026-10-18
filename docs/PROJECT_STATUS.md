@@ -23,6 +23,14 @@ evidence snapshot, not an acceptance release. Later experiments need their own c
 
 ## At a glance
 
+**Latest native-timing training checkpoint:** latched post-substep sensor packets,
+explicit grouped motor PD and per-episode load-offset variation are implemented.
+Actual GPU checks verify encoder/actor timing, gains and partial-reset isolation.
+The candidate passes **0/10** dense cases and **1/4** offset controls; it remains
+unpromoted. **866 ROS results, 205 orchestration tests, 12 native CTests,
+19 training-contract tests and two payload/weld tests pass.**
+[Full implementation scope and retained outcomes](NATIVE_TIMING_TRAINING_20261018.md).
+
 **18 October compiled-model/feedback checkpoint:** final scene compilation
 exposes wrist-roll friction loss 0.1 versus native 0.2; an opt-in correction
 matches all 29 joint friction values. Diagnostic load placement further reduces

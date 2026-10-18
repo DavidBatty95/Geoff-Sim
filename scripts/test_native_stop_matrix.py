@@ -32,10 +32,11 @@ def test_process_failure_retains_attempt_instead_of_becoming_success(tmp_path,mo
     assert result['case_id']==case['case_id']
 
 
-@pytest.mark.parametrize('fault',[None,'policy','resumed','joint_feedback','pd_feedback'])
+@pytest.mark.parametrize('fault',[None,'policy','resumed','joint_feedback','pd_feedback','offset'])
 def test_scored_success_cannot_hide_mismatched_policy_or_reused_prefix(tmp_path,monkeypatch,fault):
     data = stopped_probe()
     data.update(policy_sha256='changed' if fault=='policy' else 'hash',delay_steps=2,
+                payload_offset_x_m=.19 if fault=='offset' else None,
                 resumed_checkpoint_sha256='checkpoint' if fault=='resumed' else None,
                 requested_command=[0.,.45,0.],action_feedback='published',payload=False,
                 held_empty=True,observation_steps=[10],sensor_delay_steps=0,
@@ -53,7 +54,7 @@ def test_scored_success_cannot_hide_mismatched_policy_or_reused_prefix(tmp_path,
     result = matrix.run_case(case,tmp_path/'policy.onnx','hash',tmp_path,13.,1.)
     assert result['passed'] is (fault is None)
     if fault:
-        assert result['mismatches']==[{'policy':'policy_sha256','resumed':'resumed_checkpoint_sha256'}.get(fault,fault)]
+        assert result['mismatches']==[{'policy':'policy_sha256','resumed':'resumed_checkpoint_sha256','offset':'payload_offset_x_m'}.get(fault,fault)]
 
 
 def test_export_retains_incomplete_plan_and_failed_attempt(tmp_path,monkeypatch):

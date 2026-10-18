@@ -87,6 +87,13 @@ Native probes/matrices accept independent `--joint-feedback state|sensors` and
 `--pd-feedback state|sensors` selections; both default to historical `state`.
 [Commands and measured outcomes](../docs/COMPILED_FEEDBACK_20261018.md).
 
+Training `--native-timing` requires native-contact dynamics and Euler integration;
+its per-substep packet-capture hook is required, not optional metric logging.
+`--payload-offset-range XMIN XMAX` samples the diagnostic load placement per episode.
+`verify_training_timing.py --output NEW.json` verifies the actual GPU timing/reset
+contract. Native loaded probes/matrices accept `--payload-offset-x X`.
+[Commands, tests and candidate results](../docs/NATIVE_TIMING_TRAINING_20261018.md).
+
 Every generated world and the original plaza can run as a continuous demo. The
 demo launcher handles goal handoff, session duration, episode restart and logs.
 Use `./geoff demo --help`, `./geoff benchmark --help` or `./geoff results --help`
