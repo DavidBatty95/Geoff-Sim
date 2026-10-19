@@ -11,7 +11,7 @@ import subprocess
 import sys
 
 from publish_performance_evidence import training_attempt
-from score_native_stopping import score_probe
+from score_native_stopping import score_probe,motion_progress
 
 HERE = Path(__file__).resolve().parent
 
@@ -51,7 +51,7 @@ def update_counts(report):
             worst_sampled_travel_m=max(travel) if travel else None))
 
 
-def run_case(case,policy,policy_sha256,output,duration,timeout,command_clock='legacy_float',joint_feedback='state',pd_feedback='state',payload_offset_x=None):
+def run_case(case,policy,policy_sha256,output,duration,timeout,command_clock='legacy_float',joint_feedback='state',pd_feedback='state',payload_offset_x=None,require_motion_progress=False):
     result_path = output/(case['case_id']+'.json')
     log_path = output/(case['case_id']+'.log')
     command = [sys.executable,str(HERE/'probe_native_policy.py'),'--policy',str(policy),
@@ -95,6 +95,9 @@ def run_case(case,policy,policy_sha256,output,duration,timeout,command_clock='le
                 record.update(error='probe_protocol_mismatch',mismatches=mismatches)
             else:
                 record['passed'] = record['stopping']['passed']
+                if require_motion_progress:
+                    record['motion_progress'] = motion_progress(data)
+                    record['passed'] &= record['motion_progress']['passed']
     except subprocess.TimeoutExpired:
         record['error'] = 'probe_timeout'
     except (OSError,ValueError,TypeError,KeyError) as error:
@@ -117,6 +120,7 @@ def main():
     parser.add_argument('--joint-feedback',choices=('state','sensors'),default='state')
     parser.add_argument('--pd-feedback',choices=('state','sensors'),default='state')
     parser.add_argument('--payload-offset-x',type=float)
+    parser.add_argument('--require-motion-progress',action='store_true',help='Also require >=50% mean progress along the requested planar command')
     args = parser.parse_args()
     if args.export_summary is not None:
         if args.policy or args.output or args.report is None or args.report.exists():
@@ -155,7 +159,8 @@ def main():
         sources={name:digest(HERE/name) for name in ('run_native_stop_matrix.py','probe_native_policy.py','score_native_stopping.py')},
         policies={name:dict(path=str(path),sha256=digest(path),training=training_attempt(path.parent)) for name,path in policies.items()},
         plan=plan,attempts=[],duration_s=args.duration,timeout_s=args.timeout,command_clock=args.command_clock,
-        joint_feedback=args.joint_feedback,pd_feedback=args.pd_feedback,payload_offset_x_m=args.payload_offset_x)
+        joint_feedback=args.joint_feedback,pd_feedback=args.pd_feedback,payload_offset_x_m=args.payload_offset_x,
+        require_motion_progress=args.require_motion_progress)
     destination = args.output/'summary.json'
     def save():
         update_counts(report)
@@ -169,7 +174,7 @@ def main():
     try:
         for case in plan:
             record = run_case(case,policies[case['policy']],report['policies'][case['policy']]['sha256'],
-                              args.output,args.duration,args.timeout,args.command_clock,args.joint_feedback,args.pd_feedback,args.payload_offset_x)
+                              args.output,args.duration,args.timeout,args.command_clock,args.joint_feedback,args.pd_feedback,args.payload_offset_x,args.require_motion_progress)
             report['attempts'].append(record)
             save()
             print(json.dumps(dict(case=case['case_id'],passed=record['passed'],error=record.get('error'),

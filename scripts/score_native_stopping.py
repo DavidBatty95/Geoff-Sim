@@ -8,6 +8,39 @@ from pathlib import Path
 from native_probe_timing import command_steps
 
 
+def motion_progress(data,min_ratio=.5,warmup=.5,max_gap=.05):
+    """Do not qualify a stationary policy that ignores a planar movement request."""
+    try:
+        start,end = data['actual_command_start_s'],data['actual_command_end_s']
+        command = data['requested_command']
+        if (len(command)!=3 or not all(type(v) in (int,float) and math.isfinite(v) for v in (*command,start,end)) or
+                end-start-warmup<.5):
+            raise ValueError('invalid command window')
+        speed = math.hypot(*command[:2])
+        if speed<=.03 or data.get('replay_trace') or data.get('ramp'):
+            raise ValueError('fixed planar command required')
+        sample_times = [row['time'] for row in data['samples']]
+        if (not all(type(t) in (int,float) and math.isfinite(t) for t in sample_times) or
+                any(b<=a for a,b in zip(sample_times,sample_times[1:]))):
+            raise ValueError('invalid sample times')
+        rows = [row for row in data['samples'] if start+warmup<=row['time']<end]
+        times = [row['time'] for row in rows]
+        velocities = [row['body_velocity'] for row in rows]
+        if (len(rows)<2 or any(len(v)!=2 for v in velocities) or
+                not all(type(v) in (int,float) and math.isfinite(v) for row in velocities for v in row) or
+                any(row['command']!=command for row in rows) or
+                any(b<=a for a,b in zip(times,times[1:])) or
+                max([times[0]-start-warmup,end-times[-1]]+[b-a for a,b in zip(times,times[1:])])>max_gap+1e-9):
+            raise ValueError('incomplete motion samples')
+        mean = sum((v[0]*command[0]+v[1]*command[1])/speed for v in velocities)/len(rows)
+        ratio = mean/speed
+        return dict(passed=ratio>=min_ratio,minimum_ratio=min_ratio,mean_directional_speed_mps=mean,
+                    ratio=ratio,samples=len(rows),warmup_s=warmup,
+                    reasons=[] if ratio>=min_ratio else ['insufficient_commanded_progress'])
+    except (KeyError,TypeError,ValueError):
+        return dict(passed=False,minimum_ratio=min_ratio,reasons=['invalid_motion_progress_evidence'])
+
+
 def action_history(data):
     """Audit simulator-known queue history, not a deployment acknowledgement."""
     published,times,delays = {},{},[]

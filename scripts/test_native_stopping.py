@@ -14,6 +14,23 @@ def stopped_probe():
                  for i in range(301)])
 
 
+@pytest.mark.parametrize('speed,passed',[(0.,False),(-.3,False),(.3,True)])
+def test_motion_progress_rejects_ignoring_or_reversing_the_request(speed,passed):
+    data = dict(actual_command_start_s=5.,actual_command_end_s=7.,requested_command=[0.,.45,0.],
+        samples=[dict(time=5.+i*.02,body_velocity=[0.,speed],command=[0.,.45,0.]) for i in range(100)])
+    assert scorer.motion_progress(data)['passed'] is passed
+    del data['samples'][30:40]
+    assert not scorer.motion_progress(data)['passed']
+
+
+@pytest.mark.parametrize('bad_time',[float('nan'),float('inf'),None,5.5])
+def test_motion_progress_rejects_invalid_or_reordered_timestamps(bad_time):
+    data = dict(actual_command_start_s=5.,actual_command_end_s=7.,requested_command=[0.,.45,0.],
+        samples=[dict(time=5.+i*.02,body_velocity=[0.,.3],command=[0.,.45,0.]) for i in range(100)])
+    data['samples'][40]['time'] = bad_time
+    assert scorer.motion_progress(data)['reasons']==['invalid_motion_progress_evidence']
+
+
 def test_upright_drift_is_not_a_qualified_stop():
     data = stopped_probe()
     for i,row in enumerate(data['samples']):

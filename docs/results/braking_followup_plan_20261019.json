@@ -1,0 +1,21 @@
+{
+  "scope": "Matched continued-training intervention; retain all seeds and failures; no automatic promotion",
+  "parent": "timing_fixed_seed77_20261019/final.pt",
+  "training": {
+    "seeds": [78, 79], "iterations": 400, "num_envs": 256,
+    "dynamics": "native_contact", "integrator": "euler", "native_timing": true,
+    "native_joint_friction": true, "target_soft_limit_factor": 0.9,
+    "payload_offset_range_m": [0.12, 0.12], "max_delay_steps": 3,
+    "action_feedback": "published", "profile": "mixed", "smoothness_weight": 0.05,
+    "arms": [
+      {"name": "braking", "objective": "stopping", "command_profile": "transitions"},
+      {"name": "control", "objective": "reactive", "command_profile": "mixed"}
+    ]
+  },
+  "development": {"loads": ["payload"], "delays": [3], "command_durations": [1.96, 1.98, 2, 2.02, 2.04]},
+  "fresh_validation": {"loads": ["payload", "held-empty"], "delays": [2, 3], "command_durations": [1.7, 2.3, 2.8]},
+  "protocol": {"command_clock": "physics_step", "joint_feedback": "sensors", "pd_feedback": "sensors", "require_motion_progress": true, "duration_s": 15},
+  "selection": "Evaluate all four policies and the retained timing_fixed parent on development AND fresh validation; compare each braking seed with its matched control and the parent. No selection based on validation and no omitted arms.",
+  "interpretation": "Seeds independently resample continued training but share the seed77 parent. Intervention bundles stopping reward and transition curriculum; cannot attribute effects to either alone.",
+  "promotion": "Requires every development and fresh validation condition to pass, followed by separate integrated qualification. Existing gates unchanged."
+}

@@ -25,6 +25,33 @@ for measured outcomes and [release policy](docs/RELEASES.md) for promotion crite
 
 ### Added
 
+- Broader 51-trajectory reference corpus, 406 matched probes and per-case
+  fixes/regressions. Broad80 fixes four parent failures without new ones on this
+  set; other comparisons retain regressions. README now embeds only two new,
+  complete 15-second loaded stopping GIFs with frame/outcome/hash provenance.
+  [Broader-reference report](docs/BROAD_REFERENCE_20261019.md).
+
+- Optional native successful-state actor rehearsal during PPO, observation
+  recording, passing-only corpus construction, provenance and gradient tests.
+  Matched seed80 gains one pass over parent (52/58); seed81 regresses with three
+  falls. No promotion. [Actor-reference report](docs/ACTOR_REFERENCE_20261019.md).
+
+- Smaller-update stopping-reward/transition-curriculum isolation across two seeds:
+  six 100-iteration runs and 464 probes. Neither isolated factor consistently
+  beats matched controls; the retained braking candidate remains unpromoted.
+  See [factor isolation](docs/BRAKING_ISOLATION_20261019.md).
+
+- Two-seed braking-training comparison with matched continued-training controls
+  and 242 native probes. Seed 79 reduces failures from 16/58 to 6/58 versus the
+  prior candidate; seed 78's timing-local falls remain explicit. No promotion.
+  See [braking follow-up](docs/BRAKING_FOLLOWUP_20261019.md).
+
+- Longer-budget matched stopping comparison: three 400-iteration candidates and
+  88 native probes. Selected candidate reduces held-out failures from 18/24 to
+  6/24, with zero versus seven falls; remains unpromoted. Added optional
+  fail-closed movement-progress scoring. See the
+  [experiment report](docs/FAILURE_REDUCTION_20261019.md).
+
 - Opt-in native-timing training with latched joint/IMU packets, grouped explicit
   sensor-feedback PD, per-environment arm gains and reset-safe observation state.
 - Per-episode load-offset sampling and native probe offset controls. Actual GPU

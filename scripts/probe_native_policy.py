@@ -45,6 +45,7 @@ def main():
     parser.add_argument('--payload',action='store_true',help='Offline loaded-start fixture: native red object welded to right wrist; compose carry arms')
     parser.add_argument('--payload-offset-x',type=float,help='Diagnostic loaded-start wrist-local x offset; default uses capture calibration')
     parser.add_argument('--record-actions',action='store_true',help='Retain published/applied action vectors and publication/application sequence IDs')
+    parser.add_argument('--record-observations',action='store_true',help='Retain actor inputs for offline preservation training')
     parser.add_argument('--ramp',action='store_true',help='Apply nominal acceleration-limited start/stop commands for transition comparison')
     parser.add_argument('--outage-at',type=float,help='Inject one inference outage at this simulation time')
     parser.add_argument('--outage-duration',type=float,default=.06)
@@ -264,6 +265,8 @@ def main():
                 if len(queue)>args.delay_steps:
                     applied_sequence,action = queue.popleft()
                     target = np.asarray(clamp_joint_targets(adapter.action_targets(action)))
+            if args.record_observations and not outage:
+                actor_observation = observation.reshape(-1).tolist()
             if compose_arms:
                 arm_target += np.clip(arm_goal-arm_target,-.35*observation_dt,.35*observation_dt)
                 target[15:] = arm_target[15:]
@@ -275,6 +278,8 @@ def main():
                              tilt=tilt,yaw=yaw,body_velocity=[float(c*data.qvel[0]+s*data.qvel[1]),float(-s*data.qvel[0]+c*data.qvel[1])],
                               yaw_rate=float(data.sensor('imu_gyro').data[2]),
                                 command=command,inference_outage=outage,action_norm=float(np.linalg.norm(action))))
+            if args.record_observations and not outage:
+                rows[-1]['actor_observation'] = actor_observation
             if payload is not None:
                 rows[-1].update(payload_sample(model,data,payload))
             rows[-1].update(joint_feedback_position_delta_rad=float(np.max(np.abs(data.qpos[qids]-joint_position))),

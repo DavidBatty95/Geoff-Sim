@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "scope": "Predeclared development comparison; no policy promotion from training return or isolated stopping successes",
+  "training": {
+    "parent": "native_contact_cycle_05_20261012/final.pt",
+    "seed": 77,
+    "num_envs": 256,
+    "iterations": 400,
+    "dynamics": "native_contact",
+    "integrator": "euler",
+    "native_joint_friction": true,
+    "target_soft_limit_factor": 0.9,
+    "action_feedback": "published",
+    "max_delay_steps": 3,
+    "objective": "reactive",
+    "command_profile": "mixed",
+    "arms": [
+      {"name": "timing_fixed", "native_timing": true, "payload_offset_range_m": [0.12, 0.12]},
+      {"name": "timing_varied", "native_timing": true, "payload_offset_range_m": [0.12, 0.19]},
+      {"name": "fresh_fixed", "native_timing": false, "payload_offset_range_m": [0.12, 0.12]}
+    ]
+  },
+  "development_conditions": {
+    "payload_offset_x_m": 0.12,
+    "application_delay_steps": [3],
+    "command_durations_s": [1.96, 1.98, 2.0, 2.02, 2.04],
+    "lateral_commands_mps": [-0.45, 0.45],
+    "joint_feedback": "sensors",
+    "pd_feedback": "sensors",
+    "command_clock": "physics_step",
+    "minimum_mean_directional_progress_ratio": 0.5,
+    "progress_window_start_after_command_s": 0.5
+  },
+  "selection": "Rank completed development arms by combined progress-and-stop passes, then fewer falls; report all arms. A reduction is condition-specific, not general acceptance.",
+  "held_out_conditions": {
+    "command_durations_s": [1.5, 2.5, 3.0],
+    "application_delay_steps": [2, 3],
+    "loads": ["payload", "held-empty"],
+    "lateral_commands_mps": [-0.45, 0.45],
+    "scope": "Evaluate the selected candidate and cycle-05 on the same conditions; retain every result"
+  },
+  "integrated_gate": "Integrated candidate trials only after all development and held-out stopping/progress conditions pass; deployed cycle-05 remains unchanged until qualification supports promotion."
+}

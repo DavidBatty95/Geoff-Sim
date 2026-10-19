@@ -33,7 +33,8 @@ def test_process_failure_retains_attempt_instead_of_becoming_success(tmp_path,mo
 
 
 @pytest.mark.parametrize('fault',[None,'policy','resumed','joint_feedback','pd_feedback','offset'])
-def test_scored_success_cannot_hide_mismatched_policy_or_reused_prefix(tmp_path,monkeypatch,fault):
+@pytest.mark.parametrize('require_progress',[False,True])
+def test_scored_success_cannot_hide_mismatched_policy_or_reused_prefix(tmp_path,monkeypatch,fault,require_progress):
     data = stopped_probe()
     data.update(policy_sha256='changed' if fault=='policy' else 'hash',delay_steps=2,
                 payload_offset_x_m=.19 if fault=='offset' else None,
@@ -51,8 +52,10 @@ def test_scored_success_cannot_hide_mismatched_policy_or_reused_prefix(tmp_path,
         return SimpleNamespace(returncode=0)
     monkeypatch.setattr(matrix.subprocess,'run',run)
     case = matrix.cases(['candidate'],['held-empty'],[2],[2.])[0]
-    result = matrix.run_case(case,tmp_path/'policy.onnx','hash',tmp_path,13.,1.)
-    assert result['passed'] is (fault is None)
+    result = matrix.run_case(case,tmp_path/'policy.onnx','hash',tmp_path,13.,1.,require_motion_progress=require_progress)
+    assert result['passed'] is (fault is None and not require_progress)
+    if fault is None and require_progress:
+        assert result['stopping']['passed'] and not result['motion_progress']['passed']
     if fault:
         assert result['mismatches']==[{'policy':'policy_sha256','resumed':'resumed_checkpoint_sha256','offset':'payload_offset_x_m'}.get(fault,fault)]
 

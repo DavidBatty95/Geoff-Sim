@@ -645,7 +645,12 @@ def main():
     parser.add_argument('--native-joint-friction',action='store_true',help='Use native per-joint friction, including wrist-roll 0.2 rather than 0.1')
     parser.add_argument('--native-timing',action='store_true',help='Latched post-substep sensor packet and explicit sensor-feedback motor PD')
     parser.add_argument('--payload-offset-range',type=float,nargs=2,help='Diagnostic wrist-local load x-offset range in meters')
+    parser.add_argument('--actor-reference',type=Path,help='Qualified native observation/action rehearsal corpus')
+    parser.add_argument('--actor-reference-weight',type=float,default=1.,help='Actor action-MSE auxiliary loss coefficient')
     args = parser.parse_args()
+    if args.actor_reference is not None and (args.checkpoint is None or args.mode=='evaluate' or
+            not math.isfinite(args.actor_reference_weight) or args.actor_reference_weight<=0):
+        parser.error('actor reference requires training checkpoint and positive finite weight')
     if args.native_joint_friction and args.dynamics!='native_contact':
         parser.error('--native-joint-friction requires --dynamics native_contact')
     if args.native_timing and (args.dynamics!='native_contact' or args.integrator!='euler'):
@@ -719,6 +724,17 @@ def main():
                      cup_up_axis_local=cup_up_axis(),
                     actor_contract='unitree_rl_lab_g1_29dof: 480 observations / 29 actions; measured arms',
                     payload_mass_range_kg=[0., .5], hand_offset_m=[.19, .01, 0.], base_pinning=False)
+    if args.actor_reference is not None:
+        corpus = json.loads(args.actor_reference.read_text())
+        parent_policy = args.checkpoint.with_name('policy.onnx')
+        if corpus['policy_sha256'] != hashlib.sha256(parent_policy.read_bytes()).hexdigest():
+            raise ValueError('reference corpus policy must match checkpoint sibling policy.onnx')
+        manifest['actor_reference'] = dict(path=str(args.actor_reference),
+            sha256=hashlib.sha256(args.actor_reference.read_bytes()).hexdigest(),weight=args.actor_reference_weight,
+            sources=corpus['sources'],policy_sha256=corpus['policy_sha256'],
+            moving_samples=corpus['moving_samples'],stopped_samples=corpus['stopped_samples'])
+        (output/'actor_reference.json').write_bytes(args.actor_reference.read_bytes())
+        (output/'payload_actor_reference.py').write_bytes((ROOT/'scripts/payload_actor_reference.py').read_bytes())
     (output / 'manifest.json').write_text(json.dumps(manifest, indent=2)+'\n')
     (output / 'training_source.py').write_bytes(Path(__file__).read_bytes())
     (output / 'payload_smoothness.py').write_bytes((ROOT/'scripts/payload_smoothness.py').read_bytes())
@@ -753,6 +769,13 @@ def main():
         {'params': runner.alg.actor.parameters(), 'lr': 1e-5},
         {'params': runner.alg.critic.parameters(), 'lr': 3e-4},
     ])
+    reference = None
+    if args.actor_reference is not None:
+        from payload_actor_reference import ActorReferenceLoss
+        if runner.alg.symmetry is not None:
+            raise ValueError('actor reference cannot replace an existing symmetry objective')
+        reference = ActorReferenceLoss(runner.alg.actor,args.actor_reference,args.actor_reference_weight)
+        runner.alg.symmetry = reference
     action = env.action_manager.get_term('joint_pos')
     print('Payload reset audit:', dict(held=int(action.held.sum()), mass_min=float(action.mass.min()), mass_max=float(action.mass.max()),
         application_delay_counts=torch.bincount(action.delay_steps,minlength=args.max_delay_steps+1).tolist(),
@@ -762,6 +785,8 @@ def main():
             runner.learn(num_learning_iterations=2 if args.mode == 'smoke' else args.iterations,
                          init_at_random_ep_len=False)
             runner.save(str(output / 'final.pt'))
+            if reference is not None:
+                (output/'actor_reference_audit.json').write_text(json.dumps(reference.audit(),indent=2)+'\n')
             if args.payload_offset_range is not None:
                 manifest['sampled_payload_offset_range_m'] = [float(action.offset_min),float(action.offset_max)]
                 (output/'manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')

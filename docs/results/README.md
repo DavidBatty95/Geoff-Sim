@@ -23,6 +23,39 @@ described by the [repository guide](../REPOSITORY_GUIDE.md#where-results-go).
 
 ## Start with a dataset
 
+- **Broader reference coverage:** [plan](broad_reference_plan_20261019.json),
+  [development](broad_development_20261019.json), [historical](broad_regression_20261019.json),
+  [fresh](broad_validation_20261019.json), and [paired changes](broad_paired_changes_20261019.json).
+  [Interpretation and media](../BROAD_REFERENCE_20261019.md).
+
+- **Actor-reference rehearsal:** [plan](actor_reference_plan_20261019.json),
+  [development](reference_development_20261019.json),
+  [historical regression](reference_regression_20261019.json),
+  [fresh validation](reference_validation_20261019.json).
+  [Interpretation](../ACTOR_REFERENCE_20261019.md): narrow successful-state corpus,
+  mixed two-seed results, all failures retained.
+
+- **Smaller-update factor isolation:** [plan](braking_isolation_plan_20261019.json),
+  [development](isolation_development_20261019.json),
+  [historical regression](isolation_regression_20261019.json), and
+  [fresh validation](isolation_validation_20261019.json).
+  [Interpretation](../BRAKING_ISOLATION_20261019.md): six matched runs, 464 probes,
+  mixed factor effects and no promotion.
+
+- **Braking follow-up:** [plan](braking_followup_plan_20261019.json),
+  [development](braking_development_20261019.json),
+  [fresh validation](braking_validation_20261019.json), and
+  [historical regression](braking_regression_20261019.json).
+  [Interpretation](../BRAKING_FOLLOWUP_20261019.md): seed-dependent gains and
+  regressions retained across 242 probes.
+
+- **19 October failure reduction:** [plan](failure_reduction_plan_20261019.json),
+  [development](failure_reduction_development_20261019.json),
+  [selection](failure_reduction_selection_20261019.json) and
+  [held-out](failure_reduction_heldout_20261019.json). Three longer-budget arms;
+  selected candidate has 6/24 held-out failures versus 18/24 for cycle-05.
+  [Interpretation and limitations](../FAILURE_REDUCTION_20261019.md).
+
 Native-timing training: [final GPU contract check](training_timing_verified_20261018.json),
 [initial check](training_timing_contract_20261018.json),
 [20-probe dense comparison](native_timing_dense_20261018.json), and

@@ -23,13 +23,15 @@ Geoff-Sim brings locomotion, online mapping, human-aware navigation and object
 transport into one humanoid simulation platform. The robot observes its scene,
 approaches a table, lifts a cube, carries it to a destination and checks placement.
 
-**Current progress · 18 October 2026:** native-like training now preserves sensor
-epochs across physics steps and resets, with explicit motor PD and optional load
-offset variation. GPU contract checks pass; the trained candidate fails dense
-stopping qualification and remains unpromoted.
-**866 ROS results, 205 orchestration tests and 12 native CTests pass.**
-[Training timing, GPU verification and all outcomes](docs/NATIVE_TIMING_TRAINING_20261018.md) ·
-[Compiled-plant and feedback audit](docs/COMPILED_FEEDBACK_20261018.md).
+**Current progress · 19 October 2026:** broader successful-state rehearsal now
+covers 51 qualifying native trajectories. Broad-reference seed80 passes **51/58**
+conditions versus **47/58** for its parent in the latest comparison: four fixes,
+no parent-relative regressions and no falls. Seed81 still regresses; no candidate
+meets the all-conditions promotion gate. The deployed baseline remains cycle-05.
+**866 ROS results, 218 orchestration tests and 12 native CTests pass**, with
+27 separate training/reference tests passing at the latest implementation check.
+[Latest results, paired fixes and regressions](docs/BROAD_REFERENCE_20261019.md) ·
+[Actor-reference implementation](docs/ACTOR_REFERENCE_20261019.md).
 
 **Delivery evidence:** the earlier compact exploration cohort completed **4/4
 colour tasks**, followed by a medium-building delivery. A corrected-rollout
@@ -45,32 +47,30 @@ a magnetic capture-radius fixture rather than a demonstrated finger grasp.
 
 ## Recorded demo gallery
 
-### A complete recorded delivery
+### Latest complete loaded stopping runs
 
-<p align="center">
-  <img src="docs/media/locomanipulation/mission-overview.gif" width="800" alt="Complete recorded G1 red-cube delivery: observe, approach, lift, carry, place, verify and restore the arm">
-</p>
+**Each GIF shows an entire 15-second run, with no cuts:** stand for five seconds,
+move sideways for two seconds, then brake and hold through the end. Both use
+the latest broad-reference seed80 candidate, a 150 g wrist-attached payload and
+60 ms action delay. Timestamps show the full simulation interval; playback is
+real time at 10 fps, followed by a one-second final outcome card.
 
-**Actual MuJoCo window capture, sampled time-lapse.** This zero-person red → red
-mission completed in **122.14 seconds**, including post-release placement
-verification and arm restoration. All clips below come from that same run.
-[Still image](docs/media/locomanipulation/mission-overview.png) ·
-[Recording provenance and all attempts](docs/media/locomanipulation/recordings.json)
-
-| Reach, attach and lift | Retreat and carry |
+| Positive lateral command (+0.45 m/s) | Negative lateral command (−0.45 m/s) |
 | --- | --- |
-| ![Close-up recorded G1 reaching for a red cube, attaching it and lifting into the carry posture](docs/media/locomanipulation/pickup-and-lift.gif) | ![Close-up recorded G1 retreating from the pickup table and walking with the payload](docs/media/locomanipulation/loaded-transport.gif) |
-| RGB-D-guided approach, magnetic attachment and measured lift. | Retreat from the pickup table and loaded navigation to the destination. |
+| ![Complete 15-second loaded positive-lateral stopping run, from initial standing through movement and final qualified stop](docs/media/braking/complete_lateral_0.45.gif) | ![Complete 15-second loaded negative-lateral stopping run, from initial standing through movement and final qualified stop](docs/media/braking/complete_lateral_-0.45.gif) |
+| **PASS:** movement and strict stopping; no fall or scene contact. | **PASS:** movement and strict stopping; no fall or scene contact. |
 
-<p align="center">
-  <img src="docs/media/locomanipulation/placement-and-verify.gif" width="640" alt="Recorded G1 lowering and releasing the cube onto the target pad, retreating for camera verification and restoring its arm">
-  <br><em>Lower → release → retreat for camera verification → restore.</em>
-</p>
+These are offscreen renders of actual native MuJoCo probe states, covering
+**t=0 through t=15 s in 151 frames each**. They are complete loaded-start
+locomotion tests, not pickup-and-delivery missions. The two passing recordings
+do not override failures elsewhere in the evaluation matrix.
+[Positive-run provenance](docs/media/braking/complete_lateral_0.45.json) ·
+[Negative-run provenance](docs/media/braking/complete_lateral_-0.45.json) ·
+[All latest evaluation outcomes](docs/BROAD_REFERENCE_20261019.md).
 
-The recorded workflow is **observe → approach → dock → attach → lift → carry →
-place → verify → restore**. This one recording is separate from the exploration
-cohort. Failed runs and unusable captures remain in the manifest.
-[Media guide, still images and reproduction](docs/MEDIA.md).
+Earlier delivery recordings, stage excerpts and navigation previews remain in
+the [media catalogue](docs/MEDIA.md), with their original dates and provenance.
+All GIFs embedded on this README are the complete runs shown above.
 
 ## Explore Geoff-Sim
 
@@ -101,34 +101,6 @@ For external references, open the
 [online tutorials, repositories and libraries directory](docs/resources/SIMULATION.md):
 ROS 2 Humble learning paths, package APIs, Nav2, MoveIt, MuJoCo, Unitree, training,
 perception and diagnostic tools—all grouped on one page.
-
-<details>
-<summary><strong>Earlier navigation-only recordings: plaza, courtyard and station</strong></summary>
-
-### Pedestrian plaza: simulation and onboard decisions
-
-| MuJoCo crowd | RViz perception and planning |
-| --- | --- |
-| ![Recorded G1 walking among eight pedestrians in MuJoCo](docs/media/onboard-crowd.gif) | ![Recorded RViz view of onboard sensing, tracks and navigation decisions](docs/media/onboard-decisions.gif) |
-
-### Representative environments
-
-| Residential courtyard | Courtyard sensing and planning |
-| --- | --- |
-| ![Recorded residential courtyard simulation](docs/media/courtyard/onboard-crowd.gif) | ![Recorded courtyard RViz perception and planning](docs/media/courtyard/onboard-decisions.gif) |
-
-<p align="center">
-  <img src="docs/media/station/onboard-crowd.gif" width="720" alt="Recorded G1 simulation in the representative station entrance">
-  <br><em>Station entrance — one of six procedural benchmark worlds.</em>
-</p>
-
-All five previews are recorded visualizations. They illustrate the scene and
-viewer outputs, not collision-free endurance or the performance of the latest
-controller. See the [media catalogue](docs/MEDIA.md) for provenance and the
-[visual runbook](docs/ONBOARD_VISUAL_DEMO.md) to launch your own session.
-The SVG diagrams below are architectural schematics.
-
-</details>
 
 ## Quick start
 

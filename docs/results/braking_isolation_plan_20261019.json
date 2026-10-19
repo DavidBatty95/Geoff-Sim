@@ -1,0 +1,23 @@
+{
+  "scope": "Factor isolation with smaller continued-training budget; all arms retained",
+  "parent": "timing_fixed_seed77_20261019/final.pt",
+  "training": {
+    "seeds": [78, 79], "iterations": 100, "num_envs": 256,
+    "dynamics": "native_contact", "integrator": "euler", "native_timing": true,
+    "native_joint_friction": true, "target_soft_limit_factor": 0.9,
+    "payload_offset_range_m": [0.12, 0.12], "max_delay_steps": 3,
+    "action_feedback": "published", "profile": "mixed", "smoothness_weight": 0.05,
+    "arms": [
+      {"name": "reward100", "objective": "stopping", "command_profile": "mixed"},
+      {"name": "curriculum100", "objective": "reactive", "command_profile": "transitions"},
+      {"name": "control100", "objective": "reactive", "command_profile": "mixed"}
+    ]
+  },
+  "evaluation_policies": "All six new policies, timing_fixed parent and retained braking79",
+  "development": {"loads": ["payload"], "delays": [3], "command_durations": [1.96, 1.98, 2, 2.02, 2.04]},
+  "regression": {"loads": ["payload", "held-empty"], "delays": [2, 3], "command_durations": [1.5, 2.5, 3]},
+  "fresh_validation": {"loads": ["payload", "held-empty"], "delays": [2, 3], "command_durations": [1.8, 2.2, 2.7]},
+  "protocol": {"command_clock": "physics_step", "joint_feedback": "sensors", "pd_feedback": "sensors", "require_motion_progress": true, "duration_s": 15},
+  "interpretation": "Compare each factor with its same-seed 100-iteration control; compare known and fresh sets separately. Same parent and learning rate; fewer updates, not a reduced learning rate. Shared seed77 parent limits independence.",
+  "promotion": "No promotion unless every development, regression and fresh condition passes, followed by separate integrated qualification. No threshold changes."
+}

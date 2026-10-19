@@ -26,7 +26,22 @@ collections. Start there for topic-based exploration, or use the catalogue below
 
 ## Project orientation
 
-Latest implementation: [native-timing training and payload-offset variation](NATIVE_TIMING_TRAINING_20261018.md)
+Latest experiment: [broader rehearsal and paired regressions](BROAD_REFERENCE_20261019.md)
+— 51 source trajectories, 406 evaluations and complete-run README recordings.
+
+Previous experiment: [successful-state actor rehearsal](ACTOR_REFERENCE_20261019.md)
+— optional preservation loss; seed80 gains one pass over parent, seed81 regresses.
+
+Previous experiment: [smaller-update factor isolation](BRAKING_ISOLATION_20261019.md)
+— six runs and 464 probes; isolated factors show mixed gains and regressions.
+
+Previous experiment: [two-seed braking follow-up](BRAKING_FOLLOWUP_20261019.md)
+— seed 79 reduces failures from 16/58 to 6/58; seed 78 exposes timing-local falls.
+
+Previous experiment: [longer-budget failure reduction](FAILURE_REDUCTION_20261019.md)
+— held-out failures reduced from 18/24 to 6/24; candidate remains unpromoted.
+
+Previous implementation: [native-timing training and payload-offset variation](NATIVE_TIMING_TRAINING_20261018.md)
 — GPU timing/reset checks, 28 native probes and an unpromoted candidate.
 
 Latest audit: [compiled training plants, Warp and sensor feedback](COMPILED_FEEDBACK_20261018.md)

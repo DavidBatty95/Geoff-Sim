@@ -16,12 +16,43 @@
 </p>
 <!-- geoff-nav:end -->
 
-**Last reviewed: 18 October 2026.** This page retains the historical development
+**Last reviewed: 19 October 2026.** This page retains the historical development
 baseline [`3a7ceac`](https://github.com/DavidBatty95/Geoff-Sim/commit/3a7ceac)
 alongside the dated follow-ups below. It is a manually maintained
 evidence snapshot, not an acceptance release. Later experiments need their own checks.
 
 ## At a glance
+
+**Broader reference corpus:** 51/51 qualifying sources reproduced; two new
+training runs and 406 matched evaluations completed. Broad80 fixes four parent
+failures without parent-relative regressions (51/58 vs47/58); broader coverage
+still loses fresh passes against narrow rehearsal in both seeds. No promotion.
+[Paired changes and complete-run recordings](BROAD_REFERENCE_20261019.md).
+
+**Actor-reference rehearsal:** implemented optional native successful-state
+rehearsal during PPO. Matched seeds80/81 and 290 evaluation probes yield 52/58
+passes for reference80 versus parent's 51/58, both with no falls; reference81
+regresses to 42/58 with three falls. No repeatable benefit or promotion yet.
+[Implementation, corpus exposure and outcomes](ACTOR_REFERENCE_20261019.md).
+
+**Latest factor-isolation comparison:** six 100-iteration runs isolate stopping
+reward and transition commands across two continuation seeds. Across 464 probes,
+neither factor consistently beats its matched controls. Retained braking79 has
+48/58 passes with no falls on this round's conditions; no new policy exceeds
+that count. [Results and changed validation set](BRAKING_ISOLATION_20261019.md).
+
+**Braking follow-up:** targeted transition/stopping training across two new
+continuation seeds completed with matched controls and 242 probes. Seed 79
+reduces failures from 16/58 to 6/58 versus the previous candidate, with no falls;
+seed 78 has eight falls despite passing its fresh validation set. Neither
+qualifies for promotion. [Full comparison](BRAKING_FOLLOWUP_20261019.md).
+
+**Latest failure-reduction experiment:** three matched 400-iteration candidates
+each pass 5/10 development conditions with zero falls, versus cycle-05's 0/10
+and eight falls. Selected `timing_fixed` passes 18/24 held-out conditions versus
+6/24, with zero versus seven falls. Six held-out failures remain, including one
+regression; deployment qualification is not met. See
+[longer-budget stopping comparison](FAILURE_REDUCTION_20261019.md).
 
 **Latest native-timing training checkpoint:** latched post-substep sensor packets,
 explicit grouped motor PD and per-episode load-offset variation are implemented.

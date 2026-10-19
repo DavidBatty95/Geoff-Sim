@@ -47,6 +47,12 @@ def test_training_export_does_not_upgrade_incomplete_artifacts_or_smoke_to_accep
     record = training_attempt(tmp_path)
     assert record['transition_audit']==audit and record['transition_audit_sha256'] is not None
     assert not record['artifact_complete'] and 'success' not in record
+    reference = dict(updates=2000,mean_mse=.001,samples=2000)
+    (tmp_path/'actor_reference_audit.json').write_text(json.dumps(reference))
+    record = training_attempt(tmp_path)
+    assert record['actor_reference_audit']==reference
+    assert record['actor_reference_audit_sha256'] is not None
+    assert not record['artifact_complete']
 
 
 def test_prefix_export_keeps_failures_and_records_selection(tmp_path,monkeypatch):

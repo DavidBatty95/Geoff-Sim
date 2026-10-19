@@ -32,6 +32,13 @@ NEW_REPORT.json --require-pass` retains failed/unreadable probes and returns
 nonzero when any selected probe fails. It refuses report overwrite and requires
 the full requested observation window. [Criteria and measured outcomes](../docs/NATIVE_STOPPING_20261015.md).
 
+For experimental successful-state rehearsal, record native probes with
+`--record-observations --record-actions`, build a passing-only corpus with
+`build_actor_reference.py INPUT... --output NEW.json`, and train with
+`g1_payload_training.py --actor-reference CORPUS --actor-reference-weight 10`.
+Run `test_payload_actor_reference.py` alongside `test_g1_payload_training.py` in
+the MJLab pytest environment. [Implementation and mixed results](../docs/ACTOR_REFERENCE_20261019.md).
+
 `probe_native_policy.py --payload --record-actions` adds the native 150 g loaded-start
 fixture and auditable published/applied action vectors. Scoring checks retained
 attachment, payload/scene contacts and action-publication consistency.

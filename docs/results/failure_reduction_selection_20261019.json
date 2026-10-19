@@ -1,0 +1,11 @@
+{
+  "selected": "timing_fixed",
+  "development": {
+    "timing_fixed": {"passed": 5, "attempted": 10, "falls": 0},
+    "timing_varied": {"passed": 5, "attempted": 10, "falls": 0},
+    "fresh_fixed": {"passed": 5, "attempted": 10, "falls": 0},
+    "cycle05": {"passed": 0, "attempted": 10, "falls": 8}
+  },
+  "tie_break": "All three arms tie on the predeclared criteria. Select the first arm in the original plan; this additional tie-break was recorded after development and before held-out evaluation.",
+  "integrated_gate_passed": false
+}

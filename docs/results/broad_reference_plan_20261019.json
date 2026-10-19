@@ -1,0 +1,26 @@
+{
+  "scope": "Broaden successful-state coverage while retaining all failed evaluations",
+  "parent": "braking_seed79_20261019/final.pt",
+  "corpus_selection": {
+    "reports": ["reference_development_20261019.json", "reference_regression_20261019.json", "reference_validation_20261019.json"],
+    "policy": "parent",
+    "rule": "Re-run every passing parent condition with actor observations; require all re-runs to pass before corpus construction. Preserve failed captures and abort rather than silently shrink coverage.",
+    "expected_sources": 51,
+    "scope": "Previously observed successful conditions; no new validation used for training"
+  },
+  "training": {
+    "seeds": [80, 81], "iterations": 100, "num_envs": 256,
+    "objective": "stopping", "command_profile": "transitions", "profile": "mixed",
+    "smoothness_weight": 0.05, "dynamics": "native_contact", "integrator": "euler",
+    "native_timing": true, "native_joint_friction": true, "target_soft_limit_factor": 0.9,
+    "max_delay_steps": 3, "action_feedback": "published", "payload_offset_range": [0.12, 0.12],
+    "actor_reference_weight": 10.0
+  },
+  "comparators": "Retained narrow reference80/reference81 and unconstrained80/unconstrained81 from identical parent, seeds and budget, plus parent itself. Re-evaluate every policy on identical conditions.",
+  "development": {"loads": ["payload"], "delays": [3], "durations": [1.96, 1.98, 2, 2.02, 2.04]},
+  "regression": {"loads": ["payload", "held-empty"], "delays": [2, 3], "durations": [1.5, 2.5, 3]},
+  "fresh_validation": {"loads": ["payload", "held-empty"], "delays": [2, 3], "durations": [1.4, 2.6, 3.2]},
+  "protocol": "15s, sensors/sensors, physics_step, require_motion_progress; existing gates unchanged",
+  "analysis": "Report paired fixes and regressions against parent and same-seed narrow/unconstrained controls, with every changed case and fall. Report known/training-exposed and fresh conditions separately.",
+  "promotion": "Requires all conditions to pass before separate integrated qualification. No policy selection based only on aggregate gains."
+}
