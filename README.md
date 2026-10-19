@@ -23,14 +23,15 @@ Geoff-Sim brings locomotion, online mapping, human-aware navigation and object
 transport into one humanoid simulation platform. The robot observes its scene,
 approaches a table, lifts a cube, carries it to a destination and checks placement.
 
-**Current progress · 19 October 2026:** broader successful-state rehearsal now
-covers 51 qualifying native trajectories. Broad-reference seed80 passes **51/58**
-conditions versus **47/58** for its parent in the latest comparison: four fixes,
-no parent-relative regressions and no falls. Seed81 still regresses; no candidate
-meets the all-conditions promotion gate. The deployed baseline remains cycle-05.
+**Current progress · 19 October 2026:** cumulative regression testing now retains
+**208 native stopping conditions**. The experimental 95% actor interpolation
+passes **195/208 with no falls**, versus **188/208** for broad-reference seed80.
+Thirteen failures remain; individual regressions are retained alongside fixes.
+No candidate meets the all-conditions promotion gate. The deployed baseline
+remains cycle-05.
 **866 ROS results, 218 orchestration tests and 12 native CTests pass**, with
 27 separate training/reference tests passing at the latest implementation check.
-[Latest results, paired fixes and regressions](docs/BROAD_REFERENCE_20261019.md) ·
+[Latest results, paired fixes and regressions](docs/CUMULATIVE_INTERPOLATION_20261019.md) ·
 [Actor-reference implementation](docs/ACTOR_REFERENCE_20261019.md).
 
 **Delivery evidence:** the earlier compact exploration cohort completed **4/4
@@ -51,22 +52,22 @@ a magnetic capture-radius fixture rather than a demonstrated finger grasp.
 
 **Each GIF shows an entire 15-second run, with no cuts:** stand for five seconds,
 move sideways for two seconds, then brake and hold through the end. Both use
-the latest broad-reference seed80 candidate, a 150 g wrist-attached payload and
+the latest 95% actor-interpolation candidate, a 150 g wrist-attached payload and
 60 ms action delay. Timestamps show the full simulation interval; playback is
 real time at 10 fps, followed by a one-second final outcome card.
 
 | Positive lateral command (+0.45 m/s) | Negative lateral command (−0.45 m/s) |
 | --- | --- |
-| ![Complete 15-second loaded positive-lateral stopping run, from initial standing through movement and final qualified stop](docs/media/braking/complete_lateral_0.45.gif) | ![Complete 15-second loaded negative-lateral stopping run, from initial standing through movement and final qualified stop](docs/media/braking/complete_lateral_-0.45.gif) |
+| ![Complete 15-second loaded positive-lateral stopping run, from initial standing through movement and final qualified stop](docs/media/braking/interpolation95_complete_lateral_0.45.gif) | ![Complete 15-second loaded negative-lateral stopping run, from initial standing through movement and final qualified stop](docs/media/braking/interpolation95_complete_lateral_-0.45.gif) |
 | **PASS:** movement and strict stopping; no fall or scene contact. | **PASS:** movement and strict stopping; no fall or scene contact. |
 
 These are offscreen renders of actual native MuJoCo probe states, covering
 **t=0 through t=15 s in 151 frames each**. They are complete loaded-start
 locomotion tests, not pickup-and-delivery missions. The two passing recordings
 do not override failures elsewhere in the evaluation matrix.
-[Positive-run provenance](docs/media/braking/complete_lateral_0.45.json) ·
-[Negative-run provenance](docs/media/braking/complete_lateral_-0.45.json) ·
-[All latest evaluation outcomes](docs/BROAD_REFERENCE_20261019.md).
+[Positive-run provenance](docs/media/braking/interpolation95_complete_lateral_0.45.json) ·
+[Negative-run provenance](docs/media/braking/interpolation95_complete_lateral_-0.45.json) ·
+[All latest evaluation outcomes](docs/CUMULATIVE_INTERPOLATION_20261019.md).
 
 Earlier delivery recordings, stage excerpts and navigation previews remain in
 the [media catalogue](docs/MEDIA.md), with their original dates and provenance.

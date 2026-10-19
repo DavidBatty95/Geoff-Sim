@@ -23,6 +23,12 @@ evidence snapshot, not an acceptance release. Later experiments need their own c
 
 ## At a glance
 
+**Cumulative regression and interpolation:** the 95% actor interpolation passes
+195/208 retained conditions without falls, versus broad80's188/208. Thirteen
+failures remain; no deployment promotion. A serial layer-coefficient search
+requires strict cumulative improvement and new validation before any native-suite
+pass. [Results, individual regressions and worker protocol](CUMULATIVE_INTERPOLATION_20261019.md).
+
 **Broader reference corpus:** 51/51 qualifying sources reproduced; two new
 training runs and 406 matched evaluations completed. Broad80 fixes four parent
 failures without parent-relative regressions (51/58 vs47/58); broader coverage

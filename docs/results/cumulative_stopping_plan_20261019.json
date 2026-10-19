@@ -1,0 +1,9 @@
+{
+  "scope": "Cumulative regression inventory before the next training intervention",
+  "policies": ["braking_seed79_20261019", "broad_reference_seed80_20261019", "reference_seed80_20261019", "unconstrained_seed81_20261019"],
+  "durations_s": [1.4, 1.5, 1.6, 1.7, 1.8, 1.96, 1.98, 2.0, 2.02, 2.04, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3.0, 3.2],
+  "loads": ["payload", "held-empty"], "delays": [2, 3], "lateral_commands": [-0.45, 0.45],
+  "protocol": "15s, physics_step, sensors/sensors, require_motion_progress, default payload offset",
+  "reuse": "Reuse already recorded complete same-policy-hash/same-protocol cases with report provenance; fail on contradictory duplicate verdicts. Run only missing conditions. Reused cases are not new independent trials.",
+  "decision": "Report every failure and paired changes. No promotion with any failure. Use cumulative evidence to choose the next targeted intervention rather than discarding prior validation failures."
+}

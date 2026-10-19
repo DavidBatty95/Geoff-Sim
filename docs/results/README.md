@@ -23,6 +23,14 @@ described by the [repository guide](../REPOSITORY_GUIDE.md#where-results-go).
 
 ## Start with a dataset
 
+- **Cumulative regression and interpolation:** [inventory](cumulative_stopping_20261019.json),
+  [initial interpolation](interpolation_cumulative_20261019.json),
+  [initial validation](interpolation_validation_20261019.json),
+  [refinement](interpolation_refinement_cumulative_20261019.json),
+  [refinement validation](interpolation_refinement_validation_20261019.json), and
+  [continuing layer-search plan](native_layer_search_plan_20261019.json).
+  [Interpretation and full provenance links](../CUMULATIVE_INTERPOLATION_20261019.md).
+
 - **Broader reference coverage:** [plan](broad_reference_plan_20261019.json),
   [development](broad_development_20261019.json), [historical](broad_regression_20261019.json),
   [fresh](broad_validation_20261019.json), and [paired changes](broad_paired_changes_20261019.json).

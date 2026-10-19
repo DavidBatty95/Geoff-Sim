@@ -26,7 +26,10 @@ collections. Start there for topic-based exploration, or use the catalogue below
 
 ## Project orientation
 
-Latest experiment: [broader rehearsal and paired regressions](BROAD_REFERENCE_20261019.md)
+Latest experiment: [cumulative regression and actor interpolation](CUMULATIVE_INTERPOLATION_20261019.md)
+— 195/208 passes without falls; thirteen failures remain, serial layer search next.
+
+Previous experiment: [broader rehearsal and paired regressions](BROAD_REFERENCE_20261019.md)
 — 51 source trajectories, 406 evaluations and complete-run README recordings.
 
 Previous experiment: [successful-state actor rehearsal](ACTOR_REFERENCE_20261019.md)

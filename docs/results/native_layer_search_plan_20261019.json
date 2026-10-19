@@ -1,0 +1,13 @@
+{
+  "scope": "Continuous serial search over four actor-layer interpolation coefficients; no automatic deployment",
+  "left": "broad_reference_seed80_20261019/final.pt",
+  "right": "unconstrained_seed81_20261019/final.pt",
+  "initial": "interpolation_0.95_20261019/policy.onnx",
+  "initial_coefficients": [0.95, 0.95, 0.95, 0.95],
+  "initial_cases": 208,
+  "proposal_rule": "Coordinate changes +/-0.05 clipped to [0,1]; halve step after non-improving sweeps. Below step0.003125, use deterministic Gaussian multi-layer proposals (std0.02, seed20261019) around incumbent.",
+  "screening": "Evaluate incumbent failures first, then all remaining cases. Reject immediately on a fall or once failure count cannot beat incumbent; preserve full declared plan and mark incomplete screening. Stop for setup/protocol failures.",
+  "acceptance": "Only a complete no-fall run with strictly fewer failures becomes incumbent. No tie-based replacement.",
+  "validation": "When cumulative failures reach zero, predeclare six unused 20ms-aligned durations sampled from [1.1,4.0], with both signs, loads and delays. All48 must pass; otherwise retain them in cumulative suite. Validation falls require review.",
+  "termination": "Stop on complete native-suite plus fresh-validation pass, explicit interruption, setup error, or less than10GiB free disk. Runs and rejected candidates are never overwritten. A native-suite pass is not physical/ROS mission qualification."
+}

@@ -39,6 +39,14 @@ For experimental successful-state rehearsal, record native probes with
 Run `test_payload_actor_reference.py` alongside `test_g1_payload_training.py` in
 the MJLab pytest environment. [Implementation and mixed results](../docs/ACTOR_REFERENCE_20261019.md).
 
+`run_cumulative_stopping.py` fills missing matched conditions using provenance-linked
+earlier evidence; `interpolate_payload_actor.py` exports synthetic actors with parity
+checks. `iterate_native_layers.py` searches serially, retaining early-rejected plans
+as incomplete and accepting only fully evaluated no-fall improvements. Its default
+proposal budget is unlimited; interruption, source changes and resource/setup blockers
+are recorded in `status.json`. It never changes deployment automatically.
+[Protocol and retained failures](../docs/CUMULATIVE_INTERPOLATION_20261019.md).
+
 `probe_native_policy.py --payload --record-actions` adds the native 150 g loaded-start
 fixture and auditable published/applied action vectors. Scoring checks retained
 attachment, payload/scene contacts and action-publication consistency.

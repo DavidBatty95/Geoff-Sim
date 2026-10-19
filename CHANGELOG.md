@@ -25,6 +25,12 @@ for measured outcomes and [release policy](docs/RELEASES.md) for promotion crite
 
 ### Added
 
+- Cumulative native regression inventory, six actor interpolation candidates,
+  retained per-case regressions and a serial layer-search worker. The95% blend
+  passes195/208 with no falls, with thirteen failures retained. Updated complete
+  README GIFs show this candidate from initial state through final stop.
+  [Cumulative report](docs/CUMULATIVE_INTERPOLATION_20261019.md).
+
 - Broader 51-trajectory reference corpus, 406 matched probes and per-case
   fixes/regressions. Broad80 fixes four parent failures without new ones on this
   set; other comparisons retain regressions. README now embeds only two new,

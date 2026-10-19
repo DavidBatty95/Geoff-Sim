@@ -1,0 +1,11 @@
+{
+  "scope": "Actor weight interpolation of two same-architecture related checkpoints; experimental, not runtime switching",
+  "left": "broad_reference_seed80_20261019/final.pt",
+  "right": "unconstrained_seed81_20261019/final.pt",
+  "right_weights": [0.25, 0.5, 0.75],
+  "construction": "Interpolate only mlp actor parameters; do not label synthesized actor as trained. ONNX parity checked against the interpolated Torch actor.",
+  "cumulative": "All 160 conditions declared in cumulative_stopping_plan_20261019.json for every candidate; original endpoints retained as comparators",
+  "fresh_validation": {"durations": [1.3, 2.1, 3.4], "loads": ["payload", "held-empty"], "delays": [2, 3], "lateral_commands": [-0.45, 0.45]},
+  "protocol": "15s, sensors/sensors, physics_step, require_motion_progress",
+  "decision": "Report every outcome, including fixes/regressions and falls. Further interpolation refinement only if cumulative failures improve without falls; never promote with a failed condition. Fresh set is not used to choose an interpolation coefficient."
+}

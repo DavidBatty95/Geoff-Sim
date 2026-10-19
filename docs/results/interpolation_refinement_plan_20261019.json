@@ -1,0 +1,12 @@
+{
+  "scope": "Refine toward higher-pass endpoint without discarding previously observed validation failures",
+  "left": "broad_reference_seed80_20261019/final.pt",
+  "right": "unconstrained_seed81_20261019/final.pt",
+  "right_weights": [0.85, 0.9, 0.95],
+  "cumulative_durations": [1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.96, 1.98, 2, 2.02, 2.04, 2.1, 2.2, 2.3, 2.4, 2.5, 2.6, 2.7, 2.8, 2.9, 3, 3.2, 3.4],
+  "loads": ["payload", "held-empty"], "delays": [2, 3], "lateral_commands": [-0.45, 0.45],
+  "fresh_durations": [1.2, 2.16, 3.6],
+  "comparators": "Both endpoints on cumulative and fresh sets; reuse identical earlier cumulative evidence with hashes",
+  "protocol": "15s, physics_step, sensors/sensors, require_motion_progress",
+  "selection": "No qualification without every cumulative and fresh condition passing. Retain all three coefficients and all failures."
+}
