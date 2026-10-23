@@ -6,7 +6,7 @@ import rclpy
 from geometry_msgs.msg import Twist,TwistStamped
 from nav_msgs.msg import Odometry
 from rclpy.node import Node
-from std_msgs.msg import String
+from std_msgs.msg import String,Float64MultiArray,Bool
 
 
 class HumanAwareRunLogger(Node):
@@ -14,6 +14,7 @@ class HumanAwareRunLogger(Node):
         super().__init__("human_aware_run_logger")
         self.declare_parameter("output_path", "")
         self.declare_parameter("flush_every", 1)
+        self.declare_parameter('record_control_state',False)
         self.declare_parameter("planner_debug_topic", "/human_avoidance_debug")
         self.declare_parameter("safety_debug_topic", "/human_collision_avoidance_debug")
         self.declare_parameter("tracker_debug_topic", "/dynamic_obstacle_tracker/debug_tracks")
@@ -55,6 +56,17 @@ class HumanAwareRunLogger(Node):
         self.create_subscription(String,'/transport/mission_state',lambda msg:self._string_callback('transport_state',msg),10)
         self.create_subscription(String,'/exploration/search_status',lambda msg:self._string_callback('search_status',msg),10)
         self.create_subscription(TwistStamped,'/g1/policy_cmd_vel',self._policy_command_callback,10)
+        if self.get_parameter('record_control_state').value:
+            from unitree_hg.msg import LowCmd,LowState
+            from rclpy.qos import qos_profile_sensor_data
+            self.create_subscription(String,'/g1/dex3_grasp_state',lambda msg:self._string_callback('dex3_grasp_state',msg),10)
+            self.create_subscription(LowCmd,'/lowcmd',self._lowcmd_callback,qos_profile_sensor_data)
+            self.create_subscription(LowState,'/lowstate',self._lowstate_callback,qos_profile_sensor_data)
+            self.create_subscription(Float64MultiArray,'/g1/locomotion_position_commands',
+                lambda msg:self._write('actor_targets',list(msg.data)),qos_profile_sensor_data)
+            self.create_subscription(Float64MultiArray,'/g1/body_position_commands',
+                lambda msg:self._write('composed_targets',list(msg.data)),qos_profile_sensor_data)
+            self.create_subscription(Bool,'/g1/arm_authority',lambda msg:self._write('arm_authority',msg.data),10)
 
         self.get_logger().info(f"Human-aware run logger writing {self.output_path}")
 
@@ -65,6 +77,16 @@ class HumanAwareRunLogger(Node):
         except json.JSONDecodeError:
             payload = msg.data
         self._write(topic, payload)
+
+    def _lowcmd_callback(self,msg):
+        self._write('lowcmd_control',dict(role='observed_publication_not_motor_application',
+            motors=[dict(q=float(m.q),dq=float(m.dq),tau=float(m.tau),kp=float(m.kp),kd=float(m.kd),mode=int(m.mode))
+                    for m in msg.motor_cmd[:29]]))
+
+    def _lowstate_callback(self,msg):
+        self._write('lowstate_control',dict(device_tick_ms=int(msg.tick),
+            q=[float(m.q) for m in msg.motor_state[:29]],dq=[float(m.dq) for m in msg.motor_state[:29]],
+            quaternion=[float(v) for v in msg.imu_state.quaternion],gyro=[float(v) for v in msg.imu_state.gyroscope]))
 
     def _twist_callback(self, topic: str, msg: Twist) -> None:
         self._write(topic, self._twist_dict(msg))

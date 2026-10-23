@@ -249,6 +249,7 @@ def _create_node_class():
             self.declare_parameter("stale_timeout", 0.5)
             self.declare_parameter("left_object_id", "red_cube")
             self.declare_parameter("right_object_id", "red_cube")
+            self.declare_parameter('grasp_backend','dex3_contact')
 
             self.object_state_socket_path = str(self.get_parameter("object_state_socket").value)
             self.command_socket_path = str(self.get_parameter("command_socket").value)
@@ -303,13 +304,20 @@ def _create_node_class():
                 reliability=QoSReliabilityPolicy.RELIABLE,
             )
             self._publisher = self.create_publisher(Detection3DArray, str(self.get_parameter("output_topic").value), qos)
-            self.create_service(GraspObject, "~/grasp_object", self._grasp_object)
-            self.create_service(Trigger, "~/grasp_left", self._grasp_left)
-            self.create_service(Trigger, "~/grasp_right", self._grasp_right)
-            self.create_service(Trigger, "~/release_left", self._release_left)
-            self.create_service(Trigger, "~/release_right", self._release_right)
-            self.create_service(Trigger, "~/pin_base", self._pin_base)
-            self.create_service(Trigger, "~/unpin_base", self._unpin_base)
+            backend = self.get_parameter('grasp_backend').value
+            if backend=='dex3_contact':
+                from .dex3_grasp import Dex3GraspController
+                self.dex3 = Dex3GraspController(self)
+            elif backend=='legacy_magnetic':
+                self.create_service(GraspObject, "~/grasp_object", self._grasp_object)
+                self.create_service(Trigger, "~/grasp_left", self._grasp_left)
+                self.create_service(Trigger, "~/grasp_right", self._grasp_right)
+                self.create_service(Trigger, "~/release_left", self._release_left)
+                self.create_service(Trigger, "~/release_right", self._release_right)
+                self.create_service(Trigger, "~/pin_base", self._pin_base)
+                self.create_service(Trigger, "~/unpin_base", self._unpin_base)
+            else:
+                raise ValueError('grasp_backend must be dex3_contact or explicit legacy_magnetic')
             self.create_timer(1.0 / self.publish_rate_hz, self._receive_and_publish)
 
         def _drain_state_socket(self, received_at: float) -> None:

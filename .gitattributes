@@ -8,3 +8,5 @@
 *.pdf binary
 *.onnx binary
 *.pt binary
+# Preserve upstream bytes used by the pinned Dex3 asset hash manifest.
+ros2_ws/src/unitree_g1_description/dex3_sources/g1_29dof_with_hand_rev_1_0.urdf -text whitespace=cr-at-eol

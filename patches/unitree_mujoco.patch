@@ -1,9 +1,13 @@
 diff --git a/simulate/CMakeLists.txt b/simulate/CMakeLists.txt
-index a976cfb227da9eff26382f8c7ecf734b27603ed4..b1f3c687551ebab4a09ec3aa9fa9b677cee6831a 100644
+index a976cfb227da9eff26382f8c7ecf734b27603ed4..9d3f11710b52fc6a0ec1384d06c1541841460da4 100644
 --- a/simulate/CMakeLists.txt
 +++ b/simulate/CMakeLists.txt
-@@ -51,6 +51,9 @@ add_executable(unitree_mujoco ${SIM_SRC} src/main.cc src/simulated_manipulation.
+@@ -49,8 +49,13 @@ set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/mujoco/simulate/simulat
+ add_executable(unitree_mujoco ${SIM_SRC} src/main.cc src/simulated_manipulation.cc src/goal_overlay.cc)
+ 
  add_executable(jstest src/joystick/jstest.cc src/joystick/joystick.cc)
++add_executable(dex3_contact_bench test/dex3_contact_bench.cc)
++target_include_directories(dex3_contact_bench PRIVATE src)
  
  if(BUILD_TESTING)
 +  add_executable(command_application_timing_test test/command_application_timing_test.cc)
@@ -12,6 +16,77 @@ index a976cfb227da9eff26382f8c7ecf734b27603ed4..b1f3c687551ebab4a09ec3aa9fa9b677
    add_executable(native_imu_test test/native_imu_test.cc)
    target_include_directories(native_imu_test PRIVATE src)
    add_test(NAME native_imu_test COMMAND native_imu_test)
+diff --git a/simulate/src/main.cc b/simulate/src/main.cc
+index 3e78daf197507eb9c1ffc909cdaca0129887def2..00ff5b5782b4ee99f457cd004a2da4e19d2d4540 100755
+--- a/simulate/src/main.cc
++++ b/simulate/src/main.cc
+@@ -47,6 +47,7 @@
+ #include "pedestrian_start_gate.h"
+ #include "raycast_model.h"
+ #include "brainco_hand.h"
++#include "dex3_hand.h"
+ #include "native_imu.h"
+ #include "phase_locked_scheduler.h"
+ #include "simulated_manipulation.h"
+@@ -2241,6 +2242,7 @@ namespace
+   KinematicPedestrians kinematic_pedestrians;
+ 
+   unitree_mujoco::BraincoHands brainco_hands;
++  unitree_mujoco::Dex3Hands dex3_hands;
+   unitree_mujoco::NativeImuPublisher native_imu;
+ 
+   bool StepOrHold(mjModel *model, mjData *data, UnitreeSDK2BridgeBase *bridge)
+@@ -2250,6 +2252,7 @@ namespace
+       bridge->ApplyCommand(model, data);
+     }
+     brainco_hands.Update(model,data);
++    dex3_hands.Update(model,data);
+     if (startup_hold_gate.ShouldHold(model, data, bridge))
+     {
+       kinematic_pedestrians.MaybeAnimate(model, data);
+diff --git a/simulate/src/simulated_manipulation.cc b/simulate/src/simulated_manipulation.cc
+index 14c51511f7ee71cd101c26a852d87ba062a63875..2965f3c4fb5ae6d33a77861705cf5b89cc9a814a 100644
+--- a/simulate/src/simulated_manipulation.cc
++++ b/simulate/src/simulated_manipulation.cc
+@@ -345,7 +345,8 @@ void SimulatedManipulation::DiscoverModel(mjModel *model, mjData *data)
+       continue;
+     }
+     const int geom_id = model->body_geomadr[body_id];
+-    if (IsIdentifier(object_id) && model->geom_type[geom_id] == mjGEOM_BOX)
++    if (IsIdentifier(object_id) && (model->geom_type[geom_id] == mjGEOM_BOX ||
++                                  model->geom_type[geom_id] == mjGEOM_CYLINDER))
+     {
+       tracked_bodies_.push_back({body_id, geom_id, surface, std::move(object_id)});
+     }
+@@ -426,6 +427,11 @@ void SimulatedManipulation::DrainCommands(mjModel *model, mjData *data)
+ SimulatedManipulation::CommandResult SimulatedManipulation::ExecuteCommand(
+     mjModel *model, mjData *data, const Command &command)
+ {
++  if (mj_name2id(model,mjOBJ_JOINT,"right_hand_thumb_0_joint")>=0 ||
++      mj_name2id(model,mjOBJ_JOINT,"left_hand_thumb_0_joint")>=0)
++  {
++    return {false,"Dex3 contact-only model: attachment and base-pin commands disabled"};
++  }
+   if (command.action == Action::kPinBase || command.action == Action::kUnpinBase)
+   {
+     if (base_pin_equality_id_ < 0)
+@@ -589,6 +595,7 @@ void SimulatedManipulation::PublishObjects(const mjModel *model, const mjData *d
+     const mjtNum *position = data->xpos + 3 * body.body_id;
+     const mjtNum *quaternion = data->xquat + 4 * body.body_id;
+     const mjtNum *half_size = model->geom_size + 3 * body.geom_id;
++    const bool cylinder = model->geom_type[body.geom_id] == mjGEOM_CYLINDER;
+     if (!IsFinite(position, 3) || !IsFinite(quaternion, 4) || !IsFinite(half_size, 3))
+     {
+       continue;
+@@ -598,7 +605,7 @@ void SimulatedManipulation::PublishObjects(const mjModel *model, const mjData *d
+             << body.object_id << ' ' << position[0] << ' ' << position[1] << ' '
+             << position[2] << ' ' << quaternion[1] << ' ' << quaternion[2] << ' '
+             << quaternion[3] << ' ' << quaternion[0] << ' ' << 2.0 * half_size[0] << ' '
+-            << 2.0 * half_size[1] << ' ' << 2.0 * half_size[2] << ' ' << acquisition_time_ns;
++            << 2.0 * half_size[cylinder?0:1] << ' ' << 2.0 * half_size[cylinder?1:2] << ' ' << acquisition_time_ns;
+     const std::string packet = message.str();
+     if (sendto(state_fd_, packet.data(), packet.size(), MSG_DONTWAIT,
+                reinterpret_cast<sockaddr *>(&address), sizeof(address)) < 0 &&
 diff --git a/simulate/src/unitree_sdk2_bridge.h b/simulate/src/unitree_sdk2_bridge.h
 index 99192434c901df126ed00d2538ece67e2d39cab1..3385f4646683b989cd2e016540f9c4094b178131 100644
 --- a/simulate/src/unitree_sdk2_bridge.h
@@ -110,6 +185,291 @@ index 99192434c901df126ed00d2538ece67e2d39cab1..3385f4646683b989cd2e016540f9c409
      CommandSnapshot command_snapshot_;
      StateSnapshot state_snapshot_;
      std::mutex command_mutex_;
+diff --git a/simulate/test/simulated_manipulation_test.cc b/simulate/test/simulated_manipulation_test.cc
+index 395789db1d8ef648c57f7a8e3e9e2c189e026c4a..2443e2e176ca79dae30c8d5eb752c2e6f2b337da 100644
+--- a/simulate/test/simulated_manipulation_test.cc
++++ b/simulate/test/simulated_manipulation_test.cc
+@@ -264,6 +264,34 @@ int main()
+     mj_deleteData(data);
+     mj_deleteModel(model);
+   }
++  // Even a stale scene containing a weld cannot enable magnetic attachment
++  // once a Dex3 hand is present. This gate is independent of the ROS client.
++  std::string dex_xml = magnetic_xml;
++  dex_xml.insert(dex_xml.find("</worldbody>"),R"(
++    <body name="right_hand_thumb_0_link" pos="0 0 3">
++      <joint name="right_hand_thumb_0_joint"/>
++      <geom type="sphere" size=".01" mass=".05"/>
++    </body>)");
++  const auto box_geom = dex_xml.find("type=\"box\" size=\".055 .055 .055\"");
++  dex_xml.replace(box_geom,std::strlen("type=\"box\" size=\".055 .055 .055\""),"type=\"cylinder\" size=\".02 .045\"");
++  mj_defaultVFS(&vfs);
++  mj_addBufferVFS(&vfs,"dex.xml",dex_xml.data(),dex_xml.size());
++  model=mj_loadXML("dex.xml",&vfs,error,sizeof(error));
++  mj_deleteVFS(&vfs);
++  Check(model!=nullptr,error);
++  if (model) {
++    mjData *data=mj_makeData(model);
++    mj_forward(model,data);
++    unitree_mujoco::SimulatedManipulation manager;
++    manager.Reset(model,data);
++    Check(manager.tracked_body_count()==1,"physical cylinder must be tracked for evaluation");
++    SendCommand(client_fd,command_path,"GRASP right box_red");
++    manager.Update(model,data);
++    CheckAcknowledgement(client_fd,"ERROR Dex3 contact-only model: attachment and base-pin commands disabled");
++    Check(data->eq_active[0]==0,"Dex3 model cannot activate a magnetic object weld");
++    manager.Reset(nullptr,nullptr);
++    mj_deleteData(data);mj_deleteModel(model);
++  }
+   if (client_fd >= 0)
+   {
+     close(client_fd);
+diff --git a/simulate/test/transport_worlds_test.cc b/simulate/test/transport_worlds_test.cc
+index 4c4d2852263352cf88e635d668955393a42f563f..e1d6ad96f2edc4f6600af98353c7da0034740044 100644
+--- a/simulate/test/transport_worlds_test.cc
++++ b/simulate/test/transport_worlds_test.cc
+@@ -19,14 +19,16 @@ int main() {
+     Require(mj_name2id(model,mjOBJ_EQUALITY,"manipulation_base_pin")<0,"Transport fixture must not pin the base");
+     mj_resetDataKeyframe(model,data,key); mj_forward(model,data);
+     const int count=std::string(name)=="office_delivery" ? 3 : 2;
+-    Require(model->neq==count*2,"Missing per-object grasp constraints");
++    Require(model->neq==0,"Dex3 transport must not contain attachment constraints");
++    Require(model->nu==29,"Dex3 fingers must not change body actuator ordering");
++    Require(mj_name2id(model,mjOBJ_JOINT,"right_hand_thumb_0_joint")>=0,"Dex3 hand joints missing");
+     for (int i=0; i<model->neq; ++i) {Require(!data->eq_active[i],"Object starts attached");}
+     for (int step=0; step<200; ++step) {mj_step(model,data);}
+     for (int i=0; i<count; ++i) {
+       const auto color=std::string(i==0?"red":i==1?"blue":"green");
+       const int body=mj_name2id(model,mjOBJ_BODY,("manip_object_box_"+color).c_str());
+       Require(body>=0,"Missing box");
+-      Require(std::abs(data->xpos[3*body+2]-1.005)<.015,"Box is not supported by its physical table");
++      Require(std::abs(data->xpos[3*body+2]-.995)<.015,"Cylinder is not supported by its physical table");
+       const int top=mj_name2id(model,mjOBJ_GEOM,("pickup_"+color+"_top").c_str());
+       Require(top>=0 && model->geom_contype[top] && model->geom_conaffinity[top],"Table is only decorative");
+       Require(mj_name2id(model,mjOBJ_BODY,("manip_surface_target_"+color).c_str())>=0,"Missing matching destination");
+diff --git a/simulate/src/dex3_hand.h b/simulate/src/dex3_hand.h
+new file mode 100644
+index 0000000..eb3dd72
+--- /dev/null
++++ b/simulate/src/dex3_hand.h
+@@ -0,0 +1,146 @@
++#pragma once
++#include <mujoco/mujoco.h>
++#include <unitree/idl/hg/HandCmd_.hpp>
++#include <unitree/idl/hg/HandState_.hpp>
++#include <unitree/robot/channel/channel_publisher.hpp>
++#include <unitree/robot/channel/channel_subscriber.hpp>
++#include <algorithm>
++#include <array>
++#include <chrono>
++#include <cmath>
++#include <memory>
++#include <mutex>
++#include <string>
++
++namespace unitree_mujoco {
++// Seven independent radian channels. The 29 body actuators retain their order;
++// hand torques act only on named finger DOFs. No object attachment is involved.
++class Dex3Hands {
++  using Command = unitree_hg::msg::dds_::HandCmd_;
++  using State = unitree_hg::msg::dds_::HandState_;
++  struct Hand {
++    std::mutex mutex;
++    std::array<int,7> joint{},qpos{},dof{};
++    std::array<double,7> target{},velocity{},reference{},kp{},kd{},tau{},effort{};
++    std::chrono::steady_clock::time_point received{};
++    bool enabled = false;
++    std::shared_ptr<unitree::robot::ChannelSubscriber<Command>> subscriber;
++    std::shared_ptr<unitree::robot::ChannelPublisher<State>> publisher;
++  };
++  std::array<Hand,2> hands_;
++  const mjModel *model_ = nullptr;
++  double last_time_ = -1.,next_state_ = 0.;
++  const std::array<std::string,7> names_ = {"thumb_0","thumb_1","thumb_2","middle_0","middle_1","index_0","index_1"};
++
++  void Receive(std::size_t side,const void *message) {
++    const auto &command = *static_cast<const Command *>(message);
++    if (command.motor_cmd().size()!=7) {return;}
++    for (std::size_t i=0;i<7;++i) {
++      const auto &motor = command.motor_cmd()[i];
++      if ((motor.mode()&15)!=i || ((motor.mode()>>4)&7)!=1 ||
++          !std::isfinite(motor.q()) || !std::isfinite(motor.dq()) ||
++          !std::isfinite(motor.kp()) || !std::isfinite(motor.kd()) || !std::isfinite(motor.tau()) ||
++          motor.kp()<0 || motor.kd()<0) {return;}
++    }
++    auto &hand = hands_[side];
++    std::lock_guard<std::mutex> lock(hand.mutex);
++    for (std::size_t i=0;i<7;++i) {
++      const auto &motor = command.motor_cmd()[i];
++      hand.target[i] = motor.q();
++      hand.velocity[i] = std::clamp<double>(motor.dq(),-1.5,1.5);
++      hand.kp[i] = std::min<double>(motor.kp(),4.);
++      hand.kd[i] = std::min<double>(motor.kd(),.2);
++      hand.tau[i] = std::clamp<double>(motor.tau(),-1.4,1.4);
++    }
++    hand.received = std::chrono::steady_clock::now();
++  }
++
++  void Bind(const mjModel *model,const mjData *data) {
++    model_ = model;
++    next_state_ = 0.;
++    for (std::size_t side=0;side<2;++side) {
++      auto &hand = hands_[side];
++      const std::string prefix = side==0?"left":"right";
++      hand.enabled = true;
++      for (std::size_t i=0;i<7;++i) {
++        const int joint = mj_name2id(model,mjOBJ_JOINT,(prefix+"_hand_"+names_[i]+"_joint").c_str());
++        if (joint<0) {hand.enabled=false;break;}
++        hand.joint[i]=joint;
++        hand.qpos[i]=model->jnt_qposadr[joint];
++        hand.dof[i]=model->jnt_dofadr[joint];
++        hand.reference[i]=data->qpos[hand.qpos[i]];
++      }
++      if (!hand.enabled) {continue;}
++      {
++        std::lock_guard<std::mutex> lock(hand.mutex);
++        hand.target.fill(0.);hand.velocity.fill(0.);hand.kp.fill(2.);hand.kd.fill(.08);hand.tau.fill(0.);
++        hand.received = {};
++      }
++      if (!hand.publisher) {
++        hand.publisher=std::make_shared<unitree::robot::ChannelPublisher<State>>("rt/lf/dex3/"+prefix+"/state");
++        hand.publisher->InitChannel();
++        hand.subscriber=std::make_shared<unitree::robot::ChannelSubscriber<Command>>("rt/dex3/"+prefix+"/cmd");
++        hand.subscriber->InitChannel([this,side](const void *msg){Receive(side,msg);},1);
++      }
++    }
++  }
++
++ public:
++  void Update(const mjModel *model,mjData *data) {
++    if (model!=model_ || data->time<last_time_) {Bind(model,data);}
++    last_time_=data->time;
++    const bool publish=data->time+1e-9>=next_state_;
++    if (publish) {next_state_=data->time+.02;}
++    for (std::size_t side=0;side<2;++side) {
++      auto &hand=hands_[side];
++      if (!hand.enabled) {continue;}
++      std::array<double,7> target,velocity,kp,kd,tau;
++      bool stale;
++      {
++        std::lock_guard<std::mutex> lock(hand.mutex);
++        target=hand.target;velocity=hand.velocity;kp=hand.kp;kd=hand.kd;tau=hand.tau;
++        stale=std::chrono::duration<double>(std::chrono::steady_clock::now()-hand.received).count()>.3;
++      }
++      State state;
++      state.motor_state().resize(7);
++      state.press_sensor_state().resize(9);
++      state.error()[0]=stale?1:0;
++      state.reserve()[0]=static_cast<uint32_t>(std::llround(data->time*1000.));
++      // Explicitly marked simulated contact-force proxy, not calibrated hardware pressure.
++      state.reserve()[1]=0x44583343;
++      for (std::size_t i=0;i<7;++i) {
++        const int joint=hand.joint[i];
++        const double desired=std::clamp(target[i],model->jnt_range[2*joint],model->jnt_range[2*joint+1]);
++        hand.reference[i]+=std::clamp(desired-hand.reference[i],-1.5*model->opt.timestep,1.5*model->opt.timestep);
++        const double q=data->qpos[hand.qpos[i]],dq=data->qvel[hand.dof[i]];
++        const double limit=i==0?2.45:1.4;
++        hand.effort[i]=std::clamp(kp[i]*(hand.reference[i]-q)+kd[i]*(velocity[i]-dq)+tau[i],-limit,limit);
++        data->qfrc_applied[hand.dof[i]]=hand.effort[i];
++        state.motor_state()[i].q()=q;state.motor_state()[i].dq()=dq;
++        state.motor_state()[i].tau_est()=hand.effort[i];
++      }
++      if (!publish) {continue;}
++      const std::string prefix=(side==0?"left":"right")+std::string("_hand_");
++      for (int c=0;c<data->ncon;++c) {
++        const auto &contact=data->contact[c];
++        const int a=model->geom_bodyid[contact.geom1],b=model->geom_bodyid[contact.geom2];
++        if (model->body_rootid[a]==model->body_rootid[b]) {continue;}
++        for (int body : {a,b}) {
++          const char *raw=mj_id2name(model,mjOBJ_BODY,body);
++          if (!raw) {continue;}
++          const std::string name(raw);
++          if (name.rfind(prefix,0)!=0) {continue;}
++          int sensor=-1;
++          for (std::size_t i=0;i<7;++i) {
++            if (name==prefix+names_[i]+"_link") {sensor=i<3?i:(i<5?i:i+1);break;}
++          }
++          if (sensor<0) {continue;}
++          mjtNum force[6];mj_contactForce(model,data,c,force);
++          state.press_sensor_state()[sensor].pressure()[0]+=std::max<mjtNum>(0.,force[0]);
++        }
++      }
++      hand.publisher->Write(state);
++    }
++  }
++};
++}
+diff --git a/simulate/test/dex3_contact_bench.cc b/simulate/test/dex3_contact_bench.cc
+new file mode 100644
+index 0000000..8f0b2a5
+--- /dev/null
++++ b/simulate/test/dex3_contact_bench.cc
+@@ -0,0 +1,65 @@
++#include "dex3_hand.h"
++#include <chrono>
++#include <cstdlib>
++#include <fstream>
++#include <iostream>
++#include <limits>
++#include <thread>
++
++// Standalone mechanical wrist rig driven through the actual Dex3 DDS backend.
++// Only the wrist slide actuators move; the object has no constraints or forces.
++int main(int argc,char **argv) {
++  if (argc!=3) {return 2;}
++  const char *domain=std::getenv("ROS_DOMAIN_ID");
++  unitree::robot::ChannelFactory::Instance()->Init(domain?std::atoi(domain):91,"lo");
++  char error[2048]{};
++  mjModel *model=mj_loadXML(argv[1],nullptr,error,sizeof(error));
++  if (!model) {std::cerr<<error<<std::endl;return 2;}
++  if (model->neq!=0 || model->nu!=2) {return 2;}
++  mjData *data=mj_makeData(model);
++  const int object=mj_name2id(model,mjOBJ_BODY,"object");
++  if (object<0) {return 2;}
++  unitree_mujoco::Dex3Hands hands;
++  const auto start=std::chrono::steady_clock::now();
++  double min_lift=std::numeric_limits<double>::infinity();
++  bool opposed=true,object_forces=false,final_contact=false;
++  int held_samples=0;
++  // Include the complete bounded six-second slow-opening service window.
++  for (int step=0;step<9000;++step) {
++    const double t=data->time;
++    data->ctrl[0]=.04*std::min(1.,t);
++    data->ctrl[1]=t<9.?std::min(.15,std::max(0.,(t-5.)*.075)):std::max(0.,.15-(t-9.)*.075);
++    hands.Update(model,data);
++    mj_step(model,data);
++    const int dof=model->jnt_dofadr[model->body_jntadr[object]];
++    for (int i=0;i<6;++i) {object_forces|=data->qfrc_applied[dof+i]!=0 || data->xfrc_applied[6*object+i]!=0;}
++    bool thumb=false,finger=false;
++    for (int c=0;c<data->ncon;++c) {
++      const auto &contact=data->contact[c];
++      const int a=model->geom_bodyid[contact.geom1],b=model->geom_bodyid[contact.geom2];
++      if (a!=object && b!=object) {continue;}
++      const char *name=mj_id2name(model,mjOBJ_BODY,a==object?b:a);
++      mjtNum force[6];mj_contactForce(model,data,c,force);
++      if (!name || force[0]<.05) {continue;}
++      const std::string link(name);
++      thumb|=link.find("hand_thumb")!=std::string::npos;
++      finger|=link.find("hand_index")!=std::string::npos || link.find("hand_middle")!=std::string::npos;
++    }
++    if (t>=7.2 && t<=8.8) {
++      min_lift=std::min(min_lift,data->xpos[3*object+2]-1.);
++      opposed&=thumb&&finger;
++      ++held_samples;
++    }
++    final_contact=thumb||finger;
++    std::this_thread::sleep_until(start+std::chrono::microseconds(static_cast<long long>(data->time*1e6)));
++  }
++  const double final_z=data->xpos[3*object+2];
++  const bool success=held_samples>700 && min_lift>.1 && opposed && !object_forces && !final_contact && std::abs(final_z-1.)<.025;
++  std::ofstream output(argv[2]);
++  output<<std::boolalpha<<"{\"success\":"<<success<<",\"minimum_held_lift_m\":"<<min_lift
++        <<",\"opposed_contacts\":"<<opposed<<",\"object_external_force\":"<<object_forces
++        <<",\"object_constraints\":0,\"released\":"<<!final_contact<<",\"final_z\":"<<final_z
++        <<",\"elapsed_s\":"<<data->time<<",\"scope\":\"DDS-controlled contact-only wrist rig\"}\n";
++  mj_deleteData(data);mj_deleteModel(model);
++  return success?0:1;
++}
 diff --git a/simulate/src/command_application_timing.h b/simulate/src/command_application_timing.h
 new file mode 100644
 index 0000000..65902f6

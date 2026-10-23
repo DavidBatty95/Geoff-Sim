@@ -73,9 +73,17 @@ def test_dock_reference_can_reach_inner_settling_band():
         pose=SimpleNamespace(position=SimpleNamespace(x=0.,y=0.),
                              orientation=SimpleNamespace(x=0.,y=0.,z=0.,w=1.)))
     planner = SimpleNamespace(reference_goal=goal,target_frame='odom',navigation_mode='dock',
+                              max_reverse_velocity=.45,max_forward_near_human=.4,
                               _wrap_pi=lambda value:math.atan2(math.sin(value),math.cos(value)))
     assert HumanAwareMotionPlanner._dock_reference(planner,(.04,0.,0.)).linear.x<0.
     assert HumanAwareMotionPlanner._dock_reference(planner,(.02,0.,0.)).linear.x==0.
+    assert HumanAwareMotionPlanner._dock_reference(planner,(-.5,0.,0.)).linear.x==.4
+    planner.payload_active = True
+    planner.max_reverse_velocity = .4
+    assert HumanAwareMotionPlanner._dock_reference(planner,(1.,0.,0.)).linear.x==-.4
+    assert HumanAwareMotionPlanner._dock_reference(planner,(.1,0.,0.)).linear.x==-.4
+    planner.payload_active = False
+    assert HumanAwareMotionPlanner._dock_reference(planner,(1.,0.,0.)).linear.x==-.4
 
 
 def test_burst_of_samples_does_not_prove_one_second_of_support():

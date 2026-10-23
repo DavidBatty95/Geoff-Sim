@@ -57,7 +57,11 @@ simulator and intended command source should own the runtime at once.
 
 ## Modes and boundaries
 
-The native build also generates `scene_29dof_brainco_hardware.xml` for articulated
+Current defaults select `hand_model:=dex3` and `grasp_backend:=dex3_contact`, with
+Dex3 URDF and native scene variants. [Contact-only manipulation](../../../docs/DEX3_CONTACT_MANIPULATION_20261020.md)
+documents the new object geometry and tested grasp/release path.
+
+The native build also retains `scene_29dof_brainco_hardware.xml` for legacy articulated
 hand/interface inspection. Use `scripts/run_hardware_parity_probe.py` to launch
 that profile with a passive topic/CRC/sensor/TF audit. The
 [fidelity guide](../../../docs/HARDWARE_FIDELITY.md) records supported fields and

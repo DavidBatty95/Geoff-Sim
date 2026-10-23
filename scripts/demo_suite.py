@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import codecs
 import hashlib
 import json
 import math
@@ -11,6 +12,7 @@ import os
 import secrets
 import selectors
 import shlex
+import shutil
 import subprocess
 import sys
 import time
@@ -28,6 +30,8 @@ OFFICIAL_POLICY = (
 DEFAULT_RESULTS = (
     REPO_ROOT / "ros2_ws/src/dynamic_obstacle_benchmarks/results/demo_suite"
 )
+CONTACT_POLICY = REPO_ROOT / "vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx"
+CONTACT_POLICY_SHA256 = "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c"
 
 
 @dataclass(frozen=True)
@@ -40,6 +44,8 @@ class DemoCase:
     interactive: bool = False
     needs_official_policy: bool = False
     required_scene: str | None = None
+    scope: str = "demo"
+    delivery_result: str | None = None
 
 
 def case_catalog(
@@ -366,10 +372,10 @@ def case_catalog(
         filtered.append(command[index])
         index += 1
     filtered[filtered.index("--people") + 1] = str(onboard_people)
-    filtered[filtered.index("--scene") + 1] = "scene_29dof_natural_crowd.xml"
+    filtered[filtered.index("--scene") + 1] = "scene_29dof_natural_crowd_dex3.xml"
     cases["onboard-waypoints"] = replace(oracle, name="onboard-waypoints",
         description="Online SLAM, LiDAR tracking and event-driven routes; no scene map or truth localization",
-        required_scene="scene_29dof_natural_crowd.xml",
+        required_scene="scene_29dof_natural_crowd_dex3.xml",
         command=tuple(filtered) + tuple(arg for value in overrides for arg in ("--sim-arg", value)))
     visual_command = list(cases["onboard-waypoints"].command)
     threshold_index = visual_command.index("--minimum-score")
@@ -381,10 +387,36 @@ def case_catalog(
         description="Long onboard visual session: MuJoCo goal overlay, RViz sensors, SLAM and predictions",
         command=tuple(visual_command), scored=False, interactive=True,
         timeout_s=math.ceil(visual_duration_s) + 300)
+    docker = shutil.which("docker") or "/usr/bin/docker"
+    compose = (docker, "compose", "run", "--rm", "--no-deps", "-T")
+    cases["workspace-ci"] = DemoCase(
+        "workspace-ci", "Build and test ROS, native interfaces and orchestration",
+        (*compose, "-e", "ROS_DOMAIN_ID=87", "unitree-g1-sim",
+         "/workspace/scripts/test_workspace_inside.sh", "ci"), 1800, scope="regression")
+    cases["dex3-contact"] = DemoCase(
+        "dex3-contact", "Pinned MuJoCo contact, endurance and rotational hand tests",
+        (*compose, "-e", "PYTEST_DISABLE_PLUGIN_AUTOLOAD=1", "unitree-g1-sim",
+         "/workspace/scripts/run_mjlab.sh", "--with", "mujoco==3.3.6", "--with", "pytest==8.3.5",
+         "python", "-m", "pytest", "-q", "-p", "no:cacheprovider",
+         "/workspace/scripts/test_dex3_contact.py", "/workspace/scripts/test_native_probe_payload.py"),
+        900, scope="component")
+    delivery_id = f"dex3_{run_dir.name}"
+    delivery_result = REPO_ROOT / "ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo" / delivery_id / "result.json"
+    cases["dex3-delivery"] = DemoCase(
+        "dex3-delivery", "Experimental fixed red-to-red contact-only mobile delivery",
+        (sys.executable, str(SCRIPTS / "run_transport_demo.py"), "--run-id", delivery_id,
+         "--world", "transport_dual", "--task", "red:red", "--people", "0",
+         "--seed", str(seed), "--duration", "420", "--no-rviz",
+         "--carry-posture", "payload_v1", "--manipulation-heading-hold",
+         "--grasp-height-offset", "0.015", "--policy", str(CONTACT_POLICY),
+         *(("--fast-start",) if fast_start else ())),
+        1200, scope="mobile_delivery", delivery_result=str(delivery_result))
     return cases
 
 
 PRESETS = {
+    "validation": ("workspace-ci", "dex3-contact"),
+    "manipulation": ("dex3-contact", "dex3-delivery"),
     "quick": ("mock-avoidance",),
     "locomotion": ("mock-avoidance", "fixed-forward"),
     "navigation": ("mock-avoidance", "fixed-forward", "waypoint-live"),
@@ -451,7 +483,6 @@ def stream_process(
     process = subprocess.Popen(
         command,
         cwd=REPO_ROOT,
-        text=True,
         stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         start_new_session=True,
@@ -461,18 +492,22 @@ def stream_process(
     selector.register(process.stdout, selectors.EVENT_READ)
     deadline = time.monotonic() + timeout_s if timeout_s > 0 else None
     timed_out = False
+    decoder = codecs.getincrementaldecoder("utf-8")(errors="replace")
+    def emit(data: bytes, final: bool = False) -> None:
+        text = decoder.decode(data, final=final)
+        print(text, end="", flush=True)
+        log.write(text)
+        log.flush()
     try:
         while True:
             for key, _ in selector.select(timeout=0.2):
-                line = key.fileobj.readline()
-                if line:
-                    print(line, end="")
-                    log.write(line)
-                    log.flush()
+                chunk = os.read(key.fileobj.fileno(), 65536)
+                if chunk:
+                    emit(chunk)
+                else:
+                    selector.unregister(key.fileobj)
             if process.poll() is not None:
-                for remainder in process.stdout:
-                    print(remainder, end="")
-                    log.write(remainder)
+                emit(process.stdout.read(), final=True)
                 break
             if deadline is not None and time.monotonic() >= deadline:
                 timed_out = True
@@ -481,6 +516,7 @@ def stream_process(
                     process.wait(timeout=10)
                 except subprocess.TimeoutExpired:
                     os.killpg(process.pid, 9)
+                    process.wait()
                 break
     except KeyboardInterrupt:
         try:
@@ -498,6 +534,7 @@ def stream_process(
         raise
     finally:
         selector.close()
+        process.stdout.close()
     return (124 if timed_out else process.returncode), timed_out
 
 
@@ -516,6 +553,11 @@ def preflight(cases: list[DemoCase], dry_run: bool) -> dict[str, object]:
         if not executable.is_file() or not os.access(executable, os.X_OK):
             raise RuntimeError(f"demo entry point is not executable: {executable}")
     checks["entry_points"] = "ok"
+    if any(case.delivery_result for case in cases):
+        policy_hash = file_sha256(CONTACT_POLICY) if CONTACT_POLICY.is_file() else None
+        if not dry_run and policy_hash != CONTACT_POLICY_SHA256:
+            raise RuntimeError("Dex3 delivery requires the checksum-pinned native cycle05 policy")
+        checks["contact_policy_sha256"] = policy_hash
     if any(case.needs_official_policy for case in cases):
         if not dry_run:
             subprocess.run(
@@ -566,10 +608,31 @@ def resolve_seed(requested_seed: int | None) -> int:
     return requested_seed if requested_seed is not None else secrets.randbits(31)
 
 
+def delivery_evidence(path: Path) -> dict[str, object]:
+    """Fail closed: a held-object evaluator flag is never delivery success."""
+    try:
+        data = json.loads(path.read_text())
+        valid = (
+            isinstance(data, dict)
+            and all(data.get(key) is True for key in ("success", "mission_complete", "data_valid"))
+            and data.get("fallen") is False
+            and data.get("contact_samples") == 0
+            and data.get("dropped_objects") == []
+            and isinstance(data.get("deliveries"), list)
+            and len(data["deliveries"]) == 1
+            and data["deliveries"][0].get("object_id") == "box_red"
+            and data["deliveries"][0].get("destination_id") == "target_red"
+            and data["deliveries"][0].get("verified") is True
+        )
+        return {"path": str(path), "sha256": file_sha256(path), "passed": bool(valid)}
+    except (OSError, ValueError, TypeError, AttributeError) as error:
+        return {"path": str(path), "passed": False, "error": str(error)}
+
+
 def main() -> int:
     args = parse_args()
     seed = resolve_seed(args.seed)
-    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+    stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%S%fZ")
     run_dir = args.result_root.expanduser().resolve() / f"suite_{stamp}"
     if not run_dir.is_relative_to(REPO_ROOT):
         print(
@@ -597,7 +660,7 @@ def main() -> int:
     try:
         cases = select_cases(catalog, args.suite, args.cases)
         checks = preflight(cases, args.dry_run)
-    except (RuntimeError, ValueError, subprocess.CalledProcessError) as error:
+    except (OSError, RuntimeError, ValueError, subprocess.CalledProcessError) as error:
         print(f"Demo suite preflight failed: {error}", file=sys.stderr)
         return 2
 
@@ -622,6 +685,7 @@ def main() -> int:
             for case in cases
         ],
     }
+    run_dir.mkdir(parents=True, exist_ok=False)
     write_json(run_dir / "manifest.json", manifest)
     results: list[dict[str, object]] = []
     overall_status = "dry-run" if args.dry_run else ("completed" if all(not case.scored for case in cases) else "passed")
@@ -636,23 +700,29 @@ def main() -> int:
                 return_code, timed_out = 0, False
             else:
                 with (case_dir / "suite.log").open("w", encoding="utf-8") as log:
-                    return_code, timed_out = stream_process(
-                        case.command, log, case.timeout_s
-                    )
+                    try:
+                        return_code, timed_out = stream_process(case.command, log, case.timeout_s)
+                    except OSError as error:
+                        log.write(f"Launch failed: {error}\n")
+                        return_code, timed_out = 127, False
+            evidence = delivery_evidence(Path(case.delivery_result)) if case.delivery_result and not args.dry_run else None
+            passed = return_code == 0 and (evidence is None or evidence["passed"])
             result = {
                 "name": case.name,
+                "scope": case.scope,
+                "evidence": evidence,
                 "return_code": return_code,
                 "timed_out": timed_out,
                 "duration_s": round(time.monotonic() - started, 3),
                 "status": (
                     "planned"
                     if args.dry_run
-                    else (("passed" if case.scored else "completed") if return_code == 0 else "failed")
+                    else (("passed" if case.scored else "completed") if passed else "failed")
                 ),
             }
             results.append(result)
             write_json(case_dir / "suite_status.json", result)
-            if return_code != 0:
+            if not passed:
                 overall_status = "failed"
                 if not args.continue_on_failure:
                     break

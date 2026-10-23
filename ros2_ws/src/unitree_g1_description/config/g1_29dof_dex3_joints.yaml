@@ -1,6 +1,6 @@
 g1_29dof:
   model: g1
-  mujoco_scene: scene_29dof.xml
+  mujoco_scene: scene_29dof_dex3.xml
   lowcmd_topic: /lowcmd
   lowstate_topic: /lowstate
   secondary_imu_topic: /secondary_imu
@@ -35,10 +35,8 @@ g1_29dof:
     - right_wrist_pitch_joint
     - right_wrist_yaw_joint
 
-brainco_hands:
-  # Unitree's public G1 Mujoco/ROS2 examples expose hand control through the
-  # unitree_hg HandCmd/HandState shape. Keep this profile isolated so true
-  # BrainCo-specific firmware topics can be swapped in without touching body control.
+dex3_hands:
+  # Seven independent radian channels; body LowCmd retains its 29-joint order.
   left_command_topic: /dex3/left/cmd
   right_command_topic: /dex3/right/cmd
   left_state_topic: /lf/dex3/left/state
@@ -47,13 +45,13 @@ brainco_hands:
     - thumb_0
     - thumb_1
     - thumb_2
-    - index_0
-    - index_1
     - middle_0
     - middle_1
+    - index_0
+    - index_1
   left_limits:
-    min: [-1.05, -0.724, 0.0, -1.57, -1.75, -1.57, -1.75]
-    max: [1.05, 1.05, 1.75, 0.0, 0.0, 0.0, 0.0]
+    min: [-1.0472, -0.724312, 0.0, -1.5708, -1.74533, -1.5708, -1.74533]
+    max: [1.0472, 1.0472, 1.74533, 0.0, 0.0, 0.0, 0.0]
   right_limits:
-    min: [-1.05, -1.05, -1.75, 0.0, 0.0, 0.0, 0.0]
-    max: [1.05, 0.742, 0.0, 1.57, 1.75, 1.57, 1.75]
+    min: [-1.0472, -1.0472, -1.74533, 0.0, 0.0, 0.0, 0.0]
+    max: [1.0472, 0.724312, 0.0, 1.5708, 1.74533, 1.5708, 1.74533]

@@ -23,24 +23,12 @@ constexpr double kMinimumExtent = 0.005;
 
 std::vector<std::string> handTouchLinks(bool is_left)
 {
-  if (is_left) {
-    return {
-      "left_wrist_yaw_link", "left_base_link", "left_base2_link",
-      "left_thumb_metacarpal_Link", "left_thumb_proximal_Link",
-      "left_thumb_distal_Link", "left_thumb_tip_Link",
-      "left_index_proximal_Link", "left_index_distal_Link", "left_index_tip_Link",
-      "left_middle_proximal_Link", "left_middle_distal_Link", "left_middle_tip_Link",
-      "left_ring_proximal_Link", "left_ring_distal_Link", "left_ring_tip_Link",
-      "left_pinky_proximal_Link", "left_pinky_distal_Link", "left_pinky_tip_Link"};
+  const std::string side = is_left ? "left" : "right";
+  std::vector<std::string> links{side+"_wrist_yaw_link",side+"_hand_palm_link"};
+  for (const auto *name : {"thumb_0","thumb_1","thumb_2","middle_0","middle_1","index_0","index_1"}) {
+    links.push_back(side+"_hand_"+name+"_link");
   }
-  return {
-    "right_wrist_yaw_link", "right_base_link", "right_base2_link",
-    "right_thumb_metacarpal_link", "right_thumb_proximal_link",
-    "right_thumb_distal_link", "right_thumb_tip_Link",
-    "right_index_proximal_link", "right_index_distal_link", "right_index_tip_Link",
-    "right_middle_proximal_link", "right_middle_distal_link", "right_middle_tip_Link",
-    "right_ring_proximal_link", "right_ring_distal_link", "right_ring_tip_Link",
-    "right_pinky_proximal_link", "right_pinky_distal_link", "right_pinky_tip_Link"};
+  return links;
 }
 
 Pose toPure(const geometry_msgs::msg::Pose & pose)
@@ -91,18 +79,18 @@ ManipulationServer::ManipulationServer(const rclcpp::NodeOptions & options)
   planning_attempts_ = declare_parameter<int>("planning_attempts", 3);
   velocity_scaling_ = declare_parameter<double>("velocity_scaling", 0.25);
   service_timeout_ = std::chrono::milliseconds(
-    declare_parameter<int>("gripper_service_timeout_ms", 2000));
-  left_tip_link_ = declare_parameter<std::string>("left_tip_link", "left_base_link");
-  right_tip_link_ = declare_parameter<std::string>("right_tip_link", "right_base_link");
+    declare_parameter<int>("gripper_service_timeout_ms", 8000));
+  left_tip_link_ = declare_parameter<std::string>("left_tip_link", "left_wrist_yaw_link");
+  right_tip_link_ = declare_parameter<std::string>("right_tip_link", "right_wrist_yaw_link");
   left_object_id_ = declare_parameter<std::string>("left_object_id", "red_cube");
   right_object_id_ = declare_parameter<std::string>("right_object_id", "red_cube");
   use_object_grasp_service_ = declare_parameter<bool>("use_object_grasp_service", true);
   object_grasp_client_ = create_client<g1_msgs::srv::GraspObject>("/g1_sim_manipulation_io/grasp_object");
 
   const auto offset = declare_parameter<std::vector<double>>(
-    "tip_to_object_offset", {-0.10, 0.0, 0.0});
+    "tip_to_object_offset", {-0.135, -0.04, 0.0});
   const auto rpy = declare_parameter<std::vector<double>>(
-    "grasp_rpy", {-1.5707963267948966, 0.0, 0.0});
+    "grasp_rpy", {0.0, 0.0, 0.0});
   if (offset.size() != 3 || rpy.size() != 3) {
     throw std::invalid_argument("tip_to_object_offset and grasp_rpy require exactly 3 values");
   }
@@ -130,6 +118,8 @@ ManipulationServer::ManipulationServer(const rclcpp::NodeOptions & options)
       "/g1_sim_manipulation_io/grasp_" + side);
     gripper_clients_["release_" + side] = create_client<std_srvs::srv::Trigger>(
       "/g1_sim_manipulation_io/release_" + side);
+    gripper_clients_["verify_" + side] = create_client<std_srvs::srv::Trigger>(
+      "/g1_sim_manipulation_io/verify_" + side);
   }
 }
 
@@ -270,7 +260,9 @@ moveit_msgs::msg::CollisionObject ManipulationServer::makeCollisionObject(
 geometry_msgs::msg::Pose ManipulationServer::tipGoal(
   const geometry_msgs::msg::Pose & object, bool is_left) const
 {
-  return toRos(graspTipPose(toPure(object), tip_to_object_offset_, grasp_rpy_, is_left));
+  auto offset = tip_to_object_offset_;
+  if (is_left) {offset.y = -offset.y;}
+  return toRos(graspTipPose(toPure(object), offset, grasp_rpy_, is_left));
 }
 
 void ManipulationServer::setStartStateInBounds(MoveGroup & group)
@@ -357,6 +349,23 @@ bool ManipulationServer::callGripper(
   auto future = client->async_send_request(std::make_shared<std_srvs::srv::Trigger::Request>());
   if (future.wait_for(service_timeout_) != std::future_status::ready) {
     reason = key + " service timed out";
+    return false;
+  }
+  const auto response = future.get();
+  reason = response->message;
+  return response->success;
+}
+
+bool ManipulationServer::verifyGripper(const std::string & side, std::string & reason)
+{
+  const auto client = gripper_clients_.at("verify_" + side);
+  if (!client->wait_for_service(service_timeout_)) {
+    reason = "physical grasp feedback service unavailable";
+    return false;
+  }
+  auto future = client->async_send_request(std::make_shared<std_srvs::srv::Trigger::Request>());
+  if (future.wait_for(service_timeout_) != std::future_status::ready) {
+    reason = "physical grasp verification timed out";
     return false;
   }
   const auto response = future.get();
@@ -508,6 +517,11 @@ void ManipulationServer::executePick(const std::shared_ptr<GoalHandle<Pick>> & h
   const auto lifted = toRos(above(toPure(grasp), lift_height_m_));
   if (!moveToPose(group, lifted, arm->tip_link, feedback->phase)) {
     finish_bad(feedback->phase, "motion failed", false);
+    return;
+  }
+
+  if (!verifyGripper(arm->side, service_reason)) {
+    finish_bad(feedback->phase, "physical lift verification failed: " + service_reason, false);
     return;
   }
 

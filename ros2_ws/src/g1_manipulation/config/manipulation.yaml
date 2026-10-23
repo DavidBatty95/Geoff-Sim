@@ -2,15 +2,15 @@ g1_manipulation_server:
   ros__parameters:
     # Simulation-first interface. The arm trajectory controller must already have authority.
     object_timeout_s: 1.0
-    gripper_service_timeout_ms: 2000
-    left_tip_link: left_base_link
-    right_tip_link: right_base_link
+    gripper_service_timeout_ms: 8000
+    left_tip_link: left_wrist_yaw_link
+    right_tip_link: right_wrist_yaw_link
     left_object_id: red_cube
     right_object_id: red_cube
-    # Aim the hand origin 10 mm above this scene's 70 mm cube top face.
-    tip_to_object_offset: [0.0, 0.0, 0.045]
+    # Dex3 palm-space alignment for the 40 mm cylinder; lateral offset mirrors.
+    tip_to_object_offset: [-0.135, -0.04, 0.0]
     # Right-side RPY; roll is mirrored for the left side.
-    grasp_rpy: [-1.5707963267948966, 0.0, 0.0]
+    grasp_rpy: [0.0, 0.0, 0.0]
     approach_height_m: 0.18
     lift_height_m: 0.20
     collision_padding_m: 0.01

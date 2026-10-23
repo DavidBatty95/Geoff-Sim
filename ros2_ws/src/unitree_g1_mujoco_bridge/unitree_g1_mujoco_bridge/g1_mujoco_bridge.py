@@ -9,7 +9,7 @@ from rclpy.node import Node
 from rclpy.qos import QoSHistoryPolicy, QoSProfile, QoSReliabilityPolicy
 from sensor_msgs.msg import JointState
 from std_msgs.msg import Float64MultiArray,Bool,String
-from unitree_hg.msg import LowCmd, LowState
+from unitree_hg.msg import LowCmd, LowState, HandCmd, HandState, MotorCmd as Dex3MotorCmd
 from unitree_go.msg import MotorCmds, MotorCmd as BraincoMotorCmd, MotorStates
 from .unitree_crc import lowcmd_crc
 from .policy_timing import leg_target_fingerprint
@@ -81,6 +81,9 @@ class G1MujocoBridge(Node):
         self.declare_parameter("startup_fall_damping_grace_time", 5.0)
         self.declare_parameter("hand_kp", 1.5)
         self.declare_parameter("hand_kd", 0.1)
+        self.hand_model = str(self.declare_parameter('hand_model','dex3').value)
+        if self.hand_model not in ('dex3','brainco'):
+            raise ValueError('hand_model must be dex3 or brainco')
         self.declare_parameter("body_command_topic", "/g1/body_position_commands")
         self.declare_parameter("left_hand_command_topic", "/g1/left_hand_position_commands")
         self.declare_parameter("right_hand_command_topic", "/g1/right_hand_position_commands")
@@ -150,8 +153,8 @@ class G1MujocoBridge(Node):
         self.base_height = 0.793
         self.imu_rpy = [0.0, 0.0, 0.0]
         self.imu_gyro = [0.0, 0.0, 0.0]
-        self.left_hand_position = [0.0] * len(BRAINCO_LEFT_TF_JOINTS)
-        self.right_hand_position = [0.0] * len(BRAINCO_RIGHT_TF_JOINTS)
+        self.left_hand_position = [0.0] * (7 if self.hand_model=='dex3' else len(BRAINCO_LEFT_TF_JOINTS))
+        self.right_hand_position = [0.0] * (7 if self.hand_model=='dex3' else len(BRAINCO_RIGHT_TF_JOINTS))
         self.lowstate_count = 0
         self.body_command_count = 0
         self.mode_machine = None
@@ -162,14 +165,13 @@ class G1MujocoBridge(Node):
         self.lowcmd_pub = self.create_publisher(LowCmd, "/lowcmd", LATEST_RELIABLE_QOS)
         self.lowcmd_rt_pub = (self.create_publisher(LowCmd, "rt/lowcmd", LATEST_RELIABLE_QOS)
                              if self.get_parameter('legacy_rt_aliases').value else None)
-        self.left_hand_pub = self.create_publisher(
-            MotorCmds, "/brainco/left/cmd", LATEST_RELIABLE_QOS
-        )
-        self.right_hand_pub = self.create_publisher(
-            MotorCmds, "/brainco/right/cmd", LATEST_RELIABLE_QOS
-        )
+        command_type = HandCmd if self.hand_model=='dex3' else MotorCmds
+        state_type = HandState if self.hand_model=='dex3' else MotorStates
+        self.left_hand_pub = self.create_publisher(command_type,f'/{self.hand_model}/left/cmd',LATEST_RELIABLE_QOS)
+        self.right_hand_pub = self.create_publisher(command_type,f'/{self.hand_model}/right/cmd',LATEST_RELIABLE_QOS)
         for side in ('left','right'):
-            self.create_subscription(MotorStates,f'/brainco/{side}/state',
+            topic = f'/lf/dex3/{side}/state' if self.hand_model=='dex3' else f'/brainco/{side}/state'
+            self.create_subscription(state_type,topic,
                 lambda msg,side=side:self._hand_state_callback(msg,side),LATEST_RELIABLE_QOS)
 
         self.create_subscription(
@@ -245,10 +247,14 @@ class G1MujocoBridge(Node):
     def _publish_joint_states(self) -> None:
         joint_state = JointState()
         joint_state.header.stamp = self.get_clock().now().to_msg()
-        joint_state.name = G1_RVIZ_JOINTS
+        if getattr(self,'hand_model','brainco')=='dex3':
+            from .dex3_grasp import joint_names
+            joint_state.name = ['floating_base_joint']+G1_29DOF_JOINTS+list(joint_names('left'))+list(joint_names('right'))
+        else:
+            joint_state.name = G1_RVIZ_JOINTS
         joint_state.position = [self.base_height] + self.body_position + self.left_hand_position + self.right_hand_position
-        joint_state.velocity = [0.0] + self.body_velocity + [0.0] * (len(BRAINCO_LEFT_TF_JOINTS) + len(BRAINCO_RIGHT_TF_JOINTS))
-        joint_state.effort = [0.0] + self.body_effort + [0.0] * (len(BRAINCO_LEFT_TF_JOINTS) + len(BRAINCO_RIGHT_TF_JOINTS))
+        joint_state.velocity = [0.0] + self.body_velocity + [0.0] * (len(self.left_hand_position)+len(self.right_hand_position))
+        joint_state.effort = [0.0] + self.body_effort + [0.0] * (len(self.left_hand_position)+len(self.right_hand_position))
         self.joint_state_pub.publish(joint_state)
 
     def _estimate_base_height(self, positions: List[float]) -> float:
@@ -429,6 +435,20 @@ class G1MujocoBridge(Node):
             )
 
     def _hand_command_callback(self, msg: Float64MultiArray, side: str) -> None:
+        if getattr(self,'hand_model','brainco')=='dex3':
+            if len(msg.data)!=7 or not all(math.isfinite(float(v)) for v in msg.data):
+                self.get_logger().warn('Dex3 requires seven finite radian targets')
+                return
+            lo,hi = [-1.0472,-1.0472,-1.74533,0.,0.,0.,0.],[1.0472,.724312,0.,1.5708,1.74533,1.5708,1.74533]
+            if side=='left':
+                lo,hi = [-v for v in hi],[-v for v in lo]
+            cmd = HandCmd()
+            for i,target in enumerate(_bounded(msg.data,lo,hi)):
+                motor = Dex3MotorCmd()
+                motor.mode,motor.q,motor.kp,motor.kd = 0x10|i,target,self.hand_kp,self.hand_kd
+                cmd.motor_cmd.append(motor)
+            (self.left_hand_pub if side=='left' else self.right_hand_pub).publish(cmd)
+            return
         if len(msg.data) != len(BRAINCO_HAND_JOINTS):
             self.get_logger().warn(
                 f"Expected {len(BRAINCO_HAND_JOINTS)} {side} hand positions, got {len(msg.data)}",
@@ -458,6 +478,11 @@ class G1MujocoBridge(Node):
             self.right_hand_pub.publish(cmd)
 
     def _hand_state_callback(self,msg,side):
+        if getattr(self,'hand_model','brainco')=='dex3':
+            if len(msg.motor_state)!=7 or not all(math.isfinite(m.q) for m in msg.motor_state):
+                return
+            setattr(self,side+'_hand_position',[float(m.q) for m in msg.motor_state])
+            return
         if len(msg.states) != 6 or not all(math.isfinite(m.q) and 0. <= m.q <= 1. for m in msg.states):
             return
         positions = self._brainco_tf_positions([float(m.q) for m in msg.states],side)

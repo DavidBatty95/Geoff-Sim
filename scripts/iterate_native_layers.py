@@ -7,6 +7,7 @@ must also pass a newly declared validation batch before this worker stops.
 import argparse
 import copy
 import json
+import math
 from pathlib import Path
 import random
 import shutil
@@ -43,6 +44,26 @@ def proposals(weights, step):
                 yield candidate
 
 
+def initial_weights(policy, left, right):
+    manifest = json.loads(policy.with_name('manifest.json').read_text())
+    exported = json.loads(policy.with_suffix('.manifest.json').read_text())
+    if (manifest['left']['sha256']!=digest(left) or manifest['right']['sha256']!=digest(right)
+            or exported['policy_sha256']!=digest(policy)):
+        raise ValueError('initial actor or interpolation endpoints do not match provenance')
+    weights = manifest.get('layer_weights',[manifest['right_weight']]*4)
+    if len(weights)!=4 or not all(type(v) in (float,int) and math.isfinite(v) and 0<=v<=1 for v in weights):
+        raise ValueError('invalid initial layer weights')
+    return weights
+
+
+def proposal_batch(weights, step, plateau_sweep, rng):
+    if step>=.0003125:
+        return list(proposals(weights,step)),None
+    sigma = (.0005,.001,.002,.005,.01)[plateau_sweep%5]
+    return [[round(min(1.,max(0.,v+rng.gauss(0.,sigma))),6) for v in weights]
+            for _ in range(8)],sigma
+
+
 def main():
     def interrupted(signum, frame):
         raise KeyboardInterrupt
@@ -57,6 +78,7 @@ def main():
     parser.add_argument('--artifacts',type=Path,required=True)
     parser.add_argument('--max-proposals',type=int,default=0,help='0 continues until qualified, interrupted or resource-blocked')
     args = parser.parse_args()
+    weights = initial_weights(args.initial_policy,args.left,args.right)
     initial_hash = digest(args.initial_policy)
     baseline = {}
     sources = []
@@ -80,7 +102,7 @@ def main():
     args.artifacts.mkdir(parents=True,exist_ok=False)
     (args.output/'worker_source.py').write_bytes(Path(__file__).read_bytes())
     state = dict(status='running',initial_reports=sources,proposals=0,accepted=[],
-        best_policy=str(args.initial_policy),best_weights=[.95]*4,
+        best_policy=str(args.initial_policy),best_weights=weights,
         best_failures=sum(not row['passed'] for row in baseline.values()),suite_cases=len(baseline),
         current_suite=list(baseline.values()),qualified=False,auto_deployment=False,
         source_sha256={name:digest(HERE/name) for name in ('iterate_native_layers.py','interpolate_payload_actor.py',
@@ -93,7 +115,8 @@ def main():
     save()
     rng = random.Random(20261019)
     seen = {tuple(state['best_weights'])}
-    step = .05
+    step = .01
+    plateau_sweep = 0
 
     def evaluate(weights, validation=False, durations=None):
         identifier = f'proposal_{state["proposals"]:05d}' if not validation else f'validation_{len(state["accepted"]):05d}'
@@ -144,10 +167,10 @@ def main():
                 state['status'] = 'blocked_low_disk_space'
                 break
             improved = False
-            batch = list(proposals(state['best_weights'],step))
-            if step<.003125:
-                # Plateau: explore small, deterministic multi-layer perturbations.
-                batch = [[round(min(1.,max(0.,v+rng.gauss(0.,.02))),6) for v in state['best_weights']] for _ in range(8)]
+            batch,sigma = proposal_batch(state['best_weights'],step,plateau_sweep,rng)
+            state['proposal_sigma'] = sigma
+            if sigma is not None:
+                plateau_sweep += 1
             for weights in batch:
                 if args.max_proposals and state['proposals']>=args.max_proposals:
                     break
@@ -188,9 +211,14 @@ def main():
                             state['status'] = 'blocked_validation_fall_requires_review'
                             save()
                             return 1
+                    # Refine around each newly accepted incumbent immediately,
+                    # rather than continuing an obsolete sweep or wide plateau.
+                    step,plateau_sweep = .01,0
+                    save()
+                    break
                 save()
             if not improved:
-                step /= 2
+                step = max(.00015625,step/2)
             state['step'] = step
             save()
         if state['status']=='running':

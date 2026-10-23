@@ -89,7 +89,7 @@ def test_stationary_gate_uses_safe_manipulation_routing_and_tuning():
     )
     arguments = dict(simulation.launch_arguments)
 
-    assert arguments["mujoco_scene"] == "scene_29dof_manipulation.xml"
+    assert arguments["mujoco_scene"] == "scene_29dof_manipulation_dex3.xml"
     assert arguments["mujoco_initial_keyframe"] == "manipulation_stand"
     assert arguments["run_arm_compositor"] == "true"
     assert arguments["run_sim_manipulation_io"] == "true"

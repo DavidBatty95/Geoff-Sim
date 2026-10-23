@@ -55,7 +55,7 @@ from pathlib import Path
 
 path = Path(os.environ['UNITREE_MUJOCO_CONFIG'])
 lines = path.read_text().splitlines()
-scene = os.environ.get("UNITREE_MUJOCO_SCENE", "scene_29dof_extreme_lab.xml")
+scene = os.environ.get("UNITREE_MUJOCO_SCENE", "scene_29dof_extreme_lab_dex3.xml")
 settings = {
     'robot': 'robot: "g1"  # Robot name, "go2", "b2", "b2w", "h1", "go2w", "g1"',
     'robot_scene': f'robot_scene: "{scene}" # Robot scene, /unitree_robots/[robot]/scene.xml',

@@ -1,0 +1,2156 @@
+{
+  "scope": "Contact-only hand implementation; mobile delivery not yet qualified",
+  "source_hash_scope": "Publisher-time working-tree snapshot, not per-run source provenance; retained runs may predate these sources.",
+  "source_sha256": {
+    "scripts/dex3_hand_model.py": "b50d72aa796ed4ce0457f2ab3afc74a9fc7d211cd878afe9967e8efae4ce7e70",
+    "scripts/measure_dex3_contact_grasp.py": "725ec6588768b87d10ca2d736ff3ae7f0dfec58ebb6dbddd986f55f3dfd2c063",
+    "scripts/probe_dex3_arm_stability.py": "0c85630c3be112504b15789e486506ae46dc19e1e80cc1c2bb52b4dcae243cbc",
+    "scripts/verify_dex3_services.py": "9cbba30c19f1d7c992558ffdb0e06629415016ad3fa6da02762dd6b4ba61968e",
+    "scripts/transport_worlds.py": "004ea3fcd8eb4e5014a2bbfb71dd24a609a8a9c5fe009508dcffefc81d5b7fc1",
+    "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/dex3_grasp.py": "fbd4aafd877051f49176beed7431e4a5aa42ea72dbfa3be99b39fcb5c063ec86",
+    "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/manipulation_heading.py": "ff038b99517b48bc6ddb9f6579df61067d33a057c0b7d7d3e6f71db7213d2edf",
+    "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "deef82b5dc842b3e16081c006624e101261e74f6372a5fbf74773c098116b83a",
+    "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "72361d7a40ce79256bf31a6e3cdeb7e2329a6c66504fb55e006fd28d2a28b39c",
+    "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "e458b068d1e87b9400d271639975924819fb77e8b3301b42b88106410b1ea2f7",
+    "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "39aa6ac4bf0113975cf081745bafa380d92d0011d3c8388915aeaf82c588030c",
+    "ros2_ws/src/unitree_mujoco/simulate/src/dex3_hand.h": "7b8360b649af128d1b032e6ac4d094cc44582b36a40e8056ff226b4fec11fbc6",
+    "ros2_ws/src/unitree_mujoco/simulate/test/dex3_contact_bench.cc": "6a09f4b4821cf5f8d0e80ecc1b6dbf2cc9e881c60f37a76641070259b0d47da4",
+    "ros2_ws/src/unitree_g1_description/dex3_sources/manifest.json": "74777adf50fe8c7ea2464279e5c8fc1fd728fa91dd3bfca75397e156f5d41ec6"
+  },
+  "calibration_notes": "All selected-date calibration failures and sweeps retained. Contact bench uses actuated wrist slides; bench success does not qualify mobile delivery.",
+  "bench_records": [],
+  "ros_dds_checks": [],
+  "stability_probes": [
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_arm_stability_20261021/cycle05_extend_baseline.json",
+      "sha256": "d11d47a96490df3796aa1da3d5ee81107bbc268e32999aee141fe94e893e4747",
+      "data": {
+        "scope": "synchronous free-base Dex3 arm stability diagnostic; not delivery qualification",
+        "mode": "extend",
+        "stabilization": "none",
+        "initial_yaw_rad": 0.0,
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+        "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+        "script_sha256": "6128d45ebd9e5f66112f2d54345abbd92a7181f0473c7cc3e371097c922a25e0",
+        "scene_sha256": "4567e1c86eacfca455b5cfbff0599feb88278e5b9fe602c2f001be16063393c4",
+        "mujoco_version": "3.3.6",
+        "equality_constraints": 0,
+        "object_forces": false,
+        "root_pose_control": false,
+        "action_feedback": "published_actor_action",
+        "joint_and_pd_feedback": "native_sensors",
+        "completed": true,
+        "fallen": false,
+        "planning_error": null,
+        "external_contacts": [],
+        "holds": {
+          "carry_hold": {
+            "duration_s": 4.98,
+            "translation_m": 0.007810986275117235,
+            "yaw_excursion_rad": 0.00479754655834809,
+            "max_tilt_rad": 0.04519795199335658,
+            "max_hand_drift_m": 0.012960376668898509
+          },
+          "extension_hold": {
+            "duration_s": 9.98,
+            "translation_m": 0.00423122184261697,
+            "yaw_excursion_rad": 0.05578947422409293,
+            "max_tilt_rad": 0.011888290620159937,
+            "max_hand_drift_m": 0.027402920102761564
+          }
+        },
+        "events": [
+          {
+            "phase": "carry_transition",
+            "time": 5.0
+          },
+          {
+            "phase": "carry_hold",
+            "time": 9.64
+          },
+          {
+            "phase": "extension_transition",
+            "time": 14.64,
+            "ik_error_m": 0.0010321824814796248,
+            "joint_goal": [
+              0.2606676009066938,
+              0.25437933269104723,
+              0.007383420370892406,
+              1.0207455800830352,
+              0.19180693523649062,
+              0.028256557911227075,
+              0.06011662441170636,
+              -0.5261609370423473,
+              -0.39988836923617244,
+              -0.09391531237373123,
+              0.11653573831716808,
+              0.3741039009523335,
+              0.38027362427618494,
+              0.026308276602548475
+            ]
+          },
+          {
+            "phase": "extension_hold",
+            "time": 17.72
+          }
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_arm_stability_20261021/cycle05_extend_heading.json",
+      "sha256": "9cdd18bbb5a741dadf752642529f6fc955631bfaf7e93770cc1d25da64fca6fe",
+      "data": {
+        "scope": "synchronous free-base Dex3 arm stability diagnostic; not delivery qualification",
+        "mode": "extend",
+        "stabilization": "heading",
+        "initial_yaw_rad": 0.0,
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+        "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+        "script_sha256": "6128d45ebd9e5f66112f2d54345abbd92a7181f0473c7cc3e371097c922a25e0",
+        "scene_sha256": "4567e1c86eacfca455b5cfbff0599feb88278e5b9fe602c2f001be16063393c4",
+        "mujoco_version": "3.3.6",
+        "equality_constraints": 0,
+        "object_forces": false,
+        "root_pose_control": false,
+        "action_feedback": "published_actor_action",
+        "joint_and_pd_feedback": "native_sensors",
+        "completed": true,
+        "fallen": false,
+        "planning_error": null,
+        "external_contacts": [],
+        "holds": {
+          "carry_hold": {
+            "duration_s": 4.98,
+            "translation_m": 0.007520915637796978,
+            "yaw_excursion_rad": 0.004986115621650883,
+            "max_tilt_rad": 0.04519926645673854,
+            "max_hand_drift_m": 0.014435097037193012
+          },
+          "extension_hold": {
+            "duration_s": 9.98,
+            "translation_m": 0.005650391460177889,
+            "yaw_excursion_rad": 0.009322114613787374,
+            "max_tilt_rad": 0.008546411215413639,
+            "max_hand_drift_m": 0.010566294210319849
+          }
+        },
+        "events": [
+          {
+            "phase": "carry_transition",
+            "time": 5.0
+          },
+          {
+            "phase": "carry_hold",
+            "time": 9.64
+          },
+          {
+            "phase": "extension_transition",
+            "time": 14.64,
+            "ik_error_m": 0.0010303994024836059,
+            "joint_goal": [
+              0.260671021539157,
+              0.25440406460291426,
+              0.007392337005679726,
+              1.0207469153795627,
+              0.19180800620231636,
+              0.028258796544501676,
+              0.0601255027111991,
+              -0.525771716721533,
+              -0.39996638466432544,
+              -0.09439271266444475,
+              0.11603662983053223,
+              0.3745385353420631,
+              0.38014335556651974,
+              0.02643063698137158
+            ]
+          },
+          {
+            "phase": "extension_hold",
+            "time": 17.72
+          }
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_arm_stability_20261022/cycle05_carry_control.json",
+      "sha256": "2de538c04bf5fb347c565a5d8c47e433a6baafd914e60413b28c0fc6e26bdea6",
+      "data": {
+        "scope": "synchronous free-base Dex3 arm stability diagnostic; not delivery qualification",
+        "mode": "carry",
+        "stabilization": "none",
+        "initial_yaw_rad": 0.0,
+        "maneuver_preamble": false,
+        "filtered_heading": false,
+        "heading_gains": [
+          4.0,
+          0.35
+        ],
+        "staged": false,
+        "extension_x_m": 0.42,
+        "prescribed_extension_joints": null,
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+        "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+        "script_sha256": "0c85630c3be112504b15789e486506ae46dc19e1e80cc1c2bb52b4dcae243cbc",
+        "source_sha256": {
+          "scripts/native_probe_feedback.py": "287f9f95f29b200d6d3e5fd5be3bb90890a5fe7ed79bd148d5f1d52cc30a510c",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/manipulation_heading.py": "ff038b99517b48bc6ddb9f6579df61067d33a057c0b7d7d3e6f71db7213d2edf",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "72361d7a40ce79256bf31a6e3cdeb7e2329a6c66504fb55e006fd28d2a28b39c",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/unitree_rl_lab_policy.py": "7a572546c5dc925d31b27ad5e9c9f7831875cec9c0a064a3cfa323518fb4b17b",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/g1_constants.py": "6bd9817486d4fecef49dcb8e6f8470f862f950e0a1f1e62944f51a99e1c87166"
+        },
+        "model_dynamics_sha256": "52906ae556fd816abc1af3ebf753468297ec23b37302211329e74bb44fbcc398",
+        "scene_sha256": "4567e1c86eacfca455b5cfbff0599feb88278e5b9fe602c2f001be16063393c4",
+        "mujoco_version": "3.3.6",
+        "equality_constraints": 0,
+        "object_forces": false,
+        "root_pose_control": false,
+        "action_feedback": "published_actor_action",
+        "joint_and_pd_feedback": "native_sensors",
+        "completed": true,
+        "fallen": false,
+        "planning_error": null,
+        "external_contacts": [],
+        "holds": {
+          "carry_hold": {
+            "duration_s": 9.98,
+            "translation_m": 0.009555248827819694,
+            "yaw_excursion_rad": 0.008108794281707798,
+            "max_tilt_rad": 0.04519795199335658,
+            "max_hand_drift_m": 0.017525964738509675
+          }
+        },
+        "phase_metrics": {
+          "actor_stand": {
+            "duration_s": 4.98,
+            "translation_m": 0.03286068621523955,
+            "yaw_excursion_rad": 0.0826698389907644,
+            "max_tilt_rad": 0.05683935870275483,
+            "max_hand_drift_m": 0.053484226889950824
+          },
+          "carry_hold": {
+            "duration_s": 9.98,
+            "translation_m": 0.009555248827819694,
+            "yaw_excursion_rad": 0.008108794281707798,
+            "max_tilt_rad": 0.04519795199335658,
+            "max_hand_drift_m": 0.017525964738509675
+          },
+          "carry_transition": {
+            "duration_s": 4.620000000000001,
+            "translation_m": 0.0160658509611269,
+            "yaw_excursion_rad": 0.03444099945902214,
+            "max_tilt_rad": 0.05815788669434577,
+            "max_hand_drift_m": 0.6721159871382469
+          }
+        },
+        "events": [
+          {
+            "phase": "carry_transition",
+            "time": 5.0
+          },
+          {
+            "phase": "carry_hold",
+            "time": 9.64
+          }
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_arm_stability_20261022/cycle05_free_control.json",
+      "sha256": "65cefdc6ea478011e544e3fb341ed2b3bf15430491ac2c2b46f0c3131ff45198",
+      "data": {
+        "scope": "synchronous free-base Dex3 arm stability diagnostic; not delivery qualification",
+        "mode": "free",
+        "stabilization": "none",
+        "initial_yaw_rad": 0.0,
+        "maneuver_preamble": false,
+        "filtered_heading": false,
+        "heading_gains": [
+          4.0,
+          0.35
+        ],
+        "staged": false,
+        "extension_x_m": 0.42,
+        "prescribed_extension_joints": null,
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+        "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+        "script_sha256": "0c85630c3be112504b15789e486506ae46dc19e1e80cc1c2bb52b4dcae243cbc",
+        "source_sha256": {
+          "scripts/native_probe_feedback.py": "287f9f95f29b200d6d3e5fd5be3bb90890a5fe7ed79bd148d5f1d52cc30a510c",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/manipulation_heading.py": "ff038b99517b48bc6ddb9f6579df61067d33a057c0b7d7d3e6f71db7213d2edf",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "72361d7a40ce79256bf31a6e3cdeb7e2329a6c66504fb55e006fd28d2a28b39c",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/unitree_rl_lab_policy.py": "7a572546c5dc925d31b27ad5e9c9f7831875cec9c0a064a3cfa323518fb4b17b",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/g1_constants.py": "6bd9817486d4fecef49dcb8e6f8470f862f950e0a1f1e62944f51a99e1c87166"
+        },
+        "model_dynamics_sha256": "52906ae556fd816abc1af3ebf753468297ec23b37302211329e74bb44fbcc398",
+        "scene_sha256": "4567e1c86eacfca455b5cfbff0599feb88278e5b9fe602c2f001be16063393c4",
+        "mujoco_version": "3.3.6",
+        "equality_constraints": 0,
+        "object_forces": false,
+        "root_pose_control": false,
+        "action_feedback": "published_actor_action",
+        "joint_and_pd_feedback": "native_sensors",
+        "completed": true,
+        "fallen": false,
+        "planning_error": null,
+        "external_contacts": [],
+        "holds": {
+          "free_hold": {
+            "duration_s": 9.98,
+            "translation_m": 0.01035599773343208,
+            "yaw_excursion_rad": 0.24208706215256942,
+            "max_tilt_rad": 0.06254782483781396,
+            "max_hand_drift_m": 0.059014920554632866
+          }
+        },
+        "phase_metrics": {
+          "actor_stand": {
+            "duration_s": 4.98,
+            "translation_m": 0.03286068621523955,
+            "yaw_excursion_rad": 0.0826698389907644,
+            "max_tilt_rad": 0.05683935870275483,
+            "max_hand_drift_m": 0.053484226889950824
+          },
+          "free_hold": {
+            "duration_s": 9.98,
+            "translation_m": 0.01035599773343208,
+            "yaw_excursion_rad": 0.24208706215256942,
+            "max_tilt_rad": 0.06254782483781396,
+            "max_hand_drift_m": 0.059014920554632866
+          }
+        },
+        "events": [
+          {
+            "phase": "free_hold",
+            "time": 5.0
+          }
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_arm_stability_20261022/cycle05_maneuver_filtered.json",
+      "sha256": "124372386b5b22b4a3ba15cdf24be496f42519d50a7829e9882032af443bff26",
+      "data": {
+        "scope": "synchronous free-base Dex3 arm stability diagnostic; not delivery qualification",
+        "mode": "extend",
+        "stabilization": "heading",
+        "initial_yaw_rad": 0.0,
+        "maneuver_preamble": true,
+        "filtered_heading": true,
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+        "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+        "script_sha256": "9dc86ade05813c07adad205e4dcbc7bba5fb95cba84dd131482b2a3b5f9c6ec3",
+        "scene_sha256": "4567e1c86eacfca455b5cfbff0599feb88278e5b9fe602c2f001be16063393c4",
+        "mujoco_version": "3.3.6",
+        "equality_constraints": 0,
+        "object_forces": false,
+        "root_pose_control": false,
+        "action_feedback": "published_actor_action",
+        "joint_and_pd_feedback": "native_sensors",
+        "completed": true,
+        "fallen": false,
+        "planning_error": null,
+        "external_contacts": [],
+        "holds": {
+          "carry_hold": {
+            "duration_s": 4.98,
+            "translation_m": 0.005768898871923689,
+            "yaw_excursion_rad": 0.023791080405838105,
+            "max_tilt_rad": 0.04528195049577802,
+            "max_hand_drift_m": 0.014559952185747817
+          },
+          "extension_hold": {
+            "duration_s": 9.999999999999996,
+            "translation_m": 0.008471339585186645,
+            "yaw_excursion_rad": 0.04721520150923697,
+            "max_tilt_rad": 0.01019831818178322,
+            "max_hand_drift_m": 0.027560717862709725
+          }
+        },
+        "events": [
+          {
+            "phase": "carry_transition",
+            "time": 15.0
+          },
+          {
+            "phase": "carry_hold",
+            "time": 19.68
+          },
+          {
+            "phase": "extension_transition",
+            "time": 24.68,
+            "ik_error_m": 0.0010219348933608583,
+            "joint_goal": [
+              0.27338472519717943,
+              0.26475282158168906,
+              -0.0019678469627452525,
+              1.0320075486386673,
+              0.1874887757699744,
+              0.01940066768455258,
+              0.045450762827966555,
+              -0.5248401519668934,
+              -0.3985131761959049,
+              -0.09712558616878747,
+              0.1184217764824929,
+              0.3747310761449904,
+              0.37750046112905494,
+              0.029068436078387057
+            ]
+          },
+          {
+            "phase": "extension_hold",
+            "time": 27.76
+          }
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_arm_stability_20261022/cycle05_maneuver_filtered_kp4.json",
+      "sha256": "8865b3b74c80d465ad908731d0180878c4d47ce87e93e374c103991de6dfeddf",
+      "data": {
+        "scope": "synchronous free-base Dex3 arm stability diagnostic; not delivery qualification",
+        "mode": "extend",
+        "stabilization": "heading",
+        "initial_yaw_rad": 0.0,
+        "maneuver_preamble": true,
+        "filtered_heading": true,
+        "heading_gains": [
+          4.0,
+          0.35
+        ],
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+        "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+        "script_sha256": "4560d199ee860aac1738eb42e544e4fbd699697e95508ae1078bb6755dc25bec",
+        "scene_sha256": "4567e1c86eacfca455b5cfbff0599feb88278e5b9fe602c2f001be16063393c4",
+        "mujoco_version": "3.3.6",
+        "equality_constraints": 0,
+        "object_forces": false,
+        "root_pose_control": false,
+        "action_feedback": "published_actor_action",
+        "joint_and_pd_feedback": "native_sensors",
+        "completed": true,
+        "fallen": false,
+        "planning_error": null,
+        "external_contacts": [],
+        "holds": {
+          "carry_hold": {
+            "duration_s": 4.98,
+            "translation_m": 0.0057758685051231525,
+            "yaw_excursion_rad": 0.007503951270125153,
+            "max_tilt_rad": 0.045310793362311017,
+            "max_hand_drift_m": 0.014582424949782874
+          },
+          "extension_hold": {
+            "duration_s": 9.999999999999996,
+            "translation_m": 0.007222918301200403,
+            "yaw_excursion_rad": 0.015417358487227695,
+            "max_tilt_rad": 0.009003163985569588,
+            "max_hand_drift_m": 0.013901592062564996
+          }
+        },
+        "events": [
+          {
+            "phase": "carry_transition",
+            "time": 15.0
+          },
+          {
+            "phase": "carry_hold",
+            "time": 19.68
+          },
+          {
+            "phase": "extension_transition",
+            "time": 24.68,
+            "ik_error_m": 0.0010235016804078006,
+            "joint_goal": [
+              0.2734405011499891,
+              0.26475927559476475,
+              -0.001978889907914518,
+              1.0320324617742644,
+              0.18747759463134328,
+              0.019408033011774135,
+              0.04543673868820532,
+              -0.5253992525026199,
+              -0.39833900498972574,
+              -0.0965382839970352,
+              0.11883865052924919,
+              0.3742648781203511,
+              0.3776909172353152,
+              0.028943967662460494
+            ]
+          },
+          {
+            "phase": "extension_hold",
+            "time": 27.76
+          }
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_arm_stability_20261022/cycle05_maneuver_heading.json",
+      "sha256": "1f4b72397da627f57549f2606428f6fdbbb5d789c497d5f2bc37819c5fc94552",
+      "data": {
+        "scope": "synchronous free-base Dex3 arm stability diagnostic; not delivery qualification",
+        "mode": "extend",
+        "stabilization": "heading",
+        "initial_yaw_rad": 0.0,
+        "maneuver_preamble": true,
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+        "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+        "script_sha256": "c5930335280124676bcd963631a63594900252299af76437d60d74d01a6eccd6",
+        "scene_sha256": "4567e1c86eacfca455b5cfbff0599feb88278e5b9fe602c2f001be16063393c4",
+        "mujoco_version": "3.3.6",
+        "equality_constraints": 0,
+        "object_forces": false,
+        "root_pose_control": false,
+        "action_feedback": "published_actor_action",
+        "joint_and_pd_feedback": "native_sensors",
+        "completed": true,
+        "fallen": false,
+        "planning_error": null,
+        "external_contacts": [],
+        "holds": {
+          "carry_hold": {
+            "duration_s": 4.98,
+            "translation_m": 0.0054871306402759805,
+            "yaw_excursion_rad": 0.001209593508446405,
+            "max_tilt_rad": 0.04503837011163358,
+            "max_hand_drift_m": 0.014487159278116977
+          },
+          "extension_hold": {
+            "duration_s": 9.999999999999996,
+            "translation_m": 0.006747302467638105,
+            "yaw_excursion_rad": 0.009985405553077586,
+            "max_tilt_rad": 0.008411820061443292,
+            "max_hand_drift_m": 0.011659097081384413
+          }
+        },
+        "events": [
+          {
+            "phase": "carry_transition",
+            "time": 15.0
+          },
+          {
+            "phase": "carry_hold",
+            "time": 19.68
+          },
+          {
+            "phase": "extension_transition",
+            "time": 24.68,
+            "ik_error_m": 0.0010242990220875802,
+            "joint_goal": [
+              0.273481430943532,
+              0.26475540459955255,
+              -0.00198198936498936,
+              1.0320459012504326,
+              0.18747441152442357,
+              0.019409690675593963,
+              0.045426249397170396,
+              -0.5257578000680989,
+              -0.3981346545388443,
+              -0.09624964535213544,
+              0.11934025205005716,
+              0.37390039037031375,
+              0.37767814574593384,
+              0.028998582739238703
+            ]
+          },
+          {
+            "phase": "extension_hold",
+            "time": 27.76
+          }
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_arm_stability_20261022/cycle05_maneuver_none.json",
+      "sha256": "699856a7dd1f29db6e6e78f31a4640a22aee749fc33cd339a62b8f7ef2eefc35",
+      "data": {
+        "scope": "synchronous free-base Dex3 arm stability diagnostic; not delivery qualification",
+        "mode": "extend",
+        "stabilization": "none",
+        "initial_yaw_rad": 0.0,
+        "maneuver_preamble": true,
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+        "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+        "script_sha256": "c5930335280124676bcd963631a63594900252299af76437d60d74d01a6eccd6",
+        "scene_sha256": "4567e1c86eacfca455b5cfbff0599feb88278e5b9fe602c2f001be16063393c4",
+        "mujoco_version": "3.3.6",
+        "equality_constraints": 0,
+        "object_forces": false,
+        "root_pose_control": false,
+        "action_feedback": "published_actor_action",
+        "joint_and_pd_feedback": "native_sensors",
+        "completed": true,
+        "fallen": false,
+        "planning_error": null,
+        "external_contacts": [],
+        "holds": {
+          "carry_hold": {
+            "duration_s": 4.98,
+            "translation_m": 0.005767160402331508,
+            "yaw_excursion_rad": 0.027649058840984564,
+            "max_tilt_rad": 0.04523856962479567,
+            "max_hand_drift_m": 0.014523101775375559
+          },
+          "extension_hold": {
+            "duration_s": 9.999999999999996,
+            "translation_m": 0.007135701826871373,
+            "yaw_excursion_rad": 0.10017448822217356,
+            "max_tilt_rad": 0.010467018306596803,
+            "max_hand_drift_m": 0.04856542509743567
+          }
+        },
+        "events": [
+          {
+            "phase": "carry_transition",
+            "time": 15.0
+          },
+          {
+            "phase": "carry_hold",
+            "time": 19.68
+          },
+          {
+            "phase": "extension_transition",
+            "time": 24.68,
+            "ik_error_m": 0.0010208909565160738,
+            "joint_goal": [
+              0.2733596853060681,
+              0.264839259797539,
+              -0.001934720060837218,
+              1.0319889182439483,
+              0.1874648697436985,
+              0.01939399075399693,
+              0.04546820616065349,
+              -0.5260153916962883,
+              -0.39714679530526936,
+              -0.09696074553704265,
+              0.12035135832591197,
+              0.3738012280044529,
+              0.376653325481682,
+              0.0301564546850175
+            ]
+          },
+          {
+            "phase": "extension_hold",
+            "time": 27.76
+          }
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_arm_stability_20261022/cycle05_maneuver_rotated_heading.json",
+      "sha256": "83467f98510543a9f1d36fe91f2a07cda86c45abd08d8343b1ca20c5133dce66",
+      "data": {
+        "scope": "synchronous free-base Dex3 arm stability diagnostic; not delivery qualification",
+        "mode": "extend",
+        "stabilization": "heading",
+        "initial_yaw_rad": 1.5707963267948966,
+        "maneuver_preamble": true,
+        "filtered_heading": true,
+        "heading_gains": [
+          4.0,
+          0.35
+        ],
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+        "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+        "script_sha256": "4560d199ee860aac1738eb42e544e4fbd699697e95508ae1078bb6755dc25bec",
+        "scene_sha256": "4567e1c86eacfca455b5cfbff0599feb88278e5b9fe602c2f001be16063393c4",
+        "mujoco_version": "3.3.6",
+        "equality_constraints": 0,
+        "object_forces": false,
+        "root_pose_control": false,
+        "action_feedback": "published_actor_action",
+        "joint_and_pd_feedback": "native_sensors",
+        "completed": true,
+        "fallen": false,
+        "planning_error": null,
+        "external_contacts": [],
+        "holds": {
+          "carry_hold": {
+            "duration_s": 4.98,
+            "translation_m": 0.004155095953799703,
+            "yaw_excursion_rad": 0.0016926490370976488,
+            "max_tilt_rad": 0.04407810201044094,
+            "max_hand_drift_m": 0.01141221668084727
+          },
+          "extension_hold": {
+            "duration_s": 9.98,
+            "translation_m": 0.0017904666548615427,
+            "yaw_excursion_rad": 0.0004238801040772344,
+            "max_tilt_rad": 0.0077096046236517285,
+            "max_hand_drift_m": 0.004151296893193865
+          }
+        },
+        "events": [
+          {
+            "phase": "carry_transition",
+            "time": 15.0
+          },
+          {
+            "phase": "carry_hold",
+            "time": 19.7
+          },
+          {
+            "phase": "extension_transition",
+            "time": 24.7,
+            "ik_error_m": 0.0010405953549302497,
+            "joint_goal": [
+              0.2719917819352961,
+              0.26199265777038633,
+              -0.005399755934382165,
+              1.0418336191517246,
+              0.195854901571965,
+              0.01083935957705747,
+              0.05183884295318387,
+              -0.5292990796579122,
+              -0.39747405034463945,
+              -0.0918509948107509,
+              0.12397863720630756,
+              0.3698124101872627,
+              0.37895520022422335,
+              0.027805376728756714
+            ]
+          },
+          {
+            "phase": "extension_hold",
+            "time": 27.8
+          }
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_arm_stability_20261022/cycle05_recorded_branch.json",
+      "sha256": "74114fd2e8ee47661e6e166c31278e5b52ac964f7e08432433d542a946fabb21",
+      "data": {
+        "scope": "synchronous free-base Dex3 arm stability diagnostic; not delivery qualification",
+        "mode": "extend",
+        "stabilization": "heading",
+        "initial_yaw_rad": 0.0,
+        "maneuver_preamble": true,
+        "filtered_heading": true,
+        "heading_gains": [
+          4.0,
+          0.35
+        ],
+        "staged": true,
+        "extension_x_m": 0.42,
+        "prescribed_extension_joints": [
+          -0.710252,
+          -0.498075,
+          0.305907,
+          0.458589,
+          0.65231,
+          0.113964,
+          -0.197922
+        ],
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+        "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+        "script_sha256": "0944dc0842f2de16af5db97ae707905d523d6bf830543428c896aa5dc1946cae",
+        "scene_sha256": "4567e1c86eacfca455b5cfbff0599feb88278e5b9fe602c2f001be16063393c4",
+        "mujoco_version": "3.3.6",
+        "equality_constraints": 0,
+        "object_forces": false,
+        "root_pose_control": false,
+        "action_feedback": "published_actor_action",
+        "joint_and_pd_feedback": "native_sensors",
+        "completed": true,
+        "fallen": false,
+        "planning_error": null,
+        "external_contacts": [],
+        "holds": {
+          "carry_hold": {
+            "duration_s": 4.98,
+            "translation_m": 0.0057758685051231525,
+            "yaw_excursion_rad": 0.007503951270125153,
+            "max_tilt_rad": 0.045310793362311017,
+            "max_hand_drift_m": 0.014582424949782874
+          },
+          "extension_hold": {
+            "duration_s": 9.980000000000004,
+            "translation_m": 0.007322925642574768,
+            "yaw_excursion_rad": 0.0018475396706422176,
+            "max_tilt_rad": 0.010820582243316076,
+            "max_hand_drift_m": 0.005368603231667988
+          }
+        },
+        "phase_metrics": {
+          "actor_stand": {
+            "duration_s": 14.98,
+            "translation_m": 1.126514280910061,
+            "yaw_excursion_rad": 1.025740761540835,
+            "max_tilt_rad": 0.11051017659886761,
+            "max_hand_drift_m": 1.2843931717181252
+          },
+          "carry_hold": {
+            "duration_s": 4.98,
+            "translation_m": 0.0057758685051231525,
+            "yaw_excursion_rad": 0.007503951270125153,
+            "max_tilt_rad": 0.045310793362311017,
+            "max_hand_drift_m": 0.014582424949782874
+          },
+          "carry_transition": {
+            "duration_s": 4.66,
+            "translation_m": 0.00952806646880086,
+            "yaw_excursion_rad": 0.021510378418954756,
+            "max_tilt_rad": 0.05407282035432632,
+            "max_hand_drift_m": 0.6828930995249962
+          },
+          "extension_hold": {
+            "duration_s": 9.980000000000004,
+            "translation_m": 0.007322925642574768,
+            "yaw_excursion_rad": 0.0018475396706422176,
+            "max_tilt_rad": 0.010820582243316076,
+            "max_hand_drift_m": 0.005368603231667988
+          },
+          "extension_transition": {
+            "duration_s": 3.16,
+            "translation_m": 0.0050167897173812185,
+            "yaw_excursion_rad": 0.012967593571515446,
+            "max_tilt_rad": 0.05704367822924336,
+            "max_hand_drift_m": 0.18617577656081402
+          },
+          "stage_hold": {
+            "duration_s": 2.979999999999997,
+            "translation_m": 0.001844857338677731,
+            "yaw_excursion_rad": 0.013455745366772631,
+            "max_tilt_rad": 0.055199219574703674,
+            "max_hand_drift_m": 0.006852507676872913
+          },
+          "stage_transition": {
+            "duration_s": 3.1999999999999993,
+            "translation_m": 0.0023353719150046317,
+            "yaw_excursion_rad": 0.002518947117463144,
+            "max_tilt_rad": 0.049676904504617175,
+            "max_hand_drift_m": 0.18197808523875939
+          }
+        },
+        "events": [
+          {
+            "phase": "carry_transition",
+            "time": 15.0
+          },
+          {
+            "phase": "carry_hold",
+            "time": 19.68
+          },
+          {
+            "phase": "stage_transition",
+            "time": 24.68,
+            "ik_error_m": 0.000704134920210622,
+            "joint_goal": [
+              0.2734405011499891,
+              0.26475927559476475,
+              -0.001978889907914518,
+              1.0320324617742644,
+              0.18747759463134328,
+              0.019408033011774135,
+              0.04543673868820532,
+              0.23903022084104492,
+              -0.8300166283288577,
+              -0.03903623710677077,
+              -0.6660872078911455,
+              0.8443825214272966,
+              0.1972860068849464,
+              -0.3617877463180907
+            ]
+          },
+          {
+            "phase": "stage_hold",
+            "time": 27.900000000000002
+          },
+          {
+            "phase": "extension_transition",
+            "time": 30.900000000000002,
+            "ik_error_m": 0.0,
+            "joint_goal": [
+              0.2717389611031675,
+              0.25749429018313424,
+              -0.0028011362703562466,
+              1.0370876676742584,
+              0.18796427724248294,
+              0.02169050409411499,
+              0.04666422099018958,
+              -0.710252,
+              -0.498075,
+              0.305907,
+              0.458589,
+              0.65231,
+              0.113964,
+              -0.197922
+            ]
+          },
+          {
+            "phase": "extension_hold",
+            "time": 34.08
+          }
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_arm_stability_20261022/cycle05_staged_heading.json",
+      "sha256": "af97379df145d9389c9ab285c44c3d7b549550e94d193479c19a5bdda9e48eef",
+      "data": {
+        "scope": "synchronous free-base Dex3 arm stability diagnostic; not delivery qualification",
+        "mode": "extend",
+        "stabilization": "heading",
+        "initial_yaw_rad": 0.0,
+        "maneuver_preamble": true,
+        "filtered_heading": true,
+        "heading_gains": [
+          4.0,
+          0.35
+        ],
+        "staged": true,
+        "extension_x_m": 0.45,
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+        "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+        "script_sha256": "d18240fec4162f8acd122ed0c66b0ca44f5b4e757c57dbb0608b719d8195e74a",
+        "scene_sha256": "4567e1c86eacfca455b5cfbff0599feb88278e5b9fe602c2f001be16063393c4",
+        "mujoco_version": "3.3.6",
+        "equality_constraints": 0,
+        "object_forces": false,
+        "root_pose_control": false,
+        "action_feedback": "published_actor_action",
+        "joint_and_pd_feedback": "native_sensors",
+        "completed": true,
+        "fallen": false,
+        "planning_error": null,
+        "external_contacts": [],
+        "holds": {
+          "carry_hold": {
+            "duration_s": 4.98,
+            "translation_m": 0.0057758685051231525,
+            "yaw_excursion_rad": 0.007503951270125153,
+            "max_tilt_rad": 0.045310793362311017,
+            "max_hand_drift_m": 0.014582424949782874
+          },
+          "extension_hold": {
+            "duration_s": 9.979999999999997,
+            "translation_m": 0.002992851197758971,
+            "yaw_excursion_rad": 0.001900042252210743,
+            "max_tilt_rad": 0.014314069426303793,
+            "max_hand_drift_m": 0.006752324968756466
+          }
+        },
+        "phase_metrics": {
+          "actor_stand": {
+            "duration_s": 14.98,
+            "translation_m": 1.126514280910061,
+            "yaw_excursion_rad": 1.025740761540835,
+            "max_tilt_rad": 0.11051017659886761,
+            "max_hand_drift_m": 1.2843931717181252
+          },
+          "carry_hold": {
+            "duration_s": 4.98,
+            "translation_m": 0.0057758685051231525,
+            "yaw_excursion_rad": 0.007503951270125153,
+            "max_tilt_rad": 0.045310793362311017,
+            "max_hand_drift_m": 0.014582424949782874
+          },
+          "carry_transition": {
+            "duration_s": 4.66,
+            "translation_m": 0.00952806646880086,
+            "yaw_excursion_rad": 0.021510378418954756,
+            "max_tilt_rad": 0.05407282035432632,
+            "max_hand_drift_m": 0.6828930995249962
+          },
+          "extension_hold": {
+            "duration_s": 9.979999999999997,
+            "translation_m": 0.002992851197758971,
+            "yaw_excursion_rad": 0.001900042252210743,
+            "max_tilt_rad": 0.014314069426303793,
+            "max_hand_drift_m": 0.006752324968756466
+          },
+          "extension_transition": {
+            "duration_s": 3.139999999999997,
+            "translation_m": 0.011163549849569316,
+            "yaw_excursion_rad": 0.013082490928264412,
+            "max_tilt_rad": 0.056895091974612635,
+            "max_hand_drift_m": 0.19379344910778384
+          },
+          "stage_hold": {
+            "duration_s": 2.979999999999997,
+            "translation_m": 0.001844857338677731,
+            "yaw_excursion_rad": 0.013455745366772631,
+            "max_tilt_rad": 0.055199219574703674,
+            "max_hand_drift_m": 0.006852507676872913
+          },
+          "stage_transition": {
+            "duration_s": 3.1999999999999993,
+            "translation_m": 0.0023353719150046317,
+            "yaw_excursion_rad": 0.002518947117463144,
+            "max_tilt_rad": 0.049676904504617175,
+            "max_hand_drift_m": 0.18197808523875939
+          }
+        },
+        "events": [
+          {
+            "phase": "carry_transition",
+            "time": 15.0
+          },
+          {
+            "phase": "carry_hold",
+            "time": 19.68
+          },
+          {
+            "phase": "stage_transition",
+            "time": 24.68,
+            "ik_error_m": 0.000704134920210622,
+            "joint_goal": [
+              0.2734405011499891,
+              0.26475927559476475,
+              -0.001978889907914518,
+              1.0320324617742644,
+              0.18747759463134328,
+              0.019408033011774135,
+              0.04543673868820532,
+              0.23903022084104492,
+              -0.8300166283288577,
+              -0.03903623710677077,
+              -0.6660872078911455,
+              0.8443825214272966,
+              0.1972860068849464,
+              -0.3617877463180907
+            ]
+          },
+          {
+            "phase": "stage_hold",
+            "time": 27.900000000000002
+          },
+          {
+            "phase": "extension_transition",
+            "time": 30.900000000000002,
+            "ik_error_m": 0.0011503071329460712,
+            "joint_goal": [
+              0.2717389611031675,
+              0.25749429018313424,
+              -0.0028011362703562466,
+              1.0370876676742584,
+              0.18796427724248294,
+              0.02169050409411499,
+              0.04666422099018958,
+              -0.7008512847368497,
+              -0.3510763422124794,
+              -0.12184221369471539,
+              0.45295687604145113,
+              0.2719789548492058,
+              0.24713518152697703,
+              0.10440949794776033
+            ]
+          },
+          {
+            "phase": "extension_hold",
+            "time": 34.06
+          }
+        ]
+      }
+    }
+  ],
+  "evaluation_trajectories": [
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/dex3_contact_delivery_heading_reproject_20261022/evaluation_object_history.json",
+      "sha256": "305af40b0d193f4567dfd8a3da94dd9c3905093af1b4128230615540dcfdb92a"
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/dex3_contact_delivery_heading_standoff37_20261022/evaluation_object_history.json",
+      "sha256": "8d28e306725766aee8ff9e82dabbce820358308a45ae2069a8f45dd4f5e2ff4b"
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/dex3_contact_delivery_headinghold_20261022/evaluation_object_history.json",
+      "sha256": "5fcb82c459ac69ee445f0505ea3b00e2d54e2d494476ad337cf79966b6ae111c"
+    }
+  ],
+  "mobile_attempts": [
+    {
+      "run": "dex3_contact_delivery_heading_reproject_20261022",
+      "world": "transport_dual",
+      "people": 0,
+      "layout_seed": null,
+      "seed": 42,
+      "objective": {
+        "pairs": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red"
+          }
+        ],
+        "task_seed": null,
+        "mode": "red:red",
+        "description": "Put the red object on the red goal"
+      },
+      "policy": "vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+      "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+      "configuration": {
+        "policy_device_clock": "true",
+        "numeric_thread_environment": {},
+        "application_timing": "false",
+        "arm_executor_threads": "2",
+        "arm_repeat_period": "0.0",
+        "slam_loop_closing": "true",
+        "tracker_body_wall_sheets": true,
+        "predictive_refuge": false,
+        "early_overtaking_avoidance": false,
+        "navigation_profile_sha256": "3c20b55a91b027dcdcf65bc8b01493bd6206b3b3348a94b00d895d6c6f018ff1"
+      },
+      "success": false,
+      "mission_complete": false,
+      "data_valid": true,
+      "artifact_complete": true,
+      "fallen": false,
+      "contacts": 0,
+      "error": "continuous Cartesian path unreachable",
+      "minimum_person_clearance_m": null,
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_red",
+          "color": "red",
+          "destination_color": "red",
+          "verified": false,
+          "lift_m": 0.0,
+          "travel_m": 3.603183924601427e-05
+        }
+      ],
+      "dropped_objects": [],
+      "attachment_state": "empty",
+      "object_may_be_held": false,
+      "completion_s": null,
+      "last_recorded_event_s": 104.60005571495276,
+      "deadline_s": 420.0,
+      "search": null,
+      "discoveries": [],
+      "placement_alignment": [],
+      "workspace_recovery_events": [],
+      "route_blockage": {},
+      "result_sha256": "28a2235ebdd1c2281a7c22f0c40eb23d5e2c4dc9b38d4ec8c325c94664813220",
+      "manifest_sha256": "2b37d1590aef2524fb5c90b902431e7dc0a08a28c39c4bee8d1601d4c938b4d5",
+      "source_archive_sha256": "46c813c8d7a16748bf76f6d1e3b7fafc5150d190846786929ad8a40b32a7d865",
+      "effective_parameters_sha256": "a864e19ac4de2b3e62175ad49a62b9aeb519dda425f6e3512b309f16eaa5191e",
+      "runtime_metrics": {
+        "command_receipt_age_at_target_publish_s": {
+          "count": 5045,
+          "min": 0.004458427429199219,
+          "median": 0.017205238342285156,
+          "p95": 0.02938213348388672,
+          "p99": 0.0352110290527344,
+          "max": 0.062409400939941406
+        },
+        "escape_worker_submit_to_complete_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_receive_to_callback_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_source_to_callback_ms": {
+          "count": 5045,
+          "min": 0.9865760803222656,
+          "median": 2.635955810546875,
+          "p95": 4.762983322143555,
+          "p99": 5.937881469726569,
+          "max": 13.023614883422852
+        },
+        "lowstate_dds_source_to_target_publish_ms": {
+          "count": 5045,
+          "min": 3.3233165740966797,
+          "median": 8.830785751342773,
+          "p95": 15.87686538696289,
+          "p99": 20.205755233764663,
+          "max": 29.9527645111084
+        },
+        "lowstate_receipt_age_at_target_publish_s": {
+          "count": 5045,
+          "min": 0.0020959879038855433,
+          "median": 0.006179130985401571,
+          "p95": 0.012261644657701255,
+          "p99": 0.01665887434501203,
+          "max": 0.026675197994336486
+        },
+        "odom_source_age_at_logger_receipt_s": {
+          "count": 1569,
+          "min": 0.04987955093383789,
+          "median": 0.08232688903808594,
+          "p95": 0.09815902709960934,
+          "p99": 0.11074578285217283,
+          "max": 0.13658380508422852
+        },
+        "planner_thread_ms": {
+          "count": 2179,
+          "min": 0.334,
+          "median": 5.141,
+          "p95": 11.586699999999997,
+          "p99": 13.099279999999995,
+          "max": 14.299
+        },
+        "planner_wall_active_ms": {
+          "count": 1467,
+          "min": 1.77,
+          "median": 9.654,
+          "p95": 12.595400000000001,
+          "p99": 13.417519999999998,
+          "max": 18.363
+        },
+        "planner_wall_ms": {
+          "count": 2179,
+          "min": 0.333,
+          "median": 5.156,
+          "p95": 11.757399999999999,
+          "p99": 13.194759999999999,
+          "max": 18.363
+        },
+        "policy_cmd_source_age_at_logger_receipt_s": {
+          "count": 5140,
+          "min": 0.0004420280456542969,
+          "median": 0.0010176897048950195,
+          "p95": 0.003663182258605959,
+          "p99": 0.006126656532287594,
+          "max": 0.020162343978881836
+        },
+        "policy_complete_to_publish_ms": {
+          "count": 5045,
+          "min": 0.3987080417573452,
+          "median": 0.785948010161519,
+          "p95": 2.8537014499306683,
+          "p99": 4.40564849879593,
+          "max": 10.367467999458313
+        },
+        "policy_observation_interval_ms": {
+          "count": 5045,
+          "min": 20.0,
+          "median": 20.0,
+          "p95": 24.0,
+          "p99": 26.0,
+          "max": 32.0
+        },
+        "policy_observation_interval_over_period": {
+          "count": 5045,
+          "min": 1.0,
+          "median": 1.0,
+          "p95": 1.2,
+          "p99": 1.2999999999999998,
+          "max": 1.6
+        },
+        "policy_submit_to_complete_ms": {
+          "count": 5045,
+          "min": 0.8470120374113321,
+          "median": 3.877469920553267,
+          "p95": 9.402561211027205,
+          "p99": 13.644235916435727,
+          "max": 24.76425899658352
+        },
+        "policy_submit_to_publish_ms": {
+          "count": 5045,
+          "min": 1.3509599957615137,
+          "median": 4.9481079913675785,
+          "p95": 10.728662135079505,
+          "p99": 14.880680819042036,
+          "max": 25.675402954220772
+        },
+        "prediction_age_at_command_publish_s": {
+          "count": 2116,
+          "min": 0.12761902809143066,
+          "median": 0.20214331150054932,
+          "p95": 0.27265530824661255,
+          "p99": 0.3059486627578734,
+          "max": 0.36078500747680664
+        },
+        "prediction_age_at_planning_snapshot_s": {
+          "count": 2116,
+          "min": 0.1271,
+          "median": 0.20165,
+          "p95": 0.2721,
+          "p99": 0.3053049999999999,
+          "max": 0.3603
+        },
+        "rtf_monotonic_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "rtf_ros_legacy_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "scan_age_at_command_publish_s": {
+          "count": 2116,
+          "min": 0.08,
+          "median": 0.139,
+          "p95": 0.172,
+          "p99": 0.19409999999999947,
+          "max": 0.361
+        },
+        "scan_age_at_planning_snapshot_s": {
+          "count": 2116,
+          "min": 0.079,
+          "median": 0.139,
+          "p95": 0.171,
+          "p99": 0.19309999999999947,
+          "max": 0.36
+        },
+        "scoring_candidate_total_ms": {
+          "count": 1467,
+          "min": 0.94,
+          "median": 8.076,
+          "p95": 9.426,
+          "p99": 9.89502,
+          "max": 17.072
+        },
+        "scoring_rollout_ms": {
+          "count": 1467,
+          "min": 0.301,
+          "median": 0.91,
+          "p95": 1.027,
+          "p99": 1.073,
+          "max": 3.241
+        },
+        "scoring_static_ms": {
+          "count": 1467,
+          "min": 0.53,
+          "median": 6.941,
+          "p95": 8.222100000000001,
+          "p99": 8.639759999999999,
+          "max": 13.613
+        },
+        "supervisor_escape_control_path_ms": {
+          "count": 5455,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "supervisor_input_age_s": {
+          "count": 5358,
+          "min": 0.001,
+          "median": 0.027,
+          "p95": 0.052,
+          "p99": 0.06,
+          "max": 0.074
+        },
+        "supervisor_predictive_search_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "supervisor_tick_interval_ms": {
+          "count": 5454,
+          "min": 4.9108220264315605,
+          "median": 19.999409443698823,
+          "p95": 23.765945254126557,
+          "p99": 27.11622763425113,
+          "max": 38.91382599249482
+        },
+        "supervisor_tick_to_publication_ms": {
+          "count": 5455,
+          "min": 0.14914199709892273,
+          "median": 0.7275779498741031,
+          "p95": 1.6124877729453153,
+          "p99": 3.295291955582798,
+          "max": 11.490663047879934
+        },
+        "tracks_age_at_command_publish_s": {
+          "count": 2116,
+          "min": 0.12761902809143066,
+          "median": 0.20124304294586182,
+          "p95": 0.27259361743927,
+          "p99": 0.30590828657150254,
+          "max": 0.36078500747680664
+        },
+        "tracks_age_at_planning_snapshot_s": {
+          "count": 2116,
+          "min": 0.1271,
+          "median": 0.2007,
+          "p95": 0.272025,
+          "p99": 0.30525999999999986,
+          "max": 0.3603
+        }
+      },
+      "policy_hold_events": [
+        {
+          "sequence": 1,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792692560.5880709,
+          "monotonic_s": 886007.776505294,
+          "device_tick_ms": 0,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        },
+        {
+          "sequence": 2,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792692560.78842,
+          "monotonic_s": 886007.976848763,
+          "device_tick_ms": 2,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        }
+      ],
+      "command_application": {},
+      "command_application_sha256": null
+    },
+    {
+      "run": "dex3_contact_delivery_heading_standoff37_20261022",
+      "world": "transport_dual",
+      "people": 0,
+      "layout_seed": null,
+      "seed": 42,
+      "objective": {
+        "pairs": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red"
+          }
+        ],
+        "task_seed": null,
+        "mode": "red:red",
+        "description": "Put the red object on the red goal"
+      },
+      "policy": "vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+      "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+      "configuration": {
+        "policy_device_clock": "true",
+        "numeric_thread_environment": {},
+        "application_timing": "false",
+        "arm_executor_threads": "2",
+        "arm_repeat_period": "0.0",
+        "slam_loop_closing": "true",
+        "tracker_body_wall_sheets": true,
+        "predictive_refuge": false,
+        "early_overtaking_avoidance": false,
+        "navigation_profile_sha256": "3c20b55a91b027dcdcf65bc8b01493bd6206b3b3348a94b00d895d6c6f018ff1"
+      },
+      "success": false,
+      "mission_complete": false,
+      "data_valid": true,
+      "artifact_complete": true,
+      "fallen": false,
+      "contacts": 0,
+      "error": "continuous Cartesian path unreachable",
+      "minimum_person_clearance_m": null,
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_red",
+          "color": "red",
+          "destination_color": "red",
+          "verified": false,
+          "lift_m": 0.0,
+          "travel_m": 6.717191211731746e-05
+        }
+      ],
+      "dropped_objects": [],
+      "attachment_state": "empty",
+      "object_may_be_held": false,
+      "completion_s": null,
+      "last_recorded_event_s": 91.69953199406154,
+      "deadline_s": 420.0,
+      "search": null,
+      "discoveries": [],
+      "placement_alignment": [],
+      "workspace_recovery_events": [],
+      "route_blockage": {},
+      "result_sha256": "0a065725e994a61ea7e9214395423b92ee7e79845aa5c4f85a04622a227b184d",
+      "manifest_sha256": "63f45b95fc83661d0a030aa4cc9e3fd637186e013454df6a54c84359d94d8ec9",
+      "source_archive_sha256": "5906336843be1a93a9828e31229932f4f888470327961589e6579bba06c19eae",
+      "effective_parameters_sha256": "71105f787fc2d44c0c34f06c189507be85f033cdc862e0ab12b2e8bf802dc400",
+      "runtime_metrics": {
+        "command_receipt_age_at_target_publish_s": {
+          "count": 4387,
+          "min": 0.00411534309387207,
+          "median": 0.016653060913085938,
+          "p95": 0.03017315864562988,
+          "p99": 0.03585827827453615,
+          "max": 0.053571224212646484
+        },
+        "escape_worker_submit_to_complete_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_receive_to_callback_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_source_to_callback_ms": {
+          "count": 4387,
+          "min": 0.9675025939941406,
+          "median": 2.537965774536133,
+          "p95": 4.735565185546874,
+          "p99": 6.158680915832525,
+          "max": 14.724254608154297
+        },
+        "lowstate_dds_source_to_target_publish_ms": {
+          "count": 4387,
+          "min": 3.3130645751953125,
+          "median": 8.680105209350586,
+          "p95": 16.04492664337158,
+          "p99": 20.170989036560062,
+          "max": 31.281709671020508
+        },
+        "lowstate_receipt_age_at_target_publish_s": {
+          "count": 4387,
+          "min": 0.002074860967695713,
+          "median": 0.006093566073104739,
+          "p95": 0.012399595789611329,
+          "p99": 0.016093842810951182,
+          "max": 0.02683908597100526
+        },
+        "odom_source_age_at_logger_receipt_s": {
+          "count": 1377,
+          "min": 0.0380556583404541,
+          "median": 0.07947587966918945,
+          "p95": 0.09877171516418458,
+          "p99": 0.11584657669067384,
+          "max": 0.16687941551208496
+        },
+        "planner_thread_ms": {
+          "count": 1911,
+          "min": 0.354,
+          "median": 6.07,
+          "p95": 12.176,
+          "p99": 13.221300000000003,
+          "max": 14.605
+        },
+        "planner_wall_active_ms": {
+          "count": 1305,
+          "min": 1.225,
+          "median": 9.572,
+          "p95": 12.855,
+          "p99": 13.52844,
+          "max": 19.479
+        },
+        "planner_wall_ms": {
+          "count": 1911,
+          "min": 0.353,
+          "median": 6.09,
+          "p95": 12.295,
+          "p99": 13.416800000000004,
+          "max": 19.479
+        },
+        "policy_cmd_source_age_at_logger_receipt_s": {
+          "count": 4477,
+          "min": 0.0003218650817871094,
+          "median": 0.0009684562683105469,
+          "p95": 0.0034104347229003884,
+          "p99": 0.005977935791015611,
+          "max": 0.015279054641723633
+        },
+        "policy_complete_to_publish_ms": {
+          "count": 4387,
+          "min": 0.4144021077081561,
+          "median": 0.7907639956101775,
+          "p95": 2.968690695706754,
+          "p99": 4.3691220646724105,
+          "max": 8.014735067263246
+        },
+        "policy_observation_interval_ms": {
+          "count": 4387,
+          "min": 20.0,
+          "median": 20.0,
+          "p95": 24.0,
+          "p99": 26.0,
+          "max": 36.0
+        },
+        "policy_observation_interval_over_period": {
+          "count": 4387,
+          "min": 1.0,
+          "median": 1.0,
+          "p95": 1.2,
+          "p99": 1.2999999999999998,
+          "max": 1.7999999999999998
+        },
+        "policy_submit_to_complete_ms": {
+          "count": 4387,
+          "min": 0.8276469307020307,
+          "median": 3.7426549242809415,
+          "p95": 9.47695878567174,
+          "p99": 12.996991551481194,
+          "max": 22.306696977466345
+        },
+        "policy_submit_to_publish_ms": {
+          "count": 4387,
+          "min": 1.3035490410402417,
+          "median": 4.875787999480963,
+          "p95": 10.728988982737054,
+          "p99": 14.298594319261625,
+          "max": 25.322881992906332
+        },
+        "prediction_age_at_command_publish_s": {
+          "count": 1849,
+          "min": 0.11542129516601562,
+          "median": 0.20674633979797363,
+          "p95": 0.28129281997680655,
+          "p99": 0.31224310874938965,
+          "max": 0.36960339546203613
+        },
+        "prediction_age_at_planning_snapshot_s": {
+          "count": 1849,
+          "min": 0.1143,
+          "median": 0.2061,
+          "p95": 0.28059999999999996,
+          "p99": 0.31161999999999995,
+          "max": 0.369
+        },
+        "rtf_monotonic_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "rtf_ros_legacy_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "scan_age_at_command_publish_s": {
+          "count": 1850,
+          "min": 0.078,
+          "median": 0.134,
+          "p95": 0.17,
+          "p99": 0.19251,
+          "max": 0.37
+        },
+        "scan_age_at_planning_snapshot_s": {
+          "count": 1850,
+          "min": 0.077,
+          "median": 0.133,
+          "p95": 0.169,
+          "p99": 0.192,
+          "max": 0.369
+        },
+        "scoring_candidate_total_ms": {
+          "count": 1303,
+          "min": 1.048,
+          "median": 8.024,
+          "p95": 9.3601,
+          "p99": 10.078260000000002,
+          "max": 14.772
+        },
+        "scoring_rollout_ms": {
+          "count": 1303,
+          "min": 0.325,
+          "median": 0.907,
+          "p95": 1.0288999999999997,
+          "p99": 1.09094,
+          "max": 5.002
+        },
+        "scoring_static_ms": {
+          "count": 1303,
+          "min": 0.571,
+          "median": 6.903,
+          "p95": 8.1489,
+          "p99": 8.796800000000001,
+          "max": 13.616
+        },
+        "supervisor_escape_control_path_ms": {
+          "count": 4778,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "supervisor_input_age_s": {
+          "count": 4702,
+          "min": 0.001,
+          "median": 0.029,
+          "p95": 0.052,
+          "p99": 0.057,
+          "max": 0.074
+        },
+        "supervisor_predictive_search_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "supervisor_tick_interval_ms": {
+          "count": 4777,
+          "min": 3.9849120657891035,
+          "median": 20.00097802374512,
+          "p95": 23.656743438914418,
+          "p99": 26.93310793023556,
+          "max": 38.72974496334791
+        },
+        "supervisor_tick_to_publication_ms": {
+          "count": 4778,
+          "min": 0.14887796714901924,
+          "median": 0.7354974513873458,
+          "p95": 1.5003570762928575,
+          "p99": 2.5462310109287163,
+          "max": 10.557283065281808
+        },
+        "tracks_age_at_command_publish_s": {
+          "count": 1849,
+          "min": 0.11542129516601562,
+          "median": 0.20663785934448242,
+          "p95": 0.28060011863708495,
+          "p99": 0.31224310874938965,
+          "max": 0.36960339546203613
+        },
+        "tracks_age_at_planning_snapshot_s": {
+          "count": 1849,
+          "min": 0.1143,
+          "median": 0.206,
+          "p95": 0.2799,
+          "p99": 0.31161999999999995,
+          "max": 0.369
+        }
+      },
+      "policy_hold_events": [
+        {
+          "sequence": 1,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792692749.697869,
+          "monotonic_s": 886196.886302163,
+          "device_tick_ms": 0,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        },
+        {
+          "sequence": 2,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792692749.9197512,
+          "monotonic_s": 886197.108180088,
+          "device_tick_ms": 2,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        }
+      ],
+      "command_application": {},
+      "command_application_sha256": null
+    },
+    {
+      "run": "dex3_contact_delivery_headinghold_20261022",
+      "world": "transport_dual",
+      "people": 0,
+      "layout_seed": null,
+      "seed": 42,
+      "objective": {
+        "pairs": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red"
+          }
+        ],
+        "task_seed": null,
+        "mode": "red:red",
+        "description": "Put the red object on the red goal"
+      },
+      "policy": "vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+      "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+      "configuration": {
+        "policy_device_clock": "true",
+        "numeric_thread_environment": {},
+        "application_timing": "false",
+        "arm_executor_threads": "2",
+        "arm_repeat_period": "0.0",
+        "slam_loop_closing": "true",
+        "tracker_body_wall_sheets": true,
+        "predictive_refuge": false,
+        "early_overtaking_avoidance": false,
+        "navigation_profile_sha256": "3c20b55a91b027dcdcf65bc8b01493bd6206b3b3348a94b00d895d6c6f018ff1"
+      },
+      "success": false,
+      "mission_complete": false,
+      "data_valid": true,
+      "artifact_complete": true,
+      "fallen": false,
+      "contacts": 0,
+      "error": "continuous Cartesian path unreachable",
+      "minimum_person_clearance_m": null,
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_red",
+          "color": "red",
+          "destination_color": "red",
+          "verified": false,
+          "lift_m": 0.0,
+          "travel_m": 0.01768532289809503
+        }
+      ],
+      "dropped_objects": [],
+      "attachment_state": "empty",
+      "object_may_be_held": false,
+      "completion_s": null,
+      "last_recorded_event_s": 98.53912321606185,
+      "deadline_s": 420.0,
+      "search": null,
+      "discoveries": [],
+      "placement_alignment": [],
+      "workspace_recovery_events": [],
+      "route_blockage": {},
+      "result_sha256": "4721e174d95dd30f7b5569bd498add7ef87f63e4652046019a6d0f094cc65b98",
+      "manifest_sha256": "3ff3fbcfc64d95970f277bfd8fa8b1bb162b9a5907581663577bcc4917442f72",
+      "source_archive_sha256": "e183f2dfb91e1fb40e23c89db5ba835d768c1cc6a23d6e53b0762fc92695ad96",
+      "effective_parameters_sha256": "b7bc0186c6d740c4b55b5f03ef940de1a4f317a9c903dd825ba464f0617e389a",
+      "runtime_metrics": {
+        "command_receipt_age_at_target_publish_s": {
+          "count": 4482,
+          "min": 0.0037703514099121094,
+          "median": 0.01822519302368164,
+          "p95": 0.03279143571853638,
+          "p99": 0.03993083477020256,
+          "max": 0.05896186828613281
+        },
+        "escape_worker_submit_to_complete_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_receive_to_callback_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_source_to_callback_ms": {
+          "count": 4482,
+          "min": 1.0411739349365234,
+          "median": 2.834320068359375,
+          "p95": 5.371117591857908,
+          "p99": 7.665591239929163,
+          "max": 16.90387725830078
+        },
+        "lowstate_dds_source_to_target_publish_ms": {
+          "count": 4482,
+          "min": 3.559589385986328,
+          "median": 9.97936725616455,
+          "p95": 18.451130390167233,
+          "p99": 23.74004840850828,
+          "max": 42.430877685546875
+        },
+        "lowstate_receipt_age_at_target_publish_s": {
+          "count": 4482,
+          "min": 0.0021953360410407186,
+          "median": 0.007114729494787753,
+          "p95": 0.014472577132983132,
+          "p99": 0.01952389514772221,
+          "max": 0.0353820959571749
+        },
+        "odom_source_age_at_logger_receipt_s": {
+          "count": 1385,
+          "min": 0.040631771087646484,
+          "median": 0.1098792552947998,
+          "p95": 0.12870502471923828,
+          "p99": 0.14020984649658208,
+          "max": 0.16194629669189453
+        },
+        "planner_thread_ms": {
+          "count": 2028,
+          "min": 0.419,
+          "median": 5.273,
+          "p95": 11.6553,
+          "p99": 13.161990000000001,
+          "max": 14.71
+        },
+        "planner_wall_active_ms": {
+          "count": 1374,
+          "min": 1.284,
+          "median": 9.541,
+          "p95": 12.46505,
+          "p99": 14.68359,
+          "max": 21.353
+        },
+        "planner_wall_ms": {
+          "count": 2028,
+          "min": 0.418,
+          "median": 5.3585,
+          "p95": 11.950549999999998,
+          "p99": 13.99188,
+          "max": 21.353
+        },
+        "policy_cmd_source_age_at_logger_receipt_s": {
+          "count": 4591,
+          "min": 0.00040650367736816406,
+          "median": 0.0012128353118896484,
+          "p95": 0.0048667192459106445,
+          "p99": 0.009122157096862822,
+          "max": 0.025576353073120117
+        },
+        "policy_complete_to_publish_ms": {
+          "count": 4482,
+          "min": 0.4453869769349694,
+          "median": 0.868490431457758,
+          "p95": 3.37802536669187,
+          "p99": 5.060761262429877,
+          "max": 8.467130945064127
+        },
+        "policy_observation_interval_ms": {
+          "count": 4482,
+          "min": 20.0,
+          "median": 20.0,
+          "p95": 24.0,
+          "p99": 30.0,
+          "max": 38.0
+        },
+        "policy_observation_interval_over_period": {
+          "count": 4482,
+          "min": 1.0,
+          "median": 1.0,
+          "p95": 1.2,
+          "p99": 1.5,
+          "max": 1.9
+        },
+        "policy_submit_to_complete_ms": {
+          "count": 4482,
+          "min": 0.8813140448182821,
+          "median": 4.417601507157087,
+          "p95": 10.880112700397149,
+          "p99": 15.552706330781792,
+          "max": 31.399298110045493
+        },
+        "policy_submit_to_publish_ms": {
+          "count": 4482,
+          "min": 1.4334890292957425,
+          "median": 5.685924435965717,
+          "p95": 12.574257154483343,
+          "p99": 17.513869148679074,
+          "max": 33.58463500626385
+        },
+        "prediction_age_at_command_publish_s": {
+          "count": 1938,
+          "min": 0.1258087158203125,
+          "median": 0.2448488473892212,
+          "p95": 0.31531884670257565,
+          "p99": 0.34188959121704093,
+          "max": 0.3946378231048584
+        },
+        "prediction_age_at_planning_snapshot_s": {
+          "count": 1938,
+          "min": 0.1252,
+          "median": 0.244,
+          "p95": 0.314915,
+          "p99": 0.3411409999999999,
+          "max": 0.3938
+        },
+        "rtf_monotonic_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "rtf_ros_legacy_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "scan_age_at_command_publish_s": {
+          "count": 1938,
+          "min": 0.079,
+          "median": 0.169,
+          "p95": 0.205,
+          "p99": 0.2296299999999999,
+          "max": 0.395
+        },
+        "scan_age_at_planning_snapshot_s": {
+          "count": 1938,
+          "min": 0.079,
+          "median": 0.169,
+          "p95": 0.204,
+          "p99": 0.229,
+          "max": 0.394
+        },
+        "scoring_candidate_total_ms": {
+          "count": 1373,
+          "min": 1.06,
+          "median": 7.83,
+          "p95": 9.710199999999999,
+          "p99": 10.522079999999999,
+          "max": 14.888
+        },
+        "scoring_rollout_ms": {
+          "count": 1373,
+          "min": 0.312,
+          "median": 0.925,
+          "p95": 1.055,
+          "p99": 1.11912,
+          "max": 3.553
+        },
+        "scoring_static_ms": {
+          "count": 1373,
+          "min": 0.553,
+          "median": 6.633,
+          "p95": 8.4308,
+          "p99": 9.24104,
+          "max": 12.916
+        },
+        "supervisor_escape_control_path_ms": {
+          "count": 5065,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "supervisor_input_age_s": {
+          "count": 4988,
+          "min": 0.002,
+          "median": 0.028,
+          "p95": 0.052,
+          "p99": 0.058,
+          "max": 0.072
+        },
+        "supervisor_predictive_search_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "supervisor_tick_interval_ms": {
+          "count": 5064,
+          "min": 2.446632948704064,
+          "median": 20.000169053673744,
+          "p95": 24.330112949246537,
+          "p99": 29.44118544925002,
+          "max": 45.42731400579214
+        },
+        "supervisor_tick_to_publication_ms": {
+          "count": 5065,
+          "min": 0.1895989989861846,
+          "median": 0.8062759879976511,
+          "p95": 2.1083989646285777,
+          "p99": 4.63992977980524,
+          "max": 18.030993989668787
+        },
+        "tracks_age_at_command_publish_s": {
+          "count": 1938,
+          "min": 0.1258087158203125,
+          "median": 0.24402093887329102,
+          "p95": 0.3152512311935425,
+          "p99": 0.3413643622398376,
+          "max": 0.3946378231048584
+        },
+        "tracks_age_at_planning_snapshot_s": {
+          "count": 1938,
+          "min": 0.1252,
+          "median": 0.24315,
+          "p95": 0.314615,
+          "p99": 0.340663,
+          "max": 0.3938
+        }
+      },
+      "policy_hold_events": [
+        {
+          "sequence": 1,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792691900.951222,
+          "monotonic_s": 885348.139645659,
+          "device_tick_ms": 0,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        },
+        {
+          "sequence": 2,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792691901.1713011,
+          "monotonic_s": 885348.359729868,
+          "device_tick_ms": 2,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        }
+      ],
+      "command_application": {},
+      "command_application_sha256": null
+    }
+  ]
+}

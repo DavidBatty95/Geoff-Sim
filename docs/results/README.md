@@ -23,6 +23,16 @@ described by the [repository guide](../REPOSITORY_GUIDE.md#where-results-go).
 
 ## Start with a dataset
 
+- **23 October rotational retention:** [cumulative retained evidence](dex3_rotational_retention_20261023.json).
+  [Reference correction, rejected closures and all four follow-up mobile failures](../DEX3_ROTATIONAL_RETENTION_20261023.md).
+
+- **Dex3 contact manipulation:** [all calibration, DDS and mobile outcomes](dex3_contact_20261020.json).
+  [Implementation, complete-run media and remaining gaps](../DEX3_CONTACT_MANIPULATION_20261020.md).
+
+- **20 October local refinement:** [accepted overnight incumbent](layer_search_incumbent_20261020.json)
+  and [next search plan](local_layer_refinement_plan_20261020.json).
+  [Live operation and limitations](../LOCAL_LAYER_SEARCH_20261020.md).
+
 - **Cumulative regression and interpolation:** [inventory](cumulative_stopping_20261019.json),
   [initial interpolation](interpolation_cumulative_20261019.json),
   [initial validation](interpolation_validation_20261019.json),
@@ -201,3 +211,28 @@ and validator outcome. Retain all attempts and state how the record was selected
 Update the relevant experiment report and [status page](../PROJECT_STATUS.md) when
 the evidence changes the project assessment. The default dataset is a deliberate
 publication snapshot, not automatically the newest local experiment.
+# Latest Dex3 follow-up
+
+- [23 October tabletop-clearance evidence](dex3_table_clearance_20261023.json):
+  four near-table probes, three hand-bench cases, two ROS diagnostics and three
+  mobile attempts. [Interpretation](../DEX3_TABLE_CLEARANCE_20261023.md).
+
+- [22 October arm-stability evidence](dex3_arm_stability_20261022.json): eleven
+  native diagnostics and three incomplete mobile attempts.
+  [Interpretation](../DEX3_ARM_STABILITY_20261022.md).
+
+- [21 October Cartesian-approach evidence](dex3_cartesian_development_20261021.json):
+  26 cumulative mobile attempts, including the retained navigation fall.
+  [Interpretation](../DEX3_CARTESIAN_APPROACH_20261021.md).
+
+- [21 October release-development evidence](dex3_release_development_20261021.json):
+  18 cumulative mobile attempts, 27 new release-sweep conditions and three new
+  ROS/DDS checks. [Interpretation](../DEX3_RELEASE_DEVELOPMENT_20261021.md).
+
+- [Later 21 October cumulative evidence](dex3_contact_followup_20261021.json):
+  14 mobile attempts and both-hand retention development.
+  [Interpretation](../DEX3_RETENTION_AND_PLACEMENT_20261021.md).
+
+- [21 October endurance and mobile trials](dex3_contact_20261021.json): all 27
+  closure-sweep conditions, failed controls and nine incomplete mobile attempts.
+  [Interpretation](../DEX3_MOBILE_QUALIFICATION_20261021.md).

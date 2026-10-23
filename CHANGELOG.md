@@ -25,6 +25,20 @@ for measured outcomes and [release policy](docs/RELEASES.md) for promotion crite
 
 ### Added
 
+- Layered demo validation and manipulation presets, strict mobile-result checks,
+  unique run directories and timeout handling for partial-line output. The latest
+  validation suite passes 903 ROS results, 234 orchestration tests, 12 native
+  CTests and 16 pinned-MuJoCo Python tests. [Suite guide](docs/DEMO_TESTING.md).
+- Rotational Dex3 retention evidence, native-tick closure readiness and bounded
+  fresh-observation placement recovery. Seven 23 October mobile trials completed
+  zero deliveries. [Latest findings](docs/DEX3_ROTATIONAL_RETENTION_20261023.md).
+
+- Dex3 default hand models and seven-channel DDS control, contact-confirmed
+  grasp/release, small cylindrical transport objects and contact/encoder lift
+  verification. Default scenes remove magnetic welds and base pins. Both-hand
+  bench/DDS tests pass; full G1 pickup reaches16.6 cm, while mobile delivery
+  failures remain explicit. [Migration report](docs/DEX3_CONTACT_MANIPULATION_20261020.md).
+
 - Cumulative native regression inventory, six actor interpolation candidates,
   retained per-case regressions and a serial layer-search worker. The95% blend
   passes195/208 with no falls, with thirteen failures retained. Updated complete

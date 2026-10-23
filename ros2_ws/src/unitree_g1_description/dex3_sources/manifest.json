@@ -1,0 +1,82 @@
+{
+  "repository": "unitreerobotics/unitree_ros",
+  "revision": "5994d4faef0a9cadd3287f8de0199a67eeb2a259",
+  "files": {
+    "dex3_sources/g1_29dof_with_hand_rev_1_0.xml": {
+      "source": "robots/g1_description/g1_29dof_with_hand_rev_1_0.xml",
+      "sha256": "77c98e7d34e428c6cdbd1e0d665e989cbc43bf17abb8a7c048494b4bc51ead88"
+    },
+    "dex3_sources/g1_29dof_with_hand_rev_1_0.urdf": {
+      "source": "robots/g1_description/g1_29dof_with_hand_rev_1_0.urdf",
+      "sha256": "97da67732d067c3147fc5fb7b7bafc8982718f4e7f8c92ff82266a4d9c07200d"
+    },
+    "dex3_sources/LICENSE": {
+      "source": "LICENSE",
+      "sha256": "84aac59fd3246e3ddc49d1387644e8fcf43b0def4f0b9fe687f372e90446df2d"
+    },
+    "meshes/dex3/left_hand_palm_link.STL": {
+      "source": "robots/g1_description/meshes/left_hand_palm_link.STL",
+      "sha256": "23a486b75bd78a9bf03cec25d84d87f97f3dae038cf21a743b6d469b337e4004"
+    },
+    "meshes/dex3/left_hand_thumb_0_link.STL": {
+      "source": "robots/g1_description/meshes/left_hand_thumb_0_link.STL",
+      "sha256": "a90c721661c0622685488a3c74d1e122c7da89242d3a1daef75edb83422d05e0"
+    },
+    "meshes/dex3/left_hand_thumb_1_link.STL": {
+      "source": "robots/g1_description/meshes/left_hand_thumb_1_link.STL",
+      "sha256": "445c54a45bc13ce36001556f66bc0f49c83cb40321205ae4d676bb2874325684"
+    },
+    "meshes/dex3/left_hand_thumb_2_link.STL": {
+      "source": "robots/g1_description/meshes/left_hand_thumb_2_link.STL",
+      "sha256": "3d8dbe5085acfc213d21aa8b0782e89cd79084e9678f3a85fc7b04a86b029db5"
+    },
+    "meshes/dex3/left_hand_middle_0_link.STL": {
+      "source": "robots/g1_description/meshes/left_hand_middle_0_link.STL",
+      "sha256": "6b35f2f77211d5a366f0b9a4e47c4ee35e536731266f1a34e9efa12db579b892"
+    },
+    "meshes/dex3/left_hand_middle_1_link.STL": {
+      "source": "robots/g1_description/meshes/left_hand_middle_1_link.STL",
+      "sha256": "9e315ebc8a7a0cb98e033985b586b20d81cf8aa761181ae61ce56fcb14077a06"
+    },
+    "meshes/dex3/left_hand_index_0_link.STL": {
+      "source": "robots/g1_description/meshes/left_hand_index_0_link.STL",
+      "sha256": "6b35f2f77211d5a366f0b9a4e47c4ee35e536731266f1a34e9efa12db579b892"
+    },
+    "meshes/dex3/left_hand_index_1_link.STL": {
+      "source": "robots/g1_description/meshes/left_hand_index_1_link.STL",
+      "sha256": "9e315ebc8a7a0cb98e033985b586b20d81cf8aa761181ae61ce56fcb14077a06"
+    },
+    "meshes/dex3/right_hand_palm_link.STL": {
+      "source": "robots/g1_description/meshes/right_hand_palm_link.STL",
+      "sha256": "86c0b231cc44477d64a6493e5a427ba16617a00738112dd187c652675b086fb9"
+    },
+    "meshes/dex3/right_hand_thumb_0_link.STL": {
+      "source": "robots/g1_description/meshes/right_hand_thumb_0_link.STL",
+      "sha256": "544298d0ea1088f5b276a10cc6a6a9e533efdd91594955fdc956c46211d07f83"
+    },
+    "meshes/dex3/right_hand_thumb_1_link.STL": {
+      "source": "robots/g1_description/meshes/right_hand_thumb_1_link.STL",
+      "sha256": "0a9a820da8dd10f298778b714f1364216e8a5976f4fd3a05689ea26327d44bf6"
+    },
+    "meshes/dex3/right_hand_thumb_2_link.STL": {
+      "source": "robots/g1_description/meshes/right_hand_thumb_2_link.STL",
+      "sha256": "3f1bfb37668e8f61801c8d25f171fa1949e08666be86c67acad7e0079937cc45"
+    },
+    "meshes/dex3/right_hand_middle_0_link.STL": {
+      "source": "robots/g1_description/meshes/right_hand_middle_0_link.STL",
+      "sha256": "12ab4300c95e437e834f9aef772b3b431c671bf34338930b52ad11aef73bbd0d"
+    },
+    "meshes/dex3/right_hand_middle_1_link.STL": {
+      "source": "robots/g1_description/meshes/right_hand_middle_1_link.STL",
+      "sha256": "c9c34efce4563cacdcfd29fc838a982976d40f5442c71219811dcbbf3923a33d"
+    },
+    "meshes/dex3/right_hand_index_0_link.STL": {
+      "source": "robots/g1_description/meshes/right_hand_index_0_link.STL",
+      "sha256": "12ab4300c95e437e834f9aef772b3b431c671bf34338930b52ad11aef73bbd0d"
+    },
+    "meshes/dex3/right_hand_index_1_link.STL": {
+      "source": "robots/g1_description/meshes/right_hand_index_1_link.STL",
+      "sha256": "c9c34efce4563cacdcfd29fc838a982976d40f5442c71219811dcbbf3923a33d"
+    }
+  }
+}

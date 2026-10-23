@@ -132,3 +132,15 @@ def test_coast_compensated_goal_is_checked_before_dispatch(monkeypatch):
     TransportMission.dock.__wrapped__(node,(1.,0.,0.))
     assert len(yields)==1 and yields[0] in checked
     assert goals==[(1.,0.,0.)]*2  # The blocked compensated goal was never issued.
+
+
+def test_yaw_coast_compensation_keeps_original_acceptance_gate(monkeypatch):
+    node,clock,goals,events = fixture(monkeypatch)
+    def settle(duration):
+        node.pose = (*node.pose[:2],node.pose[2]-.2)
+    node.spin = settle
+    TransportMission.dock.__wrapped__(node,(1.,0.,0.))
+    assert len(goals)==2
+    assert goals[1][2]==pytest.approx(.1)
+    assert abs(node.pose[2])<.15
+    assert events[0]['settling_compensation_yaw_rad']==pytest.approx(-.1)

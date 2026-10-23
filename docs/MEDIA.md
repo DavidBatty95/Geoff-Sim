@@ -18,10 +18,23 @@
 
 [README gallery](../README.md#recorded-demo-gallery) · [Demo walkthrough](DEMO_GUIDE.md)
 
-The README now leads with four freshly captured locomanipulation GIFs under
-`docs/media/locomanipulation/`. The five earlier navigation GIFs remain in a
-collapsed historical gallery. All are actual window recordings, not generated
-robot motion. Upstream training-library media belongs to its own documentation.
+The README now leads with two complete Dex3 hand-grasp runs. They are offscreen
+renders of actual contact-physics states, with timestamps and full-run coverage.
+Earlier delivery and navigation recordings remain catalogued below with their
+original outcomes. Upstream training-library media belongs to its own documentation.
+
+## Dex3 contact-only recordings — 20 October 2026
+
+| Asset | Complete sequence | Outcome |
+| --- | --- | --- |
+| [Right Dex3](media/dex3/right_complete_grasp.gif) | Approach, close, lift, hold, lower and release; 0–10 s | 14.27 cm held lift, opposing contacts, release pass |
+| [Left Dex3](media/dex3/left_complete_grasp.gif) | Same complete sequence; 0–10 s | 13.95 cm held lift, opposing contacts, release pass |
+
+The actuated wrist rig moves the hand; the object is supported by finger contact
+and friction, with no weld or manually applied object force. These are complete
+hand tests rather than complete autonomous delivery missions. Each has101 frames,
+10 fps playback and a one-second final outcome card. [Provenance](media/dex3/README.md)
+and [mobile integration outcomes](DEX3_CONTACT_MANIPULATION_20261020.md) are explicit.
 
 ## Locomanipulation recordings — 15 October 2026
 

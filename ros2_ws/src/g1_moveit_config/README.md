@@ -20,19 +20,19 @@
 
 This package is the first MoveIt gate for the local Geoff-Sim G1 model. It plans only while the
 robot is stationary and uses the checked-in
-`unitree_g1_description/urdf/g1_29dof_mode_15_brainco_hand.urdf` description.
+`unitree_g1_description/urdf/g1_29dof_dex3.urdf` description and `config/g1_dex3.srdf`.
 
 ## Scope
 
 | Group | Definition | Active joints |
 |---|---|---:|
-| `left_arm` | `torso_link` to `left_base_link` | 7 |
-| `right_arm` | `torso_link` to `right_base_link` | 7 |
+| `left_arm` | `torso_link` to `left_wrist_yaw_link` | 7 |
+| `right_arm` | `torso_link` to `right_wrist_yaw_link` | 7 |
 | `both_arms` | composed from both arm groups | 14 |
 
-The waist, legs, floating-base surrogate, and BrainCo fingers are not planning groups. The palm
-base is the arm tip, but no hand joint belongs to an arm. Hand planning and grasp control are a
-later gate.
+The waist, legs, floating-base surrogate and Dex3 fingers are outside the arm
+planning groups. Separate Dex3 grasp services control the fingers and confirm
+opposed contacts; the wrist is the arm planning tip.
 
 The model has no virtual joint in the SRDF. This is intentional for stationary manipulation: the
 local URDF remains rooted at `base_footprint`, and the arm chains remain rooted at `torso_link` so
@@ -72,8 +72,8 @@ URDF limits; they are starting postures, not substitutes for runtime collision c
 
 There is no octomap configuration. A future perception gate must name a real local pointcloud topic
 and a TF-connected frame before adding one. There are no hand groups or end effectors
-in this configuration. Experimental BrainCo contact-bench work exists separately;
-it does not establish a validated mobile grasp pipeline. Attached-object lifecycle
+in this configuration. Dex3 contact-bench and ROS/DDS grasp checks pass;
+the full mobile pipeline remains experimental. Attached-object lifecycle
 is handled by the manipulation server rather than this configuration package.
 
 The allowed-collision matrix contains only direct URDF adjacency where both links have collision

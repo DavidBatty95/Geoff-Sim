@@ -38,11 +38,11 @@
   <rect x="614" y="314" width="552" height="174" rx="12" fill="#14273b" stroke="#29425b"/>
   <rect x="614" y="331" width="4" height="40" rx="2" fill="#d3a5ff"/>
   <text x="634" y="346" fill="#d3a5ff" font-size="21" font-weight="bold">S3 / Physical finger grasp</text>
-  <text x="634" y="372" fill="#edf6ff" font-size="17">BrainCo contact-only validation</text>
-  <text x="634" y="400" fill="#b5c9dc" font-size="15">Demonstrate repeated grasp, lift, hold and release with actual</text>
-  <text x="634" y="420" fill="#b5c9dc" font-size="15">contacts and no magnetic weld.</text>
+  <text x="634" y="372" fill="#edf6ff" font-size="17">Dex3 contact-only integration</text>
+  <text x="634" y="400" fill="#b5c9dc" font-size="15">Both-hand bench and ROS/DDS grasp tests pass; mobile carry and</text>
+  <text x="634" y="420" fill="#b5c9dc" font-size="15">placement remain unqualified.</text>
   <circle class="marker" cx="638" cy="465" r="4" fill="#d3a5ff"/>
-  <text x="650" y="469" fill="#d3a5ff" font-size="11" font-weight="bold" letter-spacing="1">OPEN</text>
+  <text x="650" y="469" fill="#d3a5ff" font-size="11" font-weight="bold" letter-spacing="1">IN PROGRESS</text>
   <rect x="34" y="508" width="552" height="174" rx="12" fill="#14273b" stroke="#29425b"/>
   <rect x="34" y="525" width="4" height="40" rx="2" fill="#d3a5ff"/>
   <text x="54" y="540" fill="#d3a5ff" font-size="21" font-weight="bold">S4 / Recoverable missions</text>

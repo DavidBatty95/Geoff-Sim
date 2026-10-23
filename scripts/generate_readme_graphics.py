@@ -88,7 +88,7 @@ BOARDS = {
             ("S0 / Reproducible baseline", "Freeze source and runtime identity", "Repeat a clean build and native baseline with complete configuration and retained attempts.", "OPEN", "#43d2ec"),
             ("S1 / Trustworthy mission state", "Measurement and action lifecycle", "Close attachment ambiguity, cancellation, evaluator coverage and command ownership gaps.", "IN PROGRESS", "#43d2ec"),
             ("S2 / Reliable navigation", "Onboard sensing and avoidance", "Pass the full existing matrix, then held-out encounters without weakening the strict gates.", "OPEN", "#f4c978"),
-            ("S3 / Physical finger grasp", "BrainCo contact-only validation", "Demonstrate repeated grasp, lift, hold and release with actual contacts and no magnetic weld.", "OPEN", "#d3a5ff"),
+            ("S3 / Physical finger grasp", "Dex3 contact-only integration", "Both-hand bench and ROS/DDS grasp tests pass; mobile carry and placement remain unqualified.", "IN PROGRESS", "#d3a5ff"),
             ("S4 / Recoverable missions", "Wait, reobserve, redock and resume", "Recover within bounded retries; preserve known object and command-authority state on failure.", "OPEN", "#d3a5ff"),
             ("S5 / Smooth loaded transport", "Loaded geometry and response", "Repeat empty-room deliveries across objects and layouts with declared motion tolerances.", "OPEN", "#d3a5ff"),
             ("S6 / Social transport", "Integrate S2 through S5", "Complete held-out deliveries around people with valid evaluation and no prohibited contacts.", "GATED", "#f4c978"),

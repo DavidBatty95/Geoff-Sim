@@ -10,7 +10,7 @@ import rclpy
 from rclpy.node import Node
 from rclpy.qos import qos_profile_sensor_data
 from sensor_msgs.msg import CameraInfo,Image,Imu,PointCloud2
-from unitree_hg.msg import LowCmd,LowState
+from unitree_hg.msg import LowCmd,LowState,HandState
 from unitree_go.msg import MotorCmds,MotorStates
 from tf2_ros import Buffer,TransformListener
 
@@ -26,7 +26,7 @@ CONTRACT = {
 
 
 class Audit(Node):
-    def __init__(self,hands):
+    def __init__(self,hands,hand_model='dex3'):
         super().__init__('sim_hardware_interface_audit')
         self.errors = set()
         self.observed = {}
@@ -36,7 +36,7 @@ class Audit(Node):
         self.contract = dict(CONTRACT)
         if hands:
             for side in ('left','right'):
-                self.contract[f'/brainco/{side}/state'] = MotorStates
+                self.contract[f'/lf/dex3/{side}/state' if hand_model=='dex3' else f'/brainco/{side}/state'] = HandState if hand_model=='dex3' else MotorStates
         for topic,kind in self.contract.items():
             self.create_subscription(kind,topic,lambda message,topic=topic:self.sample(topic,message),qos_profile_sensor_data)
 
@@ -88,6 +88,11 @@ class Audit(Node):
         if isinstance(msg,MotorStates):
             if len(msg.states)!=6 or any(not 0.<=state.q<=1. for state in msg.states):
                 self.errors.add(topic+': invalid normalized six-channel hand state')
+        if isinstance(msg,HandState):
+            if len(msg.motor_state)!=7 or any(not np.isfinite(state.q) for state in msg.motor_state):
+                self.errors.add(topic+': invalid seven-channel Dex3 radian state')
+            entry['controller_error_bits'] = list(msg.error)
+            entry['simulated_contact_proxy'] = msg.reserve[1]==0x44583343
 
     def report(self):
         graph = dict(self.get_topic_names_and_types())
@@ -120,10 +125,11 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--duration',type=float,default=20.)
     parser.add_argument('--require-hands',action='store_true')
+    parser.add_argument('--hand-model',choices=('dex3','brainco'),default='dex3')
     parser.add_argument('--output',type=Path,required=True)
     args = parser.parse_args()
     rclpy.init()
-    node = Audit(args.require_hands)
+    node = Audit(args.require_hands,args.hand_model)
     deadline = time.monotonic()+args.duration
     try:
         while time.monotonic()<deadline:

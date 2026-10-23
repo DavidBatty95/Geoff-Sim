@@ -19,7 +19,7 @@ def main():
     demo = commands.add_parser('demo', help='continuous visual demo with moving waypoint goals', add_help=False)
     demo.add_argument('world', nargs='?', default='plaza', choices=[*ALIASES, *WORLDS, *TRANSPORT_WORLDS])
     commands.add_parser('benchmark', help='collect a scored world/seed matrix', add_help=False)
-    commands.add_parser('transport', help='experimental RGB-D magnetic pickup/carry/placement', add_help=False)
+    commands.add_parser('transport', help='experimental RGB-D Dex3 contact-only pickup/carry/placement', add_help=False)
     commands.add_parser('results', help='open the local results GUI server', add_help=False)
     args, extra = parser.parse_known_args()
     if args.command == 'worlds':

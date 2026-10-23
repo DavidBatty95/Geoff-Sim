@@ -30,7 +30,7 @@ def generate_launch_description():
         "unitree_g1_sim_bringup",
         "g1_sim.launch.py",
         {
-            "mujoco_scene": "scene_29dof_manipulation.xml",
+            "mujoco_scene": "scene_29dof_manipulation_dex3.xml",
             "run_arm_compositor": "true",
             "run_sim_manipulation_io": "true",
             "sim_manipulation_frame_id": "odom",

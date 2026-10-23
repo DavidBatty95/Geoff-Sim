@@ -224,6 +224,7 @@ def generate_launch_description():
         parameters=[
             {
                 "use_mjlab_body_gains": True,
+                "hand_model": LaunchConfiguration('hand_model'),
                 "body_gain_profile": policy_profile,
                 "arm_kp_override": bridge_arm_kp_override,
                 'arm_gains_require_authority': LaunchConfiguration('bridge_arm_gains_require_authority'),
@@ -267,6 +268,7 @@ def generate_launch_description():
         output="screen",
         parameters=[{
             "frame_id": IfElseSubstitution(LaunchConfiguration("onboard_only"), "world", sim_manipulation_frame_id),
+            "grasp_backend": LaunchConfiguration('grasp_backend'),
             "output_topic": IfElseSubstitution(LaunchConfiguration("onboard_only"), "/evaluation/objects", "/objects"),
         }],
     )
@@ -897,6 +899,7 @@ def generate_launch_description():
         parameters=[
             {
                 "output_path": human_aware_run_log_path,
+                "record_control_state": ParameterValue(LaunchConfiguration('human_aware_run_log_control_state'),value_type=bool),
                 "raw_cmd_topic": raw_cmd_vel_topic,
                 "planner_cmd_topic": "/cmd_vel_human_aware",
                 "safe_cmd_topic": cmd_vel_topic,
@@ -1072,6 +1075,8 @@ def generate_launch_description():
     return LaunchDescription(
         [
             DeclareLaunchArgument("onboard_only", default_value="false"),
+            DeclareLaunchArgument('hand_model',default_value='dex3'),
+            DeclareLaunchArgument('grasp_backend',default_value='dex3_contact'),
             DeclareLaunchArgument('camera_mount_pitch_deg',default_value='0.0',
                                   description='Measured camera mounting pitch used by onboard sensor TF; match the selected model.'),
             DeclareLaunchArgument("show_mujoco_goal", default_value=LaunchConfiguration("onboard_only")),
@@ -1399,6 +1404,8 @@ def generate_launch_description():
                 default_value="/tmp/human_aware_run.jsonl",
                 description="Output JSONL path for the human-aware run logger.",
             ),
+            DeclareLaunchArgument('human_aware_run_log_control_state',default_value='false',
+                                  description='Diagnostic capture of observed LowCmd/LowState and target streams.'),
             DeclareLaunchArgument("tracker_use_object_motion_detection", default_value="false"),
             DeclareLaunchArgument("tracker_use_sensor_input", default_value="true"),
             DeclareLaunchArgument("tracker_local_tracking_radius", default_value="6.0"),
@@ -1607,7 +1614,7 @@ def generate_launch_description():
                     [
                         FindPackageShare("unitree_g1_description"),
                         "urdf",
-                        "g1_29dof_mode_15_brainco_hand.urdf",
+                        "g1_29dof_dex3.urdf",
                     ]
                 ),
                 description="URDF or xacro file for robot_state_publisher when available.",
@@ -1621,8 +1628,8 @@ def generate_launch_description():
             ),
             DeclareLaunchArgument(
                 "mujoco_scene",
-                default_value="scene_29dof_extreme_lab.xml",
-                description="G1 Mujoco scene XML under unitree_robots/g1. Default is the Extreme Lab scene.",
+                default_value="scene_29dof_extreme_lab_dex3.xml",
+                description="G1 MuJoCo scene XML under unitree_robots/g1. Default is Extreme Lab with articulated Dex3 hands.",
             ),
             DeclareLaunchArgument(
                 "mujoco_pedestrians_enable",

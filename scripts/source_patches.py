@@ -25,6 +25,8 @@ SOURCES = {
         "simulate/src/mujoco_sensor_worker.h", "simulate/src/raycast_model.h", "simulate/test/raycast_model_test.cc",
         "simulate/test/transport_worlds_test.cc",
         "simulate/src/brainco_hand.h",
+        "simulate/src/dex3_hand.h",
+        "simulate/test/dex3_contact_bench.cc",
         "simulate/src/native_imu.h", "simulate/test/native_imu_test.cc",
         "simulate/src/unitree_sdk2_bridge.h",
         "simulate/src/command_application_timing.h", "simulate/test/command_application_timing_test.cc",

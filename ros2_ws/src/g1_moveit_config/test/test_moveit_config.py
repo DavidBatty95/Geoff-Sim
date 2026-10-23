@@ -42,7 +42,7 @@ def _yaml(name):
 
 def _roots():
     return ET.parse(URDF_PATH).getroot(), ET.parse(
-        os.path.join(CONFIG_DIR, "g1.srdf")
+        os.path.join(CONFIG_DIR, "g1_dex3.srdf")
     ).getroot()
 
 
@@ -70,8 +70,8 @@ def test_urdf_srdf_and_arm_groups():
     for side in ("left", "right"):
         chain = groups[f"{side}_arm"].find("chain")
         assert chain.get("base_link") == "torso_link"
-        assert chain.get("tip_link") == f"{side}_base_link"
-        assert _chain_joints(urdf, "torso_link", f"{side}_base_link") == ARM_JOINTS[side]
+        assert chain.get("tip_link") == f"{side}_wrist_yaw_link"
+        assert _chain_joints(urdf, "torso_link", f"{side}_wrist_yaw_link") == ARM_JOINTS[side]
 
     members = [entry.get("name") for entry in groups["both_arms"].findall("group")]
     assert members == ["left_arm", "right_arm"]
@@ -156,11 +156,7 @@ def test_collision_disables_are_audited_pairs_and_never_cross_arm():
     disabled_pairs = {
         frozenset((disable.get("link1"), disable.get("link2"))) for disable in disables
     }
-    fixed_hand_contacts = {
-        frozenset(("left_base_link", "left_thumb_proximal_Link")),
-        frozenset(("right_base_link", "right_thumb_proximal_link")),
-    }
-    assert disabled_pairs == adjacent | fixed_hand_contacts
+    assert disabled_pairs == adjacent
     for disable in disables:
         first, second = disable.get("link1"), disable.get("link2")
         pair = frozenset((first, second))

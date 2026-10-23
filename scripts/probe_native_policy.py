@@ -118,7 +118,9 @@ def main():
                 parser.error('replay start is beyond the recorded command timeline')
         except ValueError as exc:
             parser.error(str(exc))
-    scene = args.scene or ROOT/'ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual.xml'
+    # This archived locomotion probe retains the explicitly magnetic payload
+    # fixture. The current transport command uses contact-only Dex3 scenes.
+    scene = args.scene or ROOT/'ros2_ws/src/unitree_mujoco/unitree_robots/g1/scene_29dof_transport_transport_dual_legacy_magnetic.xml'
     model = mujoco.MjModel.from_xml_path(str(scene))
     model.opt.timestep = .002
     data = mujoco.MjData(model)

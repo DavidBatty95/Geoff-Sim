@@ -21,8 +21,9 @@
 This package supplies the ROS G1 robot description and meshes used for TF,
 visualization, kinematics and arm planning.
 
-- [`urdf/`](urdf/) contains `g1_29dof_mode_15_brainco_hand.urdf`, the local
-  body-and-hand description used by MoveIt and transport kinematics.
+- [`urdf/g1_29dof_dex3.urdf`](urdf/g1_29dof_dex3.urdf) is the default body-and-hand
+  description for MoveIt, TF and transport. Each hand has seven independent joints.
+  The earlier BrainCo description is retained as a legacy/source body reference.
 - [`meshes/`](meshes/) contains the referenced visual/collision assets.
 - [`package.xml`](package.xml) identifies build dependencies and package metadata.
 
@@ -33,10 +34,13 @@ assets live in `unitree_mujoco`; a URDF edit does not automatically update them.
 
 The [hardware fidelity audit](../../../docs/HARDWARE_FIDELITY.md) verifies the 29
 body-joint limits and actuator mapping and records the remaining torso/waist
-revision differences. The native build generates an articulated BrainCo scene
-from this description; raw simulation sensor TF is derived from measured IMU and
+revision differences. The native build generates articulated Dex3 scenes from
+pinned official Unitree hand assets; raw sensor TF is derived from measured IMU and
 encoders. Model mass and sensor bandwidth are documented rather than presented
 as measurements from a physical robot.
+
+The [Dex3 migration report](../../../docs/DEX3_CONTACT_MANIPULATION_20261020.md)
+describes physical contact grasping, measured evidence and remaining mobile-delivery gaps.
 
 The [development checks](../../../docs/DEVELOPMENT.md) cover description parsing
 and related package tests. Preserve upstream attribution and the

@@ -16,12 +16,13 @@ def test_transport_fixtures_have_supported_pairs_and_no_base_pin():
         assert len({p['destination_id'] for p in pairs}) == len(pairs)
         assert all(set(p)=={'object_id','destination_id','color'} for p in pairs)
         assert root.find("equality/weld[@name='manipulation_base_pin']") is None
-        assert len(root.find('equality').findall('weld')) == 2*len(pairs)
+        assert not root.find('equality').findall('weld')
+        assert root.find("custom/numeric[@name='dex3_contact_only']") is not None
         for pair in pairs:
             marker = root.find(f"worldbody/body[@name='manip_surface_{pair['destination_id']}']")
             assert len(marker.findall('geom')) == 1  # Object-state protocol contract.
             assert marker.find('geom').get('rgba') != '0 0 0 0'
-        assert len(root.find(f"keyframe/key[@name='{INITIAL_KEYFRAME}']").get('qpos').split()) == 36+7*len(pairs)
+        assert len(root.find(f"keyframe/key[@name='{INITIAL_KEYFRAME}']").get('qpos').split()) == 50+7*len(pairs)
         for entry in layout:
             for station in ('pickup','delivery'):
                 record=entry[station]
@@ -32,14 +33,25 @@ def test_transport_fixtures_have_supported_pairs_and_no_base_pin():
                 assert top.get('contype') == top.get('conaffinity') == '1'
 
 
-def test_dual_demo_contains_exactly_two_coloured_cubes_and_four_physical_tables():
+def test_dual_demo_contains_two_graspable_cylinders_and_four_physical_tables():
     text,pairs,layout = build_world('transport_dual')
     root = ET.fromstring(text)
     assert [pair['color'] for pair in pairs] == ['red','blue']
     assert len([body for body in root.findall('worldbody/body') if body.get('name','').startswith('station_')]) == 4
     assert len(root.findall('worldbody/body/freejoint')) == 2
+    for color in ('red','blue'):
+        geom = root.find(f".//geom[@name='box_{color}_geom']")
+        assert geom.get('type')=='cylinder' and geom.get('size')=='.02 .045'
+        assert geom.get('mass')=='.08'
     assert len(layout) == 2
     assert all('position' not in pair and 'table_center' not in pair for pair in pairs)
+
+
+def test_magnetic_fixture_requires_explicit_legacy_selection():
+    text,pairs,_ = build_world('transport_dual',grasp_model='legacy_magnetic')
+    root = ET.fromstring(text)
+    assert len(root.find('equality').findall('weld'))==2*len(pairs)
+    assert len(root.find(f"keyframe/key[@name='{INITIAL_KEYFRAME}']").get('qpos').split())==36+7*len(pairs)
 
 
 def test_tabletop_camera_pitch_matches_declared_optical_axis():

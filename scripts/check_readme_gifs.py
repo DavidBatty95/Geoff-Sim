@@ -23,23 +23,30 @@ def main():
         metadata = json.loads(path.with_suffix('.json').read_text())
         if hashlib.sha256(path.read_bytes()).hexdigest()!=metadata['gif_sha256']:
             raise ValueError('GIF hash mismatch')
-        if (abs(metadata['simulation_start_s'])>1e-8 or abs(metadata['simulation_end_s']-15)>1e-8 or
-                not metadata['stopping']['passed'] or not metadata['motion_progress']['passed'] or metadata['fallen']):
+        dex3 = metadata.get('kind')=='dex3_contact_bench'
+        expected_end,expected_count,expected_duration = (10.,101,11000) if dex3 else (15.,151,16000)
+        if dex3:
+            grasp=metadata['physical_grasp']
+            passed=(grasp['success'] and grasp['object_constraints']==0 and not grasp['object_external_force']
+                    and grasp['opposed_contact'] and grasp['minimum_held_lift_m']>.1 and grasp['released'])
+        else:
+            passed=metadata['stopping']['passed'] and metadata['motion_progress']['passed'] and not metadata['fallen']
+        if (abs(metadata['simulation_start_s'])>1e-8 or abs(metadata['simulation_end_s']-expected_end)>1e-8 or not passed):
             raise ValueError('incomplete or unqualified recording')
         with Image.open(path) as gif:
             duration = 0
-            if gif.n_frames!=151 or gif.n_frames!=metadata['frame_count']:
+            if gif.n_frames!=expected_count or gif.n_frames!=metadata['frame_count']:
                 raise ValueError('GIF frame count mismatch')
             for index in range(gif.n_frames):
                 gif.seek(index)
                 duration += gif.info['duration']
-                if index in (0,50,70,150):
+                if index in ((0,30,55,100) if dex3 else (0,50,70,150)):
                     image = gif.convert('RGB')
                     image.thumbnail((320,200))
                     thumbnails.append(image)
-            if duration!=16000 or duration!=metadata['playback_duration_ms']:
+            if duration!=expected_duration or duration!=metadata['playback_duration_ms']:
                 raise ValueError('GIF playback duration mismatch')
-        print(f'{name}: 151 frames, full 0–15 s, movement/stopping PASS, hash verified')
+        print(f'{name}: {expected_count} frames, full 0–{expected_end:g} s, qualification PASS, hash verified')
     if args.contact_sheet:
         if args.contact_sheet.exists():
             raise ValueError('contact sheet exists')

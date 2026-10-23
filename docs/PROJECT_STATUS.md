@@ -16,12 +16,51 @@
 </p>
 <!-- geoff-nav:end -->
 
-**Last reviewed: 19 October 2026.** This page retains the historical development
+**Last reviewed: 23 October 2026.** This page retains the historical development
 baseline [`3a7ceac`](https://github.com/DavidBatty95/Geoff-Sim/commit/3a7ceac)
 alongside the dated follow-ups below. It is a manually maintained
 evidence snapshot, not an acceptance release. Later experiments need their own checks.
 
 ## At a glance
+
+The [repeatable demo testing suite](DEMO_TESTING.md) now separates regression,
+contact-component and mobile-delivery checks. Its latest validation run passes
+903 ROS results, 234 orchestration tests, 12 native CTests and 16 pinned-MuJoCo
+Python tests; the mobile protocol is separately labelled experimental.
+
+**Current platform: Dex3 contact-only manipulation.** Default scenes use fourteen
+finger DOFs and 40 mm × 90 mm, 80 g cylinders without object welds or base pins.
+Both hands now pass extended contact-only hold/release benches; the selected left
+closure also passed a 60-second sway hold. Earlier ROS/DDS service checks are
+retained separately. Five latest mobile trials achieved pickup, and three reached
+the destination and released. Cylinder tipping during release still prevents
+qualified placement. Old locomotion search workers are stopped.
+[Retention and placement evidence](DEX3_RETENTION_AND_PLACEMENT_20261021.md).
+The subsequent measured-opening update passes both-hand ROS/DDS rig checks;
+four more mobile attempts stopped before placement, so its benefit there remains
+unverified. [Latest release development](DEX3_RELEASE_DEVELOPMENT_20261021.md).
+The following Cartesian-approach session retained eight more failures, including
+one navigation fall, and exposed moving-base stabilization as a major remaining
+integration limit. [Latest approach evidence](DEX3_CARTESIAN_APPROACH_20261021.md).
+The 22 October isolated probe reduced extended-hand drift from 48.6 to 13.9 mm
+with filtered heading feedback, but three mobile trials still failed reaching
+because of backward base motion. Heading hold remains opt-in.
+[Latest stability experiments](DEX3_ARM_STABILITY_20261022.md).
+The 23 October control capture and near-table probes identified wrist/finger
+tabletop interference. A 20 mm raised approach with staging-sag compensation
+achieved two pickups and more than 2.5 m object displacement, but both stopped
+on lost opposing contact before placement. [Latest clearance evidence](DEX3_TABLE_CLEARANCE_20261023.md).
+The subsequent rotational study found a tilted thumb/middle-only pinch and no
+robustly better closure. One 15 mm trial retained through destination lowering,
+but its placement flag occurred while still holding the cylinder; all four
+follow-up mobile attempts failed delivery. Native-tick closure readiness and
+fresh-observation placement recovery are tested; mobile recovery remains
+unverified. [Latest retention evidence](DEX3_ROTATIONAL_RETENTION_20261023.md).
+
+**Overnight search:** proposal 250 improved the incumbent to 197/208 passes
+without falls. After a long plateau, the worker was resumed from its actual
+coefficients with finer search scales and local refinement after each gain.
+Eleven failures remain. [Live worker and preserved evidence](LOCAL_LAYER_SEARCH_20261020.md).
 
 **Cumulative regression and interpolation:** the 95% actor interpolation passes
 195/208 retained conditions without falls, versus broad80's188/208. Thirteen

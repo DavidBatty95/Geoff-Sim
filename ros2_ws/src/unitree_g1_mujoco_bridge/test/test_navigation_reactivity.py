@@ -895,15 +895,15 @@ def configure_precision_request(planner,mode,loaded=False):
     planner.measured_velocity = (0.,0.,0.)
     planner.horizon = planner.hard_collision_horizon = 3.
     requested = Twist()
-    if mode == 'scan':
-        requested.angular.z = -.55
+    if mode in ('scan','manipulate'):
+        requested.angular.z = -.55 if mode=='scan' else -.15
     else:
         requested.linear.x = -.12  # Still decelerating from reverse travel.
     planner._dock_reference = lambda pose:requested
     return requested
 
 
-@pytest.mark.parametrize('mode',['scan','brake'])
+@pytest.mark.parametrize('mode',['scan','manipulate','brake'])
 @pytest.mark.parametrize('loaded',[False,True])
 def test_safe_precision_request_supersedes_escape_and_comfort_translation(planner,mode,loaded):
     requested = configure_precision_request(planner,mode,loaded)
@@ -921,7 +921,7 @@ def test_safe_precision_request_supersedes_escape_and_comfort_translation(planne
     assert planner.escape_plan is None and planner.warm_start_plan is None
 
 
-@pytest.mark.parametrize('mode',['scan','brake'])
+@pytest.mark.parametrize('mode',['scan','manipulate','brake'])
 @pytest.mark.parametrize('hazard',['incoming_person','static_obstacle','comfort_reserve'])
 def test_precision_priority_retains_collision_and_clearance_checks(planner,mode,hazard):
     configure_precision_request(planner,mode)

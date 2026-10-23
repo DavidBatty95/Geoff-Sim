@@ -56,6 +56,41 @@ def test_correct_payload_offset_and_orientation_need_no_extra_reach():
     assert len(calls)==1 and events[0]['payload_alignment_error_m']<1e-9
 
 
+def test_dex3_lowering_uses_cylinder_half_height_and_small_release_gap():
+    node,pad,events,calls = fixture()
+    node.dex3 = True
+    TransportMission.lower_to_pad(node,'target_blue')
+    estimated = node.hand+node.grasp_R@node.offset
+    np.testing.assert_allclose(estimated,node.to_pelvis(pad+np.array([0.,0.,.05])))
+
+
+@pytest.mark.parametrize('recovery',['none','fresh','cached'])
+def test_dex3_revoked_pad_requires_new_camera_confirmation_after_withdrawal(recovery):
+    node,pad,events,calls = fixture()
+    node.dex3 = True
+    move = node.move_arm
+    withdrawals = []
+    def occlude(target,orientation):
+        move(target,orientation)
+        if len(calls)==1:
+            node.observe = lambda *args:None
+    def withdraw(orientation):
+        withdrawals.append(True)
+        if recovery!='none':
+            node.seconds = lambda:11.
+            node.pose_stamp = 11.
+            node.observe = lambda *args:dict(position=pad.copy(),observed_stamp=10.5 if recovery=='fresh' else 9.9,confirmed=True)
+    node.move_arm,node.move_to_carry = occlude,withdraw
+    if recovery=='fresh':
+        np.testing.assert_allclose(TransportMission.lower_to_pad(node,'target_red'),pad)
+        assert len(calls)==2
+    else:
+        with pytest.raises(RuntimeError,match='not reobserved'):
+            TransportMission.lower_to_pad(node,'target_red')
+        assert len(calls)==1
+    assert withdrawals==[True]
+
+
 def test_persistent_payload_misalignment_has_bounded_retries():
     node,pad,events,calls = fixture()
     move = node.move_arm

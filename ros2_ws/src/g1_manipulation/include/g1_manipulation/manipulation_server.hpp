@@ -67,6 +67,7 @@ private:
     MoveGroup & group, const geometry_msgs::msg::Pose & pose, const std::string & tip,
     const std::string & phase);
   bool moveToNamed(MoveGroup & group, const std::string & target);
+  bool verifyGripper(const std::string & side, std::string & reason);
   bool callGripper(const std::string & side, bool grasp, std::string & reason,
     const std::string & object_id = "");
   bool attachObject(

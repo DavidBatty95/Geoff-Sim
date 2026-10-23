@@ -20,11 +20,11 @@ WORLDS = {
 }
 
 
-def scene(world, definition=None):
+def scene(world, definition=None,hand_model='dex3'):
     definition = WORLDS[world] if definition is None else definition
     source = ET.parse(SCENES / 'scene_29dof_pedestrians.xml').getroot()
     root = ET.Element('mujoco', model='Avoidance ' + world)
-    ET.SubElement(root, 'include', file='g1_29dof.xml')
+    ET.SubElement(root, 'include', file='g1_29dof_dex3.xml' if hand_model=='dex3' else 'g1_29dof.xml')
     for tag in ('visual', 'asset'):
         root.append(copy.deepcopy(source.find(tag)))
     root.find('visual/global').set('elevation', '-50')

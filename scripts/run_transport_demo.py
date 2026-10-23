@@ -30,7 +30,7 @@ from unitree_g1_mujoco_bridge.policy_response import NATIVE_CONTACT_POLICY_SHA25
 def select_transport_task(pairs,task='random',seed=None):
     """Choose IDs/colors only; never read simulator layout or object positions."""
     if task=='all':
-        return dict(pairs=copy.deepcopy(pairs),task_seed=None,description='Deliver all matching box/goal pairs',mode='all')
+        return dict(pairs=copy.deepcopy(pairs),task_seed=None,description='Deliver all matching object/goal pairs',mode='all')
     boxes = {pair['color']:pair['object_id'] for pair in pairs}
     goals = {pair.get('destination_color',pair['color']):pair['destination_id'] for pair in pairs}
     if task=='random':
@@ -45,7 +45,7 @@ def select_transport_task(pairs,task='random',seed=None):
         seed = None
     return dict(pairs=[dict(object_id=boxes[box_color],destination_id=goals[goal_color],
                            color=box_color,destination_color=goal_color)],
-                task_seed=seed,mode=task,description=f'Put the {box_color} box on the {goal_color} goal')
+                task_seed=seed,mode=task,description=f'Put the {box_color} object on the {goal_color} goal')
 
 
 def transport_navigation_profile(base,extra_clearance,*,early_overtaking=False):
@@ -92,6 +92,12 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--run-id',help='Unique artifact-directory name supplied by an experiment runner')
     parser.add_argument('--world',choices=TRANSPORT_WORLDS,default='transport_dual')
+    parser.add_argument('--grasp-model',choices=('dex3_contact','legacy_magnetic'),default='dex3_contact')
+    parser.add_argument('--manipulation-heading-hold',action='store_true',help='Experimental checked heading feedback during arm motion')
+    parser.add_argument('--pickup-standoff',type=float,default=.43,help='Observed object-to-base pickup goal distance (0.35..0.60 m)')
+    parser.add_argument('--arm-stability-probe',action='store_true',help='Isolated ROS arm protocol with control capture; not a delivery attempt')
+    parser.add_argument('--grasp-height-offset',type=float,default=0.,help='Experimental Dex3 tool height above observed object centre, 0..0.04 m')
+    parser.add_argument('--record-control-state',action='store_true',help='Capture measured joints and published motor commands for offline audit')
     parser.add_argument('--people',type=int,choices=range(9),default=0)
     parser.add_argument('--pedestrian-start-delay',type=float,default=10.,
                         help='Seconds before natural walking starts (0..120); independent of robot goals')
@@ -107,9 +113,9 @@ def main():
                         help='Physical-tick policy cadence for the native simulator; retains wall-clock watchdogs')
     parser.add_argument('--seed',type=int,default=42)
     parser.add_argument('--layout-seed',type=int,default=0,help='Simulator-only mirrored search/building layout')
-    parser.add_argument('--task',help='random, all, or box-color:goal-color (e.g. red:blue); exploration defaults to random')
+    parser.add_argument('--task',help='random, all, or object-color:goal-color (e.g. red:blue); exploration defaults to random')
     parser.add_argument('--task-seed',type=int,help='Replay random objective selection; a fresh seed is recorded by default')
-    parser.add_argument('--explore-unknown',action='store_true',help='Search cube first using observed-map viewpoints; find destination after pickup')
+    parser.add_argument('--explore-unknown',action='store_true',help='Search object first using observed-map viewpoints; find destination after pickup')
     parser.add_argument('--slam-loop-closing',action=argparse.BooleanOptionalAction,default=None,
                         help='Online loop closure; defaults off for repetitive unknown-building exploration')
     parser.add_argument('--search-max-viewpoints',type=int,default=20)
@@ -133,6 +139,12 @@ def main():
                         help='Explicit cycle-01 trained posture or historical Cartesian IK carry')
     parser.add_argument('--policy',type=Path,help='Repository-local 480/29 ONNX checkpoint; uses measured arm observations')
     args = parser.parse_args()
+    if not math.isfinite(args.grasp_height_offset) or not 0.<=args.grasp_height_offset<=.04:
+        parser.error('grasp height offset must be finite and within 0..0.04 m')
+    if not math.isfinite(args.pickup_standoff) or not .35<=args.pickup_standoff<=.60:
+        parser.error('pickup standoff must be finite and within 0.35..0.60 m')
+    if args.arm_stability_probe and (args.grasp_model!='dex3_contact' or args.people or args.explore_unknown or args.carry_posture!='payload_v1'):
+        parser.error('arm stability probe requires Dex3, zero people, payload_v1 posture and no exploration')
     if args.run_id is not None and not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]{0,127}',args.run_id):
         parser.error('--run-id must be a simple alphanumeric, underscore or hyphen name')
     if not math.isfinite(args.arm_repeat_period) or not 0.<=args.arm_repeat_period<=.05:
@@ -161,12 +173,14 @@ def main():
         args.policy = args.policy.resolve()
         if not args.policy.is_file() or not args.policy.is_relative_to(ROOT):
             parser.error('--policy must be an existing file inside the repository')
-    generate(args.layout_seed)
+    generate(args.layout_seed,args.grasp_model)
     available_pairs = json.loads((SCENES/f'transport_pairs_{args.world}.json').read_text())['pairs']
     try:
         objective = select_transport_task(available_pairs,args.task or ('random' if args.explore_unknown else 'all'),args.task_seed)
     except ValueError as exc:
         parser.error(str(exc))
+    if args.arm_stability_probe:
+        objective.update(mode='arm_stability_diagnostic',description='Isolated free-base arm protocol; not delivery qualification')
     print(f'Objective: {objective["description"]} (task seed: {objective["task_seed"]})',flush=True)
     run = ROOT/'ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo'/(args.run_id or datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ'))
     run.mkdir(parents=True)
@@ -178,7 +192,7 @@ def main():
             'unitree-g1-sim','/workspace/scripts/build_ws.sh','--packages-select','g1_msgs','unitree_g1_mujoco_bridge',
             'unitree_g1_sim_bringup','unitree_g1_description','unitree_social_costmap','dynamic_obstacle_benchmarks'],cwd=ROOT,check=True)
         subprocess.run(['docker','compose','run','--rm','unitree-g1-sim','/workspace/scripts/build_unitree_mujoco.sh'],cwd=ROOT,check=True)
-        generate(args.layout_seed)  # Build regenerates fixtures at the default layout.
+        generate(args.layout_seed,args.grasp_model)  # Build regenerates fixtures at the default layout.
     command = case_catalog(run,args.seed,True,True,3,onboard_people=max(1,args.people))['onboard-waypoints'].command
     settings = dict(token.split(':=',1) for index,token in enumerate(command) if index and command[index-1]=='--sim-arg')
     container_run = '/workspace/'+str(run.relative_to(ROOT))
@@ -199,7 +213,11 @@ def main():
     (run/'transport_navigation.yaml').write_bytes(profile_bytes)
     navigation_profile_hash = hashlib.sha256(profile_bytes).hexdigest()
     settings['social_navigation_params_file'] = container_run+'/transport_navigation.yaml'
-    settings.update(mujoco_scene=f'scene_29dof_transport_{args.world}.xml',mujoco_initial_keyframe=INITIAL_KEYFRAME,
+    suffix = '_legacy_magnetic' if args.grasp_model=='legacy_magnetic' else ''
+    settings.update(mujoco_scene=f'scene_29dof_transport_{args.world}{suffix}.xml',mujoco_initial_keyframe=INITIAL_KEYFRAME,
+        hand_model='dex3' if args.grasp_model=='dex3_contact' else 'brainco',
+        grasp_backend=args.grasp_model,
+        robot_description_file='/workspace/ros2_ws/src/unitree_g1_description/urdf/'+('g1_29dof_dex3.urdf' if args.grasp_model=='dex3_contact' else 'g1_29dof_mode_15_brainco_hand.urdf'),
         mujoco_pedestrians_enable='true',mujoco_pedestrians_count=str(args.people),mujoco_pedestrian_seed=str(args.seed),
         run_nav2='true',run_waypoint_explorer='false',run_waypoint_patrol='false',run_frontier_explorer='false',
         run_human_aware_motion_planner='true',run_human_collision_avoidance='true',run_dynamic_obstacle_tracker='true',
@@ -213,6 +231,7 @@ def main():
         startup_current_pose_hold_time='0.0',startup_blend_time='0.0',startup_hold_time='1.0',
         startup_max_recovery_time='0.0',policy_action_ramp_time='0.0',mujoco_reset_on_controller_start='false',
         run_human_aware_run_logger='true',human_aware_run_log_path=container_run+'/trace.jsonl')
+    settings['human_aware_run_log_control_state'] = str(args.arm_stability_probe or args.record_control_state).lower()
     settings.update(crowd_settings)
     settings['policy_use_device_tick'] = str(args.policy_device_clock).lower()
     settings['mujoco_application_timing'] = str(args.application_timing).lower()
@@ -235,7 +254,7 @@ def main():
         sources.append(args.policy)
     hashes = {str(path.relative_to(ROOT)):hashlib.sha256(path.read_bytes()).hexdigest() for path in sources}
     (run/'manifest.json').write_text(json.dumps(dict(world=args.world,people=args.people,seed=args.seed,
-        duration_s=args.duration,build_reused=args.fast_start,carry_posture=args.carry_posture,
+        duration_s=args.duration,build_reused=args.fast_start,carry_posture=args.carry_posture,grasp_model=args.grasp_model,
         numeric_thread_environment=thread_environment,
         people_clearance_extra_m=args.people_clearance_extra if args.people else 0.,
         navigation_profile_sha256=navigation_profile_hash,
@@ -266,11 +285,20 @@ def main():
                 'unitree-g1-sim','bash','-lc',shell,'bash',
                 '--pairs',pairs,'--output',container_run+'/result.json','--duration',str(args.duration),'--people',str(args.people),
                 '--carry-posture',args.carry_posture,
+                '--grasp-model',args.grasp_model,
+                '--pickup-standoff',str(args.pickup_standoff),
+                '--grasp-height-offset',str(args.grasp_height_offset),
                 '--camera-pitch-deg',str(TRANSPORT_WORLDS[args.world].get('camera_pitch_deg',0.)),
                 '--search-max-viewpoints',str(args.search_max_viewpoints),
                 '--response-profile',profile.get('g1_policy_cmd_vel_controller',{}).get('ros__parameters',{}).get('response_profile','legacy'),
+                *(['--manipulation-heading-hold'] if args.manipulation_heading_hold else []),
+                *(['--arm-stability-probe'] if args.arm_stability_probe else []),
                 *(['--explore-unknown'] if args.explore_unknown else [])],cwd=ROOT)
             print(f'Transport artifacts: {run}',flush=True)
+            if args.arm_stability_probe:
+                capture = subprocess.run([sys.executable,str(ROOT/'scripts/analyze_arm_control_trace.py'),str(run),
+                    '--output',str(run/'control_capture_check.json')],cwd=ROOT)
+                return result.returncode or capture.returncode
             return result.returncode
     finally:
         if process is not None:

@@ -1,0 +1,5584 @@
+{
+  "scope": "Contact-only hand implementation; mobile delivery not yet qualified",
+  "source_hash_scope": "Publisher-time working-tree snapshot, not per-run source provenance; retained runs may predate these sources.",
+  "source_sha256": {
+    "scripts/dex3_hand_model.py": "b50d72aa796ed4ce0457f2ab3afc74a9fc7d211cd878afe9967e8efae4ce7e70",
+    "scripts/measure_dex3_contact_grasp.py": "a9c701bd3b96c70e328fd2eeb6ef5a5f9ad8234c6c248a2d193c0b7b4f3c4d64",
+    "scripts/probe_dex3_arm_stability.py": "120277753cad8b2bbe465bd70d8f7b546ecfcc7680806b8b30366902d295b1de",
+    "scripts/analyze_arm_control_trace.py": "59e20698da550cac7393cfe8480747b5b4050298c51f5c7775dd80abe4785a58",
+    "scripts/run_transport_demo.py": "f7024dac7b6750c47b68a2154cd7bfa259de33b0410acd14894b87693d5f8953",
+    "scripts/verify_dex3_services.py": "9cbba30c19f1d7c992558ffdb0e06629415016ad3fa6da02762dd6b4ba61968e",
+    "scripts/transport_worlds.py": "004ea3fcd8eb4e5014a2bbfb71dd24a609a8a9c5fe009508dcffefc81d5b7fc1",
+    "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/dex3_grasp.py": "fbd4aafd877051f49176beed7431e4a5aa42ea72dbfa3be99b39fcb5c063ec86",
+    "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/manipulation_heading.py": "ff038b99517b48bc6ddb9f6579df61067d33a057c0b7d7d3e6f71db7213d2edf",
+    "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_run_logger.py": "bf59781b7489fb3cb618b4df3372f973393bb77a8d7aeaeb9d6b4351c4daa3b0",
+    "ros2_ws/src/unitree_g1_sim_bringup/launch/g1_sim.launch.py": "8337e7c741fac72e1c1bf945f485270840c5159cb7179769ead6c89ac0e1b8c2",
+    "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "990703ea4d6fa7b1846f3ec2feda95ab64552b149707d72f539d861e8659a142",
+    "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "72361d7a40ce79256bf31a6e3cdeb7e2329a6c66504fb55e006fd28d2a28b39c",
+    "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_perception.py": "e458b068d1e87b9400d271639975924819fb77e8b3301b42b88106410b1ea2f7",
+    "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "39aa6ac4bf0113975cf081745bafa380d92d0011d3c8388915aeaf82c588030c",
+    "ros2_ws/src/unitree_mujoco/simulate/src/dex3_hand.h": "7b8360b649af128d1b032e6ac4d094cc44582b36a40e8056ff226b4fec11fbc6",
+    "ros2_ws/src/unitree_mujoco/simulate/test/dex3_contact_bench.cc": "6a09f4b4821cf5f8d0e80ecc1b6dbf2cc9e881c60f37a76641070259b0d47da4",
+    "ros2_ws/src/unitree_g1_description/dex3_sources/manifest.json": "74777adf50fe8c7ea2464279e5c8fc1fd728fa91dd3bfca75397e156f5d41ec6"
+  },
+  "calibration_notes": "All selected-date calibration failures and sweeps retained. Contact bench uses actuated wrist slides; bench success does not qualify mobile delivery.",
+  "bench_records": [
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261023/right_raised20_hold.json",
+      "sha256": "9347ca2c0d440f044f3cac9cbdb94e59b745b046dd320e16fbd7869b39680432",
+      "data": {
+        "success": true,
+        "scope": "prescribed wrist contact-only bench, not mobile qualification",
+        "release_gap_m": 0.0,
+        "release_rate_rad_s": 1.5,
+        "release_from_measured": false,
+        "support_geometry": "box",
+        "grasp_height_offset_m": 0.02,
+        "final_upright_cosine": 0.9999999063356898,
+        "upright_release": true,
+        "stable_release": true,
+        "hold_seconds": 40.0,
+        "sway_m": 0.01,
+        "sway_hz": 1.5,
+        "grip_kp": 3.0,
+        "grip_kd": 0.08,
+        "side": "right",
+        "x": 0.135,
+        "y": 0.04,
+        "radius": 0.02,
+        "mass": 0.08,
+        "grip": [
+          0.0,
+          -1.0,
+          -0.7,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "object_shape": "cylinder",
+        "object_constraints": 0,
+        "object_external_force": false,
+        "minimum_held_lift_m": 0.15129543743966956,
+        "opposed_contact": true,
+        "released": true,
+        "held_joints": [
+          0.0060277225044824915,
+          -0.4951957153676674,
+          -0.6935165117403139,
+          1.1984464036081681,
+          1.3443719149800153,
+          1.1985193179412204,
+          1.3443127173563738
+        ],
+        "held_contacts": [
+          "right_wrist_yaw_link",
+          "right_hand_thumb_1_link",
+          "right_hand_thumb_2_link",
+          "right_hand_middle_0_link",
+          "right_hand_middle_1_link",
+          "right_hand_index_0_link",
+          "right_hand_index_1_link"
+        ],
+        "prelift": {
+          "time": 2.901999999999902,
+          "position": [
+            0.09764946795862593,
+            0.03236251089929081,
+            1.0001478011098008
+          ],
+          "contacts": [
+            "right_wrist_yaw_link",
+            "right_hand_thumb_1_link",
+            "right_hand_thumb_2_link",
+            "right_hand_middle_0_link",
+            "right_hand_middle_1_link",
+            "right_hand_index_0_link",
+            "right_hand_index_1_link"
+          ],
+          "upright_cosine": 0.9999995490853701,
+          "joints": [
+            0.004969776349915672,
+            -0.4973563727089365,
+            -0.6929797019133219,
+            1.205888022120394,
+            1.3403562955560646,
+            1.1990559918160266,
+            1.3469143614642745
+          ]
+        },
+        "final_position": [
+          0.10660172947101758,
+          0.03578042390242808,
+          0.9993159294743966
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261023/right_raised30_hold.json",
+      "sha256": "b362bc86dc3fbabff72d304204d8ebbb916f5dea26b328fd67b67773b35f115d",
+      "data": {
+        "success": false,
+        "scope": "prescribed wrist contact-only bench, not mobile qualification",
+        "release_gap_m": 0.0,
+        "release_rate_rad_s": 1.5,
+        "release_from_measured": false,
+        "support_geometry": "box",
+        "grasp_height_offset_m": 0.03,
+        "final_upright_cosine": -0.002150757375175283,
+        "upright_release": false,
+        "stable_release": false,
+        "hold_seconds": 40.0,
+        "sway_m": 0.01,
+        "sway_hz": 1.5,
+        "grip_kp": 3.0,
+        "grip_kd": 0.08,
+        "side": "right",
+        "x": 0.135,
+        "y": 0.04,
+        "radius": 0.02,
+        "mass": 0.08,
+        "grip": [
+          0.0,
+          -1.0,
+          -0.7,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "object_shape": "cylinder",
+        "object_constraints": 0,
+        "object_external_force": false,
+        "minimum_held_lift_m": -0.03595358311711461,
+        "opposed_contact": false,
+        "released": true,
+        "held_joints": [
+          0.00905965431394386,
+          -0.9998000141471336,
+          -0.7000040652049062,
+          1.5004517628004088,
+          1.5000274915222984,
+          1.5004517628004088,
+          1.5000274915222984
+        ],
+        "held_contacts": [
+          "world"
+        ],
+        "prelift": {
+          "time": 2.901999999999902,
+          "position": [
+            0.10160119329157936,
+            0.03403973619044843,
+            1.0008139522580821
+          ],
+          "contacts": [
+            "world",
+            "right_wrist_yaw_link",
+            "right_hand_thumb_1_link",
+            "right_hand_thumb_2_link",
+            "right_hand_middle_0_link",
+            "right_hand_middle_1_link",
+            "right_hand_index_1_link"
+          ],
+          "upright_cosine": 0.9923179759124017,
+          "joints": [
+            0.09515907392562274,
+            -0.5209479120065034,
+            -0.6784428672602302,
+            1.0893199353175371,
+            1.355515384788488,
+            1.4848872555181507,
+            1.4990564753906688
+          ]
+        },
+        "final_position": [
+          0.09930614525267388,
+          -0.1331748678586992,
+          0.9681373653321519
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261023/right_raised40_hold.json",
+      "sha256": "724d1f22d5b0487bb95cb061f4d75c63b5ffe3216c3d6ccabe0bd809c0291f57",
+      "data": {
+        "success": false,
+        "scope": "prescribed wrist contact-only bench, not mobile qualification",
+        "release_gap_m": 0.0,
+        "release_rate_rad_s": 1.5,
+        "release_from_measured": false,
+        "support_geometry": "box",
+        "grasp_height_offset_m": 0.04,
+        "final_upright_cosine": 0.0024701335345263947,
+        "upright_release": false,
+        "stable_release": false,
+        "hold_seconds": 40.0,
+        "sway_m": 0.01,
+        "sway_hz": 1.5,
+        "grip_kp": 3.0,
+        "grip_kd": 0.08,
+        "side": "right",
+        "x": 0.135,
+        "y": 0.04,
+        "radius": 0.02,
+        "mass": 0.08,
+        "grip": [
+          0.0,
+          -1.0,
+          -0.7,
+          1.5,
+          1.5,
+          1.5,
+          1.5
+        ],
+        "object_shape": "cylinder",
+        "object_constraints": 0,
+        "object_external_force": false,
+        "minimum_held_lift_m": -76.71030737865657,
+        "opposed_contact": false,
+        "released": false,
+        "held_joints": [
+          0.00905965431394386,
+          -0.9998000141471336,
+          -0.7000040652049062,
+          1.5004517628004088,
+          1.5000274915222984,
+          1.5004517628004088,
+          1.5000274915222984
+        ],
+        "held_contacts": [],
+        "prelift": {
+          "time": 2.901999999999902,
+          "position": [
+            0.09795588690819432,
+            0.03450890445397573,
+            1.003804162898442
+          ],
+          "contacts": [
+            "world",
+            "right_wrist_yaw_link",
+            "right_hand_thumb_1_link",
+            "right_hand_thumb_2_link",
+            "right_hand_middle_0_link",
+            "right_hand_middle_1_link",
+            "right_hand_index_1_link"
+          ],
+          "upright_cosine": 0.9442265949113562,
+          "joints": [
+            0.023671689789952544,
+            -0.530430304531908,
+            -0.6801985522383828,
+            1.088071713343312,
+            1.3650953628217175,
+            1.498921606850134,
+            1.5000034225437782
+          ]
+        },
+        "final_position": [
+          0.47634236894635007,
+          -2.1477527109081302,
+          -317.1915299386802
+        ]
+      }
+    }
+  ],
+  "ros_dds_checks": [],
+  "ros_arm_diagnostics": [
+    {
+      "attempt": {
+        "run": "dex3_ros_arm_baseline_20261023",
+        "world": "transport_dual",
+        "people": 0,
+        "layout_seed": null,
+        "seed": 42,
+        "objective": {
+          "pairs": [
+            {
+              "object_id": "box_red",
+              "destination_id": "target_red",
+              "color": "red",
+              "destination_color": "red"
+            }
+          ],
+          "task_seed": null,
+          "mode": "red:red",
+          "description": "Put the red object on the red goal"
+        },
+        "policy": "vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+        "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+        "configuration": {
+          "policy_device_clock": "true",
+          "numeric_thread_environment": {},
+          "application_timing": "false",
+          "arm_executor_threads": "2",
+          "arm_repeat_period": "0.0",
+          "slam_loop_closing": "true",
+          "tracker_body_wall_sheets": true,
+          "predictive_refuge": false,
+          "early_overtaking_avoidance": false,
+          "navigation_profile_sha256": "3c20b55a91b027dcdcf65bc8b01493bd6206b3b3348a94b00d895d6c6f018ff1"
+        },
+        "success": false,
+        "mission_complete": false,
+        "data_valid": true,
+        "artifact_complete": true,
+        "fallen": false,
+        "contacts": 0,
+        "error": null,
+        "minimum_person_clearance_m": null,
+        "deliveries": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red",
+            "verified": false,
+            "lift_m": 0.0,
+            "travel_m": 5.702244367885291e-05
+          }
+        ],
+        "dropped_objects": [],
+        "attachment_state": "empty",
+        "object_may_be_held": false,
+        "completion_s": null,
+        "last_recorded_event_s": 51.04347149201203,
+        "deadline_s": 120.0,
+        "search": null,
+        "discoveries": [],
+        "placement_alignment": [],
+        "workspace_recovery_events": [],
+        "route_blockage": {},
+        "result_sha256": "ea6f37f28b5dd327b26b172b7234aaba677186285e38d98df2b35f3eadd29d3e",
+        "manifest_sha256": "28b589217b938fe9681fe884fb0d75d5e97c349f22631d56b2bc16e131a6e50d",
+        "source_archive_sha256": "ca0c29a140013610424c9ad3334a747da5e16ba6a54480fadc0e2eeed320d2e9",
+        "effective_parameters_sha256": "0e135e8393452f7de30f34b2b54078a19c3ea7d156f5d8b0c6ede131dbb72eec",
+        "runtime_metrics": {
+          "command_receipt_age_at_target_publish_s": {
+            "count": 0,
+            "min": null,
+            "median": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "escape_worker_submit_to_complete_ms": {
+            "count": 0,
+            "min": null,
+            "median": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "lowstate_dds_receive_to_callback_ms": {
+            "count": 0,
+            "min": null,
+            "median": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "lowstate_dds_source_to_callback_ms": {
+            "count": 0,
+            "min": null,
+            "median": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "lowstate_dds_source_to_target_publish_ms": {
+            "count": 0,
+            "min": null,
+            "median": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "lowstate_receipt_age_at_target_publish_s": {
+            "count": 0,
+            "min": null,
+            "median": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "odom_source_age_at_logger_receipt_s": {
+            "count": 0,
+            "min": null,
+            "median": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "planner_thread_ms": {
+            "count": 94,
+            "min": 1.722,
+            "median": 2.865,
+            "p95": 5.461349999999999,
+            "p99": 5.75109,
+            "max": 5.832
+          },
+          "planner_wall_active_ms": {
+            "count": 0,
+            "min": null,
+            "median": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "planner_wall_ms": {
+            "count": 94,
+            "min": 1.719,
+            "median": 2.887,
+            "p95": 5.635249999999999,
+            "p99": 8.967729999999898,
+            "max": 22.861
+          },
+          "policy_complete_to_publish_ms": {
+            "count": 0,
+            "min": null,
+            "median": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "policy_observation_interval_ms": {
+            "count": 0,
+            "min": null,
+            "median": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "policy_observation_interval_over_period": {
+            "count": 0,
+            "min": null,
+            "median": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "policy_submit_to_complete_ms": {
+            "count": 0,
+            "min": null,
+            "median": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "policy_submit_to_publish_ms": {
+            "count": 0,
+            "min": null,
+            "median": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "prediction_age_at_command_publish_s": {
+            "count": 0,
+            "min": null,
+            "median": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "rtf_monotonic_receipt_windows": {
+            "count": 0,
+            "min": null,
+            "median": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "rtf_ros_legacy_receipt_windows": {
+            "count": 0,
+            "min": null,
+            "median": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "scan_age_at_command_publish_s": {
+            "count": 0,
+            "min": null,
+            "median": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "supervisor_escape_control_path_ms": {
+            "count": 244,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "supervisor_input_age_s": {
+            "count": 235,
+            "min": 0.005,
+            "median": 0.027,
+            "p95": 0.047,
+            "p99": 0.057,
+            "max": 0.066
+          },
+          "supervisor_predictive_search_ms": {
+            "count": 0,
+            "min": null,
+            "median": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "supervisor_tick_interval_ms": {
+            "count": 243,
+            "min": 8.865879965014756,
+            "median": 20.004178979434073,
+            "p95": 22.413519909605377,
+            "p99": 25.014434063341465,
+            "max": 28.545393026433885
+          },
+          "supervisor_tick_to_publication_ms": {
+            "count": 244,
+            "min": 0.1970300218090415,
+            "median": 0.35246898187324405,
+            "p95": 0.5344119854271412,
+            "p99": 2.0243797928560503,
+            "max": 3.481167950667441
+          },
+          "tracks_age_at_command_publish_s": {
+            "count": 0,
+            "min": null,
+            "median": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          }
+        },
+        "policy_hold_events": [],
+        "command_application": {},
+        "command_application_sha256": null
+      },
+      "capture_check": {
+        "scope": "offline observed-publication and measured-state diagnostic; not actuator acknowledgement or delivery qualification",
+        "capture_valid": false,
+        "malformed_rows": 0,
+        "topic_counts": {
+          "safety_debug": 244,
+          "safe_cmd": 244,
+          "arm_authority": 98,
+          "planner_state": 95,
+          "planner_debug": 94,
+          "planner_cmd": 95,
+          "locomotion_diagnostics": 10,
+          "transport_state": 31,
+          "policy_diagnostics": 2
+        },
+        "phases": {},
+        "trace_sha256": "0614a59175528256589584838d98c16c4ab9d69882b45938f27587fcfe2f1d84",
+        "trace_hashed_bytes": 529153,
+        "trace": "ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/dex3_ros_arm_baseline_20261023/trace.jsonl",
+        "hash_scope": "trace prefix observed during analysis; live logger may append later"
+      },
+      "final_capture_verification": null
+    },
+    {
+      "attempt": {
+        "run": "dex3_ros_arm_capture_20261023",
+        "world": "transport_dual",
+        "people": 0,
+        "layout_seed": null,
+        "seed": 42,
+        "objective": {
+          "pairs": [
+            {
+              "object_id": "box_red",
+              "destination_id": "target_red",
+              "color": "red",
+              "destination_color": "red"
+            }
+          ],
+          "task_seed": null,
+          "mode": "arm_stability_diagnostic",
+          "description": "Isolated free-base arm protocol; not delivery qualification"
+        },
+        "policy": "vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+        "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+        "configuration": {
+          "policy_device_clock": "true",
+          "numeric_thread_environment": {},
+          "application_timing": "false",
+          "arm_executor_threads": "2",
+          "arm_repeat_period": "0.0",
+          "slam_loop_closing": "true",
+          "tracker_body_wall_sheets": true,
+          "predictive_refuge": false,
+          "early_overtaking_avoidance": false,
+          "navigation_profile_sha256": "3c20b55a91b027dcdcf65bc8b01493bd6206b3b3348a94b00d895d6c6f018ff1"
+        },
+        "success": false,
+        "mission_complete": false,
+        "data_valid": true,
+        "artifact_complete": true,
+        "fallen": false,
+        "contacts": 0,
+        "error": null,
+        "minimum_person_clearance_m": null,
+        "deliveries": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red",
+            "verified": false,
+            "lift_m": 0.0,
+            "travel_m": 6.133513719472351e-05
+          }
+        ],
+        "dropped_objects": [],
+        "attachment_state": "empty",
+        "object_may_be_held": false,
+        "completion_s": null,
+        "last_recorded_event_s": 49.77211976191029,
+        "deadline_s": 120.0,
+        "search": null,
+        "discoveries": [],
+        "placement_alignment": [],
+        "workspace_recovery_events": [],
+        "route_blockage": {},
+        "result_sha256": "96d80039777f53e69bc51d0866004dd8902376c3aa69aece6afb628a53766f86",
+        "manifest_sha256": "1c0aee3d11658c250264cb7094554378af59108c4c84837bc7f8784a6d4863f8",
+        "source_archive_sha256": "fbc31e494834af97b69a680c8629f8ba014336ccf819de4b2b5ca444b6bbfb3b",
+        "effective_parameters_sha256": "6b849826e312766f9133c39faef89354ff0c5841312e2b9613944284c6446f53",
+        "runtime_metrics": {
+          "command_receipt_age_at_target_publish_s": {
+            "count": 2487,
+            "min": 0.004767894744873047,
+            "median": 0.01815485954284668,
+            "p95": 0.03295242786407471,
+            "p99": 0.041098899841308566,
+            "max": 0.07662105560302734
+          },
+          "escape_worker_submit_to_complete_ms": {
+            "count": 0,
+            "min": null,
+            "median": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "lowstate_dds_receive_to_callback_ms": {
+            "count": 0,
+            "min": null,
+            "median": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "lowstate_dds_source_to_callback_ms": {
+            "count": 2487,
+            "min": 1.0993480682373047,
+            "median": 2.86865234375,
+            "p95": 5.512809753417965,
+            "p99": 7.627544403076162,
+            "max": 12.19320297241211
+          },
+          "lowstate_dds_source_to_target_publish_ms": {
+            "count": 2487,
+            "min": 3.831624984741211,
+            "median": 9.959220886230469,
+            "p95": 18.744206428527832,
+            "p99": 24.394097328186007,
+            "max": 49.63064193725586
+          },
+          "lowstate_receipt_age_at_target_publish_s": {
+            "count": 2487,
+            "min": 0.0026484449626877904,
+            "median": 0.007027609972283244,
+            "p95": 0.01473604008788243,
+            "p99": 0.02008030694676563,
+            "max": 0.041893607936799526
+          },
+          "odom_source_age_at_logger_receipt_s": {
+            "count": 620,
+            "min": 0.03957939147949219,
+            "median": 0.0871208906173706,
+            "p95": 0.1361725926399231,
+            "p99": 0.14644761800765985,
+            "max": 0.19452142715454102
+          },
+          "planner_thread_ms": {
+            "count": 1185,
+            "min": 0.377,
+            "median": 0.916,
+            "p95": 2.3427999999999987,
+            "p99": 5.239440000000011,
+            "max": 6.261
+          },
+          "planner_wall_active_ms": {
+            "count": 0,
+            "min": null,
+            "median": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "planner_wall_ms": {
+            "count": 1185,
+            "min": 0.376,
+            "median": 0.93,
+            "p95": 3.2833999999999954,
+            "p99": 5.5936,
+            "max": 8.539
+          },
+          "policy_cmd_source_age_at_logger_receipt_s": {
+            "count": 2561,
+            "min": 0.00047850608825683594,
+            "median": 0.003816366195678711,
+            "p95": 0.008569955825805664,
+            "p99": 0.010816860198974612,
+            "max": 0.040838003158569336
+          },
+          "policy_complete_to_publish_ms": {
+            "count": 2487,
+            "min": 0.45193301048129797,
+            "median": 0.9089570958167315,
+            "p95": 3.339741250965744,
+            "p99": 4.997428711503733,
+            "max": 15.346180996857584
+          },
+          "policy_observation_interval_ms": {
+            "count": 2487,
+            "min": 20.0,
+            "median": 20.0,
+            "p95": 26.0,
+            "p99": 28.0,
+            "max": 42.0
+          },
+          "policy_observation_interval_over_period": {
+            "count": 2487,
+            "min": 1.0,
+            "median": 1.0,
+            "p95": 1.2999999999999998,
+            "p99": 1.4,
+            "max": 2.1
+          },
+          "policy_submit_to_complete_ms": {
+            "count": 2487,
+            "min": 0.9306130232289433,
+            "median": 4.364519030787051,
+            "p95": 11.309114296454931,
+            "p99": 15.802076586987816,
+            "max": 26.63962496444583
+          },
+          "policy_submit_to_publish_ms": {
+            "count": 2487,
+            "min": 1.6688639298081398,
+            "median": 5.647270940244198,
+            "p95": 13.155064615420992,
+            "p99": 18.199347259942442,
+            "max": 29.21298297587782
+          },
+          "prediction_age_at_command_publish_s": {
+            "count": 1082,
+            "min": 0.09391522407531738,
+            "median": 0.2123112678527832,
+            "p95": 0.29263237714767454,
+            "p99": 0.33293455362319957,
+            "max": 0.6465470790863037
+          },
+          "prediction_age_at_planning_snapshot_s": {
+            "count": 1082,
+            "min": 0.0935,
+            "median": 0.21155000000000002,
+            "p95": 0.292285,
+            "p99": 0.3322560000000001,
+            "max": 0.6458
+          },
+          "rtf_monotonic_receipt_windows": {
+            "count": 0,
+            "min": null,
+            "median": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "rtf_ros_legacy_receipt_windows": {
+            "count": 0,
+            "min": null,
+            "median": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "scan_age_at_command_publish_s": {
+            "count": 1082,
+            "min": 0.058,
+            "median": 0.155,
+            "p95": 0.21095000000000003,
+            "p99": 0.25,
+            "max": 0.647
+          },
+          "scan_age_at_planning_snapshot_s": {
+            "count": 1082,
+            "min": 0.058,
+            "median": 0.154,
+            "p95": 0.20995000000000003,
+            "p99": 0.24919000000000005,
+            "max": 0.646
+          },
+          "supervisor_escape_control_path_ms": {
+            "count": 2940,
+            "min": 0.0,
+            "median": 0.0,
+            "p95": 0.0,
+            "p99": 0.0,
+            "max": 0.0
+          },
+          "supervisor_input_age_s": {
+            "count": 2939,
+            "min": 0.002,
+            "median": 0.026,
+            "p95": 0.053,
+            "p99": 0.059,
+            "max": 0.078
+          },
+          "supervisor_predictive_search_ms": {
+            "count": 0,
+            "min": null,
+            "median": null,
+            "p95": null,
+            "p99": null,
+            "max": null
+          },
+          "supervisor_tick_interval_ms": {
+            "count": 2939,
+            "min": 2.90661898907274,
+            "median": 20.013986038975418,
+            "p95": 24.881732324138284,
+            "p99": 30.08741413243114,
+            "max": 61.71911698766053
+          },
+          "supervisor_tick_to_publication_ms": {
+            "count": 2940,
+            "min": 0.16641197726130486,
+            "median": 0.4925545072183013,
+            "p95": 1.0699371632654218,
+            "p99": 3.6068316444289006,
+            "max": 8.505692007020116
+          },
+          "tracks_age_at_command_publish_s": {
+            "count": 1082,
+            "min": 0.09391522407531738,
+            "median": 0.21200084686279297,
+            "p95": 0.29257438182830814,
+            "p99": 0.33293455362319957,
+            "max": 0.6465470790863037
+          },
+          "tracks_age_at_planning_snapshot_s": {
+            "count": 1082,
+            "min": 0.0935,
+            "median": 0.21125,
+            "p95": 0.291995,
+            "p99": 0.3322560000000001,
+            "max": 0.6458
+          }
+        },
+        "policy_hold_events": [
+          {
+            "sequence": 1,
+            "state": "frozen_lowstate_hold",
+            "recovery_kind": "state_hold",
+            "stamp": 1792732235.3022234,
+            "monotonic_s": 925682.490648454,
+            "device_tick_ms": 0,
+            "command_before_hold": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "action_norm_before_hold": 0.0,
+            "measured_tilt_rad": 0.0,
+            "target_jump_rad": 2.8610229518832853e-08,
+            "history_reset": true
+          },
+          {
+            "sequence": 2,
+            "state": "frozen_lowstate_hold",
+            "recovery_kind": "state_hold",
+            "stamp": 1792732235.5019572,
+            "monotonic_s": 925682.690382916,
+            "device_tick_ms": 2,
+            "command_before_hold": [
+              0.0,
+              0.0,
+              0.0
+            ],
+            "action_norm_before_hold": 0.0,
+            "measured_tilt_rad": 0.0,
+            "target_jump_rad": 2.8610229518832853e-08,
+            "history_reset": true
+          }
+        ],
+        "command_application": {},
+        "command_application_sha256": null
+      },
+      "capture_check": {
+        "scope": "offline observed-publication and measured-state diagnostic; not actuator acknowledgement or delivery qualification",
+        "capture_valid": true,
+        "malformed_rows": 0,
+        "topic_counts": {
+          "planner_state": 1172,
+          "planner_debug": 1172,
+          "planner_cmd": 1172,
+          "locomotion_diagnostics": 117,
+          "safe_cmd": 2908,
+          "safety_debug": 2908,
+          "arm_authority": 1164,
+          "policy_diagnostics": 29,
+          "transport_state": 521,
+          "lowstate_control": 11003,
+          "policy_cmd": 2532,
+          "actor_targets": 7185,
+          "composed_targets": 9501,
+          "lowcmd_control": 6916,
+          "evaluation_odom": 614,
+          "localization_status": 614,
+          "odom": 614,
+          "tracker_debug": 595,
+          "policy_timing": 2458
+        },
+        "phases": {
+          "probe_stand": {
+            "evaluation_odom": {
+              "samples": 66,
+              "duration_s": 5.333236820995808,
+              "translation_m": 0.008500000000000004,
+              "yaw_excursion_rad": 0.15369106542416072
+            },
+            "odom": {
+              "samples": 66,
+              "duration_s": 5.325837803073227,
+              "translation_m": 0.011038568747804216,
+              "yaw_excursion_rad": 0.15386959974369613
+            },
+            "lowstate_control": {
+              "samples": 1029,
+              "duration_s": 5.395749308983795,
+              "max_receipt_gap_s": 0.010731696034781635,
+              "device_elapsed_s": 5.402,
+              "reordered_ticks": 0,
+              "median_q": [
+                0.14775922894477844,
+                0.032222241163253784,
+                0.08974464237689972,
+                0.13484328985214233,
+                -0.22959348559379578,
+                0.004863005131483078,
+                0.058488957583904266,
+                0.010385059751570225,
+                0.06532271951436996,
+                0.0925244688987732,
+                -0.1000920832157135,
+                0.024670850485563278,
+                -0.01491373497992754,
+                -0.00961626973003149,
+                0.021191585808992386,
+                0.2610386610031128,
+                0.24755340814590454,
+                -0.03867950662970543,
+                1.0504471063613892,
+                0.17271168529987335,
+                0.03558069467544556,
+                0.10038631409406662,
+                0.3380669057369232,
+                -0.21063292026519775,
+                -0.019625432789325714,
+                1.071546196937561,
+                -0.17800799012184143,
+                0.0845671072602272,
+                -0.02233322709798813
+              ]
+            },
+            "lowcmd_control": {
+              "samples": 634,
+              "duration_s": 5.380250514019281,
+              "max_receipt_gap_s": 0.02582615101709962,
+              "gain_profiles": [
+                {
+                  "kp": [
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    200.0,
+                    200.0,
+                    200.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0
+                  ],
+                  "kd": [
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    5.0,
+                    5.0,
+                    5.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0
+                  ]
+                },
+                {
+                  "kp": [
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    200.0,
+                    200.0,
+                    200.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0
+                  ],
+                  "kd": [
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    5.0,
+                    5.0,
+                    5.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0
+                  ]
+                }
+              ],
+              "median_q": [
+                0.15418124198913574,
+                0.04657330550253391,
+                0.06880947947502136,
+                0.15193884074687958,
+                0.06634776294231415,
+                -0.005834590643644333,
+                0.02083035744726658,
+                -0.0006830841302871704,
+                0.05428598262369633,
+                0.09404066205024719,
+                0.09240488708019257,
+                -0.03439664840698242,
+                -0.015118584968149662,
+                -0.005850802641361952,
+                0.023098714649677277,
+                0.23938755691051483,
+                0.24372276663780212,
+                -0.03418882563710213,
+                0.9410447776317596,
+                0.15243396908044815,
+                -0.03709578514099121,
+                0.05351982265710831,
+                0.31932035088539124,
+                -0.23315827548503876,
+                -0.04869416169822216,
+                0.9719030857086182,
+                -0.14972539246082306,
+                0.04292003624141216,
+                -0.022476790472865105
+              ]
+            },
+            "actor_targets": {
+              "samples": 720,
+              "duration_s": 5.395495799020864,
+              "max_receipt_gap_s": 0.0260228649713099
+            },
+            "composed_targets": {
+              "samples": 891,
+              "duration_s": 5.39530652097892,
+              "max_receipt_gap_s": 0.014007564983330667
+            }
+          },
+          "probe_carry": {
+            "evaluation_odom": {
+              "samples": 68,
+              "duration_s": 5.532234972110018,
+              "translation_m": 0.06052999256566946,
+              "yaw_excursion_rad": 0.05875743003937717
+            },
+            "odom": {
+              "samples": 68,
+              "duration_s": 5.465135804959573,
+              "translation_m": 0.05935284323433882,
+              "yaw_excursion_rad": 0.053893885799601415
+            },
+            "lowstate_control": {
+              "samples": 1220,
+              "duration_s": 5.594271523063071,
+              "max_receipt_gap_s": 0.013170617981813848,
+              "device_elapsed_s": 5.59,
+              "reordered_ticks": 0,
+              "median_q": [
+                0.1299239993095398,
+                0.04125593602657318,
+                0.07663972675800323,
+                0.13718393445014954,
+                -0.23233921080827713,
+                -0.012838295195251703,
+                -0.051088957116007805,
+                0.025803671218454838,
+                0.04456382803618908,
+                0.1612270474433899,
+                -0.0803818553686142,
+                0.008019822183996439,
+                -0.016538464464247227,
+                0.003596559399738908,
+                0.03321939520537853,
+                0.2586508095264435,
+                0.23804070800542831,
+                -0.04902409389615059,
+                1.0633919835090637,
+                0.16629969328641891,
+                0.03780454583466053,
+                0.11132698506116867,
+                -0.18436199426651,
+                -0.5395185053348541,
+                0.006421907106414437,
+                0.5405634045600891,
+                0.533785879611969,
+                0.4406012296676636,
+                -0.29350779950618744
+              ]
+            },
+            "lowcmd_control": {
+              "samples": 712,
+              "duration_s": 5.5878016240894794,
+              "max_receipt_gap_s": 0.038702787016518414,
+              "gain_profiles": [
+                {
+                  "kp": [
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    200.0,
+                    200.0,
+                    200.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0
+                  ],
+                  "kd": [
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    5.0,
+                    5.0,
+                    5.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0
+                  ]
+                }
+              ],
+              "median_q": [
+                0.12748245894908905,
+                0.03804679773747921,
+                0.05622830614447594,
+                0.16042649745941162,
+                0.09375953674316406,
+                -0.062205784022808075,
+                -0.04889262840151787,
+                0.0037580784410238266,
+                0.02576722577214241,
+                0.17525166273117065,
+                0.06616927683353424,
+                -0.049484170973300934,
+                -0.018823325634002686,
+                0.0001594393397681415,
+                0.008928492665290833,
+                0.26248520612716675,
+                0.2433309555053711,
+                -0.04875839129090309,
+                1.0596262216567993,
+                0.16596665978431702,
+                0.03598276525735855,
+                0.10993307828903198,
+                -0.379059761762619,
+                -0.6788730323314667,
+                -0.00014381339133251458,
+                0.3517312556505203,
+                0.7521989345550537,
+                0.5440653264522552,
+                -0.37964552640914917
+              ]
+            },
+            "actor_targets": {
+              "samples": 751,
+              "duration_s": 5.5943823480047286,
+              "max_receipt_gap_s": 0.02414311107713729
+            },
+            "composed_targets": {
+              "samples": 1041,
+              "duration_s": 5.59188895393163,
+              "max_receipt_gap_s": 0.02427918289322406
+            }
+          },
+          "probe_carry_hold": {
+            "evaluation_odom": {
+              "samples": 54,
+              "duration_s": 4.93192377500236,
+              "translation_m": 0.013565028566132844,
+              "yaw_excursion_rad": 0.0502546674048078
+            },
+            "odom": {
+              "samples": 54,
+              "duration_s": 4.939137340988964,
+              "translation_m": 0.01866386883794461,
+              "yaw_excursion_rad": 0.05159486720638795
+            },
+            "lowstate_control": {
+              "samples": 706,
+              "duration_s": 4.997754323063418,
+              "max_receipt_gap_s": 0.015658815042115748,
+              "device_elapsed_s": 4.998,
+              "reordered_ticks": 0,
+              "median_q": [
+                0.0488031804561615,
+                0.03542853519320488,
+                0.025963625870645046,
+                0.14569075405597687,
+                -0.15790220350027084,
+                -0.021527367644011974,
+                -0.056925781071186066,
+                -0.030179492197930813,
+                -0.027684951201081276,
+                0.15587177127599716,
+                -0.06139039061963558,
+                0.021305046044290066,
+                -0.03446951322257519,
+                -0.0011520657571963966,
+                0.03615302033722401,
+                0.2586483210325241,
+                0.23739182949066162,
+                -0.049144918099045753,
+                1.0635669827461243,
+                0.16632162779569626,
+                0.03788598254323006,
+                0.11138828098773956,
+                -0.8847355246543884,
+                -1.0204439163208008,
+                0.026753325946629047,
+                -0.1945730745792389,
+                1.4515372514724731,
+                0.8967733979225159,
+                -0.6500570178031921
+              ]
+            },
+            "lowcmd_control": {
+              "samples": 679,
+              "duration_s": 4.990553627023473,
+              "max_receipt_gap_s": 0.018658308894373477,
+              "gain_profiles": [
+                {
+                  "kp": [
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    200.0,
+                    200.0,
+                    200.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0
+                  ],
+                  "kd": [
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    5.0,
+                    5.0,
+                    5.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0
+                  ]
+                }
+              ],
+              "median_q": [
+                0.038523606956005096,
+                0.08654548227787018,
+                0.02200939692556858,
+                0.15630562603473663,
+                0.09959046542644501,
+                0.019086049869656563,
+                -0.0032356143929064274,
+                -0.08420304954051971,
+                -0.004786483012139797,
+                0.1610637903213501,
+                0.011180239729583263,
+                -0.05150240659713745,
+                -0.0343356691300869,
+                -0.004923331551253796,
+                0.006385556422173977,
+                0.26248520612716675,
+                0.2433309555053711,
+                -0.04875839129090309,
+                1.0596262216567993,
+                0.16596665978431702,
+                0.03598276525735855,
+                0.10993307828903198,
+                -0.9200000166893005,
+                -1.0399999618530273,
+                0.009999999776482582,
+                -0.20000000298023224,
+                1.4500000476837158,
+                0.8899999856948853,
+                -0.6499999761581421
+              ]
+            },
+            "actor_targets": {
+              "samples": 679,
+              "duration_s": 4.997877635061741,
+              "max_receipt_gap_s": 0.020546266925521195
+            },
+            "composed_targets": {
+              "samples": 706,
+              "duration_s": 4.997938138083555,
+              "max_receipt_gap_s": 0.01349724701140076
+            }
+          },
+          "probe_stage": {
+            "evaluation_odom": {
+              "samples": 48,
+              "duration_s": 3.932932554045692,
+              "translation_m": 0.005643580423808984,
+              "yaw_excursion_rad": 0.008041125484734596
+            },
+            "odom": {
+              "samples": 49,
+              "duration_s": 3.985050705028698,
+              "translation_m": 0.007029224708315989,
+              "yaw_excursion_rad": 0.007882230661883843
+            },
+            "lowstate_control": {
+              "samples": 572,
+              "duration_s": 4.092180758016184,
+              "max_receipt_gap_s": 0.020061384071595967,
+              "device_elapsed_s": 4.094,
+              "reordered_ticks": 0,
+              "median_q": [
+                0.06864337623119354,
+                0.04682531766593456,
+                0.03614382445812225,
+                0.13962414860725403,
+                -0.16045419871807098,
+                -0.029613176360726357,
+                -0.03601459972560406,
+                -0.033461958169937134,
+                -0.004499192349612713,
+                0.16050907224416733,
+                -0.07926037535071373,
+                0.030158521607518196,
+                -0.03110267873853445,
+                0.0006398869445547462,
+                0.031089238822460175,
+                0.2566300630569458,
+                0.23220941424369812,
+                -0.0494227334856987,
+                1.0681995153427124,
+                0.16681981086730957,
+                0.04012018255889416,
+                0.11302991956472397,
+                -0.3620767593383789,
+                -0.9670270085334778,
+                -0.07678250223398209,
+                -0.5352128744125366,
+                1.352794349193573,
+                0.7291999757289886,
+                -0.6371162831783295
+              ]
+            },
+            "lowcmd_control": {
+              "samples": 538,
+              "duration_s": 4.092057018075138,
+              "max_receipt_gap_s": 0.02327867003623396,
+              "gain_profiles": [
+                {
+                  "kp": [
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    200.0,
+                    200.0,
+                    200.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0
+                  ],
+                  "kd": [
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    5.0,
+                    5.0,
+                    5.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0
+                  ]
+                }
+              ],
+              "median_q": [
+                0.06660934537649155,
+                0.062020495533943176,
+                0.03354698419570923,
+                0.1467818319797516,
+                0.057295430451631546,
+                0.009886233136057854,
+                -0.007302409503608942,
+                -0.05289905518293381,
+                0.002843097783625126,
+                0.16144046187400818,
+                0.026194903999567032,
+                -0.05205217003822327,
+                -0.030918510630726814,
+                -0.0038960606325417757,
+                0.009028978645801544,
+                0.25898563861846924,
+                0.23737278580665588,
+                -0.04916738346219063,
+                1.0637069940567017,
+                0.1663416177034378,
+                0.03793720155954361,
+                0.11137520521879196,
+                -0.34940244257450104,
+                -0.9778200685977936,
+                -0.09500619024038315,
+                -0.5634510219097137,
+                1.3270432353019714,
+                0.7040319442749023,
+                -0.6255810856819153
+              ]
+            },
+            "actor_targets": {
+              "samples": 551,
+              "duration_s": 4.092195422039367,
+              "max_receipt_gap_s": 0.020964105962775648
+            },
+            "composed_targets": {
+              "samples": 571,
+              "duration_s": 4.092238465906121,
+              "max_receipt_gap_s": 0.020308515056967735
+            }
+          },
+          "probe_stage_hold": {
+            "evaluation_odom": {
+              "samples": 31,
+              "duration_s": 2.9278486440889537,
+              "translation_m": 0.005748912940721924,
+              "yaw_excursion_rad": 0.023537014964445213
+            },
+            "odom": {
+              "samples": 31,
+              "duration_s": 2.920732583035715,
+              "translation_m": 0.006324555320336759,
+              "yaw_excursion_rad": 0.023577704111268
+            },
+            "lowstate_control": {
+              "samples": 423,
+              "duration_s": 2.988275381969288,
+              "max_receipt_gap_s": 0.009863851009868085,
+              "device_elapsed_s": 2.984,
+              "reordered_ticks": 0,
+              "median_q": [
+                0.1003272756934166,
+                0.054088979959487915,
+                0.04112515598535538,
+                0.13623778522014618,
+                -0.17737160623073578,
+                -0.033564336597919464,
+                -0.02285299077630043,
+                -0.027766220271587372,
+                0.013923270627856255,
+                0.16991585493087769,
+                -0.09140679985284805,
+                0.03187808021903038,
+                -0.027384629473090172,
+                0.0006249770522117615,
+                0.02141716331243515,
+                0.25754475593566895,
+                0.23223739862442017,
+                -0.0494137704372406,
+                1.0686509609222412,
+                0.1668044626712799,
+                0.04027048125863075,
+                0.11301939189434052,
+                0.22672632336616516,
+                -0.7719401121139526,
+                -0.07311658561229706,
+                -0.7009840607643127,
+                0.8572056293487549,
+                0.34340688586235046,
+                -0.37705981731414795
+              ]
+            },
+            "lowcmd_control": {
+              "samples": 386,
+              "duration_s": 2.988667408004403,
+              "max_receipt_gap_s": 0.01798429701011628,
+              "gain_profiles": [
+                {
+                  "kp": [
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    200.0,
+                    200.0,
+                    200.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0
+                  ],
+                  "kd": [
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    5.0,
+                    5.0,
+                    5.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0
+                  ]
+                }
+              ],
+              "median_q": [
+                0.08745575696229935,
+                0.042411141097545624,
+                0.04135938361287117,
+                0.14047816395759583,
+                0.03471146896481514,
+                0.002398829907178879,
+                -0.01353936456143856,
+                -0.024247784167528152,
+                0.011131774634122849,
+                0.1626722365617752,
+                0.014558139257133007,
+                -0.04861357808113098,
+                -0.02701788768172264,
+                -0.002527132397517562,
+                0.013038771227002144,
+                0.25898563861846924,
+                0.23737278580665588,
+                -0.04916738346219063,
+                1.0637069940567017,
+                0.1663416177034378,
+                0.03793720155954361,
+                0.11137520521879196,
+                0.2111755609512329,
+                -0.7887637615203857,
+                -0.08765939623117447,
+                -0.715065598487854,
+                0.8557912707328796,
+                0.3360424041748047,
+                -0.37702834606170654
+              ]
+            },
+            "actor_targets": {
+              "samples": 402,
+              "duration_s": 2.9882285019848496,
+              "max_receipt_gap_s": 0.019716134993359447
+            },
+            "composed_targets": {
+              "samples": 423,
+              "duration_s": 2.98816563305445,
+              "max_receipt_gap_s": 0.009907824918627739
+            }
+          },
+          "probe_extension": {
+            "evaluation_odom": {
+              "samples": 49,
+              "duration_s": 4.137030876008794,
+              "translation_m": 0.007778174593052022,
+              "yaw_excursion_rad": 0.04128760030317749
+            },
+            "odom": {
+              "samples": 49,
+              "duration_s": 4.153643077937886,
+              "translation_m": 0.010381714694596457,
+              "yaw_excursion_rad": 0.04133223593349725
+            },
+            "lowstate_control": {
+              "samples": 618,
+              "duration_s": 4.2080892220837995,
+              "max_receipt_gap_s": 0.014078974025323987,
+              "device_elapsed_s": 4.198,
+              "reordered_ticks": 0,
+              "median_q": [
+                0.1066562868654728,
+                0.05542064644396305,
+                0.04788607358932495,
+                0.13861744850873947,
+                -0.1983843892812729,
+                -0.03156326524913311,
+                -0.03557303547859192,
+                -0.023848440498113632,
+                0.02071752492338419,
+                0.1657709702849388,
+                -0.08605199679732323,
+                0.03523828275501728,
+                -0.024918168783187866,
+                -0.000714558846084401,
+                0.03317740373313427,
+                0.2545879930257797,
+                0.22840818762779236,
+                -0.049208203330636024,
+                1.0725133419036865,
+                0.16716677695512772,
+                0.04222613945603371,
+                0.11496306210756302,
+                -0.2375253066420555,
+                -0.6865174472332001,
+                0.11197730526328087,
+                -0.22846630215644836,
+                0.7914016246795654,
+                0.35137687623500824,
+                -0.3134089857339859
+              ]
+            },
+            "lowcmd_control": {
+              "samples": 557,
+              "duration_s": 4.201672840048559,
+              "max_receipt_gap_s": 0.017566040041856468,
+              "gain_profiles": [
+                {
+                  "kp": [
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    200.0,
+                    200.0,
+                    200.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0
+                  ],
+                  "kd": [
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    5.0,
+                    5.0,
+                    5.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0
+                  ]
+                }
+              ],
+              "median_q": [
+                0.1047295555472374,
+                0.03773461654782295,
+                0.04693571478128433,
+                0.16041383147239685,
+                0.09005032479763031,
+                -0.014357294887304306,
+                -0.01690392754971981,
+                -0.017583442851901054,
+                0.014401908963918686,
+                0.17199386656284332,
+                0.0818314403295517,
+                -0.048363097012043,
+                -0.02493809536099434,
+                -0.0023046759888529778,
+                0.010614760220050812,
+                0.2576257586479187,
+                0.2323988676071167,
+                -0.049387335777282715,
+                1.0686856508255005,
+                0.16681136190891266,
+                0.04028899222612381,
+                0.11302558332681656,
+                -0.28713637590408325,
+                -0.6989425420761108,
+                0.1040111556649208,
+                -0.2194194793701172,
+                0.7836821675300598,
+                0.3360424041748047,
+                -0.30695581436157227
+              ]
+            },
+            "actor_targets": {
+              "samples": 568,
+              "duration_s": 4.208060095086694,
+              "max_receipt_gap_s": 0.021601415937766433
+            },
+            "composed_targets": {
+              "samples": 612,
+              "duration_s": 4.207991485949606,
+              "max_receipt_gap_s": 0.013943564961664379
+            }
+          },
+          "probe_extension_hold": {
+            "evaluation_odom": {
+              "samples": 113,
+              "duration_s": 9.868605002993718,
+              "translation_m": 0.010401922899156674,
+              "yaw_excursion_rad": 0.028765241603250974
+            },
+            "odom": {
+              "samples": 113,
+              "duration_s": 9.88963273097761,
+              "translation_m": 0.013039171752837678,
+              "yaw_excursion_rad": 0.028780249505334365
+            },
+            "lowstate_control": {
+              "samples": 2542,
+              "duration_s": 9.989099279977381,
+              "max_receipt_gap_s": 0.014009888982400298,
+              "device_elapsed_s": 9.996,
+              "reordered_ticks": 0,
+              "median_q": [
+                0.06213381700217724,
+                0.06306703016161919,
+                0.041091231629252434,
+                0.14708570390939713,
+                -0.1992257982492447,
+                -0.04164104722440243,
+                -0.10962047427892685,
+                -0.032664474099874496,
+                -0.009465031791478395,
+                0.18209069222211838,
+                -0.06664903461933136,
+                0.03343682922422886,
+                -0.026883846148848534,
+                -0.0037948720855638385,
+                0.04187347739934921,
+                0.25190469622612,
+                0.2284083366394043,
+                -0.049223052337765694,
+                1.0719335079193115,
+                0.16722054779529572,
+                0.04205072298645973,
+                0.11503999307751656,
+                -0.6545462012290955,
+                -0.5417792797088623,
+                0.21383487433195114,
+                0.43325018882751465,
+                0.6364186406135559,
+                0.2101270705461502,
+                -0.11467280238866806
+              ]
+            },
+            "lowcmd_control": {
+              "samples": 1267,
+              "duration_s": 9.98053248191718,
+              "max_receipt_gap_s": 0.024281146004796028,
+              "gain_profiles": [
+                {
+                  "kp": [
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    200.0,
+                    200.0,
+                    200.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0
+                  ],
+                  "kd": [
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    5.0,
+                    5.0,
+                    5.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0
+                  ]
+                }
+              ],
+              "median_q": [
+                0.07290623337030411,
+                0.0529058538377285,
+                0.04062732309103012,
+                0.17258448898792267,
+                0.1176842600107193,
+                -0.024817723780870438,
+                -0.050764527171850204,
+                -0.04627295956015587,
+                -0.00727092195302248,
+                0.1975969821214676,
+                0.09527434408664703,
+                -0.05588017404079437,
+                -0.027163363993167877,
+                -0.0020877018105238676,
+                0.0018183165229856968,
+                0.2576257586479187,
+                0.2323988676071167,
+                -0.049387335777282715,
+                1.0686856508255005,
+                0.16681136190891266,
+                0.04028899222612381,
+                0.11302558332681656,
+                -0.6957279443740845,
+                -0.5605745911598206,
+                0.201503187417984,
+                0.41607216000556946,
+                0.6361172795295715,
+                0.20255330204963684,
+                -0.11471299082040787
+              ]
+            },
+            "actor_targets": {
+              "samples": 1367,
+              "duration_s": 9.985802463954315,
+              "max_receipt_gap_s": 0.027312004938721657
+            },
+            "composed_targets": {
+              "samples": 2108,
+              "duration_s": 9.988545647007413,
+              "max_receipt_gap_s": 0.019575237995013595
+            }
+          },
+          "probe_complete": {
+            "evaluation_odom": {
+              "samples": 79,
+              "duration_s": 6.541161176981404,
+              "translation_m": 0.024957764322951683,
+              "yaw_excursion_rad": 0.26629645590652345
+            },
+            "odom": {
+              "samples": 79,
+              "duration_s": 6.5304649519966915,
+              "translation_m": 0.024992999019725508,
+              "yaw_excursion_rad": 0.2662570748374392
+            },
+            "lowstate_control": {
+              "samples": 1736,
+              "duration_s": 6.62425658700522,
+              "max_receipt_gap_s": 0.010103170992806554,
+              "device_elapsed_s": 6.622,
+              "reordered_ticks": 0,
+              "median_q": [
+                0.18844248354434967,
+                0.07357995957136154,
+                0.10350031033158302,
+                0.15254314243793488,
+                -0.2935730963945389,
+                -0.03086357843130827,
+                -0.0717087835073471,
+                0.012677577324211597,
+                0.05579669028520584,
+                0.159767247736454,
+                -0.044076645746827126,
+                0.042709289118647575,
+                -0.006005213595926762,
+                -0.0008934896904975176,
+                0.01957491785287857,
+                0.25795602798461914,
+                0.2480616793036461,
+                -0.011077520437538624,
+                1.0803248286247253,
+                0.1846189647912979,
+                -0.0050913572777062654,
+                0.1049068234860897,
+                0.3405142277479172,
+                -0.21364308148622513,
+                -0.017835376784205437,
+                1.0603567957878113,
+                -0.18474287539720535,
+                0.08711288869380951,
+                0.030254309065639973
+              ]
+            },
+            "lowcmd_control": {
+              "samples": 873,
+              "duration_s": 6.620466753956862,
+              "max_receipt_gap_s": 0.02114454796537757,
+              "gain_profiles": [
+                {
+                  "kp": [
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    200.0,
+                    200.0,
+                    200.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0
+                  ],
+                  "kd": [
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    5.0,
+                    5.0,
+                    5.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0
+                  ]
+                }
+              ],
+              "median_q": [
+                0.1522420048713684,
+                0.010352772660553455,
+                0.09671155363321304,
+                0.1635924130678177,
+                0.05869286134839058,
+                -0.09904202073812485,
+                -0.071067675948143,
+                0.04791055992245674,
+                0.03211119398474693,
+                0.14308014512062073,
+                0.02519981935620308,
+                -0.05086885392665863,
+                -0.0036826387513428926,
+                0.003205524990335107,
+                0.02162087894976139,
+                0.24711577594280243,
+                0.22977417707443237,
+                -0.03204422444105148,
+                1.0007882118225098,
+                0.1616993397474289,
+                -0.05145302787423134,
+                0.07293585687875748,
+                0.31506645679473877,
+                -0.24051105976104736,
+                -0.05900074914097786,
+                0.9513416886329651,
+                -0.14961488544940948,
+                0.03991656005382538,
+                0.02644709125161171
+              ]
+            },
+            "actor_targets": {
+              "samples": 909,
+              "duration_s": 6.617315493989736,
+              "max_receipt_gap_s": 0.025230786995962262
+            },
+            "composed_targets": {
+              "samples": 1368,
+              "duration_s": 6.617294515948743,
+              "max_receipt_gap_s": 0.02054637693800032
+            }
+          }
+        },
+        "trace_sha256": "9def280bd390e28b76e3f674b04243d5d689c050423df953f4483010fb062c1e",
+        "trace_hashed_bytes": 56110901,
+        "trace": "/home/david/unitree_g1_ros2_mujoco/ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/dex3_ros_arm_capture_20261023/trace.jsonl",
+        "hash_scope": "trace prefix observed during analysis; live logger may append later"
+      },
+      "final_capture_verification": {
+        "scope": "offline observed-publication and measured-state diagnostic; not actuator acknowledgement or delivery qualification",
+        "capture_valid": true,
+        "malformed_rows": 0,
+        "topic_counts": {
+          "planner_state": 1185,
+          "planner_debug": 1185,
+          "planner_cmd": 1185,
+          "locomotion_diagnostics": 119,
+          "safe_cmd": 2940,
+          "safety_debug": 2940,
+          "arm_authority": 1177,
+          "policy_diagnostics": 29,
+          "transport_state": 521,
+          "lowstate_control": 11184,
+          "policy_cmd": 2561,
+          "actor_targets": 7269,
+          "composed_targets": 9641,
+          "lowcmd_control": 7000,
+          "evaluation_odom": 620,
+          "localization_status": 620,
+          "odom": 620,
+          "tracker_debug": 602,
+          "policy_timing": 2487
+        },
+        "phases": {
+          "probe_stand": {
+            "evaluation_odom": {
+              "samples": 66,
+              "duration_s": 5.333236820995808,
+              "max_receipt_gap_s": 0.16148310399148613,
+              "translation_m": 0.008500000000000004,
+              "yaw_excursion_rad": 0.15369106542416072
+            },
+            "odom": {
+              "samples": 66,
+              "duration_s": 5.325837803073227,
+              "max_receipt_gap_s": 0.178028360940516,
+              "translation_m": 0.011038568747804216,
+              "yaw_excursion_rad": 0.15386959974369613
+            },
+            "lowstate_control": {
+              "samples": 1029,
+              "duration_s": 5.395749308983795,
+              "max_receipt_gap_s": 0.010731696034781635,
+              "device_elapsed_s": 5.402,
+              "reordered_ticks": 0,
+              "median_q": [
+                0.14775922894477844,
+                0.032222241163253784,
+                0.08974464237689972,
+                0.13484328985214233,
+                -0.22959348559379578,
+                0.004863005131483078,
+                0.058488957583904266,
+                0.010385059751570225,
+                0.06532271951436996,
+                0.0925244688987732,
+                -0.1000920832157135,
+                0.024670850485563278,
+                -0.01491373497992754,
+                -0.00961626973003149,
+                0.021191585808992386,
+                0.2610386610031128,
+                0.24755340814590454,
+                -0.03867950662970543,
+                1.0504471063613892,
+                0.17271168529987335,
+                0.03558069467544556,
+                0.10038631409406662,
+                0.3380669057369232,
+                -0.21063292026519775,
+                -0.019625432789325714,
+                1.071546196937561,
+                -0.17800799012184143,
+                0.0845671072602272,
+                -0.02233322709798813
+              ]
+            },
+            "lowcmd_control": {
+              "samples": 634,
+              "duration_s": 5.380250514019281,
+              "max_receipt_gap_s": 0.02582615101709962,
+              "gain_profiles": [
+                {
+                  "kp": [
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    200.0,
+                    200.0,
+                    200.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0
+                  ],
+                  "kd": [
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    5.0,
+                    5.0,
+                    5.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0
+                  ]
+                },
+                {
+                  "kp": [
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    200.0,
+                    200.0,
+                    200.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0
+                  ],
+                  "kd": [
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    5.0,
+                    5.0,
+                    5.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0
+                  ]
+                }
+              ],
+              "median_q": [
+                0.15418124198913574,
+                0.04657330550253391,
+                0.06880947947502136,
+                0.15193884074687958,
+                0.06634776294231415,
+                -0.005834590643644333,
+                0.02083035744726658,
+                -0.0006830841302871704,
+                0.05428598262369633,
+                0.09404066205024719,
+                0.09240488708019257,
+                -0.03439664840698242,
+                -0.015118584968149662,
+                -0.005850802641361952,
+                0.023098714649677277,
+                0.23938755691051483,
+                0.24372276663780212,
+                -0.03418882563710213,
+                0.9410447776317596,
+                0.15243396908044815,
+                -0.03709578514099121,
+                0.05351982265710831,
+                0.31932035088539124,
+                -0.23315827548503876,
+                -0.04869416169822216,
+                0.9719030857086182,
+                -0.14972539246082306,
+                0.04292003624141216,
+                -0.022476790472865105
+              ]
+            },
+            "actor_targets": {
+              "samples": 720,
+              "duration_s": 5.395495799020864,
+              "max_receipt_gap_s": 0.0260228649713099
+            },
+            "composed_targets": {
+              "samples": 891,
+              "duration_s": 5.39530652097892,
+              "max_receipt_gap_s": 0.014007564983330667
+            }
+          },
+          "probe_carry": {
+            "evaluation_odom": {
+              "samples": 68,
+              "duration_s": 5.532234972110018,
+              "max_receipt_gap_s": 0.16385726199951023,
+              "translation_m": 0.06052999256566946,
+              "yaw_excursion_rad": 0.05875743003937717
+            },
+            "odom": {
+              "samples": 68,
+              "duration_s": 5.465135804959573,
+              "max_receipt_gap_s": 0.16353327897377312,
+              "translation_m": 0.05935284323433882,
+              "yaw_excursion_rad": 0.053893885799601415
+            },
+            "lowstate_control": {
+              "samples": 1220,
+              "duration_s": 5.594271523063071,
+              "max_receipt_gap_s": 0.013170617981813848,
+              "device_elapsed_s": 5.59,
+              "reordered_ticks": 0,
+              "median_q": [
+                0.1299239993095398,
+                0.04125593602657318,
+                0.07663972675800323,
+                0.13718393445014954,
+                -0.23233921080827713,
+                -0.012838295195251703,
+                -0.051088957116007805,
+                0.025803671218454838,
+                0.04456382803618908,
+                0.1612270474433899,
+                -0.0803818553686142,
+                0.008019822183996439,
+                -0.016538464464247227,
+                0.003596559399738908,
+                0.03321939520537853,
+                0.2586508095264435,
+                0.23804070800542831,
+                -0.04902409389615059,
+                1.0633919835090637,
+                0.16629969328641891,
+                0.03780454583466053,
+                0.11132698506116867,
+                -0.18436199426651,
+                -0.5395185053348541,
+                0.006421907106414437,
+                0.5405634045600891,
+                0.533785879611969,
+                0.4406012296676636,
+                -0.29350779950618744
+              ]
+            },
+            "lowcmd_control": {
+              "samples": 712,
+              "duration_s": 5.5878016240894794,
+              "max_receipt_gap_s": 0.038702787016518414,
+              "gain_profiles": [
+                {
+                  "kp": [
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    200.0,
+                    200.0,
+                    200.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0
+                  ],
+                  "kd": [
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    5.0,
+                    5.0,
+                    5.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0
+                  ]
+                }
+              ],
+              "median_q": [
+                0.12748245894908905,
+                0.03804679773747921,
+                0.05622830614447594,
+                0.16042649745941162,
+                0.09375953674316406,
+                -0.062205784022808075,
+                -0.04889262840151787,
+                0.0037580784410238266,
+                0.02576722577214241,
+                0.17525166273117065,
+                0.06616927683353424,
+                -0.049484170973300934,
+                -0.018823325634002686,
+                0.0001594393397681415,
+                0.008928492665290833,
+                0.26248520612716675,
+                0.2433309555053711,
+                -0.04875839129090309,
+                1.0596262216567993,
+                0.16596665978431702,
+                0.03598276525735855,
+                0.10993307828903198,
+                -0.379059761762619,
+                -0.6788730323314667,
+                -0.00014381339133251458,
+                0.3517312556505203,
+                0.7521989345550537,
+                0.5440653264522552,
+                -0.37964552640914917
+              ]
+            },
+            "actor_targets": {
+              "samples": 751,
+              "duration_s": 5.5943823480047286,
+              "max_receipt_gap_s": 0.02414311107713729
+            },
+            "composed_targets": {
+              "samples": 1041,
+              "duration_s": 5.59188895393163,
+              "max_receipt_gap_s": 0.02427918289322406
+            }
+          },
+          "probe_carry_hold": {
+            "evaluation_odom": {
+              "samples": 54,
+              "duration_s": 4.93192377500236,
+              "max_receipt_gap_s": 0.1410804169718176,
+              "translation_m": 0.013565028566132844,
+              "yaw_excursion_rad": 0.0502546674048078
+            },
+            "odom": {
+              "samples": 54,
+              "duration_s": 4.939137340988964,
+              "max_receipt_gap_s": 0.15166818909347057,
+              "translation_m": 0.01866386883794461,
+              "yaw_excursion_rad": 0.05159486720638795
+            },
+            "lowstate_control": {
+              "samples": 706,
+              "duration_s": 4.997754323063418,
+              "max_receipt_gap_s": 0.015658815042115748,
+              "device_elapsed_s": 4.998,
+              "reordered_ticks": 0,
+              "median_q": [
+                0.0488031804561615,
+                0.03542853519320488,
+                0.025963625870645046,
+                0.14569075405597687,
+                -0.15790220350027084,
+                -0.021527367644011974,
+                -0.056925781071186066,
+                -0.030179492197930813,
+                -0.027684951201081276,
+                0.15587177127599716,
+                -0.06139039061963558,
+                0.021305046044290066,
+                -0.03446951322257519,
+                -0.0011520657571963966,
+                0.03615302033722401,
+                0.2586483210325241,
+                0.23739182949066162,
+                -0.049144918099045753,
+                1.0635669827461243,
+                0.16632162779569626,
+                0.03788598254323006,
+                0.11138828098773956,
+                -0.8847355246543884,
+                -1.0204439163208008,
+                0.026753325946629047,
+                -0.1945730745792389,
+                1.4515372514724731,
+                0.8967733979225159,
+                -0.6500570178031921
+              ]
+            },
+            "lowcmd_control": {
+              "samples": 679,
+              "duration_s": 4.990553627023473,
+              "max_receipt_gap_s": 0.018658308894373477,
+              "gain_profiles": [
+                {
+                  "kp": [
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    200.0,
+                    200.0,
+                    200.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0
+                  ],
+                  "kd": [
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    5.0,
+                    5.0,
+                    5.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0
+                  ]
+                }
+              ],
+              "median_q": [
+                0.038523606956005096,
+                0.08654548227787018,
+                0.02200939692556858,
+                0.15630562603473663,
+                0.09959046542644501,
+                0.019086049869656563,
+                -0.0032356143929064274,
+                -0.08420304954051971,
+                -0.004786483012139797,
+                0.1610637903213501,
+                0.011180239729583263,
+                -0.05150240659713745,
+                -0.0343356691300869,
+                -0.004923331551253796,
+                0.006385556422173977,
+                0.26248520612716675,
+                0.2433309555053711,
+                -0.04875839129090309,
+                1.0596262216567993,
+                0.16596665978431702,
+                0.03598276525735855,
+                0.10993307828903198,
+                -0.9200000166893005,
+                -1.0399999618530273,
+                0.009999999776482582,
+                -0.20000000298023224,
+                1.4500000476837158,
+                0.8899999856948853,
+                -0.6499999761581421
+              ]
+            },
+            "actor_targets": {
+              "samples": 679,
+              "duration_s": 4.997877635061741,
+              "max_receipt_gap_s": 0.020546266925521195
+            },
+            "composed_targets": {
+              "samples": 706,
+              "duration_s": 4.997938138083555,
+              "max_receipt_gap_s": 0.01349724701140076
+            }
+          },
+          "probe_stage": {
+            "evaluation_odom": {
+              "samples": 48,
+              "duration_s": 3.932932554045692,
+              "max_receipt_gap_s": 0.13650626398157328,
+              "translation_m": 0.005643580423808984,
+              "yaw_excursion_rad": 0.008041125484734596
+            },
+            "odom": {
+              "samples": 49,
+              "duration_s": 3.985050705028698,
+              "max_receipt_gap_s": 0.1497054600622505,
+              "translation_m": 0.007029224708315989,
+              "yaw_excursion_rad": 0.007882230661883843
+            },
+            "lowstate_control": {
+              "samples": 572,
+              "duration_s": 4.092180758016184,
+              "max_receipt_gap_s": 0.020061384071595967,
+              "device_elapsed_s": 4.094,
+              "reordered_ticks": 0,
+              "median_q": [
+                0.06864337623119354,
+                0.04682531766593456,
+                0.03614382445812225,
+                0.13962414860725403,
+                -0.16045419871807098,
+                -0.029613176360726357,
+                -0.03601459972560406,
+                -0.033461958169937134,
+                -0.004499192349612713,
+                0.16050907224416733,
+                -0.07926037535071373,
+                0.030158521607518196,
+                -0.03110267873853445,
+                0.0006398869445547462,
+                0.031089238822460175,
+                0.2566300630569458,
+                0.23220941424369812,
+                -0.0494227334856987,
+                1.0681995153427124,
+                0.16681981086730957,
+                0.04012018255889416,
+                0.11302991956472397,
+                -0.3620767593383789,
+                -0.9670270085334778,
+                -0.07678250223398209,
+                -0.5352128744125366,
+                1.352794349193573,
+                0.7291999757289886,
+                -0.6371162831783295
+              ]
+            },
+            "lowcmd_control": {
+              "samples": 538,
+              "duration_s": 4.092057018075138,
+              "max_receipt_gap_s": 0.02327867003623396,
+              "gain_profiles": [
+                {
+                  "kp": [
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    200.0,
+                    200.0,
+                    200.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0
+                  ],
+                  "kd": [
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    5.0,
+                    5.0,
+                    5.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0
+                  ]
+                }
+              ],
+              "median_q": [
+                0.06660934537649155,
+                0.062020495533943176,
+                0.03354698419570923,
+                0.1467818319797516,
+                0.057295430451631546,
+                0.009886233136057854,
+                -0.007302409503608942,
+                -0.05289905518293381,
+                0.002843097783625126,
+                0.16144046187400818,
+                0.026194903999567032,
+                -0.05205217003822327,
+                -0.030918510630726814,
+                -0.0038960606325417757,
+                0.009028978645801544,
+                0.25898563861846924,
+                0.23737278580665588,
+                -0.04916738346219063,
+                1.0637069940567017,
+                0.1663416177034378,
+                0.03793720155954361,
+                0.11137520521879196,
+                -0.34940244257450104,
+                -0.9778200685977936,
+                -0.09500619024038315,
+                -0.5634510219097137,
+                1.3270432353019714,
+                0.7040319442749023,
+                -0.6255810856819153
+              ]
+            },
+            "actor_targets": {
+              "samples": 551,
+              "duration_s": 4.092195422039367,
+              "max_receipt_gap_s": 0.020964105962775648
+            },
+            "composed_targets": {
+              "samples": 571,
+              "duration_s": 4.092238465906121,
+              "max_receipt_gap_s": 0.020308515056967735
+            }
+          },
+          "probe_stage_hold": {
+            "evaluation_odom": {
+              "samples": 31,
+              "duration_s": 2.9278486440889537,
+              "max_receipt_gap_s": 0.17118093802127987,
+              "translation_m": 0.005748912940721924,
+              "yaw_excursion_rad": 0.023537014964445213
+            },
+            "odom": {
+              "samples": 31,
+              "duration_s": 2.920732583035715,
+              "max_receipt_gap_s": 0.16976520395837724,
+              "translation_m": 0.006324555320336759,
+              "yaw_excursion_rad": 0.023577704111268
+            },
+            "lowstate_control": {
+              "samples": 423,
+              "duration_s": 2.988275381969288,
+              "max_receipt_gap_s": 0.009863851009868085,
+              "device_elapsed_s": 2.984,
+              "reordered_ticks": 0,
+              "median_q": [
+                0.1003272756934166,
+                0.054088979959487915,
+                0.04112515598535538,
+                0.13623778522014618,
+                -0.17737160623073578,
+                -0.033564336597919464,
+                -0.02285299077630043,
+                -0.027766220271587372,
+                0.013923270627856255,
+                0.16991585493087769,
+                -0.09140679985284805,
+                0.03187808021903038,
+                -0.027384629473090172,
+                0.0006249770522117615,
+                0.02141716331243515,
+                0.25754475593566895,
+                0.23223739862442017,
+                -0.0494137704372406,
+                1.0686509609222412,
+                0.1668044626712799,
+                0.04027048125863075,
+                0.11301939189434052,
+                0.22672632336616516,
+                -0.7719401121139526,
+                -0.07311658561229706,
+                -0.7009840607643127,
+                0.8572056293487549,
+                0.34340688586235046,
+                -0.37705981731414795
+              ]
+            },
+            "lowcmd_control": {
+              "samples": 386,
+              "duration_s": 2.988667408004403,
+              "max_receipt_gap_s": 0.01798429701011628,
+              "gain_profiles": [
+                {
+                  "kp": [
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    200.0,
+                    200.0,
+                    200.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0
+                  ],
+                  "kd": [
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    5.0,
+                    5.0,
+                    5.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0
+                  ]
+                }
+              ],
+              "median_q": [
+                0.08745575696229935,
+                0.042411141097545624,
+                0.04135938361287117,
+                0.14047816395759583,
+                0.03471146896481514,
+                0.002398829907178879,
+                -0.01353936456143856,
+                -0.024247784167528152,
+                0.011131774634122849,
+                0.1626722365617752,
+                0.014558139257133007,
+                -0.04861357808113098,
+                -0.02701788768172264,
+                -0.002527132397517562,
+                0.013038771227002144,
+                0.25898563861846924,
+                0.23737278580665588,
+                -0.04916738346219063,
+                1.0637069940567017,
+                0.1663416177034378,
+                0.03793720155954361,
+                0.11137520521879196,
+                0.2111755609512329,
+                -0.7887637615203857,
+                -0.08765939623117447,
+                -0.715065598487854,
+                0.8557912707328796,
+                0.3360424041748047,
+                -0.37702834606170654
+              ]
+            },
+            "actor_targets": {
+              "samples": 402,
+              "duration_s": 2.9882285019848496,
+              "max_receipt_gap_s": 0.019716134993359447
+            },
+            "composed_targets": {
+              "samples": 423,
+              "duration_s": 2.98816563305445,
+              "max_receipt_gap_s": 0.009907824918627739
+            }
+          },
+          "probe_extension": {
+            "evaluation_odom": {
+              "samples": 49,
+              "duration_s": 4.137030876008794,
+              "max_receipt_gap_s": 0.13828997209202498,
+              "translation_m": 0.007778174593052022,
+              "yaw_excursion_rad": 0.04128760030317749
+            },
+            "odom": {
+              "samples": 49,
+              "duration_s": 4.153643077937886,
+              "max_receipt_gap_s": 0.157266087946482,
+              "translation_m": 0.010381714694596457,
+              "yaw_excursion_rad": 0.04133223593349725
+            },
+            "lowstate_control": {
+              "samples": 618,
+              "duration_s": 4.2080892220837995,
+              "max_receipt_gap_s": 0.014078974025323987,
+              "device_elapsed_s": 4.198,
+              "reordered_ticks": 0,
+              "median_q": [
+                0.1066562868654728,
+                0.05542064644396305,
+                0.04788607358932495,
+                0.13861744850873947,
+                -0.1983843892812729,
+                -0.03156326524913311,
+                -0.03557303547859192,
+                -0.023848440498113632,
+                0.02071752492338419,
+                0.1657709702849388,
+                -0.08605199679732323,
+                0.03523828275501728,
+                -0.024918168783187866,
+                -0.000714558846084401,
+                0.03317740373313427,
+                0.2545879930257797,
+                0.22840818762779236,
+                -0.049208203330636024,
+                1.0725133419036865,
+                0.16716677695512772,
+                0.04222613945603371,
+                0.11496306210756302,
+                -0.2375253066420555,
+                -0.6865174472332001,
+                0.11197730526328087,
+                -0.22846630215644836,
+                0.7914016246795654,
+                0.35137687623500824,
+                -0.3134089857339859
+              ]
+            },
+            "lowcmd_control": {
+              "samples": 557,
+              "duration_s": 4.201672840048559,
+              "max_receipt_gap_s": 0.017566040041856468,
+              "gain_profiles": [
+                {
+                  "kp": [
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    200.0,
+                    200.0,
+                    200.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0
+                  ],
+                  "kd": [
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    5.0,
+                    5.0,
+                    5.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0
+                  ]
+                }
+              ],
+              "median_q": [
+                0.1047295555472374,
+                0.03773461654782295,
+                0.04693571478128433,
+                0.16041383147239685,
+                0.09005032479763031,
+                -0.014357294887304306,
+                -0.01690392754971981,
+                -0.017583442851901054,
+                0.014401908963918686,
+                0.17199386656284332,
+                0.0818314403295517,
+                -0.048363097012043,
+                -0.02493809536099434,
+                -0.0023046759888529778,
+                0.010614760220050812,
+                0.2576257586479187,
+                0.2323988676071167,
+                -0.049387335777282715,
+                1.0686856508255005,
+                0.16681136190891266,
+                0.04028899222612381,
+                0.11302558332681656,
+                -0.28713637590408325,
+                -0.6989425420761108,
+                0.1040111556649208,
+                -0.2194194793701172,
+                0.7836821675300598,
+                0.3360424041748047,
+                -0.30695581436157227
+              ]
+            },
+            "actor_targets": {
+              "samples": 568,
+              "duration_s": 4.208060095086694,
+              "max_receipt_gap_s": 0.021601415937766433
+            },
+            "composed_targets": {
+              "samples": 612,
+              "duration_s": 4.207991485949606,
+              "max_receipt_gap_s": 0.013943564961664379
+            }
+          },
+          "probe_extension_hold": {
+            "evaluation_odom": {
+              "samples": 113,
+              "duration_s": 9.868605002993718,
+              "max_receipt_gap_s": 0.15074710606131703,
+              "translation_m": 0.010401922899156674,
+              "yaw_excursion_rad": 0.028765241603250974
+            },
+            "odom": {
+              "samples": 113,
+              "duration_s": 9.88963273097761,
+              "max_receipt_gap_s": 0.16435116704087704,
+              "translation_m": 0.013039171752837678,
+              "yaw_excursion_rad": 0.028780249505334365
+            },
+            "lowstate_control": {
+              "samples": 2542,
+              "duration_s": 9.989099279977381,
+              "max_receipt_gap_s": 0.014009888982400298,
+              "device_elapsed_s": 9.996,
+              "reordered_ticks": 0,
+              "median_q": [
+                0.06213381700217724,
+                0.06306703016161919,
+                0.041091231629252434,
+                0.14708570390939713,
+                -0.1992257982492447,
+                -0.04164104722440243,
+                -0.10962047427892685,
+                -0.032664474099874496,
+                -0.009465031791478395,
+                0.18209069222211838,
+                -0.06664903461933136,
+                0.03343682922422886,
+                -0.026883846148848534,
+                -0.0037948720855638385,
+                0.04187347739934921,
+                0.25190469622612,
+                0.2284083366394043,
+                -0.049223052337765694,
+                1.0719335079193115,
+                0.16722054779529572,
+                0.04205072298645973,
+                0.11503999307751656,
+                -0.6545462012290955,
+                -0.5417792797088623,
+                0.21383487433195114,
+                0.43325018882751465,
+                0.6364186406135559,
+                0.2101270705461502,
+                -0.11467280238866806
+              ]
+            },
+            "lowcmd_control": {
+              "samples": 1267,
+              "duration_s": 9.98053248191718,
+              "max_receipt_gap_s": 0.024281146004796028,
+              "gain_profiles": [
+                {
+                  "kp": [
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    200.0,
+                    200.0,
+                    200.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0,
+                    160.0
+                  ],
+                  "kd": [
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    5.0,
+                    5.0,
+                    5.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0,
+                    4.0
+                  ]
+                }
+              ],
+              "median_q": [
+                0.07290623337030411,
+                0.0529058538377285,
+                0.04062732309103012,
+                0.17258448898792267,
+                0.1176842600107193,
+                -0.024817723780870438,
+                -0.050764527171850204,
+                -0.04627295956015587,
+                -0.00727092195302248,
+                0.1975969821214676,
+                0.09527434408664703,
+                -0.05588017404079437,
+                -0.027163363993167877,
+                -0.0020877018105238676,
+                0.0018183165229856968,
+                0.2576257586479187,
+                0.2323988676071167,
+                -0.049387335777282715,
+                1.0686856508255005,
+                0.16681136190891266,
+                0.04028899222612381,
+                0.11302558332681656,
+                -0.6957279443740845,
+                -0.5605745911598206,
+                0.201503187417984,
+                0.41607216000556946,
+                0.6361172795295715,
+                0.20255330204963684,
+                -0.11471299082040787
+              ]
+            },
+            "actor_targets": {
+              "samples": 1367,
+              "duration_s": 9.985802463954315,
+              "max_receipt_gap_s": 0.027312004938721657
+            },
+            "composed_targets": {
+              "samples": 2108,
+              "duration_s": 9.988545647007413,
+              "max_receipt_gap_s": 0.019575237995013595
+            }
+          },
+          "probe_complete": {
+            "evaluation_odom": {
+              "samples": 85,
+              "duration_s": 7.133843370014802,
+              "max_receipt_gap_s": 0.1462486640084535,
+              "translation_m": 0.024957764322951683,
+              "yaw_excursion_rad": 0.2829557601840716
+            },
+            "odom": {
+              "samples": 85,
+              "duration_s": 7.107622711919248,
+              "max_receipt_gap_s": 0.14570373098831624,
+              "translation_m": 0.024992999019725508,
+              "yaw_excursion_rad": 0.2829926838150387
+            },
+            "lowstate_control": {
+              "samples": 1917,
+              "duration_s": 7.253545009065419,
+              "max_receipt_gap_s": 0.010103170992806554,
+              "device_elapsed_s": 7.252,
+              "reordered_ticks": 0,
+              "median_q": [
+                0.18705902993679047,
+                0.0733102560043335,
+                0.10122434049844742,
+                0.1521129459142685,
+                -0.2912319600582123,
+                -0.031924158334732056,
+                -0.07618386298418045,
+                0.0166363213211298,
+                0.055708032101392746,
+                0.16047680377960205,
+                -0.037596821784973145,
+                0.041866566985845566,
+                -0.004631754010915756,
+                -0.0009075315319932997,
+                0.019439900293946266,
+                0.25900542736053467,
+                0.24638095498085022,
+                -0.009843682870268822,
+                1.0823434591293335,
+                0.18376566469669342,
+                -0.005265926476567984,
+                0.10534036159515381,
+                0.34018802642822266,
+                -0.21401037275791168,
+                -0.019131526350975037,
+                1.0590081214904785,
+                -0.18580619990825653,
+                0.08713889122009277,
+                0.030861733481287956
+              ]
+            },
+            "lowcmd_control": {
+              "samples": 957,
+              "duration_s": 7.253680805908516,
+              "max_receipt_gap_s": 0.02114454796537757,
+              "gain_profiles": [
+                {
+                  "kp": [
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    100.0,
+                    100.0,
+                    100.0,
+                    150.0,
+                    40.0,
+                    40.0,
+                    200.0,
+                    200.0,
+                    200.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0,
+                    40.0
+                  ],
+                  "kd": [
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    2.0,
+                    4.0,
+                    2.0,
+                    2.0,
+                    5.0,
+                    5.0,
+                    5.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0,
+                    10.0
+                  ]
+                }
+              ],
+              "median_q": [
+                0.15014246106147766,
+                0.009991569444537163,
+                0.09564017504453659,
+                0.1621122509241104,
+                0.047768253833055496,
+                -0.1049427017569542,
+                -0.07594603300094604,
+                0.048075925558805466,
+                0.03311888501048088,
+                0.14178787171840668,
+                0.021229583770036697,
+                -0.048777222633361816,
+                -0.0021988635417073965,
+                0.0029716200660914183,
+                0.02146734856069088,
+                0.2476162612438202,
+                0.2261364758014679,
+                -0.031293656677007675,
+                1.0040037631988525,
+                0.16154608130455017,
+                -0.05102108046412468,
+                0.07186933606863022,
+                0.3141193389892578,
+                -0.24080601334571838,
+                -0.06312322616577148,
+                0.9501925110816956,
+                -0.1507272720336914,
+                0.03879635035991669,
+                0.02953750267624855
+              ]
+            },
+            "actor_targets": {
+              "samples": 993,
+              "duration_s": 7.246498281951062,
+              "max_receipt_gap_s": 0.025230786995962262
+            },
+            "composed_targets": {
+              "samples": 1508,
+              "duration_s": 7.2464072910370305,
+              "max_receipt_gap_s": 0.02054637693800032
+            }
+          }
+        },
+        "trace_sha256": "9888182e4effd43098ee11bd4835813d50d55654ba27954b116710e3c0e10a27",
+        "trace_hashed_bytes": 56268617,
+        "trace": "ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/dex3_ros_arm_capture_20261023/trace.jsonl",
+        "hash_scope": "trace prefix observed during analysis; live logger may append later"
+      }
+    }
+  ],
+  "stability_probes": [
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_arm_stability_20261023/cycle05_near_table.json",
+      "sha256": "e4be8def028bde478d6bf722b0450aeee56002c2eef53c4ad1f90a58b2a6a93f",
+      "data": {
+        "scope": "synchronous free-base Dex3 arm stability diagnostic; not delivery qualification",
+        "mode": "extend",
+        "stabilization": "heading",
+        "initial_yaw_rad": 0.0,
+        "initial_robot_x_m": 1.62,
+        "contact_details": {
+          "carry_transition:right_wrist_yaw_link:pickup_red_top": {
+            "samples": 34,
+            "max_force_n": 25.23181171035548,
+            "min_distance_m": -0.0007223111815160484
+          },
+          "carry_transition:right_hand_thumb_2_link:pickup_red_top": {
+            "samples": 18,
+            "max_force_n": 23.845233054713315,
+            "min_distance_m": -0.0011484595717465567
+          },
+          "carry_transition:right_hand_index_0_link:pickup_red_top": {
+            "samples": 36,
+            "max_force_n": 24.573138090610325,
+            "min_distance_m": -0.0005438341220080308
+          },
+          "carry_transition:right_hand_index_1_link:pickup_red_top": {
+            "samples": 21,
+            "max_force_n": 24.79546275907329,
+            "min_distance_m": -0.0008990846468676447
+          },
+          "extension_transition:right_hand_middle_1_link:pickup_red_top": {
+            "samples": 55,
+            "max_force_n": 11.258567040057875,
+            "min_distance_m": -0.000718482043601698
+          },
+          "extension_hold:right_hand_middle_1_link:pickup_red_top": {
+            "samples": 214,
+            "max_force_n": 9.884093752903807,
+            "min_distance_m": -0.0006854466807642012
+          },
+          "extension_hold:right_hand_index_1_link:pickup_red_top": {
+            "samples": 186,
+            "max_force_n": 1.6120070552576833,
+            "min_distance_m": -0.0001690133859509685
+          }
+        },
+        "maneuver_preamble": false,
+        "filtered_heading": true,
+        "heading_gains": [
+          4.0,
+          0.35
+        ],
+        "staged": true,
+        "extension_x_m": 0.45,
+        "prescribed_extension_joints": null,
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+        "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+        "script_sha256": "adac33986037b289cafa5890890b1966bdd67948fb13c8b1bb4f35d601d5eec3",
+        "source_sha256": {
+          "scripts/native_probe_feedback.py": "287f9f95f29b200d6d3e5fd5be3bb90890a5fe7ed79bd148d5f1d52cc30a510c",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/manipulation_heading.py": "ff038b99517b48bc6ddb9f6579df61067d33a057c0b7d7d3e6f71db7213d2edf",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "72361d7a40ce79256bf31a6e3cdeb7e2329a6c66504fb55e006fd28d2a28b39c",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/unitree_rl_lab_policy.py": "7a572546c5dc925d31b27ad5e9c9f7831875cec9c0a064a3cfa323518fb4b17b",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/g1_constants.py": "6bd9817486d4fecef49dcb8e6f8470f862f950e0a1f1e62944f51a99e1c87166"
+        },
+        "model_dynamics_sha256": "52906ae556fd816abc1af3ebf753468297ec23b37302211329e74bb44fbcc398",
+        "scene_sha256": "4567e1c86eacfca455b5cfbff0599feb88278e5b9fe602c2f001be16063393c4",
+        "mujoco_version": "3.3.6",
+        "equality_constraints": 0,
+        "object_forces": false,
+        "root_pose_control": false,
+        "action_feedback": "published_actor_action",
+        "joint_and_pd_feedback": "native_sensors",
+        "completed": true,
+        "fallen": false,
+        "planning_error": null,
+        "external_contacts": [
+          "pickup_red_top"
+        ],
+        "holds": {
+          "carry_hold": {
+            "duration_s": 4.98,
+            "translation_m": 0.033371576372345155,
+            "yaw_excursion_rad": 0.028525967126310794,
+            "max_tilt_rad": 0.048079335601373556,
+            "max_hand_drift_m": 0.03319670778427874
+          },
+          "extension_hold": {
+            "duration_s": 9.980000000000004,
+            "translation_m": 0.04103387311908432,
+            "yaw_excursion_rad": 0.046216642217176335,
+            "max_tilt_rad": 0.06589219697121865,
+            "max_hand_drift_m": 0.054700467739695384
+          }
+        },
+        "phase_metrics": {
+          "actor_stand": {
+            "duration_s": 4.98,
+            "translation_m": 0.032860690488083676,
+            "yaw_excursion_rad": 0.08266982830307787,
+            "max_tilt_rad": 0.05683936699661808,
+            "max_hand_drift_m": 0.0534842231649363
+          },
+          "carry_hold": {
+            "duration_s": 4.98,
+            "translation_m": 0.033371576372345155,
+            "yaw_excursion_rad": 0.028525967126310794,
+            "max_tilt_rad": 0.048079335601373556,
+            "max_hand_drift_m": 0.03319670778427874
+          },
+          "carry_transition": {
+            "duration_s": 4.620000000000001,
+            "translation_m": 0.1709915205700076,
+            "yaw_excursion_rad": 0.08279450090006005,
+            "max_tilt_rad": 0.11794784976700871,
+            "max_hand_drift_m": 0.5993112557496921
+          },
+          "extension_hold": {
+            "duration_s": 9.980000000000004,
+            "translation_m": 0.04103387311908432,
+            "yaw_excursion_rad": 0.046216642217176335,
+            "max_tilt_rad": 0.06589219697121865,
+            "max_hand_drift_m": 0.054700467739695384
+          },
+          "extension_transition": {
+            "duration_s": 3.1400000000000006,
+            "translation_m": 0.03480403012775063,
+            "yaw_excursion_rad": 0.03899332024524273,
+            "max_tilt_rad": 0.05365635658498436,
+            "max_hand_drift_m": 0.1431345215305965
+          },
+          "stage_hold": {
+            "duration_s": 2.9800000000000004,
+            "translation_m": 0.0015696095623035507,
+            "yaw_excursion_rad": 0.002379307055986893,
+            "max_tilt_rad": 0.05200281316491961,
+            "max_hand_drift_m": 0.004784141598874086
+          },
+          "stage_transition": {
+            "duration_s": 3.1799999999999997,
+            "translation_m": 0.0021850674841508927,
+            "yaw_excursion_rad": 0.00266558409862358,
+            "max_tilt_rad": 0.04724409412308837,
+            "max_hand_drift_m": 0.18245370024767726
+          }
+        },
+        "events": [
+          {
+            "phase": "carry_transition",
+            "time": 5.0
+          },
+          {
+            "phase": "carry_hold",
+            "time": 9.64
+          },
+          {
+            "phase": "stage_transition",
+            "time": 14.64,
+            "ik_error_m": 0.0007160037983782289,
+            "joint_goal": [
+              0.2609392999584721,
+              0.25413195070958794,
+              0.007313311294427058,
+              1.0208456376177242,
+              0.19180589838655715,
+              0.028281767970744637,
+              0.06006852562710938,
+              0.23456222306140295,
+              -0.8410441254830151,
+              -0.03225358839152484,
+              -0.6685865324658099,
+              0.8484845880015623,
+              0.19964496528857087,
+              -0.3737019939753398
+            ]
+          },
+          {
+            "phase": "stage_hold",
+            "time": 17.84
+          },
+          {
+            "phase": "extension_transition",
+            "time": 20.84,
+            "ik_error_m": 0.0011390258297627584,
+            "joint_goal": [
+              0.2628489645605177,
+              0.2491819220937712,
+              0.006476994121793245,
+              1.027910900742537,
+              0.1929644074137916,
+              0.03147305559873536,
+              0.0612316761007425,
+              -0.7027776104499669,
+              -0.3506942958188772,
+              -0.11853361781640859,
+              0.4494422237016138,
+              0.26684735270522264,
+              0.25332459236103533,
+              0.10111889865081916
+            ]
+          },
+          {
+            "phase": "extension_hold",
+            "time": 24.0
+          }
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_arm_stability_20261023/cycle05_table_carry_low.json",
+      "sha256": "99dfa4656e165d04a5761fea60a8e9a458882d42dfcafe0ef9e071e0e71285e6",
+      "data": {
+        "scope": "synchronous free-base Dex3 arm stability diagnostic; not delivery qualification",
+        "mode": "extend",
+        "stabilization": "heading",
+        "initial_yaw_rad": 0.0,
+        "initial_robot_x_m": 1.62,
+        "contact_details": {
+          "extension_transition:right_hand_middle_1_link:pickup_red_top": {
+            "samples": 28,
+            "max_force_n": 9.758724202295383,
+            "min_distance_m": -0.0010550847694264394
+          },
+          "extension_transition:right_hand_middle_0_link:pickup_red_top": {
+            "samples": 28,
+            "max_force_n": 5.6433756851951795,
+            "min_distance_m": -5.506229415937431e-05
+          },
+          "extension_transition:right_wrist_yaw_link:pickup_red_top": {
+            "samples": 57,
+            "max_force_n": 13.452779609344107,
+            "min_distance_m": -8.005317907266996e-05
+          },
+          "extension_hold:right_wrist_yaw_link:pickup_red_top": {
+            "samples": 500,
+            "max_force_n": 12.80994293960947,
+            "min_distance_m": -0.00010144307426285248
+          }
+        },
+        "initial_carry": true,
+        "extension_z_m": 0.2,
+        "maneuver_preamble": false,
+        "filtered_heading": true,
+        "heading_gains": [
+          4.0,
+          0.35
+        ],
+        "staged": true,
+        "extension_x_m": 0.45,
+        "prescribed_extension_joints": null,
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+        "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+        "script_sha256": "0775e910fa3e4ca4da22e86e140efce39cd05b6238740d45128a7131688a6292",
+        "source_sha256": {
+          "scripts/native_probe_feedback.py": "287f9f95f29b200d6d3e5fd5be3bb90890a5fe7ed79bd148d5f1d52cc30a510c",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/manipulation_heading.py": "ff038b99517b48bc6ddb9f6579df61067d33a057c0b7d7d3e6f71db7213d2edf",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "72361d7a40ce79256bf31a6e3cdeb7e2329a6c66504fb55e006fd28d2a28b39c",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/unitree_rl_lab_policy.py": "7a572546c5dc925d31b27ad5e9c9f7831875cec9c0a064a3cfa323518fb4b17b",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/g1_constants.py": "6bd9817486d4fecef49dcb8e6f8470f862f950e0a1f1e62944f51a99e1c87166"
+        },
+        "model_dynamics_sha256": "52906ae556fd816abc1af3ebf753468297ec23b37302211329e74bb44fbcc398",
+        "scene_sha256": "4567e1c86eacfca455b5cfbff0599feb88278e5b9fe602c2f001be16063393c4",
+        "mujoco_version": "3.3.6",
+        "equality_constraints": 0,
+        "object_forces": false,
+        "root_pose_control": false,
+        "action_feedback": "published_actor_action",
+        "joint_and_pd_feedback": "native_sensors",
+        "completed": true,
+        "fallen": false,
+        "planning_error": null,
+        "external_contacts": [
+          "pickup_red_top"
+        ],
+        "holds": {
+          "carry_hold": {
+            "duration_s": 4.98,
+            "translation_m": 0.015931353786375866,
+            "yaw_excursion_rad": 0.005357733750053028,
+            "max_tilt_rad": 0.03978622972708917,
+            "max_hand_drift_m": 0.028378167942836468
+          },
+          "extension_hold": {
+            "duration_s": 9.98,
+            "translation_m": 0.02062242160241544,
+            "yaw_excursion_rad": 0.020493184646226483,
+            "max_tilt_rad": 0.03898123690790037,
+            "max_hand_drift_m": 0.034018874940212704
+          }
+        },
+        "phase_metrics": {
+          "carry_hold": {
+            "duration_s": 4.98,
+            "translation_m": 0.015931353786375866,
+            "yaw_excursion_rad": 0.005357733750053028,
+            "max_tilt_rad": 0.03978622972708917,
+            "max_hand_drift_m": 0.028378167942836468
+          },
+          "extension_hold": {
+            "duration_s": 9.98,
+            "translation_m": 0.02062242160241544,
+            "yaw_excursion_rad": 0.020493184646226483,
+            "max_tilt_rad": 0.03898123690790037,
+            "max_hand_drift_m": 0.034018874940212704
+          },
+          "extension_transition": {
+            "duration_s": 3.119999999999999,
+            "translation_m": 0.04286067388035161,
+            "yaw_excursion_rad": 0.021791999398982947,
+            "max_tilt_rad": 0.06312153484186005,
+            "max_hand_drift_m": 0.13259547608938352
+          },
+          "stage_hold": {
+            "duration_s": 2.9800000000000004,
+            "translation_m": 0.001870510158594613,
+            "yaw_excursion_rad": 0.010906426936154002,
+            "max_tilt_rad": 0.053852433755023084,
+            "max_hand_drift_m": 0.005942193720074951
+          },
+          "stage_transition": {
+            "duration_s": 3.1999999999999993,
+            "translation_m": 0.005804951573126682,
+            "yaw_excursion_rad": 0.00679564188836954,
+            "max_tilt_rad": 0.04838818932606772,
+            "max_hand_drift_m": 0.17932149289152427
+          }
+        },
+        "events": [
+          {
+            "phase": "carry_hold",
+            "time": 0.0,
+            "initial_carry_fixture": true
+          },
+          {
+            "phase": "stage_transition",
+            "time": 5.0,
+            "ik_error_m": 0.0007139068439665114,
+            "joint_goal": [
+              0.29759975915178605,
+              0.25113203327683276,
+              0.0018893518077930283,
+              0.9769302354837673,
+              0.15141344351849187,
+              0.003863040712427965,
+              0.0044482837372873335,
+              0.24181652029862652,
+              -0.8324440250539457,
+              -0.040378882117408324,
+              -0.6691042837467279,
+              0.8452246818236887,
+              0.19417407404927287,
+              -0.36340849689129034
+            ]
+          },
+          {
+            "phase": "stage_hold",
+            "time": 8.22
+          },
+          {
+            "phase": "extension_transition",
+            "time": 11.22,
+            "ik_error_m": 0.0011165584284570686,
+            "joint_goal": [
+              0.2992213713485576,
+              0.2531691239958631,
+              0.003417634150975646,
+              0.9855530119637178,
+              0.15338921119364737,
+              0.008433602187272161,
+              0.008563525712058121,
+              -0.6969876759645683,
+              -0.35388089489326513,
+              -0.12153867357342517,
+              0.43752231726299856,
+              0.274855678478215,
+              0.25529437519897547,
+              0.10074811030412648
+            ]
+          },
+          {
+            "phase": "extension_hold",
+            "time": 14.36
+          }
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_arm_stability_20261023/cycle05_table_carry_raised.json",
+      "sha256": "801969e8abbebd5863f14448f62afb45d71d5da7908974727b73b9a41050ef25",
+      "data": {
+        "scope": "synchronous free-base Dex3 arm stability diagnostic; not delivery qualification",
+        "mode": "extend",
+        "stabilization": "heading",
+        "initial_yaw_rad": 0.0,
+        "initial_robot_x_m": 1.62,
+        "contact_details": {},
+        "initial_carry": true,
+        "extension_z_m": 0.24,
+        "maneuver_preamble": false,
+        "filtered_heading": true,
+        "heading_gains": [
+          4.0,
+          0.35
+        ],
+        "staged": true,
+        "extension_x_m": 0.45,
+        "prescribed_extension_joints": null,
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+        "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+        "script_sha256": "0775e910fa3e4ca4da22e86e140efce39cd05b6238740d45128a7131688a6292",
+        "source_sha256": {
+          "scripts/native_probe_feedback.py": "287f9f95f29b200d6d3e5fd5be3bb90890a5fe7ed79bd148d5f1d52cc30a510c",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/manipulation_heading.py": "ff038b99517b48bc6ddb9f6579df61067d33a057c0b7d7d3e6f71db7213d2edf",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "72361d7a40ce79256bf31a6e3cdeb7e2329a6c66504fb55e006fd28d2a28b39c",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/unitree_rl_lab_policy.py": "7a572546c5dc925d31b27ad5e9c9f7831875cec9c0a064a3cfa323518fb4b17b",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/g1_constants.py": "6bd9817486d4fecef49dcb8e6f8470f862f950e0a1f1e62944f51a99e1c87166"
+        },
+        "model_dynamics_sha256": "52906ae556fd816abc1af3ebf753468297ec23b37302211329e74bb44fbcc398",
+        "scene_sha256": "4567e1c86eacfca455b5cfbff0599feb88278e5b9fe602c2f001be16063393c4",
+        "mujoco_version": "3.3.6",
+        "equality_constraints": 0,
+        "object_forces": false,
+        "root_pose_control": false,
+        "action_feedback": "published_actor_action",
+        "joint_and_pd_feedback": "native_sensors",
+        "completed": true,
+        "fallen": false,
+        "planning_error": null,
+        "external_contacts": [],
+        "holds": {
+          "carry_hold": {
+            "duration_s": 4.98,
+            "translation_m": 0.015931353786375866,
+            "yaw_excursion_rad": 0.005357733750053028,
+            "max_tilt_rad": 0.03978622972708917,
+            "max_hand_drift_m": 0.028378167942836468
+          },
+          "extension_hold": {
+            "duration_s": 9.98,
+            "translation_m": 0.012183050045345417,
+            "yaw_excursion_rad": 0.0031537412431216355,
+            "max_tilt_rad": 0.014718804490480615,
+            "max_hand_drift_m": 0.010472534297446181
+          }
+        },
+        "phase_metrics": {
+          "carry_hold": {
+            "duration_s": 4.98,
+            "translation_m": 0.015931353786375866,
+            "yaw_excursion_rad": 0.005357733750053028,
+            "max_tilt_rad": 0.03978622972708917,
+            "max_hand_drift_m": 0.028378167942836468
+          },
+          "extension_hold": {
+            "duration_s": 9.98,
+            "translation_m": 0.012183050045345417,
+            "yaw_excursion_rad": 0.0031537412431216355,
+            "max_tilt_rad": 0.014718804490480615,
+            "max_hand_drift_m": 0.010472534297446181
+          },
+          "extension_transition": {
+            "duration_s": 3.0,
+            "translation_m": 0.004859317383117851,
+            "yaw_excursion_rad": 0.0016992579444118187,
+            "max_tilt_rad": 0.05967667951465272,
+            "max_hand_drift_m": 0.18793724168051715
+          },
+          "stage_hold": {
+            "duration_s": 2.9800000000000004,
+            "translation_m": 0.0018857523580343238,
+            "yaw_excursion_rad": 0.012518990499477849,
+            "max_tilt_rad": 0.05754576460802237,
+            "max_hand_drift_m": 0.005341600013264374
+          },
+          "stage_transition": {
+            "duration_s": 3.120000000000001,
+            "translation_m": 0.005585319407579588,
+            "yaw_excursion_rad": 0.005187515331937992,
+            "max_tilt_rad": 0.051973975415227296,
+            "max_hand_drift_m": 0.14761218995019101
+          }
+        },
+        "events": [
+          {
+            "phase": "carry_hold",
+            "time": 0.0,
+            "initial_carry_fixture": true
+          },
+          {
+            "phase": "stage_transition",
+            "time": 5.0,
+            "ik_error_m": 0.000755192402543857,
+            "joint_goal": [
+              0.29759975915178605,
+              0.25113203327683276,
+              0.0018893518077930283,
+              0.9769302354837673,
+              0.15141344351849187,
+              0.003863040712427965,
+              0.0044482837372873335,
+              0.2139923784356139,
+              -1.0583938205883083,
+              -0.14287814260658344,
+              -0.7664281365787251,
+              1.1249647407957493,
+              0.22732171554885602,
+              -0.5122482482608051
+            ]
+          },
+          {
+            "phase": "stage_hold",
+            "time": 8.14
+          },
+          {
+            "phase": "extension_transition",
+            "time": 11.14,
+            "ik_error_m": 0.001274240144672213,
+            "joint_goal": [
+              0.2991588321208799,
+              0.2528613767548635,
+              0.0033782592508927113,
+              0.9854780020810482,
+              0.1533113905868651,
+              0.008370996583660284,
+              0.008534527464240278,
+              -0.7681327902798358,
+              -0.6426264719653865,
+              0.20035633755812926,
+              0.299690485095062,
+              0.7372328751637859,
+              0.35644603480733966,
+              -0.17691026734070414
+            ]
+          },
+          {
+            "phase": "extension_hold",
+            "time": 14.16
+          }
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_arm_stability_20261023/cycle05_table_carry_raised20.json",
+      "sha256": "ed1f3bcd6f0bf3fd69cf48a0f41ebe2f22c4a4e1245a71c6085b76f3628f9d30",
+      "data": {
+        "scope": "synchronous free-base Dex3 arm stability diagnostic; not delivery qualification",
+        "mode": "extend",
+        "stabilization": "heading",
+        "initial_yaw_rad": 0.0,
+        "initial_robot_x_m": 1.62,
+        "contact_details": {
+          "extension_transition:right_wrist_yaw_link:pickup_red_top": {
+            "samples": 7,
+            "max_force_n": 9.581980833829057,
+            "min_distance_m": -1.8508432521380236e-05
+          },
+          "extension_hold:right_wrist_yaw_link:pickup_red_top": {
+            "samples": 497,
+            "max_force_n": 8.154547406611973,
+            "min_distance_m": -4.739770143347144e-05
+          },
+          "extension_hold:right_hand_middle_1_link:pickup_red_top": {
+            "samples": 500,
+            "max_force_n": 3.541246977306424,
+            "min_distance_m": -0.00013540510280862783
+          }
+        },
+        "initial_carry": true,
+        "extension_z_m": 0.22,
+        "maneuver_preamble": false,
+        "filtered_heading": true,
+        "heading_gains": [
+          4.0,
+          0.35
+        ],
+        "staged": true,
+        "extension_x_m": 0.45,
+        "prescribed_extension_joints": null,
+        "policy": "/workspace/vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+        "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+        "script_sha256": "0775e910fa3e4ca4da22e86e140efce39cd05b6238740d45128a7131688a6292",
+        "source_sha256": {
+          "scripts/native_probe_feedback.py": "287f9f95f29b200d6d3e5fd5be3bb90890a5fe7ed79bd148d5f1d52cc30a510c",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/manipulation_heading.py": "ff038b99517b48bc6ddb9f6579df61067d33a057c0b7d7d3e6f71db7213d2edf",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/arm_kinematics.py": "72361d7a40ce79256bf31a6e3cdeb7e2329a6c66504fb55e006fd28d2a28b39c",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/unitree_rl_lab_policy.py": "7a572546c5dc925d31b27ad5e9c9f7831875cec9c0a064a3cfa323518fb4b17b",
+          "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/g1_constants.py": "6bd9817486d4fecef49dcb8e6f8470f862f950e0a1f1e62944f51a99e1c87166"
+        },
+        "model_dynamics_sha256": "52906ae556fd816abc1af3ebf753468297ec23b37302211329e74bb44fbcc398",
+        "scene_sha256": "4567e1c86eacfca455b5cfbff0599feb88278e5b9fe602c2f001be16063393c4",
+        "mujoco_version": "3.3.6",
+        "equality_constraints": 0,
+        "object_forces": false,
+        "root_pose_control": false,
+        "action_feedback": "published_actor_action",
+        "joint_and_pd_feedback": "native_sensors",
+        "completed": true,
+        "fallen": false,
+        "planning_error": null,
+        "external_contacts": [
+          "pickup_red_top"
+        ],
+        "holds": {
+          "carry_hold": {
+            "duration_s": 4.98,
+            "translation_m": 0.015931353786375866,
+            "yaw_excursion_rad": 0.005357733750053028,
+            "max_tilt_rad": 0.03978622972708917,
+            "max_hand_drift_m": 0.028378167942836468
+          },
+          "extension_hold": {
+            "duration_s": 9.999999999999998,
+            "translation_m": 0.007049764527785971,
+            "yaw_excursion_rad": 0.00527279203044758,
+            "max_tilt_rad": 0.018877238113759905,
+            "max_hand_drift_m": 0.005276630385664479
+          }
+        },
+        "phase_metrics": {
+          "carry_hold": {
+            "duration_s": 4.98,
+            "translation_m": 0.015931353786375866,
+            "yaw_excursion_rad": 0.005357733750053028,
+            "max_tilt_rad": 0.03978622972708917,
+            "max_hand_drift_m": 0.028378167942836468
+          },
+          "extension_hold": {
+            "duration_s": 9.999999999999998,
+            "translation_m": 0.007049764527785971,
+            "yaw_excursion_rad": 0.00527279203044758,
+            "max_tilt_rad": 0.018877238113759905,
+            "max_hand_drift_m": 0.005276630385664479
+          },
+          "extension_transition": {
+            "duration_s": 2.9399999999999995,
+            "translation_m": 0.009537323410254168,
+            "yaw_excursion_rad": 0.004491960005653484,
+            "max_tilt_rad": 0.05975769033037887,
+            "max_hand_drift_m": 0.18459882091544405
+          },
+          "stage_hold": {
+            "duration_s": 2.9800000000000004,
+            "translation_m": 0.0016941789628321712,
+            "yaw_excursion_rad": 0.012303780971191447,
+            "max_tilt_rad": 0.05801941433300107,
+            "max_hand_drift_m": 0.00540718746406996
+          },
+          "stage_transition": {
+            "duration_s": 3.2200000000000006,
+            "translation_m": 0.004244032844234872,
+            "yaw_excursion_rad": 0.00543573192426366,
+            "max_tilt_rad": 0.05251246697325058,
+            "max_hand_drift_m": 0.16415495715038
+          }
+        },
+        "events": [
+          {
+            "phase": "carry_hold",
+            "time": 0.0,
+            "initial_carry_fixture": true
+          },
+          {
+            "phase": "stage_transition",
+            "time": 5.0,
+            "ik_error_m": 0.00141230497313782,
+            "joint_goal": [
+              0.29759975915178605,
+              0.25113203327683276,
+              0.0018893518077930283,
+              0.9769302354837673,
+              0.15141344351849187,
+              0.003863040712427965,
+              0.0044482837372873335,
+              0.24807736979612666,
+              -1.200084171424172,
+              0.06779873694076746,
+              -0.6873673021098358,
+              1.0809729277719644,
+              -0.053664821138210334,
+              -0.5442331799086074
+            ]
+          },
+          {
+            "phase": "stage_hold",
+            "time": 8.24
+          },
+          {
+            "phase": "extension_transition",
+            "time": 11.24,
+            "ik_error_m": 0.0010655309127999954,
+            "joint_goal": [
+              0.29905044575769485,
+              0.25263914743438864,
+              0.0033494558563992114,
+              0.9854015193471544,
+              0.1532661134011277,
+              0.008323187528050906,
+              0.008513097961111884,
+              -0.7258662946739585,
+              -0.3829005762848813,
+              -0.11784036639579949,
+              0.355699834358074,
+              0.30329526861582184,
+              0.3669698523452889,
+              0.07756714270472659
+            ]
+          },
+          {
+            "phase": "extension_hold",
+            "time": 14.200000000000001
+          }
+        ]
+      }
+    }
+  ],
+  "evaluation_trajectories": [
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/dex3_contact_delivery_raised20_20261023/evaluation_object_history.json",
+      "sha256": "682703ca81c38e300383da53c7d18db27089a0b1861ee10f28b769fb142b5b08"
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/dex3_contact_delivery_raised20_repeat_20261023/evaluation_object_history.json",
+      "sha256": "cd6154cd64e843e66391eb0a985442170d3db7b54d1b3bbc125ef5ebcbd83b6c"
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/transport_demo/dex3_contact_delivery_raised20_sag_20261023/evaluation_object_history.json",
+      "sha256": "6eaa17e517bd73ef24b464202a5d070993383e1be51be49ca21688899b7c9512"
+    }
+  ],
+  "mobile_attempts": [
+    {
+      "run": "dex3_contact_delivery_raised20_20261023",
+      "world": "transport_dual",
+      "people": 0,
+      "layout_seed": null,
+      "seed": 42,
+      "objective": {
+        "pairs": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red"
+          }
+        ],
+        "task_seed": null,
+        "mode": "red:red",
+        "description": "Put the red object on the red goal"
+      },
+      "policy": "vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+      "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+      "configuration": {
+        "policy_device_clock": "true",
+        "numeric_thread_environment": {},
+        "application_timing": "false",
+        "arm_executor_threads": "2",
+        "arm_repeat_period": "0.0",
+        "slam_loop_closing": "true",
+        "tracker_body_wall_sheets": true,
+        "predictive_refuge": false,
+        "early_overtaking_avoidance": false,
+        "navigation_profile_sha256": "3c20b55a91b027dcdcf65bc8b01493bd6206b3b3348a94b00d895d6c6f018ff1"
+      },
+      "success": false,
+      "mission_complete": false,
+      "data_valid": true,
+      "artifact_complete": true,
+      "fallen": false,
+      "contacts": 0,
+      "error": "measured hand outside physical grasp alignment tolerance",
+      "minimum_person_clearance_m": null,
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_red",
+          "color": "red",
+          "destination_color": "red",
+          "verified": false,
+          "lift_m": 0.0,
+          "travel_m": 0.0048027730725097246
+        }
+      ],
+      "dropped_objects": [],
+      "attachment_state": "empty",
+      "object_may_be_held": false,
+      "completion_s": null,
+      "last_recorded_event_s": 70.38505942304619,
+      "deadline_s": 420.0,
+      "search": null,
+      "discoveries": [],
+      "placement_alignment": [],
+      "workspace_recovery_events": [],
+      "route_blockage": {},
+      "result_sha256": "cc8b99a530fb536d6536805f35c5a61a90155a16b4c8312a8ed1678fe5e287f4",
+      "manifest_sha256": "aa185916a2e28e539bc4886d9b5819eadd9df718d62dcdd2c35020472b8a0f43",
+      "source_archive_sha256": "c0dc334372a6723696524d89435b0abcc09cdb6d8b161055004ec448a3fec81e",
+      "effective_parameters_sha256": "9126d7a64dba5d5d834af9c20c7a22e81b34eea0977a62285867434c90574121",
+      "runtime_metrics": {
+        "command_receipt_age_at_target_publish_s": {
+          "count": 3292,
+          "min": 0.0040628910064697266,
+          "median": 0.017408013343811035,
+          "p95": 0.03010104894638061,
+          "p99": 0.03679810285568238,
+          "max": 0.04918622970581055
+        },
+        "escape_worker_submit_to_complete_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_receive_to_callback_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_source_to_callback_ms": {
+          "count": 3292,
+          "min": 0.9896755218505859,
+          "median": 2.646803855895996,
+          "p95": 4.8598527908325195,
+          "p99": 6.295588016510011,
+          "max": 10.734796524047852
+        },
+        "lowstate_dds_source_to_target_publish_ms": {
+          "count": 3292,
+          "min": 3.5326480865478516,
+          "median": 9.036898612976074,
+          "p95": 16.20454788208007,
+          "p99": 20.496411323547363,
+          "max": 35.651445388793945
+        },
+        "lowstate_receipt_age_at_target_publish_s": {
+          "count": 3292,
+          "min": 0.002440017997287214,
+          "median": 0.006357300968375057,
+          "p95": 0.012566584674641487,
+          "p99": 0.016358909042319313,
+          "max": 0.03277832898311317
+        },
+        "odom_source_age_at_logger_receipt_s": {
+          "count": 1033,
+          "min": 0.051363229751586914,
+          "median": 0.07448697090148926,
+          "p95": 0.0905306339263916,
+          "p99": 0.10532911300659177,
+          "max": 0.12778043746948242
+        },
+        "planner_thread_ms": {
+          "count": 1460,
+          "min": 0.406,
+          "median": 4.8255,
+          "p95": 11.9762,
+          "p99": 12.977070000000001,
+          "max": 13.806
+        },
+        "planner_wall_active_ms": {
+          "count": 960,
+          "min": 1.969,
+          "median": 9.689,
+          "p95": 12.322349999999998,
+          "p99": 13.281369999999997,
+          "max": 15.363
+        },
+        "planner_wall_ms": {
+          "count": 1460,
+          "min": 0.405,
+          "median": 4.845,
+          "p95": 12.01025,
+          "p99": 13.124380000000011,
+          "max": 15.363
+        },
+        "policy_cmd_source_age_at_logger_receipt_s": {
+          "count": 3374,
+          "min": 0.00047898292541503906,
+          "median": 0.0031093358993530273,
+          "p95": 0.007764160633087158,
+          "p99": 0.009667496681213378,
+          "max": 0.015735864639282227
+        },
+        "policy_complete_to_publish_ms": {
+          "count": 3292,
+          "min": 0.4227670142427087,
+          "median": 0.825717463158071,
+          "p95": 3.0558745260350397,
+          "p99": 4.4578506203834,
+          "max": 10.372600983828306
+        },
+        "policy_observation_interval_ms": {
+          "count": 3292,
+          "min": 20.0,
+          "median": 20.0,
+          "p95": 24.0,
+          "p99": 26.0,
+          "max": 32.0
+        },
+        "policy_observation_interval_over_period": {
+          "count": 3292,
+          "min": 1.0,
+          "median": 1.0,
+          "p95": 1.2,
+          "p99": 1.2999999999999998,
+          "max": 1.6
+        },
+        "policy_submit_to_complete_ms": {
+          "count": 3292,
+          "min": 0.8166569750756025,
+          "median": 3.95360094262287,
+          "p95": 9.665352856973186,
+          "p99": 13.326831669546664,
+          "max": 30.11115500703454
+        },
+        "policy_submit_to_publish_ms": {
+          "count": 3292,
+          "min": 1.5285419067367911,
+          "median": 5.162807472515851,
+          "p95": 10.94049761886708,
+          "p99": 14.760433923220265,
+          "max": 31.03429195471108
+        },
+        "prediction_age_at_command_publish_s": {
+          "count": 1394,
+          "min": 0.12339591979980469,
+          "median": 0.2104271650314331,
+          "p95": 0.2781027674674988,
+          "p99": 0.30269193410873413,
+          "max": 0.3788623809814453
+        },
+        "prediction_age_at_planning_snapshot_s": {
+          "count": 1394,
+          "min": 0.1229,
+          "median": 0.2098,
+          "p95": 0.2772,
+          "p99": 0.302121,
+          "max": 0.3784
+        },
+        "rtf_monotonic_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "rtf_ros_legacy_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "scan_age_at_command_publish_s": {
+          "count": 1394,
+          "min": 0.071,
+          "median": 0.129,
+          "p95": 0.1653499999999999,
+          "p99": 0.18220999999999982,
+          "max": 0.379
+        },
+        "scan_age_at_planning_snapshot_s": {
+          "count": 1394,
+          "min": 0.071,
+          "median": 0.129,
+          "p95": 0.165,
+          "p99": 0.18120999999999982,
+          "max": 0.378
+        },
+        "scoring_candidate_total_ms": {
+          "count": 960,
+          "min": 1.0,
+          "median": 8.0225,
+          "p95": 9.9043,
+          "p99": 10.38128,
+          "max": 11.225
+        },
+        "scoring_rollout_ms": {
+          "count": 960,
+          "min": 0.335,
+          "median": 0.921,
+          "p95": 1.0331,
+          "p99": 1.06982,
+          "max": 1.218
+        },
+        "scoring_static_ms": {
+          "count": 960,
+          "min": 0.524,
+          "median": 6.89,
+          "p95": 8.63525,
+          "p99": 9.14302,
+          "max": 10.063
+        },
+        "supervisor_escape_control_path_ms": {
+          "count": 3656,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "supervisor_input_age_s": {
+          "count": 3587,
+          "min": 0.002,
+          "median": 0.028,
+          "p95": 0.050699999999999815,
+          "p99": 0.057,
+          "max": 0.069
+        },
+        "supervisor_predictive_search_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "supervisor_tick_interval_ms": {
+          "count": 3655,
+          "min": 5.410084966570139,
+          "median": 20.00193204730749,
+          "p95": 23.52061078418045,
+          "p99": 27.861036972608417,
+          "max": 36.34883195627481
+        },
+        "supervisor_tick_to_publication_ms": {
+          "count": 3656,
+          "min": 0.1815080177038908,
+          "median": 0.8348805131390691,
+          "p95": 1.5533840050920844,
+          "p99": 3.2210232457146004,
+          "max": 8.057205006480217
+        },
+        "tracks_age_at_command_publish_s": {
+          "count": 1394,
+          "min": 0.12339591979980469,
+          "median": 0.2101118564605713,
+          "p95": 0.2774580955505371,
+          "p99": 0.3023419404029846,
+          "max": 0.3788623809814453
+        },
+        "tracks_age_at_planning_snapshot_s": {
+          "count": 1394,
+          "min": 0.1229,
+          "median": 0.2096,
+          "p95": 0.276635,
+          "p99": 0.30162799999999995,
+          "max": 0.3784
+        }
+      },
+      "policy_hold_events": [
+        {
+          "sequence": 1,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792732943.6865354,
+          "monotonic_s": 926390.874962595,
+          "device_tick_ms": 0,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        },
+        {
+          "sequence": 2,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792732943.9061787,
+          "monotonic_s": 926391.094606785,
+          "device_tick_ms": 2,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        }
+      ],
+      "command_application": {},
+      "command_application_sha256": null
+    },
+    {
+      "run": "dex3_contact_delivery_raised20_repeat_20261023",
+      "world": "transport_dual",
+      "people": 0,
+      "layout_seed": null,
+      "seed": 42,
+      "objective": {
+        "pairs": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red"
+          }
+        ],
+        "task_seed": null,
+        "mode": "red:red",
+        "description": "Put the red object on the red goal"
+      },
+      "policy": "vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+      "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+      "configuration": {
+        "policy_device_clock": "true",
+        "numeric_thread_environment": {},
+        "application_timing": "false",
+        "arm_executor_threads": "2",
+        "arm_repeat_period": "0.0",
+        "slam_loop_closing": "true",
+        "tracker_body_wall_sheets": true,
+        "predictive_refuge": false,
+        "early_overtaking_avoidance": false,
+        "navigation_profile_sha256": "3c20b55a91b027dcdcf65bc8b01493bd6206b3b3348a94b00d895d6c6f018ff1"
+      },
+      "success": false,
+      "mission_complete": false,
+      "data_valid": true,
+      "artifact_complete": true,
+      "fallen": false,
+      "contacts": 0,
+      "error": "physical grasp contact lost or stale",
+      "minimum_person_clearance_m": null,
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_red",
+          "color": "red",
+          "destination_color": "red",
+          "verified": false,
+          "lift_m": 0.13351905277244824,
+          "travel_m": 2.573558686785328
+        }
+      ],
+      "dropped_objects": [],
+      "attachment_state": "uncertain",
+      "object_may_be_held": true,
+      "completion_s": null,
+      "last_recorded_event_s": 86.28019211103674,
+      "deadline_s": 420.0,
+      "search": null,
+      "discoveries": [],
+      "placement_alignment": [],
+      "workspace_recovery_events": [],
+      "route_blockage": {},
+      "result_sha256": "0583ba387de1229cbba60967dc337bced08bfc6da8092dc02732c0278cf7406c",
+      "manifest_sha256": "c5248edb9c4965f83e09edeb3dedc6321af32727e701dd2aa10f181c5ad681cd",
+      "source_archive_sha256": "66e98d0ae385e03cf1c5ba76c975c225ddb45b278ca1eebb7f66071d9aa415da",
+      "effective_parameters_sha256": "a346761ea804c4ae3bf4668d970c443d23811fc16456fce1879a8da0416c4746",
+      "runtime_metrics": {
+        "command_receipt_age_at_target_publish_s": {
+          "count": 4043,
+          "min": 0.004441261291503906,
+          "median": 0.017595529556274414,
+          "p95": 0.029765510559082026,
+          "p99": 0.03618913650512695,
+          "max": 0.051953792572021484
+        },
+        "escape_worker_submit_to_complete_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_receive_to_callback_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_source_to_callback_ms": {
+          "count": 4043,
+          "min": 1.032114028930664,
+          "median": 2.775430679321289,
+          "p95": 5.024003982543944,
+          "p99": 6.443171501159666,
+          "max": 11.794328689575195
+        },
+        "lowstate_dds_source_to_target_publish_ms": {
+          "count": 4043,
+          "min": 3.4220218658447266,
+          "median": 9.401798248291016,
+          "p95": 16.656470298767083,
+          "p99": 20.93527793884277,
+          "max": 32.823801040649414
+        },
+        "lowstate_receipt_age_at_target_publish_s": {
+          "count": 4043,
+          "min": 0.0023595390375703573,
+          "median": 0.006581748952157795,
+          "p95": 0.012976713071111588,
+          "p99": 0.01677300264127552,
+          "max": 0.0298534199828282
+        },
+        "odom_source_age_at_logger_receipt_s": {
+          "count": 1276,
+          "min": 0.05190014839172363,
+          "median": 0.07925140857696533,
+          "p95": 0.0997769832611084,
+          "p99": 0.11637705564498901,
+          "max": 0.14891958236694336
+        },
+        "planner_thread_ms": {
+          "count": 1778,
+          "min": 0.444,
+          "median": 6.077500000000001,
+          "p95": 12.312349999999999,
+          "p99": 13.34746,
+          "max": 14.393
+        },
+        "planner_wall_active_ms": {
+          "count": 1190,
+          "min": 1.095,
+          "median": 9.801,
+          "p95": 12.9011,
+          "p99": 13.798039999999993,
+          "max": 14.451
+        },
+        "planner_wall_ms": {
+          "count": 1778,
+          "min": 0.443,
+          "median": 6.1365,
+          "p95": 12.45475,
+          "p99": 13.570920000000001,
+          "max": 14.451
+        },
+        "policy_cmd_source_age_at_logger_receipt_s": {
+          "count": 4133,
+          "min": 0.0002818107604980469,
+          "median": 0.0034837722778320312,
+          "p95": 0.008553409576416014,
+          "p99": 0.01049413681030273,
+          "max": 0.01926112174987793
+        },
+        "policy_complete_to_publish_ms": {
+          "count": 4043,
+          "min": 0.4266699543222785,
+          "median": 0.8421649690717459,
+          "p95": 2.9343105503357947,
+          "p99": 4.734813156537711,
+          "max": 9.79340507183224
+        },
+        "policy_observation_interval_ms": {
+          "count": 4043,
+          "min": 20.0,
+          "median": 20.0,
+          "p95": 24.0,
+          "p99": 26.0,
+          "max": 36.0
+        },
+        "policy_observation_interval_over_period": {
+          "count": 4043,
+          "min": 1.0,
+          "median": 1.0,
+          "p95": 1.2,
+          "p99": 1.2999999999999998,
+          "max": 1.7999999999999998
+        },
+        "policy_submit_to_complete_ms": {
+          "count": 4043,
+          "min": 0.8779310155659914,
+          "median": 4.13471891079098,
+          "p95": 9.93769291089847,
+          "p99": 13.78931039245799,
+          "max": 27.341601089574397
+        },
+        "policy_submit_to_publish_ms": {
+          "count": 4043,
+          "min": 1.5665090177208185,
+          "median": 5.331992986612022,
+          "p95": 11.342328728642311,
+          "p99": 15.213389010168605,
+          "max": 28.193181031383574
+        },
+        "prediction_age_at_command_publish_s": {
+          "count": 1714,
+          "min": 0.11518645286560059,
+          "median": 0.20650207996368408,
+          "p95": 0.2783517003059387,
+          "p99": 0.3053479981422424,
+          "max": 0.35199904441833496
+        },
+        "prediction_age_at_planning_snapshot_s": {
+          "count": 1714,
+          "min": 0.1147,
+          "median": 0.2058,
+          "p95": 0.277705,
+          "p99": 0.30457399999999996,
+          "max": 0.3515
+        },
+        "rtf_monotonic_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "rtf_ros_legacy_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "scan_age_at_command_publish_s": {
+          "count": 1714,
+          "min": 0.064,
+          "median": 0.137,
+          "p95": 0.171,
+          "p99": 0.1968699999999999,
+          "max": 0.352
+        },
+        "scan_age_at_planning_snapshot_s": {
+          "count": 1714,
+          "min": 0.064,
+          "median": 0.136,
+          "p95": 0.171,
+          "p99": 0.1948699999999999,
+          "max": 0.352
+        },
+        "scoring_candidate_total_ms": {
+          "count": 1189,
+          "min": 1.034,
+          "median": 7.976,
+          "p95": 9.7548,
+          "p99": 10.258759999999997,
+          "max": 11.141
+        },
+        "scoring_rollout_ms": {
+          "count": 1189,
+          "min": 0.316,
+          "median": 0.919,
+          "p95": 1.042,
+          "p99": 1.101,
+          "max": 2.183
+        },
+        "scoring_static_ms": {
+          "count": 1189,
+          "min": 0.56,
+          "median": 6.831,
+          "p95": 8.495,
+          "p99": 8.98448,
+          "max": 9.898
+        },
+        "supervisor_escape_control_path_ms": {
+          "count": 4444,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "supervisor_input_age_s": {
+          "count": 4374,
+          "min": 0.002,
+          "median": 0.028,
+          "p95": 0.053,
+          "p99": 0.059,
+          "max": 0.07
+        },
+        "supervisor_predictive_search_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "supervisor_tick_interval_ms": {
+          "count": 4443,
+          "min": 3.3116440754383802,
+          "median": 19.990264903753996,
+          "p95": 23.626991047058254,
+          "p99": 28.262370771262795,
+          "max": 47.659010044299066
+        },
+        "supervisor_tick_to_publication_ms": {
+          "count": 4444,
+          "min": 0.15888200141489506,
+          "median": 0.8258415036834776,
+          "p95": 1.649649877799673,
+          "p99": 3.8306662323884653,
+          "max": 17.78209605254233
+        },
+        "tracks_age_at_command_publish_s": {
+          "count": 1714,
+          "min": 0.11518645286560059,
+          "median": 0.20605695247650146,
+          "p95": 0.2776535630226135,
+          "p99": 0.3053479981422424,
+          "max": 0.35199904441833496
+        },
+        "tracks_age_at_planning_snapshot_s": {
+          "count": 1714,
+          "min": 0.1147,
+          "median": 0.2054,
+          "p95": 0.27703500000000003,
+          "p99": 0.30457399999999996,
+          "max": 0.3515
+        }
+      },
+      "policy_hold_events": [
+        {
+          "sequence": 1,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792733439.256756,
+          "monotonic_s": 926886.44518525,
+          "device_tick_ms": 0,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        },
+        {
+          "sequence": 2,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792733439.4583075,
+          "monotonic_s": 926886.646736476,
+          "device_tick_ms": 2,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        }
+      ],
+      "command_application": {},
+      "command_application_sha256": null
+    },
+    {
+      "run": "dex3_contact_delivery_raised20_sag_20261023",
+      "world": "transport_dual",
+      "people": 0,
+      "layout_seed": null,
+      "seed": 42,
+      "objective": {
+        "pairs": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red"
+          }
+        ],
+        "task_seed": null,
+        "mode": "red:red",
+        "description": "Put the red object on the red goal"
+      },
+      "policy": "vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+      "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+      "configuration": {
+        "policy_device_clock": "true",
+        "numeric_thread_environment": {},
+        "application_timing": "false",
+        "arm_executor_threads": "2",
+        "arm_repeat_period": "0.0",
+        "slam_loop_closing": "true",
+        "tracker_body_wall_sheets": true,
+        "predictive_refuge": false,
+        "early_overtaking_avoidance": false,
+        "navigation_profile_sha256": "3c20b55a91b027dcdcf65bc8b01493bd6206b3b3348a94b00d895d6c6f018ff1"
+      },
+      "success": false,
+      "mission_complete": false,
+      "data_valid": true,
+      "artifact_complete": true,
+      "fallen": false,
+      "contacts": 0,
+      "error": "physical grasp contact lost or stale",
+      "minimum_person_clearance_m": null,
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_red",
+          "color": "red",
+          "destination_color": "red",
+          "verified": false,
+          "lift_m": 0.13383964197968712,
+          "travel_m": 2.65519538907149
+        }
+      ],
+      "dropped_objects": [],
+      "attachment_state": "uncertain",
+      "object_may_be_held": true,
+      "completion_s": null,
+      "last_recorded_event_s": 87.7340254499577,
+      "deadline_s": 420.0,
+      "search": null,
+      "discoveries": [],
+      "placement_alignment": [],
+      "workspace_recovery_events": [],
+      "route_blockage": {},
+      "result_sha256": "8c5db5ecff18b7afeafe79ad6cb7c4827597c31d223db0f8d66ba7d7435e397e",
+      "manifest_sha256": "57efa3d5bd29d2505dc2f23b569aa82324dd7741d0770d48bc23307fda60250d",
+      "source_archive_sha256": "1439fc579138a83a6f5bd236d8e33bec7289f4257266411ab50b31df49be17ce",
+      "effective_parameters_sha256": "f2a7b9525804daad33a12e8cb1da37a70cd26b6a432cf3867e39daacb395df94",
+      "runtime_metrics": {
+        "command_receipt_age_at_target_publish_s": {
+          "count": 4117,
+          "min": 0.003623485565185547,
+          "median": 0.017739534378051758,
+          "p95": 0.03077068328857421,
+          "p99": 0.03639570236206057,
+          "max": 0.06107139587402344
+        },
+        "escape_worker_submit_to_complete_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_receive_to_callback_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_source_to_callback_ms": {
+          "count": 4117,
+          "min": 0.9396076202392578,
+          "median": 2.6040077209472656,
+          "p95": 4.845094680786133,
+          "p99": 6.186647415161135,
+          "max": 9.290218353271484
+        },
+        "lowstate_dds_source_to_target_publish_ms": {
+          "count": 4117,
+          "min": 3.3762454986572266,
+          "median": 9.055137634277344,
+          "p95": 16.42637252807617,
+          "p99": 20.516157150268562,
+          "max": 45.990943908691406
+        },
+        "lowstate_receipt_age_at_target_publish_s": {
+          "count": 4117,
+          "min": 0.0022462010383605957,
+          "median": 0.006403099047020078,
+          "p95": 0.012706716428510843,
+          "p99": 0.017023202124983094,
+          "max": 0.04242686403449625
+        },
+        "odom_source_age_at_logger_receipt_s": {
+          "count": 1158,
+          "min": 0.04430866241455078,
+          "median": 0.06264758110046387,
+          "p95": 0.09391444921493529,
+          "p99": 0.13319297552108775,
+          "max": 0.1898801326751709
+        },
+        "planner_thread_ms": {
+          "count": 1803,
+          "min": 0.438,
+          "median": 5.399,
+          "p95": 12.653,
+          "p99": 13.82396,
+          "max": 14.656
+        },
+        "planner_wall_active_ms": {
+          "count": 1225,
+          "min": 1.246,
+          "median": 9.562,
+          "p95": 13.208,
+          "p99": 14.3204,
+          "max": 24.871
+        },
+        "planner_wall_ms": {
+          "count": 1803,
+          "min": 0.437,
+          "median": 5.522,
+          "p95": 12.823799999999999,
+          "p99": 14.065620000000001,
+          "max": 24.871
+        },
+        "policy_cmd_source_age_at_logger_receipt_s": {
+          "count": 4207,
+          "min": 0.0003082752227783203,
+          "median": 0.0030879974365234375,
+          "p95": 0.007822036743164062,
+          "p99": 0.009794511795043915,
+          "max": 0.0190732479095459
+        },
+        "policy_complete_to_publish_ms": {
+          "count": 4117,
+          "min": 0.4443270154297352,
+          "median": 0.8197159040719271,
+          "p95": 3.15779740922153,
+          "p99": 4.700522883795203,
+          "max": 8.315399987623096
+        },
+        "policy_observation_interval_ms": {
+          "count": 4117,
+          "min": 20.0,
+          "median": 20.0,
+          "p95": 24.0,
+          "p99": 26.0,
+          "max": 46.0
+        },
+        "policy_observation_interval_over_period": {
+          "count": 4117,
+          "min": 1.0,
+          "median": 1.0,
+          "p95": 1.2,
+          "p99": 1.2999999999999998,
+          "max": 2.3
+        },
+        "policy_submit_to_complete_ms": {
+          "count": 4117,
+          "min": 0.9071900276467204,
+          "median": 3.9360549999400973,
+          "p95": 9.738787682726976,
+          "p99": 13.866528798826044,
+          "max": 37.31277410406619
+        },
+        "policy_submit_to_publish_ms": {
+          "count": 4117,
+          "min": 1.4814829919487238,
+          "median": 5.115095991641283,
+          "p95": 11.148816952481864,
+          "p99": 15.1030373480171,
+          "max": 40.02720303833485
+        },
+        "prediction_age_at_command_publish_s": {
+          "count": 1745,
+          "min": 0.08542180061340332,
+          "median": 0.19257616996765137,
+          "p95": 0.2654399394989014,
+          "p99": 0.28893581390380857,
+          "max": 0.3603239059448242
+        },
+        "prediction_age_at_planning_snapshot_s": {
+          "count": 1745,
+          "min": 0.0849,
+          "median": 0.192,
+          "p95": 0.2648,
+          "p99": 0.288468,
+          "max": 0.3599
+        },
+        "rtf_monotonic_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "rtf_ros_legacy_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "scan_age_at_command_publish_s": {
+          "count": 1745,
+          "min": 0.065,
+          "median": 0.122,
+          "p95": 0.194,
+          "p99": 0.21555999999999995,
+          "max": 0.337
+        },
+        "scan_age_at_planning_snapshot_s": {
+          "count": 1745,
+          "min": 0.064,
+          "median": 0.121,
+          "p95": 0.194,
+          "p99": 0.215,
+          "max": 0.336
+        },
+        "scoring_candidate_total_ms": {
+          "count": 1223,
+          "min": 0.997,
+          "median": 7.863,
+          "p95": 9.4708,
+          "p99": 10.531259999999998,
+          "max": 21.295
+        },
+        "scoring_rollout_ms": {
+          "count": 1223,
+          "min": 0.326,
+          "median": 0.929,
+          "p95": 1.0438999999999998,
+          "p99": 1.0952399999999998,
+          "max": 4.602
+        },
+        "scoring_static_ms": {
+          "count": 1223,
+          "min": 0.516,
+          "median": 6.734,
+          "p95": 8.2079,
+          "p99": 9.205719999999998,
+          "max": 20.127
+        },
+        "supervisor_escape_control_path_ms": {
+          "count": 4508,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "supervisor_input_age_s": {
+          "count": 4435,
+          "min": 0.002,
+          "median": 0.029,
+          "p95": 0.053,
+          "p99": 0.059,
+          "max": 0.086
+        },
+        "supervisor_predictive_search_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "supervisor_tick_interval_ms": {
+          "count": 4507,
+          "min": 2.5613660691305995,
+          "median": 20.002942997962236,
+          "p95": 24.228926107753068,
+          "p99": 28.151775801088643,
+          "max": 41.61460103932768
+        },
+        "supervisor_tick_to_publication_ms": {
+          "count": 4508,
+          "min": 0.17539900727570057,
+          "median": 0.7580500096082687,
+          "p95": 1.5329968417063342,
+          "p99": 2.9265320685226586,
+          "max": 11.497381026856601
+        },
+        "tracks_age_at_command_publish_s": {
+          "count": 1745,
+          "min": 0.08542180061340332,
+          "median": 0.1921067237854004,
+          "p95": 0.2651756763458252,
+          "p99": 0.28893581390380857,
+          "max": 0.3603239059448242
+        },
+        "tracks_age_at_planning_snapshot_s": {
+          "count": 1745,
+          "min": 0.0849,
+          "median": 0.1914,
+          "p95": 0.26438,
+          "p99": 0.288468,
+          "max": 0.3599
+        }
+      },
+      "policy_hold_events": [
+        {
+          "sequence": 1,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792733145.2404687,
+          "monotonic_s": 926592.428897391,
+          "device_tick_ms": 0,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        },
+        {
+          "sequence": 2,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792733145.4402978,
+          "monotonic_s": 926592.628727887,
+          "device_tick_ms": 2,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        }
+      ],
+      "command_application": {},
+      "command_application_sha256": null
+    }
+  ]
+}

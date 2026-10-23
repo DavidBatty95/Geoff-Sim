@@ -1,0 +1,6231 @@
+{
+  "scope": "Contact-only hand implementation; mobile delivery not yet qualified",
+  "source_sha256": {
+    "scripts/dex3_hand_model.py": "b50d72aa796ed4ce0457f2ab3afc74a9fc7d211cd878afe9967e8efae4ce7e70",
+    "scripts/measure_dex3_contact_grasp.py": "979f30b88eb998045f5e70f241ca0956bf35607d799d79891a86aa27b1c6fa15",
+    "scripts/verify_dex3_services.py": "e15ba218f05fe183a515bb8095cd47554aec3affab6adfad25748ac535846b3d",
+    "scripts/transport_worlds.py": "004ea3fcd8eb4e5014a2bbfb71dd24a609a8a9c5fe009508dcffefc81d5b7fc1",
+    "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/dex3_grasp.py": "f41498806da6b7d387353437fdab74384b5dab1f4d2665bc7bcf2a7023d50a74",
+    "ros2_ws/src/unitree_mujoco/simulate/src/dex3_hand.h": "7b8360b649af128d1b032e6ac4d094cc44582b36a40e8056ff226b4fec11fbc6",
+    "ros2_ws/src/unitree_g1_description/dex3_sources/manifest.json": "74777adf50fe8c7ea2464279e5c8fc1fd728fa91dd3bfca75397e156f5d41ec6"
+  },
+  "calibration_notes": "Early mocap-wrist and closure sweeps are retained failures, not qualification. Final bench uses actuated wrist slides, Euler and 2 ms steps.",
+  "bench_records": [
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261020/actuated_wrist.json",
+      "sha256": "e9f3679d7832cc034aaf6fddfca1b265e3a20426f3f87494e0e5be97c683a00f",
+      "data": {
+        "success": true,
+        "scope": "prescribed wrist contact-only bench, not mobile qualification",
+        "side": "right",
+        "x": 0.135,
+        "y": 0.04,
+        "radius": 0.02,
+        "mass": 0.08,
+        "grip": [
+          0.0,
+          -0.75,
+          -0.9,
+          1.2,
+          1.2,
+          1.2,
+          1.2
+        ],
+        "object_shape": "cylinder",
+        "object_constraints": 0,
+        "object_external_force": false,
+        "minimum_held_lift_m": 0.1425111073852885,
+        "opposed_contact": true,
+        "released": true,
+        "held_joints": [
+          0.0002549758433445503,
+          -0.41359303286327265,
+          -0.860595079041591,
+          1.096397079305753,
+          1.2000634330680606,
+          1.0967708054096863,
+          1.199821926999221
+        ],
+        "held_contacts": [
+          "right_wrist_yaw_link",
+          "right_hand_thumb_1_link",
+          "right_hand_thumb_2_link",
+          "right_hand_middle_0_link",
+          "right_hand_index_0_link"
+        ],
+        "prelift": {
+          "time": 2.9009999999997915,
+          "position": [
+            0.10201936379193925,
+            0.03560454370658557,
+            1.0000038288874424
+          ],
+          "contacts": [
+            "right_wrist_yaw_link",
+            "right_hand_thumb_1_link",
+            "right_hand_thumb_2_link",
+            "right_hand_middle_0_link",
+            "right_hand_index_0_link"
+          ],
+          "joints": [
+            0.0007907786191114843,
+            -0.4136163721688233,
+            -0.8609450075979487,
+            1.0953308093917447,
+            1.1999511679619375,
+            1.0967801945225972,
+            1.19981912419175
+          ]
+        },
+        "final_position": [
+          0.10418433731601898,
+          0.03598171049461727,
+          0.999903936461743
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261020/closure_sweep.json",
+      "sha256": "1e04d22d31133a8b840bf72eb434ad799a4f2da30fe65f34718a2dffb48b800d",
+      "data": {
+        "scope": "closure calibration; all27 conditions retained",
+        "attempts": [
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              0.0,
+              -0.6,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184017161e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              -0.00024690605914497535,
+              4.2119775083599244e-06,
+              -0.5999994427073355,
+              0.7999999985477361,
+              0.8000000000003318,
+              0.7999999999448084,
+              0.8000000000000171
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.1217047008941813,
+              0.049698420941747326,
+              0.9999039356881974
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              0.0,
+              -0.6,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431183928343e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              -0.00024690652148472587,
+              4.222752102466786e-06,
+              -0.5999994427084757,
+              1.1999999586280243,
+              1.2000000000024567,
+              1.199999998838436,
+              1.2000000000002138
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.09351648097713137,
+              0.03916357210273693,
+              0.9999039360155535
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              0.0,
+              -0.6,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.64592818371024e-05,
+            "opposed_contact": false,
+            "released": false,
+            "held_joints": [
+              -0.0002469076562031934,
+              4.249480338298328e-06,
+              -0.5999994427115901,
+              1.499999709238184,
+              1.4999999997223086,
+              1.4999999938391555,
+              1.5000000000004678
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.026609891889180788,
+              0.03723076044343802,
+              0.9738748533976246
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              0.0,
+              -1.0,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184017161e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.0005269623551392858,
+              -8.62121644051556e-06,
+              -1.0000008211583686,
+              0.7999999985476944,
+              0.8000000000003318,
+              0.7999999999448084,
+              0.8000000000000171
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.12170469845081612,
+              0.04969834417555361,
+              0.9999039356881734
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              0.0,
+              -1.0,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184017161e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.0005269619110719041,
+              -8.61042613232161e-06,
+              -1.000000821159431,
+              1.199999958931022,
+              1.2000000000024658,
+              1.1999999988337693,
+              1.2000000000002145
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.09351647566852897,
+              0.03916725724047952,
+              0.9999039361389076
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              0.0,
+              -1.0,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.654425156402358e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.0005269608159764206,
+              -8.583518473223348e-06,
+              -1.000000821162256,
+              1.4999997087803774,
+              1.4999999997218532,
+              1.4999999938391575,
+              1.500000000000467
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.020047854973508934,
+              0.021063927285301928,
+              0.9748549040728834
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              0.0,
+              -1.4,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184006059e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.0009674275891245456,
+              -1.4909077383261671e-05,
+              -1.4000005934722657,
+              0.7999999942071037,
+              0.8000000000013457,
+              0.799999999690921,
+              0.8000000000000894
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.12174184361885113,
+              0.04915749415272532,
+              0.9999039356881598
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              0.0,
+              -1.4,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431183517561e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.0009674276925098677,
+              -1.4911736105741494e-05,
+              -1.400000593472083,
+              1.19999999998093,
+              1.2000000000000133,
+              1.1999999999873754,
+              1.2000000000000126
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.09351646537563356,
+              0.03804833412046235,
+              0.9999039358856638
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              0.0,
+              -1.4,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.67770940895063e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.0009674262929798999,
+              -1.4875320818418332e-05,
+              -1.4000005934754796,
+              1.499999708777207,
+              1.4999999997218305,
+              1.4999999938386912,
+              1.5000000000004663
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.019926356472053052,
+              0.021047863385674288,
+              0.9748562000820201
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.2,
+              -0.6,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184017161e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.0031222443957402116,
+              -0.2000515188605653,
+              -0.6000060771306812,
+              0.7999999985476868,
+              0.8000000000003318,
+              0.7999999999448084,
+              0.8000000000000171
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.12170470124662476,
+              0.04969838648124966,
+              0.9999039356881598
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.2,
+              -0.6,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184017161e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.0031222436744550814,
+              -0.20005150146814063,
+              -0.6000060771334214,
+              1.1999999299615105,
+              1.1999999999976958,
+              1.1999999980967953,
+              1.2000000000003372
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.09740809139668025,
+              0.036678497485216094,
+              0.9999039358141077
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.2,
+              -0.6,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.77585092217792e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.0031222425750713906,
+              -0.20005147468717216,
+              -0.6000060771377602,
+              1.4999996898529475,
+              1.4999999996865825,
+              1.499999993611349,
+              1.500000000000472
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              -0.118428831749049,
+              0.11175313994446362,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.2,
+              -1.0,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184017161e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.003741655334277105,
+              -0.2000586017754551,
+              -1.0000041451331745,
+              0.7999999985476247,
+              0.8000000000003318,
+              0.7999999999448053,
+              0.8000000000000171
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.12170470130089878,
+              0.04969844467935823,
+              0.9999039356881749
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.2,
+              -1.0,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184017161e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.0037416546455818446,
+              -0.20005858428456796,
+              -1.000004145136047,
+              1.1999999305110365,
+              1.199999999997766,
+              1.1999999980962168,
+              1.2000000000003372
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.09740292497537617,
+              0.03667902772185005,
+              0.9999039358140906
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.2,
+              -1.0,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.00014604155786424045,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.003741653597782107,
+              -0.2000585573706904,
+              -1.000004145140476,
+              1.4999996904136648,
+              1.4999999996874367,
+              1.4999999936085884,
+              1.5000000000004727
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              -0.14297275999169332,
+              0.12384990402356956,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.2,
+              -1.4,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184250308e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.0039854193173726946,
+              -0.2000583506663163,
+              -1.4000003761774122,
+              0.7999999770405168,
+              0.8000000000066592,
+              0.7999999973578358,
+              0.8000000000007713
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.11293640394518545,
+              0.03791016785324836,
+              0.9999039356881598
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.2,
+              -1.4,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184006059e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.003985419156220295,
+              -0.20005834630700692,
+              -1.4000003761766782,
+              1.1999999216836437,
+              1.1999999999946143,
+              1.1999999982630425,
+              1.20000000000031
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.09763345213452676,
+              0.0366554039580944,
+              0.9999039359228724
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.2,
+              -1.4,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.623220581567171e-05,
+            "opposed_contact": false,
+            "released": false,
+            "held_joints": [
+              0.003985418755166453,
+              -0.20005833488249197,
+              -1.4000003761806972,
+              1.499999691872422,
+              1.4999999996901983,
+              1.4999999935893733,
+              1.5000000000004734
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.017054463437090363,
+              0.022764692229899148,
+              0.9748238816102639
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.4,
+              -0.6,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184017161e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.00631292757843434,
+              -0.4000964866915082,
+              -0.60000983599486,
+              0.7999999985433176,
+              0.8000000000003328,
+              0.7999999999446493,
+              0.8000000000000171
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.12170471079124613,
+              0.04969857348636241,
+              0.9999039356881839
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.4,
+              -0.6,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184006059e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.006312926241214608,
+              -0.40009645177902975,
+              -0.6000098360026126,
+              1.1999999066976994,
+              1.1999999999886708,
+              1.199999996344485,
+              1.2000000000006694
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.10050455637391392,
+              0.0363607174846504,
+              0.999903935772338
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.4,
+              -0.6,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.00021502795271499675,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.006312925568162605,
+              -0.4000964340704238,
+              -0.6000098360065973,
+              1.4999996717473563,
+              1.4999999996509112,
+              1.4999999932873616,
+              1.5000000000004843
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.0950990306039772,
+              0.03691548532349065,
+              0.9999039360688035
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.4,
+              -1.0,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431183939446e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.006753176949935839,
+              -0.4000968001318385,
+              -1.000004141261492,
+              0.7999999725549839,
+              0.8000000000079122,
+              0.7999999972917431,
+              0.8000000000007902
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.11710455494026796,
+              0.0417216282352981,
+              0.9999039356882717
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.4,
+              -1.0,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184017161e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.006753176811787109,
+              -0.4000967959068603,
+              -1.0000041412650622,
+              1.1999999053707577,
+              1.1999999999879696,
+              1.1999999963404455,
+              1.2000000000006703
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.10048689287322816,
+              0.03636253086874599,
+              0.9999039357661378
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.4,
+              -1.0,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.0001226852050845162,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.00675317631205064,
+              -0.40009678181830916,
+              -1.0000041412701222,
+              1.4999996713164776,
+              1.4999999996504219,
+              1.4999999932725412,
+              1.5000000000004856
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.09511984222254109,
+              0.03691334930946547,
+              0.999903936080895
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.4,
+              -1.4,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184006059e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.0067905616524593605,
+              -0.40009025341645077,
+              -1.3999970909226118,
+              0.7999999726461714,
+              0.8000000000079219,
+              0.7999999973229228,
+              0.800000000000782
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.11030777729356311,
+              0.03535421427054201,
+              0.9999039357200286
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.4,
+              -1.4,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184006059e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.006790561338319262,
+              -0.4000902441737364,
+              -1.39999709092165,
+              1.199999916692974,
+              1.1999999999920603,
+              1.199999997234177,
+              1.200000000000508
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.09940386376818007,
+              0.036473295698650036,
+              0.9999039359009269
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.4,
+              -1.4,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.977504770408707e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.006790561044242212,
+              -0.40009023489896767,
+              -1.3999970909226025,
+              1.499999677464249,
+              1.4999999996618707,
+              1.4999999932964674,
+              1.5000000000004872
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.023141243634172495,
+              0.026540221504640336,
+              0.9748578504772284
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261020/cylinder60mm.json",
+      "sha256": "8dd411b8f1f395d2fd80ffeb2225666d084dc2b2c2c3e357d7211c502ba8372f",
+      "data": {
+        "success": false,
+        "scope": "prescribed wrist contact-only bench, not mobile qualification",
+        "side": "right",
+        "x": 0.135,
+        "y": 0.05,
+        "radius": 0.03,
+        "mass": 0.08,
+        "object_shape": "cylinder",
+        "object_constraints": 0,
+        "object_external_force": false,
+        "minimum_held_lift_m": -9.867330767332483e-05,
+        "opposed_contact": false,
+        "released": true,
+        "held_joints": [
+          0.009418874301861262,
+          -0.6001194535270449,
+          -0.9000033481004104,
+          1.2999993267977454,
+          1.3999999987778082,
+          1.2999999845499706,
+          1.4000000000009456
+        ],
+        "held_contacts": [
+          "world",
+          "world",
+          "world"
+        ],
+        "final_position": [
+          -0.006868769983459431,
+          0.055924072881852575,
+          0.9748578396406162
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261020/cylinder_corrected_sweep.json",
+      "sha256": "987b5c13b37c45d4e227ecf4cc2cbaa0bf042080e19d8431bd9d68466076ea9f",
+      "data": {
+        "scope": "position calibration; all16 conditions retained",
+        "attempts": [
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.105,
+            "y": 0.025,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184017161e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.009418879729421712,
+              -0.6001196252263808,
+              -0.9000033481395732,
+              0.8999999686314344,
+              1.1000000000068613,
+              0.8999999976856212,
+              1.1000000000005066
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.1075254907039902,
+              0.035639906667805726,
+              0.9999039358187807
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.105,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184017161e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.009418879729527848,
+              -0.60011962522955,
+              -0.9000033481395734,
+              0.8999999686356103,
+              1.1000000000068604,
+              0.8999999976849095,
+              1.1000000000005068
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.10752297934811579,
+              0.0356401645484049,
+              0.9999039358172671
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.105,
+            "y": 0.055,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431183895037e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.009418879729408178,
+              -0.600119625226043,
+              -0.9000033481395733,
+              0.899999968630877,
+              1.1000000000068615,
+              0.8999999976817418,
+              1.1000000000005075
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.10752600515720907,
+              0.03563985384074783,
+              0.9999039358191945
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.105,
+            "y": 0.07,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431183772912e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.009418879729453846,
+              -0.600119625227363,
+              -0.9000033481395746,
+              0.8999999686132009,
+              1.1000000000068653,
+              0.8999999976257298,
+              1.10000000000052
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.10752322336542189,
+              0.03564013947203857,
+              0.9999039358201219
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.12,
+            "y": 0.025,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184006059e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.009418879729446826,
+              -0.6001196252270705,
+              -0.9000033481395735,
+              0.8999999686339317,
+              1.1000000000068606,
+              0.8999999976849857,
+              1.1000000000005068
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.10752295413386818,
+              0.03564016711957371,
+              0.9999039358201067
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.12,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431183972752e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.009418879729528665,
+              -0.6001196252295762,
+              -0.9000033481395735,
+              0.8999999686328841,
+              1.100000000006861,
+              0.8999999976779565,
+              1.1000000000005083
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.10752274607663379,
+              0.035640188492932934,
+              0.9999039358190991
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.12,
+            "y": 0.055,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184017161e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.009418879729474663,
+              -0.6001196252278252,
+              -0.9000033481395742,
+              0.899999968613805,
+              1.100000000006865,
+              0.8999999976196023,
+              1.100000000000521
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.10752528282537326,
+              0.03563992799641276,
+              0.9999039358207273
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.12,
+            "y": 0.07,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431183650788e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.009418879729440815,
+              -0.6001196252268757,
+              -0.900003348139574,
+              0.8999999686150612,
+              1.1000000000068646,
+              0.8999999976262507,
+              1.10000000000052
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.10752281548751642,
+              0.035640181356008,
+              0.9999039358193792
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.025,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184017161e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.009418879729442857,
+              -0.6001196252269438,
+              -0.9000033481395742,
+              0.8999999686118042,
+              1.1000000000068655,
+              0.8999999976210307,
+              1.1000000000005206
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.10752490515168515,
+              0.03563996679077751,
+              0.9999039358186216
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184017161e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.009418879729556892,
+              -0.6001196252303108,
+              -0.9000033481395743,
+              0.8999999686139988,
+              1.100000000006865,
+              0.8999999976173213,
+              1.1000000000005214
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.10752355729954617,
+              0.03564010518470421,
+              0.9999039358195404
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431183983855e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.00941887972942098,
+              -0.6001196252263048,
+              -0.900003348139574,
+              0.8999999686113918,
+              1.1000000000068655,
+              0.899999997623288,
+              1.1000000000005201
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.10752498548482607,
+              0.035639958539826266,
+              0.9999039358188238
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.07,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184017161e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.009418879725887787,
+              -0.6001196251080217,
+              -0.9000033481395594,
+              0.8999999684267985,
+              1.1000000000069012,
+              0.899999997447635,
+              1.100000000000559
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.10752691113575112,
+              0.03563976081318628,
+              0.9999039358187952
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.15,
+            "y": 0.025,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431183939446e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.009418879729449296,
+              -0.600119625227064,
+              -0.9000033481395743,
+              0.899999968610366,
+              1.1000000000068657,
+              0.8999999976185815,
+              1.1000000000005212
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.10752544731500735,
+              0.035639911120286756,
+              0.9999039358186371
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.15,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431183895037e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.009418879729528479,
+              -0.6001196252294598,
+              -0.9000033481395739,
+              0.899999968610709,
+              1.100000000006866,
+              0.8999999976151541,
+              1.1000000000005221
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.10752333654982396,
+              0.0356401278683829,
+              0.9999039358181503
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.15,
+            "y": 0.055,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184017161e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.009418879726028557,
+              -0.6001196251123164,
+              -0.9000033481395584,
+              0.8999999684599316,
+              1.1000000000068944,
+              0.8999999975004516,
+              1.1000000000005472
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.10752449208254382,
+              0.03564000919896972,
+              0.9999039358199059
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.15,
+            "y": 0.07,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431183983855e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.009418881212056932,
+              -0.6001196711034944,
+              -0.9000033481336781,
+              0.8999999817822214,
+              1.1000000000034889,
+              0.8999999974591378,
+              1.1000000000005083
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.13220669816168362,
+              0.11123101559841898,
+              0.9999039356881598
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261020/cylinder_diagnostic.json",
+      "sha256": "e34643f0d71cb1933f9ec64253614e8164a8a65f7099ba7370810508e2611cca",
+      "data": {
+        "success": false,
+        "scope": "prescribed wrist contact-only bench, not mobile qualification",
+        "side": "right",
+        "x": 0.135,
+        "y": 0.04,
+        "radius": 0.02,
+        "mass": 0.08,
+        "object_shape": "cylinder",
+        "object_constraints": 0,
+        "object_external_force": false,
+        "minimum_held_lift_m": -9.60643118426141e-05,
+        "opposed_contact": false,
+        "released": true,
+        "held_joints": [
+          -0.000391769797710339,
+          -0.600017207543585,
+          -0.9000008076033205,
+          0.1894703019556217,
+          1.095396205227843,
+          0.17461986550544936,
+          1.102355912321542
+        ],
+        "held_contacts": [
+          "world",
+          "world",
+          "world"
+        ],
+        "final_position": [
+          0.1368937955809206,
+          0.035454866244492234,
+          0.9999039356881833
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261020/cylinder_hinge_exclusions.json",
+      "sha256": "a87020851468bd5b3c96dfc8b574ff88e1f2ccdbf327a2009d59539488ccbdad",
+      "data": {
+        "success": false,
+        "scope": "prescribed wrist contact-only bench, not mobile qualification",
+        "side": "right",
+        "x": 0.135,
+        "y": 0.04,
+        "radius": 0.02,
+        "mass": 0.08,
+        "object_shape": "cylinder",
+        "object_constraints": 0,
+        "object_external_force": false,
+        "minimum_held_lift_m": -9.606431184017161e-05,
+        "opposed_contact": false,
+        "released": true,
+        "held_joints": [
+          0.009418879729556892,
+          -0.6001196252303108,
+          -0.9000033481395743,
+          0.8999999686139988,
+          1.100000000006865,
+          0.8999999976173213,
+          1.1000000000005214
+        ],
+        "held_contacts": [
+          "world",
+          "world",
+          "world"
+        ],
+        "final_position": [
+          0.10752355729954617,
+          0.03564010518470421,
+          0.9999039358195404
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261020/cylinder_position_sweep.json",
+      "sha256": "00f6782adac5af5c51727b652d67fb58d2d1ae3c5b42f98bde64d4b78593b94b",
+      "data": {
+        "scope": "position calibration; all16 conditions retained",
+        "attempts": [
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.105,
+            "y": 0.025,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              1.2836411701445556,
+              0.09466589456691768,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.105,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              0.07912144323607125,
+              0.10760926080931162,
+              0.9748549466504202
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.105,
+            "y": 0.055,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431183983855e-05,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              0.11984662396592866,
+              0.03268106327323215,
+              0.9999039356882982
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.105,
+            "y": 0.07,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              0.06313934141271942,
+              0.1529489153405303,
+              0.9748578470022258
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.12,
+            "y": 0.025,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              -4.0675128900074995,
+              2.6137044061815122,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.12,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184250308e-05,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              0.12203005891213685,
+              0.034567524382743076,
+              0.9999039356882019
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.12,
+            "y": 0.055,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184006059e-05,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              0.12505331617121243,
+              0.030283759705483426,
+              0.9999039356881575
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.12,
+            "y": 0.07,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              2.049450411872251,
+              -0.09818570404741364,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.025,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              0.0865593249095982,
+              0.09490975365358342,
+              0.9748574762939316
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.60643118426141e-05,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              0.1368937955809206,
+              0.035454866244492234,
+              0.9999039356881833
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              -0.034572592979273606,
+              0.1843678153462358,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.07,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              -0.11582600256724346,
+              0.5225731966576544,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.15,
+            "y": 0.025,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              -0.039110751685640786,
+              0.22220125889690723,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.15,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184250308e-05,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              0.12268399041715809,
+              0.03142386007119225,
+              0.9999039356881574
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.15,
+            "y": 0.055,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              -0.03559391046731647,
+              0.17004186571133706,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.15,
+            "y": 0.07,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              -0.02890332451457963,
+              0.040570366673896165,
+              0.9748578470022288
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261020/dds_fixture_control.json",
+      "sha256": "eb4cb5a010d1421a082714d7b5501c0e37c63d6e82837aed0e079899c2c757ab",
+      "data": {
+        "success": true,
+        "scope": "prescribed wrist contact-only bench, not mobile qualification",
+        "side": "right",
+        "x": 0.135,
+        "y": 0.04,
+        "radius": 0.02,
+        "mass": 0.08,
+        "grip": [
+          0.0,
+          -0.75,
+          -0.9,
+          1.2,
+          1.2,
+          1.2,
+          1.2
+        ],
+        "object_shape": "cylinder",
+        "object_constraints": 0,
+        "object_external_force": false,
+        "minimum_held_lift_m": 0.14273582894222558,
+        "opposed_contact": true,
+        "released": true,
+        "held_joints": [
+          0.0022935432550370343,
+          -0.41429998962750286,
+          -0.8594093022553512,
+          1.0983223608844395,
+          1.1997299427105956,
+          1.099201095534894,
+          1.200247419091176
+        ],
+        "held_contacts": [
+          "right_wrist_yaw_link",
+          "right_hand_thumb_1_link",
+          "right_hand_thumb_2_link",
+          "right_hand_middle_0_link",
+          "right_hand_index_0_link"
+        ],
+        "prelift": {
+          "time": 2.901999999999902,
+          "position": [
+            0.10200054890084935,
+            0.03558900672057469,
+            1.0000118553640813
+          ],
+          "contacts": [
+            "world",
+            "right_wrist_yaw_link",
+            "right_hand_thumb_1_link",
+            "right_hand_thumb_2_link",
+            "right_hand_middle_0_link",
+            "right_hand_index_0_link"
+          ],
+          "joints": [
+            0.0014747462182090763,
+            -0.4148107515158322,
+            -0.8593810748270622,
+            1.0983526436601692,
+            1.1998669976246772,
+            1.0981482265454225,
+            1.2001007813588713
+          ]
+        },
+        "final_position": [
+          0.10414285769642005,
+          0.03598598994424666,
+          0.999903938343165
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261020/empty_control.json",
+      "sha256": "38648e8ea7762327e889eee207afe2e08b635128c820e544d4ec12b7f546efad",
+      "data": {
+        "success": false,
+        "scope": "prescribed wrist contact-only bench, not mobile qualification",
+        "side": "right",
+        "x": 0.35,
+        "y": 0.2,
+        "radius": 0.02,
+        "mass": 0.08,
+        "grip": [
+          0.0,
+          -0.75,
+          -0.9,
+          1.2,
+          1.2,
+          1.2,
+          1.2
+        ],
+        "object_shape": "cylinder",
+        "object_constraints": 0,
+        "object_external_force": false,
+        "minimum_held_lift_m": -9.606431184194797e-05,
+        "opposed_contact": false,
+        "released": true,
+        "held_joints": [
+          0.0111968450115869,
+          -0.7501225292414264,
+          -0.899999586544568,
+          1.1999999995882433,
+          1.199999999998247,
+          1.1999999995882433,
+          1.199999999998247
+        ],
+        "held_contacts": [
+          "world",
+          "world",
+          "world"
+        ],
+        "prelift": {
+          "time": 2.901999999999902,
+          "position": [
+            0.35,
+            0.2,
+            0.999903935688158
+          ],
+          "contacts": [
+            "world",
+            "world",
+            "world"
+          ],
+          "joints": [
+            0.01119534388046047,
+            -0.7500836790528194,
+            -0.8999941247307667,
+            1.1997937422335552,
+            1.199957356967615,
+            1.1997937422335552,
+            1.199957356967615
+          ]
+        },
+        "final_position": [
+          0.35,
+          0.2,
+          0.999903935688158
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261020/intermediate_thumb.json",
+      "sha256": "a7877c26cf4e3a4776b109d42e98a51e6ca287ff4f90ed6e5399e58c5242733a",
+      "data": {
+        "success": false,
+        "scope": "prescribed wrist contact-only bench, not mobile qualification",
+        "side": "right",
+        "x": 0.135,
+        "y": 0.04,
+        "radius": 0.02,
+        "mass": 0.08,
+        "grip": [
+          0.0,
+          -0.75,
+          -0.9,
+          1.2,
+          1.2,
+          1.2,
+          1.2
+        ],
+        "object_shape": "cylinder",
+        "object_constraints": 0,
+        "object_external_force": false,
+        "minimum_held_lift_m": -9.606431183883934e-05,
+        "opposed_contact": false,
+        "released": true,
+        "held_joints": [
+          0.01119708566062915,
+          -0.7501225907934964,
+          -0.8999995865956161,
+          1.199999907023216,
+          1.1999999999985194,
+          1.1999999953929372,
+          1.2000000000008646
+        ],
+        "held_contacts": [
+          "world",
+          "world",
+          "world"
+        ],
+        "prelift": {
+          "time": 2.9009999999997915,
+          "position": [
+            0.10204015448318748,
+            0.03563995444105236,
+            1.0000096523845348
+          ],
+          "contacts": [
+            "right_wrist_yaw_link",
+            "right_hand_thumb_1_link",
+            "right_hand_thumb_2_link",
+            "right_hand_middle_0_link",
+            "right_hand_index_0_link"
+          ],
+          "joints": [
+            -0.00014045394046802075,
+            -0.4118807694010758,
+            -0.8615764004240144,
+            1.0946109583392205,
+            1.2000462507258551,
+            1.0942772356148398,
+            1.1998348722851564
+          ]
+        },
+        "final_position": [
+          0.10524598074670403,
+          0.03587365628764638,
+          0.9999039358177111
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261020/large_closure_sweep.json",
+      "sha256": "081b56da303e11cadc99135d992fb9805eaf92e471a28c90c82e2541321b73fd",
+      "data": {
+        "scope": "closure calibration; all27 conditions retained",
+        "attempts": [
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              0.0,
+              -0.6,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.6064311832178e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              -0.0002469066131569576,
+              4.224855903992595e-06,
+              -0.599999442708181,
+              0.799999957652386,
+              0.800000000005991,
+              0.7999999987409551,
+              0.8000000000003595
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.11275830172538,
+              0.06525157149585584,
+              0.9999039356881598
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              0.0,
+              -0.6,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184749908e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              -0.00024691131944685655,
+              4.3360728796732864e-06,
+              -0.599999442707801,
+              1.199999651621093,
+              1.1999999998022735,
+              1.1999999884989254,
+              1.2000000000014874
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.10351365763568676,
+              0.058117716744092184,
+              0.9999039477462288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              0.0,
+              -0.6,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              -0.0002469182713590887,
+              4.5017297507468765e-06,
+              -0.5999994425363097,
+              1.4999996833078755,
+              1.4999999997814741,
+              1.4999999872977359,
+              1.5000000000006528
+            ],
+            "held_contacts": [
+              "world",
+              "world"
+            ],
+            "final_position": [
+              -0.01994216494830694,
+              0.003555623741362766,
+              0.9748578469051054
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              0.0,
+              -1.0,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184017161e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.0005269604418883469,
+              -8.574862570603217e-06,
+              -1.0000008211548461,
+              0.7999998558729028,
+              0.8000000000085374,
+              0.7999999950871406,
+              0.8000000000013551
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.11247974972591261,
+              0.05147220062613413,
+              0.9999039356882344
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              0.0,
+              -1.0,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184017161e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.0005269576635567149,
+              -8.50576208325192e-06,
+              -1.000000821148235,
+              1.1999995500114033,
+              1.1999999995295105,
+              1.1999999872756222,
+              1.2000000000016195
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.10351574577038278,
+              0.0473172887039852,
+              0.9999039400913425
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              0.0,
+              -1.0,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431182940245e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.0005269557398533606,
+              -8.456845572069828e-06,
+              -1.0000008211642557,
+              1.4999993156102964,
+              1.4999999987422872,
+              1.4999999854799624,
+              1.5000000000005456
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              -0.0015335574573945407,
+              0.05983093782065187,
+              0.974857847154741
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              0.0,
+              -1.4,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184017161e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.0009674238963878606,
+              -1.4815045382866049e-05,
+              -1.400000593444532,
+              0.7999998334341528,
+              0.8000000000024007,
+              0.7999999920602416,
+              0.8000000000022468
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.12182907735261851,
+              0.05159659917780672,
+              0.9999039356881761
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              0.0,
+              -1.4,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184006059e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.0009674217366620337,
+              -1.4757815971554555e-05,
+              -1.4000005934101578,
+              1.1999995506615917,
+              1.1999999995240485,
+              1.1999999873227964,
+              1.2000000000016122
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.1441563141287449,
+              0.1909127055010966,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              0.0,
+              -1.4,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.619988248565914e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.0009674210149838558,
+              -1.4737158289306936e-05,
+              -1.4000005934038315,
+              1.4999992831254023,
+              1.4999999986217583,
+              1.4999999846388243,
+              1.500000000000563
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.030809615576572445,
+              0.2572931010194723,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.2,
+              -0.6,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184017161e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.003122241324872709,
+              -0.20005144494157392,
+              -0.6000060771266202,
+              0.7999998373652808,
+              0.7999999999902184,
+              0.799999993717442,
+              0.800000000001663
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.11309624608457035,
+              0.05177627855318844,
+              0.9999039356881598
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.2,
+              -0.6,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431183573072e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.0031222393413052204,
+              -0.2000513953583154,
+              -0.6000060771506224,
+              1.1999995177563052,
+              1.1999999994642885,
+              1.199999986414959,
+              1.20000000000169
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.12582009155072116,
+              0.12916552059566505,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.2,
+              -0.6,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606437125964096e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.0031222368864357994,
+              -0.20005133403123898,
+              -0.6000060771659114,
+              1.4999992962207274,
+              1.499999998651918,
+              1.49999998512523,
+              1.5000000000005584
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              -0.0027502371735032265,
+              0.06257338737757952,
+              0.9748578452295367
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.2,
+              -1.0,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184017161e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.003741650917944265,
+              -0.20005849093516803,
+              -1.0000041451118267,
+              0.7999998209301215,
+              0.7999999999942854,
+              0.7999999921482633,
+              0.8000000000022255
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.11656275278062748,
+              0.051965646523363614,
+              0.9999039356882286
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.2,
+              -1.0,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431186093278e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.00374164936033399,
+              -0.20005844919553245,
+              -1.000004145101684,
+              1.1999995151279321,
+              1.1999999994507795,
+              1.1999999864467457,
+              1.200000000001687
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.10351575088328374,
+              0.04662720728484114,
+              0.9999039398001414
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.2,
+              -1.0,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.0002807389167797103,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.0037416481288715673,
+              -0.20005841568195395,
+              -1.0000041451056312,
+              1.4999992442031984,
+              1.499999998455946,
+              1.499999984253975,
+              1.5000000000005724
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              -0.030797988972219466,
+              0.055449576410912464,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.2,
+              -1.4,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184006059e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.003985415189083031,
+              -0.20005824101252392,
+              -1.4000003761322628,
+              0.7999997713872445,
+              0.7999999999702333,
+              0.7999999903859917,
+              0.8000000000026383
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.13306019544701497,
+              0.06598126441765213,
+              0.9999039356882303
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.2,
+              -1.4,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.60643118510518e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.003985413269582643,
+              -0.20005818784152854,
+              -1.4000003760985897,
+              1.1999995172297442,
+              1.1999999994458574,
+              1.1999999866370168,
+              1.200000000001671
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.1498471438126922,
+              0.23853361711483215,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.2,
+              -1.4,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.00028631964197067816,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.003985412908042825,
+              -0.2000581744871344,
+              -1.4000003760942792,
+              1.4999992519216816,
+              1.4999999984806496,
+              1.499999984191823,
+              1.5000000000005702
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              -0.03790047835771987,
+              0.06094712047481029,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.4,
+              -0.6,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431183428743e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.006312922507737908,
+              -0.4000963561089689,
+              -0.6000098359779277,
+              0.7999997524625325,
+              0.7999999999502526,
+              0.7999999908557122,
+              0.8000000000024627
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.12368761536077078,
+              0.06579878570594053,
+              0.9999039356881609
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.4,
+              -0.6,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184816522e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.006312921164089587,
+              -0.4000963174573972,
+              -0.600009836002793,
+              1.1999994920001762,
+              1.199999999399031,
+              1.1999999855226278,
+              1.2000000000017617
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.11811454436194667,
+              0.15298164007284973,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.4,
+              -0.6,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.0002892147792312727,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.006312920084429196,
+              -0.400096287721055,
+              -0.6000098360322312,
+              1.4999992073707729,
+              1.4999999982867491,
+              1.4999999836483098,
+              1.5000000000005307
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              -0.003057581388791391,
+              0.026471754645878785,
+              0.9748578468169179
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.4,
+              -1.0,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431183750708e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.006753172521095358,
+              -0.4000966800046571,
+              -1.00000414122325,
+              0.7999996841948162,
+              0.7999999999080198,
+              0.799999990020828,
+              0.8000000000026988
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.13272587191215388,
+              0.067508407330612,
+              0.9999039356881598
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.4,
+              -1.0,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431189146392e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.006753171698809767,
+              -0.4000966540649916,
+              -1.0000041412209306,
+              1.199999495145604,
+              1.1999999994074604,
+              1.1999999858776023,
+              1.200000000001736
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.13082042396891858,
+              0.15082475621225133,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.4,
+              -1.0,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -5.8481550020861306e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.006753170502354368,
+              -0.4000966181457896,
+              -1.0000041412158234,
+              1.4999992231223624,
+              1.4999999983153953,
+              1.4999999839267226,
+              1.5000000000005553
+            ],
+            "held_contacts": [
+              "world"
+            ],
+            "final_position": [
+              -0.003047751951091274,
+              0.02612882809806437,
+              0.974857846813233
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.4,
+              -1.4,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431184017161e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.00679055703714892,
+              -0.4000901196368835,
+              -1.399997090859283,
+              0.7999996937362794,
+              0.7999999999014786,
+              0.799999989146889,
+              0.8000000000029343
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.1169270707734402,
+              0.21692050661734147,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.4,
+              -1.4,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -9.606431191500064e-05,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.006790555520852849,
+              -0.4000900740830308,
+              -1.3999970908343744,
+              1.1999995113741428,
+              1.1999999994317687,
+              1.199999986144445,
+              1.2000000000017208
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              0.17691940380152238,
+              0.22434053475556562,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.03,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.4,
+              -1.4,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.0002871244303762621,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.006790555266929638,
+              -0.40009006131692604,
+              -1.399997090826605,
+              1.4999992152099366,
+              1.4999999983264238,
+              1.4999999839536315,
+              1.5000000000005642
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "final_position": [
+              -0.0029927040398916916,
+              0.02473937769976272,
+              0.9748578467686566
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261020/left_complete_recording.json",
+      "sha256": "08acdd88a1c6e751d5f9992157a68feb49d0e2506e19fed900945e1e4ccb67e4",
+      "data": {
+        "success": true,
+        "scope": "prescribed wrist contact-only bench, not mobile qualification",
+        "side": "left",
+        "x": 0.135,
+        "y": 0.04,
+        "radius": 0.02,
+        "mass": 0.08,
+        "grip": [
+          0.0,
+          0.75,
+          0.9,
+          -1.2,
+          -1.2,
+          -1.2,
+          -1.2
+        ],
+        "object_shape": "cylinder",
+        "object_constraints": 0,
+        "object_external_force": false,
+        "minimum_held_lift_m": 0.13952063616418386,
+        "opposed_contact": true,
+        "released": true,
+        "held_joints": [
+          0.000590958827400738,
+          0.41655905412355787,
+          0.8572794249231416,
+          -1.100624933539333,
+          -1.1998946689750347,
+          -1.1017636602866934,
+          -1.2000176011245618
+        ],
+        "held_contacts": [
+          "left_wrist_yaw_link",
+          "left_hand_thumb_1_link",
+          "left_hand_thumb_2_link",
+          "left_hand_middle_0_link",
+          "left_hand_index_0_link"
+        ],
+        "prelift": {
+          "time": 2.901999999999902,
+          "position": [
+            0.10208898280222813,
+            -0.03556715000408483,
+            1.0000009675241917
+          ],
+          "contacts": [
+            "world",
+            "left_wrist_yaw_link",
+            "left_hand_thumb_1_link",
+            "left_hand_thumb_2_link",
+            "left_hand_middle_0_link",
+            "left_hand_index_0_link"
+          ],
+          "joints": [
+            -5.67311368298778e-05,
+            0.41706792388254843,
+            0.8582239082155382,
+            -1.0986316483521423,
+            -1.1999628202882522,
+            -1.0981785067268344,
+            -1.2000909885855633
+          ]
+        },
+        "final_position": [
+          0.10411372595950069,
+          -0.035988886918303466,
+          0.9999039379992797
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261020/left_control.json",
+      "sha256": "08acdd88a1c6e751d5f9992157a68feb49d0e2506e19fed900945e1e4ccb67e4",
+      "data": {
+        "success": true,
+        "scope": "prescribed wrist contact-only bench, not mobile qualification",
+        "side": "left",
+        "x": 0.135,
+        "y": 0.04,
+        "radius": 0.02,
+        "mass": 0.08,
+        "grip": [
+          0.0,
+          0.75,
+          0.9,
+          -1.2,
+          -1.2,
+          -1.2,
+          -1.2
+        ],
+        "object_shape": "cylinder",
+        "object_constraints": 0,
+        "object_external_force": false,
+        "minimum_held_lift_m": 0.13952063616418386,
+        "opposed_contact": true,
+        "released": true,
+        "held_joints": [
+          0.000590958827400738,
+          0.41655905412355787,
+          0.8572794249231416,
+          -1.100624933539333,
+          -1.1998946689750347,
+          -1.1017636602866934,
+          -1.2000176011245618
+        ],
+        "held_contacts": [
+          "left_wrist_yaw_link",
+          "left_hand_thumb_1_link",
+          "left_hand_thumb_2_link",
+          "left_hand_middle_0_link",
+          "left_hand_index_0_link"
+        ],
+        "prelift": {
+          "time": 2.901999999999902,
+          "position": [
+            0.10208898280222813,
+            -0.03556715000408483,
+            1.0000009675241917
+          ],
+          "contacts": [
+            "world",
+            "left_wrist_yaw_link",
+            "left_hand_thumb_1_link",
+            "left_hand_thumb_2_link",
+            "left_hand_middle_0_link",
+            "left_hand_index_0_link"
+          ],
+          "joints": [
+            -5.67311368298778e-05,
+            0.41706792388254843,
+            0.8582239082155382,
+            -1.0986316483521423,
+            -1.1999628202882522,
+            -1.0981785067268344,
+            -1.2000909885855633
+          ]
+        },
+        "final_position": [
+          0.10411372595950069,
+          -0.035988886918303466,
+          0.9999039379992797
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261020/native_euler.json",
+      "sha256": "eb4cb5a010d1421a082714d7b5501c0e37c63d6e82837aed0e079899c2c757ab",
+      "data": {
+        "success": true,
+        "scope": "prescribed wrist contact-only bench, not mobile qualification",
+        "side": "right",
+        "x": 0.135,
+        "y": 0.04,
+        "radius": 0.02,
+        "mass": 0.08,
+        "grip": [
+          0.0,
+          -0.75,
+          -0.9,
+          1.2,
+          1.2,
+          1.2,
+          1.2
+        ],
+        "object_shape": "cylinder",
+        "object_constraints": 0,
+        "object_external_force": false,
+        "minimum_held_lift_m": 0.14273582894222558,
+        "opposed_contact": true,
+        "released": true,
+        "held_joints": [
+          0.0022935432550370343,
+          -0.41429998962750286,
+          -0.8594093022553512,
+          1.0983223608844395,
+          1.1997299427105956,
+          1.099201095534894,
+          1.200247419091176
+        ],
+        "held_contacts": [
+          "right_wrist_yaw_link",
+          "right_hand_thumb_1_link",
+          "right_hand_thumb_2_link",
+          "right_hand_middle_0_link",
+          "right_hand_index_0_link"
+        ],
+        "prelift": {
+          "time": 2.901999999999902,
+          "position": [
+            0.10200054890084935,
+            0.03558900672057469,
+            1.0000118553640813
+          ],
+          "contacts": [
+            "world",
+            "right_wrist_yaw_link",
+            "right_hand_thumb_1_link",
+            "right_hand_thumb_2_link",
+            "right_hand_middle_0_link",
+            "right_hand_index_0_link"
+          ],
+          "joints": [
+            0.0014747462182090763,
+            -0.4148107515158322,
+            -0.8593810748270622,
+            1.0983526436601692,
+            1.1998669976246772,
+            1.0981482265454225,
+            1.2001007813588713
+          ]
+        },
+        "final_position": [
+          0.10414285769642005,
+          0.03598598994424666,
+          0.999903938343165
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261020/pilot.json",
+      "sha256": "9252279c4fc1004bdb7d1f18cd5ce3a5387d1eb37646daea0c483e6b4b39abfb",
+      "data": {
+        "success": false,
+        "scope": "prescribed wrist contact-only bench, not mobile qualification",
+        "side": "right",
+        "x": 0.145,
+        "y": 0.04,
+        "radius": 0.02,
+        "mass": 0.08,
+        "object_constraints": 0,
+        "object_external_force": false,
+        "minimum_held_lift_m": -0.025142152997771228,
+        "opposed_contact": false,
+        "released": true,
+        "final_position": [
+          -0.2733262113406886,
+          0.388969397271793,
+          0.9748578470022288
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261020/position_sweep.json",
+      "sha256": "50d20b593cf1268ef181273e220eed99e29d183ea5f0851baa856b7fff04cc2d",
+      "data": {
+        "scope": "position calibration; all16 conditions retained",
+        "attempts": [
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.105,
+            "y": 0.025,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              0.03863991258074127,
+              0.14960309996573037,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.105,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              -0.13795087116766658,
+              0.15589743054678862,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.105,
+            "y": 0.055,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              0.037739963536253904,
+              0.17348014778504509,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.105,
+            "y": 0.07,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              -0.4165128896678366,
+              0.3655938693158462,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.12,
+            "y": 0.025,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              -1.83984117725508,
+              1.004376950289876,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.12,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              0.02048587907930358,
+              0.08692151850659022,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.12,
+            "y": 0.055,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              -1.1632444812619986,
+              4.604698579359514,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.12,
+            "y": 0.07,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              -0.9700654692258015,
+              0.9388157719817166,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.025,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              0.022062304052402323,
+              1.0115467420827413,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              0.7189233687347176,
+              0.08190077708335508,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.055,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              -0.5128198043522759,
+              1.5061671578641431,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.135,
+            "y": 0.07,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              -0.7135044805087852,
+              0.5878924880120552,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.15,
+            "y": 0.025,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              0.13641938123111694,
+              1.0711380091218048,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.15,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              0.07912038190529883,
+              0.13257044164861012,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.15,
+            "y": 0.055,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              3.4966904211585854,
+              0.9795160315357372,
+              0.9748578470022288
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "side": "right",
+            "x": 0.15,
+            "y": 0.07,
+            "radius": 0.02,
+            "mass": 0.08,
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.025142152997771228,
+            "opposed_contact": false,
+            "released": true,
+            "final_position": [
+              -0.025146119630061123,
+              0.2686119853502564,
+              0.9748578470022288
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261020/power_closure.json",
+      "sha256": "246ea2d68d9b9fa9662a8434b610f243509dc6f2b644e522c94d7c5fd53df0c0",
+      "data": {
+        "success": false,
+        "scope": "prescribed wrist contact-only bench, not mobile qualification",
+        "side": "right",
+        "x": 0.135,
+        "y": 0.04,
+        "radius": 0.02,
+        "mass": 0.08,
+        "object_shape": "cylinder",
+        "object_constraints": 0,
+        "object_external_force": false,
+        "minimum_held_lift_m": -9.606431184017161e-05,
+        "opposed_contact": false,
+        "released": true,
+        "held_joints": [
+          0.009418879271253346,
+          -0.6001196101326797,
+          -0.9000033481457241,
+          1.2999997726603882,
+          1.3999999998343051,
+          1.2999999939182894,
+          1.4000000000006274
+        ],
+        "held_contacts": [
+          "world",
+          "world",
+          "world"
+        ],
+        "final_position": [
+          0.10179114735483502,
+          0.03622859355966918,
+          0.9999039359616386
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261020/rendered_diagnostic.json",
+      "sha256": "246ea2d68d9b9fa9662a8434b610f243509dc6f2b644e522c94d7c5fd53df0c0",
+      "data": {
+        "success": false,
+        "scope": "prescribed wrist contact-only bench, not mobile qualification",
+        "side": "right",
+        "x": 0.135,
+        "y": 0.04,
+        "radius": 0.02,
+        "mass": 0.08,
+        "object_shape": "cylinder",
+        "object_constraints": 0,
+        "object_external_force": false,
+        "minimum_held_lift_m": -9.606431184017161e-05,
+        "opposed_contact": false,
+        "released": true,
+        "held_joints": [
+          0.009418879271253346,
+          -0.6001196101326797,
+          -0.9000033481457241,
+          1.2999997726603882,
+          1.3999999998343051,
+          1.2999999939182894,
+          1.4000000000006274
+        ],
+        "held_contacts": [
+          "world",
+          "world",
+          "world"
+        ],
+        "final_position": [
+          0.10179114735483502,
+          0.03622859355966918,
+          0.9999039359616386
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261020/right_complete_recording.json",
+      "sha256": "eb4cb5a010d1421a082714d7b5501c0e37c63d6e82837aed0e079899c2c757ab",
+      "data": {
+        "success": true,
+        "scope": "prescribed wrist contact-only bench, not mobile qualification",
+        "side": "right",
+        "x": 0.135,
+        "y": 0.04,
+        "radius": 0.02,
+        "mass": 0.08,
+        "grip": [
+          0.0,
+          -0.75,
+          -0.9,
+          1.2,
+          1.2,
+          1.2,
+          1.2
+        ],
+        "object_shape": "cylinder",
+        "object_constraints": 0,
+        "object_external_force": false,
+        "minimum_held_lift_m": 0.14273582894222558,
+        "opposed_contact": true,
+        "released": true,
+        "held_joints": [
+          0.0022935432550370343,
+          -0.41429998962750286,
+          -0.8594093022553512,
+          1.0983223608844395,
+          1.1997299427105956,
+          1.099201095534894,
+          1.200247419091176
+        ],
+        "held_contacts": [
+          "right_wrist_yaw_link",
+          "right_hand_thumb_1_link",
+          "right_hand_thumb_2_link",
+          "right_hand_middle_0_link",
+          "right_hand_index_0_link"
+        ],
+        "prelift": {
+          "time": 2.901999999999902,
+          "position": [
+            0.10200054890084935,
+            0.03558900672057469,
+            1.0000118553640813
+          ],
+          "contacts": [
+            "world",
+            "right_wrist_yaw_link",
+            "right_hand_thumb_1_link",
+            "right_hand_thumb_2_link",
+            "right_hand_middle_0_link",
+            "right_hand_index_0_link"
+          ],
+          "joints": [
+            0.0014747462182090763,
+            -0.4148107515158322,
+            -0.8593810748270622,
+            1.0983526436601692,
+            1.1998669976246772,
+            1.0981482265454225,
+            1.2001007813588713
+          ]
+        },
+        "final_position": [
+          0.10414285769642005,
+          0.03598598994424666,
+          0.999903938343165
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261020/thumb_closure.json",
+      "sha256": "bba5d770f09acc750c8c0940495393b8439f4222c19beb4eba01244d6632ba9b",
+      "data": {
+        "success": false,
+        "scope": "prescribed wrist contact-only bench, not mobile qualification",
+        "side": "right",
+        "x": 0.135,
+        "y": 0.04,
+        "radius": 0.02,
+        "mass": 0.08,
+        "object_shape": "cylinder",
+        "object_constraints": 0,
+        "object_external_force": false,
+        "minimum_held_lift_m": -9.606431184017161e-05,
+        "opposed_contact": false,
+        "released": true,
+        "held_joints": [
+          0.013051014077168724,
+          -1.0000858030493798,
+          -1.2999789008065765,
+          1.2999997717618663,
+          1.3999999998350103,
+          1.299999993974733,
+          1.40000000000066
+        ],
+        "held_contacts": [
+          "world",
+          "world",
+          "world"
+        ],
+        "final_position": [
+          -0.42335613569197444,
+          0.2615688213295354,
+          0.9748578470022288
+        ]
+      }
+    }
+  ],
+  "ros_dds_checks": [
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261020/ros_dds_empty_verified",
+      "complete": true,
+      "sha256": "9c3cc464c1ac6ad57614a99de591d719650f39ef22b7596f0f55f48cacbce044",
+      "data": {
+        "scope": "ROS service + native DDS contact bench; not a mobile mission",
+        "side": "right",
+        "expected_grasp_success": false,
+        "events": [
+          {
+            "operation": "grasp",
+            "success": false,
+            "message": "Dex3 contact confirmation timed out; last finger target retained"
+          },
+          {
+            "operation": "release",
+            "success": true,
+            "message": "open fingers and released contacts confirmed"
+          }
+        ],
+        "native": {
+          "success": false,
+          "minimum_held_lift_m": -9.60643e-05,
+          "opposed_contacts": false,
+          "object_external_force": false,
+          "object_constraints": 0,
+          "released": true,
+          "final_z": 0.999904,
+          "elapsed_s": 14,
+          "scope": "DDS-controlled contact-only wrist rig"
+        },
+        "success": true,
+        "returncode": 1
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261020/ros_dds_left_verified",
+      "complete": true,
+      "sha256": "1a2337965a4bbde2c6c9428a7e0b5c7cf6b5d6de636bd000e4d5ad33164aff93",
+      "data": {
+        "scope": "ROS service + native DDS contact bench; not a mobile mission",
+        "side": "left",
+        "expected_grasp_success": true,
+        "events": [
+          {
+            "operation": "grasp",
+            "success": true,
+            "message": "opposing finger contacts confirmed"
+          },
+          {
+            "operation": "release",
+            "success": true,
+            "message": "open fingers and released contacts confirmed"
+          }
+        ],
+        "native": {
+          "success": true,
+          "minimum_held_lift_m": 0.137149,
+          "opposed_contacts": true,
+          "object_external_force": false,
+          "object_constraints": 0,
+          "released": true,
+          "final_z": 0.999904,
+          "elapsed_s": 14,
+          "scope": "DDS-controlled contact-only wrist rig"
+        },
+        "success": true,
+        "returncode": 0
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261020/ros_dds_pilot",
+      "complete": false,
+      "sha256": null,
+      "data": {
+        "success": false,
+        "error": "setup failed before result creation"
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261020/ros_dds_verified",
+      "complete": true,
+      "sha256": "bf8f0846df47b85599ae0e12ff8f789d6f1a42c2dc7fda1778e9d059fc336e96",
+      "data": {
+        "scope": "ROS service + native DDS contact bench; not a mobile mission",
+        "events": [
+          {
+            "operation": "grasp",
+            "success": true,
+            "message": "opposing finger contacts confirmed"
+          },
+          {
+            "operation": "release",
+            "success": true,
+            "message": "open fingers and released contacts confirmed"
+          }
+        ],
+        "native": {
+          "success": true,
+          "minimum_held_lift_m": 0.141467,
+          "opposed_contacts": true,
+          "object_external_force": false,
+          "object_constraints": 0,
+          "released": true,
+          "final_z": 0.999904,
+          "elapsed_s": 14,
+          "scope": "DDS-controlled contact-only wrist rig"
+        },
+        "success": true,
+        "returncode": 0
+      }
+    }
+  ],
+  "mobile_attempts": [
+    {
+      "run": "dex3_contact_delivery_baseline_20261020",
+      "world": "transport_dual",
+      "people": 0,
+      "layout_seed": null,
+      "seed": 42,
+      "objective": {
+        "pairs": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red"
+          }
+        ],
+        "task_seed": null,
+        "mode": "red:red",
+        "description": "Put the red box on the red goal"
+      },
+      "policy": "vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+      "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+      "configuration": {
+        "policy_device_clock": "true",
+        "numeric_thread_environment": {},
+        "application_timing": "false",
+        "arm_executor_threads": "2",
+        "arm_repeat_period": "0.0",
+        "slam_loop_closing": "true",
+        "tracker_body_wall_sheets": true,
+        "predictive_refuge": false,
+        "early_overtaking_avoidance": false,
+        "navigation_profile_sha256": "3c20b55a91b027dcdcf65bc8b01493bd6206b3b3348a94b00d895d6c6f018ff1"
+      },
+      "success": false,
+      "mission_complete": false,
+      "data_valid": true,
+      "artifact_complete": true,
+      "fallen": false,
+      "contacts": 0,
+      "error": "measured hand outside physical grasp alignment tolerance",
+      "minimum_person_clearance_m": null,
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_red",
+          "color": "red",
+          "destination_color": "red",
+          "verified": false,
+          "lift_m": 0.0018140666418587914,
+          "travel_m": 0.5528657170395637
+        }
+      ],
+      "dropped_objects": [],
+      "attachment_state": "empty",
+      "object_may_be_held": false,
+      "completion_s": null,
+      "last_recorded_event_s": 86.85726012906525,
+      "deadline_s": 420.0,
+      "search": null,
+      "discoveries": [],
+      "placement_alignment": [],
+      "workspace_recovery_events": [],
+      "route_blockage": {},
+      "result_sha256": "e4beadc6c259b2cae65295af7f48e9fab19d4fb49e44c0fa55739101142b88de",
+      "manifest_sha256": "1e5047b5786f0a860a3e9bffed784cd7a4cf0ac8b68fccd61a264ee0f9e1ce54",
+      "source_archive_sha256": "d6e384c450259cdeb3defed3ef1eab903a6bc9ba6f3e2ca97d3c045bc4f7a0d5",
+      "effective_parameters_sha256": "b7e832bde6826204dfdd2b1dfaea4b018f52a156785c0559669253f1385ce4df",
+      "runtime_metrics": {
+        "command_receipt_age_at_target_publish_s": {
+          "count": 4107,
+          "min": 0.0039081573486328125,
+          "median": 0.016677141189575195,
+          "p95": 0.030213713645935055,
+          "p99": 0.03560428142547608,
+          "max": 0.05514192581176758
+        },
+        "escape_worker_submit_to_complete_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_receive_to_callback_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_source_to_callback_ms": {
+          "count": 4107,
+          "min": 0.9751319885253906,
+          "median": 2.4518966674804688,
+          "p95": 4.578065872192382,
+          "p99": 5.761380195617676,
+          "max": 10.995149612426758
+        },
+        "lowstate_dds_source_to_target_publish_ms": {
+          "count": 4107,
+          "min": 3.3004283905029297,
+          "median": 8.446455001831055,
+          "p95": 15.51077365875244,
+          "p99": 19.297146797180176,
+          "max": 31.564950942993164
+        },
+        "lowstate_receipt_age_at_target_publish_s": {
+          "count": 4107,
+          "min": 0.0021923539461568,
+          "median": 0.006006430019624531,
+          "p95": 0.012078945629764347,
+          "p99": 0.015933848498389126,
+          "max": 0.027448336011730134
+        },
+        "odom_source_age_at_logger_receipt_s": {
+          "count": 1263,
+          "min": 0.0419156551361084,
+          "median": 0.09022259712219238,
+          "p95": 0.10448997020721434,
+          "p99": 0.11184243679046628,
+          "max": 0.1539769172668457
+        },
+        "planner_thread_ms": {
+          "count": 1785,
+          "min": 0.317,
+          "median": 1.25,
+          "p95": 11.6776,
+          "p99": 12.516960000000001,
+          "max": 13.377
+        },
+        "planner_wall_active_ms": {
+          "count": 721,
+          "min": 1.757,
+          "median": 9.491,
+          "p95": 12.336,
+          "p99": 13.360199999999997,
+          "max": 23.024
+        },
+        "planner_wall_ms": {
+          "count": 1785,
+          "min": 0.316,
+          "median": 1.3,
+          "p95": 11.7494,
+          "p99": 13.015480000000002,
+          "max": 23.024
+        },
+        "policy_cmd_source_age_at_logger_receipt_s": {
+          "count": 4180,
+          "min": 0.00041103363037109375,
+          "median": 0.0009636878967285156,
+          "p95": 0.0032566308975219725,
+          "p99": 0.005526988506317141,
+          "max": 0.020241498947143555
+        },
+        "policy_complete_to_publish_ms": {
+          "count": 4107,
+          "min": 0.4107659915462136,
+          "median": 0.7880490738898516,
+          "p95": 2.8601555502973484,
+          "p99": 4.311737627722325,
+          "max": 10.024165036156774
+        },
+        "policy_observation_interval_ms": {
+          "count": 4107,
+          "min": 20.0,
+          "median": 20.0,
+          "p95": 24.0,
+          "p99": 26.0,
+          "max": 34.0
+        },
+        "policy_observation_interval_over_period": {
+          "count": 4107,
+          "min": 1.0,
+          "median": 1.0,
+          "p95": 1.2,
+          "p99": 1.2999999999999998,
+          "max": 1.7000000000000002
+        },
+        "policy_submit_to_complete_ms": {
+          "count": 4107,
+          "min": 0.8276859298348427,
+          "median": 3.662659088149667,
+          "p95": 9.368399577215314,
+          "p99": 12.908379954751583,
+          "max": 25.241157971322536
+        },
+        "policy_submit_to_publish_ms": {
+          "count": 4107,
+          "min": 1.4283460332080722,
+          "median": 4.811908002011478,
+          "p95": 10.481202974915503,
+          "p99": 14.208542318083348,
+          "max": 25.785540929064155
+        },
+        "prediction_age_at_command_publish_s": {
+          "count": 1719,
+          "min": 0.10128092765808105,
+          "median": 0.21189332008361816,
+          "p95": 0.2869047164916992,
+          "p99": 0.3137063550949096,
+          "max": 0.3563990592956543
+        },
+        "prediction_age_at_planning_snapshot_s": {
+          "count": 1719,
+          "min": 0.1007,
+          "median": 0.2113,
+          "p95": 0.28612,
+          "p99": 0.3131839999999999,
+          "max": 0.3559
+        },
+        "rtf_monotonic_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "rtf_ros_legacy_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "scan_age_at_command_publish_s": {
+          "count": 1719,
+          "min": 0.062,
+          "median": 0.144,
+          "p95": 0.179,
+          "p99": 0.19481999999999994,
+          "max": 0.356
+        },
+        "scan_age_at_planning_snapshot_s": {
+          "count": 1719,
+          "min": 0.061,
+          "median": 0.144,
+          "p95": 0.178,
+          "p99": 0.194,
+          "max": 0.356
+        },
+        "scoring_candidate_total_ms": {
+          "count": 721,
+          "min": 1.024,
+          "median": 7.806,
+          "p95": 9.894,
+          "p99": 10.507399999999999,
+          "max": 16.286
+        },
+        "scoring_rollout_ms": {
+          "count": 721,
+          "min": 0.321,
+          "median": 0.905,
+          "p95": 1.013,
+          "p99": 1.0425999999999997,
+          "max": 3.986
+        },
+        "scoring_static_ms": {
+          "count": 721,
+          "min": 0.554,
+          "median": 6.677,
+          "p95": 8.669,
+          "p99": 9.2218,
+          "max": 15.039
+        },
+        "supervisor_escape_control_path_ms": {
+          "count": 4457,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "supervisor_input_age_s": {
+          "count": 4419,
+          "min": 0.002,
+          "median": 0.028,
+          "p95": 0.049,
+          "p99": 0.056,
+          "max": 0.089
+        },
+        "supervisor_predictive_search_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "supervisor_tick_interval_ms": {
+          "count": 4456,
+          "min": 5.833531962707639,
+          "median": 19.996511517092586,
+          "p95": 24.211814044974744,
+          "p99": 26.969293050933622,
+          "max": 51.62872502114624
+        },
+        "supervisor_tick_to_publication_ms": {
+          "count": 4457,
+          "min": 0.18012803047895432,
+          "median": 0.641494058072567,
+          "p95": 1.4409933937713504,
+          "p99": 1.8678242806345051,
+          "max": 7.438880042172968
+        },
+        "tracks_age_at_command_publish_s": {
+          "count": 1719,
+          "min": 0.10128092765808105,
+          "median": 0.2117471694946289,
+          "p95": 0.2859757661819457,
+          "p99": 0.3137063550949096,
+          "max": 0.3563990592956543
+        },
+        "tracks_age_at_planning_snapshot_s": {
+          "count": 1719,
+          "min": 0.1007,
+          "median": 0.2111,
+          "p95": 0.28535999999999995,
+          "p99": 0.3131839999999999,
+          "max": 0.3559
+        }
+      },
+      "policy_hold_events": [
+        {
+          "sequence": 1,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792515501.8888838,
+          "monotonic_s": 708949.077316849,
+          "device_tick_ms": 0,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        },
+        {
+          "sequence": 2,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792515502.0915394,
+          "monotonic_s": 708949.279967737,
+          "device_tick_ms": 2,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        }
+      ],
+      "command_application": {},
+      "command_application_sha256": null
+    },
+    {
+      "run": "dex3_contact_delivery_feedback_20261020",
+      "world": "transport_dual",
+      "people": 0,
+      "layout_seed": null,
+      "seed": 42,
+      "objective": {
+        "pairs": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red"
+          }
+        ],
+        "task_seed": null,
+        "mode": "red:red",
+        "description": "Put the red box on the red goal"
+      },
+      "policy": "vendor/mjlab/logs/payload_training/interpolation_0.95_20261019/policy.onnx",
+      "policy_sha256": "f1e34f3673f48e9eabe2c43d20275ccb3d4ab8589e9ec60de465187da268506f",
+      "configuration": {
+        "policy_device_clock": "true",
+        "numeric_thread_environment": {},
+        "application_timing": "false",
+        "arm_executor_threads": "2",
+        "arm_repeat_period": "0.0",
+        "slam_loop_closing": "true",
+        "tracker_body_wall_sheets": true,
+        "predictive_refuge": false,
+        "early_overtaking_avoidance": false,
+        "navigation_profile_sha256": "7e15970996e71a99133c8590b36cacf937ba14d8705e972f66b1f8385b31a653"
+      },
+      "success": false,
+      "mission_complete": false,
+      "data_valid": true,
+      "artifact_complete": true,
+      "fallen": false,
+      "contacts": 0,
+      "error": "precision docking failed",
+      "minimum_person_clearance_m": null,
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_red",
+          "color": "red",
+          "destination_color": "red",
+          "verified": false,
+          "lift_m": 0.0,
+          "travel_m": 6.45267391392339e-05
+        }
+      ],
+      "dropped_objects": [],
+      "attachment_state": "empty",
+      "object_may_be_held": false,
+      "completion_s": null,
+      "last_recorded_event_s": 59.82095812004991,
+      "deadline_s": 420.0,
+      "search": null,
+      "discoveries": [],
+      "placement_alignment": [],
+      "workspace_recovery_events": [],
+      "route_blockage": {},
+      "result_sha256": "0b9559162943ac7c9a7355b39940aaba946d33c6da9e95e66e961ac37745a2d4",
+      "manifest_sha256": "7b613edac4bec5a9ba8b89ffcda73c46c1676a0c3407b1115448ae1a28d48910",
+      "source_archive_sha256": "a00f0b66c27865d507fdc01ed3aaef14dff01db15051bd8bc861b94f9a3efc9f",
+      "effective_parameters_sha256": "73f721e61a0f10e9153bea0e31453b9753c33ddabd64deb05995b06eb0bf1c9e",
+      "runtime_metrics": {
+        "command_receipt_age_at_target_publish_s": {
+          "count": 5701,
+          "min": 0.003282308578491211,
+          "median": 0.016953706741333008,
+          "p95": 0.029831409454345703,
+          "p99": 0.03522038459777832,
+          "max": 0.05607271194458008
+        },
+        "escape_worker_submit_to_complete_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_receive_to_callback_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_source_to_callback_ms": {
+          "count": 5701,
+          "min": 0.9517669677734375,
+          "median": 2.4776458740234375,
+          "p95": 4.633665084838867,
+          "p99": 5.744457244873047,
+          "max": 10.637044906616211
+        },
+        "lowstate_dds_source_to_target_publish_ms": {
+          "count": 5701,
+          "min": 3.3020973205566406,
+          "median": 8.582115173339844,
+          "p95": 15.316247940063477,
+          "p99": 19.147634506225586,
+          "max": 27.94027328491211
+        },
+        "lowstate_receipt_age_at_target_publish_s": {
+          "count": 5701,
+          "min": 0.0021441419376060367,
+          "median": 0.006097284960560501,
+          "p95": 0.011823278036899865,
+          "p99": 0.01571997895371169,
+          "max": 0.025980749051086605
+        },
+        "odom_source_age_at_logger_receipt_s": {
+          "count": 1707,
+          "min": 0.0432586669921875,
+          "median": 0.10845828056335449,
+          "p95": 0.12090036869049071,
+          "p99": 0.1278718948364258,
+          "max": 0.14611315727233887
+        },
+        "planner_thread_ms": {
+          "count": 2458,
+          "min": 0.442,
+          "median": 5.4815000000000005,
+          "p95": 11.34265,
+          "p99": 12.864,
+          "max": 13.952
+        },
+        "planner_wall_active_ms": {
+          "count": 1893,
+          "min": 1.005,
+          "median": 8.942,
+          "p95": 11.7194,
+          "p99": 13.200119999999998,
+          "max": 14.574
+        },
+        "planner_wall_ms": {
+          "count": 2458,
+          "min": 0.438,
+          "median": 5.486000000000001,
+          "p95": 11.47115,
+          "p99": 13.077939999999991,
+          "max": 14.574
+        },
+        "policy_cmd_source_age_at_logger_receipt_s": {
+          "count": 5776,
+          "min": 0.00040602684020996094,
+          "median": 0.0010528564453125,
+          "p95": 0.0035265088081359863,
+          "p99": 0.005454063415527344,
+          "max": 0.013382196426391602
+        },
+        "policy_complete_to_publish_ms": {
+          "count": 5701,
+          "min": 0.41460792999714613,
+          "median": 0.7863929495215416,
+          "p95": 2.931123017333448,
+          "p99": 4.194248933345079,
+          "max": 6.8306910106912255
+        },
+        "policy_observation_interval_ms": {
+          "count": 5701,
+          "min": 20.0,
+          "median": 20.0,
+          "p95": 24.0,
+          "p99": 26.0,
+          "max": 34.0
+        },
+        "policy_observation_interval_over_period": {
+          "count": 5701,
+          "min": 1.0,
+          "median": 1.0,
+          "p95": 1.2,
+          "p99": 1.2999999999999998,
+          "max": 1.7000000000000002
+        },
+        "policy_submit_to_complete_ms": {
+          "count": 5701,
+          "min": 0.8498840034008026,
+          "median": 3.7463379558175802,
+          "p95": 9.223005967214704,
+          "p99": 12.61015993077308,
+          "max": 24.043790064752102
+        },
+        "policy_submit_to_publish_ms": {
+          "count": 5701,
+          "min": 1.3716929825022817,
+          "median": 4.867193987593055,
+          "p95": 10.299302986823022,
+          "p99": 14.010866056196392,
+          "max": 25.03630507271737
+        },
+        "prediction_age_at_command_publish_s": {
+          "count": 2394,
+          "min": 0.11027264595031738,
+          "median": 0.23396801948547363,
+          "p95": 0.3061404824256897,
+          "p99": 0.3306168866157534,
+          "max": 0.41007447242736816
+        },
+        "prediction_age_at_planning_snapshot_s": {
+          "count": 2394,
+          "min": 0.1099,
+          "median": 0.2333,
+          "p95": 0.3055,
+          "p99": 0.3301700000000002,
+          "max": 0.4095
+        },
+        "rtf_monotonic_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "rtf_ros_legacy_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "scan_age_at_command_publish_s": {
+          "count": 2394,
+          "min": 0.069,
+          "median": 0.164,
+          "p95": 0.198,
+          "p99": 0.21307000000000015,
+          "max": 0.41
+        },
+        "scan_age_at_planning_snapshot_s": {
+          "count": 2394,
+          "min": 0.069,
+          "median": 0.163,
+          "p95": 0.198,
+          "p99": 0.213,
+          "max": 0.41
+        },
+        "scoring_candidate_total_ms": {
+          "count": 1892,
+          "min": 0.937,
+          "median": 6.729,
+          "p95": 9.174,
+          "p99": 9.54336,
+          "max": 12.009
+        },
+        "scoring_rollout_ms": {
+          "count": 1892,
+          "min": 0.252,
+          "median": 0.689,
+          "p95": 0.782,
+          "p99": 0.8165399999999995,
+          "max": 3.326
+        },
+        "scoring_static_ms": {
+          "count": 1892,
+          "min": 0.522,
+          "median": 5.808,
+          "p95": 8.1457,
+          "p99": 8.52436,
+          "max": 9.487
+        },
+        "supervisor_escape_control_path_ms": {
+          "count": 6144,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "supervisor_input_age_s": {
+          "count": 6123,
+          "min": 0.002,
+          "median": 0.027,
+          "p95": 0.05,
+          "p99": 0.057,
+          "max": 0.066
+        },
+        "supervisor_predictive_search_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "supervisor_tick_interval_ms": {
+          "count": 6144,
+          "min": 2.264964976347983,
+          "median": 20.008864463306963,
+          "p95": 23.962633305927724,
+          "p99": 27.202586241764944,
+          "max": 37.743555032648146
+        },
+        "supervisor_tick_to_publication_ms": {
+          "count": 6144,
+          "min": 0.17136696260422468,
+          "median": 0.8365525281988084,
+          "p95": 1.3969167950563133,
+          "p99": 2.348348441300911,
+          "max": 8.692650008015335
+        },
+        "tracks_age_at_command_publish_s": {
+          "count": 2394,
+          "min": 0.11027264595031738,
+          "median": 0.23298382759094238,
+          "p95": 0.30491498708724973,
+          "p99": 0.33008205652236944,
+          "max": 0.41007447242736816
+        },
+        "tracks_age_at_planning_snapshot_s": {
+          "count": 2394,
+          "min": 0.1099,
+          "median": 0.2323,
+          "p95": 0.30423500000000003,
+          "p99": 0.329614,
+          "max": 0.4095
+        }
+      },
+      "policy_hold_events": [
+        {
+          "sequence": 1,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792514868.583072,
+          "monotonic_s": 708315.771499341,
+          "device_tick_ms": 0,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        },
+        {
+          "sequence": 2,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792514868.7998028,
+          "monotonic_s": 708315.988236115,
+          "device_tick_ms": 2,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        }
+      ],
+      "command_application": {},
+      "command_application_sha256": null
+    },
+    {
+      "run": "dex3_contact_delivery_pilot_20261020",
+      "world": "transport_dual",
+      "people": 0,
+      "layout_seed": null,
+      "seed": 42,
+      "objective": {
+        "pairs": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red"
+          }
+        ],
+        "task_seed": null,
+        "mode": "red:red",
+        "description": "Put the red box on the red goal"
+      },
+      "policy": "vendor/mjlab/logs/payload_training/interpolation_0.95_20261019/policy.onnx",
+      "policy_sha256": "f1e34f3673f48e9eabe2c43d20275ccb3d4ab8589e9ec60de465187da268506f",
+      "configuration": {
+        "policy_device_clock": "true",
+        "numeric_thread_environment": {},
+        "application_timing": "false",
+        "arm_executor_threads": "2",
+        "arm_repeat_period": "0.0",
+        "slam_loop_closing": "true",
+        "tracker_body_wall_sheets": true,
+        "predictive_refuge": false,
+        "early_overtaking_avoidance": false,
+        "navigation_profile_sha256": "7e15970996e71a99133c8590b36cacf937ba14d8705e972f66b1f8385b31a653"
+      },
+      "success": false,
+      "mission_complete": false,
+      "data_valid": false,
+      "artifact_complete": true,
+      "fallen": false,
+      "contacts": 0,
+      "error": "robot state unavailable",
+      "minimum_person_clearance_m": null,
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_red",
+          "color": "red",
+          "destination_color": "red",
+          "verified": false,
+          "lift_m": 0.0,
+          "travel_m": 0.0
+        }
+      ],
+      "dropped_objects": [],
+      "attachment_state": "empty",
+      "object_may_be_held": false,
+      "completion_s": null,
+      "last_recorded_event_s": null,
+      "deadline_s": 420.0,
+      "search": null,
+      "discoveries": [],
+      "placement_alignment": [],
+      "workspace_recovery_events": [],
+      "route_blockage": {},
+      "result_sha256": "5709ef82de4cb5ab402f2b0c6ca795e0ba5f96b447ec758eea2db4bf0e0bd273",
+      "manifest_sha256": "5952711bdbca1591ad0716cd725134033f30c6f9f3c5cbba92d8684503edddc8",
+      "source_archive_sha256": "47d93c3a939dea104b794ce13a15947b272fdbb333236f9fa58d5321aa7811e9",
+      "effective_parameters_sha256": null,
+      "runtime_metrics": {
+        "command_receipt_age_at_target_publish_s": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "escape_worker_submit_to_complete_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_receive_to_callback_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_source_to_callback_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_source_to_target_publish_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_receipt_age_at_target_publish_s": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "odom_source_age_at_logger_receipt_s": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "planner_thread_ms": {
+          "count": 851,
+          "min": 1.121,
+          "median": 1.808,
+          "p95": 3.144,
+          "p99": 4.093999999999999,
+          "max": 5.467
+        },
+        "planner_wall_active_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "planner_wall_ms": {
+          "count": 851,
+          "min": 1.119,
+          "median": 1.804,
+          "p95": 3.138,
+          "p99": 4.257,
+          "max": 6.084
+        },
+        "policy_complete_to_publish_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "policy_observation_interval_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "policy_observation_interval_over_period": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "policy_submit_to_complete_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "policy_submit_to_publish_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "prediction_age_at_command_publish_s": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "rtf_monotonic_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "rtf_ros_legacy_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "scan_age_at_command_publish_s": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "supervisor_escape_control_path_ms": {
+          "count": 2138,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "supervisor_input_age_s": {
+          "count": 2125,
+          "min": 0.007,
+          "median": 0.028,
+          "p95": 0.048,
+          "p99": 0.048,
+          "max": 0.07
+        },
+        "supervisor_predictive_search_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "supervisor_tick_interval_ms": {
+          "count": 2137,
+          "min": 11.016393080353737,
+          "median": 20.002251025289297,
+          "p95": 21.000943216495212,
+          "p99": 22.595639969222244,
+          "max": 29.40748503897339
+        },
+        "supervisor_tick_to_publication_ms": {
+          "count": 2138,
+          "min": 0.1211380586028099,
+          "median": 0.23115152725949883,
+          "p95": 0.31823957688175136,
+          "p99": 0.3999421198386699,
+          "max": 1.5638050390407443
+        },
+        "tracks_age_at_command_publish_s": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        }
+      },
+      "policy_hold_events": [],
+      "command_application": {},
+      "command_application_sha256": null
+    },
+    {
+      "run": "dex3_contact_delivery_retry_20261020",
+      "world": "transport_dual",
+      "people": 0,
+      "layout_seed": null,
+      "seed": 42,
+      "objective": {
+        "pairs": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red"
+          }
+        ],
+        "task_seed": null,
+        "mode": "red:red",
+        "description": "Put the red box on the red goal"
+      },
+      "policy": "vendor/mjlab/logs/payload_training/interpolation_0.95_20261019/policy.onnx",
+      "policy_sha256": "f1e34f3673f48e9eabe2c43d20275ccb3d4ab8589e9ec60de465187da268506f",
+      "configuration": {
+        "policy_device_clock": "true",
+        "numeric_thread_environment": {},
+        "application_timing": "false",
+        "arm_executor_threads": "2",
+        "arm_repeat_period": "0.0",
+        "slam_loop_closing": "true",
+        "tracker_body_wall_sheets": true,
+        "predictive_refuge": false,
+        "early_overtaking_avoidance": false,
+        "navigation_profile_sha256": "7e15970996e71a99133c8590b36cacf937ba14d8705e972f66b1f8385b31a653"
+      },
+      "success": false,
+      "mission_complete": false,
+      "data_valid": true,
+      "artifact_complete": true,
+      "fallen": false,
+      "contacts": 0,
+      "error": "camera did not verify the box lift",
+      "minimum_person_clearance_m": null,
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_red",
+          "color": "red",
+          "destination_color": "red",
+          "verified": false,
+          "lift_m": 0.1662004360225574,
+          "travel_m": 0.08933268354045075
+        }
+      ],
+      "dropped_objects": [],
+      "attachment_state": "held",
+      "object_may_be_held": true,
+      "completion_s": null,
+      "last_recorded_event_s": 83.30266107991338,
+      "deadline_s": 420.0,
+      "search": null,
+      "discoveries": [],
+      "placement_alignment": [],
+      "workspace_recovery_events": [],
+      "route_blockage": {},
+      "result_sha256": "3005e38f042f814fd5cf2397b3180ccfdcc7c2fcae6d122e81dc92c3024c1b01",
+      "manifest_sha256": "da309b05fb408d621c0d6db5a2c3bd79298fa291bf72083d5fd8b34ac3b2ce42",
+      "source_archive_sha256": "4c6f84fe7d78069abb727eeccd88fae2ccc0190d0f4ab8039f12d40a0faa07a0",
+      "effective_parameters_sha256": "4b217bcc1ac05c27e7d62af4a3680bb9d794bc1497fd4b81eeaea41719d39cee",
+      "runtime_metrics": {
+        "command_receipt_age_at_target_publish_s": {
+          "count": 4330,
+          "min": 0.004058361053466797,
+          "median": 0.017246723175048828,
+          "p95": 0.02898925542831421,
+          "p99": 0.03538338422775269,
+          "max": 0.047458648681640625
+        },
+        "escape_worker_submit_to_complete_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_receive_to_callback_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_source_to_callback_ms": {
+          "count": 4330,
+          "min": 1.0209083557128906,
+          "median": 2.596139907836914,
+          "p95": 4.697394371032715,
+          "p99": 5.751333236694336,
+          "max": 10.792016983032227
+        },
+        "lowstate_dds_source_to_target_publish_ms": {
+          "count": 4330,
+          "min": 3.666400909423828,
+          "median": 8.797049522399902,
+          "p95": 15.827465057373049,
+          "p99": 19.460639953613285,
+          "max": 27.890443801879883
+        },
+        "lowstate_receipt_age_at_target_publish_s": {
+          "count": 4330,
+          "min": 0.002259343978948891,
+          "median": 0.006120572506915778,
+          "p95": 0.012361186498310417,
+          "p99": 0.0158888375852257,
+          "max": 0.0250741399358958
+        },
+        "odom_source_age_at_logger_receipt_s": {
+          "count": 1245,
+          "min": 0.03175234794616699,
+          "median": 0.10952115058898926,
+          "p95": 0.12147607803344726,
+          "p99": 0.1257352828979492,
+          "max": 0.1352071762084961
+        },
+        "planner_thread_ms": {
+          "count": 1874,
+          "min": 0.442,
+          "median": 2.303,
+          "p95": 11.07935,
+          "p99": 12.85878,
+          "max": 13.64
+        },
+        "planner_wall_active_ms": {
+          "count": 913,
+          "min": 1.659,
+          "median": 9.496,
+          "p95": 12.250999999999998,
+          "p99": 13.125919999999999,
+          "max": 16.514
+        },
+        "planner_wall_ms": {
+          "count": 1874,
+          "min": 0.44,
+          "median": 2.3970000000000002,
+          "p95": 11.188549999999998,
+          "p99": 12.906270000000001,
+          "max": 16.514
+        },
+        "policy_cmd_source_age_at_logger_receipt_s": {
+          "count": 4405,
+          "min": 0.000431060791015625,
+          "median": 0.0010426044464111328,
+          "p95": 0.003693389892578126,
+          "p99": 0.005965261459350588,
+          "max": 0.0157926082611084
+        },
+        "policy_complete_to_publish_ms": {
+          "count": 4330,
+          "min": 0.40708400774747133,
+          "median": 0.7940650102682412,
+          "p95": 2.7954671299085025,
+          "p99": 4.437634238274768,
+          "max": 9.863229002803564
+        },
+        "policy_observation_interval_ms": {
+          "count": 4330,
+          "min": 20.0,
+          "median": 20.0,
+          "p95": 24.0,
+          "p99": 26.0,
+          "max": 30.0
+        },
+        "policy_observation_interval_over_period": {
+          "count": 4330,
+          "min": 1.0,
+          "median": 1.0,
+          "p95": 1.2,
+          "p99": 1.2999999999999998,
+          "max": 1.5
+        },
+        "policy_submit_to_complete_ms": {
+          "count": 4330,
+          "min": 0.858510029502213,
+          "median": 3.7880504969507456,
+          "p95": 9.55053530051373,
+          "p99": 12.994039066834377,
+          "max": 22.941326024010777
+        },
+        "policy_submit_to_publish_ms": {
+          "count": 4330,
+          "min": 1.4405730180442333,
+          "median": 4.891649470664561,
+          "p95": 10.722278087632734,
+          "p99": 14.205235423287377,
+          "max": 23.69441301561892
+        },
+        "prediction_age_at_command_publish_s": {
+          "count": 1811,
+          "min": 0.08947062492370605,
+          "median": 0.2319774627685547,
+          "p95": 0.3065983057022095,
+          "p99": 0.32797634601593023,
+          "max": 0.40437817573547363
+        },
+        "prediction_age_at_planning_snapshot_s": {
+          "count": 1811,
+          "min": 0.089,
+          "median": 0.2313,
+          "p95": 0.3058,
+          "p99": 0.32723,
+          "max": 0.4036
+        },
+        "rtf_monotonic_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "rtf_ros_legacy_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "scan_age_at_command_publish_s": {
+          "count": 1812,
+          "min": 0.054,
+          "median": 0.163,
+          "p95": 0.198,
+          "p99": 0.213,
+          "max": 0.404
+        },
+        "scan_age_at_planning_snapshot_s": {
+          "count": 1812,
+          "min": 0.053,
+          "median": 0.162,
+          "p95": 0.197,
+          "p99": 0.21288999999999986,
+          "max": 0.404
+        },
+        "scoring_candidate_total_ms": {
+          "count": 913,
+          "min": 0.925,
+          "median": 7.82,
+          "p95": 9.189200000000001,
+          "p99": 9.502559999999999,
+          "max": 10.543
+        },
+        "scoring_rollout_ms": {
+          "count": 913,
+          "min": 0.261,
+          "median": 0.71,
+          "p95": 0.794,
+          "p99": 0.8227599999999999,
+          "max": 0.993
+        },
+        "scoring_static_ms": {
+          "count": 913,
+          "min": 0.502,
+          "median": 6.91,
+          "p95": 8.16,
+          "p99": 8.4786,
+          "max": 9.373
+        },
+        "supervisor_escape_control_path_ms": {
+          "count": 4689,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "supervisor_input_age_s": {
+          "count": 4664,
+          "min": 0.002,
+          "median": 0.029,
+          "p95": 0.05,
+          "p99": 0.057,
+          "max": 0.067
+        },
+        "supervisor_predictive_search_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "supervisor_tick_interval_ms": {
+          "count": 4689,
+          "min": 4.548121942207217,
+          "median": 19.998598960228264,
+          "p95": 23.8371183630079,
+          "p99": 26.78395993076264,
+          "max": 35.88443202897906
+        },
+        "supervisor_tick_to_publication_ms": {
+          "count": 4689,
+          "min": 0.1696960534900427,
+          "median": 0.6825780728831887,
+          "p95": 1.3671252178028224,
+          "p99": 2.0561962993815537,
+          "max": 5.368447978980839
+        },
+        "tracks_age_at_command_publish_s": {
+          "count": 1811,
+          "min": 0.08947062492370605,
+          "median": 0.23171186447143555,
+          "p95": 0.30638551712036133,
+          "p99": 0.32797634601593023,
+          "max": 0.40437817573547363
+        },
+        "tracks_age_at_planning_snapshot_s": {
+          "count": 1811,
+          "min": 0.089,
+          "median": 0.231,
+          "p95": 0.30575,
+          "p99": 0.32723,
+          "max": 0.4036
+        }
+      },
+      "policy_hold_events": [
+        {
+          "sequence": 1,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792514595.493068,
+          "monotonic_s": 708042.681502463,
+          "device_tick_ms": 0,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        },
+        {
+          "sequence": 2,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792514595.693365,
+          "monotonic_s": 708042.881794518,
+          "device_tick_ms": 2,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        }
+      ],
+      "command_application": {},
+      "command_application_sha256": null
+    },
+    {
+      "run": "dex3_contact_delivery_thread1_20261020",
+      "world": "transport_dual",
+      "people": 0,
+      "layout_seed": null,
+      "seed": 42,
+      "objective": {
+        "pairs": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red"
+          }
+        ],
+        "task_seed": null,
+        "mode": "red:red",
+        "description": "Put the red box on the red goal"
+      },
+      "policy": "vendor/mjlab/logs/payload_training/interpolation_0.95_20261019/policy.onnx",
+      "policy_sha256": "f1e34f3673f48e9eabe2c43d20275ccb3d4ab8589e9ec60de465187da268506f",
+      "configuration": {
+        "policy_device_clock": "true",
+        "numeric_thread_environment": {
+          "OPENBLAS_NUM_THREADS": "1",
+          "OMP_NUM_THREADS": "1",
+          "MKL_NUM_THREADS": "1",
+          "NUMEXPR_NUM_THREADS": "1"
+        },
+        "application_timing": "false",
+        "arm_executor_threads": "2",
+        "arm_repeat_period": "0.0",
+        "slam_loop_closing": "true",
+        "tracker_body_wall_sheets": true,
+        "predictive_refuge": false,
+        "early_overtaking_avoidance": false,
+        "navigation_profile_sha256": "7e15970996e71a99133c8590b36cacf937ba14d8705e972f66b1f8385b31a653"
+      },
+      "success": false,
+      "mission_complete": false,
+      "data_valid": true,
+      "artifact_complete": true,
+      "fallen": false,
+      "contacts": 0,
+      "error": "precision docking failed",
+      "minimum_person_clearance_m": null,
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_red",
+          "color": "red",
+          "destination_color": "red",
+          "verified": false,
+          "lift_m": 0.0,
+          "travel_m": 0.00025286356553143796
+        }
+      ],
+      "dropped_objects": [],
+      "attachment_state": "empty",
+      "object_may_be_held": false,
+      "completion_s": null,
+      "last_recorded_event_s": 54.778371465043165,
+      "deadline_s": 420.0,
+      "search": null,
+      "discoveries": [],
+      "placement_alignment": [],
+      "workspace_recovery_events": [],
+      "route_blockage": {},
+      "result_sha256": "c3294bc75cc34f2fa14a43fd97dec842f1bd9847f40ead782041ac241c43a537",
+      "manifest_sha256": "8abb3b4f6bcd491a8bd37ba2670662550c5c4dc7d09e7963e06c86952a79693e",
+      "source_archive_sha256": "746654f3d66f036c17b090f21d44df32796612983b5b8d6f40acb92d820f5a34",
+      "effective_parameters_sha256": "80b97d85cd2267be230197d3bdfa08a640ea2b45c70e4ac599a7b715b828268b",
+      "runtime_metrics": {
+        "command_receipt_age_at_target_publish_s": {
+          "count": 5370,
+          "min": 0.003903627395629883,
+          "median": 0.017323017120361328,
+          "p95": 0.02990365028381348,
+          "p99": 0.034870388507843054,
+          "max": 0.05232048034667969
+        },
+        "escape_worker_submit_to_complete_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_receive_to_callback_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_source_to_callback_ms": {
+          "count": 5370,
+          "min": 0.9899139404296875,
+          "median": 2.585768699645996,
+          "p95": 4.690873622894287,
+          "p99": 5.790069103240967,
+          "max": 10.29205322265625
+        },
+        "lowstate_dds_source_to_target_publish_ms": {
+          "count": 5370,
+          "min": 3.2286643981933594,
+          "median": 8.877396583557129,
+          "p95": 15.96909761428833,
+          "p99": 19.968023300170948,
+          "max": 31.447172164916992
+        },
+        "lowstate_receipt_age_at_target_publish_s": {
+          "count": 5370,
+          "min": 0.0021571009419858456,
+          "median": 0.006224989949259907,
+          "p95": 0.012314414442516863,
+          "p99": 0.01636530993273486,
+          "max": 0.028974573011510074
+        },
+        "odom_source_age_at_logger_receipt_s": {
+          "count": 1680,
+          "min": 0.04968452453613281,
+          "median": 0.08477783203125,
+          "p95": 0.09854223728179931,
+          "p99": 0.10946904659271242,
+          "max": 0.16262435913085938
+        },
+        "planner_thread_ms": {
+          "count": 2318,
+          "min": 0.414,
+          "median": 5.745,
+          "p95": 11.217600000000001,
+          "p99": 11.995279999999998,
+          "max": 13.078
+        },
+        "planner_wall_active_ms": {
+          "count": 1798,
+          "min": 1.342,
+          "median": 9.3615,
+          "p95": 11.527449999999998,
+          "p99": 12.791109999999998,
+          "max": 19.434
+        },
+        "planner_wall_ms": {
+          "count": 2318,
+          "min": 0.413,
+          "median": 5.777,
+          "p95": 11.3566,
+          "p99": 12.310579999999998,
+          "max": 19.434
+        },
+        "policy_cmd_source_age_at_logger_receipt_s": {
+          "count": 5447,
+          "min": 0.0004215240478515625,
+          "median": 0.0009853839874267578,
+          "p95": 0.003526139259338379,
+          "p99": 0.006252250671386718,
+          "max": 0.012961864471435547
+        },
+        "policy_complete_to_publish_ms": {
+          "count": 5370,
+          "min": 0.4198479000478983,
+          "median": 0.7961590308696032,
+          "p95": 2.916446240851657,
+          "p99": 4.307720180368054,
+          "max": 7.6103879837319255
+        },
+        "policy_observation_interval_ms": {
+          "count": 5370,
+          "min": 20.0,
+          "median": 20.0,
+          "p95": 24.0,
+          "p99": 26.0,
+          "max": 32.0
+        },
+        "policy_observation_interval_over_period": {
+          "count": 5370,
+          "min": 1.0,
+          "median": 1.0,
+          "p95": 1.2,
+          "p99": 1.2999999999999998,
+          "max": 1.6
+        },
+        "policy_submit_to_complete_ms": {
+          "count": 5370,
+          "min": 0.8739830227568746,
+          "median": 3.7976665189489722,
+          "p95": 9.46958584827371,
+          "p99": 13.330471923109146,
+          "max": 24.474121048115194
+        },
+        "policy_submit_to_publish_ms": {
+          "count": 5370,
+          "min": 1.3879569014534354,
+          "median": 4.983452497981489,
+          "p95": 10.68539837142453,
+          "p99": 14.608613684540614,
+          "max": 27.10155409295112
+        },
+        "prediction_age_at_command_publish_s": {
+          "count": 2259,
+          "min": 0.11631035804748535,
+          "median": 0.21269512176513672,
+          "p95": 0.2812669038772583,
+          "p99": 0.30187556266784676,
+          "max": 0.35615086555480957
+        },
+        "prediction_age_at_planning_snapshot_s": {
+          "count": 2259,
+          "min": 0.1158,
+          "median": 0.212,
+          "p95": 0.28041999999999995,
+          "p99": 0.30117800000000006,
+          "max": 0.3556
+        },
+        "rtf_monotonic_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "rtf_ros_legacy_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "scan_age_at_command_publish_s": {
+          "count": 2259,
+          "min": 0.074,
+          "median": 0.141,
+          "p95": 0.174,
+          "p99": 0.191,
+          "max": 0.356
+        },
+        "scan_age_at_planning_snapshot_s": {
+          "count": 2259,
+          "min": 0.074,
+          "median": 0.141,
+          "p95": 0.173,
+          "p99": 0.19,
+          "max": 0.356
+        },
+        "scoring_candidate_total_ms": {
+          "count": 1796,
+          "min": 0.918,
+          "median": 7.662,
+          "p95": 9.26675,
+          "p99": 9.741649999999998,
+          "max": 17.755
+        },
+        "scoring_rollout_ms": {
+          "count": 1796,
+          "min": 0.25,
+          "median": 0.697,
+          "p95": 0.7945,
+          "p99": 0.8372499999999997,
+          "max": 2.257
+        },
+        "scoring_static_ms": {
+          "count": 1796,
+          "min": 0.522,
+          "median": 6.7455,
+          "p95": 8.24725,
+          "p99": 8.70455,
+          "max": 16.852
+        },
+        "supervisor_escape_control_path_ms": {
+          "count": 5791,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "supervisor_input_age_s": {
+          "count": 5772,
+          "min": 0.002,
+          "median": 0.029,
+          "p95": 0.051,
+          "p99": 0.058,
+          "max": 0.076
+        },
+        "supervisor_predictive_search_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "supervisor_tick_interval_ms": {
+          "count": 5790,
+          "min": 5.375124979764223,
+          "median": 19.998234580270946,
+          "p95": 23.54866289533675,
+          "p99": 27.259133296320215,
+          "max": 37.906843004748225
+        },
+        "supervisor_tick_to_publication_ms": {
+          "count": 5791,
+          "min": 0.18269906286150217,
+          "median": 0.8635229896754026,
+          "p95": 1.413592486642301,
+          "p99": 2.743978460785006,
+          "max": 23.67933699861169
+        },
+        "tracks_age_at_command_publish_s": {
+          "count": 2259,
+          "min": 0.11631035804748535,
+          "median": 0.2119457721710205,
+          "p95": 0.28105087280273433,
+          "p99": 0.30187556266784676,
+          "max": 0.35615086555480957
+        },
+        "tracks_age_at_planning_snapshot_s": {
+          "count": 2259,
+          "min": 0.1158,
+          "median": 0.2112,
+          "p95": 0.28031,
+          "p99": 0.30117800000000006,
+          "max": 0.3556
+        }
+      },
+      "policy_hold_events": [
+        {
+          "sequence": 1,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792515225.7146065,
+          "monotonic_s": 708672.903031684,
+          "device_tick_ms": 0,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        },
+        {
+          "sequence": 2,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792515225.9373896,
+          "monotonic_s": 708673.125820396,
+          "device_tick_ms": 2,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        }
+      ],
+      "command_application": {},
+      "command_application_sha256": null
+    }
+  ]
+}

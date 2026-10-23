@@ -1,6 +1,8 @@
 from __future__ import annotations
 
 import importlib.util
+import io
+import json
 import sys
 from pathlib import Path
 from types import ModuleType
@@ -61,7 +63,7 @@ def test_onboard_visual_defaults_to_long_unscored_session_with_both_viewers(tmp_
     assert int(case.command[case.command.index("--goals") + 1]) > 1000
     assert case.command[case.command.index("--people") + 1] == "8"
     assert "mujoco_pedestrian_scenario:=social_natural_plaza" in case.command
-    assert case.required_scene == "scene_29dof_natural_crowd.xml"
+    assert case.required_scene == "scene_29dof_natural_crowd_dex3.xml"
     short = suite.case_catalog(tmp_path, 43, True, visual_duration_s=60., visual_goals=3)["onboard-visual"]
     assert "--no-rviz" in short.command
     assert short.command[short.command.index("--goals") + 1] == "3"
@@ -159,3 +161,47 @@ def test_social_showcase_uses_bundled_scene_without_extreme_lab_requirement(tmp_
     assert catalog["social-visual"].required_scene == "scene_29dof_pedestrians.xml"
     assert catalog["social-endurance"].required_scene == "scene_29dof_pedestrians.xml"
     assert catalog["social-live"].required_scene == "scene_29dof_extreme_lab.xml"
+
+
+def test_validation_and_delivery_have_distinct_scopes(tmp_path):
+    suite = load_suite()
+    catalog = suite.case_catalog(tmp_path, 42, True)
+    assert [case.scope for case in suite.select_cases(catalog, "validation", [])] == ["regression", "component"]
+    assert catalog["dex3-delivery"].scope == "mobile_delivery"
+    assert catalog["dex3-delivery"].delivery_result.endswith("/result.json")
+    assert "mujoco==3.3.6" in catalog["dex3-contact"].command
+
+
+@pytest.mark.parametrize("change", [
+    {"mission_complete": False}, {"success": False}, {"data_valid": False},
+    {"fallen": True}, {"contact_samples": 1}, {"dropped_objects": ["box_red"]},
+    {"deliveries": []}, {"deliveries": [None]},
+])
+def test_delivery_gate_rejects_incomplete_or_unsafe_results(tmp_path, change):
+    suite = load_suite()
+    data = dict(success=True, mission_complete=True, data_valid=True, fallen=False,
+                contact_samples=0, dropped_objects=[],
+                deliveries=[dict(object_id="box_red", destination_id="target_red", verified=True)])
+    path = tmp_path / "result.json"
+    path.write_text(json.dumps(data))
+    assert suite.delivery_evidence(path)["passed"]
+    path.write_text(json.dumps({**data, **change}))
+    assert not suite.delivery_evidence(path)["passed"]
+
+
+def test_delivery_gate_rejects_missing_and_malformed_evidence(tmp_path):
+    suite = load_suite()
+    path = tmp_path / "result.json"
+    assert not suite.delivery_evidence(path)["passed"]
+    path.write_text("not json")
+    assert not suite.delivery_evidence(path)["passed"]
+
+
+def test_timeout_handles_output_without_a_newline():
+    suite = load_suite()
+    log = io.StringIO()
+    code, timed_out = suite.stream_process(
+        (sys.executable, "-c", "import time; print('partial', end='', flush=True); time.sleep(30)"),
+        log, 1)
+    assert code == 124 and timed_out
+    assert "partial" in log.getvalue()

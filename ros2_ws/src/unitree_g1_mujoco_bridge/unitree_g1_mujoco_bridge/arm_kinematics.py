@@ -107,3 +107,46 @@ class ArmKinematics:
             step = J.T@np.linalg.solve(J@J.T+.0025*np.eye(len(error)),error)
             values = np.clip(values+np.clip(step,-.12,.12),self.solve_lower,self.solve_upper)
         return dict(zip(self.names,map(float,best[1]))),best[2]
+
+    def cartesian_path(self,target,joints,orientation,max_step=.025):
+        """Bound the swept tool path, not just the final joint-space endpoint.
+
+        Retain the measured waist and continue the local IK branch. Joint-linear
+        interpolation between distant endpoint solutions can bow through a
+        tabletop object even when both endpoints are clear.
+        """
+        target = np.asarray(target,dtype=float)
+        orientation = np.asarray(orientation,dtype=float)
+        start,start_R,_,_ = self.forward(joints)
+        if not np.all(np.isfinite(target)) or not np.all(np.isfinite(orientation)):
+            raise ValueError('nonfinite Cartesian path target')
+        count = max(1,int(np.ceil(np.linalg.norm(target-start)/max_step)),
+                    int(np.ceil(np.linalg.norm(orientation-start_R)/.1)))
+        if count>40:
+            raise ValueError('Cartesian path exceeds bounded planning extent')
+        state = dict(joints)
+        path = []
+        worst_error = 0.
+        for index in range(1,count+1):
+            fraction = index/count
+            point = start+fraction*(target-start)
+            u,s,v = np.linalg.svd((1-fraction)*start_R+fraction*orientation)
+            if min(s)<1e-6:
+                raise ValueError('ambiguous Cartesian orientation interpolation')
+            R = u@np.diag([1.,1.,np.linalg.det(u@v)])@v
+            solution,error = self._solve(point,state,R)
+            if error>.004 or np.linalg.norm(self.forward(dict(state,**solution))[1]-R)>.08:
+                solution,error = self.solve(point,state,R)
+            if (error>.008 or np.linalg.norm(self.forward(dict(state,**solution))[1]-R)>.08 or
+                    max(abs(solution[name]-state[name]) for name in self.names)>.4):
+                raise ValueError('continuous Cartesian path unreachable')
+            previous_point = start+(index-1)/count*(target-start)
+            for alpha in (.25,.5,.75):
+                intermediate = dict(state,**{name:(1-alpha)*state[name]+alpha*solution[name] for name in self.names})
+                deviation = float(np.linalg.norm(self.forward(intermediate)[0]-((1-alpha)*previous_point+alpha*point)))
+                if deviation>.008:
+                    raise ValueError('Cartesian segment exceeds swept-path tolerance')
+            worst_error = max(worst_error,error)
+            path.append(solution)
+            state.update(solution)
+        return path,worst_error

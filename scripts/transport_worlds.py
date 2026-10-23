@@ -25,7 +25,7 @@ TRANSPORT_WORLDS = {
                          'stations': [((3.5,2.8),(-3.5,-2.8))],
                          'distractor_tables':[(3.5,-2.8),(-3.5,2.8)],
                          'search_partitions':[(1.5,1.5),(-1.5,-1.5)]},
-    'transport_dual': {'base':'medium_open','size':[12,10],'label':'TWO CUBE DELIVERY','camera_pitch_deg':25.,
+    'transport_dual': {'base':'medium_open','size':[12,10],'label':'DEX3 OBJECT DELIVERY','camera_pitch_deg':25.,
                        # 3.9 m central aisle and 2.0 m between adjacent table
                        # edges leave room to pass/yield without crowding a dock.
                        'stations': [((2.5,0.),(-2.5,0.)), ((2.5,3.),(-2.5,3.))]},
@@ -80,9 +80,13 @@ def building_walls(kind):
     return walls
 
 
-def camera_robot_xml(pitch_deg):
+def camera_robot_xml(pitch_deg,grasp_model='dex3_contact'):
     """Declared simulation camera mounting, separate from object/table layout."""
-    robot = ET.parse(SCENES/'g1_29dof.xml').getroot()
+    if grasp_model=='dex3_contact':
+        from dex3_hand_model import build_robot
+        robot = build_robot()
+    else:
+        robot = ET.parse(SCENES/'g1_29dof.xml').getroot()
     site = robot.find(".//site[@name='d435i_color_site']")
     w,x,y,z = map(float,site.get('quat').split())
     c,s = math.cos(math.radians(pitch_deg)/2),math.sin(math.radians(pitch_deg)/2)
@@ -91,7 +95,7 @@ def camera_robot_xml(pitch_deg):
     return ET.tostring(robot,encoding='unicode')+'\n'
 
 
-def add_station(root, color, location, pickup):
+def add_station(root, color, location, pickup,grasp_model='dex3_contact'):
     x,y = location
     identifier = ('empty_' if pickup is None else 'pickup_' if pickup else 'delivery_') + color
     world = root.find('worldbody')
@@ -111,11 +115,12 @@ def add_station(root, color, location, pickup):
     offset = .47 if pickup else TABLE_HALF_SIZE[0]-PAD_HALF_SIZE-.025
     center = [x+inward*offset,y,TABLE_HEIGHT]
     if pickup:
-        center[2] += BOX_HALF_SIZE+.002
+        center[2] += (.045 if grasp_model=='dex3_contact' else BOX_HALF_SIZE)+.002
         body=ET.SubElement(world,'body',name=f'manip_object_box_{color}',pos=' '.join(map(str,center)))
         ET.SubElement(body,'freejoint',name=f'box_{color}_freejoint')
-        ET.SubElement(body,'geom',name=f'box_{color}_geom',type='box',
-                      size=f'{BOX_HALF_SIZE} {BOX_HALF_SIZE} {BOX_HALF_SIZE}',mass='.15',
+        ET.SubElement(body,'geom',name=f'box_{color}_geom',type='cylinder' if grasp_model=='dex3_contact' else 'box',
+                      size='.02 .045' if grasp_model=='dex3_contact' else f'{BOX_HALF_SIZE} {BOX_HALF_SIZE} {BOX_HALF_SIZE}',
+                      mass='.08' if grasp_model=='dex3_contact' else '.15',
                       rgba=COLORS[color],friction='1 .01 .001',contype='1',conaffinity='1')
     else:
         # A filled colour square remains visible in the low-resolution RGB-D
@@ -137,7 +142,9 @@ def add_station(root, color, location, pickup):
             'object_or_pad_center':center}
 
 
-def build_world(name,layout_seed=0):
+def build_world(name,layout_seed=0,grasp_model='dex3_contact'):
+    if grasp_model not in ('dex3_contact','legacy_magnetic'):
+        raise ValueError('unknown grasp model')
     definition=copy.deepcopy(TRANSPORT_WORLDS[name])
     if (name=='transport_search' or definition.get('building')) and layout_seed%2:
         # The alternate evaluation layout mirrors every station and occluder;
@@ -153,19 +160,31 @@ def build_world(name,layout_seed=0):
         ET.SubElement(custom,'numeric',name='avoidance_world_half_extents',data='8 7')
     else:
         geometry = dict(size=definition['size'],boxes=[]) if definition.get('building') else None
-        root=ET.fromstring(scene(definition['base'],geometry))
+        root=ET.fromstring(scene(definition['base'],geometry,'dex3' if grasp_model=='dex3_contact' else 'legacy'))
         root.find("asset/texture[@name='world_sign']").set('file',f'transport_sign_{name}.png')
     root.set('model','G1 transport '+name)
+    robot_include = root.find("include[@file='g1_29dof.xml']")
+    if robot_include is None:
+        robot_include = root.find("include[@file='g1_29dof_dex3.xml']")
     if definition.get('camera_pitch_deg',0.):
-        root.find("include[@file='g1_29dof.xml']").set('file',f'g1_29dof_{name}_camera.xml')
+        robot_include.set('file',f'g1_29dof_{name}_{"dex3_" if grasp_model=="dex3_contact" else ""}camera.xml')
+    elif grasp_model=='dex3_contact':
+        robot_include.set('file','g1_29dof_dex3.xml')
     custom = root.find('custom')
     if custom is None:
         custom = ET.SubElement(root,'custom')
-    ET.SubElement(custom,'numeric',name='transport_hand_capture',data='.12 .01 0 .09')
+    if grasp_model=='legacy_magnetic':
+        ET.SubElement(custom,'numeric',name='transport_hand_capture',data='.12 .01 0 .09')
+    else:
+        ET.SubElement(custom,'numeric',name='dex3_contact_only',data='1')
     root.find('visual/global').set('elevation','-48')
     equalities=ET.SubElement(root,'equality')
     keys=ET.SubElement(root,'keyframe')
-    robot=ET.parse(SCENES/'g1_29dof.xml').getroot()
+    if grasp_model=='dex3_contact':
+        from dex3_hand_model import build_robot
+        robot=build_robot()
+    else:
+        robot=ET.parse(SCENES/'g1_29dof.xml').getroot()
     qpos=robot.find("keyframe/key[@name='unitree_rl_lab_stand']").get('qpos').split()
     pairs=[]
     layout=[]
@@ -178,12 +197,13 @@ def build_world(name,layout_seed=0):
         ET.SubElement(root.find('worldbody'),'geom',name=f'search_partition_{index}',type='box',
                       pos=f'{x} {y} 1.05',size='.08 .55 1.05',rgba='.45 .45 .45 1',contype='1',conaffinity='1')
     for color,(pickup,delivery) in zip(COLORS,definition['stations']):
-        source=add_station(root,color,pickup,True)
-        destination=add_station(root,color,delivery,False)
+        source=add_station(root,color,pickup,True,grasp_model)
+        destination=add_station(root,color,delivery,False,grasp_model)
         qpos += [str(v) for v in source['object_or_pad_center']] + ['1','0','0','0']
-        for side in ('left','right'):
-            ET.SubElement(equalities,'weld',name=f'grasp_{side}_box_{color}',
-                          body1=f'{side}_wrist_yaw_link',body2=f'manip_object_box_{color}',active='false')
+        if grasp_model=='legacy_magnetic':
+            for side in ('left','right'):
+                ET.SubElement(equalities,'weld',name=f'grasp_{side}_box_{color}',
+                              body1=f'{side}_wrist_yaw_link',body2=f'manip_object_box_{color}',active='false')
         pairs.append({'object_id':f'box_{color}','destination_id':f'target_{color}','color':color})
         layout.append({'color':color,'pickup':source,'delivery':destination})
     ET.SubElement(keys,'key',name=INITIAL_KEYFRAME,qpos=' '.join(qpos))
@@ -191,14 +211,18 @@ def build_world(name,layout_seed=0):
     return ET.tostring(root,encoding='unicode')+'\n', pairs, layout
 
 
-def generate(layout_seed=0):
+def generate(layout_seed=0,grasp_model='dex3_contact'):
+    if grasp_model=='dex3_contact':
+        from dex3_hand_model import generate as generate_dex3
+        generate_dex3()
     generate_navigation_worlds()
     manifests={}
     for name,definition in TRANSPORT_WORLDS.items():
         if definition.get('camera_pitch_deg',0.):
-            (SCENES/f'g1_29dof_{name}_camera.xml').write_text(camera_robot_xml(definition['camera_pitch_deg']))
-        xml,pairs,layout=build_world(name,layout_seed)
-        (SCENES/f'scene_29dof_transport_{name}.xml').write_text(xml)
+            (SCENES/f'g1_29dof_{name}_{"dex3_" if grasp_model=="dex3_contact" else ""}camera.xml').write_text(camera_robot_xml(definition['camera_pitch_deg'],grasp_model))
+        xml,pairs,layout=build_world(name,layout_seed,grasp_model)
+        suffix = '_legacy_magnetic' if grasp_model=='legacy_magnetic' else ''
+        (SCENES/f'scene_29dof_transport_{name}{suffix}.xml').write_text(xml)
         if definition['base']!='plaza':
             (SCENES/f'transport_sign_{name}.png').write_bytes(sign_png(definition['label']))
         # Pair files contain no locations; layout files are simulator/scorer-only.
@@ -206,13 +230,14 @@ def generate(layout_seed=0):
         manifests[name]={'initial_keyframe':INITIAL_KEYFRAME,'size_m':definition['size'],
                           'layout_seed':layout_seed if name=='transport_search' or definition.get('building') else None,
                           'camera_pitch_deg':definition.get('camera_pitch_deg',0.),
-                         'evaluation_layout':layout,'grasp_model':'capture_radius_weld', 'base_pin_available':False}
-    (SCENES/'transport_evaluation_layouts.json').write_text(json.dumps(manifests,indent=2)+'\n')
+                          'evaluation_layout':layout,'grasp_model':grasp_model, 'base_pin_available':False}
+    (SCENES/f'transport_evaluation_layouts{suffix}.json').write_text(json.dumps(manifests,indent=2)+'\n')
     print(f'Generated {len(manifests)} physical transport fixtures')
 
 
 if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--layout-seed',type=int,default=0)
+    parser.add_argument('--grasp-model',choices=('dex3_contact','legacy_magnetic'),default='dex3_contact')
     args = parser.parse_args()
-    generate(args.layout_seed)
+    generate(args.layout_seed,args.grasp_model)

@@ -101,7 +101,7 @@ def support_surfaces(depth,K,origin,R,table_height=.95):
     return sorted(result,key=lambda item:-item['pixels'])[:16]
 
 
-def colour_detections(rgb,depth,K,origin,R,table_height=.95,diagnostics=None):
+def colour_detections(rgb,depth,K,origin,R,table_height=.95,diagnostics=None,object_profile='legacy_cube'):
     """Return geometric candidates in a level robot frame; no layout lookup."""
     if (rgb.ndim!=3 or rgb.shape[2]!=3 or depth.shape!=rgb.shape[:2] or K.shape!=(3,3) or
             not np.all(np.isfinite(K)) or K[0,0]<=0. or K[1,1]<=0.):
@@ -128,9 +128,20 @@ def colour_detections(rgb,depth,K,origin,R,table_height=.95,diagnostics=None):
                 centre = .5*(lo+hi)
                 if diagnostics is not None:
                     diagnostics.append(dict(colour=colour,low=lo.tolist(),high=hi.tolist(),pixels=len(subset)))
-                if .045 < max(extent[:2]) < .19 and extent[2] < .18:
+                # A top-only sliver or a short occluded side fragment does not
+                # establish the centre of the 90 mm upright grasp cylinder.
+                small_object = (.012 < max(extent[:2]) < .075 and .06<extent[2]<.12) if object_profile=='dex3_cylinder' else (.045 < max(extent[:2]) < .19 and extent[2]<.18)
+                if small_object:
                     kind = 'box'
-                    centre[2] = hi[2]-.055
+                    centre[2] = hi[2]-(.045 if object_profile=='dex3_cylinder' else .055)
+                    if object_profile=='dex3_cylinder':
+                        wall = subset[(subset[:,2]<hi[2]-.008)&(subset[:,2]>lo[2]+.008),:2]
+                        if len(wall)>=6:
+                            design = np.column_stack((2*wall,np.ones(len(wall))))
+                            fit,_,rank,_ = np.linalg.lstsq(design,np.sum(wall*wall,axis=1),rcond=None)
+                            radius = math.sqrt(max(0.,float(fit[2]+fit[0]**2+fit[1]**2)))
+                            if rank==3 and .012<=radius<=.03:
+                                centre[:2] = fit[:2]
                     if centre[2] < table_height+.02:
                         continue
                 elif .30 < max(extent[:2]) < .58 and min(extent[:2]) > .30 and extent[2] < .045:
@@ -244,7 +255,8 @@ class ObservationConsensus:
 
 
 class TransportPerception(Node):
-    def __init__(self,camera_pitch_deg=0.):
+    def __init__(self,camera_pitch_deg=0.,object_profile='dex3_cylinder'):
+        self.object_profile = object_profile
         super().__init__('transport_perception')
         qos = QoSProfile(depth=1,reliability=ReliabilityPolicy.BEST_EFFORT)
         image_qos = QoSProfile(depth=1,reliability=ReliabilityPolicy.RELIABLE)
@@ -337,7 +349,7 @@ class TransportPerception(Node):
         diagnostics = []
         try:
             detections = colour_detections(rgb,depth,self.info,origin,
-                torso_R@rpy_matrix((0.,math.radians(self.camera_pitch_deg),0.))@optical_R,diagnostics=diagnostics)
+                torso_R@rpy_matrix((0.,math.radians(self.camera_pitch_deg),0.))@optical_R,diagnostics=diagnostics,object_profile=self.object_profile)
         except ValueError as exc:
             self.process_status = str(exc)
             return

@@ -49,6 +49,8 @@ fi
 
 python3 "${SRC_DIR}/tools/generate_natural_pedestrians.py" --robot-dir "${SRC_DIR}/unitree_robots/g1"
 python3 /workspace/scripts/avoidance_worlds.py
+python3 /workspace/scripts/setup_dex3_assets.py
+python3 /workspace/scripts/transport_worlds.py --grasp-model legacy_magnetic
 python3 /workspace/scripts/transport_worlds.py
 python3 /workspace/scripts/brainco_hand_model.py
 

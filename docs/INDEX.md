@@ -26,7 +26,13 @@ collections. Start there for topic-based exploration, or use the catalogue below
 
 ## Project orientation
 
-Latest experiment: [cumulative regression and actor interpolation](CUMULATIVE_INTERPOLATION_20261019.md)
+Latest platform: [Dex3 contact-only manipulation](DEX3_CONTACT_MANIPULATION_20261020.md)
+— physical hand/DDS grasp tests pass; full G1 pickup demonstrated, delivery unqualified.
+
+Previous iteration: [local refinement after the overnight search](LOCAL_LAYER_SEARCH_20261020.md)
+— accepted incumbent 197/208 with no falls; smaller-scale continued search active.
+
+Previous experiment: [cumulative regression and actor interpolation](CUMULATIVE_INTERPOLATION_20261019.md)
 — 195/208 passes without falls; thirteen failures remain, serial layer search next.
 
 Previous experiment: [broader rehearsal and paired regressions](BROAD_REFERENCE_20261019.md)

@@ -18,16 +18,16 @@ def generate_launch_description():
 
     moveit_config = (
         MoveItConfigsBuilder(
-            "g1_29dof_mode_15_brainco_hand", package_name="g1_moveit_config"
+            "g1_29dof_dex3", package_name="g1_moveit_config"
         )
         .robot_description(
             file_path=os.path.join(
                 description_share,
                 "urdf",
-                "g1_29dof_mode_15_brainco_hand.urdf",
+                "g1_29dof_dex3.urdf",
             )
         )
-        .robot_description_semantic(file_path=config("g1.srdf"))
+        .robot_description_semantic(file_path=config("g1_dex3.srdf"))
         .robot_description_kinematics(file_path=config("kinematics.yaml"))
         .joint_limits(file_path=config("joint_limits.yaml"))
         .planning_pipelines(pipelines=["ompl"], default_planning_pipeline="ompl")

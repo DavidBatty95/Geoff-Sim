@@ -46,7 +46,13 @@ current contract. `/lowcmd` now uses the observed machine mode and Unitree HG CR
 ROS `rt/` aliases are opt-in. Native camera/Livox IMUs are acquisition-stamped
 measurements with unavailable orientation marked explicitly. Raw sensor TF uses
 measured IMU/encoders, and odometry supports padded/organized hardware point clouds.
-`brainco_stark_adapter` optionally maps the normalized six-channel application
+The default hand interface is now seven-channel Dex3 radians on
+`/dex3/{left,right}/cmd`, with measured states on `/lf/dex3/{left,right}/state`.
+The contact-only grasp backend confirms opposing contacts and loaded joints,
+and verifies release from measured open fingers and unloaded contacts.
+[Dex3 implementation and evidence](../../../docs/DEX3_CONTACT_MANIPULATION_20261020.md).
+
+The legacy `brainco_stark_adapter` optionally maps the normalized six-channel application
 topics to the vendor Stark driver; it requires the vendor message package and
 normalized SDK units. Neither interface tests nor simulation grasp welds qualify
 physical deployment.

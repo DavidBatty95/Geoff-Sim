@@ -15,6 +15,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--duration',type=float,default=20.)
+    parser.add_argument('--hand-model',choices=('dex3','brainco'),default='dex3')
     args = parser.parse_args()
     output = args.output.resolve()
     if not output.is_relative_to(ROOT):
@@ -23,7 +24,9 @@ def main():
         parser.error('output already exists; retain each attempt separately')
     output.parent.mkdir(parents=True,exist_ok=True)
     name = 'geoff-hardware-probe-'+str(os.getpid())
-    settings = dict(mujoco_scene='scene_29dof_brainco_hardware.xml',mujoco_initial_keyframe='unitree_rl_lab_stand',
+    settings = dict(mujoco_scene='scene_29dof_dex3.xml' if args.hand_model=='dex3' else 'scene_29dof_brainco_hardware.xml',mujoco_initial_keyframe='unitree_rl_lab_stand',
+        hand_model=args.hand_model,
+        robot_description_file='/workspace/ros2_ws/src/unitree_g1_description/urdf/'+('g1_29dof_dex3.urdf' if args.hand_model=='dex3' else 'g1_29dof_mode_15_brainco_hand.urdf'),
         run_rviz='false',run_nav2='false',run_slam='false',
         policy_profile='unitree_rl_lab_g1_29dof',
         policy_path='/workspace/vendor/unitree_rl_lab/policies/g1_29dof_velocity_v0/policy.onnx',
@@ -40,7 +43,8 @@ def main():
             time.sleep(8.)
             result = subprocess.run(['docker','compose','run','--rm','--no-deps','unitree-g1-sim','bash','-lc',
                 'source /opt/ros/humble/setup.bash && source /workspace/ros2_ws/.verification/install/setup.bash && '
-                'exec python3 /workspace/scripts/audit_sim_interfaces.py "$@"','bash','--require-hands',
+                 'exec python3 /workspace/scripts/audit_sim_interfaces.py "$@"','bash','--require-hands',
+                 '--hand-model',args.hand_model,
                 '--duration',str(args.duration),'--output','/workspace/'+str(output.relative_to(ROOT))],cwd=ROOT,capture_output=True,text=True)
             output.with_suffix('.audit.log').write_text(result.stdout+result.stderr)
             print(result.stdout+result.stderr)

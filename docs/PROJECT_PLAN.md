@@ -19,6 +19,13 @@
 Related: [Technical implementation roadmap](SOCIAL_LOCOMANIPULATION_ROADMAP.md) ·
 [Gap-aligned research and publication programme](RESEARCH_PROGRAMME.md).
 
+**20 October platform change:** [Dex3 contact-only manipulation](DEX3_CONTACT_MANIPULATION_20261020.md)
+replaces magnetic gripping in the default workflow. Hand-bench and ROS/DDS
+grasp/release tests pass; full G1 pickup is demonstrated. Next work is reliable
+Dex3 docking/reach alignment, occlusion-aware lift feedback, loaded carry and
+verified placement with the new hand mass/contact dynamics. Prior proxy-hand
+locomotion acceptance does not transfer automatically; the old search is stopped.
+
 **Native-timing training update:** [sensor-epoch/PD training and load variation](NATIVE_TIMING_TRAINING_20261018.md)
 pass GPU contract checks but the short candidate fails stopping qualification.
 Next: isolate timing versus offset effects in matched ablations and assess
@@ -74,8 +81,8 @@ state/feedback-dependent stopping; only four pass the declared gate. Next:
 controlled action-history/loaded-stop measurements and final-tree mission repeats
 before promoting response calibration or people-present delivery.
 
-**Planning snapshot: 5 October 2026.** The target is repeated, sensor-driven
-table-to-table delivery by a Unitree G1 with BrainCo hands in a declared indoor
+**Current target, revised 20 October 2026.** The target is repeated, sensor-driven
+table-to-table delivery by a Unitree G1 with Dex3 hands in a declared indoor
 operating environment. The robot should navigate around people, grasp and carry
 an object, verify placement and recover from ordinary disturbances.
 

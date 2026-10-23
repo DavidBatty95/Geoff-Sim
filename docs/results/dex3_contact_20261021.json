@@ -1,0 +1,5562 @@
+{
+  "scope": "Contact-only hand implementation; mobile delivery not yet qualified",
+  "source_hash_scope": "Publisher-time working-tree snapshot, not per-run source provenance; retained runs may predate these sources.",
+  "source_sha256": {
+    "scripts/dex3_hand_model.py": "b50d72aa796ed4ce0457f2ab3afc74a9fc7d211cd878afe9967e8efae4ce7e70",
+    "scripts/measure_dex3_contact_grasp.py": "825eb9125d91066b1dff6aea0442a987c7073cb32c146d2c3bc146777b78f6d1",
+    "scripts/verify_dex3_services.py": "9cbba30c19f1d7c992558ffdb0e06629415016ad3fa6da02762dd6b4ba61968e",
+    "scripts/transport_worlds.py": "004ea3fcd8eb4e5014a2bbfb71dd24a609a8a9c5fe009508dcffefc81d5b7fc1",
+    "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/dex3_grasp.py": "7c03b45a72f2d57f4c4873c3b021f565f769dafe915ec78d815b22d43792a8d9",
+    "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/transport_demo.py": "8c569551cb4eb07193af18c5dff84dd06158693fc2ac4889fd16f352c5965967",
+    "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/human_aware_motion_planner.py": "7ca650739788380375def3759e5a163b7ff8b2d3c5ba10045002314fc81bd3df",
+    "ros2_ws/src/unitree_mujoco/simulate/src/dex3_hand.h": "7b8360b649af128d1b032e6ac4d094cc44582b36a40e8056ff226b4fec11fbc6",
+    "ros2_ws/src/unitree_g1_description/dex3_sources/manifest.json": "74777adf50fe8c7ea2464279e5c8fc1fd728fa91dd3bfca75397e156f5d41ec6"
+  },
+  "calibration_notes": "All selected-date calibration failures and sweeps retained. Contact bench uses actuated wrist slides; bench success does not qualify mobile delivery.",
+  "bench_records": [
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261021/left_hold40_selected.json",
+      "sha256": "970564d9dff918e4f6ad8075d3b8b7e48342ca8e336c1893ed70a9307286ce4a",
+      "data": {
+        "success": false,
+        "scope": "prescribed wrist contact-only bench, not mobile qualification",
+        "hold_seconds": 40.0,
+        "sway_m": 0.01,
+        "sway_hz": 1.5,
+        "grip_kp": 3.0,
+        "grip_kd": 0.08,
+        "side": "left",
+        "x": 0.135,
+        "y": 0.04,
+        "radius": 0.02,
+        "mass": 0.08,
+        "grip": [
+          0.0,
+          1.0,
+          0.7,
+          -1.5,
+          -1.5,
+          -1.5,
+          -1.5
+        ],
+        "object_shape": "cylinder",
+        "object_constraints": 0,
+        "object_external_force": false,
+        "minimum_held_lift_m": -0.028401502169182025,
+        "opposed_contact": false,
+        "released": true,
+        "held_joints": [
+          0.00905965431394386,
+          0.9998000141471336,
+          0.7000040652049062,
+          -1.5004517628004088,
+          -1.5000274915222984,
+          -1.5004517628004088,
+          -1.5000274915222984
+        ],
+        "held_contacts": [
+          "world",
+          "world"
+        ],
+        "prelift": {
+          "time": 2.901999999999902,
+          "position": [
+            0.09749485331902848,
+            -0.03242340319547368,
+            1.0000255067766897
+          ],
+          "contacts": [
+            "world",
+            "left_wrist_yaw_link",
+            "left_hand_thumb_1_link",
+            "left_hand_thumb_2_link",
+            "left_hand_middle_0_link",
+            "left_hand_middle_1_link",
+            "left_hand_index_0_link",
+            "left_hand_index_1_link"
+          ],
+          "joints": [
+            0.00281628455850463,
+            0.4932877965005813,
+            0.6936472652858658,
+            -1.1955823389151787,
+            -1.346679585427757,
+            -1.2001900691000202,
+            -1.341743815225752
+          ]
+        },
+        "final_position": [
+          -0.01679915826196106,
+          0.20351413846690034,
+          0.9748578470022292
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261021/right_hold40_closure_sweep.json",
+      "sha256": "9725b5f3bb54c814f70b47c50587acc0d4dc75693dac43b3ccf88c47ab554cb8",
+      "data": {
+        "scope": "closure calibration; all27 conditions retained",
+        "attempts": [
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.5,
+              -0.7,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.009749949828795623,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.005268598758446326,
+              -0.4996093130834222,
+              -0.6999490148624202,
+              0.8003897536500356,
+              0.8001232603310213,
+              0.8003897536500356,
+              0.8001232603310213
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.12147252791965497,
+                0.04590249686322305,
+                0.999933180576803
+              ],
+              "contacts": [
+                "world",
+                "right_hand_thumb_2_link",
+                "right_hand_middle_0_link",
+                "right_hand_index_0_link"
+              ],
+              "joints": [
+                0.004198887538233049,
+                -0.42965339333703223,
+                -0.6724537436881503,
+                0.780817723042051,
+                0.7999994170812202,
+                0.7808355317659272,
+                0.7999998813592742
+              ]
+            },
+            "final_position": [
+              0.14084500360386928,
+              0.31333204423981603,
+              0.9748578470022292
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.5,
+              -0.7,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.0049179882609696746,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.0052686199977903915,
+              -0.499610147351546,
+              -0.6999489497738235,
+              1.2004622503918703,
+              1.2000900696046086,
+              1.2004622503918703,
+              1.2000900696046086
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.10048621861122314,
+                0.03583762490286076,
+                1.0000019675013214
+              ],
+              "contacts": [
+                "world",
+                "right_wrist_yaw_link",
+                "right_hand_thumb_1_link",
+                "right_hand_middle_0_link",
+                "right_hand_middle_1_link",
+                "right_hand_index_0_link",
+                "right_hand_index_1_link"
+              ],
+              "joints": [
+                0.00025118830236342234,
+                -0.37994877694848755,
+                -0.6998796783047471,
+                1.1400570830952395,
+                1.187990481062768,
+                1.1395951559186945,
+                1.188492670788659
+              ]
+            },
+            "final_position": [
+              0.1752241991011137,
+              0.11193376895037908,
+              0.9748578470022292
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.5,
+              -0.7,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.005840583657292009,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.005268621209066174,
+              -0.4996101949019557,
+              -0.6999489460132187,
+              1.5004509498729923,
+              1.5000275406470784,
+              1.5004509498729923,
+              1.5000275406470784
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.09385342799975227,
+                0.033590609619913565,
+                1.0000883748936267
+              ],
+              "contacts": [
+                "world",
+                "right_wrist_yaw_link",
+                "right_hand_thumb_1_link",
+                "right_hand_middle_1_link",
+                "right_hand_index_1_link"
+              ],
+              "joints": [
+                0.0031793922225256508,
+                -0.31442110214749536,
+                -0.699947741170944,
+                1.2419123781523331,
+                1.3262403640035092,
+                1.240155576510334,
+                1.326137611466985
+              ]
+            },
+            "final_position": [
+              0.033502053922954515,
+              0.0346644579358115,
+              0.999903970808291
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.5,
+              -1.0,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.005697612209583314,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.005416304331450479,
+              -0.49963221191096346,
+              -0.9999813472660424,
+              0.8003898035490908,
+              0.8001232656179477,
+              0.8003898035490908,
+              0.8001232656179477
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.11729907440097685,
+                0.04097437984655733,
+                0.9999603998959204
+              ],
+              "contacts": [
+                "world",
+                "world",
+                "world",
+                "right_hand_thumb_2_link",
+                "right_hand_middle_0_link",
+                "right_hand_index_0_link"
+              ],
+              "joints": [
+                0.0039854001389264095,
+                -0.3593136399729455,
+                -0.9408213639863403,
+                0.7692752791618946,
+                0.7999993431199065,
+                0.7694989804373501,
+                0.7999964161844266
+              ]
+            },
+            "final_position": [
+              0.07458186629469467,
+              0.11785642265332454,
+              0.974857835661757
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.5,
+              -1.0,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.004152789017500047,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.005416324711708412,
+              -0.4996330341253798,
+              -0.9999812438955206,
+              1.2004623194708968,
+              1.2000900710196878,
+              1.2004623194708968,
+              1.2000900710196878
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.1005237555628716,
+                0.03573445724224433,
+                1.0000047850684044
+              ],
+              "contacts": [
+                "right_wrist_yaw_link",
+                "right_hand_thumb_1_link",
+                "right_hand_thumb_2_link",
+                "right_hand_middle_0_link",
+                "right_hand_middle_1_link",
+                "right_hand_index_0_link",
+                "right_hand_index_1_link"
+              ],
+              "joints": [
+                -0.000518497892479005,
+                -0.3521722338581178,
+                -0.9809518325287954,
+                1.1398109236045955,
+                1.190589066199651,
+                1.1387955584526022,
+                1.191285155442577
+              ]
+            },
+            "final_position": [
+              0.03869191060097492,
+              0.07726903400771609,
+              0.9748559877225785
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.5,
+              -1.0,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.006646512679522321,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.005416325874616508,
+              -0.4996330809932318,
+              -0.9999812379156914,
+              1.500451022484516,
+              1.5000275362708249,
+              1.500451022484516,
+              1.5000275362708249
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.09390933248010563,
+                0.03355998717060199,
+                1.0000955214656153
+              ],
+              "contacts": [
+                "right_wrist_yaw_link",
+                "right_hand_thumb_1_link",
+                "right_hand_middle_1_link",
+                "right_hand_index_1_link"
+              ],
+              "joints": [
+                0.0005877888783845306,
+                -0.3150873142465417,
+                -1.0000958218737181,
+                1.2419091633863597,
+                1.3248213520258363,
+                1.2387071528496394,
+                1.3263634165451725
+              ]
+            },
+            "final_position": [
+              -0.2059751634849946,
+              -0.014919315806305655,
+              0.9748578470022292
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.5,
+              -1.3,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.028437877393553745,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.005409078129541427,
+              -0.4996546218638052,
+              -1.3000150389319463,
+              0.8003898458827561,
+              0.8001232701016212,
+              0.8003898458827561,
+              0.8001232701016212
+            ],
+            "held_contacts": [
+              "world",
+              "world"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.11055999674182902,
+                0.034639152978200416,
+                0.9999980467576687
+              ],
+              "contacts": [
+                "world",
+                "world",
+                "world",
+                "right_wrist_yaw_link",
+                "right_hand_thumb_2_link",
+                "right_hand_middle_0_link",
+                "right_hand_index_0_link"
+              ],
+              "joints": [
+                0.003673136638364771,
+                -0.31418475172547916,
+                -1.2043938700731744,
+                0.7762964467908728,
+                0.7999951472823447,
+                0.7762530786440844,
+                0.7999859610923769
+              ]
+            },
+            "final_position": [
+              0.5274421254475191,
+              0.13039084803159492,
+              0.9748578470022292
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.5,
+              -1.3,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.028472325652770247,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.0054090982981742745,
+              -0.49965543401233126,
+              -1.3000148996257845,
+              1.2004623780308072,
+              1.2000900722194994,
+              1.2004623780308072,
+              1.2000900722194994
+            ],
+            "held_contacts": [
+              "world",
+              "world"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.0993639082858101,
+                0.03523653710060386,
+                1.0000001386858481
+              ],
+              "contacts": [
+                "world",
+                "right_wrist_yaw_link",
+                "right_hand_thumb_1_link",
+                "right_hand_thumb_2_link",
+                "right_hand_middle_0_link",
+                "right_hand_middle_1_link",
+                "right_hand_index_0_link",
+                "right_hand_index_1_link"
+              ],
+              "joints": [
+                2.1014432670728698e-05,
+                -0.284505925170968,
+                -1.1982285967058295,
+                1.1613601129547637,
+                1.1957680732957754,
+                1.1615518564286966,
+                1.195451458136138
+              ]
+            },
+            "final_position": [
+              -0.21279150534817712,
+              -0.280348982634039,
+              0.9748578470022292
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.5,
+              -1.3,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.00552958085946087,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.005409099450078576,
+              -0.49965548031190404,
+              -1.3000148915624048,
+              1.500451084035264,
+              1.5000275325637555,
+              1.500451084035264,
+              1.5000275325637555
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.09444065380631639,
+                0.03325052512781167,
+                1.0000655008829586
+              ],
+              "contacts": [
+                "right_wrist_yaw_link",
+                "right_hand_thumb_1_link",
+                "right_hand_thumb_2_link",
+                "right_hand_middle_1_link",
+                "right_hand_index_1_link"
+              ],
+              "joints": [
+                0.005431198661144112,
+                -0.27376266359497925,
+                -1.2575969350368579,
+                1.2416093655312526,
+                1.3306619421499166,
+                1.2424583502605064,
+                1.3285761665748936
+              ]
+            },
+            "final_position": [
+              -0.1441713688227852,
+              -0.04828867301505325,
+              0.9748578470022292
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.75,
+              -0.7,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.028407483859057114,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.007423173709872549,
+              -0.7497008650117835,
+              -0.6999767501126513,
+              0.8003900429059301,
+              0.8001232910957523,
+              0.8003900429059301,
+              0.8001232910957523
+            ],
+            "held_contacts": [
+              "world",
+              "world"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.12066482851666639,
+                0.04255803906314051,
+                0.9999971677585308
+              ],
+              "contacts": [
+                "world",
+                "right_hand_thumb_2_link",
+                "right_hand_middle_0_link",
+                "right_hand_index_0_link"
+              ],
+              "joints": [
+                0.004500223215188388,
+                -0.506229410878438,
+                -0.6147089101129377,
+                0.7402742759339589,
+                0.7999724605440273,
+                0.7401576510919292,
+                0.7999608101999907
+              ]
+            },
+            "final_position": [
+              -0.14490420980644977,
+              -0.2609440057707067,
+              0.9748578470022292
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.75,
+              -0.7,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": 0.0919112489242877,
+            "opposed_contact": true,
+            "released": true,
+            "held_joints": [
+              0.02370517476620617,
+              -0.5029236428979647,
+              -0.6860393564482427,
+              1.039965217836309,
+              1.2001022040567806,
+              1.2004637415784285,
+              1.200090351769442
+            ],
+            "held_contacts": [
+              "right_wrist_yaw_link",
+              "right_hand_thumb_1_link",
+              "right_hand_thumb_2_link",
+              "right_hand_middle_0_link"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.1022217958104762,
+                0.03547896921663118,
+                1.0000443826407943
+              ],
+              "contacts": [
+                "right_wrist_yaw_link",
+                "right_hand_thumb_1_link",
+                "right_hand_thumb_2_link",
+                "right_hand_middle_0_link",
+                "right_hand_middle_1_link",
+                "right_hand_index_0_link",
+                "right_hand_index_1_link"
+              ],
+              "joints": [
+                0.0026079844218939354,
+                -0.46277902834984924,
+                -0.6853954225397041,
+                1.103372636959016,
+                1.1944368472189102,
+                1.102154411398862,
+                1.1955898342484188
+              ]
+            },
+            "final_position": [
+              0.14650999533574763,
+              0.06277682656760872,
+              0.9748578469964025
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.75,
+              -0.7,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.003873448376579436,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.007423188409839457,
+              -0.7497015650796129,
+              -0.6999766601923411,
+              1.5004513707771598,
+              1.5000275152113292,
+              1.5004513707771598,
+              1.5000275152113292
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.09631008130426442,
+                0.03288486325540397,
+                1.0000223144567444
+              ],
+              "contacts": [
+                "world",
+                "right_wrist_yaw_link",
+                "right_hand_thumb_1_link",
+                "right_hand_middle_0_link",
+                "right_hand_middle_1_link",
+                "right_hand_index_0_link",
+                "right_hand_index_1_link"
+              ],
+              "joints": [
+                -0.0005774939638449879,
+                -0.44783657369444113,
+                -0.699888935444533,
+                1.2226535613179796,
+                1.3295611567586307,
+                1.22235027227022,
+                1.3306055803943204
+              ]
+            },
+            "final_position": [
+              0.03350760148993155,
+              0.034726245760291964,
+              0.9999039862343719
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.75,
+              -1.0,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.028619541701030315,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.007442080792719809,
+              -0.7497221945475252,
+              -1.0000091779809044,
+              0.8003900834459329,
+              0.8001232953935493,
+              0.8003900834459329,
+              0.8001232953935493
+            ],
+            "held_contacts": [
+              "world",
+              "world"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.11122286434987796,
+                0.03451908509979498,
+                0.9999962399488044
+              ],
+              "contacts": [
+                "world",
+                "world",
+                "world",
+                "right_wrist_yaw_link",
+                "right_hand_thumb_2_link",
+                "right_hand_middle_0_link",
+                "right_hand_index_0_link"
+              ],
+              "joints": [
+                0.004617283059934975,
+                -0.48036179085236413,
+                -0.8985389932999782,
+                0.7606720442598959,
+                0.799926495630221,
+                0.7606661357207029,
+                0.7999892802385271
+              ]
+            },
+            "final_position": [
+              -0.4156339533685919,
+              -0.4593934816304796,
+              0.9748578470022292
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.75,
+              -1.0,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.029955026503546422,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.007442094416221186,
+              -0.7497228394659724,
+              -1.0000090506494288,
+              1.2004627068436757,
+              1.2000900789976334,
+              1.2004627068436757,
+              1.2000900789976334
+            ],
+            "held_contacts": [
+              "world",
+              "world"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.10148429026672243,
+                0.03519290130098231,
+                1.0000336366278488
+              ],
+              "contacts": [
+                "right_wrist_yaw_link",
+                "right_hand_thumb_1_link",
+                "right_hand_thumb_2_link",
+                "right_hand_middle_0_link",
+                "right_hand_index_0_link"
+              ],
+              "joints": [
+                0.00012906024482069547,
+                -0.4171272948812283,
+                -0.9352443395505405,
+                1.1163792019567929,
+                1.2000494564137416,
+                1.1159033577730006,
+                1.2000193326036297
+              ]
+            },
+            "final_position": [
+              -0.12678090587129767,
+              -0.578090264480228,
+              0.9748578470022292
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.75,
+              -1.0,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.003171111873796928,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.007442095194303332,
+              -0.7497228762202519,
+              -1.0000090432806303,
+              1.500451429677494,
+              1.5000275116609731,
+              1.500451429677494,
+              1.5000275116609731
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.09647243498752799,
+                0.03279701688345806,
+                1.0000341847147944
+              ],
+              "contacts": [
+                "world",
+                "right_wrist_yaw_link",
+                "right_hand_thumb_1_link",
+                "right_hand_thumb_2_link",
+                "right_hand_middle_0_link",
+                "right_hand_middle_1_link",
+                "right_hand_index_0_link",
+                "right_hand_index_1_link"
+              ],
+              "joints": [
+                0.003882311718143014,
+                -0.41301323011157187,
+                -0.9797718042647658,
+                1.2198313188922805,
+                1.3334686463722107,
+                1.219992165453983,
+                1.3336065936707167
+              ]
+            },
+            "final_position": [
+              -0.4238014857555909,
+              0.3752151287442425,
+              0.9748578470022292
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.75,
+              -1.3,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.03495621211442956,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.007305587862101315,
+              -0.749741798623493,
+              -1.3000406986018942,
+              0.8003901132251261,
+              0.8001232985497587,
+              0.8003901132251261,
+              0.8001232985497587
+            ],
+            "held_contacts": [
+              "world",
+              "world"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.1096830049581562,
+                0.033527660383522055,
+                1.0000089510429424
+              ],
+              "contacts": [
+                "right_wrist_yaw_link",
+                "right_hand_thumb_2_link",
+                "right_hand_middle_0_link",
+                "right_hand_index_0_link"
+              ],
+              "joints": [
+                0.00476955655587731,
+                -0.4082268553568293,
+                -1.1259421667195335,
+                0.7756403314938507,
+                0.8000054300938682,
+                0.7757689117075072,
+                0.7999642870964692
+              ]
+            },
+            "final_position": [
+              0.016475669887978498,
+              -0.05754149962686754,
+              0.9748578470022292
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.75,
+              -1.3,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.03213139042855073,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.007305601726960399,
+              -0.7497424284285114,
+              -1.3000405343025163,
+              1.2004627479618835,
+              1.200090079841514,
+              1.2004627479618835,
+              1.200090079841514
+            ],
+            "held_contacts": [
+              "world",
+              "world"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.10018034932864707,
+                0.03447861151263713,
+                0.9999937211151749
+              ],
+              "contacts": [
+                "world",
+                "right_wrist_yaw_link",
+                "right_hand_thumb_1_link",
+                "right_hand_thumb_2_link",
+                "right_hand_middle_0_link",
+                "right_hand_index_0_link"
+              ],
+              "joints": [
+                0.0007844545365438492,
+                -0.3646301697190717,
+                -1.1512802113579579,
+                1.1368287981626157,
+                1.1998814615708249,
+                1.1367040641204849,
+                1.200064624755268
+              ]
+            },
+            "final_position": [
+              -0.5534224185620841,
+              -0.9498132406192648,
+              0.9748578470022292
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -0.75,
+              -1.3,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.006465546908404174,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.0073056025199535165,
+              -0.7497424643263472,
+              -1.3000405247908509,
+              1.5004514728908331,
+              1.5000275090582835,
+              1.5004514728908331,
+              1.5000275090582835
+            ],
+            "held_contacts": [
+              "world",
+              "world",
+              "world"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.09620808537117678,
+                0.032392739469083505,
+                1.0000112523932314
+              ],
+              "contacts": [
+                "world",
+                "right_wrist_yaw_link",
+                "right_hand_thumb_1_link",
+                "right_hand_thumb_2_link",
+                "right_hand_middle_0_link",
+                "right_hand_middle_1_link",
+                "right_hand_index_0_link",
+                "right_hand_index_1_link"
+              ],
+              "joints": [
+                -0.00026461128776879067,
+                -0.36068030771280524,
+                -1.2152188224304008,
+                1.2280301476315054,
+                1.3380306388892018,
+                1.2261848199562346,
+                1.3404916344321063
+              ]
+            },
+            "final_position": [
+              -0.06048110679799687,
+              0.05766534398033345,
+              0.9748578470022292
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -1.0,
+              -0.7,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.035381421153820924,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.00905964505629175,
+              -0.9997995277339917,
+              -0.7000041696766002,
+              0.8003903126137832,
+              0.8001233197817536,
+              0.8003903126137832,
+              0.8001233197817536
+            ],
+            "held_contacts": [
+              "world",
+              "world"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.12018548308032972,
+                0.039958742265148665,
+                1.0000243032829557
+              ],
+              "contacts": [
+                "right_hand_thumb_2_link",
+                "right_hand_middle_0_link",
+                "right_hand_index_0_link"
+              ],
+              "joints": [
+                0.004563208012846845,
+                -0.5780853383984053,
+                -0.5601132926807584,
+                0.7049239794076668,
+                0.8001339002878622,
+                0.7048001243571667,
+                0.7998335467213483
+              ]
+            },
+            "final_position": [
+              0.8306870382578299,
+              0.37378976422124377,
+              0.9748578470022292
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -1.0,
+              -0.7,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": 0.09997681959205829,
+            "opposed_contact": true,
+            "released": false,
+            "held_joints": [
+              -1.357024766448375e-05,
+              -0.5664339649634349,
+              -0.6493988245719662,
+              0.9862649339125944,
+              1.2001049606646508,
+              1.2004643357405598,
+              1.2000902395387438
+            ],
+            "held_contacts": [
+              "right_wrist_yaw_link",
+              "right_hand_thumb_1_link",
+              "right_hand_thumb_2_link",
+              "right_hand_middle_0_link"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.10354445656086059,
+                0.034901322408288034,
+                1.000010169689839
+              ],
+              "contacts": [
+                "world",
+                "right_wrist_yaw_link",
+                "right_hand_thumb_1_link",
+                "right_hand_thumb_2_link",
+                "right_hand_middle_0_link",
+                "right_hand_index_0_link"
+              ],
+              "joints": [
+                0.0009573239489809313,
+                -0.5179035990706978,
+                -0.6595809409595915,
+                1.0772401530327163,
+                1.1996348300069195,
+                1.0730937000556553,
+                1.2004577899265092
+              ]
+            },
+            "final_position": [
+              0.11300404836047509,
+              0.04209104082405169,
+              0.973931663561742
+            ]
+          },
+          {
+            "success": true,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -1.0,
+              -0.7,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": 0.14183114192758373,
+            "opposed_contact": true,
+            "released": true,
+            "held_joints": [
+              -0.0037274394735950173,
+              -0.4943406553493197,
+              -0.6940423115350222,
+              1.2020477490161203,
+              1.3408850004382755,
+              1.194352614960676,
+              1.347755505688186
+            ],
+            "held_contacts": [
+              "right_wrist_yaw_link",
+              "right_hand_thumb_1_link",
+              "right_hand_thumb_2_link",
+              "right_hand_middle_0_link",
+              "right_hand_middle_1_link",
+              "right_hand_index_0_link",
+              "right_hand_index_1_link"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.09800100079676106,
+                0.03236225891913672,
+                1.0003129238693471
+              ],
+              "contacts": [
+                "right_wrist_yaw_link",
+                "right_hand_thumb_1_link",
+                "right_hand_thumb_2_link",
+                "right_hand_middle_0_link",
+                "right_hand_middle_1_link",
+                "right_hand_index_0_link",
+                "right_hand_index_1_link"
+              ],
+              "joints": [
+                -0.0035431123237134503,
+                -0.4945966980975158,
+                -0.6940903575788202,
+                1.2010120922495922,
+                1.3412110095977812,
+                1.1934442337180358,
+                1.3478125356355823
+              ]
+            },
+            "final_position": [
+              0.1045642545340368,
+              0.03594316298960505,
+              0.9999039443019556
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -1.0,
+              -1.0,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.0347826941989946,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.008948533165883274,
+              -0.9998187359509684,
+              -1.0000350311374722,
+              0.8003903358470217,
+              0.8001233222455099,
+              0.8003903358470217,
+              0.8001233222455099
+            ],
+            "held_contacts": [
+              "world",
+              "world"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.1097523787788126,
+                0.033162414280095816,
+                1.0000024122609963
+              ],
+              "contacts": [
+                "world",
+                "right_wrist_yaw_link",
+                "right_hand_thumb_1_link",
+                "right_hand_thumb_2_link",
+                "right_hand_middle_0_link",
+                "right_hand_index_0_link"
+              ],
+              "joints": [
+                0.007542646980410972,
+                -0.5677975829605707,
+                -0.8328378237128434,
+                0.7681593673119478,
+                0.7999178445641671,
+                0.7671503448005128,
+                0.800059611771327
+              ]
+            },
+            "final_position": [
+              0.4217739928748869,
+              0.14898615087280073,
+              0.9748578470022292
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -1.0,
+              -1.0,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.03668876156437839,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.008948542052479264,
+              -0.9998191747786356,
+              -1.0000348886014505,
+              1.2004630558127933,
+              1.2000900861858264,
+              1.2004630558127933,
+              1.2000900861858264
+            ],
+            "held_contacts": [
+              "world",
+              "world"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.10212126190816263,
+                0.03452698887382497,
+                0.999998157835008
+              ],
+              "contacts": [
+                "world",
+                "right_wrist_yaw_link",
+                "right_hand_thumb_1_link",
+                "right_hand_thumb_2_link",
+                "right_hand_middle_0_link",
+                "right_hand_index_0_link"
+              ],
+              "joints": [
+                0.0003146751471843982,
+                -0.4664126651541811,
+                -0.9086711991435726,
+                1.096567878148767,
+                1.1997427004847652,
+                1.0957377150305891,
+                1.200228742676099
+              ]
+            },
+            "final_position": [
+              -0.7990304875726784,
+              -1.4236480087086292,
+              0.9748578470022292
+            ]
+          },
+          {
+            "success": true,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -1.0,
+              -1.0,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": 0.13140263585374234,
+            "opposed_contact": true,
+            "released": true,
+            "held_joints": [
+              0.0012329100565326122,
+              -0.45459604380861535,
+              -0.9607183436903134,
+              1.212610450676053,
+              1.3409056144102256,
+              1.2058123557145641,
+              1.347143869906943
+            ],
+            "held_contacts": [
+              "right_wrist_yaw_link",
+              "right_hand_thumb_1_link",
+              "right_hand_thumb_2_link",
+              "right_hand_middle_0_link",
+              "right_hand_middle_1_link",
+              "right_hand_index_0_link",
+              "right_hand_index_1_link"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.09749056381555647,
+                0.032333970746190516,
+                1.0000349541728448
+              ],
+              "contacts": [
+                "right_wrist_yaw_link",
+                "right_hand_thumb_1_link",
+                "right_hand_thumb_2_link",
+                "right_hand_middle_0_link",
+                "right_hand_middle_1_link",
+                "right_hand_index_0_link",
+                "right_hand_index_1_link"
+              ],
+              "joints": [
+                0.0004332805164639743,
+                -0.44976468754553445,
+                -0.9617809825256518,
+                1.206726553906958,
+                1.3436078044059077,
+                1.203729226671635,
+                1.346527703002327
+              ]
+            },
+            "final_position": [
+              0.10339839185298111,
+              0.03606123234931998,
+              0.9999039359434859
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -1.0,
+              -1.3,
+              0.8,
+              0.8,
+              0.8,
+              0.8
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.0359735631179986,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.008691235554456892,
+              -0.9998352491132217,
+              -1.3000628834851922,
+              0.8003903488552779,
+              0.8001233236254234,
+              0.8003903488600959,
+              0.8001233236254295
+            ],
+            "held_contacts": [
+              "world",
+              "world"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.10881622463172917,
+                0.03235890332445212,
+                1.0000251331207028
+              ],
+              "contacts": [
+                "right_wrist_yaw_link",
+                "right_hand_thumb_2_link",
+                "right_hand_middle_0_link",
+                "right_hand_index_0_link"
+              ],
+              "joints": [
+                0.005788980433314142,
+                -0.47750800298770213,
+                -1.0835513456605816,
+                0.7695089283591493,
+                0.7999886769293121,
+                0.7696517886692038,
+                0.7998992567543474
+              ]
+            },
+            "final_position": [
+              -0.05716694461448344,
+              -0.13667998638161552,
+              0.9748578470022292
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -1.0,
+              -1.3,
+              1.2,
+              1.2,
+              1.2,
+              1.2
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.03758354875761294,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.008691244971990893,
+              -0.999835668702718,
+              -1.3000627050466744,
+              1.2004630737146995,
+              1.200090086554387,
+              1.2004630737146995,
+              1.200090086554387
+            ],
+            "held_contacts": [
+              "world",
+              "world"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.10059073585089848,
+                0.034068601337334685,
+                0.9999947042557447
+              ],
+              "contacts": [
+                "world",
+                "right_wrist_yaw_link",
+                "right_hand_thumb_1_link",
+                "right_hand_thumb_2_link",
+                "right_hand_middle_0_link",
+                "right_hand_index_0_link"
+              ],
+              "joints": [
+                0.000493390996798682,
+                -0.39918621770934043,
+                -1.1330153127536218,
+                1.1228682087615527,
+                1.1998905019455732,
+                1.122919641987936,
+                1.200078585934127
+              ]
+            },
+            "final_position": [
+              -0.726607287360612,
+              -0.9978016989228724,
+              0.9748578470022292
+            ]
+          },
+          {
+            "success": false,
+            "scope": "prescribed wrist contact-only bench, not mobile qualification",
+            "hold_seconds": 40.0,
+            "sway_m": 0.01,
+            "sway_hz": 1.5,
+            "grip_kp": 3.0,
+            "grip_kd": 0.08,
+            "side": "right",
+            "x": 0.135,
+            "y": 0.04,
+            "radius": 0.02,
+            "mass": 0.08,
+            "grip": [
+              0.0,
+              -1.0,
+              -1.3,
+              1.5,
+              1.5,
+              1.5,
+              1.5
+            ],
+            "object_shape": "cylinder",
+            "object_constraints": 0,
+            "object_external_force": false,
+            "minimum_held_lift_m": -0.02925053509613984,
+            "opposed_contact": false,
+            "released": true,
+            "held_joints": [
+              0.008691245512742227,
+              -0.9998356926155525,
+              -1.3000626947151206,
+              1.5004518152898463,
+              1.500027488361422,
+              1.5004518152898463,
+              1.500027488361422
+            ],
+            "held_contacts": [
+              "world",
+              "world"
+            ],
+            "prelift": {
+              "time": 2.901999999999902,
+              "position": [
+                0.09660393028423912,
+                0.0320950616952559,
+                1.0000360653142721
+              ],
+              "contacts": [
+                "right_wrist_yaw_link",
+                "right_hand_thumb_1_link",
+                "right_hand_thumb_2_link",
+                "right_hand_middle_0_link",
+                "right_hand_middle_1_link",
+                "right_hand_index_0_link",
+                "right_hand_index_1_link"
+              ],
+              "joints": [
+                0.002732494233285001,
+                -0.39422362916408915,
+                -1.2000421943024158,
+                1.2194636339021714,
+                1.347117750976972,
+                1.2213807349270447,
+                1.3454412440238723
+              ]
+            },
+            "final_position": [
+              0.057825373931478186,
+              -0.1085694140829859,
+              0.9748578470022292
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261021/right_hold40_static.json",
+      "sha256": "6091630c181172787df5aaabdc96bd4d0e56f20b7e017d847d4d803a902161af",
+      "data": {
+        "success": false,
+        "scope": "prescribed wrist contact-only bench, not mobile qualification",
+        "hold_seconds": 40.0,
+        "sway_m": 0.0,
+        "sway_hz": 1.5,
+        "grip_kp": 3.0,
+        "grip_kd": 0.08,
+        "side": "right",
+        "x": 0.135,
+        "y": 0.04,
+        "radius": 0.02,
+        "mass": 0.08,
+        "grip": [
+          0.0,
+          -0.75,
+          -0.9,
+          1.2,
+          1.2,
+          1.2,
+          1.2
+        ],
+        "object_shape": "cylinder",
+        "object_constraints": 0,
+        "object_external_force": false,
+        "minimum_held_lift_m": -0.02900884600105902,
+        "opposed_contact": false,
+        "released": true,
+        "held_joints": [
+          0.00746374017837819,
+          -0.7500545147385338,
+          -0.899999817167332,
+          1.199999999999994,
+          1.1999999999999962,
+          1.200000000000006,
+          1.2000000000000037
+        ],
+        "held_contacts": [
+          "world",
+          "world"
+        ],
+        "prelift": {
+          "time": 2.901999999999902,
+          "position": [
+            0.10187411501953907,
+            0.03533746101900349,
+            1.0000284181926968
+          ],
+          "contacts": [
+            "world",
+            "right_wrist_yaw_link",
+            "right_hand_thumb_1_link",
+            "right_hand_thumb_2_link",
+            "right_hand_middle_0_link",
+            "right_hand_middle_1_link",
+            "right_hand_index_0_link",
+            "right_hand_index_1_link"
+          ],
+          "joints": [
+            0.0006817571386404095,
+            -0.4331103077290803,
+            -0.8563831808514084,
+            1.1102861152077266,
+            1.1984752032955306,
+            1.108375083882324,
+            1.1985906142968268
+          ]
+        },
+        "final_position": [
+          -0.011851089905094186,
+          -0.2864534249093835,
+          0.9748578470022292
+        ]
+      }
+    },
+    {
+      "path": "ros2_ws/src/dynamic_obstacle_benchmarks/results/dex3_contact_20261021/right_hold40_sway10mm.json",
+      "sha256": "023a7993583c1de056235bcdc7e924c173029ed023cacb31b30c5d5e7a3c38c4",
+      "data": {
+        "success": false,
+        "scope": "prescribed wrist contact-only bench, not mobile qualification",
+        "hold_seconds": 40.0,
+        "sway_m": 0.01,
+        "sway_hz": 1.5,
+        "grip_kp": 3.0,
+        "grip_kd": 0.08,
+        "side": "right",
+        "x": 0.135,
+        "y": 0.04,
+        "radius": 0.02,
+        "mass": 0.08,
+        "grip": [
+          0.0,
+          -0.75,
+          -0.9,
+          1.2,
+          1.2,
+          1.2,
+          1.2
+        ],
+        "object_shape": "cylinder",
+        "object_constraints": 0,
+        "object_external_force": false,
+        "minimum_held_lift_m": -0.02852674069371386,
+        "opposed_contact": false,
+        "released": true,
+        "held_joints": [
+          0.0074532652482263186,
+          -0.7497158452702477,
+          -0.8999982236568996,
+          1.2004626897791986,
+          1.2000900786476063,
+          1.2004626897791986,
+          1.2000900786476063
+        ],
+        "held_contacts": [
+          "world",
+          "world"
+        ],
+        "prelift": {
+          "time": 2.901999999999902,
+          "position": [
+            0.10187411501953907,
+            0.03533746101900349,
+            1.0000284181926968
+          ],
+          "contacts": [
+            "world",
+            "right_wrist_yaw_link",
+            "right_hand_thumb_1_link",
+            "right_hand_thumb_2_link",
+            "right_hand_middle_0_link",
+            "right_hand_middle_1_link",
+            "right_hand_index_0_link",
+            "right_hand_index_1_link"
+          ],
+          "joints": [
+            0.0006817571386404095,
+            -0.4331103077290803,
+            -0.8563831808514084,
+            1.1102861152077266,
+            1.1984752032955306,
+            1.108375083882324,
+            1.1985906142968268
+          ]
+        },
+        "final_position": [
+          0.0034266725191066686,
+          -0.2914093604151123,
+          0.9748578470022292
+        ]
+      }
+    }
+  ],
+  "ros_dds_checks": [],
+  "mobile_attempts": [
+    {
+      "run": "dex3_contact_delivery_fixedcarry_20261021",
+      "world": "transport_dual",
+      "people": 0,
+      "layout_seed": null,
+      "seed": 42,
+      "objective": {
+        "pairs": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red"
+          }
+        ],
+        "task_seed": null,
+        "mode": "red:red",
+        "description": "Put the red object on the red goal"
+      },
+      "policy": "vendor/mjlab/logs/payload_training/interpolation_0.95_20261019/policy.onnx",
+      "policy_sha256": "f1e34f3673f48e9eabe2c43d20275ccb3d4ab8589e9ec60de465187da268506f",
+      "configuration": {
+        "policy_device_clock": "true",
+        "numeric_thread_environment": {},
+        "application_timing": "false",
+        "arm_executor_threads": "2",
+        "arm_repeat_period": "0.0",
+        "slam_loop_closing": "true",
+        "tracker_body_wall_sheets": true,
+        "predictive_refuge": false,
+        "early_overtaking_avoidance": false,
+        "navigation_profile_sha256": "7e15970996e71a99133c8590b36cacf937ba14d8705e972f66b1f8385b31a653"
+      },
+      "success": false,
+      "mission_complete": false,
+      "data_valid": true,
+      "artifact_complete": true,
+      "fallen": false,
+      "contacts": 0,
+      "error": "physical grasp contact lost or stale",
+      "minimum_person_clearance_m": null,
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_red",
+          "color": "red",
+          "destination_color": "red",
+          "verified": false,
+          "lift_m": 0.15535743378987055,
+          "travel_m": 0.39212389612116316
+        }
+      ],
+      "dropped_objects": [
+        "box_red"
+      ],
+      "attachment_state": "uncertain",
+      "object_may_be_held": true,
+      "completion_s": null,
+      "last_recorded_event_s": 98.82259821798652,
+      "deadline_s": 420.0,
+      "search": null,
+      "discoveries": [],
+      "placement_alignment": [],
+      "workspace_recovery_events": [],
+      "route_blockage": {},
+      "result_sha256": "09c44c024ee5d65fb413c725bb4a51415c9bc32aa103befc3941f7a8d76fe9df",
+      "manifest_sha256": "57c35674cedb2e788f5832d709abe7fe37d8f08f96eed7ad1a1161176f176d1a",
+      "source_archive_sha256": "2cb0826f293782a8af285d5c83966c036684f22df3a4b13b429d7e59e4c374d3",
+      "effective_parameters_sha256": "710c21e126fe1da7bf65f06a09f5f84e819e59c403a9e9ca79d4c6a02a9fa87a",
+      "runtime_metrics": {
+        "command_receipt_age_at_target_publish_s": {
+          "count": 4101,
+          "min": 0.004522085189819336,
+          "median": 0.019769906997680664,
+          "p95": 0.037763357162475586,
+          "p99": 0.04886317253112793,
+          "max": 0.06972646713256836
+        },
+        "escape_worker_submit_to_complete_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_receive_to_callback_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_source_to_callback_ms": {
+          "count": 4101,
+          "min": 1.0952949523925781,
+          "median": 3.2405853271484375,
+          "p95": 7.163047790527344,
+          "p99": 10.059356689453125,
+          "max": 14.298677444458008
+        },
+        "lowstate_dds_source_to_target_publish_ms": {
+          "count": 4101,
+          "min": 4.253625869750977,
+          "median": 11.562108993530273,
+          "p95": 23.486852645874023,
+          "p99": 31.299352645874023,
+          "max": 46.05245590209961
+        },
+        "lowstate_receipt_age_at_target_publish_s": {
+          "count": 4101,
+          "min": 0.002515102969482541,
+          "median": 0.008121802937239408,
+          "p95": 0.018423221074044704,
+          "p99": 0.026488114963285625,
+          "max": 0.040195503970608115
+        },
+        "odom_source_age_at_logger_receipt_s": {
+          "count": 1242,
+          "min": 0.0461423397064209,
+          "median": 0.09947800636291504,
+          "p95": 0.14211997985839844,
+          "p99": 0.16207919836044307,
+          "max": 0.21637320518493652
+        },
+        "planner_thread_ms": {
+          "count": 2024,
+          "min": 0.491,
+          "median": 4.2395,
+          "p95": 11.85555,
+          "p99": 13.17701,
+          "max": 15.139
+        },
+        "planner_wall_active_ms": {
+          "count": 1259,
+          "min": 1.284,
+          "median": 7.759,
+          "p95": 14.155,
+          "p99": 22.007740000000048,
+          "max": 43.873
+        },
+        "planner_wall_ms": {
+          "count": 2024,
+          "min": 0.489,
+          "median": 4.683,
+          "p95": 13.04785,
+          "p99": 19.518839999999983,
+          "max": 43.873
+        },
+        "policy_cmd_source_age_at_logger_receipt_s": {
+          "count": 4275,
+          "min": 0.0005156993865966797,
+          "median": 0.0019266605377197266,
+          "p95": 0.00822584629058837,
+          "p99": 0.014845852851867682,
+          "max": 0.02902531623840332
+        },
+        "policy_complete_to_publish_ms": {
+          "count": 4101,
+          "min": 0.4694770323112607,
+          "median": 1.018358045257628,
+          "p95": 4.026798997074366,
+          "p99": 6.771855056285858,
+          "max": 18.81735399365425
+        },
+        "policy_observation_interval_ms": {
+          "count": 4101,
+          "min": 20.0,
+          "median": 22.0,
+          "p95": 28.0,
+          "p99": 32.0,
+          "max": 48.0
+        },
+        "policy_observation_interval_over_period": {
+          "count": 4101,
+          "min": 1.0,
+          "median": 1.0999999999999999,
+          "p95": 1.4,
+          "p99": 1.6,
+          "max": 2.4
+        },
+        "policy_submit_to_complete_ms": {
+          "count": 4101,
+          "min": 0.9266790002584457,
+          "median": 4.87199192866683,
+          "p95": 13.437713030725718,
+          "p99": 19.546605995856225,
+          "max": 37.40408201701939
+        },
+        "policy_submit_to_publish_ms": {
+          "count": 4101,
+          "min": 1.6644230345264077,
+          "median": 6.342083099298179,
+          "p95": 15.563206048682332,
+          "p99": 23.48193689249456,
+          "max": 38.203511969186366
+        },
+        "prediction_age_at_command_publish_s": {
+          "count": 1919,
+          "min": 0.11988401412963867,
+          "median": 0.2528035640716553,
+          "p95": 0.3255877494812011,
+          "p99": 0.3577254629135131,
+          "max": 0.424147367477417
+        },
+        "prediction_age_at_planning_snapshot_s": {
+          "count": 1919,
+          "min": 0.1193,
+          "median": 0.2519,
+          "p95": 0.32441000000000003,
+          "p99": 0.3558019999999999,
+          "max": 0.4233
+        },
+        "rtf_monotonic_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "rtf_ros_legacy_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "scan_age_at_command_publish_s": {
+          "count": 1919,
+          "min": 0.082,
+          "median": 0.17,
+          "p95": 0.239,
+          "p99": 0.2746399999999999,
+          "max": 0.421
+        },
+        "scan_age_at_planning_snapshot_s": {
+          "count": 1919,
+          "min": 0.08,
+          "median": 0.169,
+          "p95": 0.237,
+          "p99": 0.2736399999999999,
+          "max": 0.421
+        },
+        "scoring_candidate_total_ms": {
+          "count": 1257,
+          "min": 1.031,
+          "median": 5.669,
+          "p95": 10.479400000000002,
+          "p99": 17.815160000000017,
+          "max": 33.407
+        },
+        "scoring_rollout_ms": {
+          "count": 1257,
+          "min": 0.273,
+          "median": 0.728,
+          "p95": 0.8532000000000003,
+          "p99": 2.593760000000021,
+          "max": 6.928
+        },
+        "scoring_static_ms": {
+          "count": 1257,
+          "min": 0.617,
+          "median": 4.931,
+          "p95": 9.278000000000002,
+          "p99": 14.976080000000014,
+          "max": 32.299
+        },
+        "supervisor_escape_control_path_ms": {
+          "count": 5039,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "supervisor_input_age_s": {
+          "count": 5006,
+          "min": 0.002,
+          "median": 0.031,
+          "p95": 0.05775,
+          "p99": 0.067,
+          "max": 0.118
+        },
+        "supervisor_predictive_search_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "supervisor_tick_interval_ms": {
+          "count": 5038,
+          "min": 2.841448993422091,
+          "median": 19.985432969406247,
+          "p95": 27.862330013886094,
+          "p99": 35.49891879200005,
+          "max": 49.0985659416765
+        },
+        "supervisor_tick_to_publication_ms": {
+          "count": 5039,
+          "min": 0.23211503867059946,
+          "median": 0.9792600758373737,
+          "p95": 4.40146669279783,
+          "p99": 6.914722931105642,
+          "max": 24.60361400153488
+        },
+        "tracks_age_at_command_publish_s": {
+          "count": 1919,
+          "min": 0.11988401412963867,
+          "median": 0.25235652923583984,
+          "p95": 0.3250256776809692,
+          "p99": 0.3577254629135131,
+          "max": 0.424147367477417
+        },
+        "tracks_age_at_planning_snapshot_s": {
+          "count": 1919,
+          "min": 0.1193,
+          "median": 0.2515,
+          "p95": 0.32413,
+          "p99": 0.3558019999999999,
+          "max": 0.4233
+        }
+      },
+      "policy_hold_events": [
+        {
+          "sequence": 1,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792566440.1302955,
+          "monotonic_s": 759887.31872176,
+          "device_tick_ms": 0,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        },
+        {
+          "sequence": 2,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792566440.3283584,
+          "monotonic_s": 759887.516786406,
+          "device_tick_ms": 2,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        },
+        {
+          "sequence": 3,
+          "state": "policy_result_stale_hold",
+          "recovery_kind": "validated_target_hold",
+          "stamp": 1792566458.6119394,
+          "monotonic_s": 759905.800358369,
+          "device_tick_ms": 17794,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.55
+          ],
+          "action_norm_before_hold": 2.174739764781628,
+          "measured_tilt_rad": 0.07974273711442947,
+          "target_jump_rad": 0.0,
+          "history_reset": false
+        }
+      ],
+      "command_application": {},
+      "command_application_sha256": null
+    },
+    {
+      "run": "dex3_contact_delivery_grip3_20261021",
+      "world": "transport_dual",
+      "people": 0,
+      "layout_seed": null,
+      "seed": 42,
+      "objective": {
+        "pairs": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red"
+          }
+        ],
+        "task_seed": null,
+        "mode": "red:red",
+        "description": "Put the red object on the red goal"
+      },
+      "policy": "vendor/mjlab/logs/payload_training/interpolation_0.95_20261019/policy.onnx",
+      "policy_sha256": "f1e34f3673f48e9eabe2c43d20275ccb3d4ab8589e9ec60de465187da268506f",
+      "configuration": {
+        "policy_device_clock": "true",
+        "numeric_thread_environment": {},
+        "application_timing": "false",
+        "arm_executor_threads": "2",
+        "arm_repeat_period": "0.0",
+        "slam_loop_closing": "true",
+        "tracker_body_wall_sheets": true,
+        "predictive_refuge": false,
+        "early_overtaking_avoidance": false,
+        "navigation_profile_sha256": "7e15970996e71a99133c8590b36cacf937ba14d8705e972f66b1f8385b31a653"
+      },
+      "success": false,
+      "mission_complete": false,
+      "data_valid": true,
+      "artifact_complete": true,
+      "fallen": false,
+      "contacts": 0,
+      "error": "precision docking failed",
+      "minimum_person_clearance_m": null,
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_red",
+          "color": "red",
+          "destination_color": "red",
+          "verified": false,
+          "lift_m": 0.0,
+          "travel_m": 6.320244864418141e-05
+        }
+      ],
+      "dropped_objects": [],
+      "attachment_state": "empty",
+      "object_may_be_held": false,
+      "completion_s": null,
+      "last_recorded_event_s": 58.27911229606252,
+      "deadline_s": 420.0,
+      "search": null,
+      "discoveries": [],
+      "placement_alignment": [],
+      "workspace_recovery_events": [],
+      "route_blockage": {},
+      "result_sha256": "c908b69238a6d1da68a79a1d26c7ec7c295d44c880a2c4a53ada464830ebd036",
+      "manifest_sha256": "49a281d82b029a23b14a90232f64cfe77f2d01ec84b2d1bd3ddcafd3cb39adec",
+      "source_archive_sha256": "6f6beb9bf0171b684091143ddeb0a06c133fbbabe3ee2d487da29945b38fe13f",
+      "effective_parameters_sha256": "85bf9a3f4b81fe089dcfd2f1b56cfc2cc05caa315453043765fc62b802e3d345",
+      "runtime_metrics": {
+        "command_receipt_age_at_target_publish_s": {
+          "count": 5064,
+          "min": 0.004150867462158203,
+          "median": 0.01961970329284668,
+          "p95": 0.037777590751647876,
+          "p99": 0.04836824893951416,
+          "max": 0.08430171012878418
+        },
+        "escape_worker_submit_to_complete_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_receive_to_callback_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_source_to_callback_ms": {
+          "count": 5064,
+          "min": 1.1413097381591797,
+          "median": 3.1450986862182617,
+          "p95": 6.859636306762692,
+          "p99": 10.037584304809567,
+          "max": 23.835420608520508
+        },
+        "lowstate_dds_source_to_target_publish_ms": {
+          "count": 5064,
+          "min": 4.113435745239258,
+          "median": 11.377453804016113,
+          "p95": 22.522568702697736,
+          "p99": 30.264790058135976,
+          "max": 59.598684310913086
+        },
+        "lowstate_receipt_age_at_target_publish_s": {
+          "count": 5064,
+          "min": 0.0025769060011953115,
+          "median": 0.00812111998675391,
+          "p95": 0.017887140891980378,
+          "p99": 0.024705119986319895,
+          "max": 0.0533396570244804
+        },
+        "odom_source_age_at_logger_receipt_s": {
+          "count": 1616,
+          "min": 0.04711103439331055,
+          "median": 0.1035912036895752,
+          "p95": 0.13723474740982056,
+          "p99": 0.15521423816680902,
+          "max": 0.19975543022155762
+        },
+        "planner_thread_ms": {
+          "count": 2389,
+          "min": 0.45,
+          "median": 6.171,
+          "p95": 11.7312,
+          "p99": 13.222559999999998,
+          "max": 15.92
+        },
+        "planner_wall_active_ms": {
+          "count": 1817,
+          "min": 1.317,
+          "median": 8.616,
+          "p95": 13.612199999999998,
+          "p99": 19.38959999999995,
+          "max": 30.179
+        },
+        "planner_wall_ms": {
+          "count": 2389,
+          "min": 0.45,
+          "median": 6.513,
+          "p95": 13.110199999999997,
+          "p99": 18.21731999999999,
+          "max": 30.179
+        },
+        "policy_cmd_source_age_at_logger_receipt_s": {
+          "count": 5251,
+          "min": 0.0004165172576904297,
+          "median": 0.0018353462219238281,
+          "p95": 0.00837719440460205,
+          "p99": 0.014007091522216797,
+          "max": 0.03183722496032715
+        },
+        "policy_complete_to_publish_ms": {
+          "count": 5064,
+          "min": 0.47608395107090473,
+          "median": 1.0046244715340436,
+          "p95": 4.031022527487948,
+          "p99": 6.488704695366318,
+          "max": 18.402809975668788
+        },
+        "policy_observation_interval_ms": {
+          "count": 5064,
+          "min": 20.0,
+          "median": 22.0,
+          "p95": 28.0,
+          "p99": 32.0,
+          "max": 52.0
+        },
+        "policy_observation_interval_over_period": {
+          "count": 5064,
+          "min": 1.0,
+          "median": 1.0999999999999999,
+          "p95": 1.4,
+          "p99": 1.6,
+          "max": 2.5999999999999996
+        },
+        "policy_submit_to_complete_ms": {
+          "count": 5064,
+          "min": 0.9204170200973749,
+          "median": 4.984988539945334,
+          "p95": 13.133961538551373,
+          "p99": 19.135489158798002,
+          "max": 47.40013799164444
+        },
+        "policy_submit_to_publish_ms": {
+          "count": 5064,
+          "min": 1.6771790105849504,
+          "median": 6.421781494282186,
+          "p95": 15.113032574299723,
+          "p99": 21.577727707335725,
+          "max": 48.31481701694429
+        },
+        "prediction_age_at_command_publish_s": {
+          "count": 2299,
+          "min": 0.12334465980529785,
+          "median": 0.2555105686187744,
+          "p95": 0.32584381103515625,
+          "p99": 0.3510394763946533,
+          "max": 0.42569613456726074
+        },
+        "prediction_age_at_planning_snapshot_s": {
+          "count": 2299,
+          "min": 0.1225,
+          "median": 0.2546,
+          "p95": 0.325,
+          "p99": 0.350202,
+          "max": 0.4254
+        },
+        "rtf_monotonic_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "rtf_ros_legacy_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "scan_age_at_command_publish_s": {
+          "count": 2300,
+          "min": 0.081,
+          "median": 0.168,
+          "p95": 0.224,
+          "p99": 0.2500099999999998,
+          "max": 0.426
+        },
+        "scan_age_at_planning_snapshot_s": {
+          "count": 2300,
+          "min": 0.08,
+          "median": 0.167,
+          "p95": 0.223,
+          "p99": 0.24900999999999976,
+          "max": 0.425
+        },
+        "scoring_candidate_total_ms": {
+          "count": 1825,
+          "min": 1.051,
+          "median": 6.309,
+          "p95": 10.148,
+          "p99": 15.439919999999999,
+          "max": 25.486
+        },
+        "scoring_rollout_ms": {
+          "count": 1825,
+          "min": 0.271,
+          "median": 0.734,
+          "p95": 0.841,
+          "p99": 1.8547199999999988,
+          "max": 7.693
+        },
+        "scoring_static_ms": {
+          "count": 1825,
+          "min": 0.592,
+          "median": 5.302,
+          "p95": 9.008,
+          "p99": 14.03864,
+          "max": 23.448
+        },
+        "supervisor_escape_control_path_ms": {
+          "count": 5946,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "supervisor_input_age_s": {
+          "count": 5922,
+          "min": 0.002,
+          "median": 0.029,
+          "p95": 0.056,
+          "p99": 0.067,
+          "max": 0.091
+        },
+        "supervisor_predictive_search_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "supervisor_tick_interval_ms": {
+          "count": 5945,
+          "min": 2.6752440026029944,
+          "median": 19.99369205441326,
+          "p95": 27.544478606432676,
+          "p99": 34.93322604801507,
+          "max": 63.75007308088243
+        },
+        "supervisor_tick_to_publication_ms": {
+          "count": 5946,
+          "min": 0.19643199630081654,
+          "median": 0.9857335244305432,
+          "p95": 4.26623024395667,
+          "p99": 6.737758830422556,
+          "max": 18.21102504618466
+        },
+        "tracks_age_at_command_publish_s": {
+          "count": 2299,
+          "min": 0.12334465980529785,
+          "median": 0.2549622058868408,
+          "p95": 0.3252850532531738,
+          "p99": 0.3510394763946533,
+          "max": 0.42569613456726074
+        },
+        "tracks_age_at_planning_snapshot_s": {
+          "count": 2299,
+          "min": 0.1225,
+          "median": 0.2541,
+          "p95": 0.32452,
+          "p99": 0.350202,
+          "max": 0.4254
+        }
+      },
+      "policy_hold_events": [
+        {
+          "sequence": 1,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792565999.679459,
+          "monotonic_s": 759446.867884777,
+          "device_tick_ms": 0,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        },
+        {
+          "sequence": 2,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792565999.896212,
+          "monotonic_s": 759447.084640169,
+          "device_tick_ms": 2,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        },
+        {
+          "sequence": 3,
+          "state": "policy_result_stale_hold",
+          "recovery_kind": "validated_target_hold",
+          "stamp": 1792566035.707825,
+          "monotonic_s": 759482.896225423,
+          "device_tick_ms": 35110,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 2.7290386333715224,
+          "measured_tilt_rad": 0.04346468299627304,
+          "target_jump_rad": 0.0,
+          "history_reset": false
+        }
+      ],
+      "command_application": {},
+      "command_application_sha256": null
+    },
+    {
+      "run": "dex3_contact_delivery_grip3_cycle05_20261021",
+      "world": "transport_dual",
+      "people": 0,
+      "layout_seed": null,
+      "seed": 42,
+      "objective": {
+        "pairs": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red"
+          }
+        ],
+        "task_seed": null,
+        "mode": "red:red",
+        "description": "Put the red object on the red goal"
+      },
+      "policy": "vendor/mjlab/logs/payload_training/native_contact_cycle_05_20261012/policy.onnx",
+      "policy_sha256": "4582897893b9730781b2e2ddd682eb312479184b636582efb4f67d59fc338c6c",
+      "configuration": {
+        "policy_device_clock": "true",
+        "numeric_thread_environment": {},
+        "application_timing": "false",
+        "arm_executor_threads": "2",
+        "arm_repeat_period": "0.0",
+        "slam_loop_closing": "true",
+        "tracker_body_wall_sheets": true,
+        "predictive_refuge": false,
+        "early_overtaking_avoidance": false,
+        "navigation_profile_sha256": "3c20b55a91b027dcdcf65bc8b01493bd6206b3b3348a94b00d895d6c6f018ff1"
+      },
+      "success": false,
+      "mission_complete": false,
+      "data_valid": true,
+      "artifact_complete": true,
+      "fallen": false,
+      "contacts": 0,
+      "error": "precision docking failed",
+      "minimum_person_clearance_m": null,
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_red",
+          "color": "red",
+          "destination_color": "red",
+          "verified": false,
+          "lift_m": 0.0,
+          "travel_m": 6.247328318167566e-05
+        }
+      ],
+      "dropped_objects": [],
+      "attachment_state": "empty",
+      "object_may_be_held": false,
+      "completion_s": null,
+      "last_recorded_event_s": 100.89426586998161,
+      "deadline_s": 420.0,
+      "search": null,
+      "discoveries": [],
+      "placement_alignment": [],
+      "workspace_recovery_events": [],
+      "route_blockage": {},
+      "result_sha256": "1c30cb0f9720e27c002c54b8717cbbae10d44b503c58ce659f0ce06958bd4312",
+      "manifest_sha256": "b949897a1ac006bf79130167faf233393c6cb7ce8d7f7a525d6bafbfa7c64ac6",
+      "source_archive_sha256": "6a03d459f7ddcc9ada69950b48382767fdee3239e3691b8728fac88248ea505d",
+      "effective_parameters_sha256": "d083b4ed4fb4fd6833a0aed35965ea0c6e81efd72c7b72c93ccac966aa90c08a",
+      "runtime_metrics": {
+        "command_receipt_age_at_target_publish_s": {
+          "count": 5267,
+          "min": 0.004328250885009766,
+          "median": 0.020221948623657227,
+          "p95": 0.03818497657775879,
+          "p99": 0.05039452075958255,
+          "max": 0.09208822250366211
+        },
+        "escape_worker_submit_to_complete_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_receive_to_callback_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_source_to_callback_ms": {
+          "count": 5267,
+          "min": 1.1181831359863281,
+          "median": 3.1828880310058594,
+          "p95": 7.282066345214844,
+          "p99": 11.193370819091806,
+          "max": 22.416353225708008
+        },
+        "lowstate_dds_source_to_target_publish_ms": {
+          "count": 5267,
+          "min": 3.9472579956054688,
+          "median": 11.34634017944336,
+          "p95": 23.815703392028805,
+          "p99": 32.347807884216316,
+          "max": 47.14345932006836
+        },
+        "lowstate_receipt_age_at_target_publish_s": {
+          "count": 5267,
+          "min": 0.0025658069644123316,
+          "median": 0.00808043300639838,
+          "p95": 0.01908381468383595,
+          "p99": 0.026128433744888765,
+          "max": 0.04057627299334854
+        },
+        "odom_source_age_at_logger_receipt_s": {
+          "count": 1594,
+          "min": 0.04911661148071289,
+          "median": 0.08759069442749023,
+          "p95": 0.14238520860671997,
+          "p99": 0.16204587697982778,
+          "max": 0.21855854988098145
+        },
+        "planner_thread_ms": {
+          "count": 2508,
+          "min": 0.454,
+          "median": 4.6645,
+          "p95": 12.44065,
+          "p99": 13.74151,
+          "max": 15.208
+        },
+        "planner_wall_active_ms": {
+          "count": 1761,
+          "min": 1.012,
+          "median": 8.199,
+          "p95": 15.298,
+          "p99": 24.250000000000007,
+          "max": 44.411
+        },
+        "planner_wall_ms": {
+          "count": 2508,
+          "min": 0.477,
+          "median": 5.5305,
+          "p95": 14.153250000000003,
+          "p99": 23.126089999999998,
+          "max": 44.411
+        },
+        "policy_cmd_source_age_at_logger_receipt_s": {
+          "count": 5487,
+          "min": 0.0004794597625732422,
+          "median": 0.0018949508666992188,
+          "p95": 0.00898761749267578,
+          "p99": 0.016902837753295943,
+          "max": 0.046933889389038086
+        },
+        "policy_complete_to_publish_ms": {
+          "count": 5267,
+          "min": 0.45205000787973404,
+          "median": 0.9957479778677225,
+          "p95": 4.016798618249593,
+          "p99": 6.6987850656732935,
+          "max": 23.171477019786835
+        },
+        "policy_observation_interval_ms": {
+          "count": 5267,
+          "min": 20.0,
+          "median": 22.0,
+          "p95": 28.0,
+          "p99": 34.0,
+          "max": 64.0
+        },
+        "policy_observation_interval_over_period": {
+          "count": 5267,
+          "min": 1.0,
+          "median": 1.0999999999999999,
+          "p95": 1.4,
+          "p99": 1.7000000000000002,
+          "max": 3.2
+        },
+        "policy_submit_to_complete_ms": {
+          "count": 5267,
+          "min": 1.0083719389513135,
+          "median": 4.906627000309527,
+          "p95": 13.900184724479914,
+          "p99": 20.200825692154517,
+          "max": 32.432637992314994
+        },
+        "policy_submit_to_publish_ms": {
+          "count": 5267,
+          "min": 1.6606609569862485,
+          "median": 6.373148993588984,
+          "p95": 16.037917847279456,
+          "p99": 23.082202679943297,
+          "max": 37.93505299836397
+        },
+        "prediction_age_at_command_publish_s": {
+          "count": 2430,
+          "min": 0.12695980072021484,
+          "median": 0.24092614650726318,
+          "p95": 0.3222215890884399,
+          "p99": 0.361521224975586,
+          "max": 0.5048816204071045
+        },
+        "prediction_age_at_planning_snapshot_s": {
+          "count": 2430,
+          "min": 0.1263,
+          "median": 0.23995,
+          "p95": 0.3207649999999999,
+          "p99": 0.359252,
+          "max": 0.5041
+        },
+        "rtf_monotonic_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "rtf_ros_legacy_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "scan_age_at_command_publish_s": {
+          "count": 2431,
+          "min": 0.072,
+          "median": 0.161,
+          "p95": 0.2355,
+          "p99": 0.273,
+          "max": 0.402
+        },
+        "scan_age_at_planning_snapshot_s": {
+          "count": 2431,
+          "min": 0.071,
+          "median": 0.16,
+          "p95": 0.2345,
+          "p99": 0.27269999999999983,
+          "max": 0.401
+        },
+        "scoring_candidate_total_ms": {
+          "count": 1760,
+          "min": 1.089,
+          "median": 6.146,
+          "p95": 11.725649999999998,
+          "p99": 19.84466000000001,
+          "max": 30.864
+        },
+        "scoring_rollout_ms": {
+          "count": 1760,
+          "min": 0.325,
+          "median": 0.981,
+          "p95": 1.1481999999999997,
+          "p99": 4.085480000000002,
+          "max": 13.628
+        },
+        "scoring_static_ms": {
+          "count": 1760,
+          "min": 0.578,
+          "median": 5.028499999999999,
+          "p95": 10.352,
+          "p99": 17.381080000000033,
+          "max": 29.413
+        },
+        "supervisor_escape_control_path_ms": {
+          "count": 6245,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "supervisor_input_age_s": {
+          "count": 6186,
+          "min": 0.002,
+          "median": 0.031,
+          "p95": 0.058,
+          "p99": 0.068,
+          "max": 0.099
+        },
+        "supervisor_predictive_search_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "supervisor_tick_interval_ms": {
+          "count": 6244,
+          "min": 3.121707937680185,
+          "median": 20.000185526441783,
+          "p95": 27.60761529789303,
+          "p99": 35.451420571189374,
+          "max": 80.54275705944747
+        },
+        "supervisor_tick_to_publication_ms": {
+          "count": 6245,
+          "min": 0.16002089250832796,
+          "median": 1.0336409322917461,
+          "p95": 4.428678425028913,
+          "p99": 6.785106146708129,
+          "max": 16.426793998107314
+        },
+        "tracks_age_at_command_publish_s": {
+          "count": 2430,
+          "min": 0.10929083824157715,
+          "median": 0.23996925354003906,
+          "p95": 0.3217373967170715,
+          "p99": 0.3602019190788269,
+          "max": 0.5048816204071045
+        },
+        "tracks_age_at_planning_snapshot_s": {
+          "count": 2430,
+          "min": 0.1087,
+          "median": 0.2391,
+          "p95": 0.32050999999999996,
+          "p99": 0.35816800000000004,
+          "max": 0.5041
+        }
+      },
+      "policy_hold_events": [
+        {
+          "sequence": 1,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792566165.8843112,
+          "monotonic_s": 759613.072743738,
+          "device_tick_ms": 0,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        },
+        {
+          "sequence": 2,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792566166.1062067,
+          "monotonic_s": 759613.294630126,
+          "device_tick_ms": 2,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        }
+      ],
+      "command_application": {},
+      "command_application_sha256": null
+    },
+    {
+      "run": "dex3_contact_delivery_longhold_20261021",
+      "world": "transport_dual",
+      "people": 0,
+      "layout_seed": null,
+      "seed": 42,
+      "objective": {
+        "pairs": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red"
+          }
+        ],
+        "task_seed": null,
+        "mode": "red:red",
+        "description": "Put the red object on the red goal"
+      },
+      "policy": "vendor/mjlab/logs/payload_training/interpolation_0.95_20261019/policy.onnx",
+      "policy_sha256": "f1e34f3673f48e9eabe2c43d20275ccb3d4ab8589e9ec60de465187da268506f",
+      "configuration": {
+        "policy_device_clock": "true",
+        "numeric_thread_environment": {},
+        "application_timing": "false",
+        "arm_executor_threads": "2",
+        "arm_repeat_period": "0.0",
+        "slam_loop_closing": "true",
+        "tracker_body_wall_sheets": true,
+        "predictive_refuge": false,
+        "early_overtaking_avoidance": false,
+        "navigation_profile_sha256": "7e15970996e71a99133c8590b36cacf937ba14d8705e972f66b1f8385b31a653"
+      },
+      "success": false,
+      "mission_complete": false,
+      "data_valid": true,
+      "artifact_complete": true,
+      "fallen": false,
+      "contacts": 0,
+      "error": "retreat clearance not reached",
+      "minimum_person_clearance_m": null,
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_red",
+          "color": "red",
+          "destination_color": "red",
+          "verified": false,
+          "lift_m": 0.18093738099741052,
+          "travel_m": 0.2109169615294137
+        }
+      ],
+      "dropped_objects": [],
+      "attachment_state": "held",
+      "object_may_be_held": true,
+      "completion_s": null,
+      "last_recorded_event_s": 90.57371926796623,
+      "deadline_s": 420.0,
+      "search": null,
+      "discoveries": [],
+      "placement_alignment": [],
+      "workspace_recovery_events": [],
+      "route_blockage": {},
+      "result_sha256": "b8d830bd797542e43dcd6d3d2013e82a2c9946c2ac69e290c0ccda2ed47b1986",
+      "manifest_sha256": "a7010d75d123fba290c1f3eae23664564fa5cefbcf32e5abe40bc6feb917475b",
+      "source_archive_sha256": "3bef3eb830871b6530fa0a4fc7cdb2a7733cfe87b492113e09c8b8e032b91719",
+      "effective_parameters_sha256": "658f1d67f96cdbbccf124693044f34bd4b2dcdc300ac4014c4f648e76eb0f128",
+      "runtime_metrics": {
+        "command_receipt_age_at_target_publish_s": {
+          "count": 5712,
+          "min": 0.004541635513305664,
+          "median": 0.019927978515625,
+          "p95": 0.039479601383209224,
+          "p99": 0.05297274112701422,
+          "max": 0.08816218376159668
+        },
+        "escape_worker_submit_to_complete_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_receive_to_callback_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_source_to_callback_ms": {
+          "count": 5712,
+          "min": 1.018524169921875,
+          "median": 3.2068490982055664,
+          "p95": 7.3538780212402335,
+          "p99": 10.98946571350098,
+          "max": 59.05342102050781
+        },
+        "lowstate_dds_source_to_target_publish_ms": {
+          "count": 5712,
+          "min": 3.475189208984375,
+          "median": 11.26253604888916,
+          "p95": 24.223744869232174,
+          "p99": 32.747492790222196,
+          "max": 87.04042434692383
+        },
+        "lowstate_receipt_age_at_target_publish_s": {
+          "count": 5712,
+          "min": 0.002325323992408812,
+          "median": 0.007967426034156233,
+          "p95": 0.019072122313082217,
+          "p99": 0.026400755303911876,
+          "max": 0.08435943897347897
+        },
+        "odom_source_age_at_logger_receipt_s": {
+          "count": 1755,
+          "min": 0.04565286636352539,
+          "median": 0.09909987449645996,
+          "p95": 0.14275610446929932,
+          "p99": 0.16618996143341072,
+          "max": 0.21073246002197266
+        },
+        "planner_thread_ms": {
+          "count": 2768,
+          "min": 0.516,
+          "median": 4.075,
+          "p95": 11.546,
+          "p99": 13.44796,
+          "max": 14.806
+        },
+        "planner_wall_active_ms": {
+          "count": 1689,
+          "min": 1.121,
+          "median": 8.798,
+          "p95": 14.587399999999992,
+          "p99": 24.383279999999935,
+          "max": 40.14
+        },
+        "planner_wall_ms": {
+          "count": 2768,
+          "min": 0.514,
+          "median": 4.387499999999999,
+          "p95": 13.385100000000003,
+          "p99": 21.802479999999996,
+          "max": 40.14
+        },
+        "policy_cmd_source_age_at_logger_receipt_s": {
+          "count": 5947,
+          "min": 0.00041222572326660156,
+          "median": 0.0017635822296142578,
+          "p95": 0.009341239929199219,
+          "p99": 0.020306811332702637,
+          "max": 0.129927396774292
+        },
+        "policy_complete_to_publish_ms": {
+          "count": 5712,
+          "min": 0.41680503636598587,
+          "median": 0.9806440211832523,
+          "p95": 4.078065656358376,
+          "p99": 7.187742863316121,
+          "max": 56.778113008476794
+        },
+        "policy_observation_interval_ms": {
+          "count": 5712,
+          "min": 20.0,
+          "median": 22.0,
+          "p95": 28.0,
+          "p99": 36.0,
+          "max": 66.0
+        },
+        "policy_observation_interval_over_period": {
+          "count": 5712,
+          "min": 1.0,
+          "median": 1.0999999999999999,
+          "p95": 1.4,
+          "p99": 1.7999999999999998,
+          "max": 3.3000000000000003
+        },
+        "policy_submit_to_complete_ms": {
+          "count": 5712,
+          "min": 0.8328710682690144,
+          "median": 4.842635942623019,
+          "p95": 13.661612139549105,
+          "p99": 20.577878531767062,
+          "max": 37.00320201460272
+        },
+        "policy_submit_to_publish_ms": {
+          "count": 5712,
+          "min": 1.5538310399278998,
+          "median": 6.304833979811519,
+          "p95": 16.017085080966353,
+          "p99": 23.241769210435503,
+          "max": 77.36314600333571
+        },
+        "prediction_age_at_command_publish_s": {
+          "count": 2662,
+          "min": 0.10929059982299805,
+          "median": 0.24946248531341553,
+          "p95": 0.331485104560852,
+          "p99": 0.36473394870758047,
+          "max": 0.4480288028717041
+        },
+        "prediction_age_at_planning_snapshot_s": {
+          "count": 2662,
+          "min": 0.1071,
+          "median": 0.2486,
+          "p95": 0.33038999999999996,
+          "p99": 0.36376799999999987,
+          "max": 0.4452
+        },
+        "rtf_monotonic_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "rtf_ros_legacy_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "scan_age_at_command_publish_s": {
+          "count": 2662,
+          "min": 0.068,
+          "median": 0.166,
+          "p95": 0.239,
+          "p99": 0.2887799999999997,
+          "max": 0.396
+        },
+        "scan_age_at_planning_snapshot_s": {
+          "count": 2662,
+          "min": 0.067,
+          "median": 0.165,
+          "p95": 0.238,
+          "p99": 0.2875599999999995,
+          "max": 0.395
+        },
+        "scoring_candidate_total_ms": {
+          "count": 1692,
+          "min": 1.053,
+          "median": 6.0305,
+          "p95": 10.191849999999997,
+          "p99": 18.28118,
+          "max": 30.93
+        },
+        "scoring_rollout_ms": {
+          "count": 1692,
+          "min": 0.268,
+          "median": 0.737,
+          "p95": 0.8744499999999998,
+          "p99": 3.7934499999999995,
+          "max": 18.977
+        },
+        "scoring_static_ms": {
+          "count": 1692,
+          "min": 0.607,
+          "median": 5.074999999999999,
+          "p95": 8.909499999999998,
+          "p99": 15.775169999999925,
+          "max": 29.952
+        },
+        "supervisor_escape_control_path_ms": {
+          "count": 6872,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "supervisor_input_age_s": {
+          "count": 6845,
+          "min": 0.002,
+          "median": 0.031,
+          "p95": 0.058,
+          "p99": 0.07,
+          "max": 0.102
+        },
+        "supervisor_predictive_search_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "supervisor_tick_interval_ms": {
+          "count": 6871,
+          "min": 2.631134004332125,
+          "median": 20.003378042019904,
+          "p95": 27.649739000480622,
+          "p99": 34.802485129330314,
+          "max": 70.88149909395725
+        },
+        "supervisor_tick_to_publication_ms": {
+          "count": 6872,
+          "min": 0.22167491260915995,
+          "median": 0.9187560062855482,
+          "p95": 4.2288312455639225,
+          "p99": 7.309559819987044,
+          "max": 27.00234903022647
+        },
+        "tracks_age_at_command_publish_s": {
+          "count": 2662,
+          "min": 0.10929059982299805,
+          "median": 0.2491438388824463,
+          "p95": 0.331485104560852,
+          "p99": 0.36473394870758047,
+          "max": 0.4480288028717041
+        },
+        "tracks_age_at_planning_snapshot_s": {
+          "count": 2662,
+          "min": 0.1071,
+          "median": 0.2482,
+          "p95": 0.33038999999999996,
+          "p99": 0.36376799999999987,
+          "max": 0.4452
+        }
+      },
+      "policy_hold_events": [
+        {
+          "sequence": 1,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792566746.2131946,
+          "monotonic_s": 760193.401625754,
+          "device_tick_ms": 0,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        },
+        {
+          "sequence": 2,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792566746.4329283,
+          "monotonic_s": 760193.621356767,
+          "device_tick_ms": 2,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        }
+      ],
+      "command_application": {},
+      "command_application_sha256": null
+    },
+    {
+      "run": "dex3_contact_delivery_retreat45_20261021",
+      "world": "transport_dual",
+      "people": 0,
+      "layout_seed": null,
+      "seed": 42,
+      "objective": {
+        "pairs": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red"
+          }
+        ],
+        "task_seed": null,
+        "mode": "red:red",
+        "description": "Put the red object on the red goal"
+      },
+      "policy": "vendor/mjlab/logs/payload_training/interpolation_0.95_20261019/policy.onnx",
+      "policy_sha256": "f1e34f3673f48e9eabe2c43d20275ccb3d4ab8589e9ec60de465187da268506f",
+      "configuration": {
+        "policy_device_clock": "true",
+        "numeric_thread_environment": {},
+        "application_timing": "false",
+        "arm_executor_threads": "2",
+        "arm_repeat_period": "0.0",
+        "slam_loop_closing": "true",
+        "tracker_body_wall_sheets": true,
+        "predictive_refuge": false,
+        "early_overtaking_avoidance": false,
+        "navigation_profile_sha256": "7e15970996e71a99133c8590b36cacf937ba14d8705e972f66b1f8385b31a653"
+      },
+      "success": false,
+      "mission_complete": false,
+      "data_valid": true,
+      "artifact_complete": true,
+      "fallen": false,
+      "contacts": 0,
+      "error": "physical grasp contact lost or stale",
+      "minimum_person_clearance_m": null,
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_red",
+          "color": "red",
+          "destination_color": "red",
+          "verified": false,
+          "lift_m": 0.0,
+          "travel_m": 0.09709751177379401
+        }
+      ],
+      "dropped_objects": [],
+      "attachment_state": "uncertain",
+      "object_may_be_held": true,
+      "completion_s": null,
+      "last_recorded_event_s": 93.19552703900263,
+      "deadline_s": 420.0,
+      "search": null,
+      "discoveries": [],
+      "placement_alignment": [],
+      "workspace_recovery_events": [],
+      "route_blockage": {},
+      "result_sha256": "188e275898f57326f67a91ac3e041ab8d6ae1c265bb89a9c3f26d8376048b835",
+      "manifest_sha256": "f809c3669606a51ba428fc6af11cd26082ec762b8693117aee89b4f581fba857",
+      "source_archive_sha256": "71ac6e2e7c99f31a41787d344e90893ff0c225face0a11851b4222d1dea5fc18",
+      "effective_parameters_sha256": "7b6bddd18a5f586159ba3b2dca5157f11d527e971b809a15887209737fd79e40",
+      "runtime_metrics": {
+        "command_receipt_age_at_target_publish_s": {
+          "count": 3935,
+          "min": 0.004483699798583984,
+          "median": 0.019629955291748047,
+          "p95": 0.0390225887298584,
+          "p99": 0.053285284042358376,
+          "max": 0.12371683120727539
+        },
+        "escape_worker_submit_to_complete_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_receive_to_callback_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_source_to_callback_ms": {
+          "count": 3935,
+          "min": 1.039266586303711,
+          "median": 3.154277801513672,
+          "p95": 7.0709943771362305,
+          "p99": 10.521888732910151,
+          "max": 18.351316452026367
+        },
+        "lowstate_dds_source_to_target_publish_ms": {
+          "count": 3935,
+          "min": 3.857851028442383,
+          "median": 11.217832565307617,
+          "p95": 23.781991004943848,
+          "p99": 32.49261379241939,
+          "max": 54.944753646850586
+        },
+        "lowstate_receipt_age_at_target_publish_s": {
+          "count": 3935,
+          "min": 0.002565218019299209,
+          "median": 0.007908312021754682,
+          "p95": 0.018793157476466132,
+          "p99": 0.026576354568824144,
+          "max": 0.04846738593187183
+        },
+        "odom_source_age_at_logger_receipt_s": {
+          "count": 1196,
+          "min": 0.04462552070617676,
+          "median": 0.09183764457702637,
+          "p95": 0.14499157667160034,
+          "p99": 0.1718355298042297,
+          "max": 0.19580769538879395
+        },
+        "planner_thread_ms": {
+          "count": 1915,
+          "min": 0.345,
+          "median": 3.71,
+          "p95": 11.6943,
+          "p99": 12.98699999999998,
+          "max": 15.104
+        },
+        "planner_wall_active_ms": {
+          "count": 1053,
+          "min": 2.178,
+          "median": 7.942,
+          "p95": 16.397199999999998,
+          "p99": 24.82388000000002,
+          "max": 56.258
+        },
+        "planner_wall_ms": {
+          "count": 1915,
+          "min": 0.346,
+          "median": 4.021,
+          "p95": 13.879999999999995,
+          "p99": 21.687699999999992,
+          "max": 56.258
+        },
+        "policy_cmd_source_age_at_logger_receipt_s": {
+          "count": 4129,
+          "min": 0.00042247772216796875,
+          "median": 0.0017991065979003906,
+          "p95": 0.008575868606567382,
+          "p99": 0.01829206466674799,
+          "max": 0.061643362045288086
+        },
+        "policy_complete_to_publish_ms": {
+          "count": 3935,
+          "min": 0.4331599920988083,
+          "median": 0.9889060165733099,
+          "p95": 4.12200180580839,
+          "p99": 7.051246271003026,
+          "max": 23.328125942498446
+        },
+        "policy_observation_interval_ms": {
+          "count": 3935,
+          "min": 20.0,
+          "median": 22.0,
+          "p95": 28.0,
+          "p99": 34.0,
+          "max": 56.0
+        },
+        "policy_observation_interval_over_period": {
+          "count": 3935,
+          "min": 1.0,
+          "median": 1.0999999999999999,
+          "p95": 1.4,
+          "p99": 1.7000000000000002,
+          "max": 2.8
+        },
+        "policy_submit_to_complete_ms": {
+          "count": 3935,
+          "min": 0.9344330755993724,
+          "median": 4.679286968894303,
+          "p95": 13.90891411574557,
+          "p99": 20.49530942458659,
+          "max": 40.209749015048146
+        },
+        "policy_submit_to_publish_ms": {
+          "count": 3935,
+          "min": 1.637384993955493,
+          "median": 6.1629259726032615,
+          "p95": 15.862658503465353,
+          "p99": 23.45569750061254,
+          "max": 43.317880015820265
+        },
+        "prediction_age_at_command_publish_s": {
+          "count": 1848,
+          "min": 0.10584425926208496,
+          "median": 0.23696041107177734,
+          "p95": 0.31783591508865355,
+          "p99": 0.35722555875778195,
+          "max": 0.4420020580291748
+        },
+        "prediction_age_at_planning_snapshot_s": {
+          "count": 1848,
+          "min": 0.1052,
+          "median": 0.2362,
+          "p95": 0.317065,
+          "p99": 0.35631299999999994,
+          "max": 0.4408
+        },
+        "rtf_monotonic_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "rtf_ros_legacy_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "scan_age_at_command_publish_s": {
+          "count": 1848,
+          "min": 0.063,
+          "median": 0.162,
+          "p95": 0.23864999999999986,
+          "p99": 0.285,
+          "max": 0.358
+        },
+        "scan_age_at_planning_snapshot_s": {
+          "count": 1848,
+          "min": 0.061,
+          "median": 0.161,
+          "p95": 0.238,
+          "p99": 0.28452999999999995,
+          "max": 0.357
+        },
+        "scoring_candidate_total_ms": {
+          "count": 1053,
+          "min": 1.108,
+          "median": 5.689,
+          "p95": 11.863199999999999,
+          "p99": 18.28536,
+          "max": 41.09
+        },
+        "scoring_rollout_ms": {
+          "count": 1053,
+          "min": 0.282,
+          "median": 0.72,
+          "p95": 0.8761999999999998,
+          "p99": 3.6188000000000033,
+          "max": 7.827
+        },
+        "scoring_static_ms": {
+          "count": 1053,
+          "min": 0.641,
+          "median": 4.877,
+          "p95": 10.460199999999995,
+          "p99": 17.394360000000006,
+          "max": 40.103
+        },
+        "supervisor_escape_control_path_ms": {
+          "count": 4755,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "supervisor_input_age_s": {
+          "count": 4721,
+          "min": 0.002,
+          "median": 0.031,
+          "p95": 0.059,
+          "p99": 0.071,
+          "max": 0.131
+        },
+        "supervisor_predictive_search_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "supervisor_tick_interval_ms": {
+          "count": 4754,
+          "min": 3.2285479828715324,
+          "median": 19.999185984488577,
+          "p95": 28.354021575069044,
+          "p99": 36.8258696445264,
+          "max": 104.22878491226584
+        },
+        "supervisor_tick_to_publication_ms": {
+          "count": 4755,
+          "min": 0.18759805243462324,
+          "median": 0.9295039344578981,
+          "p95": 4.480712977237999,
+          "p99": 7.495139210950583,
+          "max": 25.67948796786368
+        },
+        "tracks_age_at_command_publish_s": {
+          "count": 1848,
+          "min": 0.10584425926208496,
+          "median": 0.2361147403717041,
+          "p95": 0.3175959587097168,
+          "p99": 0.35722555875778195,
+          "max": 0.4420020580291748
+        },
+        "tracks_age_at_planning_snapshot_s": {
+          "count": 1848,
+          "min": 0.1052,
+          "median": 0.2351,
+          "p95": 0.316765,
+          "p99": 0.35631299999999994,
+          "max": 0.4408
+        }
+      },
+      "policy_hold_events": [
+        {
+          "sequence": 1,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792566987.859335,
+          "monotonic_s": 760435.047762095,
+          "device_tick_ms": 0,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        },
+        {
+          "sequence": 2,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792566988.0780535,
+          "monotonic_s": 760435.266483112,
+          "device_tick_ms": 2,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        },
+        {
+          "sequence": 3,
+          "state": "policy_result_stale_hold",
+          "recovery_kind": "validated_target_hold",
+          "stamp": 1792567026.589961,
+          "monotonic_s": 760473.778378026,
+          "device_tick_ms": 37592,
+          "command_before_hold": [
+            0.3,
+            0.0,
+            0.24639999999999995
+          ],
+          "action_norm_before_hold": 2.201893909764507,
+          "measured_tilt_rad": 0.06215168908238411,
+          "target_jump_rad": 0.0,
+          "history_reset": false
+        }
+      ],
+      "command_application": {},
+      "command_application_sha256": null
+    },
+    {
+      "run": "dex3_contact_delivery_retreat45_repeat_20261021",
+      "world": "transport_dual",
+      "people": 0,
+      "layout_seed": null,
+      "seed": 42,
+      "objective": {
+        "pairs": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red"
+          }
+        ],
+        "task_seed": null,
+        "mode": "red:red",
+        "description": "Put the red object on the red goal"
+      },
+      "policy": "vendor/mjlab/logs/payload_training/interpolation_0.95_20261019/policy.onnx",
+      "policy_sha256": "f1e34f3673f48e9eabe2c43d20275ccb3d4ab8589e9ec60de465187da268506f",
+      "configuration": {
+        "policy_device_clock": "true",
+        "numeric_thread_environment": {},
+        "application_timing": "false",
+        "arm_executor_threads": "2",
+        "arm_repeat_period": "0.0",
+        "slam_loop_closing": "true",
+        "tracker_body_wall_sheets": true,
+        "predictive_refuge": false,
+        "early_overtaking_avoidance": false,
+        "navigation_profile_sha256": "7e15970996e71a99133c8590b36cacf937ba14d8705e972f66b1f8385b31a653"
+      },
+      "success": false,
+      "mission_complete": false,
+      "data_valid": true,
+      "artifact_complete": true,
+      "fallen": false,
+      "contacts": 0,
+      "error": "measured hand outside physical grasp alignment tolerance",
+      "minimum_person_clearance_m": null,
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_red",
+          "color": "red",
+          "destination_color": "red",
+          "verified": false,
+          "lift_m": 0.0,
+          "travel_m": 0.5006834912804426
+        }
+      ],
+      "dropped_objects": [],
+      "attachment_state": "empty",
+      "object_may_be_held": false,
+      "completion_s": null,
+      "last_recorded_event_s": 102.00581080408301,
+      "deadline_s": 420.0,
+      "search": null,
+      "discoveries": [],
+      "placement_alignment": [],
+      "workspace_recovery_events": [],
+      "route_blockage": {},
+      "result_sha256": "02c11884bcfeb80429965632cb5b0ae57082d3a616b47581069b8debd3b1ea6e",
+      "manifest_sha256": "1009f05a1e3201cae7423798fe353d61ebf6c48d3fbc48e1f3630e4179981f29",
+      "source_archive_sha256": "2391ca57d79cfbdaeafa3bff530763431a649360d38ba098e24e106304656a0c",
+      "effective_parameters_sha256": "4cd41dfa4adf7c44f17dc978d7211d596e964ee93a7a51fa80c964c2ca520cbc",
+      "runtime_metrics": {
+        "command_receipt_age_at_target_publish_s": {
+          "count": 4660,
+          "min": 0.004343509674072266,
+          "median": 0.017984509468078613,
+          "p95": 0.03144317865371704,
+          "p99": 0.039536755084991396,
+          "max": 0.06316614151000977
+        },
+        "escape_worker_submit_to_complete_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_receive_to_callback_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_source_to_callback_ms": {
+          "count": 4660,
+          "min": 1.0142326354980469,
+          "median": 2.7941465377807617,
+          "p95": 5.254065990448,
+          "p99": 7.056553363800045,
+          "max": 13.386726379394531
+        },
+        "lowstate_dds_source_to_target_publish_ms": {
+          "count": 4660,
+          "min": 3.8917064666748047,
+          "median": 9.718775749206543,
+          "p95": 18.061375617980957,
+          "p99": 23.145444393157923,
+          "max": 32.16862678527832
+        },
+        "lowstate_receipt_age_at_target_publish_s": {
+          "count": 4660,
+          "min": 0.0024150729877874255,
+          "median": 0.0069181814906187356,
+          "p95": 0.014305136213079096,
+          "p99": 0.019039576180512066,
+          "max": 0.029029431054368615
+        },
+        "odom_source_age_at_logger_receipt_s": {
+          "count": 1431,
+          "min": 0.03914809226989746,
+          "median": 0.10541176795959473,
+          "p95": 0.12186682224273682,
+          "p99": 0.13330686092376712,
+          "max": 0.1527109146118164
+        },
+        "planner_thread_ms": {
+          "count": 2078,
+          "min": 0.39,
+          "median": 3.834,
+          "p95": 11.562449999999998,
+          "p99": 13.30946,
+          "max": 15.213
+        },
+        "planner_wall_active_ms": {
+          "count": 1179,
+          "min": 1.718,
+          "median": 9.571,
+          "p95": 12.883199999999999,
+          "p99": 14.477540000000012,
+          "max": 25.207
+        },
+        "planner_wall_ms": {
+          "count": 2078,
+          "min": 0.39,
+          "median": 3.928,
+          "p95": 11.953299999999993,
+          "p99": 13.833960000000001,
+          "max": 25.207
+        },
+        "policy_cmd_source_age_at_logger_receipt_s": {
+          "count": 4745,
+          "min": 0.0003962516784667969,
+          "median": 0.0011723041534423828,
+          "p95": 0.004911851882934571,
+          "p99": 0.008951454162597666,
+          "max": 0.02611541748046875
+        },
+        "policy_complete_to_publish_ms": {
+          "count": 4660,
+          "min": 0.4466039827093482,
+          "median": 0.8556129760108888,
+          "p95": 3.134632343426347,
+          "p99": 4.552001458359881,
+          "max": 11.280955979600549
+        },
+        "policy_observation_interval_ms": {
+          "count": 4660,
+          "min": 20.0,
+          "median": 20.0,
+          "p95": 24.0,
+          "p99": 28.0,
+          "max": 36.0
+        },
+        "policy_observation_interval_over_period": {
+          "count": 4660,
+          "min": 1.0,
+          "median": 1.0,
+          "p95": 1.2,
+          "p99": 1.4,
+          "max": 1.7999999999999998
+        },
+        "policy_submit_to_complete_ms": {
+          "count": 4660,
+          "min": 0.9075670968741179,
+          "median": 4.344000539276749,
+          "p95": 10.962370783090595,
+          "p99": 14.791306133847682,
+          "max": 25.58456000406295
+        },
+        "policy_submit_to_publish_ms": {
+          "count": 4660,
+          "min": 1.5957640716806054,
+          "median": 5.563440034165978,
+          "p95": 12.435776583151895,
+          "p99": 16.69626115355638,
+          "max": 27.159600984305143
+        },
+        "prediction_age_at_command_publish_s": {
+          "count": 1996,
+          "min": 0.09533381462097168,
+          "median": 0.23963665962219238,
+          "p95": 0.31068873405456543,
+          "p99": 0.3375455856323242,
+          "max": 0.5287313461303711
+        },
+        "prediction_age_at_planning_snapshot_s": {
+          "count": 1996,
+          "min": 0.095,
+          "median": 0.23895,
+          "p95": 0.31015,
+          "p99": 0.33673,
+          "max": 0.5284
+        },
+        "rtf_monotonic_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "rtf_ros_legacy_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "scan_age_at_command_publish_s": {
+          "count": 1996,
+          "min": 0.076,
+          "median": 0.162,
+          "p95": 0.19925,
+          "p99": 0.22104999999999997,
+          "max": 0.529
+        },
+        "scan_age_at_planning_snapshot_s": {
+          "count": 1996,
+          "min": 0.076,
+          "median": 0.161,
+          "p95": 0.19825,
+          "p99": 0.22004999999999997,
+          "max": 0.528
+        },
+        "scoring_candidate_total_ms": {
+          "count": 1179,
+          "min": 0.996,
+          "median": 7.841,
+          "p95": 9.595299999999998,
+          "p99": 11.092440000000003,
+          "max": 17.405
+        },
+        "scoring_rollout_ms": {
+          "count": 1179,
+          "min": 0.254,
+          "median": 0.718,
+          "p95": 0.8172999999999997,
+          "p99": 0.8744400000000001,
+          "max": 5.928
+        },
+        "scoring_static_ms": {
+          "count": 1179,
+          "min": 0.607,
+          "median": 6.896,
+          "p95": 8.540099999999999,
+          "p99": 9.404620000000003,
+          "max": 16.433
+        },
+        "supervisor_escape_control_path_ms": {
+          "count": 5194,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "supervisor_input_age_s": {
+          "count": 5165,
+          "min": 0.002,
+          "median": 0.03,
+          "p95": 0.052,
+          "p99": 0.059,
+          "max": 0.088
+        },
+        "supervisor_predictive_search_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "supervisor_tick_interval_ms": {
+          "count": 5193,
+          "min": 4.035355988889933,
+          "median": 19.999306998215616,
+          "p95": 24.58502980880438,
+          "p99": 29.43712626118213,
+          "max": 46.88247502781451
+        },
+        "supervisor_tick_to_publication_ms": {
+          "count": 5194,
+          "min": 0.184651929885149,
+          "median": 0.8485584985464811,
+          "p95": 2.117581479251381,
+          "p99": 4.366283509880304,
+          "max": 10.170549969188869
+        },
+        "tracks_age_at_command_publish_s": {
+          "count": 1996,
+          "min": 0.09533381462097168,
+          "median": 0.23914921283721924,
+          "p95": 0.3104854226112366,
+          "p99": 0.3375455856323242,
+          "max": 0.5287313461303711
+        },
+        "tracks_age_at_planning_snapshot_s": {
+          "count": 1996,
+          "min": 0.095,
+          "median": 0.2384,
+          "p95": 0.309825,
+          "p99": 0.33673,
+          "max": 0.5284
+        }
+      },
+      "policy_hold_events": [
+        {
+          "sequence": 1,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792567103.5776515,
+          "monotonic_s": 760550.766078595,
+          "device_tick_ms": 0,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        },
+        {
+          "sequence": 2,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792567103.7779844,
+          "monotonic_s": 760550.966410254,
+          "device_tick_ms": 2,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        }
+      ],
+      "command_application": {},
+      "command_application_sha256": null
+    },
+    {
+      "run": "dex3_contact_delivery_servo_20261021",
+      "world": "transport_dual",
+      "people": 0,
+      "layout_seed": null,
+      "seed": 42,
+      "objective": {
+        "pairs": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red"
+          }
+        ],
+        "task_seed": null,
+        "mode": "red:red",
+        "description": "Put the red object on the red goal"
+      },
+      "policy": "/home/david/unitree_g1_ros2_mujoco/vendor/unitree_rl_lab/policies/g1_29dof_velocity_v0/policy.onnx",
+      "policy_sha256": null,
+      "configuration": {
+        "policy_device_clock": "true",
+        "numeric_thread_environment": {},
+        "application_timing": "false",
+        "arm_executor_threads": "2",
+        "arm_repeat_period": "0.0",
+        "slam_loop_closing": "true",
+        "tracker_body_wall_sheets": true,
+        "predictive_refuge": false,
+        "early_overtaking_avoidance": false,
+        "navigation_profile_sha256": "7e15970996e71a99133c8590b36cacf937ba14d8705e972f66b1f8385b31a653"
+      },
+      "success": false,
+      "mission_complete": false,
+      "data_valid": true,
+      "artifact_complete": true,
+      "fallen": false,
+      "contacts": 0,
+      "error": "search turn displaced beyond viewpoint reserve",
+      "minimum_person_clearance_m": null,
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_red",
+          "color": "red",
+          "destination_color": "red",
+          "verified": false,
+          "lift_m": 0.0,
+          "travel_m": 2.801395615487014e-05
+        }
+      ],
+      "dropped_objects": [],
+      "attachment_state": "empty",
+      "object_may_be_held": false,
+      "completion_s": null,
+      "last_recorded_event_s": 20.670999989961274,
+      "deadline_s": 420.0,
+      "search": null,
+      "discoveries": [],
+      "placement_alignment": [],
+      "workspace_recovery_events": [],
+      "route_blockage": {},
+      "result_sha256": "464c4a50878f26369dce531fd28737b17af00e64a13c65b5cc5d0db4dfa67fdc",
+      "manifest_sha256": "85149a523a2374df9edcdf57e93ba5d07a93d050378b8123271a56b89fad2711",
+      "source_archive_sha256": "5f77d651febc0a998959e9577869c59d1fed2d475c93e6c9ea97c20afa415b99",
+      "effective_parameters_sha256": "e316fc2537c6d154f6698805334186551901cf029531bccc1f1f581696c05543",
+      "runtime_metrics": {
+        "command_receipt_age_at_target_publish_s": {
+          "count": 796,
+          "min": 0.004938602447509766,
+          "median": 0.018972277641296387,
+          "p95": 0.03879499435424805,
+          "p99": 0.046146285533905006,
+          "max": 0.05887126922607422
+        },
+        "escape_worker_submit_to_complete_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_receive_to_callback_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_source_to_callback_ms": {
+          "count": 796,
+          "min": 1.0461807250976562,
+          "median": 2.941012382507324,
+          "p95": 6.915152072906494,
+          "p99": 9.417748451232907,
+          "max": 20.791292190551758
+        },
+        "lowstate_dds_source_to_target_publish_ms": {
+          "count": 796,
+          "min": 3.3888816833496094,
+          "median": 10.890483856201172,
+          "p95": 22.29994535446167,
+          "p99": 33.83644819259641,
+          "max": 45.270442962646484
+        },
+        "lowstate_receipt_age_at_target_publish_s": {
+          "count": 796,
+          "min": 0.002368077985011041,
+          "median": 0.0076986009371466935,
+          "p95": 0.01756203325930983,
+          "p99": 0.02582546543562782,
+          "max": 0.03606454294640571
+        },
+        "odom_source_age_at_logger_receipt_s": {
+          "count": 250,
+          "min": 0.04492449760437012,
+          "median": 0.10694122314453125,
+          "p95": 0.13102326393127442,
+          "p99": 0.152783465385437,
+          "max": 0.15813040733337402
+        },
+        "planner_thread_ms": {
+          "count": 469,
+          "min": 0.473,
+          "median": 3.693,
+          "p95": 10.888,
+          "p99": 11.46508,
+          "max": 11.695
+        },
+        "planner_wall_active_ms": {
+          "count": 197,
+          "min": 1.945,
+          "median": 8.515,
+          "p95": 12.6958,
+          "p99": 19.67759999999997,
+          "max": 24.181
+        },
+        "planner_wall_ms": {
+          "count": 469,
+          "min": 0.481,
+          "median": 3.853,
+          "p95": 11.2934,
+          "p99": 15.65647999999998,
+          "max": 24.181
+        },
+        "policy_cmd_source_age_at_logger_receipt_s": {
+          "count": 868,
+          "min": 0.0004162788391113281,
+          "median": 0.0015475749969482422,
+          "p95": 0.007733690738677979,
+          "p99": 0.017075297832489036,
+          "max": 0.0338134765625
+        },
+        "policy_complete_to_publish_ms": {
+          "count": 796,
+          "min": 0.4500820068642497,
+          "median": 0.9336674702353776,
+          "p95": 3.856659517623484,
+          "p99": 5.91194041771814,
+          "max": 10.228218976408243
+        },
+        "policy_observation_interval_ms": {
+          "count": 796,
+          "min": 20.0,
+          "median": 20.0,
+          "p95": 26.0,
+          "p99": 32.0,
+          "max": 42.0
+        },
+        "policy_observation_interval_over_period": {
+          "count": 796,
+          "min": 1.0,
+          "median": 1.0,
+          "p95": 1.2999999999999998,
+          "p99": 1.6,
+          "max": 2.1
+        },
+        "policy_submit_to_complete_ms": {
+          "count": 796,
+          "min": 0.9795200312510133,
+          "median": 4.851580946706235,
+          "p95": 12.93283750419505,
+          "p99": 20.247184619074677,
+          "max": 33.168421941809356
+        },
+        "policy_submit_to_publish_ms": {
+          "count": 796,
+          "min": 1.6054150182753801,
+          "median": 6.125679996330291,
+          "p95": 15.54475401644595,
+          "p99": 23.180824390146878,
+          "max": 34.63777690194547
+        },
+        "prediction_age_at_command_publish_s": {
+          "count": 359,
+          "min": 0.14119863510131836,
+          "median": 0.24742674827575684,
+          "p95": 0.3130125284194946,
+          "p99": 0.38145856857299887,
+          "max": 0.5603163242340088
+        },
+        "prediction_age_at_planning_snapshot_s": {
+          "count": 359,
+          "min": 0.1407,
+          "median": 0.2467,
+          "p95": 0.31227999999999995,
+          "p99": 0.38115800000000083,
+          "max": 0.56
+        },
+        "rtf_monotonic_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "rtf_ros_legacy_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "scan_age_at_command_publish_s": {
+          "count": 359,
+          "min": 0.103,
+          "median": 0.171,
+          "p95": 0.226,
+          "p99": 0.3810000000000008,
+          "max": 0.56
+        },
+        "scan_age_at_planning_snapshot_s": {
+          "count": 359,
+          "min": 0.102,
+          "median": 0.17,
+          "p95": 0.22409999999999997,
+          "p99": 0.3810000000000008,
+          "max": 0.56
+        },
+        "scoring_candidate_total_ms": {
+          "count": 197,
+          "min": 1.116,
+          "median": 6.575,
+          "p95": 9.8786,
+          "p99": 18.034199999999988,
+          "max": 21.867
+        },
+        "scoring_rollout_ms": {
+          "count": 197,
+          "min": 0.266,
+          "median": 0.74,
+          "p95": 0.8543999999999999,
+          "p99": 2.2075199999999997,
+          "max": 5.292
+        },
+        "scoring_static_ms": {
+          "count": 197,
+          "min": 0.687,
+          "median": 5.47,
+          "p95": 8.807599999999999,
+          "p99": 16.592559999999995,
+          "max": 17.309
+        },
+        "supervisor_escape_control_path_ms": {
+          "count": 1155,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "supervisor_input_age_s": {
+          "count": 1144,
+          "min": 0.003,
+          "median": 0.028,
+          "p95": 0.054,
+          "p99": 0.064,
+          "max": 0.077
+        },
+        "supervisor_predictive_search_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "supervisor_tick_interval_ms": {
+          "count": 1154,
+          "min": 5.2197270561009645,
+          "median": 20.002478966489434,
+          "p95": 25.648577819811177,
+          "p99": 31.209330311976377,
+          "max": 41.0801749676466
+        },
+        "supervisor_tick_to_publication_ms": {
+          "count": 1155,
+          "min": 0.18696999177336693,
+          "median": 0.7148620206862688,
+          "p95": 3.617121698334809,
+          "p99": 5.790851814672353,
+          "max": 12.019270099699497
+        },
+        "tracks_age_at_command_publish_s": {
+          "count": 359,
+          "min": 0.14119863510131836,
+          "median": 0.24295306205749512,
+          "p95": 0.3130125284194946,
+          "p99": 0.38145856857299887,
+          "max": 0.5603163242340088
+        },
+        "tracks_age_at_planning_snapshot_s": {
+          "count": 359,
+          "min": 0.1407,
+          "median": 0.2423,
+          "p95": 0.31227999999999995,
+          "p99": 0.38115800000000083,
+          "max": 0.56
+        }
+      },
+      "policy_hold_events": [
+        {
+          "sequence": 1,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792565776.922008,
+          "monotonic_s": 759224.110439631,
+          "device_tick_ms": 0,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        },
+        {
+          "sequence": 2,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792565777.1237335,
+          "monotonic_s": 759224.312161511,
+          "device_tick_ms": 2,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        }
+      ],
+      "command_application": {},
+      "command_application_sha256": null
+    },
+    {
+      "run": "dex3_contact_delivery_servo_candidate_20261021",
+      "world": "transport_dual",
+      "people": 0,
+      "layout_seed": null,
+      "seed": 42,
+      "objective": {
+        "pairs": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red"
+          }
+        ],
+        "task_seed": null,
+        "mode": "red:red",
+        "description": "Put the red object on the red goal"
+      },
+      "policy": "vendor/mjlab/logs/payload_training/interpolation_0.95_20261019/policy.onnx",
+      "policy_sha256": "f1e34f3673f48e9eabe2c43d20275ccb3d4ab8589e9ec60de465187da268506f",
+      "configuration": {
+        "policy_device_clock": "true",
+        "numeric_thread_environment": {},
+        "application_timing": "false",
+        "arm_executor_threads": "2",
+        "arm_repeat_period": "0.0",
+        "slam_loop_closing": "true",
+        "tracker_body_wall_sheets": true,
+        "predictive_refuge": false,
+        "early_overtaking_avoidance": false,
+        "navigation_profile_sha256": "7e15970996e71a99133c8590b36cacf937ba14d8705e972f66b1f8385b31a653"
+      },
+      "success": false,
+      "mission_complete": false,
+      "data_valid": true,
+      "artifact_complete": true,
+      "fallen": false,
+      "contacts": 0,
+      "error": "physical grasp contact lost or stale",
+      "minimum_person_clearance_m": null,
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_red",
+          "color": "red",
+          "destination_color": "red",
+          "verified": false,
+          "lift_m": 0.19825335667360122,
+          "travel_m": 0.2738689568330095
+        }
+      ],
+      "dropped_objects": [
+        "box_red"
+      ],
+      "attachment_state": "uncertain",
+      "object_may_be_held": true,
+      "completion_s": null,
+      "last_recorded_event_s": 100.0771852240432,
+      "deadline_s": 420.0,
+      "search": null,
+      "discoveries": [],
+      "placement_alignment": [],
+      "workspace_recovery_events": [],
+      "route_blockage": {},
+      "result_sha256": "1ecc3d8c86619968fb627b94b529bcf128913e284552441c6119933e08a061d6",
+      "manifest_sha256": "fe15f8a41013b966fba38e57383058a3a6dd45cd68ef791fc2cf1e6ab7bd1bfa",
+      "source_archive_sha256": "f1f5d79b6047791950b7876ac967f0dd668ef8af2e13231ea1eff2e2861a7898",
+      "effective_parameters_sha256": "f61dc28c692b05d801e367267f231e4896eb7cd0574b431bee030752652ef3b3",
+      "runtime_metrics": {
+        "command_receipt_age_at_target_publish_s": {
+          "count": 4284,
+          "min": 0.004657745361328125,
+          "median": 0.019713282585144043,
+          "p95": 0.037802040576934814,
+          "p99": 0.04635590553283694,
+          "max": 0.07445979118347168
+        },
+        "escape_worker_submit_to_complete_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_receive_to_callback_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_source_to_callback_ms": {
+          "count": 4284,
+          "min": 1.0602474212646484,
+          "median": 3.2792091369628906,
+          "p95": 6.8727731704711905,
+          "p99": 9.96828556060791,
+          "max": 26.45421028137207
+        },
+        "lowstate_dds_source_to_target_publish_ms": {
+          "count": 4284,
+          "min": 3.6420822143554688,
+          "median": 11.584043502807617,
+          "p95": 22.498941421508786,
+          "p99": 29.647696018219,
+          "max": 54.54277992248535
+        },
+        "lowstate_receipt_age_at_target_publish_s": {
+          "count": 4284,
+          "min": 0.0025211129104718566,
+          "median": 0.008118268451653421,
+          "p95": 0.017841555480845272,
+          "p99": 0.024307511931983758,
+          "max": 0.04731991293374449
+        },
+        "odom_source_age_at_logger_receipt_s": {
+          "count": 1309,
+          "min": 0.05042099952697754,
+          "median": 0.10046267509460449,
+          "p95": 0.1379519939422607,
+          "p99": 0.1523243236541748,
+          "max": 0.18810129165649414
+        },
+        "planner_thread_ms": {
+          "count": 2058,
+          "min": 0.439,
+          "median": 3.622,
+          "p95": 11.784549999999992,
+          "p99": 13.51772,
+          "max": 15.222
+        },
+        "planner_wall_active_ms": {
+          "count": 1086,
+          "min": 0.818,
+          "median": 9.0235,
+          "p95": 14.037,
+          "p99": 19.92950000000005,
+          "max": 24.4
+        },
+        "planner_wall_ms": {
+          "count": 2058,
+          "min": 0.438,
+          "median": 3.981,
+          "p95": 13.053349999999998,
+          "p99": 17.062360000000023,
+          "max": 24.4
+        },
+        "policy_cmd_source_age_at_logger_receipt_s": {
+          "count": 4441,
+          "min": 0.00045990943908691406,
+          "median": 0.0017955303192138672,
+          "p95": 0.007890701293945312,
+          "p99": 0.014070558547973677,
+          "max": 0.032585859298706055
+        },
+        "policy_complete_to_publish_ms": {
+          "count": 4284,
+          "min": 0.48152299132198095,
+          "median": 0.9934755507856607,
+          "p95": 3.87987577705644,
+          "p99": 6.628084279363977,
+          "max": 15.402726945467293
+        },
+        "policy_observation_interval_ms": {
+          "count": 4284,
+          "min": 20.0,
+          "median": 22.0,
+          "p95": 28.0,
+          "p99": 32.0,
+          "max": 48.0
+        },
+        "policy_observation_interval_over_period": {
+          "count": 4284,
+          "min": 1.0,
+          "median": 1.0999999999999999,
+          "p95": 1.4,
+          "p99": 1.6,
+          "max": 2.4
+        },
+        "policy_submit_to_complete_ms": {
+          "count": 4284,
+          "min": 0.9475789265707135,
+          "median": 4.9741920083761215,
+          "p95": 13.35128227365203,
+          "p99": 18.332511081825942,
+          "max": 37.46742208022624
+        },
+        "policy_submit_to_publish_ms": {
+          "count": 4284,
+          "min": 1.6021939227357507,
+          "median": 6.386841996572912,
+          "p95": 15.389638929627834,
+          "p99": 20.71804640698247,
+          "max": 45.52898299880326
+        },
+        "prediction_age_at_command_publish_s": {
+          "count": 1969,
+          "min": 0.12353706359863281,
+          "median": 0.25110793113708496,
+          "p95": 0.325968599319458,
+          "p99": 0.35748076438903803,
+          "max": 0.4684927463531494
+        },
+        "prediction_age_at_planning_snapshot_s": {
+          "count": 1969,
+          "min": 0.1229,
+          "median": 0.2502,
+          "p95": 0.3249,
+          "p99": 0.35651999999999995,
+          "max": 0.4678
+        },
+        "rtf_monotonic_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "rtf_ros_legacy_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "scan_age_at_command_publish_s": {
+          "count": 1969,
+          "min": 0.076,
+          "median": 0.165,
+          "p95": 0.231,
+          "p99": 0.2676399999999999,
+          "max": 0.414
+        },
+        "scan_age_at_planning_snapshot_s": {
+          "count": 1969,
+          "min": 0.075,
+          "median": 0.164,
+          "p95": 0.23,
+          "p99": 0.2666399999999999,
+          "max": 0.413
+        },
+        "scoring_candidate_total_ms": {
+          "count": 1085,
+          "min": 1.03,
+          "median": 6.329,
+          "p95": 9.9638,
+          "p99": 14.838560000000024,
+          "max": 21.319
+        },
+        "scoring_rollout_ms": {
+          "count": 1085,
+          "min": 0.278,
+          "median": 0.745,
+          "p95": 0.859,
+          "p99": 1.7365200000000243,
+          "max": 7.862
+        },
+        "scoring_static_ms": {
+          "count": 1085,
+          "min": 0.616,
+          "median": 5.301,
+          "p95": 8.8724,
+          "p99": 13.481320000000014,
+          "max": 20.313
+        },
+        "supervisor_escape_control_path_ms": {
+          "count": 5133,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "supervisor_input_age_s": {
+          "count": 5101,
+          "min": 0.002,
+          "median": 0.029,
+          "p95": 0.056,
+          "p99": 0.066,
+          "max": 0.091
+        },
+        "supervisor_predictive_search_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "supervisor_tick_interval_ms": {
+          "count": 5132,
+          "min": 2.693934948183596,
+          "median": 20.008029008749872,
+          "p95": 26.843621884472668,
+          "p99": 32.594516534591044,
+          "max": 54.45306305773556
+        },
+        "supervisor_tick_to_publication_ms": {
+          "count": 5133,
+          "min": 0.18607801757752895,
+          "median": 0.9089289233088493,
+          "p95": 4.06494680792093,
+          "p99": 6.080193067900848,
+          "max": 15.180628979578614
+        },
+        "tracks_age_at_command_publish_s": {
+          "count": 1969,
+          "min": 0.12353706359863281,
+          "median": 0.2498624324798584,
+          "p95": 0.3235448360443115,
+          "p99": 0.3558964824676514,
+          "max": 0.4684927463531494
+        },
+        "tracks_age_at_planning_snapshot_s": {
+          "count": 1969,
+          "min": 0.1229,
+          "median": 0.249,
+          "p95": 0.3224599999999999,
+          "p99": 0.3553,
+          "max": 0.4678
+        }
+      },
+      "policy_hold_events": [
+        {
+          "sequence": 1,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792565816.6877067,
+          "monotonic_s": 759263.876130845,
+          "device_tick_ms": 0,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        },
+        {
+          "sequence": 2,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792565816.9065375,
+          "monotonic_s": 759264.09496315,
+          "device_tick_ms": 2,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        }
+      ],
+      "command_application": {},
+      "command_application_sha256": null
+    },
+    {
+      "run": "dex3_contact_delivery_yawcomp_20261021",
+      "world": "transport_dual",
+      "people": 0,
+      "layout_seed": null,
+      "seed": 42,
+      "objective": {
+        "pairs": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red"
+          }
+        ],
+        "task_seed": null,
+        "mode": "red:red",
+        "description": "Put the red object on the red goal"
+      },
+      "policy": "vendor/mjlab/logs/payload_training/interpolation_0.95_20261019/policy.onnx",
+      "policy_sha256": "f1e34f3673f48e9eabe2c43d20275ccb3d4ab8589e9ec60de465187da268506f",
+      "configuration": {
+        "policy_device_clock": "true",
+        "numeric_thread_environment": {},
+        "application_timing": "false",
+        "arm_executor_threads": "2",
+        "arm_repeat_period": "0.0",
+        "slam_loop_closing": "true",
+        "tracker_body_wall_sheets": true,
+        "predictive_refuge": false,
+        "early_overtaking_avoidance": false,
+        "navigation_profile_sha256": "7e15970996e71a99133c8590b36cacf937ba14d8705e972f66b1f8385b31a653"
+      },
+      "success": false,
+      "mission_complete": false,
+      "data_valid": true,
+      "artifact_complete": true,
+      "fallen": false,
+      "contacts": 0,
+      "error": "body tilt exceeded manipulation limit",
+      "minimum_person_clearance_m": null,
+      "deliveries": [
+        {
+          "object_id": "box_red",
+          "destination_id": "target_red",
+          "color": "red",
+          "destination_color": "red",
+          "verified": false,
+          "lift_m": 0.0,
+          "travel_m": 4.842962854853948e-05
+        }
+      ],
+      "dropped_objects": [],
+      "attachment_state": "empty",
+      "object_may_be_held": false,
+      "completion_s": null,
+      "last_recorded_event_s": 46.64801671402529,
+      "deadline_s": 420.0,
+      "search": null,
+      "discoveries": [],
+      "placement_alignment": [],
+      "workspace_recovery_events": [],
+      "route_blockage": {},
+      "result_sha256": "4f4481759d76210ff8b53ab1091ac3cf9a6a1eaa284c3a09a6dac02edeb9f3c4",
+      "manifest_sha256": "a94045d8905151ecc41581215bc6f4c75deee17840c49908325a8abda9453de1",
+      "source_archive_sha256": "4c021f78b3ce135bb31bee15e795f08493b4c2bab4eab137a29ea7bd272aac26",
+      "effective_parameters_sha256": "d0eb903c5adc081b5ec68fb617938849ac752e281e866f328f94a285f53b224b",
+      "runtime_metrics": {
+        "command_receipt_age_at_target_publish_s": {
+          "count": 1839,
+          "min": 0.005181074142456055,
+          "median": 0.019861936569213867,
+          "p95": 0.03877151012420654,
+          "p99": 0.04946895122528073,
+          "max": 0.06717228889465332
+        },
+        "escape_worker_submit_to_complete_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_receive_to_callback_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "lowstate_dds_source_to_callback_ms": {
+          "count": 1839,
+          "min": 1.0650157928466797,
+          "median": 3.394603729248047,
+          "p95": 7.638335227966308,
+          "p99": 11.259274482727049,
+          "max": 16.197681427001953
+        },
+        "lowstate_dds_source_to_target_publish_ms": {
+          "count": 1839,
+          "min": 4.193305969238281,
+          "median": 11.824607849121094,
+          "p95": 24.252963066101074,
+          "p99": 32.53008365631097,
+          "max": 45.06349563598633
+        },
+        "lowstate_receipt_age_at_target_publish_s": {
+          "count": 1839,
+          "min": 0.0028628299478441477,
+          "median": 0.008200366981327534,
+          "p95": 0.019315392198041077,
+          "p99": 0.026901263308245577,
+          "max": 0.04024876595940441
+        },
+        "odom_source_age_at_logger_receipt_s": {
+          "count": 573,
+          "min": 0.05735445022583008,
+          "median": 0.10309457778930664,
+          "p95": 0.1493978977203369,
+          "p99": 0.16591782569885252,
+          "max": 0.1988675594329834
+        },
+        "planner_thread_ms": {
+          "count": 988,
+          "min": 0.46,
+          "median": 3.007,
+          "p95": 11.2667,
+          "p99": 13.90217,
+          "max": 17.014
+        },
+        "planner_wall_active_ms": {
+          "count": 445,
+          "min": 1.837,
+          "median": 8.745,
+          "p95": 19.40139999999999,
+          "p99": 30.364440000000005,
+          "max": 43.78
+        },
+        "planner_wall_ms": {
+          "count": 988,
+          "min": 0.459,
+          "median": 3.4619999999999997,
+          "p95": 14.212599999999998,
+          "p99": 25.58173,
+          "max": 43.78
+        },
+        "policy_cmd_source_age_at_logger_receipt_s": {
+          "count": 2021,
+          "min": 0.0004887580871582031,
+          "median": 0.0020563602447509766,
+          "p95": 0.009492635726928711,
+          "p99": 0.01719193458557127,
+          "max": 0.08876442909240723
+        },
+        "policy_complete_to_publish_ms": {
+          "count": 1839,
+          "min": 0.4989340668544173,
+          "median": 1.0206940351054072,
+          "p95": 4.066724982112646,
+          "p99": 6.788473492488243,
+          "max": 15.223461901769042
+        },
+        "policy_observation_interval_ms": {
+          "count": 1839,
+          "min": 20.0,
+          "median": 22.0,
+          "p95": 28.0,
+          "p99": 34.0,
+          "max": 42.0
+        },
+        "policy_observation_interval_over_period": {
+          "count": 1839,
+          "min": 1.0,
+          "median": 1.0999999999999999,
+          "p95": 1.4,
+          "p99": 1.7000000000000002,
+          "max": 2.1
+        },
+        "policy_submit_to_complete_ms": {
+          "count": 1839,
+          "min": 1.0742699960246682,
+          "median": 4.939193953759968,
+          "p95": 14.327635522931814,
+          "p99": 20.33648403128606,
+          "max": 30.502584064379334
+        },
+        "policy_submit_to_publish_ms": {
+          "count": 1839,
+          "min": 1.7565869493409991,
+          "median": 6.434644921682775,
+          "p95": 16.604173311498016,
+          "p99": 22.81984267989173,
+          "max": 35.84216395393014
+        },
+        "prediction_age_at_command_publish_s": {
+          "count": 874,
+          "min": 0.13414478302001953,
+          "median": 0.2501872777938843,
+          "p95": 0.34737792015075675,
+          "p99": 0.4186581349372864,
+          "max": 0.750490665435791
+        },
+        "prediction_age_at_planning_snapshot_s": {
+          "count": 874,
+          "min": 0.1338,
+          "median": 0.2492,
+          "p95": 0.34499999999999964,
+          "p99": 0.418127,
+          "max": 0.7499
+        },
+        "rtf_monotonic_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "rtf_ros_legacy_receipt_windows": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "scan_age_at_command_publish_s": {
+          "count": 874,
+          "min": 0.082,
+          "median": 0.169,
+          "p95": 0.2473499999999999,
+          "p99": 0.3772599999999993,
+          "max": 0.75
+        },
+        "scan_age_at_planning_snapshot_s": {
+          "count": 874,
+          "min": 0.081,
+          "median": 0.168,
+          "p95": 0.2466999999999998,
+          "p99": 0.3772599999999993,
+          "max": 0.75
+        },
+        "scoring_candidate_total_ms": {
+          "count": 444,
+          "min": 1.064,
+          "median": 5.582,
+          "p95": 13.57514999999998,
+          "p99": 22.636229999999994,
+          "max": 32.254
+        },
+        "scoring_rollout_ms": {
+          "count": 444,
+          "min": 0.277,
+          "median": 0.7144999999999999,
+          "p95": 0.8676999999999999,
+          "p99": 2.960919999999997,
+          "max": 7.21
+        },
+        "scoring_static_ms": {
+          "count": 444,
+          "min": 0.644,
+          "median": 4.7665,
+          "p95": 12.01475,
+          "p99": 19.484619999999993,
+          "max": 29.243
+        },
+        "supervisor_escape_control_path_ms": {
+          "count": 2438,
+          "min": 0.0,
+          "median": 0.0,
+          "p95": 0.0,
+          "p99": 0.0,
+          "max": 0.0
+        },
+        "supervisor_input_age_s": {
+          "count": 2421,
+          "min": 0.002,
+          "median": 0.03,
+          "p95": 0.057,
+          "p99": 0.0698000000000002,
+          "max": 0.099
+        },
+        "supervisor_predictive_search_ms": {
+          "count": 0,
+          "min": null,
+          "median": null,
+          "p95": null,
+          "p99": null,
+          "max": null
+        },
+        "supervisor_tick_interval_ms": {
+          "count": 2437,
+          "min": 2.829404082149267,
+          "median": 19.994487054646015,
+          "p95": 27.897700807079666,
+          "p99": 34.89838930312541,
+          "max": 54.811665089800954
+        },
+        "supervisor_tick_to_publication_ms": {
+          "count": 2438,
+          "min": 0.20467909052968025,
+          "median": 0.888604496140033,
+          "p95": 4.312024300452326,
+          "p99": 6.597971805604179,
+          "max": 14.46970202960074
+        },
+        "tracks_age_at_command_publish_s": {
+          "count": 874,
+          "min": 0.13414478302001953,
+          "median": 0.24966025352478027,
+          "p95": 0.34737792015075675,
+          "p99": 0.4186581349372864,
+          "max": 0.750490665435791
+        },
+        "tracks_age_at_planning_snapshot_s": {
+          "count": 874,
+          "min": 0.1338,
+          "median": 0.24895,
+          "p95": 0.34499999999999964,
+          "p99": 0.418127,
+          "max": 0.7499
+        }
+      },
+      "policy_hold_events": [
+        {
+          "sequence": 1,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792566348.041321,
+          "monotonic_s": 759795.229751833,
+          "device_tick_ms": 0,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        },
+        {
+          "sequence": 2,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792566348.241225,
+          "monotonic_s": 759795.429652763,
+          "device_tick_ms": 2,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        }
+      ],
+      "command_application": {},
+      "command_application_sha256": null
+    }
+  ]
+}

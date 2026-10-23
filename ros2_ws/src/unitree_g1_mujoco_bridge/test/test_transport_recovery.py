@@ -109,6 +109,23 @@ def test_nav2_success_with_stale_pose_requires_reobservation():
     assert not mission.active
 
 
+def test_retreat_compensates_forward_coast_without_relaxing_settled_clearance():
+    mission = mission_fixture()
+    mission.pose_stamp = 12.
+    mission.seconds = lambda:12.
+    goals = []
+    def goal(pose,mode):
+        goals.append(pose)
+        mission.pose,mission.active = pose,True
+    mission.set_goal = goal
+    mission.stop_intent = lambda:setattr(mission,'active',False)
+    mission.wait = lambda predicate,*args:predicate()
+    mission.spin = lambda duration:setattr(mission,'pose',(mission.pose[0]+.09,0.,0.))
+    TransportMission.retreat(mission,.5,0.)
+    assert len(goals)==2 and goals[1][0] == pytest.approx(-.6)
+    assert -mission.pose[0] >= .43
+
+
 def test_search_detection_terminates_navigation_before_returning():
     from contextlib import contextmanager
     from geometry_msgs.msg import PoseStamped
@@ -227,9 +244,18 @@ def test_stale_displaced_pose_does_not_trigger_turn_drift_decision():
     TransportMission.rotate.__wrapped__(mission,1.)
 
 
-def test_placement_reobserves_from_retreat_viewpoint_after_release_ack():
+@pytest.mark.parametrize('dex3',[False,True])
+def test_placement_reobserves_from_retreat_viewpoint_after_release_ack(dex3):
     mission = mission_fixture()
+    mission.dex3,mission.joints = dex3,{}
+    mission.kin = SimpleNamespace(forward=lambda joints:(np.array([.4,-.15,.2]),))
+    mission.to_pelvis = lambda position:position
     calls = []
+    def withdraw(target,orientation):
+        assert calls==['release_ack']
+        np.testing.assert_allclose(target,[.3,-.15,.2])
+        calls.append('withdraw')
+    mission.move_arm = withdraw
     mission.release,mission.grasp_R = object(),np.eye(3)
     mission.seconds = lambda:10.
     mission.service = lambda *args,**kw:calls.append('release_ack')
@@ -237,7 +263,7 @@ def test_placement_reobserves_from_retreat_viewpoint_after_release_ack():
     mission.retreat = lambda *args:calls.append('retreat')
     mission.spin = lambda *args:None
     def observed(identifier,pad,stamp):
-        assert calls == ['release_ack','retract','retreat']
+        assert calls == ['release_ack']+(['withdraw'] if dex3 else [])+['retract','retreat']
         assert stamp == 10.
         calls.append('post_release_observation')
         return True
@@ -258,26 +284,36 @@ def test_uncertain_release_does_not_initiate_retreat_or_verification():
     assert [phase for phase,_ in mission.events] == ['release']
 
 
-def test_unreachable_pickup_redocks_and_reprojects_before_grasp():
+@pytest.mark.parametrize('dex3',[False,True])
+def test_unreachable_pickup_redocks_and_reprojects_before_grasp(dex3):
     mission = mission_fixture()
+    mission.dex3 = dex3
     box = np.array((1.5,0.,1.))
     mission.joints = {}
     mission.observe = lambda *args:dict(position=box)
     mission.wait = lambda predicate,*args:predicate()
     mission.to_pelvis = lambda point:point-np.array((mission.pose[0],mission.pose[1],.8))
-    hand = [None]
+    hand = [np.array((.3,0.,.2))]
     calls = []
     def move(target,orientation):
         calls.append(target.copy())
         if target[0] > .5:
             raise ReachUnreachable('base drifted from table')
         hand[0] = target
+        return target
     mission.move_arm = move
-    mission.dock = lambda pose:setattr(mission,'pose',pose)
+    mission.arm_with_recovery = move
+    carried = []
+    mission.move_to_carry = lambda:carried.append(True)
+    def dock(pose):
+        if dex3:
+            assert carried and hand[0][0] < .2
+        mission.pose = pose
+    mission.dock = dock
     mission.kin = SimpleNamespace(forward=lambda joints:(hand[0],None,None,None))
     result = TransportMission.reach_box(mission,'box',np.array((1.,0.)),np.array((0.,1.)),0.)
     np.testing.assert_array_equal(result,box)
-    assert len(calls) == 2 and calls[1][0] < .5
+    assert len(calls) == (4 if dex3 else 2) and calls[1][0] < .5
     assert any(phase == 'redock_pickup' for phase,_ in mission.events)
 
 

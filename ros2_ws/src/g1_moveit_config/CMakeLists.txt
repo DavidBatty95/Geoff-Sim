@@ -15,7 +15,7 @@ if(BUILD_TESTING)
   ament_add_pytest_test(test_moveit_config test/test_moveit_config.py
     ENV
       G1_MOVEIT_CONFIG_DIR=${CMAKE_CURRENT_SOURCE_DIR}/config
-      G1_MOVEIT_URDF=${CMAKE_CURRENT_SOURCE_DIR}/../unitree_g1_description/urdf/g1_29dof_mode_15_brainco_hand.urdf
+      G1_MOVEIT_URDF=${CMAKE_CURRENT_SOURCE_DIR}/../unitree_g1_description/urdf/g1_29dof_dex3.urdf
   )
 endif()
 

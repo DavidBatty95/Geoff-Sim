@@ -27,6 +27,34 @@ For normal use, run `./geoff` from the repository root:
 ./geoff results
 ```
 
+Transport now defaults to Dex3 contact-only manipulation with small cylindrical
+objects. `setup_dex3_assets.py` verifies pinned official assets; `dex3_hand_model.py`
+generates the robot/MoveIt descriptions; `measure_dex3_contact_grasp.py` measures
+complete physical hand sequences; `verify_dex3_services.py` checks the native
+DDS/ROS grasp and release path. [Commands and qualification scope](../docs/DEX3_CONTACT_MANIPULATION_20261020.md).
+
+`probe_dex3_arm_stability.py` isolates free-base standing, carry and extension
+with native joint sensors and optional IMU heading feedback. Its results are
+diagnostics, not delivery acceptance. `run_transport_demo.py
+--manipulation-heading-hold` enables the experimental planner integration;
+`--pickup-standoff` retains 0.43 m as its default.
+[Protocol and retained outcomes](../docs/DEX3_ARM_STABILITY_20261022.md).
+
+`run_transport_demo.py --arm-stability-probe --carry-posture payload_v1` runs an
+isolated ROS arm protocol and enables control-stream capture. It cannot report a
+successful delivery. `analyze_arm_control_trace.py RUN --output NEW.json` checks
+capture coverage; `--record-control-state` also enables capture during ordinary
+transport trials. `--grasp-height-offset` is an explicit experimental offset,
+with zero as the default. [Tabletop-clearance findings](../docs/DEX3_TABLE_CLEARANCE_20261023.md).
+`sweep_dex3_retention.py` retains declared closure and wrist-roll studies;
+the contact bench supports tool-referenced rotation with `--pitch-about-tool`.
+[Rotational-retention findings and reference caveats](../docs/DEX3_ROTATIONAL_RETENTION_20261023.md).
+
+`run_demo_suite.sh --suite validation` builds/tests the workspace and runs the
+pinned Dex3 component suite. `--suite manipulation` adds a strictly checked
+experimental mobile task; `--dry-run` records its plan. See the
+[demo testing guide](../docs/DEMO_TESTING.md) for artifacts and acceptance rules.
+
 For offline stopping qualification, `score_native_stopping.py INPUT... --output
 NEW_REPORT.json --require-pass` retains failed/unreadable probes and returns
 nonzero when any selected probe fails. It refuses report overwrite and requires
@@ -154,7 +182,7 @@ Use the exact policy and configuration recorded by the relevant experiment.
 | General research batches | `benchmark_batch.py`, `aggregate_benchmark_batch.py` |
 | Response calibration | `measure_g1_fixed_command.py`, `process_g1_response_trial.py`, `assemble_g1_response_dataset.py` |
 | Transport | `run_transport_demo.py`, `transport_worlds.py`, `transport_evidence.py`, `summarize_payload_results.py`, `summarize_transport_progress.py` |
-| Payload/hand research | `g1_payload_training.py`, `brainco_hand_model.py`, `measure_brainco_contact_grasp.py` |
+| Payload/hand research | `g1_payload_training.py`, `dex3_hand_model.py`, `measure_dex3_contact_grasp.py`, `verify_dex3_services.py` |
 | Hardware fidelity | `audit_robot_model.py`, `audit_sim_interfaces.py`, `run_hardware_parity_probe.py`, `summarize_hardware_audit.py` |
 | Payload dynamics/perception diagnostics | `probe_native_policy.py`, `audit_payload_dynamics.py`, `profile_transport_perception.py`, `analyze_transport_perception.py` |
 | Evaluation alignment | `audit_evaluation_alignment.py`, `test_evaluation_audit.py` |

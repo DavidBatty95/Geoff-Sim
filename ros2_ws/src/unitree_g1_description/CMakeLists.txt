@@ -3,7 +3,7 @@ project(unitree_g1_description)
 
 find_package(ament_cmake REQUIRED)
 
-install(DIRECTORY config meshes urdf
+install(DIRECTORY config meshes urdf dex3_sources
   DESTINATION share/${PROJECT_NAME}
 )
 

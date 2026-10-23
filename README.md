@@ -20,25 +20,32 @@
 </div>
 
 Geoff-Sim brings locomotion, online mapping, human-aware navigation and object
-transport into one humanoid simulation platform. The robot observes its scene,
-approaches a table, lifts a cube, carries it to a destination and checks placement.
+transport into one humanoid simulation platform. Its current manipulation setup
+uses articulated **Dex3 hands**, contact-confirmed grasping and small cylinders.
 
-**Current progress · 19 October 2026:** cumulative regression testing now retains
-**208 native stopping conditions**. The experimental 95% actor interpolation
-passes **195/208 with no falls**, versus **188/208** for broad-reference seed80.
-Thirteen failures remain; individual regressions are retained alongside fixes.
-No candidate meets the all-conditions promotion gate. The deployed baseline
-remains cycle-05.
-**866 ROS results, 218 orchestration tests and 12 native CTests pass**, with
-27 separate training/reference tests passing at the latest implementation check.
-[Latest results, paired fixes and regressions](docs/CUMULATIVE_INTERPOLATION_20261019.md) ·
-[Actor-reference implementation](docs/ACTOR_REFERENCE_20261019.md).
+**Current progress · 23 October 2026:** Dex3 hands grasp through physical contact
+and friction. Both hands pass native-physics and ROS/DDS grasp/release tests.
+**Autonomous contact-only delivery is not yet qualified:** the latest seven
+mobile attempts completed zero deliveries. One retained the cylinder through
+destination docking and lowering, but did not release it.
+[Latest evidence and retained failures](docs/DEX3_ROTATIONAL_RETENTION_20261023.md).
 
-**Delivery evidence:** the earlier compact exploration cohort completed **4/4
+| Latest measured performance | Result and scope |
+| --- | --- |
+| Actual ROS/DDS grasp and release | Both hands pass; minimum held lift **14.73 cm right / 14.48 cm left** |
+| Tool-referenced rotational bench | Nominal 15 mm offset passes 40-second hold and release; smaller-cylinder/opposite-pitch release fails |
+| Mobile transport | Two raised-grasp trials moved the object **over 2.5 m**, then lost opposing contact |
+| Mobile delivery, 23 October | **0/7 completed**; held-object placement flags do not count as release |
+| Workspace verification | **903 ROS results**, **234 orchestration tests**, **12 native CTests** and **16 pinned-MuJoCo Python tests** pass |
+
+Bench results use an actuated wrist fixture. They establish component behavior,
+not complete mobile performance. No new closure or locomotion policy has been promoted.
+
+**Historical magnetic-fixture delivery evidence:** the earlier compact exploration cohort completed **4/4
 colour tasks**, followed by a medium-building delivery. A corrected-rollout
 zero-person control completed in **154.44 s**, while its one-person repeat timed
-out during braking. People-present delivery remains unqualified; attachment uses
-a magnetic capture-radius fixture rather than a demonstrated finger grasp.
+out during braking. Those earlier runs used magnetic capture-radius fixtures;
+they do not qualify the new contact-only Dex3 delivery workflow.
 [Cadence cohort and retained failures](docs/POLICY_CADENCE_20261015.md) ·
 [Loaded control and people-present outcome](docs/LOADED_STOPPING_20261015.md) ·
 [Matched stopping-reward ablation](docs/STOPPING_ABLATION_20261015.md).
@@ -48,26 +55,24 @@ a magnetic capture-radius fixture rather than a demonstrated finger grasp.
 
 ## Recorded demo gallery
 
-### Latest complete loaded stopping runs
+### Complete physical Dex3 grasp runs
 
-**Each GIF shows an entire 15-second run, with no cuts:** stand for five seconds,
-move sideways for two seconds, then brake and hold through the end. Both use
-the latest 95% actor-interpolation candidate, a 150 g wrist-attached payload and
-60 ms action delay. Timestamps show the full simulation interval; playback is
-real time at 10 fps, followed by a one-second final outcome card.
+**Each GIF shows an entire ten-second run, with no cuts:** approach, close the
+fingers, lift, hold, lower and release an **80 g, 40 mm diameter cylinder**.
+An actuated wrist test rig supplies the arm motion; physical finger contacts
+support the object. Playback is real time at 10 fps with a final outcome card.
 
-| Positive lateral command (+0.45 m/s) | Negative lateral command (−0.45 m/s) |
+| Right Dex3 hand | Left Dex3 hand |
 | --- | --- |
-| ![Complete 15-second loaded positive-lateral stopping run, from initial standing through movement and final qualified stop](docs/media/braking/interpolation95_complete_lateral_0.45.gif) | ![Complete 15-second loaded negative-lateral stopping run, from initial standing through movement and final qualified stop](docs/media/braking/interpolation95_complete_lateral_-0.45.gif) |
-| **PASS:** movement and strict stopping; no fall or scene contact. | **PASS:** movement and strict stopping; no fall or scene contact. |
+| ![Complete right Dex3 physical grasp, lift, hold, lower and release without an object weld](docs/media/dex3/right_complete_grasp.gif) | ![Complete left Dex3 physical grasp, lift, hold, lower and release without an object weld](docs/media/dex3/left_complete_grasp.gif) |
+| **PASS:** 14.27 cm held lift, opposing contacts, successful release. | **PASS:** 13.95 cm held lift, opposing contacts, successful release. |
 
-These are offscreen renders of actual native MuJoCo probe states, covering
-**t=0 through t=15 s in 151 frames each**. They are complete loaded-start
-locomotion tests, not pickup-and-delivery missions. The two passing recordings
-do not override failures elsewhere in the evaluation matrix.
-[Positive-run provenance](docs/media/braking/interpolation95_complete_lateral_0.45.json) ·
-[Negative-run provenance](docs/media/braking/interpolation95_complete_lateral_-0.45.json) ·
-[All latest evaluation outcomes](docs/CUMULATIVE_INTERPOLATION_20261019.md).
+These render actual MuJoCo states from **t=0 through t=10 s in 101 frames each**.
+The object has no weld or manually applied force. These are complete hand-bench
+runs, not complete autonomous delivery missions.
+[Right-hand provenance](docs/media/dex3/right_complete_grasp.json) ·
+[Left-hand provenance](docs/media/dex3/left_complete_grasp.json) ·
+[All current outcomes and limitations](docs/DEX3_CONTACT_MANIPULATION_20261020.md).
 
 Earlier delivery recordings, stage excerpts and navigation previews remain in
 the [media catalogue](docs/MEDIA.md), with their original dates and provenance.
@@ -82,7 +87,7 @@ All GIFs embedded on this README are the complete runs shown above.
 | **Human-aware planning** | Person tracking, motion prediction, route selection and collision supervision |
 | **Representative worlds** | Six procedural environments plus the original pedestrian plaza |
 | **Reproducible experiments** | Seeded trials, strict result validation, source-linked datasets and a browser dashboard |
-| **Experimental transport** | RGB-D pickup, physically positioned arms, magnetic attachment and payload-aware locomotion |
+| **Experimental transport** | RGB-D alignment, articulated Dex3 hands, contact-confirmed grasp/release and payload-aware locomotion |
 
 Start with the [demo walkthrough](docs/DEMO_GUIDE.md) for a guided tour, or the
 [documentation index](docs/INDEX.md) for implementation and research references.
@@ -126,11 +131,14 @@ The convenient daily entry point is `./geoff`:
 ./geoff results
 ```
 
-The experimental magnetic transport demo has repeated complete native dual-cube
-deliveries with a locally trained, native-inertial/delay-aware payload policy.
-See [the current checkpoint, retained failures and command](docs/NATIVE_PAYLOAD_CONTRACT.md).
-Checkpoints are local training artifacts; this is separate from crowd-navigation
-and contact-only grasp acceptance.
+The transport entry point now selects Dex3 contact grasping and small cylinders:
+
+```bash
+./geoff transport --world transport_dual --task red:red --people 0
+```
+
+This is an experimental mobile workflow; hand-level grasp/release passes, but
+complete Dex3 delivery is not yet qualified. [Setup and measured outcomes](docs/DEX3_CONTACT_MANIPULATION_20261020.md).
 
 To inspect the articulated-hand hardware-facing profile after building:
 
@@ -140,8 +148,8 @@ python3 scripts/run_hardware_parity_probe.py \
 ```
 
 This checks live message contracts and measured sensor delivery. The
-[fidelity guide](docs/HARDWARE_FIDELITY.md) lists the standard topics, BrainCo
-Stark adapter, model differences and reduced sensor bandwidth.
+[fidelity guide](docs/HARDWARE_FIDELITY.md) lists the standard Dex3/body topics,
+legacy BrainCo adapter, model differences and reduced sensor bandwidth.
 
 The installer initializes pinned sources, applies the reviewed [source patches](patches/README.md),
 builds dependencies and generates pedestrian animation/world assets. The official
@@ -214,6 +222,29 @@ navigation and retains failed trials. It writes raw artifacts under the ROS
 workspace's ignored results directory and publishes a portable JSON dataset.
 
 ## Scored and diagnostic runs
+
+### Repeatable demo testing suite
+
+Run serially after installation. Each invocation creates a unique artifact
+directory with commands, seed, commit, dirty-tree status, per-case logs and a
+machine-readable `status.json`. Failures return a nonzero exit code.
+
+```bash
+# Build/test ROS and native interfaces, then run pinned Dex3 physics tests:
+./scripts/run_demo_suite.sh --suite validation --headless --seed 42
+# Inspect the experimental hand + mobile-delivery protocol without launching it:
+./scripts/run_demo_suite.sh --suite manipulation --dry-run --headless --seed 42
+# Execute once the local cycle05 checkpoint is available:
+./scripts/run_demo_suite.sh --suite manipulation --headless --seed 42 --fast-start
+```
+
+`validation` is regression/component verification; it does not qualify delivery.
+`manipulation` tests a fixed red-to-red, zero-person, 15 mm raised grasp with
+experimental heading hold. It requires the checksum-pinned local native cycle05
+policy and checks mission completion, valid evaluator data, verified delivery,
+no fall, no drops and zero contact samples. Dry runs are planned, never passed.
+Use `--continue-on-failure` to retain results from subsequent cases.
+See the [suite guide](docs/DEMO_TESTING.md) for prerequisites and interpretation.
 
 ```bash
 ./scripts/run_demo_suite.sh --case onboard-waypoints --goals 3 --people 8 --seed 44 --headless --fast-start

@@ -1,0 +1,11 @@
+{
+  "scope": "Resume continuous search from the verified overnight improvement; retain all 208 cumulative conditions",
+  "initial_policy": "layer_search_continuous_20261019/proposal_00250/policy.onnx",
+  "initial_policy_sha256": "23de9639fc82c2576eb8a33e25eeb875a6990563d16ddd7637c226bef5aba9e5",
+  "initial_weights": [0.927732, 0.92538, 0.92884, 0.959266],
+  "initial_passed": 197, "initial_cases": 208, "initial_falls": 0,
+  "change": "Use manifest-verified actual incumbent coefficients on resume. Restart coordinate search at step0.01 after each improvement. Halve unsuccessful coordinate steps down to0.00015625, then cycle deterministic Gaussian scales0.0005/0.001/0.002/0.005/0.01, rather than repeating std0.02 indefinitely.",
+  "admission": "Only complete no-fall candidates with strictly fewer failures replace incumbent. Reject impossible-to-improve screens as incomplete. Unchanged movement and stopping gates.",
+  "validation": "A zero-failure cumulative candidate must pass48 newly declared conditions; failures become retained regressions. No automatic deployment.",
+  "termination": "Native suite plus new validation pass, explicit interruption, source changes, setup/protocol error, validation fall requiring review, or less than10GiB free disk."
+}

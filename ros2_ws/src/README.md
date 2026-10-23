@@ -30,7 +30,7 @@ the parent repository.
 | [unitree_g1_mujoco_bridge](unitree_g1_mujoco_bridge/README.md) | Sensors, state estimation, tracking, navigation supervision, locomotion and experimental transport | Python modules and `test/` |
 | [unitree_g1_sim_bringup](unitree_g1_sim_bringup/README.md) | Launch composition, parameter profiles and RViz layouts | `launch/g1_sim.launch.py`, `config/` |
 | [dynamic_obstacle_benchmarks](dynamic_obstacle_benchmarks/README.md) | Trial orchestration, source contracts, scoring and result writing | `config/`, runner and tests |
-| [unitree_g1_description](unitree_g1_description/README.md) | G1 URDF and meshes, including BrainCo hand description | `urdf/`, `meshes/` |
+| [unitree_g1_description](unitree_g1_description/README.md) | G1 URDF and meshes with default articulated Dex3 hands | `urdf/`, `meshes/`, `dex3_sources/` |
 | [unitree_social_navigation_msgs](unitree_social_navigation_msgs/README.md) | Social-navigation message contracts | `msg/` |
 | [unitree_social_costmap](unitree_social_costmap/README.md) | C++ Nav2 social costmap and behavior-tree integration | `src/`, `include/` |
 | [g1_msgs](g1_msgs/README.md) | Approach/manipulation/transport actions and object-selectable grasp service | `action/`, `srv/` |

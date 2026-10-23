@@ -11,7 +11,7 @@ def test_explicit_cross_color_objective_contains_no_layout_and_keeps_source_colo
     objective = select_transport_task(PAIRS,'red:blue')
     assert objective['pairs']==[dict(object_id='box_red',destination_id='target_blue',
                                      color='red',destination_color='blue')]
-    assert objective['description']=='Put the red box on the blue goal'
+    assert objective['description']=='Put the red object on the blue goal'
     assert objective['pairs'][0] is not PAIRS[0]
 
 

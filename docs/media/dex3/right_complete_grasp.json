@@ -1,0 +1,82 @@
+{
+  "kind": "dex3_contact_bench",
+  "simulation_start_s": 0.0,
+  "simulation_end_s": 10.0,
+  "frame_count": 101,
+  "frame_period_s": 0.1,
+  "playback_duration_ms": 11000,
+  "final_frame_hold_ms": 1000,
+  "physical_grasp": {
+    "success": true,
+    "scope": "prescribed wrist contact-only bench, not mobile qualification",
+    "side": "right",
+    "x": 0.135,
+    "y": 0.04,
+    "radius": 0.02,
+    "mass": 0.08,
+    "grip": [
+      0.0,
+      -0.75,
+      -0.9,
+      1.2,
+      1.2,
+      1.2,
+      1.2
+    ],
+    "object_shape": "cylinder",
+    "object_constraints": 0,
+    "object_external_force": false,
+    "minimum_held_lift_m": 0.14273582894222558,
+    "opposed_contact": true,
+    "released": true,
+    "held_joints": [
+      0.0022935432550370343,
+      -0.41429998962750286,
+      -0.8594093022553512,
+      1.0983223608844395,
+      1.1997299427105956,
+      1.099201095534894,
+      1.200247419091176
+    ],
+    "held_contacts": [
+      "right_wrist_yaw_link",
+      "right_hand_thumb_1_link",
+      "right_hand_thumb_2_link",
+      "right_hand_middle_0_link",
+      "right_hand_index_0_link"
+    ],
+    "prelift": {
+      "time": 2.901999999999902,
+      "position": [
+        0.10200054890084935,
+        0.03558900672057469,
+        1.0000118553640813
+      ],
+      "contacts": [
+        "world",
+        "right_wrist_yaw_link",
+        "right_hand_thumb_1_link",
+        "right_hand_thumb_2_link",
+        "right_hand_middle_0_link",
+        "right_hand_index_0_link"
+      ],
+      "joints": [
+        0.0014747462182090763,
+        -0.4148107515158322,
+        -0.8593810748270622,
+        1.0983526436601692,
+        1.1998669976246772,
+        1.0981482265454225,
+        1.2001007813588713
+      ]
+    },
+    "final_position": [
+      0.10414285769642005,
+      0.03598598994424666,
+      0.999903938343165
+    ]
+  },
+  "result_sha256": "eb4cb5a010d1421a082714d7b5501c0e37c63d6e82837aed0e079899c2c757ab",
+  "recorder_sha256": "979f30b88eb998045f5e70f241ca0956bf35607d799d79891a86aa27b1c6fa15",
+  "gif_sha256": "908c461a6baea9dbfd985fb9dec3b3ae78a7eab312a9dba4b5ed099cd1b86833"
+}

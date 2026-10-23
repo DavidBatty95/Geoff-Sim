@@ -633,18 +633,18 @@ class HumanAwareMotionPlanner(Node):
         self.mission_state_time = self.get_clock().now()
 
     def _mode_callback(self,msg):
-        mode = msg.data if msg.data in ('navigate','dock','scan','brake','reserve_recovery') else 'navigate'
+        mode = msg.data if msg.data in ('navigate','dock','scan','manipulate','brake','reserve_recovery') else 'navigate'
         if mode=='brake' and self.navigation_mode!='brake':
             self.braking_reference = [self.last_cmd.linear.x,self.last_cmd.linear.y,self.last_cmd.angular.z]
             self.braking_stamp = self.get_clock().now().nanoseconds*1e-9
         self.navigation_mode = mode
-        self.static_clearance = .26 if self.navigation_mode in ('dock','scan') else self.navigation_static_clearance+(.16 if self.payload_active else 0.)
+        self.static_clearance = .26 if self.navigation_mode in ('dock','scan','manipulate') else self.navigation_static_clearance+(.16 if self.payload_active else 0.)
 
     def _payload_callback(self,msg):
         if bool(msg.data) != self.payload_active:
             self.robot_radius += .16 if msg.data else -.16
             self.payload_active = bool(msg.data)
-        self.static_clearance = .26 if self.navigation_mode in ('dock','scan') else self.navigation_static_clearance+(.16 if self.payload_active else 0.)
+        self.static_clearance = .26 if self.navigation_mode in ('dock','scan','manipulate') else self.navigation_static_clearance+(.16 if self.payload_active else 0.)
         self.motion_envelope = replace(self.motion_envelope,payload_active=self.payload_active)
 
     def _dock_reference(self,pose):
@@ -668,6 +668,11 @@ class HumanAwareMotionPlanner(Node):
         yaw = math.atan2(2*(q.w*q.z+q.x*q.y),1-2*(q.y*q.y+q.z*q.z))
         error = self._wrap_pi(yaw-pose[2])
         cmd = Twist()
+        if self.navigation_mode=='manipulate':
+            from .manipulation_heading import heading_hold_reference
+            cmd.angular.z = heading_hold_reference(error,self.measured_velocity[2],self.max_angular_near_human)
+            self.path_reference_status = 'manipulation_heading_hold'
+            return cmd
         if abs(error) > .12:
             if self.motion_envelope.response_profile==NATIVE_CONTACT_PROFILE:
                 cmd.angular.z = calibrated_turn_reference(error,self.measured_velocity[2],self.payload_active)
@@ -687,7 +692,14 @@ class HumanAwareMotionPlanner(Node):
                 # Correct one axis at a time so diagonal components do not
                 # both fall back into the policy's low-command stand region.
                 if abs(forward) >= abs(lateral):
-                    cmd.linear.x = math.copysign(.30,forward)
+                    cmd.linear.x = min(.45,self.max_forward_near_human)
+                    # Dex3 trials acknowledge 0.30 yet stand still, including
+                    # after release while the arm remains in its carry posture.
+                    # Keep the executable reverse envelope to the stop band;
+                    # dropping to -0.30 near the endpoint stalls before arrival.
+                    # rollout, clearance and slew checks still score this command.
+                    if forward < 0.:
+                        cmd.linear.x = -min(.45,self.max_reverse_velocity)
                 else:
                     cmd.linear.y = math.copysign(.30,lateral)
         self.path_reference_status = 'precision_docking'
@@ -1029,12 +1041,12 @@ class HumanAwareMotionPlanner(Node):
             self._publish(Twist(), "ODOMETRY_STALE_STOP", [], None)
             return
         if self.nav2_path_reference and self.mission_active:
-            reference = self._dock_reference(pose) if self.navigation_mode in ('dock','scan','brake','reserve_recovery') else self._path_reference(pose)
+            reference = self._dock_reference(pose) if self.navigation_mode in ('dock','scan','manipulate','brake','reserve_recovery') else self._path_reference(pose)
             if reference is not None:
                 self.latest_cmd = reference
         self._update_goal_urgency(pose,now_seconds)
         if (self.prefer_safe_route_alignment and self.nav2_path_reference and self.mission_active and
-                self.navigation_mode in ('scan','brake')):
+                self.navigation_mode in ('scan','manipulate','brake')):
             # A scan/brake is an explicit request to stop translating, not a
             # new route-progress objective. Recheck its full stopping/turning
             # rollout before continuing an old escape or optimizing comfort.

@@ -155,7 +155,9 @@ class LaunchDescriptionTests(unittest.TestCase):
         ]:
             self.assertIn(name, arguments)
 
-        self.assertEqual(arguments["mujoco_scene"].default_value[0].text, "scene_29dof_extreme_lab.xml")
+        self.assertEqual(arguments["mujoco_scene"].default_value[0].text, "scene_29dof_extreme_lab_dex3.xml")
+        self.assertEqual(arguments['hand_model'].default_value[0].text,'dex3')
+        self.assertEqual(arguments['grasp_backend'].default_value[0].text,'dex3_contact')
         self.assertEqual(arguments["run_human_collision_avoidance"].default_value[0].text, "true")
         self.assertEqual(
             arguments["human_collision_input_cmd_vel_topic"].default_value[0].text,
