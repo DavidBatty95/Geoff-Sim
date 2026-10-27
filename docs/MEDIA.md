@@ -5,7 +5,7 @@
   <a href="../README.md"><img src="media/navigation/home.svg" width="132" height="44" alt="Home"></a>
   <a href="../README.md#quick-start"><img src="media/navigation/start.svg" width="132" height="44" alt="Quick start"></a>
   <a href="DEMO_GUIDE.md"><img src="media/navigation/demos.svg" width="132" height="44" alt="Demos"></a>
-  <a href="INDEX.md"><img src="media/navigation/docs.svg" width="132" height="44" alt="Docs"></a>
+  <a href="README.md"><img src="media/navigation/docs.svg" width="132" height="44" alt="Docs"></a>
   <a href="REPOSITORY_GUIDE.md"><img src="media/navigation/folders.svg" width="132" height="44" alt="Folders"></a>
   <br>
   <a href="PROJECT_STATUS.md"><img src="media/navigation/progress.svg" width="132" height="44" alt="Progress"></a>
@@ -18,10 +18,25 @@
 
 [README gallery](../README.md#recorded-demo-gallery) · [Demo walkthrough](DEMO_GUIDE.md)
 
-The README now leads with two complete Dex3 hand-grasp runs. They are offscreen
-renders of actual contact-physics states, with timestamps and full-run coverage.
+The README combines two illustrated architecture animations with two complete
+Dex3 hand-grasp runs. The hand recordings are offscreen renders of actual
+contact-physics states, with timestamps and full-run coverage.
 Earlier delivery and navigation recordings remain catalogued below with their
 original outcomes. Upstream training-library media belongs to its own documentation.
+
+## Animated architecture — 27 October 2026
+
+| Diagram | Scope | Static reading copy |
+| --- | --- | --- |
+| [Connected system](media/architecture-system.gif) | Physics, sensors, estimation, mission, planning, supervision, policy, composition and hands | [PNG](media/architecture-system.png) |
+| [Mission and command ownership](media/architecture-control.gif) | Perception-to-contact sequence, command contracts and reproducible artifacts | [PNG](media/architecture-control.png) |
+
+These are illustrated system models, not simulation recordings. Each contains
+72 frames over a 14.4-second loop with six highlighted stages. The source model,
+generator hash and GIF hash are in the adjacent JSON files. Regenerate with
+`python3 scripts/generate_architecture_gifs.py` and verify all README GIFs with
+`python3 scripts/check_readme_gifs.py`. Static copies provide a reduced-motion
+reading option. The two animations total approximately 1.7 MiB.
 
 ## Dex3 contact-only recordings — 20 October 2026
 

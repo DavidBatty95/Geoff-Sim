@@ -1,4 +1,4 @@
-"""Verify complete-run GIF coverage and provenance for every README GIF."""
+"""Verify README recording provenance and explicitly labelled architecture GIFs."""
 import argparse
 import hashlib
 import json
@@ -23,6 +23,27 @@ def main():
         metadata = json.loads(path.with_suffix('.json').read_text())
         if hashlib.sha256(path.read_bytes()).hexdigest()!=metadata['gif_sha256']:
             raise ValueError('GIF hash mismatch')
+        if metadata.get('kind')=='architecture_diagram':
+            if metadata['scope']!='illustrated architecture, not simulation footage':
+                raise ValueError('architecture scope missing')
+            generator=ROOT/metadata['generator']
+            if hashlib.sha256(generator.read_bytes()).hexdigest()!=metadata['generator_sha256']:
+                raise ValueError('architecture generator changed; regenerate diagrams')
+            with Image.open(path) as gif:
+                if gif.n_frames!=metadata['frame_count'] or list(gif.size)!=metadata['dimensions']:
+                    raise ValueError('architecture dimensions/frame count mismatch')
+                duration=0
+                for index in range(gif.n_frames):
+                    gif.seek(index)
+                    duration+=gif.info['duration']
+                    if index in (0,24,48,71):
+                        image=gif.convert('RGB')
+                        image.thumbnail((320,200))
+                        thumbnails.append(image)
+                if duration!=metadata['playback_duration_ms']:
+                    raise ValueError('architecture playback duration mismatch')
+            print(f'{name}: illustrated architecture, {metadata["frame_count"]} frames, hash verified')
+            continue
         dex3 = metadata.get('kind')=='dex3_contact_bench'
         expected_end,expected_count,expected_duration = (10.,101,11000) if dex3 else (15.,151,16000)
         if dex3:

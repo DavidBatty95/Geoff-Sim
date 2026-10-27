@@ -5,7 +5,7 @@
   <a href="../README.md"><img src="media/navigation/home.svg" width="132" height="44" alt="Home"></a>
   <a href="../README.md#quick-start"><img src="media/navigation/start.svg" width="132" height="44" alt="Quick start"></a>
   <a href="DEMO_GUIDE.md"><img src="media/navigation/demos.svg" width="132" height="44" alt="Demos"></a>
-  <a href="INDEX.md"><img src="media/navigation/docs.svg" width="132" height="44" alt="Docs"></a>
+  <a href="README.md"><img src="media/navigation/docs.svg" width="132" height="44" alt="Docs"></a>
   <a href="REPOSITORY_GUIDE.md"><img src="media/navigation/folders.svg" width="132" height="44" alt="Folders"></a>
   <br>
   <a href="PROJECT_STATUS.md"><img src="media/navigation/progress.svg" width="132" height="44" alt="Progress"></a>
@@ -86,5 +86,5 @@ All six generated worlds were loaded by MuJoCo in the simulator tests. The GUI
 was checked in Firefox for dataset selection, filtering, details and replay.
 These software checks do not turn failed navigation trials into passes.
 
-The repository's maintained documentation is indexed [here](INDEX.md); research
+The repository's maintained documentation is indexed [here](README.md); research
 drafts are kept in [archive](../archive/README.md).

@@ -21,7 +21,7 @@ class MenuLinks(HTMLParser):
             self.images.append(dict(attrs))
 
 
-@pytest.mark.parametrize('page', ['README.md', 'docs/INDEX.md',
+@pytest.mark.parametrize('page', ['README.md', 'docs/README.md',
                                  'ros2_ws/src/g1_msgs/README.md'])
 def test_all_links_resolve_to_same_destinations_at_every_depth(tmp_path, page):
     source = tmp_path / page
@@ -35,7 +35,7 @@ def test_all_links_resolve_to_same_destinations_at_every_depth(tmp_path, page):
         assert (source.parent / image['src']).resolve().parent == tmp_path / 'docs/media/navigation'
         assert image['alt'].startswith(label)
     current = [image for image in parsed.images if '(current page)' in image['alt']]
-    assert len(current) == (1 if page in ('README.md', 'docs/INDEX.md') else 0)
+    assert len(current) == (1 if page in ('README.md', 'docs/README.md') else 0)
 
 
 def test_regeneration_preserves_authored_content_and_is_idempotent(tmp_path):

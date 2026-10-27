@@ -1,13 +1,14 @@
 <div align="center">
   <img src="docs/media/title-banner.svg" width="100%" alt="Geoff-Sim — humanoid locomanipulation: observe, approach, pick up, carry and place">
-  <p><strong>Unitree G1 · MuJoCo · ROS 2 Humble · Sensor-driven mobile manipulation</strong></p>
+  <p><strong>Unitree G1 · MuJoCo · ROS 2 Humble · Sensor-driven robotics</strong></p>
+  <p>A connected research platform for humanoid locomotion, perception, social navigation and dexterous manipulation.</p>
   <a href="https://github.com/DavidBatty95/Geoff-Sim/actions/workflows/verification.yml"><img src="https://github.com/DavidBatty95/Geoff-Sim/actions/workflows/verification.yml/badge.svg" alt="Verification workflow status"></a>
 <!-- geoff-nav:start -->
 <p align="center">
   <a href="README.md"><img src="docs/media/navigation/home-current.svg" width="132" height="44" alt="Home (current page)"></a>
   <a href="README.md#quick-start"><img src="docs/media/navigation/start.svg" width="132" height="44" alt="Quick start"></a>
   <a href="docs/DEMO_GUIDE.md"><img src="docs/media/navigation/demos.svg" width="132" height="44" alt="Demos"></a>
-  <a href="docs/INDEX.md"><img src="docs/media/navigation/docs.svg" width="132" height="44" alt="Docs"></a>
+  <a href="docs/README.md"><img src="docs/media/navigation/docs.svg" width="132" height="44" alt="Docs"></a>
   <a href="docs/REPOSITORY_GUIDE.md"><img src="docs/media/navigation/folders.svg" width="132" height="44" alt="Folders"></a>
   <br>
   <a href="docs/PROJECT_STATUS.md"><img src="docs/media/navigation/progress.svg" width="132" height="44" alt="Progress"></a>
@@ -19,100 +20,127 @@
 <!-- geoff-nav:end -->
 </div>
 
-Geoff-Sim brings locomotion, online mapping, human-aware navigation and object
-transport into one humanoid simulation platform. Its current manipulation setup
-uses articulated **Dex3 hands**, contact-confirmed grasping and small cylinders.
+## Project overview
 
-**Current progress · 23 October 2026:** Dex3 hands grasp through physical contact
-and friction. Both hands pass native-physics and ROS/DDS grasp/release tests.
-**Autonomous contact-only delivery is not yet qualified:** the latest seven
-mobile attempts completed zero deliveries. One retained the cylinder through
-destination docking and lowering, but did not release it.
-[Latest evidence and retained failures](docs/DEX3_ROTATIONAL_RETENTION_20261023.md).
+**Geoff-Sim brings a complete robotics research workflow into one repository:**
+physical simulation, onboard sensing, online mapping, learned locomotion,
+human-aware motion planning, articulated hands, repeatable experiments and
+visual results analysis.
 
-| Latest measured performance | Result and scope |
+The project connects a Unitree G1 to ROS 2 through native DDS interfaces. A
+sensor-driven stack builds its view of the world from LiDAR, IMU, encoders and
+RGB-D observations, then turns task intent into checked motion and manipulation
+commands. Procedural environments and walking pedestrians make the platform a
+rich setting for studying embodied behaviour.
+
+**Development wrap-up · October 2026.** The core development phase is wrapped up.
+This repository is preserved as a reproducible research and engineering reference,
+with working tools, recorded demonstrations, source-linked experiments and a
+detailed technical library. Future updates are expected to be occasional.
+
+## What has been achieved
+
+| Area | Project achievement |
 | --- | --- |
-| Actual ROS/DDS grasp and release | Both hands pass; minimum held lift **14.73 cm right / 14.48 cm left** |
-| Tool-referenced rotational bench | Nominal 15 mm offset passes 40-second hold and release; smaller-cylinder/opposite-pitch release fails |
-| Mobile transport | Two raised-grasp trials moved the object **over 2.5 m**, then lost opposing contact |
-| Mobile delivery, 23 October | **0/7 completed**; held-object placement flags do not count as release |
-| Workspace verification | **903 ROS results**, **234 orchestration tests**, **12 native CTests** and **16 pinned-MuJoCo Python tests** pass |
+| **Integrated humanoid simulation** | Native MuJoCo physics, a 29-joint body-policy interface, articulated Dex3 hands and Unitree DDS command/state exchange |
+| **Sensor-driven autonomy** | Simulated LiDAR, IMU, joint encoders and RGB-D feeding scan odometry, online SLAM, object observations and observed-map navigation |
+| **Human-aware motion** | Person tracking, trajectory forecasts, event-driven route updates, response-aware local planning and an independent collision supervisor |
+| **Physical hand manipulation** | Both Dex3 hands demonstrate contact-based grasp, lift, hold and release; native tactile feedback is integrated with ROS services |
+| **Task orchestration** | Survey, approach, reach, grasp, payload-motion and release modules, with explicit command ownership and measured-state transitions |
+| **Representative environments** | Six procedural courtyard, café, station, clinic, concourse and office worlds, plus the original pedestrian plaza |
+| **Experiment infrastructure** | Seeded runners, source snapshots, policy checksums, timestamped traces, offline replay and an interactive results dashboard |
+| **Research and documentation** | A 74-page literature review, 50 paper appraisals, architecture guides, implementation notes and an annotated resource library |
 
-Bench results use an actuated wrist fixture. They establish component behavior,
-not complete mobile performance. No new closure or locomotion policy has been promoted.
+### Selected milestones
 
-**Historical magnetic-fixture delivery evidence:** the earlier compact exploration cohort completed **4/4
-colour tasks**, followed by a medium-building delivery. A corrected-rollout
-zero-person control completed in **154.44 s**, while its one-person repeat timed
-out during braking. Those earlier runs used magnetic capture-radius fixtures;
-they do not qualify the new contact-only Dex3 delivery workflow.
-[Cadence cohort and retained failures](docs/POLICY_CADENCE_20261015.md) ·
-[Loaded control and people-present outcome](docs/LOADED_STOPPING_20261015.md) ·
-[Matched stopping-reward ablation](docs/STOPPING_ABLATION_20261015.md).
+- **Physical Dex3 grasp/release through ROS and DDS:** minimum held lifts of
+  **14.73 cm right / 14.48 cm left** in the integrated service tests.
+- **Complete physical hand-bench recordings:** both hands perform the full
+  approach → close → lift → hold → lower → release sequence shown below.
+- **Sensor-driven search and task sequencing:** the historical magnetic-fixture
+  exploration cohort completed **4/4 colour tasks**, followed by a medium-building
+  delivery demonstration.
+- **Onboard survey diagnostics:** both latest three-person seed-42/43 surveys
+  complete the object-and-destination discovery stage.
+- **Automated verification:** **1,016 ROS test results**, **246 orchestration tests**
+  and **13 native CTests** pass in the latest local workspace run. The pinned
+  MuJoCo hand-physics suite has a recorded **16-test pass**.
 
-[Current status](docs/PROJECT_STATUS.md) · [Implementation and verification](docs/PERFORMANCE_FOUNDATION.md) ·
-[Retained delivery evidence](docs/PERFORMANCE_IMPLEMENTATION_20261012.md) · [Roadmap](docs/PROJECT_PLAN.md)
+Each milestone has its own experiment configuration and scope. Explore the
+[project record](docs/PROJECT_STATUS.md), [contact-manipulation evidence](docs/DEX3_CONTACT_MANIPULATION_20261020.md)
+and [published experiment records](docs/results/README.md) for the associated
+measurements and provenance.
+
+## Architecture
+
+### The connected system
+
+The animation follows data through the implemented stack, from native physics
+and sensor acquisition to state estimation, planning, supervision and actuation.
+The separate evaluation branch makes every experiment inspectable.
+
+![Animated system architecture showing MuJoCo, onboard sensors, estimation, mission planning, social planning, collision supervision, ONNX locomotion, command composition and Dex3 manipulation](docs/media/architecture-system.gif)
+
+[Open full-size static diagram](docs/media/architecture-system.png) ·
+[Detailed architecture guide](docs/ARCHITECTURE.md) ·
+[Onboard data-flow guide](docs/ONBOARD_SOCIAL_NAVIGATION.md)
+
+| Layer | Main responsibilities | Interfaces and implementation |
+| --- | --- | --- |
+| **Physics and worlds** | Robot dynamics, articulated fingers, object contacts, pedestrian motion and procedural scenes | Native `unitree_mujoco`, reviewed [source patches](patches/README.md) |
+| **Sensing** | LiDAR raycasts, RGB-D images, native IMU streams, joint measurements and device-tick feedback | `g1_sim_sensors`, sensor packets, `LowState`, `JointState` |
+| **State and perception** | Scan registration, measured attitude, online mapping, RGB-D object/support observations | `onboard_lidar_odometry`, SLAM, `transport_perception` |
+| **Mission and routing** | Viewing goals, search, approach, task sequencing and route updates | `transport_demo`, Nav2, observed-free goals |
+| **Social planning** | Tracked-person forecasts, executable candidate trajectories, braking and optional escape primitives | `dynamic_obstacle_tracker`, `human_aware_motion_planner`, process-isolated search |
+| **Supervision** | Command freshness, identity, context and swept-body clearance | `human_collision_avoidance`, command envelopes |
+| **Execution** | ONNX body policy, arm ownership, joint-target composition and actuator messages | `g1_policy_cmd_vel_controller`, arm compositor, Unitree DDS |
+| **Evidence** | Aligned evaluation, source-linked traces, replay, metrics and visualization | Run logger, experiment publishers, browser dashboard |
+
+### Mission, contact and command ownership
+
+The transport implementation connects fresh observations and measured settling
+to Cartesian reaching, physical grasp feedback, payload context and controlled
+finger opening. The animation also shows how command contracts and reproducible
+artifacts connect those modules.
+
+![Animated transport architecture showing perception, survey and approach, Cartesian reach, tactile grasp, payload planning, contact release, command validation, DDS execution and reproducibility](docs/media/architecture-control.gif)
+
+[Open full-size static diagram](docs/media/architecture-control.png) ·
+[Manipulation resource collection](docs/resources/MANIPULATION.md) ·
+[Hardware-facing interfaces](docs/HARDWARE_FIDELITY.md)
+
+**Architecture animations are illustrated system models.** Their six highlighted
+stages explain modules and data flow. The gallery below contains rendered physical
+simulation recordings. Both diagrams have static reading copies and
+[reproducible generation code](scripts/generate_architecture_gifs.py).
 
 ## Recorded demo gallery
 
 ### Complete physical Dex3 grasp runs
 
-**Each GIF shows an entire ten-second run, with no cuts:** approach, close the
-fingers, lift, hold, lower and release an **80 g, 40 mm diameter cylinder**.
-An actuated wrist test rig supplies the arm motion; physical finger contacts
-support the object. Playback is real time at 10 fps with a final outcome card.
+Each GIF shows a complete **ten-second physical hand-bench run**: approach,
+close, lift, hold, lower and release an **80 g, 40 mm diameter cylinder**.
+An actuated wrist fixture supplies the arm motion; finger contact and friction
+support the object. Playback is real time at 10 fps, followed by an outcome card.
 
 | Right Dex3 hand | Left Dex3 hand |
 | --- | --- |
-| ![Complete right Dex3 physical grasp, lift, hold, lower and release without an object weld](docs/media/dex3/right_complete_grasp.gif) | ![Complete left Dex3 physical grasp, lift, hold, lower and release without an object weld](docs/media/dex3/left_complete_grasp.gif) |
-| **PASS:** 14.27 cm held lift, opposing contacts, successful release. | **PASS:** 13.95 cm held lift, opposing contacts, successful release. |
+| ![Complete right-hand physical grasp, lift, hold, lower and release](docs/media/dex3/right_complete_grasp.gif) | ![Complete left-hand physical grasp, lift, hold, lower and release](docs/media/dex3/left_complete_grasp.gif) |
+| **14.27 cm held lift**, opposing contacts and successful release. | **13.95 cm held lift**, opposing contacts and successful release. |
 
-These render actual MuJoCo states from **t=0 through t=10 s in 101 frames each**.
-The object has no weld or manually applied force. These are complete hand-bench
-runs, not complete autonomous delivery missions.
+Each recording contains **101 frames spanning t=0–10 s** from actual MuJoCo
+states, with free objects supported by physical finger contacts.
 [Right-hand provenance](docs/media/dex3/right_complete_grasp.json) ·
-[Left-hand provenance](docs/media/dex3/left_complete_grasp.json) ·
-[All current outcomes and limitations](docs/DEX3_CONTACT_MANIPULATION_20261020.md).
+[Left-hand provenance](docs/media/dex3/left_complete_grasp.json)
 
-Earlier delivery recordings, stage excerpts and navigation previews remain in
-the [media catalogue](docs/MEDIA.md), with their original dates and provenance.
-All GIFs embedded on this README are the complete runs shown above.
-
-## Explore Geoff-Sim
-
-| Capability | What you can explore |
-| --- | --- |
-| **Humanoid locomotion** | A checksum-pinned Unitree G1 policy, command-response measurements and stop diagnostics |
-| **Onboard navigation** | Simulated LiDAR, IMU and encoders driving localization, online SLAM and observed-free goals |
-| **Human-aware planning** | Person tracking, motion prediction, route selection and collision supervision |
-| **Representative worlds** | Six procedural environments plus the original pedestrian plaza |
-| **Reproducible experiments** | Seeded trials, strict result validation, source-linked datasets and a browser dashboard |
-| **Experimental transport** | RGB-D alignment, articulated Dex3 hands, contact-confirmed grasp/release and payload-aware locomotion |
-
-Start with the [demo walkthrough](docs/DEMO_GUIDE.md) for a guided tour, or the
-[documentation index](docs/INDEX.md) for implementation and research references.
-
-## Explore the resource library
-
-[![Open the Geoff-Sim resource library: guides, code, results, research, official tools and project history](docs/media/resources/library.svg)](docs/resources/README.md)
-
-Browse [eight topic collections](docs/resources/README.md#browse-by-topic) with
-clickable pictures and annotated links to demos, perception/navigation, locomotion
-and manipulation, experiments, research, upstream tools, development and history.
-The [paper archive](docs/resources/RESEARCH.md) groups all 50 bibliography entries
-by research topic; the [historical collection](docs/resources/HISTORY.md) connects
-earlier notes to their current guides.
-
-For external references, open the
-[online tutorials, repositories and libraries directory](docs/resources/SIMULATION.md):
-ROS 2 Humble learning paths, package APIs, Nav2, MoveIt, MuJoCo, Unitree, training,
-perception and diagnostic tools—all grouped on one page.
+Explore navigation previews, earlier delivery demonstrations and recorded stages
+in the [media catalogue](docs/MEDIA.md).
 
 ## Quick start
 
 Supported host: x86-64 Ubuntu/Debian Linux, Docker Compose v2, `/dev/dri`, and an
-X11/XWayland display. ROS Humble and MuJoCo run in the container. NVIDIA support
-is optional for training. Installation needs internet access and host privileges.
+X11/XWayland display. ROS 2 Humble and MuJoCo run inside the container; NVIDIA
+support is available for training.
 
 ```bash
 git clone --recurse-submodules https://github.com/DavidBatty95/Geoff-Sim.git
@@ -121,7 +149,14 @@ cd Geoff-Sim
 ./scripts/run_onboard_navigation_demo.sh
 ```
 
-The convenient daily entry point is `./geoff`:
+The installer initializes pinned sources, applies reviewed patches, builds the
+workspace and generates the pedestrian/world assets. The official Unitree policy
+is downloaded and checksum-verified. See `./install.sh --help` for installation
+options and the [demo walkthrough](docs/DEMO_GUIDE.md) for the guided first run.
+
+### Run the visual demo
+
+Use the `./geoff` entry point to explore the platform:
 
 ```bash
 ./geoff worlds
@@ -131,259 +166,116 @@ The convenient daily entry point is `./geoff`:
 ./geoff results
 ```
 
-The transport entry point now selects Dex3 contact grasping and small cylinders:
+MuJoCo displays the robot, articulated hands, pedestrians and scene. RViz displays
+online mapping, measured LiDAR, people tracks, trajectory predictions, route
+candidates and commands. Run one simulator session at a time.
+
+The experimental mobile-manipulation entry point is:
 
 ```bash
 ./geoff transport --world transport_dual --task red:red --people 0
 ```
 
-This is an experimental mobile workflow; hand-level grasp/release passes, but
-complete Dex3 delivery is not yet qualified. [Setup and measured outcomes](docs/DEX3_CONTACT_MANIPULATION_20261020.md).
+The [transport and testing guide](docs/DEMO_TESTING.md) describes policy artifacts,
+stage diagnostics, manipulation settings and result interpretation.
 
-To inspect the articulated-hand hardware-facing profile after building:
+## Worlds and results dashboard
 
-```bash
-python3 scripts/run_hardware_parity_probe.py \
-  --output vendor/mjlab/logs/my_hardware_probe/interfaces.json --duration 20
-```
+| World | Dimensions | Setting |
+| --- | --- | --- |
+| `courtyard` / `small_open` | 8 × 8 m | Residential courtyard with doors, windows and wall lights |
+| `cafe` / `small_clutter` | 8 × 8 m | Café courtyard with tables and a planted tree |
+| `station` / `medium_open` | 12 × 10 m | Station entrance with circulation markings and strip lighting |
+| `clinic` / `medium_doorway` | 12 × 10 m | Clinic with partitions, glazing and a 2 m doorway |
+| `concourse` / `large_pillars` | 16 × 14 m | Station concourse with columns and platform signage |
+| `office` / `large_office` | 16 × 14 m | Office lobby with partitions and wooden seating |
 
-This checks live message contracts and measured sensor delivery. The
-[fidelity guide](docs/HARDWARE_FIDELITY.md) lists the standard Dex3/body topics,
-legacy BrainCo adapter, model differences and reduced sensor bandwidth.
-
-The installer initializes pinned sources, applies the reviewed [source patches](patches/README.md),
-builds dependencies and generates pedestrian animation/world assets. The official
-Unitree policy is downloaded and checksum-verified. Fork access may require your
-GitHub credentials. After a first Docker installation, log out/in to activate
-Docker group membership. See `./install.sh --help` for managed-host options.
-
-![Installation schematic](docs/media/install-pipeline.svg)
-
-## Run the visual demo
-
-```bash
-./scripts/run_onboard_navigation_demo.sh --duration 1800 --people 8 --seed 44
-# Reuse a completed build for a shorter session:
-./scripts/run_onboard_navigation_demo.sh --fast-start --duration 120 --people 4
-```
-
-MuJoCo shows relaxed-arm walking actors and a viewer-only goal ring. RViz shows
-online SLAM, measured LiDAR, tracks, predictions, route candidates and the final
-command. Visual goals hand off within 0.5 m. Sessions log contacts and may restart
-after falls/data loss; they are **unscored**. Only run one simulator at a time.
-
-For a step-by-step explanation of both viewers, expected behavior, stopping a
-session and finding its logs, see the [demo guide](docs/DEMO_GUIDE.md).
-
-## Results GUI and avoidance dataset
-
-The local browser GUI needs only Python 3; it does not need ROS or Docker to
-inspect published results.
+The Python-only results GUI provides filtering, per-world comparisons, trajectory
+replay, source hashes and CSV export:
 
 ```bash
 python3 scripts/avoidance_results_gui.py
 # Open http://127.0.0.1:8765
-
-# Inspect the separately labelled earlier demo evidence:
-python3 scripts/avoidance_results_gui.py --dataset docs/results/demo_results.json --port 8766
 ```
-
-Filter/search runs, compare per-world goal completion, inspect contacts, near
-misses, clearance, duration and source hashes, and download CSV. Invalid attempts
-remain visible. See [worlds and dataset methodology](docs/AVOIDANCE_EXPERIMENTS.md).
 
 ![Results dashboard with dataset filtering and recorded trajectory replay](docs/media/results-dashboard.png)
 
-| World | Interior dimensions | Challenge |
-| --- | --- | --- |
-| `small_open` / `courtyard` | 8 × 8 m | Residential courtyard, doors, windows and wall lights |
-| `small_clutter` / `cafe` | 8 × 8 m | Café courtyard, tables and planted tree |
-| `medium_open` / `station` | 12 × 10 m | Station entrance, circulation markings and strip lighting |
-| `medium_doorway` / `clinic` | 12 × 10 m | Clinic partitions, glazing and a 2 m doorway |
-| `large_pillars` / `concourse` | 16 × 14 m | Station concourse, columns and platform signage |
-| `large_office` / `office` | 16 × 14 m | Office lobby, partitions and wooden seating |
+[World generation and datasets](docs/AVOIDANCE_EXPERIMENTS.md) ·
+[Results guide](docs/RESULTS_REVIEW.md) · [Published records](docs/results/README.md)
 
-The world IDs remain stable for dataset comparison. Representative-v2 scenes
-add original procedural surfaces, façades, furnishings and signage; simple-v1
-baseline results remain separately labelled. These are stylized, human-scale
-simulation environments rather than surveyed digital twins.
+## Reproducibility and verification
+
+Experiments record seeds, effective parameters, policy identity, source snapshots,
+timestamped measurements and mission milestones. The layered suite connects native
+physics checks, ROS/DDS integration and mobile-stage protocols.
 
 ```bash
-# Build once before collecting new runs:
-docker compose run --rm unitree-g1-sim /workspace/scripts/build_unitree_mujoco.sh
-# 18 serial trials: six worlds × three seeds, four people, three goals each:
-python3 scripts/run_avoidance_matrix.py
-# Export published measurements:
-python3 scripts/avoidance_results_gui.py --export docs/results/avoidance_dataset.csv
-```
-
-The matrix refreshes the ROS/MuJoCo build once (or reuses it with `--fast-start`), uses onboard-only
-navigation and retains failed trials. It writes raw artifacts under the ROS
-workspace's ignored results directory and publishes a portable JSON dataset.
-
-## Scored and diagnostic runs
-
-### Repeatable demo testing suite
-
-Run serially after installation. Each invocation creates a unique artifact
-directory with commands, seed, commit, dirty-tree status, per-case logs and a
-machine-readable `status.json`. Failures return a nonzero exit code.
-
-```bash
-# Build/test ROS and native interfaces, then run pinned Dex3 physics tests:
+# Workspace verification and pinned hand-physics checks:
 ./scripts/run_demo_suite.sh --suite validation --headless --seed 42
-# Inspect the experimental hand + mobile-delivery protocol without launching it:
+
+# Inspect the manipulation protocol and required artifacts:
 ./scripts/run_demo_suite.sh --suite manipulation --dry-run --headless --seed 42
-# Execute once the local cycle05 checkpoint is available:
-./scripts/run_demo_suite.sh --suite manipulation --headless --seed 42 --fast-start
-```
 
-`validation` is regression/component verification; it does not qualify delivery.
-`manipulation` tests a fixed red-to-red, zero-person, 15 mm raised grasp with
-experimental heading hold. It requires the checksum-pinned local native cycle05
-policy and checks mission completion, valid evaluator data, verified delivery,
-no fall, no drops and zero contact samples. Dry runs are planned, never passed.
-Use `--continue-on-failure` to retain results from subsequent cases.
-See the [suite guide](docs/DEMO_TESTING.md) for prerequisites and interpretation.
-
-```bash
-./scripts/run_demo_suite.sh --case onboard-waypoints --goals 3 --people 8 --seed 44 --headless --fast-start
-./scripts/run_demo_suite.sh --case fixed-forward --headless --fast-start
+# Deterministic benchmark mechanics:
 ./scripts/run_demo_suite.sh --suite quick --headless
 ```
 
-`--headless` suppresses RViz; the standalone MuJoCo viewer may still need X11.
-The mock benchmark verifies mechanics and is not locomotion/perception evidence.
-The current strict mock acceptance gate can fail; do not relax it to conceal a
-regression. [Demo suite](docs/DEMO_SUITE.md) · [Recorded results](docs/DEMO_RESULTS.md).
+[Suite guide](docs/DEMO_TESTING.md) · [Development checks](docs/DEVELOPMENT.md) ·
+[Training and calibration](docs/TRAINING_AND_CALIBRATION.md)
 
-## Architecture
+## Research and resource library
 
-![System architecture schematic](docs/media/architecture.svg)
+[![Open the Geoff-Sim resource library: guides, code, results, research, official tools and project history](docs/media/resources/library.svg)](docs/resources/README.md)
 
-The onboard configuration uses simulated LiDAR, IMU and encoders for scan
-odometry and online SLAM. Navigation goals come from observed free space.
-LiDAR tracking and constant-velocity predictions feed event-driven replanning,
-social trajectory selection and the final collision supervisor. The ONNX policy
-converts safe commands into 29-joint targets over Unitree DDS.
+The documentation brings together **eight topic collections**, a **74-page
+fundamentals-to-research review**, and **50 paper appraisals**, including 46
+selected full-text inspections. It connects robotics concepts to the project's
+implementation, experiments and reusable tooling.
 
-Simulator truth is isolated to scoring/diagnostics. Actors plan around static
-geometry and other actors independently of the robot. In generated worlds,
-world geometry constrains actor motion; it is not supplied as a navigation map.
+- [Complete literature review and PDF](docs/literature_review/README.md)
+- [Paper archive by research topic](docs/resources/RESEARCH.md)
+- [ROS 2, MuJoCo, Unitree, Nav2 and MoveIt references](docs/resources/SIMULATION.md)
+- [Annotated resource library](docs/resources/README.md)
+- [Project history and development milestones](docs/PROJECT_STATUS.md)
 
-![Command safety schematic](docs/media/command-safety.svg)
-![Social navigation schematic](docs/media/social-navigation.svg)
+## Project wrap-up
 
-The onboard demo uses forward/lateral command limits of 0.65/0.45 m/s with
-2.40 m/s² software acceleration. These are simulation settings, not validated
-hardware limits. See [architecture](docs/ARCHITECTURE.md) and [source boundaries](docs/ONBOARD_SOCIAL_NAVIGATION.md).
+Geoff-Sim's lasting contribution is the connected platform: a humanoid physics
+environment, an onboard perception-to-control stack, physical hand-manipulation
+tools, inspectable experiments and an extensive research record. The repository
+captures the engineering journey from simulator integration through sensor-driven
+navigation and contact-manipulation development.
 
-Route following prefers turning toward the route before walking forward. The
-onboard profile uses bounded pivot commands; short final-goal adjustments
-and avoidance escapes may still use lateral movement. See [script entry points](scripts/README.md).
-The official-policy demos use the same joint-action settings as the response
-tests; forward/lateral command slew and low-level command validation remain active.
-
-## Evidence and research
-
-The investigation and payload reports describe dated development snapshots.
-The corresponding controller, transport tools and reviewed simulator patches
-are included in the repository. Locally trained checkpoints remain separate
-artifacts; reproduction requires the explicit policy identified in each report.
-
-| Evidence track | Recorded scope | Read more |
-| --- | --- | --- |
-| Published representative-world cohort (`calibrated-actions-v12`) | 4/18 strict passes, 19/54 goals, 12 contacts | [Published demo evidence](docs/DEMO_RESULTS.md) |
-| Navigation investigation, consolidated v82 cohort | 14/18 strict passes, 49/54 goals, four contacts; navigation acceptance remains unmet | [Investigation and iteration ledger](docs/NAVIGATION_RELIABILITY_INVESTIGATION.md) |
-| Later complete matrix (v84) and alignment audit (v85) | v84: 10/18 strict passes, 46/54 goals, six contacts; v85 confirms geometric overlaps in audited failures | [Current evidence snapshot](docs/PROJECT_STATUS.md#current-evidence) |
-| Payload-policy fixture | Two consecutive complete zero-person transport runs; 2 complete passes among 11 recorded native candidate attempts with evolving integration code | [Training and transport evidence](docs/PAYLOAD_POLICY_TRAINING.md) |
-| Research gaps and literature review | 74-page fundamentals-to-novelty review; 50 appraisals, with 46 selected full-text inspections; five intended research gaps | [Research goals and complete PDF](docs/literature_review/README.md) |
-
-These records cover different configurations and evaluation conditions. The
-[results-review guide](docs/RESULTS_REVIEW.md) explains how to inspect provenance,
-failures and metrics before making comparisons. The research review distinguishes
-implemented capabilities from proposed contributions and documents the depth of
-reading for each source.
-
-## Project progression and next steps
-
-![Six milestones from simulation integration to the published navigation and transport development baseline](docs/media/project-progression.svg)
-
-The project has progressed from simulator integration and oracle demonstrations
-to sensor-driven experiments, inspectable failure datasets and experimental
-payload transport. Each phase has its own configuration and evidence; the
-timeline is a development history rather than a claim of steadily improving
-performance. [Detailed timeline and current status](docs/PROJECT_STATUS.md).
-
-The next reactivity work targets end-to-end latency, command ownership, fast
-collision response and measured stopping behaviour. The
-[R1–R6 workstream](docs/PROJECT_PLAN.md#reactivity-workstream) defines the tests
-and promotion gates, including a controlled comparison with Grove-G1's locomotion
-backend. These are planned improvements, not new performance claims.
-
-<details>
-<summary><strong>View the forward roadmap: reproducibility → reliable navigation → people-aware delivery</strong></summary>
-
-![Eight acceptance-driven stages covering reproducibility, mission correctness, navigation, grasping, recovery, loaded transport, social transport and hardware deployment](docs/media/project-roadmap.svg)
-
-The [project plan](docs/PROJECT_PLAN.md) provides deliverables, dependencies,
-completion criteria and an update process for every stage. The
-[technical roadmap](docs/SOCIAL_LOCOMANIPULATION_ROADMAP.md) retains the detailed
-implementation ledger. Dates are recorded for completed work; future stages are
-ordered by evidence requirements rather than promised delivery dates.
-
-The [P0–P7 research programme](docs/RESEARCH_PROGRAMME.md) maps the five literature
-gaps to controlled experiments, baselines and candidate papers. It starts with
-calibrated observation-to-execution planning and causal diagnosis, then develops
-distinct coordination, articulated-risk and human-evaluation studies where justified.
-
-</details>
+The code, diagrams, demonstrations and technical notes are preserved for learning,
+reproduction and future reuse. The [handoff guide](docs/HANDOFF.md) and
+[technical development record](docs/PROJECT_STATUS.md) provide a starting point
+for anyone building on this work.
 
 ## Repository map
 
-![Task-oriented repository map: scripts and geoff; docs; ROS packages; patches; Docker and CI; external integrations; dashboard and results; archive and profile](docs/media/repository-map.svg)
-
-**New to the codebase?** Use the [folder-by-folder guide](docs/REPOSITORY_GUIDE.md)
-for an annotated tree, package responsibilities, edit locations and artifact
-boundaries. The [ROS workspace README](ros2_ws/src/README.md) maps individual packages.
-
 | Path | Contents |
 | --- | --- |
-| [`ros2_ws/src/`](ros2_ws/src/) | ROS 2 bridge, bringup, messages, manipulation and benchmark packages |
-| [`scripts/`](scripts/README.md) | Demo launchers, experiment tools, diagnostics and verification |
-| [`docs/`](docs/INDEX.md) | User guides, architecture, research and portable results |
+| [`ros2_ws/src/`](ros2_ws/src/) | ROS 2 bridge, bringup, interfaces, manipulation and benchmarks |
+| [`scripts/`](scripts/README.md) | Launchers, experiments, diagnostics, diagram generation and verification |
+| [`docs/`](docs/README.md) | Guides, architecture, research, media and portable experiment records |
 | [`patches/`](patches/README.md) | Reviewed modifications to pinned upstream sources |
 | [`docker/`](docker/README.md) | Container runtime and dependency definitions |
 | [`tools/`](tools/README.md) | Results-dashboard frontend |
-| [`.github/`](.github/) | Verification workflow, dependency updates and contribution templates |
-| [`integrations/`](integrations/README.md) | Optional integration profiles and runtime boundaries |
-| [`vendor/`](vendor/) | External sources, including the optional MJLab training environment |
-| [`archive/`](archive/README.md) | Historical proposals and experiment notes |
+| [`integrations/`](integrations/README.md) | Optional integration profiles |
+| [`vendor/`](vendor/) | External sources and training environment |
 
-## Development and contributing
+[Folder-by-folder guide](docs/REPOSITORY_GUIDE.md) ·
+[ROS package map](ros2_ws/src/README.md) · [Documentation hub](docs/README.md)
 
-![Verification tiers schematic](docs/media/verification-tiers.svg)
+## Acknowledgements and citation
 
-- [Documentation index](docs/INDEX.md)
-- [Project status and progression](docs/PROJECT_STATUS.md) · [Detailed forward plan](docs/PROJECT_PLAN.md)
-- [Development and checks](docs/DEVELOPMENT.md)
-- [Changelog](CHANGELOG.md) · [Release and artifact policy](docs/RELEASES.md)
-- [Maintainer guide and GitHub settings](docs/MAINTAINER_GUIDE.md)
-- [Team handoff and remaining work](docs/HANDOFF.md)
-- [Training and calibration tools](docs/TRAINING_AND_CALIBRATION.md)
-- [Contributing](CONTRIBUTING.md) · [Code of conduct](CODE_OF_CONDUCT.md) · [Security reporting](SECURITY.md) · [Existing licenses](LICENSES.md)
-- [Archived research drafts](archive/README.md)
-
-Existing package/upstream licenses are preserved. A root-license decision and
-third-party asset redistribution provenance remain owner decisions. Repository
-branch protections, fork access and private vulnerability reporting require the
-GitHub owner's configuration; the [maintainer guide](docs/MAINTAINER_GUIDE.md)
-documents the exact setup.
-
-## Citing Geoff-Sim
+Built on the work of the Unitree, MuJoCo, ROS 2, Nav2, MoveIt and learning-based
+robotics communities. Existing upstream and package licenses are preserved;
+see [licenses and attribution](LICENSES.md).
 
 Use GitHub's **Cite this repository** entry or [`CITATION.cff`](CITATION.cff), and
-identify the exact commit/tag, policy and experiment dataset used. Cite the
-relevant [upstream research](docs/resources/RESEARCH.md) separately. The
-[release guide](docs/RELEASES.md) explains version and artifact provenance; local
-training checkpoints are not automatically included in a source checkout.
+identify the commit, policy and dataset used. The [release and artifact guide](docs/RELEASES.md)
+documents source and experiment provenance.
+
+[Contributing](CONTRIBUTING.md) · [Code of conduct](CODE_OF_CONDUCT.md) ·
+[Security reporting](SECURITY.md) · [Changelog](CHANGELOG.md)

@@ -5,7 +5,7 @@
   <a href="../../README.md"><img src="../../docs/media/navigation/home.svg" width="132" height="44" alt="Home"></a>
   <a href="../../README.md#quick-start"><img src="../../docs/media/navigation/start.svg" width="132" height="44" alt="Quick start"></a>
   <a href="../../docs/DEMO_GUIDE.md"><img src="../../docs/media/navigation/demos.svg" width="132" height="44" alt="Demos"></a>
-  <a href="../../docs/INDEX.md"><img src="../../docs/media/navigation/docs.svg" width="132" height="44" alt="Docs"></a>
+  <a href="../../docs/README.md"><img src="../../docs/media/navigation/docs.svg" width="132" height="44" alt="Docs"></a>
   <a href="../../docs/REPOSITORY_GUIDE.md"><img src="../../docs/media/navigation/folders.svg" width="132" height="44" alt="Folders"></a>
   <br>
   <a href="../../docs/PROJECT_STATUS.md"><img src="../../docs/media/navigation/progress.svg" width="132" height="44" alt="Progress"></a>

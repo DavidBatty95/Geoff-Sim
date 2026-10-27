@@ -5,7 +5,7 @@
   <a href="../README.md"><img src="../docs/media/navigation/home.svg" width="132" height="44" alt="Home"></a>
   <a href="../README.md#quick-start"><img src="../docs/media/navigation/start.svg" width="132" height="44" alt="Quick start"></a>
   <a href="../docs/DEMO_GUIDE.md"><img src="../docs/media/navigation/demos.svg" width="132" height="44" alt="Demos"></a>
-  <a href="../docs/INDEX.md"><img src="../docs/media/navigation/docs.svg" width="132" height="44" alt="Docs"></a>
+  <a href="../docs/README.md"><img src="../docs/media/navigation/docs.svg" width="132" height="44" alt="Docs"></a>
   <a href="../docs/REPOSITORY_GUIDE.md"><img src="../docs/media/navigation/folders.svg" width="132" height="44" alt="Folders"></a>
   <br>
   <a href="../docs/PROJECT_STATUS.md"><img src="../docs/media/navigation/progress.svg" width="132" height="44" alt="Progress"></a>
@@ -26,12 +26,17 @@ records without mixing them into the maintained `docs/` runbooks. Their claims,
 checkpoint paths, links and proposed procedures reflect earlier working states;
 they are not current instructions or evidence of completed work.
 
-Use [the documentation index](../docs/INDEX.md) and
+Use [the documentation hub](../docs/README.md) and
 [the maintainer handoff](../docs/HANDOFF.md) for the current setup and next steps.
 The archive was retained to avoid discarding the departing maintainer's research
 context. No archived proposal should be presented as an implemented guarantee.
 
 ## Browse the archive
+
+The obsolete literature-brief and general research-plan drafts were retired at
+project wrap-up. Their maintained replacements are the
+[literature review](../docs/literature_review/README.md) and
+[research programme](../docs/RESEARCH_PROGRAMME.md); original drafts remain in Git history.
 
 | Folder | Contents | How to use it |
 | --- | --- | --- |

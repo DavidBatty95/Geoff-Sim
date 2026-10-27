@@ -1,0 +1,190 @@
+{
+  "kind": "architecture_diagram",
+  "scope": "illustrated architecture, not simulation footage",
+  "frame_count": 72,
+  "playback_duration_ms": 14400,
+  "dimensions": [
+    1440,
+    1030
+  ],
+  "gif_sha256": "01e60ed405309f2b2ee8725ae8cf1b637ba42d28b4a7823c76aa7038ff4fc7e0",
+  "generator": "scripts/generate_architecture_gifs.py",
+  "generator_sha256": "1b823e2c932d9f5abb84f61c19c893ffc8aa2507b18c8734b00706519cb7277a",
+  "model": {
+    "name": "architecture-system",
+    "title": "Geoff-Sim / the connected system",
+    "subtitle": "MuJoCo physics  +  ROS 2 Humble  +  Unitree DDS  |  architectural animation",
+    "nodes": [
+      [
+        "01  Physical world",
+        "MuJoCo native simulator",
+        [
+          "G1 body + articulated Dex3 hands",
+          "Contacts, cylinders and pedestrians",
+          "Procedural rooms and furnishings"
+        ]
+      ],
+      [
+        "02  Onboard sensing",
+        "g1_sim_sensors",
+        [
+          "LiDAR points + RGB-D images",
+          "IMU + joint encoders + LowState",
+          "Acquisition-stamped sensor packets"
+        ]
+      ],
+      [
+        "03  State & perception",
+        "onboard_lidar_odometry / SLAM",
+        [
+          "Scan registration + measured attitude",
+          "Online map + observed free space",
+          "RGB-D object and support observations"
+        ]
+      ],
+      [
+        "06  Collision supervision",
+        "human_collision_avoidance",
+        [
+          "Freshness + command lineage",
+          "Swept-body and static clearance",
+          "Checked velocity command to policy"
+        ]
+      ],
+      [
+        "05  Social planning",
+        "human_aware_motion_planner",
+        [
+          "Tracked people + motion forecasts",
+          "Response-aware trajectories + braking",
+          "Optional process-isolated escape search"
+        ]
+      ],
+      [
+        "04  Mission & route",
+        "transport_demo / Nav2",
+        [
+          "Survey, approach and task sequencing",
+          "Observed-map goals + route updates",
+          "Payload and manipulation context"
+        ]
+      ],
+      [
+        "07  Learned locomotion",
+        "g1_policy_cmd_vel_controller",
+        [
+          "ONNX inference + measured joints",
+          "Device-tick cadence + watchdogs",
+          "29 body-joint action targets"
+        ]
+      ],
+      [
+        "08  Command composition",
+        "arm_command_compositor / DDS",
+        [
+          "Policy body + owned arm commands",
+          "Validated LowCmd + hand commands",
+          "Physics receives actuator targets"
+        ]
+      ],
+      [
+        "09  Contact manipulation",
+        "arm_kinematics / dex3_grasp",
+        [
+          "Cartesian waypoints + continuous IK",
+          "Opposing tactile contact + load dwell",
+          "Measured opening + release services"
+        ]
+      ]
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        5,
+        4
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        3,
+        6
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        5,
+        8
+      ],
+      [
+        8,
+        7
+      ]
+    ],
+    "phases": [
+      [
+        [
+          0,
+          1
+        ],
+        "SENSE",
+        "Native physics produces the sensor streams used by the robot-side stack."
+      ],
+      [
+        [
+          2
+        ],
+        "ESTIMATE",
+        "LiDAR, attitude and encoders build pose, online maps and object observations."
+      ],
+      [
+        [
+          5,
+          4
+        ],
+        "PLAN",
+        "Mission intent and route context combine with tracked pedestrian forecasts."
+      ],
+      [
+        [
+          3
+        ],
+        "CHECK",
+        "Independent collision supervision validates the command before locomotion."
+      ],
+      [
+        [
+          6,
+          7,
+          8
+        ],
+        "ACTUATE",
+        "Body policy and manipulation ownership meet in the DDS command path."
+      ],
+      [
+        [
+          0,
+          7
+        ],
+        "CLOSE THE LOOP",
+        "Actuator targets change physics; measured state returns on the next cycle."
+      ]
+    ],
+    "footer": "Separate evaluation branch: native truth \u2192 aligned metrics \u2192 JSON traces \u2192 browser dashboard",
+    "boundary": "Evaluation truth is used for scoring and offline diagnosis; robot decisions use onboard observations."
+  }
+}

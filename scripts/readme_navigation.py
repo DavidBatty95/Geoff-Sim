@@ -12,7 +12,7 @@ LINKS = (
     ('home', 'Home', 'README.md', 'M3 10 12 3l9 7M5 9v12h5v-7h4v7h5V9'),
     ('start', 'Quick start', 'README.md#quick-start', 'm13 2-9 12h7l-1 8 10-13h-7z'),
     ('demos', 'Demos', 'docs/DEMO_GUIDE.md', 'M5 3h14v18H5zM10 8l6 4-6 4z'),
-    ('docs', 'Docs', 'docs/INDEX.md', 'M3 4h6l3 2 3-2h6v16h-6l-3 2-3-2H3zM12 6v16'),
+    ('docs', 'Docs', 'docs/README.md', 'M3 4h6l3 2 3-2h6v16h-6l-3 2-3-2H3zM12 6v16'),
     ('folders', 'Folders', 'docs/REPOSITORY_GUIDE.md', 'M2 5h7l3 3h10v13H2z'),
     ('progress', 'Progress', 'docs/PROJECT_STATUS.md', 'M3 3v18h18M7 16v-4m5 4V8m5 8V4'),
     ('roadmap', 'Roadmap', 'docs/PROJECT_PLAN.md', 'M4 3v18m0-16h10l-2 4 2 4H4M9 21h12'),

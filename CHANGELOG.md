@@ -5,7 +5,7 @@
   <a href="README.md"><img src="docs/media/navigation/home.svg" width="132" height="44" alt="Home"></a>
   <a href="README.md#quick-start"><img src="docs/media/navigation/start.svg" width="132" height="44" alt="Quick start"></a>
   <a href="docs/DEMO_GUIDE.md"><img src="docs/media/navigation/demos.svg" width="132" height="44" alt="Demos"></a>
-  <a href="docs/INDEX.md"><img src="docs/media/navigation/docs.svg" width="132" height="44" alt="Docs"></a>
+  <a href="docs/README.md"><img src="docs/media/navigation/docs.svg" width="132" height="44" alt="Docs"></a>
   <a href="docs/REPOSITORY_GUIDE.md"><img src="docs/media/navigation/folders.svg" width="132" height="44" alt="Folders"></a>
   <br>
   <a href="docs/PROJECT_STATUS.md"><img src="docs/media/navigation/progress.svg" width="132" height="44" alt="Progress"></a>
@@ -22,6 +22,21 @@ releases or new acceptance claims. See [project status](docs/PROJECT_STATUS.md)
 for measured outcomes and [release policy](docs/RELEASES.md) for promotion criteria.
 
 ## Unreleased
+
+### Project wrap-up — 27 October 2026
+
+- Published checked survey recovery, strategic escape experiments, exact-input
+  invalidation diagnostics and opt-in publication-stamped heading history.
+  Latest workspace verification: 1,016 ROS results, 246 orchestration tests and
+  13 native CTests. [Heading-history evaluation](docs/HEADING_HISTORY_20261027.md).
+- Rebuilt the README as an achievement-focused project showcase with two
+  reproducible architecture GIFs, static diagrams and a development wrap-up.
+- Consolidated the duplicate documentation entry pages into
+  [the documentation hub](docs/README.md) and refreshed shared navigation.
+- Retired the superseded literature-brief and general research-plan drafts,
+  removed one byte-identical contact report, and consolidated two preliminary
+  heading reports into the verified version. Prior versions remain in Git
+  history; distinct experiment datasets and their provenance are retained.
 
 ### Added
 

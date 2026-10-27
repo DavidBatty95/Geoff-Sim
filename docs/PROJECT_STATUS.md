@@ -5,7 +5,7 @@
   <a href="../README.md"><img src="media/navigation/home.svg" width="132" height="44" alt="Home"></a>
   <a href="../README.md#quick-start"><img src="media/navigation/start.svg" width="132" height="44" alt="Quick start"></a>
   <a href="DEMO_GUIDE.md"><img src="media/navigation/demos.svg" width="132" height="44" alt="Demos"></a>
-  <a href="INDEX.md"><img src="media/navigation/docs.svg" width="132" height="44" alt="Docs"></a>
+  <a href="README.md"><img src="media/navigation/docs.svg" width="132" height="44" alt="Docs"></a>
   <a href="REPOSITORY_GUIDE.md"><img src="media/navigation/folders.svg" width="132" height="44" alt="Folders"></a>
   <br>
   <a href="PROJECT_STATUS.md"><img src="media/navigation/progress-current.svg" width="132" height="44" alt="Progress (current page)"></a>
@@ -23,10 +23,77 @@ evidence snapshot, not an acceptance release. Later experiments need their own c
 
 ## At a glance
 
+**Project wrap-up:** the core development phase is concluded. The
+[project showcase](../README.md) summarizes achievements and the connected
+architecture; this page retains the detailed experiment record for reproduction
+and future reuse. Further development is expected to be occasional.
+
+The [heading-history experiment](HEADING_HISTORY_20261027.md) completes both
+seed-42/43 surveys and improves valid-sample heading accuracy. Both runs contain
+geometric overlap; history availability remains limited, so the option stays
+experimental and off by default. Latest CI: 1,016 ROS results (820 bridge tests),
+246 orchestration tests, 13 native CTests.
+
+The [fresh-check audit and experimental forecast guard](FORECAST_INVALIDATION_20261027.md)
+identify separate robot-state, forecast and static-geometry rejection cases.
+Guarded seed 42 fails with 324 overlap samples and no fall; guarded seed 43
+completes without overlap/fall, with 13 primitive publications before task end
+and eight after. Reliable crowd avoidance and delivery remain unqualified.
+The [heading-state follow-up](HEADING_INVALIDATION_20261027.md) isolates coupled
+heading/rate effects and quantifies delayed-pose extrapolation error in the first
+guarded rejection. This is an offline diagnosis, not a new live controller.
+CI at that diagnostic checkpoint: 1,010 ROS results (814 bridge tests),
+246 orchestration tests, 13 native CTests. The guard remains opt-in.
+
+The [27 October continuation follow-up](SUSTAINED_SURVEY_RECOVERY_20261027.md)
+preserves escape timing across computational misses, invalidates unsafe plans,
+and adds bounded checked-avoidance handoff with fresh post-yield observation.
+Seed 42 still falls; seed 43 completes its survey, but its primitive publications
+occur after task end. A phase audit corrects the same scope issue in the earlier
+seed-43 report. CI: 1,003 ROS results, 240 orchestration tests, 13 native CTests.
+
+The [earlier admission follow-up](EARLY_ESCAPE_ADMISSION_20261026.md) adds closing-
+corridor prediction and delay-checked clearance reserve. Final live surveys
+select three and eleven primitive translations for seeds 42 and 43 respectively;
+matched supervisor records preserve them. Seed 43 completes without overlap/fall;
+seed 42 still fails after overlap. All seven development trials, including four
+intermediate falls, remain retained. CI: 985 ROS results, 238 orchestration tests,
+13 native CTests.
+
+The [26 October escape-planning follow-up](ESCAPE_PRIMITIVES_20261026.md) adds
+process-isolated search over reusable motion programs. The difficult seed now
+produces complete worker plans, but fresh validation still rejects them and the
+live run fails. Five development attempts, including two falls, are retained.
+Workspace CI passes 968 ROS results, 238 orchestration tests and 13 native CTests.
+
+The opt-in [strategic avoidance experiment](STRATEGIC_AVOIDANCE_20261025.md)
+predicts multi-person pincers and ranks refuges against the whole crowd. Retained
+forecast comparisons improve six of eight comparable margins without regressions;
+the difficult live seed still has no complete executable escape plan and fails.
+957 ROS results, 238 orchestration tests and 13 native CTests pass.
+
+The [25 October implementation and validation](SURVEY_RECOVERY_IMPLEMENTATION_20261025.md)
+adds bounded survey recovery, post-braking checks, safe-hold search and native
+contact-force diagnostics. Zero-person and seed-43 three-person surveys completed;
+pickup remained blocked, and both full crowd trials fell before grasping. Tests
+pass (945 ROS results, 238 orchestration, 13 native CTests), but delivery remains
+unqualified. All seven attempts and the three recorded falls are retained.
+
+The [24 October demo assessment](TRANSPORT_SCAN_ASSESSMENT_20261024.md) traces the
+four-/three-person survey failures to commanded crowd avoidance, incomplete
+turn/brake/observe recovery and unsuccessful safe-stop selection. Both fail
+before pickup. Full logger tails include geometric pedestrian-envelope overlap
+even where the earlier-ending mission result reports zero samples.
+
 The [repeatable demo testing suite](DEMO_TESTING.md) now separates regression,
 contact-component and mobile-delivery checks. Its latest validation run passes
 903 ROS results, 234 orchestration tests, 12 native CTests and 16 pinned-MuJoCo
 Python tests; the mobile protocol is separately labelled experimental.
+The [walk-then-reach follow-up](DEMO_TESTING.md#walk-then-reach-follow-up) delays arm
+preparation until settled pickup docking and restores walking posture before
+re-docking. A live run confirmed that sequence but failed subsequent settling;
+the 23 October cohort is now 0/8 completed deliveries. Follow-up workspace CI
+passes 909 ROS results, 234 orchestration tests and 12 native CTests.
 
 **Current platform: Dex3 contact-only manipulation.** Default scenes use fourteen
 finger DOFs and 40 mm × 90 mm, 80 g cylinders without object welds or base pins.

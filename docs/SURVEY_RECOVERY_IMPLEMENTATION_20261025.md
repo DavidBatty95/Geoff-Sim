@@ -76,8 +76,8 @@ policy commands. This establishes actual simulated contact during the stopped
 command condition; it is stronger evidence than geometric overlap alone.
 The receive-time association is not motor-application acknowledgement and does
 not attribute every component of base movement solely to the external force.
-The [initial analysis](results/survey_contact_capture_20261025.json) is retained
-alongside the stricter clock-coverage verification.
+The verified capture is the canonical record. A byte-identical initial-analysis
+copy was removed during repository cleanup; its history remains in Git.
 
 ## 5. All seven live attempts
 

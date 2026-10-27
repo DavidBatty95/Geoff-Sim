@@ -5,7 +5,7 @@
   <a href="../README.md"><img src="media/navigation/home.svg" width="132" height="44" alt="Home"></a>
   <a href="../README.md#quick-start"><img src="media/navigation/start.svg" width="132" height="44" alt="Quick start"></a>
   <a href="DEMO_GUIDE.md"><img src="media/navigation/demos.svg" width="132" height="44" alt="Demos"></a>
-  <a href="INDEX.md"><img src="media/navigation/docs.svg" width="132" height="44" alt="Docs"></a>
+  <a href="README.md"><img src="media/navigation/docs.svg" width="132" height="44" alt="Docs"></a>
   <a href="REPOSITORY_GUIDE.md"><img src="media/navigation/folders-current.svg" width="132" height="44" alt="Folders (current page)"></a>
   <br>
   <a href="PROJECT_STATUS.md"><img src="media/navigation/progress.svg" width="132" height="44" alt="Progress"></a>
@@ -54,7 +54,7 @@ Geoff-Sim/
 ├── .github/                    # CI, Dependabot and contribution templates
 ├── docker/                     # Image, pinned runtime requirements, entrypoint
 ├── docs/
-│   ├── INDEX.md                # Full documentation catalogue
+│   ├── README.md               # Canonical documentation hub
 │   ├── REPOSITORY_GUIDE.md     # This folder guide
 │   ├── PROJECT_STATUS.md       # Dated status, milestones and evidence
 │   ├── PROJECT_PLAN.md         # Deliverables and promotion criteria

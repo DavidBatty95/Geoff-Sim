@@ -1,0 +1,184 @@
+{
+  "kind": "architecture_diagram",
+  "scope": "illustrated architecture, not simulation footage",
+  "frame_count": 72,
+  "playback_duration_ms": 14400,
+  "dimensions": [
+    1440,
+    1030
+  ],
+  "gif_sha256": "2a0e61c2e13eb9e19290e04cba65720c01544df2aea8da0e1072a7f32bd37da1",
+  "generator": "scripts/generate_architecture_gifs.py",
+  "generator_sha256": "1b823e2c932d9f5abb84f61c19c893ffc8aa2507b18c8734b00706519cb7277a",
+  "model": {
+    "name": "architecture-control",
+    "title": "Geoff-Sim / mission, contact and command ownership",
+    "subtitle": "Detailed transport implementation  |  architectural sequence, not a recorded mission",
+    "nodes": [
+      [
+        "01  Observe the task",
+        "transport_perception",
+        [
+          "RGB-D colour and depth registration",
+          "Object, destination and support IDs",
+          "Observation timestamps + confidence"
+        ]
+      ],
+      [
+        "02  Survey & approach",
+        "transport_demo",
+        [
+          "Viewing goals + fresh re-observation",
+          "Policy-controlled arms while walking",
+          "Measured range, heading and settling"
+        ]
+      ],
+      [
+        "03  Plan the reach",
+        "arm_kinematics",
+        [
+          "Tool-centred targets + continuous IK",
+          "Cartesian segments up to 25 mm",
+          "Bounded joint speed + arm ownership"
+        ]
+      ],
+      [
+        "06  Contact release",
+        "dex3_grasp / perception",
+        [
+          "Measured slow finger opening",
+          "Post-release object observations",
+          "Placement verification in task logic"
+        ]
+      ],
+      [
+        "05  Payload motion",
+        "mission + social planner",
+        [
+          "Carry posture and payload context",
+          "Observed routes + predicted people",
+          "Full trajectory and terminal-hold checks"
+        ]
+      ],
+      [
+        "04  Physical grasp",
+        "native Dex3 tactile feedback",
+        [
+          "14 finger DOFs across both hands",
+          "Opposing contact + joint-load evidence",
+          "Close ramp + native-tick dwell"
+        ]
+      ],
+      [
+        "07  Command contract",
+        "planner \u2192 independent supervisor",
+        [
+          "Publisher and sequence identity",
+          "Source time, expiry and context",
+          "Fresh revalidation at command admission"
+        ]
+      ],
+      [
+        "08  Execution contract",
+        "policy \u2192 compositor \u2192 DDS",
+        [
+          "Device-tick observations + inference",
+          "Arm/body authority composition",
+          "Validated actuator messages"
+        ]
+      ],
+      [
+        "09  Reproducibility",
+        "runner + logger + test suite",
+        [
+          "Seed, policy hash and source snapshot",
+          "Mission milestones + sensor traces",
+          "Layered physics / ROS / stage checks"
+        ]
+      ]
+    ],
+    "edges": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        2
+      ],
+      [
+        2,
+        5
+      ],
+      [
+        5,
+        4
+      ],
+      [
+        4,
+        3
+      ],
+      [
+        4,
+        7
+      ],
+      [
+        6,
+        7
+      ],
+      [
+        7,
+        8
+      ]
+    ],
+    "phases": [
+      [
+        [
+          0,
+          1
+        ],
+        "OBSERVE & POSITION",
+        "Fresh sensed geometry establishes the viewing and approach targets."
+      ],
+      [
+        [
+          2,
+          5
+        ],
+        "REACH & GRASP",
+        "Arm ownership and tactile feedback connect planning to physical fingers."
+      ],
+      [
+        [
+          4,
+          6
+        ],
+        "PLAN WITH CONTEXT",
+        "Payload state and predicted people inform checked motion commands."
+      ],
+      [
+        [
+          7
+        ],
+        "EXECUTE",
+        "The low-level path composes owned arm motion with the locomotion policy."
+      ],
+      [
+        [
+          3
+        ],
+        "RELEASE & OBSERVE",
+        "Finger opening and post-release observations support placement assessment."
+      ],
+      [
+        [
+          8
+        ],
+        "REPRODUCE",
+        "Source-linked artifacts connect each result to its exact experiment setup."
+      ]
+    ],
+    "footer": "Three evidence layers: physical hand bench \u2022 integrated ROS/DDS services \u2022 mobile stage experiments",
+    "boundary": "The diagram describes implemented modules and contracts; dated reports provide experiment scope."
+  }
+}

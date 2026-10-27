@@ -5,7 +5,7 @@
   <a href="../../README.md"><img src="../media/navigation/home.svg" width="132" height="44" alt="Home"></a>
   <a href="../../README.md#quick-start"><img src="../media/navigation/start.svg" width="132" height="44" alt="Quick start"></a>
   <a href="../DEMO_GUIDE.md"><img src="../media/navigation/demos.svg" width="132" height="44" alt="Demos"></a>
-  <a href="../INDEX.md"><img src="../media/navigation/docs.svg" width="132" height="44" alt="Docs"></a>
+  <a href="../README.md"><img src="../media/navigation/docs.svg" width="132" height="44" alt="Docs"></a>
   <a href="../REPOSITORY_GUIDE.md"><img src="../media/navigation/folders.svg" width="132" height="44" alt="Folders"></a>
   <br>
   <a href="../PROJECT_STATUS.md"><img src="../media/navigation/progress.svg" width="132" height="44" alt="Progress"></a>
@@ -116,4 +116,4 @@ offline. External sites can move or restrict automated access; maintain their
 official landing URLs and report unavailable resources through
 [GitHub issues](https://github.com/DavidBatty95/Geoff-Sim/issues).
 
-[Full documentation index](../INDEX.md) · [Folder-by-folder guide](../REPOSITORY_GUIDE.md)
+[Documentation hub](../README.md) · [Folder-by-folder guide](../REPOSITORY_GUIDE.md)

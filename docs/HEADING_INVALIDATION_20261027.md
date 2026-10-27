@@ -84,9 +84,9 @@ heading/rate effect in this captured rejection, rather than a heading-only cause
   both pairs remain rejected after heading/rate replacement. The second has an
   apparent heading change of −0.08214 rad versus physical +0.01080 rad, showing
   another extrapolation discrepancy without making it the rejection's cause.
-- [Initial decomposition](results/invalidation_heading42_20261027.json) and
-  [individual-component development report](results/invalidation_heading_components42_20261027.json)
-  are retained. The verified reports add combined and reverse substitutions.
+- The verified seed-42 report consolidates the initial decomposition and
+  individual-component development reports, adding combined and reverse
+  substitutions. The superseded versions remain available in Git history.
 
 ## Correction direction and limits
 

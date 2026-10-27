@@ -5,7 +5,7 @@
   <a href="../../README.md"><img src="../media/navigation/home.svg" width="132" height="44" alt="Home"></a>
   <a href="../../README.md#quick-start"><img src="../media/navigation/start.svg" width="132" height="44" alt="Quick start"></a>
   <a href="../DEMO_GUIDE.md"><img src="../media/navigation/demos.svg" width="132" height="44" alt="Demos"></a>
-  <a href="../INDEX.md"><img src="../media/navigation/docs.svg" width="132" height="44" alt="Docs"></a>
+  <a href="../README.md"><img src="../media/navigation/docs.svg" width="132" height="44" alt="Docs"></a>
   <a href="../REPOSITORY_GUIDE.md"><img src="../media/navigation/folders.svg" width="132" height="44" alt="Folders"></a>
   <br>
   <a href="../PROJECT_STATUS.md"><img src="../media/navigation/progress.svg" width="132" height="44" alt="Progress"></a>
@@ -59,8 +59,8 @@ trying to reproduce or extend a workflow.
 
 | Historical document | Topic | Current counterpart |
 | --- | --- | --- |
-| [Human-aware literature brief](../../archive/research/HUMAN_AWARE_NAVIGATION_LITERATURE_BRIEF.md) | Earlier research framing | [Maintained literature review](../literature_review/README.md) |
-| [Human-aware research plan](../../archive/research/HUMAN_AWARE_NAVIGATION_RESEARCH_PLAN.md) | Earlier hypotheses and experiments | [Forward plan](../PROJECT_PLAN.md) |
+| Retired literature-brief draft (Git history) | Superseded research framing | [Maintained literature review](../literature_review/README.md) |
+| Retired general research-plan draft (Git history) | Superseded hypotheses and experiments | [Research programme](../RESEARCH_PROGRAMME.md) |
 | [Social-navigation reactivity action plan](../../archive/research/SOCIAL_NAVIGATION_REACTIVITY_ACTION_PLAN.md) | Earlier response-improvement work | [Technical response workstream](../SOCIAL_LOCOMANIPULATION_ROADMAP.md#reactive-simulation-workstream-s1-s2-s4-and-s5) |
 | [Natural locomotion training](../../archive/research/G1_NATURAL_LOCOMOTION_TRAINING.md) | Earlier policy-development approach | [Training/calibration](../TRAINING_AND_CALIBRATION.md) and [payload cycle](../PAYLOAD_POLICY_TRAINING.md) |
 | [Response calibration protocol](../../archive/research/G1_RESPONSE_CALIBRATION_PROTOCOL.md) | Historical measurement protocol | [Training/calibration](../TRAINING_AND_CALIBRATION.md) and current measurement tools |

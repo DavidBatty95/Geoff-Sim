@@ -5,7 +5,7 @@
   <a href="../../README.md"><img src="../media/navigation/home.svg" width="132" height="44" alt="Home"></a>
   <a href="../../README.md#quick-start"><img src="../media/navigation/start.svg" width="132" height="44" alt="Quick start"></a>
   <a href="../DEMO_GUIDE.md"><img src="../media/navigation/demos.svg" width="132" height="44" alt="Demos"></a>
-  <a href="../INDEX.md"><img src="../media/navigation/docs.svg" width="132" height="44" alt="Docs"></a>
+  <a href="../README.md"><img src="../media/navigation/docs.svg" width="132" height="44" alt="Docs"></a>
   <a href="../REPOSITORY_GUIDE.md"><img src="../media/navigation/folders.svg" width="132" height="44" alt="Folders"></a>
   <br>
   <a href="../PROJECT_STATUS.md"><img src="../media/navigation/progress.svg" width="132" height="44" alt="Progress"></a>
@@ -22,6 +22,31 @@ successful runs. Raw logs and local policies live in the artifact locations
 described by the [repository guide](../REPOSITORY_GUIDE.md#where-results-go).
 
 ## Start with a dataset
+
+- **27 October continuation:** [both live attempts](sustained_survey_validation_20261027.json)
+  and [verified correction of earlier command-count scope](continuation_scope_verified_20261027.json).
+  [Timed continuation, bounded handoff and remaining failure](../SUSTAINED_SURVEY_RECOVERY_20261027.md).
+
+- **26 October earlier admission:** [all seven live attempts and supervisor lineage](early_admission_validation_20261026.json)
+  and [delayed sensed-state replay](early_admission_final_replay_20261026.json).
+  [Earlier trigger, clearance reserve and remaining encounter failures](../EARLY_ESCAPE_ADMISSION_20261026.md).
+
+- **26 October escape planning:** [all five live attempts](escape_primitives_validation_20261026.json),
+  [bounded replay](escape_primitives_replay_20261026.json), and
+  [unrestricted feasibility diagnostic](escape_primitives_unbounded_diagnostic_20261026.json).
+  [Process isolation, fresh revalidation and retained failures](../ESCAPE_PRIMITIVES_20261026.md).
+
+- **25 October strategic avoidance:** [all-person refuge comparison](strategic_avoidance_candidates_20261025.json)
+  and [both live survey attempts](strategic_avoidance_live_20261025.json).
+  [Prediction improvements and unresolved executable-planning bottleneck](../STRATEGIC_AVOIDANCE_20261025.md).
+
+- **25 October survey recovery:** [seven live attempts](survey_recovery_validation_20261025.json),
+  [extended forecast replay](survey_refuge_extended_replay_20261025.json), and
+  [verified native contact forces](survey_contact_capture_verified_20261025.json).
+  [Implemented changes, stage passes and retained falls](../SURVEY_RECOVERY_IMPLEMENTATION_20261025.md).
+
+- **24 October survey failures:** [four-/three-person trace assessment](transport_scan_assessment_20261024.json).
+  [Commanded avoidance, viewpoint recovery gaps and geometric-overlap scope](../TRANSPORT_SCAN_ASSESSMENT_20261024.md).
 
 - **23 October rotational retention:** [cumulative retained evidence](dex3_rotational_retention_20261023.json).
   [Reference correction, rejected closures and all four follow-up mobile failures](../DEX3_ROTATIONAL_RETENTION_20261023.md).
@@ -236,3 +261,18 @@ publication snapshot, not automatically the newest local experiment.
 - [21 October endurance and mobile trials](dex3_contact_20261021.json): all 27
   closure-sweep conditions, failed controls and nine incomplete mobile attempts.
   [Interpretation](../DEX3_MOBILE_QUALIFICATION_20261021.md).
+
+## Latest forecast-invalidation evidence
+
+- [Heading-history implementation and evaluation](../HEADING_HISTORY_20261027.md):
+  [live stages](heading_history_validation_20261027.json) and
+  [same-sample heading accuracy](heading_history_accuracy_20261027.json).
+- [Heading decomposition and component attribution](../HEADING_INVALIDATION_20261027.md),
+  with verified [seed-42](invalidation_heading_verified42_20261027.json) and
+  [seed-43](invalidation_heading_verified43_20261027.json) offline reports.
+- [Guarded validation and baseline audit](forecast_guard_validation_20261027.json).
+- [Initial factorial diagnosis](primitive_invalidation_factorial_20261027.json)
+  and [offline truth comparison](primitive_invalidation_truth_20261027.json).
+- Guarded replay: [seed 42](primitive_invalidation_guarded_20261027.json) and
+  [seed 43](primitive_invalidation_guarded43_20261027.json).
+- [Interpretation, limitations and current verification](../FORECAST_INVALIDATION_20261027.md).
