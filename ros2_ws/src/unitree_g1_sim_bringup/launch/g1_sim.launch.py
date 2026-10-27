@@ -1178,6 +1178,7 @@ def generate_launch_description():
                 description="Expected policy observation dimension. 0 infers from ONNX metadata/shape.",
             ),
             DeclareLaunchArgument('mujoco_application_timing',default_value='false'),
+            DeclareLaunchArgument('mujoco_contact_trace',default_value=''),
             DeclareLaunchArgument('arm_compositor_executor_threads',default_value='2'),
             DeclareLaunchArgument('arm_compositor_repeat_publish_period',default_value='0.0'),
             DeclareLaunchArgument('bridge_arm_gains_require_authority',default_value='false',
@@ -1812,6 +1813,7 @@ def generate_launch_description():
                 additional_env={
                     "UNITREE_MUJOCO_SCENE": mujoco_scene,
                     "UNITREE_MUJOCO_APPLICATION_TIMING": LaunchConfiguration('mujoco_application_timing'),
+                    "UNITREE_MUJOCO_CONTACT_TRACE": LaunchConfiguration('mujoco_contact_trace'),
                     "UNITREE_MUJOCO_PEDESTRIANS_ENABLE": mujoco_pedestrians_enable,
                     "UNITREE_MUJOCO_PEDESTRIANS_COUNT": mujoco_pedestrians_count,
                     "UNITREE_MUJOCO_PEDESTRIAN_SCENARIO": mujoco_pedestrian_scenario,

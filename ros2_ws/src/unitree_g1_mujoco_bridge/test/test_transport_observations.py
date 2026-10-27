@@ -81,7 +81,7 @@ def test_search_hint_only_directs_view_and_does_not_accept_stale_geometry():
     viewpoints = []
     mission = SimpleNamespace(search_hints={'box_red':dict(position=[0.,2.,1.],observed_stamp=1.)},
         pose=(0.,0.,0.),seconds=lambda:100.,event=lambda *args,**kwargs:None,
-        observe=lambda *args:None,rotate=turns.append,spin=lambda *args:None,
+        observe=lambda *args:None,survey_rotate=lambda yaw,identifier:turns.append(yaw),spin=lambda *args:None,
         navigate=lambda pose,**kwargs:viewpoints.append(pose))
     with pytest.raises(RuntimeError,match='did not discover'):
         TransportMission.discover(mission,'box_red')

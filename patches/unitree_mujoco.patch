@@ -1,8 +1,8 @@
 diff --git a/simulate/CMakeLists.txt b/simulate/CMakeLists.txt
-index a976cfb227da9eff26382f8c7ecf734b27603ed4..9d3f11710b52fc6a0ec1384d06c1541841460da4 100644
+index a976cfb227da9eff26382f8c7ecf734b27603ed4..84a9929efef6e3bb94c9bd0990c5f28de0570345 100644
 --- a/simulate/CMakeLists.txt
 +++ b/simulate/CMakeLists.txt
-@@ -49,8 +49,13 @@ set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/mujoco/simulate/simulat
+@@ -49,8 +49,16 @@ set_source_files_properties("${CMAKE_CURRENT_SOURCE_DIR}/mujoco/simulate/simulat
  add_executable(unitree_mujoco ${SIM_SRC} src/main.cc src/simulated_manipulation.cc src/goal_overlay.cc)
  
  add_executable(jstest src/joystick/jstest.cc src/joystick/joystick.cc)
@@ -10,6 +10,9 @@ index a976cfb227da9eff26382f8c7ecf734b27603ed4..9d3f11710b52fc6a0ec1384d06c15418
 +target_include_directories(dex3_contact_bench PRIVATE src)
  
  if(BUILD_TESTING)
++  add_executable(contact_trace_test test/contact_trace_test.cc)
++  target_include_directories(contact_trace_test PRIVATE src)
++  add_test(NAME contact_trace_test COMMAND contact_trace_test)
 +  add_executable(command_application_timing_test test/command_application_timing_test.cc)
 +  target_include_directories(command_application_timing_test PRIVATE src)
 +  add_test(NAME command_application_timing_test COMMAND command_application_timing_test)
@@ -17,26 +20,30 @@ index a976cfb227da9eff26382f8c7ecf734b27603ed4..9d3f11710b52fc6a0ec1384d06c15418
    target_include_directories(native_imu_test PRIVATE src)
    add_test(NAME native_imu_test COMMAND native_imu_test)
 diff --git a/simulate/src/main.cc b/simulate/src/main.cc
-index 3e78daf197507eb9c1ffc909cdaca0129887def2..00ff5b5782b4ee99f457cd004a2da4e19d2d4540 100755
+index 3e78daf197507eb9c1ffc909cdaca0129887def2..1a3c87241b32da61fdb99440c799b38c73b714b2 100755
 --- a/simulate/src/main.cc
 +++ b/simulate/src/main.cc
-@@ -47,6 +47,7 @@
+@@ -47,7 +47,9 @@
  #include "pedestrian_start_gate.h"
  #include "raycast_model.h"
  #include "brainco_hand.h"
 +#include "dex3_hand.h"
  #include "native_imu.h"
++#include "contact_trace.h"
  #include "phase_locked_scheduler.h"
  #include "simulated_manipulation.h"
-@@ -2241,6 +2242,7 @@ namespace
+ #include "unitree_sdk2_bridge.h"
+@@ -2241,7 +2243,9 @@ namespace
    KinematicPedestrians kinematic_pedestrians;
  
    unitree_mujoco::BraincoHands brainco_hands;
 +  unitree_mujoco::Dex3Hands dex3_hands;
    unitree_mujoco::NativeImuPublisher native_imu;
++  unitree_mujoco::NativeContactTrace contact_trace;
  
    bool StepOrHold(mjModel *model, mjData *data, UnitreeSDK2BridgeBase *bridge)
-@@ -2250,6 +2252,7 @@ namespace
+   {
+@@ -2250,6 +2254,7 @@ namespace
        bridge->ApplyCommand(model, data);
      }
      brainco_hands.Update(model,data);
@@ -44,6 +51,14 @@ index 3e78daf197507eb9c1ffc909cdaca0129887def2..00ff5b5782b4ee99f457cd004a2da4e1
      if (startup_hold_gate.ShouldHold(model, data, bridge))
      {
        kinematic_pedestrians.MaybeAnimate(model, data);
+@@ -2263,6 +2268,7 @@ namespace
+     }
+     kinematic_pedestrians.MaybeAnimate(model, data);
+     mj_step(model, data);
++    contact_trace.Sample(model,data);
+     if (bridge)
+     {
+       bridge->CaptureState(model, data);
 diff --git a/simulate/src/simulated_manipulation.cc b/simulate/src/simulated_manipulation.cc
 index 14c51511f7ee71cd101c26a852d87ba062a63875..2965f3c4fb5ae6d33a77861705cf5b89cc9a814a 100644
 --- a/simulate/src/simulated_manipulation.cc
@@ -398,6 +413,130 @@ index 0000000..eb3dd72
 +    }
 +  }
 +};
++}
+diff --git a/simulate/src/contact_trace.h b/simulate/src/contact_trace.h
+new file mode 100644
+index 0000000..ed92252
+--- /dev/null
++++ b/simulate/src/contact_trace.h
+@@ -0,0 +1,86 @@
++#pragma once
++#include <mujoco/mujoco.h>
++#include <algorithm>
++#include <cmath>
++#include <cstdio>
++#include <cstdlib>
++
++namespace unitree_mujoco {
++struct RobotPersonContact {
++  int count{0};
++  double normal_force{0.};
++};
++
++inline bool DescendsFrom(const mjModel* model, int body, int root) {
++  for (; body>0; body=model->body_parentid[body]) {
++    if (body==root) {return true;}
++  }
++  return false;
++}
++
++inline bool IsPersonBody(const mjModel* model, int body) {
++  for (; body>0; body=model->body_parentid[body]) {
++    const char* name=mj_id2name(model,mjOBJ_BODY,body);
++    int person=0;
++    if (name && std::sscanf(name,"ped%d_",&person)==1 && person>0) {return true;}
++  }
++  return false;
++}
++
++inline RobotPersonContact ReadRobotPersonContact(const mjModel* model,const mjData* data,int root) {
++  RobotPersonContact sample;
++  for (int i=0;i<data->ncon;++i) {
++    const auto& contact=data->contact[i];
++    if (contact.geom[0]<0 || contact.geom[1]<0) {continue;}
++    const int a=model->geom_bodyid[contact.geom[0]], b=model->geom_bodyid[contact.geom[1]];
++    if (!((DescendsFrom(model,a,root) && IsPersonBody(model,b)) ||
++          (DescendsFrom(model,b,root) && IsPersonBody(model,a)))) {continue;}
++    mjtNum force[6]{};
++    mj_contactForce(model,data,i,force);
++    sample.normal_force+=std::abs(force[0]);
++    ++sample.count;
++  }
++  return sample;
++}
++
++// Diagnostic only: every physics substep contributes to interval force/impulse.
++// Twenty-Hz output includes zero-contact windows and stops after 35 simulator s.
++class NativeContactTrace {
++ public:
++  ~NativeContactTrace() {if (file_) {std::fclose(file_);}}
++  void Sample(const mjModel* model,const mjData* data) {
++    if (!initialized_) {
++      initialized_=true;
++      const char* path=std::getenv("UNITREE_MUJOCO_CONTACT_TRACE");
++      if (!path || !*path) {return;}
++      root_=mj_name2id(model,mjOBJ_BODY,"pelvis");
++      if (root_<0) {std::fprintf(stderr,"Contact trace: pelvis unavailable\n");return;}
++      file_=std::fopen(path,"wx");
++      if (!file_) {std::perror("Contact trace creation failed");return;}
++    }
++    if (!file_) {return;}
++    if (data->time>35.) {std::fclose(file_);file_=nullptr;return;}
++    const auto contact=ReadRobotPersonContact(model,data,root_);
++    peak_=std::max(peak_,contact.normal_force);
++    impulse_+=contact.normal_force*model->opt.timestep;
++    contact_steps_+=contact.count>0;
++    ++steps_;
++    if (data->time<next_) {return;}
++    mjtNum velocity[6]{};
++    mj_objectVelocity(model,data,mjOBJ_BODY,root_,velocity,0);
++    std::fprintf(file_,"{\"sim_time\":%.6f,\"device_tick_ms\":%lld,\"physics_steps\":%d,"
++      "\"contact_steps\":%d,\"peak_normal_force_n\":%.9g,\"normal_impulse_ns\":%.9g,"
++      "\"robot_xy\":[%.9g,%.9g],\"robot_world_velocity\":[%.9g,%.9g,%.9g]}\n",
++      data->time,static_cast<long long>(data->time*1000),steps_,contact_steps_,peak_,impulse_,
++      data->xpos[3*root_],data->xpos[3*root_+1],velocity[3],velocity[4],velocity[5]);
++    std::fflush(file_);
++    next_=data->time+.05;
++    steps_=contact_steps_=0;peak_=impulse_=0.;
++  }
++ private:
++  bool initialized_{false};
++  FILE* file_{nullptr};
++  int root_{-1}, steps_{0}, contact_steps_{0};
++  double next_{0.},peak_{0.},impulse_{0.};
++};
++}  // namespace unitree_mujoco
+diff --git a/simulate/test/contact_trace_test.cc b/simulate/test/contact_trace_test.cc
+new file mode 100644
+index 0000000..158e21f
+--- /dev/null
++++ b/simulate/test/contact_trace_test.cc
+@@ -0,0 +1,26 @@
++#include "contact_trace.h"
++#include <iostream>
++#include <string>
++
++int main() {
++  const std::string xml=R"(<mujoco><option gravity="0 0 0"/><worldbody>
++    <body name="pelvis"><freejoint/><geom type="sphere" size=".1" mass="1"/></body>
++    <body name="ped1_torso" mocap="true" pos=".15 0 0"><geom type="sphere" size=".1"/></body>
++    </worldbody></mujoco>)";
++  mjVFS vfs; mj_defaultVFS(&vfs);
++  mj_addBufferVFS(&vfs,"contact.xml",xml.data(),xml.size());
++  char error[1024]{};
++  mjModel* model=mj_loadXML("contact.xml",&vfs,error,sizeof(error));
++  mj_deleteVFS(&vfs);
++  if (!model) {std::cerr<<error;return 1;}
++  mjData* data=mj_makeData(model);
++  mj_forward(model,data);
++  const int root=mj_name2id(model,mjOBJ_BODY,"pelvis");
++  const auto touching=unitree_mujoco::ReadRobotPersonContact(model,data,root);
++  data->mocap_pos[0]=2.;
++  mj_forward(model,data);
++  const auto clear=unitree_mujoco::ReadRobotPersonContact(model,data,root);
++  const bool ok=touching.count>0 && touching.normal_force>0. && clear.count==0 && clear.normal_force==0.;
++  mj_deleteData(data);mj_deleteModel(model);
++  return ok ? 0 : 1;
 +}
 diff --git a/simulate/test/dex3_contact_bench.cc b/simulate/test/dex3_contact_bench.cc
 new file mode 100644

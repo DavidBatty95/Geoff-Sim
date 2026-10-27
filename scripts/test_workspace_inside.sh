@@ -117,6 +117,11 @@ if [ "${MODE}" != "fast" ]; then
     "${REPO_ROOT}/scripts/test_numeric_threads.py" \
     "${REPO_ROOT}/scripts/test_transport_capture.py" \
     "${REPO_ROOT}/scripts/test_arm_control_trace.py" \
+    "${REPO_ROOT}/scripts/test_transport_scan_assessment.py" \
+    "${REPO_ROOT}/scripts/test_transport_stage_validation.py" \
+    "${REPO_ROOT}/scripts/test_primitive_invalidation.py" \
+    "${REPO_ROOT}/scripts/test_invalidation_heading.py" \
+    "${REPO_ROOT}/scripts/test_contact_trace_analysis.py" \
     "${REPO_ROOT}/scripts/test_native_stopping.py" \
     "${REPO_ROOT}/scripts/test_native_stop_matrix.py" \
     "${REPO_ROOT}/scripts/test_checkpoint_stop_branches.py" \

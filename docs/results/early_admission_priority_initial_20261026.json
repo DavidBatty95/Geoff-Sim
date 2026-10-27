@@ -1,0 +1,304 @@
+{
+  "scope": "layered development validation; diagnostic completion is not delivery success",
+  "source_scope": "each attempt retains its own source snapshot; development configurations may differ",
+  "attempts": [
+    {
+      "run_id": "early_admission_priority42_20261026",
+      "configuration": {
+        "people": 3,
+        "seed": 42,
+        "duration_s": 120.0,
+        "test_stage": "survey",
+        "contact_force_capture": false,
+        "build_reused": true,
+        "strategic_avoidance": true
+      },
+      "result": {
+        "deliveries": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red",
+            "verified": false,
+            "lift_m": 0.0,
+            "travel_m": 5.0475580016229667e-05
+          }
+        ],
+        "contact_samples": 49,
+        "fallen": true,
+        "dropped_objects": [],
+        "data_valid": true,
+        "evaluation_health": {
+          "valid": true,
+          "started": true,
+          "failures": [],
+          "max_gap_s": 1.0,
+          "receipt_age_s": {
+            "box_red": 0.046133136842399836,
+            "people": 0.03838132880628109,
+            "robot": 0.03906638594344258,
+            "target_red": 0.04602277185767889
+          },
+          "max_receipt_gap_s": {
+            "robot": 0.20344981318339705,
+            "people": 0.21462850901298225,
+            "box_red": 0.11640482698567212,
+            "target_red": 0.11639679386280477,
+            "box_blue": 0.11639929190278053,
+            "target_blue": 0.11640399508178234
+          },
+          "object_timestamp_scope": [
+            "native_acquisition_v2"
+          ]
+        },
+        "minimum_person_clearance_m": -0.5723074796642353,
+        "observed_object_ids": [
+          "box_blue",
+          "box_red",
+          "target_blue",
+          "target_red"
+        ],
+        "success": false,
+        "mission_complete": false,
+        "error": "sustained measured body instability",
+        "final_sensed_pose": [
+          0.43980680615455314,
+          2.2967792731841437,
+          1.148996114730835
+        ],
+        "pose_age_s": 0.4314441680908203,
+        "grasp_model": "dex3_contact",
+        "base_pinning": false,
+        "perception": "registered_rgbd",
+        "attachment_state": "empty",
+        "object_may_be_held": false,
+        "carry_posture": "payload_v1",
+        "manipulation_heading_hold": true,
+        "pickup_standoff_m": 0.43,
+        "grasp_height_offset_m": 0.015,
+        "objective": {
+          "pairs": [
+            {
+              "object_id": "box_red",
+              "destination_id": "target_red",
+              "color": "red",
+              "destination_color": "red"
+            }
+          ],
+          "task_seed": null,
+          "mode": "red:red",
+          "description": "Put the red object on the red goal"
+        },
+        "mission_kind": "survey_diagnostic",
+        "test_stage": "survey",
+        "diagnostic_complete": false,
+        "scope": "bounded stage diagnostic; not delivery qualification"
+      },
+      "phase_counts": {
+        "runtime_parameters": 1,
+        "survey_destination": 1,
+        "discover": 4,
+        "turn_displaced": 3,
+        "survey_yield": 2,
+        "body_instability": 1
+      },
+      "recovery_events": [
+        {
+          "phase": "turn_displaced",
+          "elapsed_s": 17.688997338991612,
+          "displacement_m": 0.3687336948298896,
+          "limit_m": 0.35,
+          "start_pose_xy": [
+            0.02328432489214933,
+            -0.009399074794367308
+          ],
+          "measured_pose": [
+            -0.21671378688912338,
+            0.2705392113408555,
+            1.222577452659607
+          ]
+        },
+        {
+          "phase": "turn_displaced",
+          "elapsed_s": 20.459430560003966,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 2.7403067608829588
+        },
+        {
+          "phase": "turn_displaced",
+          "elapsed_s": 20.460786298150197,
+          "displacement_m": 0.8647318668540517,
+          "limit_m": 0.35,
+          "heading_error_rad": 0.11560670336021706,
+          "after_braking": true,
+          "start_pose_xy": [
+            0.02328432489214933,
+            -0.009399074794367308
+          ],
+          "measured_pose": [
+            -0.39751063030023925,
+            0.746043052199838,
+            1.3685139417648315
+          ]
+        },
+        {
+          "phase": "survey_yield",
+          "elapsed_s": 20.462223544018343,
+          "source": "displaced_viewpoint"
+        },
+        {
+          "phase": "survey_yield",
+          "elapsed_s": 20.46578175900504,
+          "goal_odom": [
+            -0.39751063030023925,
+            0.746043052199838,
+            1.3685139417648315
+          ],
+          "start_pose": [
+            -0.39751063030023925,
+            0.746043052199838,
+            1.3685139417648315
+          ],
+          "mode": "brake"
+        },
+        {
+          "phase": "body_instability",
+          "elapsed_s": 24.69715623301454,
+          "rpy": [
+            1.6113932132720947,
+            0.7067681550979614,
+            1.9609131813049316
+          ],
+          "duration_s": 0.21336936950683594,
+          "source": "onboard_measured_rpy"
+        }
+      ],
+      "full_logger_tail": {
+        "overlap_samples": 59,
+        "minimum_clearance_m": -0.5723074796642353
+      },
+      "planner_outcomes": [
+        {
+          "status": "not_requested",
+          "selected": "none",
+          "count": 280
+        },
+        {
+          "status": "not_requested",
+          "selected": "raw_limited",
+          "count": 91
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "velocity_obstacle",
+          "count": 8
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "social_translation",
+          "count": 7
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "previous_command",
+          "count": 24
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "escape_translation",
+          "count": 9
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "fine_translation",
+          "count": 4
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "early_crossing_escape",
+          "count": 1
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "none",
+          "count": 43
+        },
+        {
+          "status": "no_complete_plan",
+          "selected": "none",
+          "count": 9
+        },
+        {
+          "status": "no_static_refuge",
+          "selected": "none",
+          "count": 6
+        },
+        {
+          "status": "no_static_refuge",
+          "selected": "escape_translation",
+          "count": 2
+        },
+        {
+          "status": "no_static_refuge",
+          "selected": "previous_command",
+          "count": 2
+        },
+        {
+          "status": "no_static_refuge",
+          "selected": "velocity_obstacle",
+          "count": 1
+        }
+      ],
+      "strategic_summary": {
+        "counters": {
+          "active_ticks": 107,
+          "closing_corridor_ticks": 50,
+          "clear_coarse_refuge_ticks": 14,
+          "complete_plan_proposals": 0,
+          "kinodynamic_selections": 0,
+          "primitive_selections": 0,
+          "primitive_translation_selections": 0,
+          "delay_checked_proposals": 2
+        },
+        "first_active_ros_s": 1793036647.978464,
+        "search_max_ms": 31.096,
+        "search_mean_ms": 17.296677083333332,
+        "search_reasons": {
+          "worker_result:deadline": 8,
+          "preparation_deadline": 25,
+          "worker_result:no_feasible_prefix": 50,
+          "context_changed": 2,
+          "worker_result:complete": 2,
+          "revalidation:deadline": 1,
+          "revalidation:no_feasible_prefix": 1
+        },
+        "latest_worker": {
+          "busy": 0,
+          "completed": 61,
+          "discarded": 0,
+          "expired": 2,
+          "failed": 0,
+          "generation": 0,
+          "last_error": null,
+          "last_search_ms": 24.69297987408936,
+          "no_candidate": 57,
+          "pending": true,
+          "proposed": 2,
+          "running": true,
+          "submitted": 62
+        },
+        "revalidation_max_ms": 4.007249837741256,
+        "revalidation_mean_ms": 3.832661430351436,
+        "minimum_returned_margin_m": 0.1361281525753446
+      },
+      "provenance": {
+        "result.json": "f82b9d12404a8bc3a422af8ed54f3bf53c309bf01770d22c4ce4f3624ce77a40",
+        "manifest.json": "7cab20b0ff9ed1ad3bb58547852568bc0d52e515c901a9faf6c0a8740f2a2372",
+        "source_snapshot.zip": "d3dd2d928ce22a1cd2ebbbe8e8c9c717564336dc189b8b71e4137c8ecdbf19d4",
+        "effective_parameters.json": "f3cb53d7dba28f80a04b44a1bd0f0abf11242f8414309a013b4f8a818da1798d",
+        "trace.jsonl": "f3b0b81b195c46816d1674292c06265097a9e34a0bbfebb43ae0bc9f07b46dc0"
+      }
+    }
+  ]
+}

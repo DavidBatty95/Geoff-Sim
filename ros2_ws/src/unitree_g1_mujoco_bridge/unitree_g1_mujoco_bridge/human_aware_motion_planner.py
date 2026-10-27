@@ -7,7 +7,7 @@ from .observed_route import route_is_free, people_clear_corridor
 from .forward_reference import forward_reference,loaded_turn_reference,NominalMotionReference
 from .command_envelope import goal_signature
 from .avoidance_candidates import crossing_escape_directions, velocity_obstacle_command
-from dataclasses import dataclass,replace
+from dataclasses import dataclass,replace,asdict
 from .policy_response import NATIVE_CONTACT_PROFILE,calibrated_turn_reference
 
 import rclpy
@@ -123,6 +123,17 @@ def interpolate_prediction(
             confidence=left.confidence + fraction * (right.confidence - left.confidence),
         )
     return None
+
+
+def continuous_prediction(points,time_offset):
+    """Continue the typed forecast's endpoint instead of jumping to an old CV path."""
+    sample=interpolate_prediction(points,time_offset)
+    if sample is not None or not points or time_offset<points[0].time_offset:
+        return sample
+    last=points[-1]
+    elapsed=time_offset-last.time_offset
+    return replace(last,time_offset=time_offset,x=last.x+last.vx*elapsed,y=last.y+last.vy*elapsed,
+                   cov_xx=last.cov_xx+.04*elapsed**3/3.,cov_yy=last.cov_yy+.04*elapsed**3/3.)
 
 
 def nearest_clear_patch(
@@ -342,6 +353,10 @@ class HumanAwareMotionPlanner(Node):
         self.declare_parameter("body_uncertainty_horizon", 1.0)
         self.declare_parameter("kinodynamic_search_enabled", False)
         self.declare_parameter("kinodynamic_budget_ms", 30.0)
+        self.declare_parameter('strategic_avoidance_enabled',False)
+        self.declare_parameter('record_invalidation_audit',False)
+        self.declare_parameter('forecast_change_guard_enabled',False)
+        self.declare_parameter('heading_history_enabled',False)
         self.declare_parameter("continuation_prediction_margin", 0.30)
         self.declare_parameter("translation_refinement_enabled", False)
         self.declare_parameter("goal_capture_enabled", False)
@@ -478,6 +493,26 @@ class HumanAwareMotionPlanner(Node):
         self.wait_candidates_enabled = bool(self.get_parameter("wait_candidates_enabled").value)
         self.goal_cost_radius = max(0.,min(.4,float(self.get_parameter("goal_cost_radius").value)))
         self.kinodynamic_status = 'not_requested'
+        self.strategic_avoidance_enabled = bool(self.get_parameter('strategic_avoidance_enabled').value)
+        self.strategic_status = dict(active=False)
+        self.strategic_goal = None
+        self.record_invalidation_audit=bool(self.get_parameter('record_invalidation_audit').value)
+        self.forecast_change_guard_enabled=bool(self.get_parameter('forecast_change_guard_enabled').value)
+        self.heading_history_enabled=bool(self.get_parameter('heading_history_enabled').value)
+        from .heading_history import HeadingHistory
+        self.heading_history=HeadingHistory()
+        self.heading_history_details={}
+        self.source_odom_velocity=(0.,0.,0.)
+        from .forecast_change import ForecastChangeReserve
+        self.forecast_change_reserve=ForecastChangeReserve()
+        self.forecast_source='unavailable'
+        self.invalidation_audits_remaining=4
+        self.primitive_last_validation=None
+        self.primitive_validation_audit=None
+        self.primitive_worker = None
+        if self.strategic_avoidance_enabled:
+            from .escape_primitives import process_worker
+            self.primitive_worker=process_worker()
         self.goal_urgency = 1.
         self.goal_best_distance = math.inf
         self.goal_progress_stamp = None
@@ -615,6 +650,12 @@ class HumanAwareMotionPlanner(Node):
         if self.observed_route_valid is None:
             self.observed_route_valid = route_is_free(self.observed_map, path, self.robot_radius)
         return self.observed_route_valid
+
+    def destroy_node(self):
+        worker=getattr(self,'primitive_worker',None)
+        if worker is not None:
+            worker.shutdown()
+        return super().destroy_node()
 
     def _mission_callback(self, msg: Bool) -> None:
         was_active = self.mission_active
@@ -842,6 +883,7 @@ class HumanAwareMotionPlanner(Node):
         velocity = (msg.twist.twist.linear.x, msg.twist.twist.linear.y, msg.twist.twist.angular.z)
         if all(math.isfinite(value) for value in velocity):
             self.measured_velocity = velocity
+            self.source_odom_velocity = velocity
             self.odom_stamp = _ros_time_seconds(msg.header.stamp)
             if msg.header.frame_id == self.target_frame:
                 q = msg.pose.pose.orientation
@@ -881,11 +923,17 @@ class HumanAwareMotionPlanner(Node):
             self.policy_command = values
             self.policy_command_stamp = _ros_time_seconds(msg.header.stamp)
 
-    def _lowstate_callback(self, msg: LowState) -> None:
+    def _lowstate_callback(self, msg: LowState, info=None) -> None:
         rpy = msg.imu_state.rpy
         roll = math.atan2(math.sin(float(rpy[0])), math.cos(float(rpy[0])))
         pitch = math.atan2(math.sin(float(rpy[1])), math.cos(float(rpy[1])))
         self.last_tilt = max(abs(roll), abs(pitch))
+        if getattr(self,'heading_history_enabled',False):
+            stamp = (info.get('source_timestamp',0) if isinstance(info,dict)
+                     else getattr(info,'source_timestamp',0))
+            self.heading_history.observe(float(stamp or 0)*1e-9,
+                self.get_clock().now().nanoseconds*1e-9, int(msg.tick),
+                tuple(map(float,rpy)), tuple(map(float,msg.imu_state.gyroscope)))
 
     def _tentative_callback(self, msg: PointCloud2) -> None:
         self.tentative_points = list(iter_xyz(msg))[:64]
@@ -904,6 +952,8 @@ class HumanAwareMotionPlanner(Node):
             return
         stamp = _ros_time_seconds(msg.header.stamp)
         tracks = {}
+        if (self.forecast_change_guard_enabled and self.tracks_epoch is not None and stamp<=self.tracks_epoch):
+            return
         for person in msg.persons:
             if person.track_state not in (
                 TrackedPerson.TRACK_STATE_TENTATIVE,
@@ -927,6 +977,8 @@ class HumanAwareMotionPlanner(Node):
                 body_radius=max(0.0, float(person.body_radius)),
                 observation_age=_ros_time_seconds(person.observation_age),
             )
+        if self.forecast_change_guard_enabled:
+            self.forecast_change_reserve.observe(stamp,tracks.values())
         self.tracks = tracks
         self.tracks_epoch = stamp
 
@@ -936,6 +988,9 @@ class HumanAwareMotionPlanner(Node):
                 f"Ignoring person predictions in {msg.header.frame_id}; expected {self.target_frame}",
                 throttle_duration_sec=2.0,
             )
+            return
+        epoch=_ros_time_seconds(msg.header.stamp)
+        if self.forecast_change_guard_enabled and self.prediction_epoch is not None and epoch<=self.prediction_epoch:
             return
         predictions = {}
         for trajectory in msg.trajectories:
@@ -1002,6 +1057,11 @@ class HumanAwareMotionPlanner(Node):
         self.planning_phases = {}
         self.scoring_phases = {}
         self.kinodynamic_status = 'not_requested'
+        self.kinodynamic_details = {}
+        self.primitive_warm_start = None
+        self.primitive_continuation_plan = None
+        self.primitive_validation_audit=None
+        self.strategic_status = dict(active=False)
         self.prediction_cache = {}
         self.static_cache = {}
         self.static_points_cache = None
@@ -1045,8 +1105,34 @@ class HumanAwareMotionPlanner(Node):
             if reference is not None:
                 self.latest_cmd = reference
         self._update_goal_urgency(pose,now_seconds)
+        self.strategic_status = dict(active=False)
+        if (getattr(self,'strategic_avoidance_enabled',False) and len(tracks)>=2 and
+                self.navigation_mode!='manipulate' and self.policy_command is not None and
+                self.policy_command_stamp is not None and 0.<=now_seconds-self.policy_command_stamp<=.4):
+            from .strategic_avoidance import crowd_forecast,predict_strategic_risk
+            times=np.linspace(0.,7.,36)
+            people,radii=crowd_forecast(tracks,times,self.robot_radius,self.body_prediction_margin)
+            if self.forecast_change_guard_enabled:
+                radii+=np.max(self.forecast_change_reserve.reserve(tracks,times,now_seconds),axis=0)
+            command=(self.latest_cmd.linear.x,self.latest_cmd.linear.y,self.latest_cmd.angular.z)
+            nominal=np.asarray(self.motion_envelope.rollout(pose,command,self.measured_velocity,
+                7.,.2,self.response_delay,filtered_command=self.policy_command))
+            self.strategic_status=predict_strategic_risk(nominal[:,:2],people,radii,times)
+            self.strategic_status['track_pairs']=[[tracks[i].track_id,tracks[j].track_id]
+                                                 for i,j in self.strategic_status['pairs']]
+            self.strategic_status['watch_tracks']=[tracks[i].track_id for i in self.strategic_status['watch_indices']]
+        committed=self._primitive_commitment_active(now_seconds)
+        if committed:
+            self.strategic_status['continuation_active']=True
+            candidate,origin,_=self.escape_plan
+            self.strategic_status['commitment_end_ros_s']=origin+sum(part[0] for part in candidate.schedule)
+            if not self.strategic_status['active']:
+                self.strategic_status.update(active=True,reason='committed_escape')
+        pincer=self.strategic_status['active']
+        if not pincer:
+            self.strategic_goal=None
         if (self.prefer_safe_route_alignment and self.nav2_path_reference and self.mission_active and
-                self.navigation_mode in ('scan','manipulate','brake')):
+                self.navigation_mode in ('scan','manipulate','brake') and not pincer):
             # A scan/brake is an explicit request to stop translating, not a
             # new route-progress objective. Recheck its full stopping/turning
             # rollout before continuing an old escape or optimizing comfort.
@@ -1082,6 +1168,10 @@ class HumanAwareMotionPlanner(Node):
                 self._publish(cmd, "LOCAL_SAFE_SPACE", safe_results, safe_selected)
                 return
         state = self._update_state(now, pose, tracks, tentative_points)
+        if pincer and state=='NORMAL_NAVIGATION':
+            state='HUMAN_CAUTION'
+            self.state=state
+            self.state_since=now
         # Full-horizon feasibility must activate search before the short CPA
         # state thresholds. Otherwise a rejected raw candidate means a late stop.
         if state == "NORMAL_NAVIGATION" and tracks:
@@ -1113,7 +1203,8 @@ class HumanAwareMotionPlanner(Node):
             self.warm_start_plan = None
             if goal_key == (self._goal_key(self.reference_goal) if self.mission_active else None):
                 candidates.insert(0,self._schedule_candidate('beam_warm_start',schedule))
-        if (self.kinodynamic_search_enabled and state != 'NORMAL_NAVIGATION' and tracks and
+        survey_refuge = self.navigation_mode in ('scan','brake')
+        if ((self.kinodynamic_search_enabled or survey_refuge or pincer) and state != 'NORMAL_NAVIGATION' and (tracks or committed) and
                 (self.mission_active or any(math.hypot(t.vx,t.vy)>.25 for t in tracks))):
             proposed = self._kinodynamic_candidate(pose,tracks,tentative_points,predicted_points,predictions,prediction_age)
             if proposed is not None:
@@ -1122,8 +1213,12 @@ class HumanAwareMotionPlanner(Node):
                 if not checked.rejected or checked.reason == 'human_margin':
                     cmd = self._twist_from_candidate(proposed)
                     self.last_cmd = cmd
-                    self.escape_plan = (proposed,self.get_clock().now().nanoseconds*1e-9,
-                                        self._goal_key(self.reference_goal) if self.mission_active else None)
+                    if proposed.name=='escape_primitive' and self.primitive_validation_audit is not None:
+                        self.primitive_last_validation=self.primitive_validation_audit
+                    continuation=getattr(self,'primitive_continuation_plan',None)
+                    self.escape_plan = (continuation if proposed.name=='escape_primitive' and continuation is not None else
+                        (proposed,self.get_clock().now().nanoseconds*1e-9,
+                         self._goal_key(self.reference_goal) if self.mission_active else None))
                     self._publish(cmd,'CLEARANCE_RECOVERY' if checked.rejected else 'HUMAN_CAUTION',[checked],checked)
                     return
                 candidates.insert(0,proposed)
@@ -1228,11 +1323,58 @@ class HumanAwareMotionPlanner(Node):
                 return recovery
         return result
 
+    def _primitive_audit(self,pose,tracks,predictions,prediction_age,people,radii,goal,horizon,program):
+        return dict(forecast_epoch=tracks[0].stamp if tracks else self.get_clock().now().nanoseconds*1e-9,
+            odom_stamp=self.odom_stamp,tracks_epoch=self.tracks_epoch,prediction_epoch=self.prediction_epoch,
+            prediction_age=prediction_age,pose=list(pose),velocity=list(self.measured_velocity),
+            filtered=list(self.policy_command),program=program,envelope=asdict(self.motion_envelope),
+            people=people.tolist(),radii=radii.tolist(),tracks=[asdict(track) for track in tracks],
+            typed_predictions={str(identity):[[p.time_offset,p.x,p.y,p.vx,p.vy] for p in samples]
+                               for identity,samples in predictions.items()},
+            goal=list(goal),horizon=horizon,dt=self.dt,delay=self.response_delay,
+            static_clearance=self.static_clearance,forecast_source=self.forecast_source,
+            heading_history=dict(getattr(self,'heading_history_details',{})),
+            source_odom_pose=self.odom_pose,source_odom_velocity=self.source_odom_velocity,
+            forecast_change_guard=self.forecast_change_guard_enabled)
+
     def _kinodynamic_candidate(self,pose,tracks,tentative,predicted,predictions,prediction_age):
         started = time.perf_counter()
+        self.primitive_continuation_plan=None
         seconds = self.get_clock().now().nanoseconds*1e-9
         goal = self.reference_progress_target or self.reference_goal_world
-        if not self.mission_active:
+        strategic=getattr(self,'strategic_status',{}).get('active',False)
+        guarded=strategic and self.forecast_change_guard_enabled
+        if guarded and (self.odom_stamp is None or not 0.<=seconds-self.odom_stamp<=.3):
+            self.kinodynamic_status='primitive_pose_too_old'
+            return None
+        refuge = strategic or not self.mission_active or self.navigation_mode in ('scan','brake')
+        self.kinodynamic_details={}
+        proposals=[]
+        if strategic:
+            goal=pose[:2]  # Replaced below after static-aware all-person ranking.
+            from .escape_primitives import templates,check_programs,snapshot,process_worker
+            if self.primitive_worker is None:
+                self.primitive_worker=process_worker()
+            if not self.primitive_worker.warmup.done():
+                self.kinodynamic_status='primitive_worker_warming'
+                return None
+            context=(self._goal_key(self.reference_goal),self.mission_active,self.navigation_mode,
+                     self.payload_active,self.motion_envelope)
+            ready=self.primitive_worker.poll(.2)
+            warm=getattr(self,'primitive_warm_start',None)
+            if warm:
+                proposals.append(warm)
+            if ready is not None:
+                self.kinodynamic_details['worker_result']=dict(ready.snapshot.diagnostics)
+                self.kinodynamic_details['result_age_s']=time.monotonic()-ready.submitted_at
+                if ready.snapshot.context==context and ready.command is not None:
+                    proposals.append(ready.command)
+                    goal=ready.snapshot.inputs['goal']
+                elif ready.snapshot.context!=context:
+                    self.kinodynamic_details['reason']='context_changed'
+            if proposals and self.strategic_goal is not None:
+                goal=self.strategic_goal
+        if refuge and not strategic:
             moving = [track for track in tracks if math.hypot(track.vx,track.vy)>.25]
             if not moving:
                 return None
@@ -1247,19 +1389,50 @@ class HumanAwareMotionPlanner(Node):
                 not 0. <= seconds-self.policy_command_stamp <= .4):
             self.kinodynamic_status = 'missing_goal_or_feedback'
             return None
-        anchor = self._score_candidate(Candidate('beam_anchor',0.,0.,0.),pose,tracks,tentative,predicted,predictions,prediction_age)
-        self._static_obstacle_cost(anchor.trajectory)
+        if strategic and proposals:
+            # A returned plan needs fresh static geometry, not another complete
+            # human-risk score for a discarded zero-command anchor. Its full
+            # human/static trajectory is checked below with the new forecasts.
+            self._static_obstacle_cost([(*pose,0.)])
+        else:
+            anchor = self._score_candidate(Candidate('beam_anchor',0.,0.,0.),pose,tracks,tentative,predicted,predictions,prediction_age)
+            self._static_obstacle_cost(anchor.trajectory)
         if self.static_frame_valid is False:
             self.kinodynamic_status = 'static_frame_unavailable'
             return None
-        key = tuple(p[3] for p in anchor.trajectory)
+        if strategic and not proposals:
+            from .strategic_avoidance import crowd_forecast,refuge_candidates
+            forecast_times=np.linspace(0.,7.,36)
+            crowd,radii=crowd_forecast(tracks,forecast_times,self.robot_radius,self.body_prediction_margin)
+            if guarded:
+                radii+=np.max(self.forecast_change_reserve.reserve(tracks,forecast_times,seconds),axis=0)
+            refuges=refuge_candidates(pose,crowd,radii,forecast_times,
+                static_query=None if self.static_field_cache is None else self.static_field_cache.query,
+                static_clearance=self.static_clearance,previous=self.strategic_goal)
+            self.strategic_status['refuges']=refuges[:3]
+            if not refuges:
+                self.kinodynamic_status='no_static_refuge'
+                return None
+            goal=tuple(refuges[0]['goal'])
+            self.strategic_goal=goal
+        horizon = max(4.5,self.horizon) if refuge else self.horizon
+        times = np.linspace(0.,horizon,max(1,math.ceil(horizon/max(.02,self.dt)))+1)
         people,radii = [],[]
+        sample_at=continuous_prediction if self.forecast_change_guard_enabled else interpolate_prediction
         for track in tracks:
-            human = self.prediction_cache[(track.track_id,key)][0]
-            people.append(human[:,:2])
-            inflated = self.robot_radius+track.body_radius+self.body_prediction_margin+self.body_uncertainty_scale*human[:,5]
-            radii.append(np.where(np.asarray(key) <= self.hard_collision_horizon,inflated,
-                                  self.robot_radius+track.body_radius+.05))
+            samples = predictions.get(track.track_id)
+            positions,sigmas = [],[]
+            for t in times:
+                sample = sample_at(samples,prediction_age+t) if samples else None
+                uncertainty_time = min(t,self.body_uncertainty_horizon)
+                uncertainty = sample_at(samples,prediction_age+uncertainty_time) if samples else None
+                positions.append((track.x+track.vx*t,track.y+track.vy*t) if sample is None else (sample.x,sample.y))
+                sigmas.append(math.sqrt(max(0.,uncertainty.cov_xx,uncertainty.cov_yy)) if uncertainty else
+                              math.sqrt(max(0.,track.cov_xx,track.cov_yy))+.25*uncertainty_time)
+            people.append(np.asarray(positions))
+            inflated = self.robot_radius+track.body_radius+self.body_prediction_margin+self.body_uncertainty_scale*np.asarray(sigmas)
+            radii.append(inflated if refuge else np.where(times<=self.hard_collision_horizon,inflated,
+                                                         self.robot_radius+track.body_radius+.05))
         controls = [(vx,vy,0.) for vx in (-self.max_reverse_velocity,0.,.5*self.max_forward_near_human,self.max_forward_near_human)
                     for vy in (-self.max_lateral_near_human,0.,self.max_lateral_near_human)]
         controls.append((self._clamp(self.latest_cmd.linear.x,-self.max_reverse_velocity,self.max_forward_near_human),
@@ -1269,18 +1442,104 @@ class HumanAwareMotionPlanner(Node):
             command = self.motion_envelope.normalize(command)
             unique[tuple(round(v,4) for v in command)] = command
         radius = .4 if self.reference_goal_world is not None and math.hypot(goal[0]-self.reference_goal_world[0],goal[1]-self.reference_goal_world[1]) < .01 else 0.
-        schedule = search_sequence(self.motion_envelope,pose,self.measured_velocity,self.policy_command,
-            list(unique.values()),np.stack(people,axis=1),np.stack(radii,axis=1),goal,
-            self.horizon,self.dt,self.response_delay,
-            static_query=None if self.static_field_cache is None else self.static_field_cache.query,
-            static_clearance=self.static_clearance,goal_radius=radius,
-            goal_weight=self.weights['w_goal']*self.goal_urgency,budget_ms=self.kinodynamic_budget_ms,
-            stationary=[math.hypot(t.vx,t.vy)<.5 for t in tracks],
-            onset_radius=self.stationary_person_clearance,onset_weight=self.stationary_clearance_weight,
-            enclosure_weight=self.weights['w_enclosure'])
+        people=(np.stack(people,axis=1) if people else np.empty((len(times),0,2)))
+        radii=(np.stack(radii,axis=1) if radii else np.empty((len(times),0)))
+        if guarded:
+            reserve=self.forecast_change_reserve.reserve(tracks,times,seconds)
+            radii+=reserve
+            self.kinodynamic_details['forecast_change_reserve_m']={str(track.track_id):float(np.max(reserve[:,i]))
+                                                                  for i,track in enumerate(tracks)}
+        static_query=None if self.static_field_cache is None else self.static_field_cache.query
+        budget=min(20.,self.kinodynamic_budget_ms) if refuge else self.kinodynamic_budget_ms
+        self.kinodynamic_details['preparation_ms']=(time.perf_counter()-started)*1000.
+        schedule=None
+        name='kinodynamic'
+        remaining=budget
+        if strategic:
+            remaining=budget-(time.perf_counter()-started)*1000.
+            if proposals:
+                # Spend the existing planner budget on mandatory fresh-plan
+                # admission before falling back to another expensive search.
+                # Keep the 12 ms cap and reserve 10 ms for final scoring/publish.
+                global_budget=getattr(self,'planning_budget_ms',0.)
+                if global_budget>0.:
+                    elapsed=(time.perf_counter()-getattr(self,'planning_started',started))*1000.
+                    remaining=min(12.,global_budget-elapsed-10.)
+                self.kinodynamic_details['admission_budget_ms']=max(0.,remaining)
+            if proposals and remaining>0.:
+                details={}
+                schedule=check_programs(self.motion_envelope,pose,self.measured_velocity,self.policy_command,
+                    proposals,people,radii,goal,horizon,self.dt,self.response_delay,
+                    static_query=static_query,static_clearance=self.static_clearance,
+                    budget_ms=min(12.,remaining),diagnostics=details)
+                self.kinodynamic_details['revalidation']=details
+                if schedule is not None:
+                    name='escape_primitive'
+                elif warm and details.get('reason')!='deadline':
+                    if self.record_invalidation_audit and self.primitive_last_validation is not None and self.invalidation_audits_remaining>0:
+                        self.kinodynamic_details['invalidation_audit']=dict(
+                            previous=self.primitive_last_validation,
+                            current=self._primitive_audit(pose,tracks,predictions,prediction_age,people,radii,goal,horizon,warm),
+                            rejection=dict(details))
+                        self.invalidation_audits_remaining-=1
+                    # Keep elapsed phase timing across a missed computation,
+                    # never across a known geometric/terminal-state rejection.
+                    self.escape_plan=None
+                    self.primitive_warm_start=None
+                    self.kinodynamic_details['continuation']='invalidated_by_fresh_check'
+                elif warm:
+                    self.kinodynamic_details['continuation']='retained_pending_fresh_check'
+            elif remaining<=0.:
+                self.kinodynamic_details['reason']='preparation_deadline'
+            if schedule is None and self.primitive_worker.future is None:
+                programs=templates(self.motion_envelope,horizon,self.max_forward_near_human,
+                                   self.max_reverse_velocity,self.max_lateral_near_human)
+                request=snapshot(dict(envelope=self.motion_envelope,pose=tuple(pose),
+                    velocity=tuple(self.measured_velocity),filtered=tuple(self.policy_command),
+                    programs=programs,people=people,radii=radii,goal=tuple(goal),horizon=horizon,
+                    dt=self.dt,delay=self.response_delay,static_query=static_query,
+                    static_clearance=self.static_clearance,budget_ms=80.,
+                    admission_delays=(0.,.1,.2),minimum_margin=.10),context)
+                self.primitive_worker.submit(request)
+            self.kinodynamic_details['worker']=self.primitive_worker.diagnostics()
+        if not strategic and schedule is None and remaining>1.:
+            details={}
+            schedule = search_sequence(self.motion_envelope,pose,self.measured_velocity,self.policy_command,
+                list(unique.values()),people,radii,goal,horizon,self.dt,self.response_delay,
+                static_query=static_query,static_clearance=self.static_clearance,goal_radius=radius,
+                goal_weight=2. if refuge else self.weights['w_goal']*self.goal_urgency,
+                budget_ms=remaining,beam_width=16 if refuge else 28,
+                stationary=[math.hypot(t.vx,t.vy)<.5 for t in tracks],
+                onset_radius=self.stationary_person_clearance,onset_weight=self.stationary_clearance_weight,
+                enclosure_weight=max(8.,self.weights['w_enclosure']) if strategic else self.weights['w_enclosure'],
+                diagnostics=details)
+            self.kinodynamic_details['beam']=details
+        current=self.get_clock().now().nanoseconds*1e-9
+        if schedule is not None and (not 0.<=current-self.policy_command_stamp<=.4 or
+                self.odom_stamp is None or not 0.<=current-self.odom_stamp<=self.odom_timeout or
+                (guarded and current-self.odom_stamp>.3) or
+                (self.require_fresh_tracks and (self.tracks_epoch is None or
+                 not 0.<=current-self.tracks_epoch<=self.max_person_cloud_age))):
+            schedule=None
+            self.kinodynamic_details['reason']='state_expired_during_search'
+        if schedule is not None and strategic and warm and schedule==warm:
+            self.primitive_continuation_plan=self.escape_plan
+            self.kinodynamic_details['continuation']='revalidated_original_clock'
+        if schedule is not None and strategic and self.record_invalidation_audit:
+            self.primitive_validation_audit=self._primitive_audit(
+                pose,tracks,predictions,prediction_age,people,radii,goal,horizon,schedule)
         self.planning_phases['kinodynamic_ms'] = (time.perf_counter()-started)*1000.
-        self.kinodynamic_status = 'proposed' if schedule is not None else 'no_complete_plan'
-        return None if schedule is None else self._schedule_candidate('kinodynamic',schedule)
+        self.kinodynamic_status = 'proposed' if schedule is not None else ('pending_primitives' if strategic else 'no_complete_plan')
+        return None if schedule is None else self._schedule_candidate(name,schedule)
+
+    def _primitive_commitment_active(self,seconds):
+        plan=getattr(self,'escape_plan',None)
+        if not getattr(self,'strategic_avoidance_enabled',False) or plan is None:
+            return False
+        candidate,started,goal=plan
+        return bool(candidate.name=='escape_primitive' and candidate.schedule and
+            goal==(self._goal_key(self.reference_goal) if self.mission_active else None) and
+            0.<=seconds-started<sum(part[0] for part in candidate.schedule))
 
     def _pending_escape(self, seconds):
         """Advance a selected two-phase escape instead of restarting its clock.
@@ -1298,6 +1557,15 @@ class HumanAwareMotionPlanner(Node):
             schedule = remaining_schedule(candidate.schedule,seconds-started)
             if not schedule or self.policy_command_stamp is None or not 0. <= seconds-self.policy_command_stamp <= .4:
                 self.escape_plan = None
+                return None
+            if candidate.name=='escape_primitive':
+                # Never continue a cached primitive based only on its previous
+                # admission. Roll the remaining program out against fresh state,
+                # all current people and static geometry on this very tick.
+                self.primitive_warm_start=schedule
+                # Retain timing if this tick's check misses its budget. This
+                # method returns no command: fresh validation is still required
+                # before publication, and the original end time keeps advancing.
                 return None
             if seconds-started >= candidate.schedule[0][0]:
                 self.warm_start_plan = (schedule,goal)
@@ -1507,11 +1775,17 @@ class HumanAwareMotionPlanner(Node):
         return self.predicted_points
 
     def _fresh_predictions(self, now) -> tuple[dict[int, list[PredictionSample]], float, bool]:
+        self.forecast_source='track_cv_unavailable_prediction'
         if self.prediction_epoch is None:
             return {}, 0.0, False
         age = now.nanoseconds * 1e-9 - self.prediction_epoch
         if age < 0.0 or age > self.max_person_cloud_age:
             return {}, 0.0, False
+        if (getattr(self,'forecast_change_guard_enabled',False) and
+                (self.tracks_epoch is None or abs(self.prediction_epoch-self.tracks_epoch)>1e-6)):
+            self.forecast_source='track_cv_unpaired_epochs'
+            return {},0.,False
+        self.forecast_source='typed_matched' if getattr(self,'forecast_change_guard_enabled',False) else 'typed'
         return self.predictions, age, True
 
     def _update_state(self, now, pose: tuple[float, float, float], tracks: list[HumanTrack], tentative_points) -> str:
@@ -2043,6 +2317,7 @@ class HumanAwareMotionPlanner(Node):
         robot_points = np.asarray(trajectory)
         times = robot_points[:, 3]
         time_key = tuple(times)
+        sample_at=continuous_prediction if getattr(self,'forecast_change_guard_enabled',False) else interpolate_prediction
         for track in tracks:
             track_hard_radius = self.robot_radius + track.body_radius + self.hard_safety_margin
             margin = getattr(self,"body_prediction_margin",.05) if prediction_margin is None else max(.1,prediction_margin)
@@ -2053,9 +2328,9 @@ class HumanAwareMotionPlanner(Node):
             if cache_key not in self.prediction_cache:
                 values = []
                 for t in times:
-                    sample = interpolate_prediction(samples, prediction_age + t) if samples else None
+                    sample = sample_at(samples, prediction_age + t) if samples else None
                     uncertainty_time = min(t,self.body_uncertainty_horizon)
-                    uncertainty_sample = interpolate_prediction(samples,prediction_age+uncertainty_time) if samples else None
+                    uncertainty_sample = sample_at(samples,prediction_age+uncertainty_time) if samples else None
                     sigma = (math.sqrt(max(0.,uncertainty_sample.cov_xx,uncertainty_sample.cov_yy)) if uncertainty_sample else
                              math.sqrt(max(0.,track.cov_xx,track.cov_yy))+.25*uncertainty_time)
                     values.append((track.x + track.vx * t, track.y + track.vy * t, track.vx, track.vy, self._comfort_radius(track, t),sigma) if sample is None else
@@ -2240,8 +2515,12 @@ class HumanAwareMotionPlanner(Node):
         filtered = self.policy_command if self.policy_command_stamp is not None and 0.0 <= self.get_clock().now().nanoseconds * 1e-9 - self.policy_command_stamp <= 0.4 else None
         if candidate.schedule is not None:
             initial = filtered if filtered is not None else self.motion_envelope.normalize(self.measured_velocity)
+            # A freshly checked primitive includes its braking phase. Cutting
+            # that phase off at the nominal horizon invents a moving endpoint
+            # and can falsely reject its already-checked stopped refuge.
+            horizon=max(self.horizon,sum(part[0] for part in candidate.schedule)) if candidate.name=='escape_primitive' else self.horizon
             return rollout_schedule(self.motion_envelope,pose,self.measured_velocity,initial,
-                                    candidate.schedule,self.horizon,self.dt,self.response_delay)
+                                    candidate.schedule,horizon,self.dt,self.response_delay)
         return self.motion_envelope.rollout(pose, (candidate.vx, candidate.vy, candidate.wz), self.measured_velocity, self.horizon, self.dt, self.response_delay, duration, next_command, filtered)
 
     def _static_obstacle_cost(self, trajectory: list[tuple[float, float, float, float]]) -> tuple[float, bool]:
@@ -2528,6 +2807,10 @@ class HumanAwareMotionPlanner(Node):
             "planning_ms": round((time.perf_counter() - self.planning_started) * 1000.0, 3),
             "search_budget_exhausted": self.search_budget_exhausted,
             "kinodynamic_status": self.kinodynamic_status,
+            "forecast_source": getattr(self,'forecast_source','unavailable'),
+            "heading_history": getattr(self,'heading_history_details',{}),
+            "kinodynamic_details": getattr(self,'kinodynamic_details',{}),
+            "strategic_avoidance": getattr(self,'strategic_status',dict(active=False)),
             "evaluated_candidates": len(results),
             "planning_thread_ms": round((time.thread_time() - self.planning_cpu_started) * 1000.0, 3),
             "planning_phases_ms": {key: round(value, 3) for key, value in self.planning_phases.items()},
@@ -2765,7 +3048,19 @@ class HumanAwareMotionPlanner(Node):
         if self.odom_pose is not None and self.odom_stamp is not None:
             age = self.get_clock().now().nanoseconds * 1e-9 - self.odom_stamp
             if 0.0 <= age <= self.odom_timeout:
+                if getattr(self,'heading_history_enabled',False):
+                    state,self.heading_history_details=self.heading_history.propagate(
+                        self.odom_pose,self.odom_stamp,self.odom_stamp+age)
+                    if state is None:
+                        return None
+                    # Keep the existing XY projection separate from current heading/rate.
+                    projected=advance_planar_pose(self.odom_pose,self.source_odom_velocity,age)
+                    self.measured_velocity=(*self.source_odom_velocity[:2],state[1])
+                    return projected[0],projected[1],state[0]
                 return advance_planar_pose(self.odom_pose, self.measured_velocity, age)
+        if getattr(self,'heading_history_enabled',False):
+            self.heading_history_details=dict(valid=False,reason='stale_odometry')
+            return None
         try:
             transform = self.tf_buffer.lookup_transform(self.target_frame, self.robot_frame, rclpy.time.Time())
         except TransformException as exc:
@@ -2796,9 +3091,15 @@ class HumanAwareMotionPlanner(Node):
 def main() -> None:
     rclpy.init()
     node = HumanAwareMotionPlanner()
+    from .dds_metadata_executor import DDSMetadataExecutor
+    executor = DDSMetadataExecutor(metadata_callbacks=(node._lowstate_callback,)) if node.heading_history_enabled else None
+    if executor is not None:
+        executor.add_node(node)
     try:
-        rclpy.spin(node)
+        executor.spin() if executor is not None else rclpy.spin(node)
     finally:
+        if executor is not None:
+            executor.shutdown()
         node.destroy_node()
         rclpy.shutdown()
 

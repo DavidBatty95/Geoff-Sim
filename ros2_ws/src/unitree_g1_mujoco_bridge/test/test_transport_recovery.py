@@ -193,6 +193,8 @@ def test_turn_discovery_survives_occlusion_during_braking():
     seen = [{'id':'target_blue','observed_stamp':10.,'confirmed':True}]
     mission = mission_fixture()
     mission.active = True
+    mission.pose_stamp = 10.
+    mission.seconds = lambda:10.
     mission.set_goal = lambda *args:None
     mission.observe = lambda *args:seen[0] if seen else None
     mission.wait = lambda predicate,*args:predicate()
@@ -222,7 +224,7 @@ def test_displaced_turn_brakes_before_revoking_intent():
     mission.wait = wait
     with pytest.raises(ViewpointDisplaced,match='turn displaced'):
         TransportMission.rotate.__wrapped__(mission,-1.66)
-    assert events == ['turn_displaced',('brake',True),('active',False)]
+    assert events == ['turn_displaced',('brake',True),'turn_displaced',('active',False)]
 
 
 def test_stale_displaced_pose_does_not_trigger_turn_drift_decision():
@@ -305,11 +307,14 @@ def test_unreachable_pickup_redocks_and_reprojects_before_grasp(dex3):
     mission.arm_with_recovery = move
     carried = []
     mission.move_to_carry = lambda:carried.append(True)
+    restored = []
+    mission.restore_arm = lambda:restored.append(True)
     def dock(pose):
         if dex3:
-            assert carried and hand[0][0] < .2
+            assert carried and restored and hand[0][0] < .2
         mission.pose = pose
     mission.dock = dock
+    mission.dock_for_pickup = lambda *args:dock((box[0]-.43,.15,0.))
     mission.kin = SimpleNamespace(forward=lambda joints:(hand[0],None,None,None))
     result = TransportMission.reach_box(mission,'box',np.array((1.,0.)),np.array((0.,1.)),0.)
     np.testing.assert_array_equal(result,box)
@@ -336,6 +341,70 @@ def test_docking_recloses_after_coasting_outside_tolerance():
     assert len(goals) == 2
     assert not mission.active
     assert mission.events[-1][1]['dock_settled']
+
+
+@pytest.mark.parametrize('blocked',['moving','far','stale','heading','missing_object'])
+def test_pickup_does_not_raise_arm_before_settled_observed_arrival(blocked):
+    mission = pickup_approach_fixture()
+    def wait(predicate,timeout,message):
+        if 'before pickup docking' in message:
+            assert predicate()
+            return
+        if blocked=='moving':
+            mission.base_velocity = (.2,0.,0.)
+        elif blocked=='far':
+            mission.pose = (-.5,.15,0.)
+        elif blocked=='stale':
+            mission.pose_stamp = 9.
+        elif blocked=='heading':
+            mission.pose = (0.,.15,.3)
+        else:
+            mission.observe = lambda *args:None
+        assert not predicate()
+        raise RuntimeError(message)
+    mission.wait = wait
+    with pytest.raises(RuntimeError,match='not settled'):
+        TransportMission.dock_for_pickup(mission,'box',np.array((1.,0.)),np.array((0.,1.)),0.)
+    assert mission.calls==['dock','stop']
+
+
+def pickup_approach_fixture():
+    mission = mission_fixture()
+    mission.args = SimpleNamespace(pickup_standoff=.43)
+    mission.dex3 = True
+    mission.pose,mission.pose_stamp = (0.,.15,0.),10.5
+    mission.seconds = lambda:10.5
+    mission.base_velocity = (0.,0.,0.)
+    mission.observe = lambda *args:dict(position=(.43,0.,1.))
+    mission.rest_arm_positions = None
+    mission.joints = {'elbow':.1}
+    mission.kin = SimpleNamespace(names=['elbow'])
+    mission.authority,mission.open_hand = 'authority','open'
+    mission.calls = []
+    mission.dock = lambda *args:mission.calls.append('dock')
+    mission.stop_intent = lambda:mission.calls.append('stop')
+    mission.service = lambda service,*args:mission.calls.append(service)
+    mission.move_to_carry = lambda *args:mission.calls.append('raise')
+    return mission
+
+
+def test_pickup_waits_for_advancing_settled_samples_before_arm_authority():
+    mission = pickup_approach_fixture()
+    def wait(predicate,timeout,message):
+        if 'before pickup docking' in message:
+            assert predicate()
+            return
+        mission.pose_stamp = 10.3
+        assert not predicate()
+        assert not predicate()  # Repeated receipt cannot satisfy the dwell.
+        mission.pose_stamp = 10.7
+        mission.seconds = lambda:10.7
+        assert predicate()
+        assert mission.calls==['dock','stop']
+    mission.wait = wait
+    TransportMission.dock_for_pickup(mission,'box',np.array((1.,0.)),np.array((0.,1.)),0.)
+    assert mission.calls==['dock','stop','authority','open','raise']
+    assert mission.rest_arm_positions=={'elbow':.1}
 
 
 def test_docking_learns_bounded_coast_offset_without_changing_settled_goal():

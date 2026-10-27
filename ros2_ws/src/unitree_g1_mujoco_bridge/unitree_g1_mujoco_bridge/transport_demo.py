@@ -78,6 +78,10 @@ class MotionSettlingError(RuntimeError):
         super().__init__(f'base did not settle during braking: {outcome}')
 
 
+class SurveyYieldRequired(RuntimeError):
+    """Checked avoidance still owns motion; the survey owner must yield or stop."""
+
+
 class TransportMission(Node):
     def __init__(self,args,executor):
         super().__init__('g1_transport_demo')
@@ -96,6 +100,8 @@ class TransportMission(Node):
         self.exploration = None
         self.people = None
         self.policy_feedback = None
+        self.avoidance_state = None
+        self.survey_observation_after = {}
         self.kin = None
         self.active = False
         self.mode = 'navigate'
@@ -140,6 +146,8 @@ class TransportMission(Node):
         self.create_subscription(Vector3Stamped,'/onboard/measured_rpy',self._body_orientation,qos)
         self.create_subscription(TrackedPersons,'/tracked_persons',lambda m:setattr(self,'people',m),qos)
         self.create_subscription(TwistStamped,'/g1/policy_cmd_vel',self._policy_feedback,qos)
+        self.create_subscription(String,'/human_avoidance_state',
+            lambda msg:setattr(self,'avoidance_state',(time.monotonic(),msg.data)),qos)
         self.create_timer(.1,self._heartbeat)
         if getattr(args,'explore_unknown',False):
             from .exploration_mission import ExplorationMission
@@ -650,7 +658,8 @@ class TransportMission(Node):
                   8.,'camera did not verify post-release placement from retreat viewpoint')
 
     @recover_localization
-    def rotate(self,yaw,timeout=45.,settle_before_turn=False,stop_when_observed=None):
+    def rotate(self,yaw,timeout=45.,settle_before_turn=False,stop_when_observed=None,
+               observed_after=None,allow_avoidance_yield=False):
         # Search requires a view direction, not centimetre-level base-position
         # recovery after every step of a loaded turn.
         deadline = time.monotonic()+timeout
@@ -675,12 +684,13 @@ class TransportMission(Node):
         turn_origin = tuple(self.pose[:2])
         drifted = False
         discovery = None
+        handoff = False
         best_error = abs(angle(self.pose[2]-yaw))
         progress_at = time.monotonic()
         def aligned():
             nonlocal best_error,progress_at,discovery,drifted
             observed = self.observe(stop_when_observed,2.) if stop_when_observed is not None else None
-            if observed is not None:
+            if observed is not None and (observed_after is None or observed.get('observed_stamp',-math.inf)>observed_after):
                 discovery = dict(observed)
                 return True
             if not 0.<=self.seconds()-self.pose_stamp<=.5:
@@ -711,27 +721,128 @@ class TransportMission(Node):
         try:
             self.wait(aligned,max(0.,deadline-time.monotonic()),'search heading not reached')
             self.brake_motion(min(5.,max(0.,deadline-time.monotonic())))
+            if not 0.<=self.seconds()-self.pose_stamp<=.3:
+                raise LocalizationInterrupted('fresh post-braking survey pose unavailable')
+            final_drift = math.dist(self.pose[:2],turn_origin)
+            final_heading_error = abs(angle(self.pose[2]-yaw))
+            if final_drift>.35 or (discovery is None and final_heading_error>.15):
+                drifted = True
+                self.event('turn_displaced',displacement_m=final_drift,limit_m=.35,
+                           heading_error_rad=final_heading_error,after_braking=True,
+                           start_pose_xy=list(turn_origin),measured_pose=list(self.pose))
             if drifted:
                 raise ViewpointDisplaced('search turn displaced beyond viewpoint reserve')
+        except MotionSettlingError as exc:
+            if allow_avoidance_yield and exc.outcome=='timeout' and self.checked_avoidance_active():
+                handoff=True
+                self.event('survey_avoidance_handoff',settled=False,reason='checked_translation_during_braking')
+                raise SurveyYieldRequired('survey must yield to checked avoidance') from exc
+            raise
         finally:
-            self.active = False
-            self._heartbeat()
+            if not handoff:
+                self.active = False
+                self._heartbeat()
         self.spin(.2)
         return discovery
+
+    def checked_avoidance_active(self):
+        state=getattr(self,'avoidance_state',None)
+        feedback=getattr(self,'policy_feedback',None)
+        return bool(state is not None and 0.<=time.monotonic()-state[0]<=.3 and
+            state[1] in ('HUMAN_CAUTION','CLEARANCE_RECOVERY','LOCAL_SAFE_SPACE','PASS_BEHIND') and
+            feedback is not None and 0.<=self.seconds()-feedback[0]<=.3 and
+            all(math.isfinite(value) for value in feedback[1]) and math.hypot(*feedback[1][:2])>.05 and
+            self.pose is not None and 0.<=self.seconds()-self.pose_stamp<=.3 and
+            0.<=self.seconds()-getattr(self,'rpy_stamp',-math.inf)<=.3 and
+            max(abs(self.rpy[0]),abs(self.rpy[1]))<.35)
+
+    def yield_survey(self,deadline,preserve_intent=False):
+        """Keep checked avoidance active until a measured safe viewpoint settles."""
+        self.event('survey_yield',source='displaced_viewpoint')
+        if preserve_intent:
+            self.mode,self.active='brake',True
+            self._heartbeat()
+        else:
+            self.set_goal(self.pose,'brake')
+        stable_since = None
+        def ready():
+            nonlocal stable_since
+            velocity = getattr(self,'base_velocity',None)
+            feedback = getattr(self,'policy_feedback',None)
+            valid = (velocity is not None and all(map(math.isfinite,velocity)) and
+                     0.<=self.seconds()-self.pose_stamp<=.3 and
+                     math.hypot(*velocity[:2])<.08 and abs(velocity[2])<.12 and
+                     feedback is not None and 0.<=self.seconds()-feedback[0]<=.3 and
+                     all(math.isfinite(value) and abs(value)<.02 for value in feedback[1]) and
+                     0.<=self.seconds()-getattr(self,'rpy_stamp',-math.inf)<=.3 and
+                     max(abs(self.rpy[0]),abs(self.rpy[1]))<.15 and
+                     self.workspace_clear())
+            if not valid or (stable_since is not None and self.pose_stamp<stable_since):
+                stable_since = None
+            if not valid:
+                return False
+            stable_since = self.pose_stamp if stable_since is None else stable_since
+            return self.pose_stamp-stable_since>=.3
+        try:
+            self.wait(ready,min(15.,max(0.,deadline-time.monotonic())),
+                      'survey yielding did not establish a safe settled viewpoint')
+            stamp=self.seconds()
+            self.event('survey_reobserve',measured_pose=list(self.pose),observed_after_stamp=stamp)
+            return stamp
+        finally:
+            self.stop_intent()
+
+    def survey_rotate(self,yaw,identifier,timeout=45.):
+        """Bound displaced-view recovery within the original turn time budget."""
+        deadline = time.monotonic()+timeout
+        try:
+            for recovery in range(3):
+                remaining = deadline-time.monotonic()
+                if remaining<=0.:
+                    raise RuntimeError('survey turn deadline exceeded during recovery')
+                try:
+                    return self.rotate(yaw,timeout=remaining,settle_before_turn=True,
+                        stop_when_observed=identifier,
+                        observed_after=getattr(self,'survey_observation_after',{}).get(identifier),
+                        allow_avoidance_yield=True)
+                except (ViewpointDisplaced,SurveyYieldRequired) as exc:
+                    if recovery==2:
+                        raise
+                    if isinstance(exc,SurveyYieldRequired):
+                        stamp=self.yield_survey(deadline,preserve_intent=True)
+                    else:
+                        stamp=self.yield_survey(deadline)
+                    if stamp is not None:
+                        if not hasattr(self,'survey_observation_after'):
+                            self.survey_observation_after={}
+                        self.survey_observation_after[identifier]=stamp
+                    # Sensed memory directs viewing, never substitutes for a new
+                    # confirmed detection after leaving the old viewpoint.
+                    hint = self.search_hints.get(identifier)
+                    if hint is not None:
+                        point = hint['position']
+                        yaw = math.atan2(point[1]-self.pose[1],point[0]-self.pose[0])
+                    self.event('survey_resume',object_id=identifier,recovery=recovery+1,yaw=yaw)
+        finally:
+            self.stop_intent()
 
     def discover(self,identifier):
         if getattr(self,'exploration',None) is not None:
             return self.exploration.discover(identifier)
         self.event('discover',object_id=identifier)
+        def observed():
+            item=self.observe(identifier,20.)
+            after=getattr(self,'survey_observation_after',{}).get(identifier)
+            return item if item is not None and (after is None or item.get('observed_stamp',-math.inf)>after) else None
         hint = self.search_hints.get(identifier)
-        if self.observe(identifier,20.) is None and hint is not None:
+        if observed() is None and hint is not None:
             # Historical sensor geometry is only a viewing-direction cue. It
             # cannot satisfy discovery, docking, grasp or placement freshness.
             point = hint['position']
             self.event('discover',search_hint=identifier,hint_age_s=self.seconds()-hint['observed_stamp'])
-            self.rotate(math.atan2(point[1]-self.pose[1],point[0]-self.pose[0]))
+            self.survey_rotate(math.atan2(point[1]-self.pose[1],point[0]-self.pose[0]),identifier)
             self.spin(1.5)
-            if self.observe(identifier,20.) is None:
+            if observed() is None:
                 delta = np.array(point[:2])-np.array(self.pose[:2])
                 distance = float(np.linalg.norm(delta))
                 if distance>1.6:
@@ -743,12 +854,12 @@ class TransportMission(Node):
                     yaw = math.atan2(delta[1],delta[0])
                     self.event('discover',search_viewpoint=identifier,viewpoint_odom=view.tolist())
                     self.navigate((*view,yaw),timeout=30.)
-                    self.rotate(math.atan2(point[1]-self.pose[1],point[0]-self.pose[0]))
+                    self.survey_rotate(math.atan2(point[1]-self.pose[1],point[0]-self.pose[0]),identifier)
                     self.spin(1.5)
         for _ in range(9):
-            if self.observe(identifier,20.) is not None:
-                return self.observe(identifier,20.)
-            self.rotate(angle(self.pose[2]+math.pi/4))
+            if observed() is not None:
+                return observed()
+            self.survey_rotate(angle(self.pose[2]+math.pi/4),identifier)
             self.spin(1.5)
         raise RuntimeError(f'RGB-D did not discover {identifier}')
 
@@ -977,6 +1088,43 @@ class TransportMission(Node):
                    reference='current_waist_fixed_arm_posture' if joint_solution is not None else 'cartesian_target')
         return measured
 
+    def dock_for_pickup(self,identifier,forward,left,yaw):
+        """Approach with policy-owned arms; prepare the hand only after arrival."""
+        self.wait(lambda:self.observe(identifier,2.) is not None,8.,
+                  'fresh cylinder observation unavailable before pickup docking')
+        box = np.asarray(self.observe(identifier,2.)['position'])
+        standoff = getattr(self.args,'pickup_standoff',.43)
+        self.event('dock_pickup',object_id=identifier,arm_posture='walking')
+        self.dock((*(box[:2]-standoff*forward+.15*left),yaw))
+        self.stop_intent()
+        stable_since = None
+        def ready():
+            nonlocal stable_since
+            item = self.observe(identifier,2.)
+            velocity = getattr(self,'base_velocity',None)
+            valid = (item is not None and self.pose is not None and
+                     0.<=self.seconds()-self.pose_stamp<=.3 and
+                     velocity is not None and all(map(math.isfinite,velocity)) and
+                     math.hypot(*velocity[:2])<.08 and abs(velocity[2])<.15)
+            if valid:
+                target = np.asarray(item['position'])[:2]-standoff*forward+.15*left
+                valid = (np.linalg.norm(np.asarray(self.pose[:2])-target)<.07 and
+                         abs(angle(self.pose[2]-yaw))<.15)
+            if not valid:
+                stable_since = None
+                return False
+            if stable_since is None:
+                stable_since = self.pose_stamp
+            return self.pose_stamp-stable_since>=.3
+        self.wait(ready,6.,'pickup base not settled within observed reaching distance')
+        self.event('prepare_pickup',object_id=identifier,arm_posture='stationary_manipulation')
+        if self.rest_arm_positions is None:
+            self.rest_arm_positions = {name:self.joints[name] for name in self.kin.names}
+        self.service(self.authority,SetBool.Request(data=True))
+        if self.dex3:
+            self.service(self.open_hand,Trigger.Request())
+        self.move_to_carry(np.eye(3))
+
     def reach_box(self,identifier,forward,left,yaw):
         # Reproject after each attempt: moving the arm shifts an unpinned base.
         attempts = 6 if self.dex3 else 3
@@ -1002,12 +1150,16 @@ class TransportMission(Node):
                 retreat_vector = self.to_pelvis(box)-self.to_pelvis(box-behind)
                 self.move_arm(hand-retreat_vector,hand_R)
                 self.move_to_carry()
+                self.restore_arm()
                 self.wait(lambda:self.observe(identifier,5.) is not None,8.,'pickup observation expired before redocking')
                 box = np.array(self.observe(identifier,5.)['position'])
             redocks += 1
             self.event('redock_pickup',recovery=redocks)
             standoff = getattr(getattr(self,'args',None),'pickup_standoff',.43)
-            self.dock((*(box[:2]-standoff*forward+.15*left),yaw))
+            if self.dex3:
+                self.dock_for_pickup(identifier,forward,left,yaw)
+            else:
+                self.dock((*(box[:2]-standoff*forward+.15*left),yaw))
             tracking_bias[:] = 0.
             stage = self.dex3
         for correction in range(attempts):
@@ -1145,6 +1297,9 @@ class TransportMission(Node):
                     destination_view = dict(self.discover(destination))
                 item = self.exploration.inspect_support(identifier,item)
             box = np.array(item['position'])
+            if getattr(self.args,'test_stage','delivery')=='survey':
+                self.event('survey_complete',diagnostic=True,object_id=identifier,destination_id=destination)
+                return
             yaw = item.get('approach_yaw',math.atan2(box[1]-self.pose[1],box[0]-self.pose[0]))
             self.event('pickup_approach',source='observed_support_edge' if 'approach_yaw' in item else 'box_bearing',yaw=yaw)
             forward,left = np.array((math.cos(yaw),math.sin(yaw))),np.array((-math.sin(yaw),math.cos(yaw)))
@@ -1158,19 +1313,9 @@ class TransportMission(Node):
                 box = np.array(self.observe(identifier,2.)['position'])
             else:
                 self.navigate((*stage,yaw))
-            # Complete the large arm/ownership transition at the staging
-            # distance. Precision docking then measures and corrects its base
-            # displacement before approaching the table with the hand raised.
-            self.event('prepare_pickup',object_id=identifier)
-            if self.rest_arm_positions is None:
-                self.rest_arm_positions = {name:self.joints[name] for name in self.kin.names}
-            self.service(self.authority,SetBool.Request(data=True))
-            if self.dex3:
-                self.service(self.open_hand,Trigger.Request())
-            self.move_to_carry(np.eye(3))
-            self.event('dock_pickup')
-            dock = box[:2]-getattr(self.args,'pickup_standoff',.43)*forward+.15*left
-            self.dock((*dock,yaw))
+            # Walk normally through the final approach. Arm authority and the
+            # raised pregrasp posture begin only at a fresh, settled pickup pose.
+            self.dock_for_pickup(identifier,forward,left,yaw)
             self.wait(lambda: self.observe(identifier,20.) is not None,8.,'no recent tabletop box observation')
             self.event('reach')
             box = np.array(self.observe(identifier,20.)['position'])
@@ -1197,6 +1342,9 @@ class TransportMission(Node):
             self.wait(lambda: camera_lift() or (self.dex3 and self.dex3_lift_verified(grasp_hand_height)),
                        8.,'neither camera nor fresh contact/encoder feedback verified the object lift')
             self.event('lift_verified',source='registered_rgbd' if camera_lift() else 'dex3_contacts_and_joint_encoders')
+            if getattr(self.args,'test_stage','delivery')=='pickup':
+                self.event('pickup_complete',diagnostic=True,payload_retained=True)
+                return
             self.event('retreat_pickup')
             # Leave enough room for loaded-turn drift before searching; a
             # near-table scan can put Nav2's start inside its inflation region.
@@ -1418,6 +1566,7 @@ def main():
     parser.add_argument('--pairs',type=Path,required=True)
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--duration',type=float,default=420.)
+    parser.add_argument('--test-stage',choices=('survey','pickup','delivery'),default='delivery')
     parser.add_argument('--people',type=int,default=0)
     parser.add_argument('--carry-posture',choices=('ik','payload_v1'),default='ik')
     parser.add_argument('--grasp-model',choices=('dex3_contact','legacy_magnetic'),default='dex3_contact')
@@ -1457,11 +1606,15 @@ def main():
         thread.start()
         background.append((worker,thread))
     success,error = False,None
+    task_end_monotonic=None
     try:
         mission.run()
+        task_end_monotonic=time.monotonic()
         mission.spin(2.)
         success = True
     except (Exception,KeyboardInterrupt) as exc:
+        if task_end_monotonic is None:
+            task_end_monotonic=time.monotonic()
         error = str(exc) or 'interrupted'
         mission.get_logger().error(f'Mission failed in {mission.phase}: {error}')
     finally:
@@ -1476,6 +1629,7 @@ def main():
             thread.join()
         perception.save_snapshot(args.output.parent)
         result = evaluator.report()
+        result['task_end_monotonic_s']=task_end_monotonic
         result.update(mission_complete=success,error=error,events=mission.events,
                       final_sensed_pose=mission.pose,pose_age_s=mission.seconds()-getattr(mission,'pose_stamp',0.),
                        grasp_model=args.grasp_model,base_pinning=False,perception='registered_rgbd',
@@ -1486,6 +1640,7 @@ def main():
         result['grasp_height_offset_m'] = args.grasp_height_offset
         result['objective'] = objective
         result['mission_kind'] = 'explore_pick_find_place' if args.explore_unknown else 'transport'
+        result['test_stage'] = args.test_stage
         if mission.exploration is not None:
             result['search_summary'] = dict(inspected_viewpoints={key:len(value) for key,value in mission.exploration.visits.items()},
                 failed_viewpoints=len(mission.exploration.failures),source='observed_slam_map_and_registered_rgbd')
@@ -1493,6 +1648,9 @@ def main():
         if args.arm_stability_probe:
             result.update(mission_kind='arm_stability_diagnostic',mission_complete=False,success=False,
                           diagnostic_complete=success,scope='isolated ROS arm protocol; not delivery qualification')
+        elif args.test_stage!='delivery':
+            result.update(mission_kind=args.test_stage+'_diagnostic',mission_complete=False,success=False,
+                          diagnostic_complete=success,scope='bounded stage diagnostic; not delivery qualification')
         args.output.parent.mkdir(parents=True,exist_ok=True)
         # Offline diagnostics only: never feed evaluator positions to the mission.
         (args.output.parent/'evaluation_object_history.json').write_text(json.dumps(dict(
@@ -1507,6 +1665,8 @@ def main():
         rclpy.shutdown()
     if args.arm_stability_probe:
         return 0 if result['diagnostic_complete'] and result['data_valid'] and not result['fallen'] else 1
+    if args.test_stage!='delivery':
+        return 0 if result['diagnostic_complete'] and result['data_valid'] and not result['fallen'] and result['contact_samples']==0 else 1
     return 0 if result['success'] else 1
 
 

@@ -75,7 +75,7 @@ def test_braking_allowance_never_extends_motion_deadline(monkeypatch,operation,t
     from contextlib import nullcontext
     monkeypatch.setattr(module.time,'monotonic',lambda:10.)
     budgets = []
-    mission = S(pose=(0.,0.,0.),goal=PoseStamped(),active=True,
+    mission = S(pose=(0.,0.,0.),pose_stamp=10.,seconds=lambda:10.,goal=PoseStamped(),active=True,
         nav=S(server_is_ready=lambda:True),set_goal=lambda *args:None,
         _heartbeat=lambda:None,wait=lambda predicate,*args:predicate(),
         action=lambda *args:nullcontext(S(result=S(done=lambda:False))),

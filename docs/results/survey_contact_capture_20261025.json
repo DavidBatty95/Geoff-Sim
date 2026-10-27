@@ -1,0 +1,1116 @@
+{
+  "scope": "actual native robot/person normal contact forces; received command association is not motor acknowledgement",
+  "capture_valid": true,
+  "sim_time_start": 0.002,
+  "sim_time_end": 33.35,
+  "max_sample_gap_s": 0.052000000000003155,
+  "windows": 651,
+  "force_windows": [
+    {
+      "sim_time": 18.48,
+      "device_tick_ms": 18480,
+      "physics_steps": 26,
+      "contact_steps": 17,
+      "peak_normal_force_n": 373.9871,
+      "normal_impulse_ns": 7.17712384,
+      "robot_xy": [
+        -0.0594220156,
+        1.19968569
+      ],
+      "robot_world_velocity": [
+        0.0944113713,
+        0.0543066317,
+        -0.00314092782
+      ],
+      "state_tick_error_ms": 0,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.01652958197519183
+    },
+    {
+      "sim_time": 18.532,
+      "device_tick_ms": 18532,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 461.904946,
+      "normal_impulse_ns": 11.3235308,
+      "robot_xy": [
+        -0.0546296,
+        1.21098682
+      ],
+      "robot_world_velocity": [
+        0.094654922,
+        0.245772193,
+        -0.000877478629
+      ],
+      "state_tick_error_ms": 2,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.0008677518926560879
+    },
+    {
+      "sim_time": 18.584,
+      "device_tick_ms": 18584,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 325.836507,
+      "normal_impulse_ns": 10.078059,
+      "robot_xy": [
+        -0.0424467498,
+        1.22990107
+      ],
+      "robot_world_velocity": [
+        0.298314997,
+        0.402103175,
+        0.036421833
+      ],
+      "state_tick_error_ms": 0,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.010723814833909273
+    },
+    {
+      "sim_time": 18.636,
+      "device_tick_ms": 18636,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 465.038409,
+      "normal_impulse_ns": 11.3304562,
+      "robot_xy": [
+        -0.0224967272,
+        1.25478138
+      ],
+      "robot_world_velocity": [
+        0.390069531,
+        0.543877626,
+        -0.0478701604
+      ],
+      "state_tick_error_ms": 0,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.019322336884215474
+    },
+    {
+      "sim_time": 18.688,
+      "device_tick_ms": 18688,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 243.898819,
+      "normal_impulse_ns": 3.69558714,
+      "robot_xy": [
+        -0.00255874593,
+        1.28687592
+      ],
+      "robot_world_velocity": [
+        0.353043245,
+        0.613200172,
+        -0.127689195
+      ],
+      "state_tick_error_ms": 0,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.011773342033848166
+    },
+    {
+      "sim_time": 18.74,
+      "device_tick_ms": 18740,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 208.749596,
+      "normal_impulse_ns": 1.33670361,
+      "robot_xy": [
+        0.0160039818,
+        1.32265962
+      ],
+      "robot_world_velocity": [
+        0.41183408,
+        0.750162344,
+        -0.12145322
+      ],
+      "state_tick_error_ms": 0,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.0055309138260781765
+    },
+    {
+      "sim_time": 19.052,
+      "device_tick_ms": 19052,
+      "physics_steps": 26,
+      "contact_steps": 5,
+      "peak_normal_force_n": 191.524594,
+      "normal_impulse_ns": 0.744577257,
+      "robot_xy": [
+        0.146256572,
+        1.53836494
+      ],
+      "robot_world_velocity": [
+        0.152235443,
+        0.688872641,
+        0.124656174
+      ],
+      "state_tick_error_ms": 2,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.005943204974755645
+    },
+    {
+      "sim_time": 19.104,
+      "device_tick_ms": 19104,
+      "physics_steps": 26,
+      "contact_steps": 24,
+      "peak_normal_force_n": 161.621435,
+      "normal_impulse_ns": 1.72061576,
+      "robot_xy": [
+        0.1537754,
+        1.57429919
+      ],
+      "robot_world_velocity": [
+        0.138236446,
+        0.718316284,
+        -0.0578243117
+      ],
+      "state_tick_error_ms": 2,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.0015040889848023653
+    },
+    {
+      "sim_time": 19.416,
+      "device_tick_ms": 19416,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 206.595027,
+      "normal_impulse_ns": 2.24832361,
+      "robot_xy": [
+        0.224034783,
+        1.75879256
+      ],
+      "robot_world_velocity": [
+        0.122429016,
+        0.704617009,
+        0.0511563735
+      ],
+      "state_tick_error_ms": 2,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.016568781109526753
+    },
+    {
+      "sim_time": 19.468,
+      "device_tick_ms": 19468,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 451.34858,
+      "normal_impulse_ns": 5.20850782,
+      "robot_xy": [
+        0.227913026,
+        1.79669823
+      ],
+      "robot_world_velocity": [
+        0.0207114858,
+        0.737446972,
+        -0.0118327488
+      ],
+      "state_tick_error_ms": 0,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.008607514901086688
+    },
+    {
+      "sim_time": 19.52,
+      "device_tick_ms": 19520,
+      "physics_steps": 26,
+      "contact_steps": 20,
+      "peak_normal_force_n": 122.931764,
+      "normal_impulse_ns": 1.5838911,
+      "robot_xy": [
+        0.233912858,
+        1.83455065
+      ],
+      "robot_world_velocity": [
+        0.14903032,
+        0.768057478,
+        0.0832228143
+      ],
+      "state_tick_error_ms": 0,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.002712156157940626
+    },
+    {
+      "sim_time": 19.728,
+      "device_tick_ms": 19727,
+      "physics_steps": 26,
+      "contact_steps": 4,
+      "peak_normal_force_n": 290.091579,
+      "normal_impulse_ns": 2.09922831,
+      "robot_xy": [
+        0.298348649,
+        1.95003102
+      ],
+      "robot_world_velocity": [
+        0.301318028,
+        0.525191567,
+        0.0210373605
+      ],
+      "state_tick_error_ms": 1,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.01975199207663536
+    },
+    {
+      "sim_time": 19.78,
+      "device_tick_ms": 19779,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 572.228938,
+      "normal_impulse_ns": 8.3463998,
+      "robot_xy": [
+        0.310657219,
+        1.98124531
+      ],
+      "robot_world_velocity": [
+        0.189863063,
+        0.687695603,
+        0.0343251811
+      ],
+      "state_tick_error_ms": 1,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.011332053923979402
+    },
+    {
+      "sim_time": 19.832,
+      "device_tick_ms": 19831,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 301.576403,
+      "normal_impulse_ns": 2.33853145,
+      "robot_xy": [
+        0.319559747,
+        2.01783295
+      ],
+      "robot_world_velocity": [
+        0.0698086514,
+        0.772895684,
+        0.046159607
+      ],
+      "state_tick_error_ms": 1,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.0026255869306623936
+    },
+    {
+      "sim_time": 19.884,
+      "device_tick_ms": 19883,
+      "physics_steps": 26,
+      "contact_steps": 13,
+      "peak_normal_force_n": 127.187946,
+      "normal_impulse_ns": 0.463683387,
+      "robot_xy": [
+        0.326161351,
+        2.05728978
+      ],
+      "robot_world_velocity": [
+        0.205681572,
+        0.820394947,
+        0.0438041627
+      ],
+      "state_tick_error_ms": 1,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.013085191138088703
+    },
+    {
+      "sim_time": 19.936,
+      "device_tick_ms": 19935,
+      "physics_steps": 26,
+      "contact_steps": 12,
+      "peak_normal_force_n": 214.840529,
+      "normal_impulse_ns": 1.39473517,
+      "robot_xy": [
+        0.339403653,
+        2.09461449
+      ],
+      "robot_world_velocity": [
+        0.295464289,
+        0.618629031,
+        0.0237079359
+      ],
+      "state_tick_error_ms": 1,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.006441805977374315
+    },
+    {
+      "sim_time": 19.988,
+      "device_tick_ms": 19987,
+      "physics_steps": 26,
+      "contact_steps": 24,
+      "peak_normal_force_n": 144.990936,
+      "normal_impulse_ns": 4.45692676,
+      "robot_xy": [
+        0.356276895,
+        2.1234875
+      ],
+      "robot_world_velocity": [
+        0.31417314,
+        0.531101066,
+        -0.0520309581
+      ],
+      "state_tick_error_ms": 1,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.013161222916096449
+    },
+    {
+      "sim_time": 20.04,
+      "device_tick_ms": 20039,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 179.635903,
+      "normal_impulse_ns": 7.16759424,
+      "robot_xy": [
+        0.370768195,
+        2.15271406
+      ],
+      "robot_world_velocity": [
+        0.181760812,
+        0.614174333,
+        -0.123734229
+      ],
+      "state_tick_error_ms": 1,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.006522476905956864
+    },
+    {
+      "sim_time": 20.092,
+      "device_tick_ms": 20091,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 467.545233,
+      "normal_impulse_ns": 12.3886169,
+      "robot_xy": [
+        0.370999498,
+        2.18893496
+      ],
+      "robot_world_velocity": [
+        -0.21829492,
+        0.584446767,
+        0.153275912
+      ],
+      "state_tick_error_ms": 3,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.01752886804752052
+    },
+    {
+      "sim_time": 20.144,
+      "device_tick_ms": 20143,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 399.103873,
+      "normal_impulse_ns": 8.88483969,
+      "robot_xy": [
+        0.378558358,
+        2.21884542
+      ],
+      "robot_world_velocity": [
+        0.292501479,
+        0.67104951,
+        0.126986393
+      ],
+      "state_tick_error_ms": 1,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.00840153219178319
+    },
+    {
+      "sim_time": 20.196,
+      "device_tick_ms": 20195,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 106.283645,
+      "normal_impulse_ns": 4.0179734,
+      "robot_xy": [
+        0.395630666,
+        2.25273481
+      ],
+      "robot_world_velocity": [
+        0.254681284,
+        0.667884846,
+        0.0061897463
+      ],
+      "state_tick_error_ms": 1,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.017354703042656183
+    },
+    {
+      "sim_time": 20.248,
+      "device_tick_ms": 20247,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 247.711259,
+      "normal_impulse_ns": 4.98600331,
+      "robot_xy": [
+        0.409850329,
+        2.28695458
+      ],
+      "robot_world_velocity": [
+        0.305429934,
+        0.717834944,
+        -0.188199732
+      ],
+      "state_tick_error_ms": 1,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.011694315122440457
+    },
+    {
+      "sim_time": 20.3,
+      "device_tick_ms": 20299,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 250.19226,
+      "normal_impulse_ns": 4.19380817,
+      "robot_xy": [
+        0.425232715,
+        2.32680527
+      ],
+      "robot_world_velocity": [
+        0.444007188,
+        0.742337787,
+        -0.16952299
+      ],
+      "state_tick_error_ms": 1,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.004161492921411991
+    },
+    {
+      "sim_time": 20.872,
+      "device_tick_ms": 20871,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 70.5492187,
+      "normal_impulse_ns": 0.470621255,
+      "robot_xy": [
+        0.640435049,
+        2.65874609
+      ],
+      "robot_world_velocity": [
+        0.383821359,
+        0.366733127,
+        -0.0476984453
+      ],
+      "state_tick_error_ms": 1,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.0035101529210805893
+    },
+    {
+      "sim_time": 20.924,
+      "device_tick_ms": 20923,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 316.00396,
+      "normal_impulse_ns": 2.5596446,
+      "robot_xy": [
+        0.659880808,
+        2.6798541
+      ],
+      "robot_world_velocity": [
+        0.369316736,
+        0.491825162,
+        -0.183569536
+      ],
+      "state_tick_error_ms": 1,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.013602915918454528
+    },
+    {
+      "sim_time": 20.976,
+      "device_tick_ms": 20975,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 239.069944,
+      "normal_impulse_ns": 2.9918048,
+      "robot_xy": [
+        0.679284409,
+        2.70800133
+      ],
+      "robot_world_velocity": [
+        0.356127619,
+        0.530061933,
+        0.012123645
+      ],
+      "state_tick_error_ms": 1,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.0010889219120144844
+    },
+    {
+      "sim_time": 21.028,
+      "device_tick_ms": 21027,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 241.579909,
+      "normal_impulse_ns": 1.75053802,
+      "robot_xy": [
+        0.694934425,
+        2.74120957
+      ],
+      "robot_world_velocity": [
+        0.244349939,
+        0.672909031,
+        0.0381355357
+      ],
+      "state_tick_error_ms": 1,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.015942998928949237
+    },
+    {
+      "sim_time": 21.08,
+      "device_tick_ms": 21079,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 292.404299,
+      "normal_impulse_ns": 2.52166235,
+      "robot_xy": [
+        0.708378689,
+        2.77555011
+      ],
+      "robot_world_velocity": [
+        0.276153154,
+        0.666302594,
+        -0.0227643827
+      ],
+      "state_tick_error_ms": 3,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.01061979215592146
+    },
+    {
+      "sim_time": 21.132,
+      "device_tick_ms": 21131,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 87.9406365,
+      "normal_impulse_ns": 0.801791616,
+      "robot_xy": [
+        0.728355249,
+        2.80934723
+      ],
+      "robot_world_velocity": [
+        0.395968112,
+        0.598741429,
+        0.0631591753
+      ],
+      "state_tick_error_ms": 3,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.019556173821911216
+    },
+    {
+      "sim_time": 21.184,
+      "device_tick_ms": 21183,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 1.19958951,
+      "normal_impulse_ns": 0.00239917901,
+      "robot_xy": [
+        0.751611685,
+        2.83766051
+      ],
+      "robot_world_velocity": [
+        0.480059713,
+        0.460829388,
+        -0.0581022104
+      ],
+      "state_tick_error_ms": 3,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.008956152014434338
+    },
+    {
+      "sim_time": 21.34,
+      "device_tick_ms": 21339,
+      "physics_steps": 26,
+      "contact_steps": 15,
+      "peak_normal_force_n": 71.7719469,
+      "normal_impulse_ns": 0.232068736,
+      "robot_xy": [
+        0.819431401,
+        2.91707757
+      ],
+      "robot_world_velocity": [
+        0.316282708,
+        0.674665371,
+        0.104145964
+      ],
+      "state_tick_error_ms": 1,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.0033451439812779427
+    },
+    {
+      "sim_time": 21.392,
+      "device_tick_ms": 21391,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 248.033681,
+      "normal_impulse_ns": 1.37323455,
+      "robot_xy": [
+        0.833960125,
+        2.95097705
+      ],
+      "robot_world_velocity": [
+        0.241746525,
+        0.682922338,
+        -0.0409608156
+      ],
+      "state_tick_error_ms": 1,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.014552660984918475
+    },
+    {
+      "sim_time": 21.444,
+      "device_tick_ms": 21443,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 242.782896,
+      "normal_impulse_ns": 1.58780217,
+      "robot_xy": [
+        0.850614091,
+        2.98618149
+      ],
+      "robot_world_velocity": [
+        0.417948221,
+        0.739033127,
+        0.0418726418
+      ],
+      "state_tick_error_ms": 1,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.008889283053576946
+    },
+    {
+      "sim_time": 21.496,
+      "device_tick_ms": 21495,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 58.4887905,
+      "normal_impulse_ns": 0.465299587,
+      "robot_xy": [
+        0.873885847,
+        3.01923611
+      ],
+      "robot_world_velocity": [
+        0.447904274,
+        0.499062796,
+        0.0810061985
+      ],
+      "state_tick_error_ms": 1,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.01882380316965282
+    },
+    {
+      "sim_time": 21.548,
+      "device_tick_ms": 21547,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 349.1755,
+      "normal_impulse_ns": 6.70678946,
+      "robot_xy": [
+        0.897626231,
+        3.04213457
+      ],
+      "robot_world_velocity": [
+        0.460630412,
+        0.382989691,
+        -0.0178871476
+      ],
+      "state_tick_error_ms": 3,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.009029363980516791
+    },
+    {
+      "sim_time": 21.6,
+      "device_tick_ms": 21599,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 253.539144,
+      "normal_impulse_ns": 10.0320548,
+      "robot_xy": [
+        0.922556948,
+        3.06485709
+      ],
+      "robot_world_velocity": [
+        0.509523719,
+        0.519431342,
+        -0.073127783
+      ],
+      "state_tick_error_ms": 1,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.015074511989951134
+    },
+    {
+      "sim_time": 21.652,
+      "device_tick_ms": 21651,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 243.543517,
+      "normal_impulse_ns": 10.2144043,
+      "robot_xy": [
+        0.942422976,
+        3.09574181
+      ],
+      "robot_world_velocity": [
+        0.285224444,
+        0.736529067,
+        0.0618162259
+      ],
+      "state_tick_error_ms": 3,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.0032396430615335703
+    },
+    {
+      "sim_time": 21.704,
+      "device_tick_ms": 21703,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 198.431266,
+      "normal_impulse_ns": 3.21630458,
+      "robot_xy": [
+        0.950431994,
+        3.13450067
+      ],
+      "robot_world_velocity": [
+        -0.0123380687,
+        0.735170499,
+        0.088448639
+      ],
+      "state_tick_error_ms": 1,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.002438315888866782
+    },
+    {
+      "sim_time": 21.964,
+      "device_tick_ms": 21963,
+      "physics_steps": 26,
+      "contact_steps": 17,
+      "peak_normal_force_n": 369.902768,
+      "normal_impulse_ns": 1.9984224,
+      "robot_xy": [
+        0.987564292,
+        3.31601206
+      ],
+      "robot_world_velocity": [
+        0.303585794,
+        0.327332999,
+        0.0332440163
+      ],
+      "state_tick_error_ms": 3,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.0034167589619755745
+    },
+    {
+      "sim_time": 22.016,
+      "device_tick_ms": 22015,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 167.147074,
+      "normal_impulse_ns": 1.07717542,
+      "robot_xy": [
+        1.00400034,
+        3.33576143
+      ],
+      "robot_world_velocity": [
+        0.339465699,
+        0.423131714,
+        -0.135869392
+      ],
+      "state_tick_error_ms": 1,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.0142636988312006
+    },
+    {
+      "sim_time": 22.068,
+      "device_tick_ms": 22067,
+      "physics_steps": 26,
+      "contact_steps": 26,
+      "peak_normal_force_n": 139.464412,
+      "normal_impulse_ns": 0.607575257,
+      "robot_xy": [
+        1.02285999,
+        3.36229153
+      ],
+      "robot_world_velocity": [
+        0.319735983,
+        0.640837142,
+        -0.184822766
+      ],
+      "state_tick_error_ms": 1,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.008661297149956226
+    },
+    {
+      "sim_time": 22.12,
+      "device_tick_ms": 22119,
+      "physics_steps": 26,
+      "contact_steps": 17,
+      "peak_normal_force_n": 176.324009,
+      "normal_impulse_ns": 1.42378167,
+      "robot_xy": [
+        1.04070791,
+        3.39571337
+      ],
+      "robot_world_velocity": [
+        0.45238711,
+        0.607743096,
+        0.135616734
+      ],
+      "state_tick_error_ms": 3,
+      "policy_command": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+      },
+      "command_receipt_age_s": 0.014485019026324153
+    }
+  ],
+  "peak_normal_force_n": 572.228938,
+  "normal_impulse_ns": 167.2190914740101,
+  "topic_counts": {
+    "dex3_grasp_state": 3549,
+    "safe_cmd": 1771,
+    "planner_debug": 701,
+    "safety_debug": 1771,
+    "planner_state": 701,
+    "planner_cmd": 701,
+    "arm_authority": 707,
+    "locomotion_diagnostics": 71,
+    "lowstate_control": 12628,
+    "policy_cmd": 1660,
+    "actor_targets": 4664,
+    "composed_targets": 7072,
+    "lowcmd_control": 6489,
+    "transport_state": 341,
+    "mujoco_people": 624,
+    "evaluation_odom": 485,
+    "localization_status": 484,
+    "policy_diagnostics": 17,
+    "odom": 484,
+    "tracker_debug": 477,
+    "evaluation_aligned": 484,
+    "policy_timing": 1582,
+    "replanning_status": 84
+  },
+  "planner_outcomes": [
+    {
+      "status": "not_requested",
+      "selected": "none",
+      "count": 461
+    },
+    {
+      "status": "not_requested",
+      "selected": "raw_limited",
+      "count": 80
+    },
+    {
+      "status": "no_complete_plan",
+      "selected": "raw_reference",
+      "count": 3
+    },
+    {
+      "status": "no_complete_plan",
+      "selected": "previous_command",
+      "count": 64
+    },
+    {
+      "status": "no_complete_plan",
+      "selected": "step_and_hold",
+      "count": 10
+    },
+    {
+      "status": "no_complete_plan",
+      "selected": "social_translation",
+      "count": 4
+    },
+    {
+      "status": "no_complete_plan",
+      "selected": "fine_translation",
+      "count": 10
+    },
+    {
+      "status": "no_complete_plan",
+      "selected": "escape_then_route",
+      "count": 1
+    },
+    {
+      "status": "no_complete_plan",
+      "selected": "velocity_obstacle",
+      "count": 6
+    },
+    {
+      "status": "no_complete_plan",
+      "selected": "escape_translation",
+      "count": 18
+    },
+    {
+      "status": "no_complete_plan",
+      "selected": "none",
+      "count": 43
+    },
+    {
+      "status": "no_complete_plan",
+      "selected": "yield_stop",
+      "count": 1
+    }
+  ],
+  "source_sha256": {
+    "native_contacts.jsonl": "9a89d130b376708c7e5c716f3eab466c983acc5b9382d81f26fb4f32b3227ac4",
+    "trace.jsonl": "c47beeb587c79b036c24f02523917c5218fcf038419b385dc46e6c5363a8a517"
+  },
+  "limitations": [
+    "Forces and impulses aggregate every physics substep into approximately 50 ms windows.",
+    "Only the first 35 simulator seconds are recorded; later contact is outside capture scope.",
+    "Command association uses nearest device tick then logger receipt time; uncertainty is recorded."
+  ]
+}

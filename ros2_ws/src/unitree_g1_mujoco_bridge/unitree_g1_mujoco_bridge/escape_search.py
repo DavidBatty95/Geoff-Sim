@@ -98,11 +98,17 @@ class SearchResult:
     command: tuple | None
 
 
+def execute_search(search,snapshot,generation,submitted,clock):
+    """Top-level entry point also supports a process-isolated search executor."""
+    command=search(snapshot)
+    return SearchResult(generation,submitted,clock(),snapshot,command)
+
+
 class EscapeSearchWorker:
     """One owning control thread; no queued stale snapshots and no blocking poll."""
-    def __init__(self,search=search_escape,clock=time.monotonic):
+    def __init__(self,search=search_escape,clock=time.monotonic,executor=None):
         self.search,self.clock = search,clock
-        self.executor = ThreadPoolExecutor(max_workers=1,thread_name_prefix='collision-escape')
+        self.executor = executor or ThreadPoolExecutor(max_workers=1,thread_name_prefix='collision-escape')
         self.future = None
         self.generation = 0
         self.closed = False
@@ -117,10 +123,7 @@ class EscapeSearchWorker:
             self.counters['busy'] += 1
             return False
         generation,submitted = self.generation,self.clock()
-        def run():
-            command = self.search(snapshot)
-            return SearchResult(generation,submitted,self.clock(),snapshot,command)
-        self.future = self.executor.submit(run)
+        self.future = self.executor.submit(execute_search,self.search,snapshot,generation,submitted,self.clock)
         self.counters['submitted'] += 1
         return True
 

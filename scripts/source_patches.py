@@ -26,6 +26,7 @@ SOURCES = {
         "simulate/test/transport_worlds_test.cc",
         "simulate/src/brainco_hand.h",
         "simulate/src/dex3_hand.h",
+        "simulate/src/contact_trace.h", "simulate/test/contact_trace_test.cc",
         "simulate/test/dex3_contact_bench.cc",
         "simulate/src/native_imu.h", "simulate/test/native_imu_test.cc",
         "simulate/src/unitree_sdk2_bridge.h",

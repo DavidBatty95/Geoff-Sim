@@ -1,0 +1,417 @@
+{
+  "scope": "offline heading decomposition; truth never used for control; no motor-application attribution",
+  "run_id": "forecast_guard43_20261027",
+  "trace_sha256": "4885608dfccfb7e77f900a085103aa2c8dff1b04a36d1c1e3e36c60ee0e947f4",
+  "script_sha256": "9e083c71fa62aa2b1e7949b4e6f769cb8255f7c2c4f27ee0f1ebb9299fe0e265",
+  "limitations": [
+    "Logged odometry is rounded; reconstruction uses forecast epoch, which can differ from pose-query time.",
+    "Truth yaw interpolated only across acquisition gaps at most 150 ms; no extrapolation.",
+    "Response rollout assumes the admitted program; command publication is not actuator acknowledgement."
+  ],
+  "pairs": [
+    {
+      "valid": true,
+      "elapsed_s": 0.05472421646118164,
+      "samples": [
+        {
+          "source_stamp": 1793117224.3125815,
+          "forecast_epoch": 1793117224.4637375,
+          "pose_age_s": 0.15115594863891602,
+          "source_yaw_rad": 2.7539394850608825,
+          "source_wz_rad_s": -0.2811,
+          "captured_velocity": [
+            -0.12440278927562895,
+            0.04179293401587153,
+            -0.28111836314201355
+          ],
+          "extrapolated_yaw_increment_rad": -0.04249271286055034,
+          "reconstructed_pose": [
+            -0.03735886536874455,
+            0.07182799379516087,
+            2.711446772200332
+          ],
+          "captured_pose": [
+            -0.03738035487869311,
+            0.07178951184277907,
+            2.711441598850598
+          ],
+          "reconstruction_yaw_residual_rad": -5.1733497339334625e-06,
+          "reconstruction_xy_residual_m": 4.407561340406823e-05,
+          "truth_source_yaw_rad": 2.7531660310871113,
+          "truth_now_yaw_rad": 2.7308247790234277,
+          "physical_yaw_during_pose_age_rad": -0.022341252063683648,
+          "extrapolation_increment_error_rad": -0.020151460796866694
+        },
+        {
+          "source_stamp": 1793117224.3812027,
+          "forecast_epoch": 1793117224.5184617,
+          "pose_age_s": 0.13725900650024414,
+          "source_yaw_rad": 2.742158864431568,
+          "source_wz_rad_s": -0.3691,
+          "captured_velocity": [
+            -0.1615672155619854,
+            0.033209683594660706,
+            -0.3691098690032959
+          ],
+          "extrapolated_yaw_increment_rad": -0.050663653908827655,
+          "reconstructed_pose": [
+            -0.020074636448671253,
+            0.06440904861844735,
+            2.6914952105227403
+          ],
+          "captured_pose": [
+            -0.0200790375409571,
+            0.06443302968651612,
+            2.6914842099409952
+          ],
+          "reconstruction_yaw_residual_rad": -1.1000581745079785e-05,
+          "reconstruction_xy_residual_m": 2.4381575811008516e-05,
+          "truth_source_yaw_rad": 2.743548318661969,
+          "truth_now_yaw_rad": 2.7289157812368776,
+          "physical_yaw_during_pose_age_rad": -0.014632537425091297,
+          "extrapolation_increment_error_rad": -0.03603111648373636
+        }
+      ],
+      "component_substitutions": {
+        "scope": "one measured component group substituted into predicted state; current occupancy only, no static geometry",
+        "results": {
+          "xy": {
+            "passed": false,
+            "details": {
+              "preparation_ms": 0.22680312395095825,
+              "required_margin_m": 0.0,
+              "rollout_steps": 9,
+              "reason": "no_feasible_prefix",
+              "elapsed_ms": 0.7197889499366283,
+              "human_rejections": 1,
+              "static_rejections": 0
+            }
+          },
+          "yaw": {
+            "passed": false,
+            "details": {
+              "preparation_ms": 0.07537403143942356,
+              "required_margin_m": 0.0,
+              "rollout_steps": 9,
+              "reason": "no_feasible_prefix",
+              "elapsed_ms": 0.46690599992871284,
+              "human_rejections": 1,
+              "static_rejections": 0
+            }
+          },
+          "linear_velocity": {
+            "passed": false,
+            "details": {
+              "preparation_ms": 0.06118789315223694,
+              "required_margin_m": 0.0,
+              "rollout_steps": 8,
+              "reason": "no_feasible_prefix",
+              "elapsed_ms": 0.41548791341483593,
+              "human_rejections": 1,
+              "static_rejections": 0
+            }
+          },
+          "yaw_rate": {
+            "passed": false,
+            "details": {
+              "preparation_ms": 0.05970918573439121,
+              "required_margin_m": 0.0,
+              "rollout_steps": 9,
+              "reason": "no_feasible_prefix",
+              "elapsed_ms": 0.4485261160880327,
+              "human_rejections": 1,
+              "static_rejections": 0
+            }
+          },
+          "yaw_and_rate": {
+            "passed": false,
+            "details": {
+              "preparation_ms": 0.05898601375520229,
+              "required_margin_m": 0.0,
+              "rollout_steps": 9,
+              "reason": "no_feasible_prefix",
+              "elapsed_ms": 0.44209184125065804,
+              "human_rejections": 1,
+              "static_rejections": 0
+            }
+          },
+          "filtered_command": {
+            "passed": false,
+            "details": {
+              "preparation_ms": 0.05729100666940212,
+              "required_margin_m": 0.0,
+              "rollout_steps": 9,
+              "reason": "no_feasible_prefix",
+              "elapsed_ms": 0.43570599518716335,
+              "human_rejections": 1,
+              "static_rejections": 0
+            }
+          },
+          "all": {
+            "passed": false,
+            "details": {
+              "preparation_ms": 0.05539786070585251,
+              "required_margin_m": 0.0,
+              "rollout_steps": 8,
+              "reason": "no_feasible_prefix",
+              "elapsed_ms": 0.4055278841406107,
+              "human_rejections": 1,
+              "static_rejections": 0
+            }
+          }
+        }
+      },
+      "reverse_substitutions": {
+        "scope": "predicted component group substituted into measured state; diagnostic, not a control recommendation",
+        "results": {
+          "yaw": {
+            "passed": false,
+            "details": {
+              "preparation_ms": 0.05603395402431488,
+              "required_margin_m": 0.0,
+              "rollout_steps": 8,
+              "reason": "no_feasible_prefix",
+              "elapsed_ms": 0.4093768075108528,
+              "human_rejections": 1,
+              "static_rejections": 0
+            }
+          },
+          "yaw_rate": {
+            "passed": false,
+            "details": {
+              "preparation_ms": 0.05649798549711704,
+              "required_margin_m": 0.0,
+              "rollout_steps": 8,
+              "reason": "no_feasible_prefix",
+              "elapsed_ms": 0.41338615119457245,
+              "human_rejections": 1,
+              "static_rejections": 0
+            }
+          },
+          "yaw_and_rate": {
+            "passed": false,
+            "details": {
+              "preparation_ms": 0.05522184073925018,
+              "required_margin_m": 0.0,
+              "rollout_steps": 8,
+              "reason": "no_feasible_prefix",
+              "elapsed_ms": 0.4027478862553835,
+              "human_rejections": 1,
+              "static_rejections": 0
+            }
+          }
+        }
+      },
+      "source_yaw_delta_rad": -0.011780620629314509,
+      "extrapolation_increment_delta_rad": -0.008170941048277314,
+      "captured_yaw_delta_rad": -0.01995738890960297,
+      "response_predicted_yaw_delta_rad": -0.014289122968099033,
+      "physical_yaw_delta_rad": -0.0019089977865500707,
+      "captured_minus_physical_delta_rad": -0.018048391123052898,
+      "response_minus_physical_delta_rad": -0.012380125181548962,
+      "source_frame_offset_change_rad": -0.0021629082041720875
+    },
+    {
+      "valid": true,
+      "elapsed_s": 0.050377845764160156,
+      "samples": [
+        {
+          "source_stamp": 1793117224.783486,
+          "forecast_epoch": 1793117225.0120237,
+          "pose_age_s": 0.22853779792785645,
+          "source_yaw_rad": 2.771099458748199,
+          "source_wz_rad_s": 0.1821,
+          "captured_velocity": [
+            -0.15952925308532323,
+            0.15209583444645397,
+            0.18213702738285065
+          ],
+          "extrapolated_yaw_increment_rad": 0.04162519515920238,
+          "reconstructed_pose": [
+            0.03784188772838572,
+            -0.021043397891675707,
+            2.8127246539074013
+          ],
+          "captured_pose": [
+            0.03782790407333769,
+            -0.02102035578355085,
+            2.8127283037884254
+          ],
+          "reconstruction_yaw_residual_rad": 3.6498810240814805e-06,
+          "reconstruction_xy_residual_m": 2.6953318076625776e-05,
+          "truth_source_yaw_rad": 2.771775764414022,
+          "truth_now_yaw_rad": 2.7605614549505293,
+          "physical_yaw_during_pose_age_rad": -0.011214309463492889,
+          "extrapolation_increment_error_rad": 0.052839504622695266
+        },
+        {
+          "source_stamp": 1793117224.9155312,
+          "forecast_epoch": 1793117225.0624015,
+          "pose_age_s": 0.14687037467956543,
+          "source_yaw_rad": 2.761942430165516,
+          "source_wz_rad_s": -0.2134,
+          "captured_velocity": [
+            -0.23051070642321603,
+            0.13967757083731047,
+            -0.21340683102607727
+          ],
+          "extrapolated_yaw_increment_rad": -0.03134314123197868,
+          "reconstructed_pose": [
+            0.06474283899143637,
+            -0.038468771150135125,
+            2.7305992889335373
+          ],
+          "captured_pose": [
+            0.06472337059873809,
+            -0.038463395019344496,
+            2.7305917849284427
+          ],
+          "reconstruction_yaw_residual_rad": -7.504005094638444e-06,
+          "reconstruction_xy_residual_m": 2.019705663042523e-05,
+          "truth_source_yaw_rad": 2.7613830753786353,
+          "truth_now_yaw_rad": 2.771358210143108,
+          "physical_yaw_during_pose_age_rad": 0.00997513476447276,
+          "extrapolation_increment_error_rad": -0.04131827599645144
+        }
+      ],
+      "component_substitutions": {
+        "scope": "one measured component group substituted into predicted state; current occupancy only, no static geometry",
+        "results": {
+          "xy": {
+            "passed": false,
+            "details": {
+              "preparation_ms": 0.08069002069532871,
+              "required_margin_m": 0.0,
+              "rollout_steps": 4,
+              "reason": "no_feasible_prefix",
+              "elapsed_ms": 0.3057541325688362,
+              "human_rejections": 1,
+              "static_rejections": 0
+            }
+          },
+          "yaw": {
+            "passed": false,
+            "details": {
+              "preparation_ms": 0.05410495214164257,
+              "required_margin_m": 0.0,
+              "rollout_steps": 4,
+              "reason": "no_feasible_prefix",
+              "elapsed_ms": 0.2709499094635248,
+              "human_rejections": 1,
+              "static_rejections": 0
+            }
+          },
+          "linear_velocity": {
+            "passed": false,
+            "details": {
+              "preparation_ms": 0.05522998981177807,
+              "required_margin_m": 0.0,
+              "rollout_steps": 3,
+              "reason": "no_feasible_prefix",
+              "elapsed_ms": 0.2338881604373455,
+              "human_rejections": 1,
+              "static_rejections": 0
+            }
+          },
+          "yaw_rate": {
+            "passed": false,
+            "details": {
+              "preparation_ms": 0.05253194831311703,
+              "required_margin_m": 0.0,
+              "rollout_steps": 4,
+              "reason": "no_feasible_prefix",
+              "elapsed_ms": 0.2648069057613611,
+              "human_rejections": 1,
+              "static_rejections": 0
+            }
+          },
+          "yaw_and_rate": {
+            "passed": false,
+            "details": {
+              "preparation_ms": 0.05654408596456051,
+              "required_margin_m": 0.0,
+              "rollout_steps": 4,
+              "reason": "no_feasible_prefix",
+              "elapsed_ms": 0.268921023234725,
+              "human_rejections": 1,
+              "static_rejections": 0
+            }
+          },
+          "filtered_command": {
+            "passed": false,
+            "details": {
+              "preparation_ms": 0.05446700379252434,
+              "required_margin_m": 0.0,
+              "rollout_steps": 4,
+              "reason": "no_feasible_prefix",
+              "elapsed_ms": 0.26706489734351635,
+              "human_rejections": 1,
+              "static_rejections": 0
+            }
+          },
+          "all": {
+            "passed": false,
+            "details": {
+              "preparation_ms": 0.05179690197110176,
+              "required_margin_m": 0.0,
+              "rollout_steps": 4,
+              "reason": "no_feasible_prefix",
+              "elapsed_ms": 0.26144483126699924,
+              "human_rejections": 1,
+              "static_rejections": 0
+            }
+          }
+        }
+      },
+      "reverse_substitutions": {
+        "scope": "predicted component group substituted into measured state; diagnostic, not a control recommendation",
+        "results": {
+          "yaw": {
+            "passed": false,
+            "details": {
+              "preparation_ms": 0.052799005061388016,
+              "required_margin_m": 0.0,
+              "rollout_steps": 3,
+              "reason": "no_feasible_prefix",
+              "elapsed_ms": 0.23511704057455063,
+              "human_rejections": 1,
+              "static_rejections": 0
+            }
+          },
+          "yaw_rate": {
+            "passed": false,
+            "details": {
+              "preparation_ms": 0.05159107968211174,
+              "required_margin_m": 0.0,
+              "rollout_steps": 4,
+              "reason": "no_feasible_prefix",
+              "elapsed_ms": 0.2597940620034933,
+              "human_rejections": 1,
+              "static_rejections": 0
+            }
+          },
+          "yaw_and_rate": {
+            "passed": false,
+            "details": {
+              "preparation_ms": 0.05030818283557892,
+              "required_margin_m": 0.0,
+              "rollout_steps": 3,
+              "reason": "no_feasible_prefix",
+              "elapsed_ms": 0.2266201190650463,
+              "human_rejections": 1,
+              "static_rejections": 0
+            }
+          }
+        }
+      },
+      "source_yaw_delta_rad": -0.009157028582682969,
+      "extrapolation_increment_delta_rad": -0.07296833639118105,
+      "captured_yaw_delta_rad": -0.08213651885998274,
+      "response_predicted_yaw_delta_rad": 0.008727610831139378,
+      "physical_yaw_delta_rad": 0.010796755192578722,
+      "captured_minus_physical_delta_rad": -0.09293327405256147,
+      "response_minus_physical_delta_rad": -0.002069144361439344,
+      "source_frame_offset_change_rad": 0.0012356604527039572
+    }
+  ]
+}

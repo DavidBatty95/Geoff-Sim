@@ -1,0 +1,1444 @@
+{
+  "scope": "offline survey failure assessment, not acceptance or a causal replay",
+  "script_sha256": "e53955fa08ced850123f118e02a646650a7db4ed5f2d4ba4d5ce78f3b7f12eb4",
+  "runs": [
+    {
+      "run_id": "20261024T185744Z",
+      "people": 4,
+      "seed": 42,
+      "pedestrian_start_delay_s": 10.0,
+      "reported_result": {
+        "success": false,
+        "mission_complete": false,
+        "error": "search turn displaced beyond viewpoint reserve",
+        "fallen": false,
+        "data_valid": true,
+        "contact_samples": 0,
+        "minimum_person_clearance_m": 0.2688469707863897
+      },
+      "events": [
+        {
+          "phase": "runtime_parameters",
+          "elapsed_s": 5.173693396151066,
+          "required_complete": true,
+          "sha256": "85d044e0ee806ba5b38b4a9b985b07b18209bb88775f779a6ca30bf62fce8fd9",
+          "incomplete_required_nodes": []
+        },
+        {
+          "phase": "survey_destination",
+          "elapsed_s": 8.56985353003256,
+          "destination_id": "target_red"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 8.57212259201333,
+          "object_id": "target_red"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 8.577967775054276,
+          "goal_odom": [
+            0.0319047807917844,
+            0.01580928385863522,
+            0.6909699742986133
+          ],
+          "start_pose": [
+            0.0319047807917844,
+            0.01580928385863522,
+            -0.09442818909883498
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 11.8483134820126,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 0.35921391006559134
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 13.5689089410007,
+          "goal_odom": [
+            0.03000084371969086,
+            -0.027303199526966266,
+            1.3659626026941707
+          ],
+          "start_pose": [
+            0.03000084371969086,
+            -0.027303199526966266,
+            0.5805644392967224
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "turn_displaced",
+          "elapsed_s": 17.78767605498433,
+          "displacement_m": 0.37735265164270915,
+          "limit_m": 0.35,
+          "start_pose_xy": [
+            0.03000084371969086,
+            -0.027303199526966266
+          ],
+          "measured_pose": [
+            -0.14783324526969469,
+            0.3055181647138215,
+            1.1492716073989868
+          ]
+        },
+        {
+          "phase": "turn_displaced",
+          "elapsed_s": 20.171737584052607,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 2.3696630150079727
+        }
+      ],
+      "first_translation": {
+        "policy": {
+          "stamp": 1792868289.219641,
+          "receipt_monotonic_s": 1061736.408128516,
+          "topic": "policy_cmd",
+          "data": {
+            "x": -0.0,
+            "y": 0.1104,
+            "z": 0.4229,
+            "source_stamp": 1792868289.2158625,
+            "role": "filtered_command_not_inference_ack"
+          }
+        },
+        "planner": {
+          "navigation_mode": "scan",
+          "reference_cmd": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.5911
+          },
+          "selected_cmd": {
+            "x": 0.0,
+            "y": 0.45,
+            "z": 0.0
+          },
+          "selected": "social_translation",
+          "selected_reason": "",
+          "closest_track": {
+            "confidence": 1.0,
+            "dcpa": 2.074,
+            "distance": 3.65,
+            "front_cut": false,
+            "person_score": 1.0,
+            "state": "CONFIRMED",
+            "tcpa": 10.448,
+            "track_id": 2,
+            "vx": 0.265,
+            "vy": 0.111,
+            "x": -1.933,
+            "y": -3.092
+          },
+          "tracks_age_at_command_publish_s": 0.3578193187713623,
+          "candidate_results": [
+            {
+              "cmd": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "command_duration_s": null,
+              "following_cmd": null,
+              "front_cut_cost": 0.0,
+              "min_human_distance": 1.929,
+              "min_tcpa": 4.354,
+              "name": "yield_stop",
+              "reason": "",
+              "rejected": false,
+              "schedule": null,
+              "score": 10.756,
+              "score_terms": {
+                "deadlock": 0.0,
+                "enclosure": 0.0,
+                "goal": 0.0,
+                "jerk": 0.031,
+                "legibility": 0.0,
+                "onset": 0.0,
+                "overtaking_conflict": 0.0,
+                "pass_front": 0.0,
+                "path": 0.296,
+                "personal_space": 10.398,
+                "smooth": 0.031,
+                "static": 0.0,
+                "terminal_conflict": 0.0,
+                "ttc": 0.0,
+                "yield": 0.0
+              }
+            },
+            {
+              "cmd": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.5911
+              },
+              "command_duration_s": 0.8,
+              "following_cmd": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "front_cut_cost": 0.0,
+              "min_human_distance": 1.93,
+              "min_tcpa": 4.354,
+              "name": "raw_reference",
+              "reason": "",
+              "rejected": false,
+              "schedule": null,
+              "score": 10.502,
+              "score_terms": {
+                "deadlock": 0.0,
+                "enclosure": 0.0,
+                "goal": 0.0,
+                "jerk": 0.075,
+                "legibility": 0.0,
+                "onset": 0.0,
+                "overtaking_conflict": 0.0,
+                "pass_front": 0.0,
+                "path": 0.0,
+                "personal_space": 10.396,
+                "smooth": 0.031,
+                "static": 0.0,
+                "terminal_conflict": 0.0,
+                "ttc": 0.0,
+                "yield": 0.0
+              }
+            },
+            {
+              "cmd": {
+                "x": -0.3182,
+                "y": 0.3182,
+                "z": 0.0
+              },
+              "command_duration_s": null,
+              "following_cmd": null,
+              "front_cut_cost": 0.0,
+              "min_human_distance": 2.303,
+              "min_tcpa": 2.558,
+              "name": "social_translation",
+              "reason": "",
+              "rejected": false,
+              "schedule": null,
+              "score": 10.704,
+              "score_terms": {
+                "deadlock": 0.0,
+                "enclosure": 0.0,
+                "goal": -0.022,
+                "jerk": 0.053,
+                "legibility": 0.0,
+                "onset": 0.0,
+                "overtaking_conflict": 0.0,
+                "pass_front": 0.0,
+                "path": 0.327,
+                "personal_space": 10.159,
+                "smooth": 0.053,
+                "static": 0.134,
+                "terminal_conflict": 0.0,
+                "ttc": 0.0,
+                "yield": 0.0
+              }
+            },
+            {
+              "cmd": {
+                "x": 0.0,
+                "y": -0.45,
+                "z": 0.0
+              },
+              "command_duration_s": null,
+              "following_cmd": null,
+              "front_cut_cost": 0.0,
+              "min_human_distance": 0.934,
+              "min_tcpa": 2.85,
+              "name": "social_translation",
+              "reason": "hard_human_collision",
+              "rejected": true,
+              "schedule": null,
+              "score": null
+            },
+            {
+              "cmd": {
+                "x": 0.0,
+                "y": 0.45,
+                "z": 0.0
+              },
+              "command_duration_s": null,
+              "following_cmd": null,
+              "front_cut_cost": 0.0,
+              "min_human_distance": 2.843,
+              "min_tcpa": 1.906,
+              "name": "social_translation",
+              "reason": "",
+              "rejected": false,
+              "schedule": null,
+              "score": 9.714,
+              "score_terms": {
+                "deadlock": 0.0,
+                "enclosure": 0.0,
+                "goal": 0.0,
+                "jerk": 0.02,
+                "legibility": 0.0,
+                "onset": 0.0,
+                "overtaking_conflict": 0.0,
+                "pass_front": 0.0,
+                "path": 0.341,
+                "personal_space": 9.199,
+                "smooth": 0.02,
+                "static": 0.134,
+                "terminal_conflict": 0.0,
+                "ttc": 0.0,
+                "yield": 0.0
+              }
+            },
+            {
+              "cmd": {
+                "x": 0.2635,
+                "y": -0.3648,
+                "z": 0.0
+              },
+              "command_duration_s": null,
+              "following_cmd": null,
+              "front_cut_cost": 0.0,
+              "min_human_distance": 1.31,
+              "min_tcpa": 3.943,
+              "name": "social_translation",
+              "reason": "terminal_conflict",
+              "rejected": true,
+              "schedule": null,
+              "score": 213.092,
+              "score_terms": {
+                "deadlock": 0.0,
+                "enclosure": 0.0,
+                "goal": 0.0,
+                "jerk": 0.224,
+                "legibility": 1.0,
+                "onset": 0.0,
+                "overtaking_conflict": 0.0,
+                "pass_front": 0.0,
+                "path": 0.332,
+                "personal_space": 10.71,
+                "smooth": 0.224,
+                "static": 0.586,
+                "terminal_conflict": 200.0,
+                "ttc": 0.017,
+                "yield": 0.0
+              }
+            },
+            {
+              "cmd": {
+                "x": -0.3182,
+                "y": -0.3182,
+                "z": 0.0
+              },
+              "command_duration_s": 0.6,
+              "following_cmd": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.5911018558128133
+              },
+              "front_cut_cost": 0.0,
+              "min_human_distance": 1.758,
+              "min_tcpa": 1.394,
+              "name": "escape_then_route",
+              "reason": "",
+              "rejected": false,
+              "schedule": null,
+              "score": 12.998,
+              "score_terms": {
+                "deadlock": 0.0,
+                "enclosure": 0.0,
+                "goal": 0.0,
+                "jerk": 0.212,
+                "legibility": 1.0,
+                "onset": 0.0,
+                "overtaking_conflict": 0.0,
+                "pass_front": 0.0,
+                "path": 0.327,
+                "personal_space": 11.247,
+                "smooth": 0.212,
+                "static": 0.0,
+                "terminal_conflict": 0.0,
+                "ttc": 0.0,
+                "yield": 0.0
+              }
+            }
+          ]
+        },
+        "evaluation": {
+          "stamp": 1792868289.205102,
+          "receipt_monotonic_s": 1061736.39360038,
+          "topic": "evaluation_aligned",
+          "data": {
+            "frame_id": "world",
+            "sim_time": 12.136000000000722,
+            "stamp": 1792868289.1461449,
+            "robot": {
+              "x": 0.037127427756786346,
+              "y": -0.04508540779352188,
+              "vx": 0.06784681230783463,
+              "vy": -0.02729467675089836
+            },
+            "role": "evaluation_diagnostic_only",
+            "root_sample_index": 161,
+            "epoch": 0,
+            "people": [
+              {
+                "id": 1,
+                "x": -1.889098734968398,
+                "y": -3.0365205588829025,
+                "vx": 0.37574607391309356,
+                "vy": 0.5689046038966127,
+                "radius_m": 0.42
+              },
+              {
+                "id": 2,
+                "x": 2.11338178864979,
+                "y": -3.2804669007976277,
+                "vx": -0.25841009274288035,
+                "vy": 0.9070184745433609,
+                "radius_m": 0.42
+              },
+              {
+                "id": 3,
+                "x": 5.155309581110381,
+                "y": -0.04098351833378669,
+                "vx": 0.0,
+                "vy": 0.0,
+                "radius_m": 0.42
+              },
+              {
+                "id": 4,
+                "x": -4.3351453469029595,
+                "y": -1.292203239903746,
+                "vx": 0.0,
+                "vy": 0.0,
+                "radius_m": 0.42
+              }
+            ],
+            "population_count": 4,
+            "active_count": 4,
+            "interpolation_span_s": 0.0,
+            "aligned_samples": 161,
+            "dropped_unaligned_samples": 0
+          }
+        }
+      },
+      "mode_windows": [
+        {
+          "mode": "scan",
+          "active": true,
+          "start_ros_s": 1792868282.260834,
+          "end_ros_s": 1792868285.101554,
+          "measured_world_displacement_m": 0.08040353570659658,
+          "max_policy_planar_command_mps": 0.0,
+          "selected_reasons": {
+            "": 58
+          }
+        },
+        {
+          "mode": "brake",
+          "active": true,
+          "start_ros_s": 1792868285.161523,
+          "end_ros_s": 1792868285.464554,
+          "measured_world_displacement_m": 0.010319894700467402,
+          "max_policy_planar_command_mps": 0.0,
+          "selected_reasons": {
+            "": 7
+          }
+        },
+        {
+          "mode": "brake",
+          "active": false,
+          "start_ros_s": 1792868285.497478,
+          "end_ros_s": 1792868287.198248,
+          "measured_world_displacement_m": 0.030818094232355916,
+          "max_policy_planar_command_mps": 0.0,
+          "selected_reasons": {
+            "no_feasible_candidate": 35
+          }
+        },
+        {
+          "mode": "scan",
+          "active": true,
+          "start_ros_s": 1792868287.273298,
+          "end_ros_s": 1792868291.472436,
+          "measured_world_displacement_m": 0.437643042209558,
+          "max_policy_planar_command_mps": 0.45001254426960147,
+          "selected_reasons": {
+            "": 64,
+            "local_escape": 7,
+            "human_margin": 1
+          }
+        },
+        {
+          "mode": "brake",
+          "active": true,
+          "start_ros_s": 1792868291.545587,
+          "end_ros_s": 1792868293.806299,
+          "measured_world_displacement_m": 0.5077963811340775,
+          "max_policy_planar_command_mps": 0.45001254426960147,
+          "selected_reasons": {
+            "local_escape": 23,
+            "": 2,
+            "human_margin": 1,
+            "no_feasible_candidate": 5
+          }
+        },
+        {
+          "mode": "brake",
+          "active": false,
+          "start_ros_s": 1792868293.896133,
+          "end_ros_s": 1792868294.659232,
+          "measured_world_displacement_m": 0.007412017430256675,
+          "max_policy_planar_command_mps": 0.0,
+          "selected_reasons": {
+            "no_feasible_candidate": 11
+          }
+        }
+      ],
+      "full_trace_clearance": {
+        "minimum_m": -0.33866158763228565,
+        "overlapping_person_samples": 5,
+        "first": {
+          "stamp": 1792868294.245048,
+          "sim_time": 17.13600000000138,
+          "person_id": 1,
+          "clearance_m": -0.05582838405629659
+        },
+        "last": {
+          "stamp": 1792868294.65189,
+          "sim_time": 17.53600000000116,
+          "person_id": 1,
+          "clearance_m": -0.33866158763228565
+        },
+        "scope": "geometric envelopes, including logger tail after mission evaluation ends; not force contacts"
+      },
+      "odom_truth_matched_xy": {
+        "samples": 226,
+        "max_error_m": 0.046191124688623894,
+        "mean_error_m": 0.007152258526098021
+      },
+      "timing": {
+        "planner_wall_active_ms": {
+          "count": 168,
+          "min": 5.964,
+          "median": 19.838,
+          "p95": 67.31185,
+          "p99": 74.51432000000001,
+          "max": 80.33
+        },
+        "tracks_age_at_command_publish_s": {
+          "count": 331,
+          "min": 0.1472320556640625,
+          "median": 0.29985499382019043,
+          "p95": 0.4116705656051636,
+          "p99": 0.49194166660308825,
+          "max": 0.5951542854309082
+        },
+        "policy_observation_interval_ms": {
+          "count": 753,
+          "min": 20.0,
+          "median": 22.0,
+          "p95": 28.0,
+          "p99": 32.0,
+          "max": 42.0
+        },
+        "policy_submit_to_publish_ms": {
+          "count": 753,
+          "min": 1.836769049987197,
+          "median": 6.7948950454592705,
+          "p95": 16.42497540451586,
+          "p99": 20.70849635638297,
+          "max": 26.48134995251894
+        },
+        "odom_source_age_at_logger_receipt_s": {
+          "count": 226,
+          "min": 0.05849123001098633,
+          "median": 0.10404598712921143,
+          "p95": 0.15601485967636108,
+          "p99": 0.18256133794784546,
+          "max": 0.2085127830505371
+        },
+        "rtf_monotonic_receipt_windows": {
+          "count": 17,
+          "min": 0.8546972983586066,
+          "median": 0.985760194716289,
+          "p95": 1.034934035767645,
+          "p99": 1.0532390914011232,
+          "max": 1.0578153553094927
+        }
+      },
+      "planner_active_period": {
+        "samples": 168,
+        "overruns": 42,
+        "fraction": 0.25
+      },
+      "planner_supervisor_lineage": {
+        "eligible": 1008,
+        "matched": 1008,
+        "missing_planner_record": 0,
+        "command_mismatch": 0,
+        "scope": "atomic planner request considered by supervisor, not proof of physical execution"
+      },
+      "policy_hold_events": [
+        {
+          "sequence": 1,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792868275.8545022,
+          "monotonic_s": 1061723.042925019,
+          "device_tick_ms": 0,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        },
+        {
+          "sequence": 2,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792868276.0530221,
+          "monotonic_s": 1061723.24145406,
+          "device_tick_ms": 2,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        }
+      ],
+      "source_sha256": {
+        "manifest.json": "69479fc2fa243e3bcaf24836ed19bd47ab8cf87285de944eae8ef9f3f9233522",
+        "result.json": "6af37356945c37edbda06632c20994479ea6e6d3aae998ff13ee9dd3abfaa27a",
+        "trace.jsonl": "40855fd5f02040892d03ea2b320345b37fee9359c4f63bf41b12ca82be7512e3",
+        "effective_parameters.json": "85d044e0ee806ba5b38b4a9b985b07b18209bb88775f779a6ca30bf62fce8fd9",
+        "source_snapshot.zip": "41419f1acaa0a303c0b9606a4675794a85fad47e526943c1fd7015f37c2567f6"
+      }
+    },
+    {
+      "run_id": "20261024T185845Z",
+      "people": 3,
+      "seed": 42,
+      "pedestrian_start_delay_s": 10.0,
+      "reported_result": {
+        "success": false,
+        "mission_complete": false,
+        "error": "search turn displaced beyond viewpoint reserve",
+        "fallen": false,
+        "data_valid": true,
+        "contact_samples": 44,
+        "minimum_person_clearance_m": -0.42447939700217197
+      },
+      "events": [
+        {
+          "phase": "runtime_parameters",
+          "elapsed_s": 5.491793433204293,
+          "required_complete": true,
+          "sha256": "143489cef890b6df9533570e8da8f1290da11e065ba0147b6d0678bd0089ba4f",
+          "incomplete_required_nodes": []
+        },
+        {
+          "phase": "survey_destination",
+          "elapsed_s": 8.802171478047967,
+          "destination_id": "target_red"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 8.804147746181116,
+          "object_id": "target_red"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 8.809093325166032,
+          "goal_odom": [
+            0.035137836900992744,
+            0.007895332999892654,
+            0.6846569930507114
+          ],
+          "start_pose": [
+            0.035137836900992744,
+            0.007895332999892654,
+            -0.10074117034673692
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 11.900012013036758,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 0.6420264260377735
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 13.630786410998553,
+          "goal_odom": [
+            0.008670881948987113,
+            -0.014482729427334286,
+            1.4082422633959224
+          ],
+          "start_pose": [
+            0.008670881948987113,
+            -0.014482729427334286,
+            0.6228440999984742
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 20.27190137701109,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 4.100334143033251
+        },
+        {
+          "phase": "discover",
+          "elapsed_s": 21.99400031310506,
+          "goal_odom": [
+            0.1371602844211577,
+            0.8795706817987814,
+            1.8802615781618526
+          ],
+          "start_pose": [
+            0.1371602844211577,
+            0.8795706817987814,
+            1.0948634147644043
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "turn_displaced",
+          "elapsed_s": 22.518905169097707,
+          "displacement_m": 0.3572802514642594,
+          "limit_m": 0.35,
+          "start_pose_xy": [
+            0.1371602844211577,
+            0.8795706817987814
+          ],
+          "measured_pose": [
+            0.3538532311505957,
+            1.1636364222957258,
+            1.1200084686279297
+          ]
+        },
+        {
+          "phase": "turn_displaced",
+          "elapsed_s": 24.515583052067086,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 1.9931480479426682
+        }
+      ],
+      "first_translation": {
+        "policy": {
+          "stamp": 1792868351.041746,
+          "receipt_monotonic_s": 1061798.230231426,
+          "topic": "policy_cmd",
+          "data": {
+            "x": 0.0528,
+            "y": 0.0528,
+            "z": 0.4908,
+            "source_stamp": 1792868351.039319,
+            "role": "filtered_command_not_inference_ack"
+          }
+        },
+        "planner": {
+          "navigation_mode": "scan",
+          "reference_cmd": {
+            "x": 0.0,
+            "y": 0.0,
+            "z": 0.491
+          },
+          "selected_cmd": {
+            "x": 0.4252,
+            "y": 0.1472,
+            "z": 0.0
+          },
+          "selected": "fine_translation",
+          "selected_reason": "local_escape",
+          "closest_track": {
+            "confidence": 1.0,
+            "dcpa": 0.641,
+            "distance": 3.418,
+            "front_cut": false,
+            "person_score": 1.0,
+            "state": "CONFIRMED",
+            "tcpa": 6.185,
+            "track_id": 1,
+            "vx": 0.378,
+            "vy": 0.39,
+            "x": -1.852,
+            "y": -2.886
+          },
+          "tracks_age_at_command_publish_s": 0.3578376770019531,
+          "candidate_results": [
+            {
+              "cmd": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "command_duration_s": null,
+              "following_cmd": null,
+              "front_cut_cost": 0.0,
+              "min_human_distance": 0.644,
+              "min_tcpa": 2.4,
+              "name": "yield_stop",
+              "reason": "hard_human_collision",
+              "rejected": true,
+              "schedule": null,
+              "score": null
+            },
+            {
+              "cmd": {
+                "x": 0.37,
+                "y": 0.2561,
+                "z": 0.0
+              },
+              "command_duration_s": null,
+              "following_cmd": null,
+              "front_cut_cost": 0.0,
+              "min_human_distance": 1.405,
+              "min_tcpa": 3.381,
+              "name": "previous_command",
+              "reason": "terminal_conflict",
+              "rejected": true,
+              "schedule": null,
+              "score": 218.029,
+              "score_terms": {
+                "deadlock": 0.0,
+                "enclosure": 0.0,
+                "goal": 0.0,
+                "jerk": 0.0,
+                "legibility": 1.0,
+                "onset": 0.0,
+                "overtaking_conflict": 0.0,
+                "pass_front": 0.0,
+                "path": 0.271,
+                "personal_space": 16.758,
+                "smooth": 0.0,
+                "static": 0.0,
+                "terminal_conflict": 200.0,
+                "ttc": 0.0,
+                "yield": 0.0
+              }
+            },
+            {
+              "cmd": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.491
+              },
+              "command_duration_s": 0.8,
+              "following_cmd": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "front_cut_cost": 0.0,
+              "min_human_distance": 0.644,
+              "min_tcpa": 2.4,
+              "name": "raw_reference",
+              "reason": "hard_human_collision",
+              "rejected": true,
+              "schedule": null,
+              "score": null
+            },
+            {
+              "cmd": {
+                "x": -0.3182,
+                "y": -0.3182,
+                "z": 0.0
+              },
+              "command_duration_s": null,
+              "following_cmd": null,
+              "front_cut_cost": 0.0,
+              "min_human_distance": 0.483,
+              "min_tcpa": 1.95,
+              "name": "social_translation",
+              "reason": "hard_human_collision",
+              "rejected": true,
+              "schedule": null,
+              "score": null
+            },
+            {
+              "cmd": {
+                "x": -0.45,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "command_duration_s": null,
+              "following_cmd": null,
+              "front_cut_cost": 0.0,
+              "min_human_distance": 0.878,
+              "min_tcpa": 2.25,
+              "name": "social_translation",
+              "reason": "hard_human_collision",
+              "rejected": true,
+              "schedule": null,
+              "score": null
+            },
+            {
+              "cmd": {
+                "x": -0.3182,
+                "y": 0.3182,
+                "z": 0.0
+              },
+              "command_duration_s": null,
+              "following_cmd": null,
+              "front_cut_cost": 0.0,
+              "min_human_distance": 1.064,
+              "min_tcpa": 3.0,
+              "name": "social_translation",
+              "reason": "hard_human_collision",
+              "rejected": true,
+              "schedule": null,
+              "score": null
+            },
+            {
+              "cmd": {
+                "x": 0.0,
+                "y": -0.45,
+                "z": 0.0
+              },
+              "command_duration_s": null,
+              "following_cmd": null,
+              "front_cut_cost": 0.901,
+              "min_human_distance": 0.124,
+              "min_tcpa": 1.95,
+              "name": "social_translation",
+              "reason": "hard_human_collision",
+              "rejected": true,
+              "schedule": null,
+              "score": null
+            },
+            {
+              "cmd": {
+                "x": 0.325,
+                "y": 0.225,
+                "z": 0.0
+              },
+              "command_duration_s": null,
+              "following_cmd": null,
+              "front_cut_cost": 0.0,
+              "min_human_distance": 1.293,
+              "min_tcpa": 4.274,
+              "name": "fine_translation",
+              "reason": "terminal_conflict",
+              "rejected": true,
+              "schedule": null,
+              "score": 218.233,
+              "score_terms": {
+                "deadlock": 0.0,
+                "enclosure": 0.0,
+                "goal": 0.0,
+                "jerk": 0.001,
+                "legibility": 1.0,
+                "onset": 0.0,
+                "overtaking_conflict": 0.0,
+                "pass_front": 0.0,
+                "path": 0.268,
+                "personal_space": 16.962,
+                "smooth": 0.001,
+                "static": 0.0,
+                "terminal_conflict": 200.0,
+                "ttc": 0.0,
+                "yield": 0.0
+              }
+            },
+            {
+              "cmd": {
+                "x": 0.4252,
+                "y": -0.1472,
+                "z": 0.0
+              },
+              "command_duration_s": null,
+              "following_cmd": null,
+              "front_cut_cost": 0.0,
+              "min_human_distance": 0.93,
+              "min_tcpa": 2.85,
+              "name": "fine_translation",
+              "reason": "hard_human_collision",
+              "rejected": true,
+              "schedule": null,
+              "score": null
+            },
+            {
+              "cmd": {
+                "x": 0.4252,
+                "y": 0.1472,
+                "z": 0.0
+              },
+              "command_duration_s": null,
+              "following_cmd": null,
+              "front_cut_cost": 0.0,
+              "min_human_distance": 1.307,
+              "min_tcpa": 0.949,
+              "name": "fine_translation",
+              "reason": "terminal_conflict",
+              "rejected": true,
+              "schedule": null,
+              "score": 218.047,
+              "score_terms": {
+                "deadlock": 0.0,
+                "enclosure": 0.0,
+                "goal": 0.0,
+                "jerk": 0.007,
+                "legibility": 1.0,
+                "onset": 0.0,
+                "overtaking_conflict": 0.0,
+                "pass_front": 0.0,
+                "path": 0.26,
+                "personal_space": 16.771,
+                "smooth": 0.007,
+                "static": 0.0,
+                "terminal_conflict": 200.0,
+                "ttc": 0.0,
+                "yield": 0.0
+              }
+            },
+            {
+              "cmd": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "command_duration_s": 0.6,
+              "following_cmd": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "front_cut_cost": 0.0,
+              "min_human_distance": 0.644,
+              "min_tcpa": 2.4,
+              "name": "step_and_hold",
+              "reason": "hard_human_collision",
+              "rejected": true,
+              "schedule": null,
+              "score": null
+            },
+            {
+              "cmd": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "command_duration_s": 1.2,
+              "following_cmd": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "front_cut_cost": 0.0,
+              "min_human_distance": 0.644,
+              "min_tcpa": 2.4,
+              "name": "step_and_hold",
+              "reason": "hard_human_collision",
+              "rejected": true,
+              "schedule": null,
+              "score": null
+            },
+            {
+              "cmd": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "command_duration_s": 2.0,
+              "following_cmd": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "front_cut_cost": 0.0,
+              "min_human_distance": 0.644,
+              "min_tcpa": 2.4,
+              "name": "step_and_hold",
+              "reason": "hard_human_collision",
+              "rejected": true,
+              "schedule": null,
+              "score": null
+            },
+            {
+              "cmd": {
+                "x": 0.37,
+                "y": 0.2561,
+                "z": 0.0
+              },
+              "command_duration_s": 0.6,
+              "following_cmd": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "front_cut_cost": 0.0,
+              "min_human_distance": 0.753,
+              "min_tcpa": 2.7,
+              "name": "step_and_hold",
+              "reason": "hard_human_collision",
+              "rejected": true,
+              "schedule": null,
+              "score": null
+            },
+            {
+              "cmd": {
+                "x": 0.37,
+                "y": 0.2561,
+                "z": 0.0
+              },
+              "command_duration_s": 1.2,
+              "following_cmd": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "front_cut_cost": 0.0,
+              "min_human_distance": 0.926,
+              "min_tcpa": 2.85,
+              "name": "step_and_hold",
+              "reason": "hard_human_collision",
+              "rejected": true,
+              "schedule": null,
+              "score": null
+            },
+            {
+              "cmd": {
+                "x": 0.37,
+                "y": 0.2561,
+                "z": 0.0
+              },
+              "command_duration_s": 2.0,
+              "following_cmd": {
+                "x": 0.0,
+                "y": 0.0,
+                "z": 0.0
+              },
+              "front_cut_cost": 0.0,
+              "min_human_distance": 1.194,
+              "min_tcpa": 3.381,
+              "name": "step_and_hold",
+              "reason": "terminal_conflict",
+              "rejected": true,
+              "schedule": null,
+              "score": 218.063,
+              "score_terms": {
+                "deadlock": 0.0,
+                "enclosure": 0.0,
+                "goal": 0.0,
+                "jerk": 0.0,
+                "legibility": 1.0,
+                "onset": 0.0,
+                "overtaking_conflict": 0.0,
+                "pass_front": 0.0,
+                "path": 0.271,
+                "personal_space": 16.791,
+                "smooth": 0.0,
+                "static": 0.0,
+                "terminal_conflict": 200.0,
+                "ttc": 0.0,
+                "yield": 0.0
+              }
+            }
+          ]
+        },
+        "evaluation": {
+          "stamp": 1792868351.009629,
+          "receipt_monotonic_s": 1061798.19810089,
+          "topic": "evaluation_aligned",
+          "data": {
+            "frame_id": "world",
+            "sim_time": 12.336000000000789,
+            "stamp": 1792868350.9619386,
+            "robot": {
+              "x": 0.016114741563796997,
+              "y": -0.03707100823521614,
+              "vx": 0.03931446373462677,
+              "vy": -0.07302724570035934
+            },
+            "role": "evaluation_diagnostic_only",
+            "root_sample_index": 171,
+            "epoch": 0,
+            "people": [
+              {
+                "id": 1,
+                "x": -1.829783116887569,
+                "y": -2.911570971511715,
+                "vx": 0.2574235544320597,
+                "vy": 0.6468344134020814,
+                "radius_m": 0.42
+              },
+              {
+                "id": 2,
+                "x": 2.0616997701011965,
+                "y": -3.099063205888895,
+                "vx": -0.25841009274288035,
+                "vy": 0.9070184745433609,
+                "radius_m": 0.42
+              },
+              {
+                "id": 3,
+                "x": 5.155309581110381,
+                "y": -0.04098351833378669,
+                "vx": 0.0,
+                "vy": 0.0,
+                "radius_m": 0.42
+              }
+            ],
+            "population_count": 3,
+            "active_count": 3,
+            "interpolation_span_s": 0.0,
+            "aligned_samples": 171,
+            "dropped_unaligned_samples": 0
+          }
+        }
+      },
+      "mode_windows": [
+        {
+          "mode": "scan",
+          "active": true,
+          "start_ros_s": 1792868344.217617,
+          "end_ros_s": 1792868346.624496,
+          "measured_world_displacement_m": 0.07501982204938894,
+          "max_policy_planar_command_mps": 0.0,
+          "selected_reasons": {
+            "": 49
+          }
+        },
+        {
+          "mode": "brake",
+          "active": true,
+          "start_ros_s": 1792868346.691698,
+          "end_ros_s": 1792868347.275286,
+          "measured_world_displacement_m": 0.012931377655932065,
+          "max_policy_planar_command_mps": 0.0,
+          "selected_reasons": {
+            "": 13
+          }
+        },
+        {
+          "mode": "brake",
+          "active": false,
+          "start_ros_s": 1792868347.313054,
+          "end_ros_s": 1792868348.969768,
+          "measured_world_displacement_m": 0.03134674155920937,
+          "max_policy_planar_command_mps": 0.0,
+          "selected_reasons": {
+            "no_feasible_candidate": 34
+          }
+        },
+        {
+          "mode": "scan",
+          "active": true,
+          "start_ros_s": 1792868349.025994,
+          "end_ros_s": 1792868351.511498,
+          "measured_world_displacement_m": 0.028727219798438265,
+          "max_policy_planar_command_mps": 0.4065133700138287,
+          "selected_reasons": {
+            "": 46,
+            "local_escape": 1
+          }
+        },
+        {
+          "mode": "brake",
+          "active": true,
+          "start_ros_s": 1792868351.607323,
+          "end_ros_s": 1792868355.685201,
+          "measured_world_displacement_m": 0.5816833069678138,
+          "max_policy_planar_command_mps": 0.4500456087998193,
+          "selected_reasons": {
+            "local_escape": 31,
+            "": 10,
+            "human_margin": 2,
+            "no_feasible_candidate": 14
+          }
+        },
+        {
+          "mode": "brake",
+          "active": false,
+          "start_ros_s": 1792868355.7537,
+          "end_ros_s": 1792868357.366633,
+          "measured_world_displacement_m": 0.5218329452630606,
+          "max_policy_planar_command_mps": 0.0,
+          "selected_reasons": {
+            "no_feasible_candidate": 29
+          }
+        },
+        {
+          "mode": "scan",
+          "active": true,
+          "start_ros_s": 1792868357.470028,
+          "end_ros_s": 1792868357.932284,
+          "measured_world_displacement_m": 0.3387461400308718,
+          "max_policy_planar_command_mps": 0.0,
+          "selected_reasons": {
+            "no_feasible_candidate": 8
+          }
+        },
+        {
+          "mode": "brake",
+          "active": true,
+          "start_ros_s": 1792868357.990362,
+          "end_ros_s": 1792868359.94773,
+          "measured_world_displacement_m": 0.31319868204212475,
+          "max_policy_planar_command_mps": 0.0,
+          "selected_reasons": {
+            "no_feasible_candidate": 27
+          }
+        },
+        {
+          "mode": "brake",
+          "active": false,
+          "start_ros_s": 1792868360.025674,
+          "end_ros_s": 1792868360.690436,
+          "measured_world_displacement_m": 0.0060614002163292685,
+          "max_policy_planar_command_mps": 0.0,
+          "selected_reasons": {
+            "no_feasible_candidate": 10
+          }
+        }
+      ],
+      "full_trace_clearance": {
+        "minimum_m": -0.42447939700217197,
+        "overlapping_person_samples": 55,
+        "first": {
+          "stamp": 1792868355.617234,
+          "sim_time": 16.802000000001566,
+          "person_id": 1,
+          "clearance_m": -0.022062284663219855
+        },
+        "last": {
+          "stamp": 1792868360.676952,
+          "sim_time": 21.601999999998906,
+          "person_id": 3,
+          "clearance_m": -0.3854109814325349
+        },
+        "scope": "geometric envelopes, including logger tail after mission evaluation ends; not force contacts"
+      },
+      "odom_truth_matched_xy": {
+        "samples": 295,
+        "max_error_m": 0.07073570526968682,
+        "mean_error_m": 0.008859997711320115
+      },
+      "timing": {
+        "planner_wall_active_ms": {
+          "count": 201,
+          "min": 5.872,
+          "median": 46.968,
+          "p95": 68.111,
+          "p99": 72.158,
+          "max": 76.585
+        },
+        "tracks_age_at_command_publish_s": {
+          "count": 388,
+          "min": 0.15378141403198242,
+          "median": 0.2883484363555908,
+          "p95": 0.43917826414108274,
+          "p99": 0.4729549193382263,
+          "max": 0.5292928218841553
+        },
+        "policy_observation_interval_ms": {
+          "count": 937,
+          "min": 20.0,
+          "median": 22.0,
+          "p95": 28.0,
+          "p99": 33.27999999999997,
+          "max": 42.0
+        },
+        "policy_submit_to_publish_ms": {
+          "count": 937,
+          "min": 1.7817209009081125,
+          "median": 6.015870021656156,
+          "p95": 15.876986552029837,
+          "p99": 23.092779843136658,
+          "max": 31.200319994241
+        },
+        "odom_source_age_at_logger_receipt_s": {
+          "count": 295,
+          "min": 0.06252908706665039,
+          "median": 0.09707331657409668,
+          "p95": 0.14824602603912354,
+          "p99": 0.1790276336669922,
+          "max": 0.20791935920715332
+        },
+        "rtf_monotonic_receipt_windows": {
+          "count": 20,
+          "min": 0.884111649633415,
+          "median": 0.9932488422022783,
+          "p95": 1.0527798948252174,
+          "p99": 1.0592707209093613,
+          "max": 1.0608934274303972
+        }
+      },
+      "planner_active_period": {
+        "samples": 201,
+        "overruns": 89,
+        "fraction": 0.4427860696517413
+      },
+      "planner_supervisor_lineage": {
+        "eligible": 1195,
+        "matched": 1195,
+        "missing_planner_record": 0,
+        "command_mismatch": 0,
+        "scope": "atomic planner request considered by supervisor, not proof of physical execution"
+      },
+      "policy_hold_events": [
+        {
+          "sequence": 1,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792868337.9746616,
+          "monotonic_s": 1061785.163093518,
+          "device_tick_ms": 0,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        },
+        {
+          "sequence": 2,
+          "state": "frozen_lowstate_hold",
+          "recovery_kind": "state_hold",
+          "stamp": 1792868338.1944218,
+          "monotonic_s": 1061785.382853593,
+          "device_tick_ms": 2,
+          "command_before_hold": [
+            0.0,
+            0.0,
+            0.0
+          ],
+          "action_norm_before_hold": 0.0,
+          "measured_tilt_rad": 0.0,
+          "target_jump_rad": 2.8610229518832853e-08,
+          "history_reset": true
+        }
+      ],
+      "source_sha256": {
+        "manifest.json": "de16df67485d3a5b3837a8691ebd45984e445105ddfea848ce27d449be26cc79",
+        "result.json": "b6bc4f03d21cd446925997a37e28d42acd890c7da6e8a1bd18a36fd796f7fb14",
+        "trace.jsonl": "953360f2d9eaec243bb7a9e87b3a468094121933e640ad86c9e98c6414735b2e",
+        "effective_parameters.json": "143489cef890b6df9533570e8da8f1290da11e065ba0147b6d0678bd0089ba4f",
+        "source_snapshot.zip": "489dd367acef48272ae09b63d4df9c1eadd324889b7e2741882cf9299017fb72"
+      }
+    }
+  ],
+  "limitations": [
+    "Commands are upstream of motor application; these runs did not record full actuator traces.",
+    "Geometric clearance overlap is not a measured force or a unique collision count.",
+    "Logger tails extend past mission result evaluation; retain both scopes.",
+    "Temporal association with pedestrians does not by itself prove a physical push."
+  ]
+}

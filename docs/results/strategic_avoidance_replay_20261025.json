@@ -1,0 +1,364 @@
+{
+  "scope": "stationary-reference sensed constant-velocity forecast comparison, not execution qualification",
+  "limitations": [
+    "Static geometry is not replayed; live search rechecks it.",
+    "A coarse refuge is a direction hint, not an executable or certified-safe route.",
+    "Earlier detection in these samples does not prove that physical avoidance would succeed."
+  ],
+  "runs": [
+    {
+      "run_id": "20261024T185744Z",
+      "trace_sha256": "40855fd5f02040892d03ea2b320345b37fee9359c4f63bf41b12ca82be7512e3",
+      "cases": [
+        {
+          "offset_from_first_translation_s": -2.0,
+          "track_age_s": 0.2053225040435791,
+          "pincer": {
+            "active": false,
+            "time_to_enclosure_s": null,
+            "pairs": []
+          },
+          "closest_person_refuge": null,
+          "all_person_refuge": {
+            "goal": [
+              0.6767156727579007,
+              -0.29517840265556283
+            ],
+            "minimum_margin_m": 2.500561292444823,
+            "terminal_margin_m": 2.527551762291401,
+            "travel_m": 0.7,
+            "retained": false
+          }
+        },
+        {
+          "offset_from_first_translation_s": -1.0,
+          "track_age_s": 0.27353668212890625,
+          "pincer": {
+            "active": false,
+            "time_to_enclosure_s": null,
+            "pairs": []
+          },
+          "closest_person_refuge": null,
+          "all_person_refuge": {
+            "goal": [
+              0.6711156727579006,
+              -0.2927784026555628
+            ],
+            "minimum_margin_m": 2.4780961876298058,
+            "terminal_margin_m": 2.655930506236326,
+            "travel_m": 0.7,
+            "retained": false
+          }
+        },
+        {
+          "offset_from_first_translation_s": -0.5,
+          "track_age_s": 0.2981247901916504,
+          "pincer": {
+            "active": false,
+            "time_to_enclosure_s": null,
+            "pairs": []
+          },
+          "closest_person_refuge": {
+            "goal": [
+              -1.2091014728102947,
+              0.8208424692362988
+            ],
+            "minimum_margin_m": 2.6292976871834512,
+            "terminal_margin_m": 2.95096606521672,
+            "travel_m": 1.5,
+            "retained": true
+          },
+          "all_person_refuge": {
+            "goal": [
+              0.0296,
+              -0.0251
+            ],
+            "minimum_margin_m": 2.6292976871834512,
+            "terminal_margin_m": 2.672141836944584,
+            "travel_m": 0.0,
+            "retained": false
+          }
+        },
+        {
+          "offset_from_first_translation_s": 0.0,
+          "track_age_s": 0.2687230110168457,
+          "pincer": {
+            "active": true,
+            "time_to_enclosure_s": 4.2,
+            "pairs": [
+              [
+                1,
+                2
+              ]
+            ]
+          },
+          "closest_person_refuge": {
+            "goal": [
+              -0.9424711827109693,
+              1.1115413084615546
+            ],
+            "minimum_margin_m": 0.25703785174771854,
+            "terminal_margin_m": 0.25703785174771854,
+            "travel_m": 1.5,
+            "retained": false
+          },
+          "all_person_refuge": {
+            "goal": [
+              -1.259431345515801,
+              0.5086568053111263
+            ],
+            "minimum_margin_m": 0.7465351132412306,
+            "terminal_margin_m": 0.7465351132412306,
+            "travel_m": 1.4,
+            "retained": false
+          }
+        },
+        {
+          "offset_from_first_translation_s": 0.5,
+          "track_age_s": 0.30628204345703125,
+          "pincer": {
+            "active": true,
+            "time_to_enclosure_s": 2.0,
+            "pairs": [
+              [
+                1,
+                2
+              ]
+            ]
+          },
+          "closest_person_refuge": {
+            "goal": [
+              -1.188853926474798,
+              0.7965266242662138
+            ],
+            "minimum_margin_m": 0.2913820736304573,
+            "terminal_margin_m": 0.3389825895130827,
+            "travel_m": 1.4999999999999998,
+            "retained": true
+          },
+          "all_person_refuge": {
+            "goal": [
+              -0.9507494936611663,
+              0.9251494936611666
+            ],
+            "minimum_margin_m": 0.22781157546088537,
+            "terminal_margin_m": 0.22781157546088537,
+            "travel_m": 1.4,
+            "retained": false
+          }
+        },
+        {
+          "offset_from_first_translation_s": 1.0,
+          "track_age_s": 0.26251745223999023,
+          "pincer": {
+            "active": true,
+            "time_to_enclosure_s": 1.8,
+            "pairs": [
+              [
+                1,
+                2
+              ]
+            ]
+          },
+          "closest_person_refuge": {
+            "goal": [
+              1.2777843982010646,
+              -0.7854821224304467
+            ],
+            "minimum_margin_m": -0.6060780968751084,
+            "terminal_margin_m": 0.29832805196461587,
+            "travel_m": 1.5,
+            "retained": false
+          },
+          "all_person_refuge": {
+            "goal": [
+              -0.9955494936611664,
+              0.9809494936611666
+            ],
+            "minimum_margin_m": 0.036570676027313676,
+            "terminal_margin_m": 0.036570676027313676,
+            "travel_m": 1.4,
+            "retained": false
+          }
+        }
+      ]
+    },
+    {
+      "run_id": "20261024T185845Z",
+      "trace_sha256": "953360f2d9eaec243bb7a9e87b3a468094121933e640ad86c9e98c6414735b2e",
+      "cases": [
+        {
+          "offset_from_first_translation_s": -2.0,
+          "track_age_s": 0.19469642639160156,
+          "pincer": {
+            "active": false,
+            "time_to_enclosure_s": null,
+            "pairs": []
+          },
+          "closest_person_refuge": null,
+          "all_person_refuge": {
+            "goal": [
+              0.0087,
+              -0.0145
+            ],
+            "minimum_margin_m": 2.5044716665087705,
+            "terminal_margin_m": 2.5122181113199207,
+            "travel_m": 0.0,
+            "retained": false
+          }
+        },
+        {
+          "offset_from_first_translation_s": -1.0,
+          "track_age_s": 0.3034701347351074,
+          "pincer": {
+            "active": false,
+            "time_to_enclosure_s": null,
+            "pairs": []
+          },
+          "closest_person_refuge": null,
+          "all_person_refuge": {
+            "goal": [
+              -0.0015,
+              -0.0037
+            ],
+            "minimum_margin_m": 2.5132157296610895,
+            "terminal_margin_m": 2.524206397848317,
+            "travel_m": 0.0,
+            "retained": false
+          }
+        },
+        {
+          "offset_from_first_translation_s": -0.5,
+          "track_age_s": 0.31226468086242676,
+          "pincer": {
+            "active": false,
+            "time_to_enclosure_s": null,
+            "pairs": []
+          },
+          "closest_person_refuge": {
+            "goal": [
+              1.400815036327889,
+              0.5464860145311554
+            ],
+            "minimum_margin_m": 0.15445776740648998,
+            "terminal_margin_m": 0.15445776740648998,
+            "travel_m": 1.5,
+            "retained": false
+          },
+          "all_person_refuge": {
+            "goal": [
+              -1.285331345515801,
+              0.5251568053111263
+            ],
+            "minimum_margin_m": 2.2560598212216116,
+            "terminal_margin_m": 2.7082171910915003,
+            "travel_m": 1.4,
+            "retained": false
+          }
+        },
+        {
+          "offset_from_first_translation_s": 0.0,
+          "track_age_s": 0.34378886222839355,
+          "pincer": {
+            "active": true,
+            "time_to_enclosure_s": 3.0,
+            "pairs": [
+              [
+                0,
+                1
+              ]
+            ]
+          },
+          "closest_person_refuge": {
+            "goal": [
+              -1.0820015128696627,
+              1.0365599278582884
+            ],
+            "minimum_margin_m": -0.045223445819240204,
+            "terminal_margin_m": -0.03252304635019132,
+            "travel_m": 1.4999999999999998,
+            "retained": false
+          },
+          "all_person_refuge": {
+            "goal": [
+              -1.4048999999999998,
+              -0.007400000000000172
+            ],
+            "minimum_margin_m": 0.38557356768864404,
+            "terminal_margin_m": 0.432023143953729,
+            "travel_m": 1.4,
+            "retained": false
+          }
+        },
+        {
+          "offset_from_first_translation_s": 0.5,
+          "track_age_s": 0.3092215061187744,
+          "pincer": {
+            "active": true,
+            "time_to_enclosure_s": 1.8,
+            "pairs": [
+              [
+                0,
+                1
+              ]
+            ]
+          },
+          "closest_person_refuge": {
+            "goal": [
+              1.4283849788354406,
+              -0.5339910177545673
+            ],
+            "minimum_margin_m": -0.922267081432598,
+            "terminal_margin_m": 1.0517666893305728,
+            "travel_m": 1.4999999999999998,
+            "retained": false
+          },
+          "all_person_refuge": {
+            "goal": [
+              0.011400000000000085,
+              -1.4419
+            ],
+            "minimum_margin_m": -0.1642999419559883,
+            "terminal_margin_m": 0.8133554157782799,
+            "travel_m": 1.4,
+            "retained": false
+          }
+        },
+        {
+          "offset_from_first_translation_s": 1.0,
+          "track_age_s": 0.24019718170166016,
+          "pincer": {
+            "active": true,
+            "time_to_enclosure_s": 1.6,
+            "pairs": [
+              [
+                0,
+                1
+              ]
+            ]
+          },
+          "closest_person_refuge": {
+            "goal": [
+              1.2703109554054803,
+              -0.7419524252589695
+            ],
+            "minimum_margin_m": -0.05438158196868903,
+            "terminal_margin_m": 0.37537212373840645,
+            "travel_m": 1.5,
+            "retained": false
+          },
+          "all_person_refuge": {
+            "goal": [
+              0.9577494936611666,
+              -0.9879494936611664
+            ],
+            "minimum_margin_m": -0.019418083807586584,
+            "terminal_margin_m": 0.28878058643048377,
+            "travel_m": 1.4,
+            "retained": false
+          }
+        }
+      ]
+    }
+  ]
+}

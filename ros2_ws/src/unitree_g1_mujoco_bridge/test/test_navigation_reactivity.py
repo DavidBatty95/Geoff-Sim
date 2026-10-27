@@ -35,6 +35,26 @@ def ros_context():
     rclpy.shutdown()
 
 
+def test_heading_history_pose_updates_rate_and_refuses_stale_attitude():
+    node=HumanAwareMotionPlanner()
+    try:
+        node.heading_history_enabled=True
+        now=node.get_clock().now().nanoseconds*1e-9
+        node.odom_stamp=now-.15
+        node.odom_pose=(0.,0.,1.)
+        node.source_odom_velocity=(0.,0.,-1.)
+        for i in range(21):
+            stamp=now-.2+i*.01
+            node.heading_history.observe(stamp,stamp+.001,i,(0.,0.,.5*(stamp-now)),(0.,0.,.5))
+        pose=node._robot_pose()
+        assert pose[2]==pytest.approx(1.075,abs=.01)
+        assert node.measured_velocity[2]==pytest.approx(.5)
+        node.heading_history.samples.clear()
+        assert node._robot_pose() is None
+    finally:
+        node.destroy_node()
+
+
 @pytest.fixture
 def tracker():
     node = DynamicObstacleTracker()
@@ -504,6 +524,145 @@ def test_idle_avoidance_continuation_survives_idle_heartbeat_but_not_new_goal(pl
     assert planner._pending_escape(10.3) is None
 
 
+def test_primitive_continuation_returns_to_full_fresh_validation(planner):
+    planner.mission_active=False
+    planner.policy_command_stamp=10.
+    schedule=((1.,.3,0.,0.),(3.5,0.,0.,0.))
+    planner.escape_plan=(planner._schedule_candidate('escape_primitive',schedule),10.,None)
+    original=planner.escape_plan
+    assert planner._pending_escape(10.2) is None
+    assert planner.escape_plan is original
+    assert planner.primitive_warm_start[0][0]==pytest.approx(.8)
+    assert planner.primitive_warm_start[1]==schedule[1]
+    assert planner._pending_escape(10.3) is None
+    assert planner.primitive_warm_start[0][0]==pytest.approx(.7)
+    assert planner.escape_plan is original
+
+
+def test_primitive_scoring_includes_the_known_braking_endpoint(planner):
+    planner.horizon=3.
+    planner.measured_velocity=(0.,0.,0.)
+    planner.policy_command=(0.,0.,0.)
+    planner.policy_command_stamp=planner.get_clock().now().nanoseconds*1e-9
+    candidate=planner._schedule_candidate('escape_primitive',((3.6,.3,0.,0.),(.9,0.,0.,0.)))
+    trajectory=planner._simulate((0.,0.,0.),candidate)
+    assert trajectory[-1][3]==pytest.approx(4.5)
+    a,b=trajectory[-2:]
+    assert math.hypot(b[0]-a[0],b[1]-a[1])/(b[3]-a[3])<.08
+
+
+def test_guard_does_not_pair_new_tracks_with_an_old_prediction_epoch(planner):
+    from rclpy.time import Time
+    planner.forecast_change_guard_enabled=True
+    planner.tracks_epoch=10.
+    planner.prediction_epoch=9.9
+    planner.predictions={1:[PredictionSample(0.,0.,0.,1.,0.,.01,.01,1.)]}
+    assert planner._fresh_predictions(Time(seconds=10.1))==({},0.,False)
+    assert planner.forecast_source=='track_cv_unpaired_epochs'
+    planner.prediction_epoch=10.
+    data,age,fresh=planner._fresh_predictions(Time(seconds=10.1))
+    assert fresh and data is planner.predictions and age==pytest.approx(.1)
+
+
+def test_guarded_prediction_continues_its_endpoint_without_reverting_to_track_cv():
+    from unitree_g1_mujoco_bridge.human_aware_motion_planner import continuous_prediction
+    points=[PredictionSample(0.,0.,0.,0.,0.,.01,.01,1.),
+            PredictionSample(1.,.5,0.,1.,0.,.02,.02,1.)]
+    sample=continuous_prediction(points,2.)
+    assert sample.x==1.5 and sample.vx==1.
+    assert sample.cov_xx>.02
+    assert continuous_prediction(points,-.1) is None
+
+
+def test_guard_refuses_long_primitive_admission_from_aged_pose(planner):
+    planner.forecast_change_guard_enabled=True
+    planner.strategic_status={'active':True}
+    planner.odom_stamp=planner.get_clock().now().nanoseconds*1e-9-.31
+    assert planner._kinodynamic_candidate((0.,0.,0.),[],[],[],{},0.) is None
+    assert planner.kinodynamic_status=='primitive_pose_too_old'
+
+
+def test_guarded_streams_ignore_regression_and_conflicting_duplicate_epochs(planner):
+    from unitree_social_navigation_msgs.msg import TrackedPersons,PredictedTrajectories
+    planner.forecast_change_guard_enabled=True
+    msg=TrackedPersons()
+    msg.header.frame_id=planner.target_frame
+    msg.header.stamp.sec=10
+    p=TrackedPerson()
+    p.track_id=1
+    p.track_state=TrackedPerson.TRACK_STATE_CONFIRMED
+    p.velocity.twist.linear.x=.4
+    msg.persons=[p]
+    planner._tracked_persons_callback(msg)
+    msg.header.stamp.nanosec=100000000
+    msg.persons[0].velocity.twist.linear.x=.5
+    planner._tracked_persons_callback(msg)
+    msg.persons[0].velocity.twist.linear.x=2.
+    planner._tracked_persons_callback(msg)
+    msg.header.stamp.sec=9
+    planner._tracked_persons_callback(msg)
+    assert planner.tracks_epoch==pytest.approx(10.1)
+    assert planner.tracks[1].vx==.5
+    pred=PredictedTrajectories()
+    pred.header.frame_id=planner.target_frame
+    pred.header.stamp.sec=10
+    planner._predicted_trajectories_callback(pred)
+    pred.header.stamp.sec=9
+    planner._predicted_trajectories_callback(pred)
+    assert planner.prediction_epoch==10.
+
+
+@pytest.mark.parametrize('people_count',[0,1])
+def test_clearing_trigger_does_not_cancel_checked_primitive_or_restart_its_clock(planner,people_count):
+    configure_precision_request(planner,'scan')
+    planner.strategic_avoidance_enabled=True
+    planner.policy_command=(0.,0.,0.)
+    planner.policy_command_stamp=planner.tracks_epoch
+    person=HumanTrack(1,'CONFIRMED',5.,3.,0.,0.,1.,1.,0,.002,.002,planner.tracks_epoch,.4)
+    planner._fresh_tracks=lambda now:[person] if people_count else []
+    candidate=planner._schedule_candidate('escape_primitive',((1.,.3,0.,0.),(3.5,0.,0.,0.)))
+    original=(candidate,planner.tracks_epoch-.1,planner._goal_key(planner.reference_goal))
+    planner.escape_plan=original
+    calls=[]
+    def checked(*args):
+        calls.append(planner.primitive_warm_start)
+        planner.primitive_continuation_plan=original
+        return planner._schedule_candidate('escape_primitive',planner.primitive_warm_start)
+    planner._kinodynamic_candidate=checked
+    planner._timer_callback()
+    assert calls and planner.strategic_status['reason']=='committed_escape'
+    assert planner.published[-1][3].candidate.name=='escape_primitive'
+    assert planner.escape_plan is original
+    assert not planner._primitive_commitment_active(original[1]+4.6)
+    planner._mission_callback(Bool(data=False))
+    assert planner.escape_plan is None
+
+
+@pytest.mark.parametrize('reason',['deadline','no_feasible_prefix'])
+def test_continuation_timeout_is_retryable_but_new_collision_invalidates(planner,monkeypatch,reason):
+    import unitree_g1_mujoco_bridge.escape_primitives as module
+    configure_precision_request(planner,'scan')
+    planner.policy_command=(0.,0.,0.)
+    planner.policy_command_stamp=planner.tracks_epoch
+    planner.strategic_status={'active':True}
+    planner.strategic_goal=(1.,0.)
+    planner.planning_phases={}
+    schedule=((1.,.3,0.,0.),(3.5,0.,0.,0.))
+    original=(planner._schedule_candidate('escape_primitive',schedule),planner.tracks_epoch,
+              planner._goal_key(planner.reference_goal))
+    planner.escape_plan=original
+    planner.primitive_warm_start=schedule
+    planner.primitive_worker=SimpleNamespace(warmup=SimpleNamespace(done=lambda:True),poll=lambda age:None,
+        future=None,submit=lambda request:True,diagnostics=lambda:{},shutdown=lambda:None)
+    def check(*args,**kwargs):
+        kwargs['diagnostics']['reason']=reason
+        return None
+    monkeypatch.setattr(module,'check_programs',check)
+    person=HumanTrack(1,'CONFIRMED',5.,3.,0.,0.,1.,1.,0,.002,.002,planner.tracks_epoch,.4)
+    assert planner._kinodynamic_candidate((0.,0.,0.),[person],[],[],{},0.) is None
+    assert (planner.escape_plan is original)==(reason=='deadline')
+
+
 def test_nominal_brake_reference_decelerates_before_zero(planner):
     from std_msgs.msg import String
     planner.last_cmd.linear.x = .45
@@ -935,6 +1094,55 @@ def test_precision_priority_retains_collision_and_clearance_checks(planner,mode,
     planner._fresh_tracks = lambda now:[person]
     planner._timer_callback()
     assert planner.path_reference_status != 'safe_precision_reference'
+
+
+@pytest.mark.parametrize('enabled',[False,True])
+def test_strategic_prediction_preempts_short_horizon_precision_priority(planner,enabled):
+    configure_precision_request(planner,'scan')
+    planner.strategic_avoidance_enabled=enabled
+    planner.robot_radius=.48
+    planner.body_prediction_margin=.35
+    planner.policy_command=(0.,0.,0.)
+    planner.policy_command_stamp=planner.tracks_epoch
+    people=[HumanTrack(1,'CONFIRMED',-5.5,0.,.5,0.,1.,1.,0,.002,.002,planner.tracks_epoch,.4),
+            HumanTrack(2,'CONFIRMED',5.5,0.,-.5,0.,1.,1.,0,.002,.002,planner.tracks_epoch,.4)]
+    planner._fresh_tracks=lambda now:people
+    searches=[]
+    planner._kinodynamic_candidate=lambda *args:searches.append(True)
+    planner._timer_callback()
+    assert planner.strategic_status['active']==enabled
+    assert len(searches)==int(enabled)
+    if not enabled:
+        assert planner.path_reference_status=='safe_precision_reference'
+
+
+@pytest.mark.parametrize('blocked',[False,True])
+def test_ready_plan_skips_unused_anchor_score_but_checks_fresh_static_geometry(planner,blocked):
+    import time
+    configure_precision_request(planner,'scan')
+    planner.policy_command=(0.,0.,0.)
+    planner.policy_command_stamp=planner.tracks_epoch
+    planner.strategic_status={'active':True}
+    planner.strategic_goal=(1.,0.)
+    planner.planning_phases={}
+    program=((3.6,.3,0.,0.),(.9,0.,0.,0.))
+    context=(planner._goal_key(planner.reference_goal),planner.mission_active,planner.navigation_mode,
+             planner.payload_active,planner.motion_envelope)
+    ready=SimpleNamespace(command=program,submitted_at=time.monotonic(),
+        snapshot=SimpleNamespace(context=context,inputs={'goal':(1.,0.)},diagnostics={'reason':'complete'}))
+    planner.primitive_worker=SimpleNamespace(warmup=SimpleNamespace(done=lambda:True),
+        poll=lambda age:ready,future=None,submit=lambda request:True,diagnostics=lambda:{},shutdown=lambda:None)
+    def static(trajectory):
+        assert len(trajectory)==1
+        planner.static_frame_valid=True
+        planner.static_field_cache=SimpleNamespace(query=lambda points:np.zeros(len(points))) if blocked else None
+        return (0.,False)
+    planner._static_obstacle_cost=static
+    planner._score_candidate=lambda *args,**kw:pytest.fail('unused anchor must not consume admission budget')
+    person=HumanTrack(1,'CONFIRMED',5.,3.,0.,0.,1.,1.,0,.002,.002,planner.tracks_epoch,.4)
+    result=planner._kinodynamic_candidate((0.,0.,0.),[person],[],[],{},0.)
+    assert (result is None)==blocked
+    assert planner.kinodynamic_details['revalidation']['reason']==('no_feasible_prefix' if blocked else 'complete')
 
 
 def test_heading_alignment_keeps_translating_and_stops_turning_near_people(planner):

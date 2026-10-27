@@ -1,0 +1,198 @@
+{
+  "scope": "layered development validation; diagnostic completion is not delivery success",
+  "source_scope": "each attempt retains its own source snapshot; development configurations may differ",
+  "attempts": [
+    {
+      "run_id": "early_admission_fast42_20261026",
+      "configuration": {
+        "people": 3,
+        "seed": 42,
+        "duration_s": 120.0,
+        "test_stage": "survey",
+        "contact_force_capture": false,
+        "build_reused": true,
+        "strategic_avoidance": true
+      },
+      "result": {
+        "deliveries": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red",
+            "verified": false,
+            "lift_m": 0.0,
+            "travel_m": 5.602406459547655e-05
+          }
+        ],
+        "contact_samples": 0,
+        "fallen": false,
+        "dropped_objects": [],
+        "data_valid": true,
+        "evaluation_health": {
+          "valid": true,
+          "started": true,
+          "failures": [],
+          "max_gap_s": 1.0,
+          "receipt_age_s": {
+            "box_red": 0.09016277501359582,
+            "people": 0.1276459980290383,
+            "robot": 0.1499100208748132,
+            "target_red": 0.08078121091239154
+          },
+          "max_receipt_gap_s": {
+            "people": 0.23495921003632247,
+            "box_red": 0.1671995441429317,
+            "target_red": 0.1671965408604592,
+            "box_blue": 0.16724648303352296,
+            "target_blue": 0.16729488782584667,
+            "robot": 0.22866565105505288
+          },
+          "object_timestamp_scope": [
+            "native_acquisition_v2"
+          ]
+        },
+        "minimum_person_clearance_m": 0.6262103411675031,
+        "observed_object_ids": [
+          "box_blue",
+          "box_red",
+          "target_blue",
+          "target_red"
+        ],
+        "success": false,
+        "mission_complete": false,
+        "error": "base did not settle during braking: timeout",
+        "final_sensed_pose": [
+          -0.31065927631425283,
+          0.9179819666831623,
+          1.285771369934082
+        ],
+        "pose_age_s": 0.38203907012939453,
+        "grasp_model": "dex3_contact",
+        "base_pinning": false,
+        "perception": "registered_rgbd",
+        "attachment_state": "empty",
+        "object_may_be_held": false,
+        "carry_posture": "payload_v1",
+        "manipulation_heading_hold": true,
+        "pickup_standoff_m": 0.43,
+        "grasp_height_offset_m": 0.015,
+        "objective": {
+          "pairs": [
+            {
+              "object_id": "box_red",
+              "destination_id": "target_red",
+              "color": "red",
+              "destination_color": "red"
+            }
+          ],
+          "task_seed": null,
+          "mode": "red:red",
+          "description": "Put the red object on the red goal"
+        },
+        "mission_kind": "survey_diagnostic",
+        "test_stage": "survey",
+        "diagnostic_complete": false,
+        "scope": "bounded stage diagnostic; not delivery qualification"
+      },
+      "phase_counts": {
+        "runtime_parameters": 1,
+        "survey_destination": 1,
+        "discover": 5
+      },
+      "recovery_events": [],
+      "full_logger_tail": {
+        "overlap_samples": 0,
+        "minimum_clearance_m": 0.20214725880259848
+      },
+      "planner_outcomes": [
+        {
+          "status": "not_requested",
+          "selected": "none",
+          "count": 277
+        },
+        {
+          "status": "not_requested",
+          "selected": "raw_limited",
+          "count": 137
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "velocity_obstacle",
+          "count": 6
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "social_translation",
+          "count": 5
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "previous_command",
+          "count": 52
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "fine_translation",
+          "count": 2
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "escape_translation",
+          "count": 12
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "none",
+          "count": 8
+        }
+      ],
+      "strategic_summary": {
+        "counters": {
+          "active_ticks": 85,
+          "closing_corridor_ticks": 12,
+          "clear_coarse_refuge_ticks": 36,
+          "complete_plan_proposals": 0,
+          "kinodynamic_selections": 0,
+          "primitive_selections": 0,
+          "primitive_translation_selections": 0,
+          "delay_checked_proposals": 0
+        },
+        "first_active_ros_s": 1793035937.546757,
+        "search_max_ms": 56.073,
+        "search_mean_ms": 19.678670588235292,
+        "search_reasons": {
+          "preparation_deadline": 31,
+          "worker_result:deadline": 19,
+          "worker_result:no_feasible_prefix": 31,
+          "worker_result:unsafe_terminal_state_or_hold": 1
+        },
+        "latest_worker": {
+          "busy": 0,
+          "completed": 53,
+          "discarded": 0,
+          "expired": 2,
+          "failed": 0,
+          "generation": 0,
+          "last_error": null,
+          "last_search_ms": 21.88807795755565,
+          "no_candidate": 51,
+          "pending": true,
+          "proposed": 0,
+          "running": true,
+          "submitted": 54
+        },
+        "revalidation_max_ms": null,
+        "revalidation_mean_ms": null,
+        "minimum_returned_margin_m": null
+      },
+      "provenance": {
+        "result.json": "744a893beb166def21a02e4be4f5199c5fe3256cd61e1f4bce16c70184c59676",
+        "manifest.json": "5c9c94e813026accd32b427cc22a482099735efa4050ca8ce2c0a0ed801451bf",
+        "source_snapshot.zip": "0e303693c3335d23bff35b7a62cfc2bc204365378b201152e94f5ba7c01e2173",
+        "effective_parameters.json": "7c45f48af9cf385f04575cb218f1384b1e284e11e6f105884b076fed4fd53be8",
+        "trace.jsonl": "ba19aaa193f0a5ecdb7304b709a9254ce7485229f4f951319ebc887b5e040d5c"
+      }
+    }
+  ]
+}

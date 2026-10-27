@@ -1,0 +1,270 @@
+{
+  "scope": "layered development validation; diagnostic completion is not delivery success",
+  "source_scope": "each attempt retains its own source snapshot; development configurations may differ",
+  "attempts": [
+    {
+      "run_id": "early_admission_survey42_20261026",
+      "configuration": {
+        "people": 3,
+        "seed": 42,
+        "duration_s": 120.0,
+        "test_stage": "survey",
+        "contact_force_capture": false,
+        "build_reused": true,
+        "strategic_avoidance": true
+      },
+      "result": {
+        "deliveries": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red",
+            "verified": false,
+            "lift_m": 0.0,
+            "travel_m": 7.941118563486118e-05
+          }
+        ],
+        "contact_samples": 32,
+        "fallen": true,
+        "dropped_objects": [],
+        "data_valid": true,
+        "evaluation_health": {
+          "valid": true,
+          "started": true,
+          "failures": [],
+          "max_gap_s": 1.0,
+          "receipt_age_s": {
+            "box_red": 0.06356162019073963,
+            "people": 0.053402042016386986,
+            "robot": 0.0565894830506295,
+            "target_red": 0.06339735700748861
+          },
+          "max_receipt_gap_s": {
+            "box_red": 0.12874927511438727,
+            "target_red": 0.12881812709383667,
+            "box_blue": 0.13057859800755978,
+            "target_blue": 0.13067281292751431,
+            "robot": 0.18587618577294052,
+            "people": 0.22413351805880666
+          },
+          "object_timestamp_scope": [
+            "native_acquisition_v2"
+          ]
+        },
+        "minimum_person_clearance_m": -0.5749904889954547,
+        "observed_object_ids": [
+          "box_blue",
+          "box_red",
+          "target_blue",
+          "target_red"
+        ],
+        "success": false,
+        "mission_complete": false,
+        "error": "sustained measured body instability",
+        "final_sensed_pose": [
+          -0.48432621769269496,
+          1.7463446452912508,
+          1.301600456237793
+        ],
+        "pose_age_s": 0.3342862129211426,
+        "grasp_model": "dex3_contact",
+        "base_pinning": false,
+        "perception": "registered_rgbd",
+        "attachment_state": "empty",
+        "object_may_be_held": false,
+        "carry_posture": "payload_v1",
+        "manipulation_heading_hold": true,
+        "pickup_standoff_m": 0.43,
+        "grasp_height_offset_m": 0.015,
+        "objective": {
+          "pairs": [
+            {
+              "object_id": "box_red",
+              "destination_id": "target_red",
+              "color": "red",
+              "destination_color": "red"
+            }
+          ],
+          "task_seed": null,
+          "mode": "red:red",
+          "description": "Put the red object on the red goal"
+        },
+        "mission_kind": "survey_diagnostic",
+        "test_stage": "survey",
+        "diagnostic_complete": false,
+        "scope": "bounded stage diagnostic; not delivery qualification"
+      },
+      "phase_counts": {
+        "runtime_parameters": 1,
+        "survey_destination": 1,
+        "discover": 5,
+        "turn_displaced": 1,
+        "survey_yield": 2,
+        "body_instability": 1
+      },
+      "recovery_events": [
+        {
+          "phase": "turn_displaced",
+          "elapsed_s": 20.539572276873514,
+          "displacement_m": 1.0355160382785136,
+          "limit_m": 0.35,
+          "heading_error_rad": 0.20493582685722614,
+          "after_braking": true,
+          "start_pose_xy": [
+            0.04221987336346727,
+            -0.024750016879723342
+          ],
+          "measured_pose": [
+            -0.26139370153177083,
+            0.9652561763692692,
+            1.17057204246521
+          ]
+        },
+        {
+          "phase": "survey_yield",
+          "elapsed_s": 20.541152307996526,
+          "source": "displaced_viewpoint"
+        },
+        {
+          "phase": "survey_yield",
+          "elapsed_s": 20.544705983949825,
+          "goal_odom": [
+            -0.26139370153177083,
+            0.9652561763692692,
+            1.17057204246521
+          ],
+          "start_pose": [
+            -0.26139370153177083,
+            0.9652561763692692,
+            1.17057204246521
+          ],
+          "mode": "brake"
+        },
+        {
+          "phase": "body_instability",
+          "elapsed_s": 24.389125975081697,
+          "rpy": [
+            -2.0148885250091553,
+            0.9484173059463501,
+            -0.24099989235401154
+          ],
+          "duration_s": 0.22622156143188477,
+          "source": "onboard_measured_rpy"
+        }
+      ],
+      "full_logger_tail": {
+        "overlap_samples": 32,
+        "minimum_clearance_m": -0.5749904889954547
+      },
+      "planner_outcomes": [
+        {
+          "status": "not_requested",
+          "selected": "none",
+          "count": 256
+        },
+        {
+          "status": "not_requested",
+          "selected": "raw_limited",
+          "count": 93
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "velocity_obstacle",
+          "count": 3
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "social_translation",
+          "count": 4
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "previous_command",
+          "count": 37
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "step_and_hold",
+          "count": 2
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "crossing_then_route",
+          "count": 1
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "escape_translation",
+          "count": 12
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "none",
+          "count": 52
+        },
+        {
+          "status": "no_complete_plan",
+          "selected": "none",
+          "count": 2
+        },
+        {
+          "status": "static_frame_unavailable",
+          "selected": "none",
+          "count": 2
+        },
+        {
+          "status": "no_static_refuge",
+          "selected": "none",
+          "count": 5
+        }
+      ],
+      "strategic_summary": {
+        "counters": {
+          "active_ticks": 118,
+          "closing_corridor_ticks": 63,
+          "clear_coarse_refuge_ticks": 23,
+          "complete_plan_proposals": 0,
+          "kinodynamic_selections": 0,
+          "primitive_selections": 0,
+          "primitive_translation_selections": 0,
+          "delay_checked_proposals": 0
+        },
+        "first_active_ros_s": 1793035457.341498,
+        "search_max_ms": 47.518,
+        "search_mean_ms": 19.206801801801802,
+        "search_reasons": {
+          "worker_result:deadline": 12,
+          "preparation_deadline": 39,
+          "context_changed": 2,
+          "worker_result:no_feasible_prefix": 71
+        },
+        "latest_worker": {
+          "busy": 0,
+          "completed": 83,
+          "discarded": 0,
+          "expired": 1,
+          "failed": 0,
+          "generation": 0,
+          "last_error": null,
+          "last_search_ms": 23.924461798742414,
+          "no_candidate": 82,
+          "pending": true,
+          "proposed": 0,
+          "running": true,
+          "submitted": 84
+        },
+        "revalidation_max_ms": null,
+        "revalidation_mean_ms": null,
+        "minimum_returned_margin_m": null
+      },
+      "provenance": {
+        "result.json": "6cb85a3c55adfed5dd596de546bd136a4a0a164280f0c3ef90f7d05f5e1bcef1",
+        "manifest.json": "6a1b1452d707600a8e49e6b004938c3d85529902edcebf678bcaa8725f0d6fe3",
+        "source_snapshot.zip": "db31c22f20b37ebfd9a4fd34da0fc982c45f072de16ae866a1cf8c3098d1ce1f",
+        "effective_parameters.json": "bc16052ae05ce8b444c5f6b93f4c116f31294bbaeb43eedd6ef8c65b7b7a1a36",
+        "trace.jsonl": "3a4efd020ef4653c0e7f437afabd824308fab0efd45221d19c4f31a5debc33c3"
+      }
+    }
+  ]
+}

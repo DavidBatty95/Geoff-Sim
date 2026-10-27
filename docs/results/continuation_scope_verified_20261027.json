@@ -1,0 +1,1005 @@
+{
+  "scope": "layered development validation; diagnostic completion is not delivery success",
+  "source_scope": "each attempt retains its own source snapshot; development configurations may differ",
+  "attempts": [
+    {
+      "run_id": "early_admission_batched42_20261026",
+      "configuration": {
+        "people": 3,
+        "seed": 42,
+        "duration_s": 120.0,
+        "test_stage": "survey",
+        "contact_force_capture": false,
+        "build_reused": true,
+        "strategic_avoidance": true
+      },
+      "result": {
+        "deliveries": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red",
+            "verified": false,
+            "lift_m": 0.0,
+            "travel_m": 5.0475580016229667e-05
+          }
+        ],
+        "contact_samples": 190,
+        "fallen": false,
+        "dropped_objects": [],
+        "data_valid": true,
+        "evaluation_health": {
+          "valid": true,
+          "started": true,
+          "failures": [],
+          "max_gap_s": 1.0,
+          "receipt_age_s": {
+            "box_red": 0.1819635850843042,
+            "people": 0.1398038249462843,
+            "robot": 0.13913907995447516,
+            "target_red": 0.18177513987757266
+          },
+          "max_receipt_gap_s": {
+            "box_red": 0.21781060402281582,
+            "target_red": 0.2179000061005354,
+            "box_blue": 0.21797451609745622,
+            "target_blue": 0.21804104512557387,
+            "robot": 0.2917727760504931,
+            "people": 0.3282383249606937
+          },
+          "object_timestamp_scope": [
+            "native_acquisition_v2"
+          ]
+        },
+        "minimum_person_clearance_m": -0.5590861891942012,
+        "observed_object_ids": [
+          "box_blue",
+          "box_red",
+          "target_blue",
+          "target_red"
+        ],
+        "success": false,
+        "mission_complete": false,
+        "error": "base did not settle during braking: timeout",
+        "final_sensed_pose": [
+          -0.8823712843735384,
+          4.102026541490145,
+          -0.8330411314964296
+        ],
+        "pose_age_s": 0.3259546756744385,
+        "grasp_model": "dex3_contact",
+        "base_pinning": false,
+        "perception": "registered_rgbd",
+        "attachment_state": "empty",
+        "object_may_be_held": false,
+        "carry_posture": "payload_v1",
+        "manipulation_heading_hold": true,
+        "pickup_standoff_m": 0.43,
+        "grasp_height_offset_m": 0.015,
+        "objective": {
+          "pairs": [
+            {
+              "object_id": "box_red",
+              "destination_id": "target_red",
+              "color": "red",
+              "destination_color": "red"
+            }
+          ],
+          "task_seed": null,
+          "mode": "red:red",
+          "description": "Put the red object on the red goal"
+        },
+        "mission_kind": "survey_diagnostic",
+        "test_stage": "survey",
+        "diagnostic_complete": false,
+        "scope": "bounded stage diagnostic; not delivery qualification"
+      },
+      "phase_counts": {
+        "runtime_parameters": 1,
+        "survey_destination": 1,
+        "discover": 4,
+        "turn_displaced": 9,
+        "survey_yield": 6,
+        "survey_reobserve": 3,
+        "survey_resume": 21
+      },
+      "recovery_events": [
+        {
+          "phase": "turn_displaced",
+          "elapsed_s": 21.35216365288943,
+          "displacement_m": 0.3501439977132208,
+          "limit_m": 0.35,
+          "start_pose_xy": [
+            0.010532214701720994,
+            -0.01629426300340021
+          ],
+          "measured_pose": [
+            0.030318685139251685,
+            0.33329022567168487,
+            1.1182719469070435
+          ]
+        },
+        {
+          "phase": "turn_displaced",
+          "elapsed_s": 25.179474389879033,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 3.8102035550400615
+        },
+        {
+          "phase": "turn_displaced",
+          "elapsed_s": 25.181652776896954,
+          "displacement_m": 0.9517717585354433,
+          "limit_m": 0.35,
+          "heading_error_rad": 0.21873650749458573,
+          "after_braking": true,
+          "start_pose_xy": [
+            0.010532214701720994,
+            -0.01629426300340021
+          ],
+          "measured_pose": [
+            -0.11668036162522573,
+            0.9269376495026975,
+            1.1887202262878418
+          ]
+        },
+        {
+          "phase": "survey_yield",
+          "elapsed_s": 25.186842791037634,
+          "source": "displaced_viewpoint"
+        },
+        {
+          "phase": "survey_yield",
+          "elapsed_s": 25.190084627829492,
+          "goal_odom": [
+            -0.11668036162522573,
+            0.9269376495026975,
+            1.1887202262878418
+          ],
+          "start_pose": [
+            -0.11668036162522573,
+            0.9269376495026975,
+            1.1887202262878418
+          ],
+          "mode": "brake"
+        },
+        {
+          "phase": "survey_reobserve",
+          "elapsed_s": 35.56480985903181,
+          "measured_pose": [
+            1.0833476430170352,
+            4.007546717215326,
+            0.7089622616767883
+          ],
+          "observed_after_stamp": 1793038396.0547338
+        },
+        {
+          "phase": "survey_resume",
+          "elapsed_s": 35.5761299058795,
+          "object_id": "target_red",
+          "recovery": 1,
+          "yaw": 1.4074567337824275
+        },
+        {
+          "phase": "survey_resume",
+          "elapsed_s": 36.10780325392261,
+          "goal_odom": [
+            1.0827870251565281,
+            4.007651633677741,
+            1.4074567337824275
+          ],
+          "start_pose": [
+            1.0827870251565281,
+            4.007651633677741,
+            0.6994034051895142
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "survey_resume",
+          "elapsed_s": 39.86744372686371,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 0.43268962716683745
+        },
+        {
+          "phase": "survey_resume",
+          "elapsed_s": 42.05023436201736,
+          "goal_odom": [
+            1.1040764396336629,
+            4.02034468192794,
+            2.1256343503786495
+          ],
+          "start_pose": [
+            1.1040764396336629,
+            4.02034468192794,
+            1.3396974802017212
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "survey_resume",
+          "elapsed_s": 47.95452960394323,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 1.3596364529803395
+        },
+        {
+          "phase": "survey_resume",
+          "elapsed_s": 50.00199202890508,
+          "goal_odom": [
+            0.96725964983029,
+            3.9573350065144814,
+            2.7732571740938594
+          ],
+          "start_pose": [
+            0.96725964983029,
+            3.9573350065144814,
+            1.9862643480300903
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "survey_resume",
+          "elapsed_s": 54.468387675937265,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 0.3956784629262984
+        },
+        {
+          "phase": "survey_resume",
+          "elapsed_s": 56.437775967875496,
+          "goal_odom": [
+            0.961413735848711,
+            3.9730968508109363,
+            -2.8587888737473484
+          ],
+          "start_pose": [
+            0.961413735848711,
+            3.9730968508109363,
+            2.638136863708496
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "survey_resume",
+          "elapsed_s": 59.970122512895614,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 0.44027060782536864
+        },
+        {
+          "phase": "survey_resume",
+          "elapsed_s": 61.95488806790672,
+          "goal_odom": [
+            0.9245529211471069,
+            3.949403637559586,
+            -2.1889339307950566
+          ],
+          "start_pose": [
+            0.9245529211471069,
+            3.949403637559586,
+            -2.9748706817626953
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "survey_resume",
+          "elapsed_s": 67.83359025302343,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 1.3527014490682632
+        },
+        {
+          "phase": "survey_resume",
+          "elapsed_s": 69.81892701797187,
+          "goal_odom": [
+            0.8979508458341692,
+            3.959226597528878,
+            -1.467651925484998
+          ],
+          "start_pose": [
+            0.8979508458341692,
+            3.959226597528878,
+            -2.2523305416107178
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "survey_resume",
+          "elapsed_s": 75.78467914299108,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 1.6447137848008424
+        },
+        {
+          "phase": "survey_resume",
+          "elapsed_s": 77.66383813205175,
+          "goal_odom": [
+            0.8545245272891826,
+            3.9941228489890537,
+            -0.7318001608060429
+          ],
+          "start_pose": [
+            0.8545245272891826,
+            3.9941228489890537,
+            -1.516474962234497
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "turn_displaced",
+          "elapsed_s": 80.9876884650439,
+          "displacement_m": 0.36381199273398646,
+          "limit_m": 0.35,
+          "start_pose_xy": [
+            0.8545245272891826,
+            3.9941228489890537
+          ],
+          "measured_pose": [
+            0.568484519540187,
+            3.7693111944334485,
+            -1.5423734188079834
+          ]
+        },
+        {
+          "phase": "turn_displaced",
+          "elapsed_s": 82.54338809102774,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 1.5515692119952291
+        },
+        {
+          "phase": "turn_displaced",
+          "elapsed_s": 82.55254831188358,
+          "displacement_m": 0.3394456282319488,
+          "limit_m": 0.35,
+          "heading_error_rad": 0.5380467553926878,
+          "after_braking": true,
+          "start_pose_xy": [
+            0.8545245272891826,
+            3.9941228489890537
+          ],
+          "measured_pose": [
+            0.5710276003894605,
+            3.8074337304947075,
+            -1.2698469161987307
+          ]
+        },
+        {
+          "phase": "survey_yield",
+          "elapsed_s": 82.55448262998834,
+          "source": "displaced_viewpoint"
+        },
+        {
+          "phase": "survey_yield",
+          "elapsed_s": 82.56572305201553,
+          "goal_odom": [
+            0.5710276003894605,
+            3.8074337304947075,
+            -1.2698469161987307
+          ],
+          "start_pose": [
+            0.5710276003894605,
+            3.8074337304947075,
+            -1.2698469161987307
+          ],
+          "mode": "brake"
+        },
+        {
+          "phase": "survey_reobserve",
+          "elapsed_s": 83.07202800991945,
+          "measured_pose": [
+            0.5612515460305114,
+            3.782302446985289,
+            -1.266035556793213
+          ],
+          "observed_after_stamp": 1793038443.56195
+        },
+        {
+          "phase": "survey_resume",
+          "elapsed_s": 83.08598580304533,
+          "object_id": "target_red",
+          "recovery": 1,
+          "yaw": -0.7318001608060429
+        },
+        {
+          "phase": "survey_resume",
+          "elapsed_s": 83.57836541696452,
+          "goal_odom": [
+            0.5724630872619246,
+            3.7726661065446603,
+            -0.7318001608060429
+          ],
+          "start_pose": [
+            0.5724630872619246,
+            3.7726661065446603,
+            -1.2625628709793093
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "survey_resume",
+          "elapsed_s": 93.86858322401531,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 4.464745590928942
+        },
+        {
+          "phase": "turn_displaced",
+          "elapsed_s": 93.88750976300798,
+          "displacement_m": 0.7248688787262424,
+          "limit_m": 0.35,
+          "heading_error_rad": 0.269211449225085,
+          "after_braking": true,
+          "start_pose_xy": [
+            0.5724630872619246,
+            3.7726661065446603
+          ],
+          "measured_pose": [
+            -0.0058121004961767305,
+            4.2097389821262645,
+            -1.001011610031128
+          ]
+        },
+        {
+          "phase": "survey_yield",
+          "elapsed_s": 93.8906218840275,
+          "source": "displaced_viewpoint"
+        },
+        {
+          "phase": "survey_yield",
+          "elapsed_s": 93.94847093196586,
+          "goal_odom": [
+            -0.0058121004961767305,
+            4.2097389821262645,
+            -1.001011610031128
+          ],
+          "start_pose": [
+            -0.0058121004961767305,
+            4.2097389821262645,
+            -1.001011610031128
+          ],
+          "mode": "brake"
+        },
+        {
+          "phase": "survey_reobserve",
+          "elapsed_s": 97.66384509205818,
+          "measured_pose": [
+            0.01617471423865391,
+            4.164056101746613,
+            -0.9929884672164917
+          ],
+          "observed_after_stamp": 1793038458.1537693
+        },
+        {
+          "phase": "survey_resume",
+          "elapsed_s": 97.69385989103466,
+          "object_id": "target_red",
+          "recovery": 2,
+          "yaw": -0.7318001608060429
+        },
+        {
+          "phase": "survey_resume",
+          "elapsed_s": 97.96077274088748,
+          "goal_odom": [
+            0.02085459005439504,
+            4.172724553688772,
+            -0.7318001608060429
+          ],
+          "start_pose": [
+            0.02085459005439504,
+            4.172724553688772,
+            -0.9926652312278748
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "survey_resume",
+          "elapsed_s": 100.95352511596866,
+          "brake_outcome": "settled",
+          "brake_elapsed_s": 0.8887341669760644
+        },
+        {
+          "phase": "survey_resume",
+          "elapsed_s": 103.22859412292019,
+          "goal_odom": [
+            0.15639635401506724,
+            4.021128092229001,
+            0.11855099399818692
+          ],
+          "start_pose": [
+            0.15639635401506724,
+            4.021128092229001,
+            -0.674500584602356
+          ],
+          "mode": "scan"
+        },
+        {
+          "phase": "turn_displaced",
+          "elapsed_s": 105.61847407394089,
+          "displacement_m": 0.3557029946522598,
+          "limit_m": 0.35,
+          "start_pose_xy": [
+            0.15639635401506724,
+            4.021128092229001
+          ],
+          "measured_pose": [
+            -0.19912818680693095,
+            4.0323940266284595,
+            -0.6242333650588989
+          ]
+        },
+        {
+          "phase": "turn_displaced",
+          "elapsed_s": 110.63052363484167,
+          "brake_outcome": "timeout",
+          "brake_elapsed_s": 5.000546036055312
+        }
+      ],
+      "full_logger_tail": {
+        "overlap_samples": 190,
+        "minimum_clearance_m": -0.5590861891942012
+      },
+      "planner_outcomes": [
+        {
+          "status": "not_requested",
+          "selected": "none",
+          "count": 838
+        },
+        {
+          "status": "not_requested",
+          "selected": "raw_limited",
+          "count": 700
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "velocity_obstacle",
+          "count": 13
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "social_translation",
+          "count": 31
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "previous_command",
+          "count": 111
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "fine_translation",
+          "count": 1
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "escape_translation",
+          "count": 12
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "early_crossing_escape",
+          "count": 3
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "none",
+          "count": 36
+        },
+        {
+          "status": "no_static_refuge",
+          "selected": "none",
+          "count": 1
+        },
+        {
+          "status": "no_static_refuge",
+          "selected": "escape_translation",
+          "count": 2
+        },
+        {
+          "status": "no_static_refuge",
+          "selected": "previous_command",
+          "count": 3
+        },
+        {
+          "status": "no_static_refuge",
+          "selected": "step_and_hold",
+          "count": 5
+        },
+        {
+          "status": "no_complete_plan",
+          "selected": "escape_translation",
+          "count": 1
+        },
+        {
+          "status": "no_static_refuge",
+          "selected": "yield_stop",
+          "count": 2
+        },
+        {
+          "status": "no_complete_plan",
+          "selected": "early_crossing_escape",
+          "count": 1
+        },
+        {
+          "status": "no_complete_plan",
+          "selected": "none",
+          "count": 9
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "raw_reference",
+          "count": 31
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "yield_stop",
+          "count": 8
+        },
+        {
+          "status": "no_complete_plan",
+          "selected": "raw_reference",
+          "count": 15
+        },
+        {
+          "status": "no_complete_plan",
+          "selected": "velocity_obstacle",
+          "count": 4
+        },
+        {
+          "status": "no_complete_plan",
+          "selected": "social_translation",
+          "count": 4
+        },
+        {
+          "status": "no_complete_plan",
+          "selected": "previous_command",
+          "count": 23
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "step_and_hold",
+          "count": 5
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "escape_then_route",
+          "count": 2
+        },
+        {
+          "status": "not_requested",
+          "selected": "escape_pending",
+          "count": 67
+        },
+        {
+          "status": "no_complete_plan",
+          "selected": "escape_then_route",
+          "count": 2
+        },
+        {
+          "status": "not_requested",
+          "selected": "escape_route_phase",
+          "count": 3
+        },
+        {
+          "status": "not_requested",
+          "selected": "velocity_obstacle",
+          "count": 1
+        },
+        {
+          "status": "not_requested",
+          "selected": "step_and_hold",
+          "count": 1
+        },
+        {
+          "status": "not_requested",
+          "selected": "social_translation",
+          "count": 1
+        },
+        {
+          "status": "not_requested",
+          "selected": "escape_then_route",
+          "count": 1
+        },
+        {
+          "status": "no_complete_plan",
+          "selected": "yield_stop",
+          "count": 38
+        },
+        {
+          "status": "static_frame_unavailable",
+          "selected": "none",
+          "count": 1
+        },
+        {
+          "status": "proposed",
+          "selected": "escape_primitive",
+          "count": 3
+        },
+        {
+          "status": "no_complete_plan",
+          "selected": "fine_translation",
+          "count": 1
+        }
+      ],
+      "strategic_summary": {
+        "counters": {
+          "active_ticks": 291,
+          "closing_corridor_ticks": 241,
+          "clear_coarse_refuge_ticks": 156,
+          "complete_plan_proposals": 3,
+          "kinodynamic_selections": 0,
+          "primitive_selections": 3,
+          "primitive_translation_selections": 3,
+          "delay_checked_proposals": 4
+        },
+        "first_active_ros_s": 1793038379.136771,
+        "search_max_ms": 74.068,
+        "search_mean_ms": 21.94300000000001,
+        "search_reasons": {
+          "preparation_deadline": 118,
+          "worker_result:deadline": 55,
+          "worker_result:no_feasible_prefix": 70,
+          "context_changed": 2,
+          "worker_result:complete": 4,
+          "revalidation:deadline": 3,
+          "revalidation:complete": 3,
+          "revalidation:no_feasible_prefix": 1
+        },
+        "latest_worker": {
+          "busy": 0,
+          "completed": 158,
+          "discarded": 0,
+          "expired": 29,
+          "failed": 0,
+          "generation": 0,
+          "last_error": null,
+          "last_search_ms": 34.37019814737141,
+          "no_candidate": 125,
+          "pending": true,
+          "proposed": 4,
+          "running": true,
+          "submitted": 159
+        },
+        "revalidation_max_ms": 12.260377174243331,
+        "revalidation_mean_ms": 10.276470566168427,
+        "minimum_returned_margin_m": 0.1126796336633189
+      },
+      "primitive_supervision": {
+        "counters": {
+          "samples": 9,
+          "preserved_translation": 9,
+          "zero_translation": 0
+        },
+        "modes": {
+          "planned_sequence": 9
+        },
+        "scope": "matched planner/supervisor publications, not motor-application acknowledgement",
+        "planner_periods": {
+          "before_task_end": 3
+        },
+        "planner_phases": {
+          "survey_resume": 3
+        },
+        "period_scope": "logger phase relative to completion milestone; failures without a milestone cannot isolate shutdown tail"
+      },
+      "provenance": {
+        "result.json": "e330350e26d2975000a84bcea981f34ab5cdbef4ca455221887395510e3f65e1",
+        "manifest.json": "ebd850da03ba963de8e23deef8e5d8d92a5fbcf12171d25d9f39e1c0de808201",
+        "source_snapshot.zip": "1e104c41b784d570141d1fbd39b90be2d431280c5fa3bffb15af6134a943d176",
+        "effective_parameters.json": "0e8c3e4ef29d851a40d64590bdb7513b16e623a5fe1b0457ea73b9b671a33514",
+        "trace.jsonl": "2b7205df321a46ba1ebbccd6c32810f3a4b95b39c2d01ed8ca19664847880378"
+      }
+    },
+    {
+      "run_id": "early_admission_batched43_20261026",
+      "configuration": {
+        "people": 3,
+        "seed": 43,
+        "duration_s": 120.0,
+        "test_stage": "survey",
+        "contact_force_capture": false,
+        "build_reused": true,
+        "strategic_avoidance": true
+      },
+      "result": {
+        "deliveries": [
+          {
+            "object_id": "box_red",
+            "destination_id": "target_red",
+            "color": "red",
+            "destination_color": "red",
+            "verified": false,
+            "lift_m": 0.0,
+            "travel_m": 2.9239837713844957e-05
+          }
+        ],
+        "contact_samples": 0,
+        "fallen": false,
+        "dropped_objects": [],
+        "data_valid": true,
+        "evaluation_health": {
+          "valid": true,
+          "started": true,
+          "failures": [],
+          "max_gap_s": 1.0,
+          "receipt_age_s": {
+            "box_red": 0.04275600495748222,
+            "people": 0.14871524600312114,
+            "robot": 0.08261667285114527,
+            "target_red": 0.0425707099493593
+          },
+          "max_receipt_gap_s": {
+            "box_red": 0.1168051059357822,
+            "target_red": 0.1168172019533813,
+            "box_blue": 0.11663915310055017,
+            "target_blue": 0.11662485403940082,
+            "robot": 0.2056539310142398,
+            "people": 0.22700613806955516
+          },
+          "object_timestamp_scope": [
+            "native_acquisition_v2"
+          ]
+        },
+        "minimum_person_clearance_m": 1.245256033475274,
+        "observed_object_ids": [
+          "box_blue",
+          "box_red",
+          "target_blue",
+          "target_red"
+        ],
+        "success": false,
+        "mission_complete": false,
+        "error": null,
+        "final_sensed_pose": [
+          -0.09220089300869828,
+          0.12454136594977408,
+          2.8087360858917236
+        ],
+        "pose_age_s": 0.2223210334777832,
+        "grasp_model": "dex3_contact",
+        "base_pinning": false,
+        "perception": "registered_rgbd",
+        "attachment_state": "empty",
+        "object_may_be_held": false,
+        "carry_posture": "payload_v1",
+        "manipulation_heading_hold": true,
+        "pickup_standoff_m": 0.43,
+        "grasp_height_offset_m": 0.015,
+        "objective": {
+          "pairs": [
+            {
+              "object_id": "box_red",
+              "destination_id": "target_red",
+              "color": "red",
+              "destination_color": "red"
+            }
+          ],
+          "task_seed": null,
+          "mode": "red:red",
+          "description": "Put the red object on the red goal"
+        },
+        "mission_kind": "survey_diagnostic",
+        "test_stage": "survey",
+        "diagnostic_complete": true,
+        "scope": "bounded stage diagnostic; not delivery qualification"
+      },
+      "phase_counts": {
+        "runtime_parameters": 1,
+        "survey_destination": 1,
+        "discover": 10,
+        "survey_complete": 1
+      },
+      "recovery_events": [],
+      "full_logger_tail": {
+        "overlap_samples": 0,
+        "minimum_clearance_m": 0.8525071457672095
+      },
+      "planner_outcomes": [
+        {
+          "status": "not_requested",
+          "selected": "none",
+          "count": 366
+        },
+        {
+          "status": "not_requested",
+          "selected": "raw_limited",
+          "count": 218
+        },
+        {
+          "status": "no_complete_plan",
+          "selected": "raw_reference",
+          "count": 2
+        },
+        {
+          "status": "no_complete_plan",
+          "selected": "previous_command",
+          "count": 8
+        },
+        {
+          "status": "no_complete_plan",
+          "selected": "social_translation",
+          "count": 3
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "escape_translation",
+          "count": 3
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "early_crossing_escape",
+          "count": 5
+        },
+        {
+          "status": "pending_primitives",
+          "selected": "previous_command",
+          "count": 13
+        },
+        {
+          "status": "proposed",
+          "selected": "escape_primitive",
+          "count": 11
+        }
+      ],
+      "strategic_summary": {
+        "counters": {
+          "active_ticks": 32,
+          "closing_corridor_ticks": 32,
+          "clear_coarse_refuge_ticks": 19,
+          "complete_plan_proposals": 11,
+          "kinodynamic_selections": 0,
+          "primitive_selections": 11,
+          "primitive_translation_selections": 11,
+          "delay_checked_proposals": 2
+        },
+        "first_active_ros_s": 1793038728.188497,
+        "search_max_ms": 28.174,
+        "search_mean_ms": 17.746437500000003,
+        "search_reasons": {
+          "preparation_deadline": 9,
+          "worker_result:deadline": 7,
+          "worker_result:complete": 2,
+          "revalidation:complete": 11,
+          "revalidation:deadline": 2
+        },
+        "latest_worker": {
+          "busy": 0,
+          "completed": 10,
+          "discarded": 0,
+          "expired": 1,
+          "failed": 0,
+          "generation": 0,
+          "last_error": null,
+          "last_search_ms": 97.46691607870162,
+          "no_candidate": 7,
+          "pending": true,
+          "proposed": 2,
+          "running": true,
+          "submitted": 11
+        },
+        "revalidation_max_ms": 12.283351039513946,
+        "revalidation_mean_ms": 9.852572057682734,
+        "minimum_returned_margin_m": 0.45756943100597725
+      },
+      "primitive_supervision": {
+        "counters": {
+          "samples": 28,
+          "preserved_translation": 28,
+          "zero_translation": 0
+        },
+        "modes": {
+          "pass_through": 28
+        },
+        "scope": "matched planner/supervisor publications, not motor-application acknowledgement",
+        "planner_periods": {
+          "after_task": 11
+        },
+        "planner_phases": {
+          "survey_complete": 11
+        },
+        "period_scope": "logger phase relative to completion milestone; failures without a milestone cannot isolate shutdown tail"
+      },
+      "provenance": {
+        "result.json": "2b3f3f290d78f9cfc98ab2fc4b65ee54ffc9c5aba74cf1b7ecb32f0851c661ad",
+        "manifest.json": "a4fcdc3c5574d0460bdc1023122e9e8ef9262fee792e1b1aa5f5902198d1591a",
+        "source_snapshot.zip": "e391220c7f0ba55ce14810db8ef5e5035a12b832085a6e0c8fce2e1335a8425f",
+        "effective_parameters.json": "993825330fdf9043c66211ed54e8305ed2a503bdaa2073b8e3c3f26e1298e0f3",
+        "trace.jsonl": "42e3a73b3e7b62165cc5be67f4bfee89c9be4424473a280eeb19f4a28ec48096"
+      }
+    }
+  ]
+}

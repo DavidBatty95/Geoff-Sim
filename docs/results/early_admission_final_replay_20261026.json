@@ -1,0 +1,2456 @@
+{
+  "scope": "offline sensed constant-velocity forecast isolation with unlimited compute; no static-map or timing qualification",
+  "runs": [
+    {
+      "run_id": "20261024T185744Z",
+      "trace_sha256": "40855fd5f02040892d03ea2b320345b37fee9359c4f63bf41b12ca82be7512e3",
+      "cases": [
+        {
+          "offset_s": -1.0,
+          "trigger": {
+            "active": false,
+            "time_to_enclosure_s": null,
+            "pairs": [],
+            "pincer_active": false,
+            "reason": "clear",
+            "watch_indices": [],
+            "time_to_reserve_s": null
+          },
+          "outcomes": [
+            {
+              "reserved": false,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": true,
+              "search": {
+                "preparation_ms": 3.132144920527935,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 17.70227705128491,
+                "evaluated": 129,
+                "valid": 129,
+                "selected": 42,
+                "minimum_margin_m": 2.475887596375927,
+                "endpoint": [
+                  0.7026340926696346,
+                  -0.27236853522259075
+                ]
+              },
+              "revalidation": {
+                "preparation_ms": 0.14782301150262356,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 2.6193559169769287,
+                "evaluated": 1,
+                "valid": 1,
+                "selected": 0,
+                "minimum_margin_m": 2.499334028780232,
+                "endpoint": [
+                  0.7118775001251625,
+                  -0.24494684865064612
+                ]
+              }
+            },
+            {
+              "reserved": true,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": true,
+              "search": {
+                "attempts": [
+                  {
+                    "kind": "priority",
+                    "diagnostics": {
+                      "preparation_ms": 0.17040502279996872,
+                      "required_margin_m": 0.1,
+                      "rollout_steps": 29,
+                      "hold_steps": 13,
+                      "ranked_candidates": [
+                        0,
+                        1,
+                        6,
+                        3
+                      ],
+                      "reason": "complete",
+                      "elapsed_ms": 7.8699239529669285,
+                      "evaluated": 8,
+                      "valid": 8,
+                      "selected": 0,
+                      "minimum_margin_m": 2.475887596375927,
+                      "endpoint": [
+                        0.7026829755430921,
+                        -0.272386842237082
+                      ]
+                    }
+                  }
+                ],
+                "nominal": {
+                  "preparation_ms": 0.17040502279996872,
+                  "required_margin_m": 0.1,
+                  "rollout_steps": 29,
+                  "hold_steps": 13,
+                  "ranked_candidates": [
+                    0,
+                    1,
+                    6,
+                    3
+                  ],
+                  "reason": "complete",
+                  "elapsed_ms": 7.8699239529669285,
+                  "evaluated": 8,
+                  "valid": 8,
+                  "selected": 0,
+                  "minimum_margin_m": 2.475887596375927,
+                  "endpoint": [
+                    0.7026829755430921,
+                    -0.272386842237082
+                  ]
+                },
+                "stage": "admission",
+                "reason": "complete",
+                "preparation_ms": 0.17373799346387386,
+                "required_margin_m": 0.1,
+                "rollout_steps": 31,
+                "hold_steps": 13,
+                "elapsed_ms": 20.840284880250692,
+                "evaluated": 12,
+                "valid": 12,
+                "selected": 0,
+                "minimum_margin_m": 2.471024270965657,
+                "endpoint": [
+                  0.6979379004344027,
+                  -0.26410674998181927
+                ],
+                "admission_delays_s": [
+                  0.0,
+                  0.1,
+                  0.2
+                ],
+                "admission_horizon_s": 4.7
+              },
+              "revalidation": {
+                "preparation_ms": 0.1582438126206398,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 2.506028860807419,
+                "evaluated": 1,
+                "valid": 1,
+                "selected": 0,
+                "minimum_margin_m": 2.499334028780232,
+                "endpoint": [
+                  0.7118775001251625,
+                  -0.24494684865064612
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "offset_s": -0.5,
+          "trigger": {
+            "active": false,
+            "time_to_enclosure_s": null,
+            "pairs": [],
+            "pincer_active": false,
+            "reason": "clear",
+            "watch_indices": [],
+            "time_to_reserve_s": null
+          },
+          "outcomes": [
+            {
+              "reserved": false,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": true,
+              "search": {
+                "preparation_ms": 0.6597889587283134,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 14.692394994199276,
+                "evaluated": 129,
+                "valid": 129,
+                "selected": 0,
+                "minimum_margin_m": 2.6292976871834512,
+                "endpoint": [
+                  0.04001452693014695,
+                  -0.027178738430104418
+                ]
+              },
+              "revalidation": {
+                "preparation_ms": 0.14349492266774178,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 2.5383050087839365,
+                "evaluated": 1,
+                "valid": 1,
+                "selected": 0,
+                "minimum_margin_m": 1.111625780726555,
+                "endpoint": [
+                  0.00880373532638124,
+                  -0.015357956378626138
+                ]
+              }
+            },
+            {
+              "reserved": true,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": true,
+              "search": {
+                "attempts": [
+                  {
+                    "kind": "priority",
+                    "diagnostics": {
+                      "preparation_ms": 0.16726995818316936,
+                      "required_margin_m": 0.1,
+                      "rollout_steps": 29,
+                      "hold_steps": 13,
+                      "ranked_candidates": [
+                        0,
+                        1,
+                        3,
+                        2
+                      ],
+                      "reason": "complete",
+                      "elapsed_ms": 6.933653028681874,
+                      "evaluated": 7,
+                      "valid": 7,
+                      "selected": 0,
+                      "minimum_margin_m": 2.6292976871834512,
+                      "endpoint": [
+                        0.04001455906099678,
+                        -0.0271787434012131
+                      ]
+                    }
+                  }
+                ],
+                "nominal": {
+                  "preparation_ms": 0.16726995818316936,
+                  "required_margin_m": 0.1,
+                  "rollout_steps": 29,
+                  "hold_steps": 13,
+                  "ranked_candidates": [
+                    0,
+                    1,
+                    3,
+                    2
+                  ],
+                  "reason": "complete",
+                  "elapsed_ms": 6.933653028681874,
+                  "evaluated": 7,
+                  "valid": 7,
+                  "selected": 0,
+                  "minimum_margin_m": 2.6292976871834512,
+                  "endpoint": [
+                    0.04001455906099678,
+                    -0.0271787434012131
+                  ]
+                },
+                "stage": "admission",
+                "reason": "complete",
+                "preparation_ms": 0.16688392497599125,
+                "required_margin_m": 0.1,
+                "rollout_steps": 31,
+                "hold_steps": 13,
+                "elapsed_ms": 18.83442304097116,
+                "evaluated": 12,
+                "valid": 12,
+                "selected": 2,
+                "minimum_margin_m": 2.6292976871834512,
+                "endpoint": [
+                  0.040032190994227605,
+                  -0.02688282941690926
+                ],
+                "admission_delays_s": [
+                  0.0,
+                  0.1,
+                  0.2
+                ],
+                "admission_horizon_s": 4.7
+              },
+              "revalidation": {
+                "preparation_ms": 0.1333190593868494,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 2.3682310711592436,
+                "evaluated": 1,
+                "valid": 1,
+                "selected": 0,
+                "minimum_margin_m": 1.111625780726555,
+                "endpoint": [
+                  0.00880373532638124,
+                  -0.015357956378626138
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "offset_s": -0.25,
+          "trigger": {
+            "active": false,
+            "time_to_enclosure_s": null,
+            "pairs": [],
+            "pincer_active": false,
+            "reason": "clear",
+            "watch_indices": [],
+            "time_to_reserve_s": null
+          },
+          "outcomes": [
+            {
+              "reserved": false,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": true,
+              "search": {
+                "preparation_ms": 0.6325319409370422,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 13.95027106627822,
+                "evaluated": 129,
+                "valid": 116,
+                "selected": 100,
+                "minimum_margin_m": 1.7864832888741558,
+                "endpoint": [
+                  -1.1588220935323899,
+                  0.4865349950820374
+                ]
+              },
+              "revalidation": {
+                "preparation_ms": 0.1294161193072796,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 2.4508130736649036,
+                "evaluated": 1,
+                "valid": 1,
+                "selected": 0,
+                "minimum_margin_m": 1.460174380999817,
+                "endpoint": [
+                  -1.14920294385331,
+                  0.37342534515504666
+                ]
+              }
+            },
+            {
+              "reserved": true,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": true,
+              "search": {
+                "attempts": [
+                  {
+                    "kind": "priority",
+                    "diagnostics": {
+                      "preparation_ms": 0.1528579741716385,
+                      "required_margin_m": 0.1,
+                      "rollout_steps": 29,
+                      "hold_steps": 13,
+                      "ranked_candidates": [
+                        0,
+                        4,
+                        1,
+                        2
+                      ],
+                      "reason": "complete",
+                      "elapsed_ms": 7.4527261313050985,
+                      "evaluated": 8,
+                      "valid": 8,
+                      "selected": 0,
+                      "minimum_margin_m": 1.7864832888741558,
+                      "endpoint": [
+                        -1.1588220935323899,
+                        0.4865349950820374
+                      ]
+                    }
+                  }
+                ],
+                "nominal": {
+                  "preparation_ms": 0.1528579741716385,
+                  "required_margin_m": 0.1,
+                  "rollout_steps": 29,
+                  "hold_steps": 13,
+                  "ranked_candidates": [
+                    0,
+                    4,
+                    1,
+                    2
+                  ],
+                  "reason": "complete",
+                  "elapsed_ms": 7.4527261313050985,
+                  "evaluated": 8,
+                  "valid": 8,
+                  "selected": 0,
+                  "minimum_margin_m": 1.7864832888741558,
+                  "endpoint": [
+                    -1.1588220935323899,
+                    0.4865349950820374
+                  ]
+                },
+                "stage": "admission",
+                "reason": "complete",
+                "preparation_ms": 0.14936598017811775,
+                "required_margin_m": 0.1,
+                "rollout_steps": 31,
+                "hold_steps": 13,
+                "elapsed_ms": 20.094286184757948,
+                "evaluated": 12,
+                "valid": 12,
+                "selected": 0,
+                "minimum_margin_m": 1.7205300761692102,
+                "endpoint": [
+                  -1.1564493470441075,
+                  0.480452119294641
+                ],
+                "admission_delays_s": [
+                  0.0,
+                  0.1,
+                  0.2
+                ],
+                "admission_horizon_s": 4.7
+              },
+              "revalidation": {
+                "preparation_ms": 0.1544109545648098,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 2.363723935559392,
+                "evaluated": 1,
+                "valid": 1,
+                "selected": 0,
+                "minimum_margin_m": 1.460174380999817,
+                "endpoint": [
+                  -1.14920294385331,
+                  0.37342534515504666
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "offset_s": 0.0,
+          "trigger": {
+            "active": true,
+            "time_to_enclosure_s": 4.2,
+            "pairs": [
+              [
+                1,
+                2
+              ]
+            ],
+            "pincer_active": true,
+            "reason": "pincer",
+            "watch_indices": [
+              1,
+              2
+            ],
+            "time_to_reserve_s": 2.6
+          },
+          "outcomes": [
+            {
+              "reserved": false,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": true,
+              "search": {
+                "preparation_ms": 0.6161879282444715,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 13.722602976486087,
+                "evaluated": 129,
+                "valid": 26,
+                "selected": 100,
+                "minimum_margin_m": 0.656579476379813,
+                "endpoint": [
+                  -1.15100954313962,
+                  0.48629573242721486
+                ]
+              },
+              "revalidation": {
+                "preparation_ms": 0.13505108654499054,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 2.365787047892809,
+                "evaluated": 1,
+                "valid": 1,
+                "selected": 0,
+                "minimum_margin_m": 0.6569193228278247,
+                "endpoint": [
+                  -1.2549083524545472,
+                  0.1455095895836904
+                ]
+              }
+            },
+            {
+              "reserved": true,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": true,
+              "search": {
+                "attempts": [
+                  {
+                    "kind": "priority",
+                    "diagnostics": {
+                      "preparation_ms": 0.15150709077715874,
+                      "required_margin_m": 0.1,
+                      "rollout_steps": 29,
+                      "hold_steps": 13,
+                      "ranked_candidates": [
+                        0,
+                        4,
+                        2,
+                        1
+                      ],
+                      "reason": "complete",
+                      "elapsed_ms": 7.368565071374178,
+                      "evaluated": 8,
+                      "valid": 7,
+                      "selected": 0,
+                      "minimum_margin_m": 0.656579476379813,
+                      "endpoint": [
+                        -1.15100954313962,
+                        0.48629573242721486
+                      ]
+                    }
+                  }
+                ],
+                "nominal": {
+                  "preparation_ms": 0.15150709077715874,
+                  "required_margin_m": 0.1,
+                  "rollout_steps": 29,
+                  "hold_steps": 13,
+                  "ranked_candidates": [
+                    0,
+                    4,
+                    2,
+                    1
+                  ],
+                  "reason": "complete",
+                  "elapsed_ms": 7.368565071374178,
+                  "evaluated": 8,
+                  "valid": 7,
+                  "selected": 0,
+                  "minimum_margin_m": 0.656579476379813,
+                  "endpoint": [
+                    -1.15100954313962,
+                    0.48629573242721486
+                  ]
+                },
+                "stage": "admission",
+                "reason": "complete",
+                "preparation_ms": 0.15662307851016521,
+                "required_margin_m": 0.1,
+                "rollout_steps": 31,
+                "hold_steps": 13,
+                "elapsed_ms": 20.256055053323507,
+                "evaluated": 12,
+                "valid": 12,
+                "selected": 2,
+                "minimum_margin_m": 0.655664934275938,
+                "endpoint": [
+                  -1.1942796247864405,
+                  0.4491071937866793
+                ],
+                "admission_delays_s": [
+                  0.0,
+                  0.1,
+                  0.2
+                ],
+                "admission_horizon_s": 4.7
+              },
+              "revalidation": {
+                "preparation_ms": 0.15877792611718178,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 2.5792219676077366,
+                "evaluated": 1,
+                "valid": 1,
+                "selected": 0,
+                "minimum_margin_m": 0.6569193228278247,
+                "endpoint": [
+                  -1.2549083524545472,
+                  0.1455095895836904
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "offset_s": 0.25,
+          "trigger": {
+            "active": true,
+            "time_to_enclosure_s": 3.2,
+            "pairs": [
+              [
+                1,
+                2
+              ]
+            ],
+            "pincer_active": true,
+            "reason": "pincer",
+            "watch_indices": [
+              1,
+              2
+            ],
+            "time_to_reserve_s": 1.6
+          },
+          "outcomes": [
+            {
+              "reserved": false,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": true,
+              "search": {
+                "preparation_ms": 0.6736880168318748,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 14.784251106902957,
+                "evaluated": 129,
+                "valid": 1,
+                "selected": 100,
+                "minimum_margin_m": 0.05068928876066625,
+                "endpoint": [
+                  -1.1925551896219417,
+                  0.32364936957566226
+                ]
+              },
+              "revalidation": {
+                "preparation_ms": 0.14198897406458855,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 2.4675799068063498,
+                "evaluated": 1,
+                "valid": 1,
+                "selected": 0,
+                "minimum_margin_m": 0.09129530241572259,
+                "endpoint": [
+                  -1.2281207328636057,
+                  0.35915963982372345
+                ]
+              }
+            },
+            {
+              "reserved": true,
+              "complete": false,
+              "context_unchanged": true,
+              "admitted_after_150ms": false,
+              "search": {
+                "attempts": [
+                  {
+                    "kind": "priority",
+                    "diagnostics": {
+                      "preparation_ms": 0.15361816622316837,
+                      "required_margin_m": 0.1,
+                      "rollout_steps": 29,
+                      "hold_steps": 13,
+                      "reason": "unsafe_terminal_state_or_hold",
+                      "elapsed_ms": 6.364159984514117,
+                      "human_rejections": 8,
+                      "static_rejections": 0,
+                      "unsettled": 0
+                    }
+                  },
+                  {
+                    "kind": "full",
+                    "diagnostics": {
+                      "preparation_ms": 0.6081489846110344,
+                      "required_margin_m": 0.1,
+                      "rollout_steps": 29,
+                      "hold_steps": 13,
+                      "reason": "unsafe_terminal_state_or_hold",
+                      "elapsed_ms": 13.844237895682454,
+                      "human_rejections": 129,
+                      "static_rejections": 0,
+                      "unsettled": 0
+                    }
+                  }
+                ],
+                "nominal": {
+                  "preparation_ms": 0.6081489846110344,
+                  "required_margin_m": 0.1,
+                  "rollout_steps": 29,
+                  "hold_steps": 13,
+                  "reason": "unsafe_terminal_state_or_hold",
+                  "elapsed_ms": 13.844237895682454,
+                  "human_rejections": 129,
+                  "static_rejections": 0,
+                  "unsettled": 0
+                },
+                "stage": "nominal",
+                "reason": "unsafe_terminal_state_or_hold",
+                "elapsed_ms": 20.591455977410078
+              },
+              "revalidation": {}
+            }
+          ]
+        },
+        {
+          "offset_s": 0.5,
+          "trigger": {
+            "active": true,
+            "time_to_enclosure_s": 2.0,
+            "pairs": [
+              [
+                1,
+                2
+              ]
+            ],
+            "pincer_active": true,
+            "reason": "pincer",
+            "watch_indices": [
+              1,
+              2
+            ],
+            "time_to_reserve_s": 1.2000000000000002
+          },
+          "outcomes": [
+            {
+              "reserved": false,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": false,
+              "search": {
+                "preparation_ms": 0.6291279569268227,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 13.90627189539373,
+                "evaluated": 129,
+                "valid": 3,
+                "selected": 92,
+                "minimum_margin_m": 0.15530548197975547,
+                "endpoint": [
+                  -0.8824558014516604,
+                  0.8802501409463471
+                ]
+              },
+              "revalidation": {
+                "preparation_ms": 0.13199192471802235,
+                "required_margin_m": 0.0,
+                "rollout_steps": 27,
+                "reason": "no_feasible_prefix",
+                "elapsed_ms": 1.7990139313042164,
+                "human_rejections": 1,
+                "static_rejections": 0
+              }
+            },
+            {
+              "reserved": true,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": false,
+              "search": {
+                "attempts": [
+                  {
+                    "kind": "priority",
+                    "diagnostics": {
+                      "preparation_ms": 0.15088100917637348,
+                      "required_margin_m": 0.1,
+                      "rollout_steps": 29,
+                      "hold_steps": 13,
+                      "ranked_candidates": [
+                        1
+                      ],
+                      "reason": "complete",
+                      "elapsed_ms": 6.379856029525399,
+                      "evaluated": 8,
+                      "valid": 1,
+                      "selected": 1,
+                      "minimum_margin_m": 0.15530548197975547,
+                      "endpoint": [
+                        -0.8824558014516604,
+                        0.8802501409463471
+                      ]
+                    }
+                  }
+                ],
+                "nominal": {
+                  "preparation_ms": 0.15088100917637348,
+                  "required_margin_m": 0.1,
+                  "rollout_steps": 29,
+                  "hold_steps": 13,
+                  "ranked_candidates": [
+                    1
+                  ],
+                  "reason": "complete",
+                  "elapsed_ms": 6.379856029525399,
+                  "evaluated": 8,
+                  "valid": 1,
+                  "selected": 1,
+                  "minimum_margin_m": 0.15530548197975547,
+                  "endpoint": [
+                    -0.8824558014516604,
+                    0.8802501409463471
+                  ]
+                },
+                "stage": "admission",
+                "reason": "complete",
+                "preparation_ms": 0.11819996871054173,
+                "required_margin_m": 0.1,
+                "rollout_steps": 31,
+                "hold_steps": 13,
+                "elapsed_ms": 11.259686900302768,
+                "evaluated": 3,
+                "valid": 3,
+                "selected": 2,
+                "minimum_margin_m": 0.15523706326531483,
+                "endpoint": [
+                  -0.9257752965887105,
+                  0.9410136195295099
+                ],
+                "admission_delays_s": [
+                  0.0,
+                  0.1,
+                  0.2
+                ],
+                "admission_horizon_s": 4.7
+              },
+              "revalidation": {
+                "preparation_ms": 0.11049606837332249,
+                "required_margin_m": 0.0,
+                "rollout_steps": 27,
+                "reason": "no_feasible_prefix",
+                "elapsed_ms": 1.7545821610838175,
+                "human_rejections": 1,
+                "static_rejections": 0
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "20261024T185845Z",
+      "trace_sha256": "953360f2d9eaec243bb7a9e87b3a468094121933e640ad86c9e98c6414735b2e",
+      "cases": [
+        {
+          "offset_s": -1.0,
+          "trigger": {
+            "active": false,
+            "time_to_enclosure_s": null,
+            "pairs": [],
+            "pincer_active": false,
+            "reason": "clear",
+            "watch_indices": [],
+            "time_to_reserve_s": null
+          },
+          "outcomes": [
+            {
+              "reserved": false,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": true,
+              "search": {
+                "preparation_ms": 0.8045588620007038,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 14.055592939257622,
+                "evaluated": 129,
+                "valid": 129,
+                "selected": 0,
+                "minimum_margin_m": 2.5132157296610895,
+                "endpoint": [
+                  -0.013238314872919396,
+                  0.0033014745043974383
+                ]
+              },
+              "revalidation": {
+                "preparation_ms": 0.1426690723747015,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 2.354708034545183,
+                "evaluated": 1,
+                "valid": 1,
+                "selected": 0,
+                "minimum_margin_m": 2.5192189764129505,
+                "endpoint": [
+                  -0.008592122065317785,
+                  -0.010363615701929618
+                ]
+              }
+            },
+            {
+              "reserved": true,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": true,
+              "search": {
+                "attempts": [
+                  {
+                    "kind": "priority",
+                    "diagnostics": {
+                      "preparation_ms": 0.15973695553839207,
+                      "required_margin_m": 0.1,
+                      "rollout_steps": 29,
+                      "hold_steps": 13,
+                      "ranked_candidates": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "reason": "complete",
+                      "elapsed_ms": 6.212190026417375,
+                      "evaluated": 7,
+                      "valid": 7,
+                      "selected": 0,
+                      "minimum_margin_m": 2.5132157296610895,
+                      "endpoint": [
+                        -0.013238327408935933,
+                        0.00330147325209676
+                      ]
+                    }
+                  }
+                ],
+                "nominal": {
+                  "preparation_ms": 0.15973695553839207,
+                  "required_margin_m": 0.1,
+                  "rollout_steps": 29,
+                  "hold_steps": 13,
+                  "ranked_candidates": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "reason": "complete",
+                  "elapsed_ms": 6.212190026417375,
+                  "evaluated": 7,
+                  "valid": 7,
+                  "selected": 0,
+                  "minimum_margin_m": 2.5132157296610895,
+                  "endpoint": [
+                    -0.013238327408935933,
+                    0.00330147325209676
+                  ]
+                },
+                "stage": "admission",
+                "reason": "complete",
+                "preparation_ms": 0.16737892292439938,
+                "required_margin_m": 0.1,
+                "rollout_steps": 31,
+                "hold_steps": 13,
+                "elapsed_ms": 17.85170310176909,
+                "evaluated": 12,
+                "valid": 12,
+                "selected": 2,
+                "minimum_margin_m": 2.5132157296610895,
+                "endpoint": [
+                  -0.013300465141658386,
+                  0.0030076170541574257
+                ],
+                "admission_delays_s": [
+                  0.0,
+                  0.1,
+                  0.2
+                ],
+                "admission_horizon_s": 4.7
+              },
+              "revalidation": {
+                "preparation_ms": 0.17852801829576492,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 2.610411960631609,
+                "evaluated": 1,
+                "valid": 1,
+                "selected": 0,
+                "minimum_margin_m": 2.5192189764129505,
+                "endpoint": [
+                  -0.008592122065317785,
+                  -0.010363615701929618
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "offset_s": -0.5,
+          "trigger": {
+            "active": false,
+            "time_to_enclosure_s": null,
+            "pairs": [],
+            "pincer_active": false,
+            "reason": "clear",
+            "watch_indices": [],
+            "time_to_reserve_s": null
+          },
+          "outcomes": [
+            {
+              "reserved": false,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": true,
+              "search": {
+                "preparation_ms": 0.800170935690403,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 13.969281921163201,
+                "evaluated": 129,
+                "valid": 129,
+                "selected": 100,
+                "minimum_margin_m": 2.2150463809299543,
+                "endpoint": [
+                  -1.1203075640109763,
+                  0.5533328711267922
+                ]
+              },
+              "revalidation": {
+                "preparation_ms": 0.14343694783747196,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 2.395686926320195,
+                "evaluated": 1,
+                "valid": 1,
+                "selected": 0,
+                "minimum_margin_m": 2.0846821165670377,
+                "endpoint": [
+                  -1.2645547310064258,
+                  0.44076269236273263
+                ]
+              }
+            },
+            {
+              "reserved": true,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": true,
+              "search": {
+                "attempts": [
+                  {
+                    "kind": "priority",
+                    "diagnostics": {
+                      "preparation_ms": 0.1701931469142437,
+                      "required_margin_m": 0.1,
+                      "rollout_steps": 29,
+                      "hold_steps": 13,
+                      "ranked_candidates": [
+                        0,
+                        3,
+                        2,
+                        1
+                      ],
+                      "reason": "complete",
+                      "elapsed_ms": 7.120262132957578,
+                      "evaluated": 8,
+                      "valid": 8,
+                      "selected": 0,
+                      "minimum_margin_m": 2.2150463809299543,
+                      "endpoint": [
+                        -1.1203075640109763,
+                        0.5533328711267922
+                      ]
+                    }
+                  }
+                ],
+                "nominal": {
+                  "preparation_ms": 0.1701931469142437,
+                  "required_margin_m": 0.1,
+                  "rollout_steps": 29,
+                  "hold_steps": 13,
+                  "ranked_candidates": [
+                    0,
+                    3,
+                    2,
+                    1
+                  ],
+                  "reason": "complete",
+                  "elapsed_ms": 7.120262132957578,
+                  "evaluated": 8,
+                  "valid": 8,
+                  "selected": 0,
+                  "minimum_margin_m": 2.2150463809299543,
+                  "endpoint": [
+                    -1.1203075640109763,
+                    0.5533328711267922
+                  ]
+                },
+                "stage": "admission",
+                "reason": "complete",
+                "preparation_ms": 0.1752080861479044,
+                "required_margin_m": 0.1,
+                "rollout_steps": 31,
+                "hold_steps": 13,
+                "elapsed_ms": 19.085488980636,
+                "evaluated": 12,
+                "valid": 12,
+                "selected": 2,
+                "minimum_margin_m": 2.142752112673074,
+                "endpoint": [
+                  -1.163918916414446,
+                  0.45283412664288875
+                ],
+                "admission_delays_s": [
+                  0.0,
+                  0.1,
+                  0.2
+                ],
+                "admission_horizon_s": 4.7
+              },
+              "revalidation": {
+                "preparation_ms": 0.15261792577803135,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 2.344314008951187,
+                "evaluated": 1,
+                "valid": 1,
+                "selected": 0,
+                "minimum_margin_m": 2.0846821165670377,
+                "endpoint": [
+                  -1.2645547310064258,
+                  0.44076269236273263
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "offset_s": -0.25,
+          "trigger": {
+            "active": true,
+            "time_to_enclosure_s": null,
+            "pairs": [],
+            "pincer_active": false,
+            "reason": "closing_corridor",
+            "watch_indices": [
+              1
+            ],
+            "time_to_reserve_s": 3.0
+          },
+          "outcomes": [
+            {
+              "reserved": false,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": true,
+              "search": {
+                "preparation_ms": 0.8247119840234518,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 14.192103873938322,
+                "evaluated": 129,
+                "valid": 84,
+                "selected": 100,
+                "minimum_margin_m": 1.5260254109474833,
+                "endpoint": [
+                  -1.2381601932831328,
+                  0.29552034780473574
+                ]
+              },
+              "revalidation": {
+                "preparation_ms": 0.14191586524248123,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 2.4176209699362516,
+                "evaluated": 1,
+                "valid": 1,
+                "selected": 0,
+                "minimum_margin_m": 0.3333617799608326,
+                "endpoint": [
+                  -1.2234370459908868,
+                  0.18025717328290466
+                ]
+              }
+            },
+            {
+              "reserved": true,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": true,
+              "search": {
+                "attempts": [
+                  {
+                    "kind": "priority",
+                    "diagnostics": {
+                      "preparation_ms": 0.16204197891056538,
+                      "required_margin_m": 0.1,
+                      "rollout_steps": 29,
+                      "hold_steps": 13,
+                      "ranked_candidates": [
+                        0,
+                        2,
+                        3,
+                        1
+                      ],
+                      "reason": "complete",
+                      "elapsed_ms": 7.119311951100826,
+                      "evaluated": 8,
+                      "valid": 8,
+                      "selected": 0,
+                      "minimum_margin_m": 1.5260254109474833,
+                      "endpoint": [
+                        -1.2381601932831328,
+                        0.29552034780473574
+                      ]
+                    }
+                  }
+                ],
+                "nominal": {
+                  "preparation_ms": 0.16204197891056538,
+                  "required_margin_m": 0.1,
+                  "rollout_steps": 29,
+                  "hold_steps": 13,
+                  "ranked_candidates": [
+                    0,
+                    2,
+                    3,
+                    1
+                  ],
+                  "reason": "complete",
+                  "elapsed_ms": 7.119311951100826,
+                  "evaluated": 8,
+                  "valid": 8,
+                  "selected": 0,
+                  "minimum_margin_m": 1.5260254109474833,
+                  "endpoint": [
+                    -1.2381601932831328,
+                    0.29552034780473574
+                  ]
+                },
+                "stage": "admission",
+                "reason": "complete",
+                "preparation_ms": 0.17206789925694466,
+                "required_margin_m": 0.1,
+                "rollout_steps": 31,
+                "hold_steps": 13,
+                "elapsed_ms": 19.07427702099085,
+                "evaluated": 12,
+                "valid": 12,
+                "selected": 0,
+                "minimum_margin_m": 1.5188362530825277,
+                "endpoint": [
+                  -1.2348691495624173,
+                  0.28959617888524225
+                ],
+                "admission_delays_s": [
+                  0.0,
+                  0.1,
+                  0.2
+                ],
+                "admission_horizon_s": 4.7
+              },
+              "revalidation": {
+                "preparation_ms": 0.11400901712477207,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 2.3347479291260242,
+                "evaluated": 1,
+                "valid": 1,
+                "selected": 0,
+                "minimum_margin_m": 0.3333617799608326,
+                "endpoint": [
+                  -1.2234370459908868,
+                  0.18025717328290466
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "offset_s": 0.0,
+          "trigger": {
+            "active": true,
+            "time_to_enclosure_s": 3.0,
+            "pairs": [
+              [
+                0,
+                1
+              ]
+            ],
+            "pincer_active": true,
+            "reason": "pincer",
+            "watch_indices": [
+              0,
+              1
+            ],
+            "time_to_reserve_s": 1.6
+          },
+          "outcomes": [
+            {
+              "reserved": false,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": true,
+              "search": {
+                "preparation_ms": 0.8011499885469675,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 14.055737061426044,
+                "evaluated": 129,
+                "valid": 9,
+                "selected": 100,
+                "minimum_margin_m": 0.3499936762573548,
+                "endpoint": [
+                  -1.2800082866126836,
+                  0.27454804766771734
+                ]
+              },
+              "revalidation": {
+                "preparation_ms": 0.14589098282158375,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 2.4266040418297052,
+                "evaluated": 1,
+                "valid": 1,
+                "selected": 0,
+                "minimum_margin_m": 0.34066620608406817,
+                "endpoint": [
+                  -1.3033835310807331,
+                  0.04544880974274618
+                ]
+              }
+            },
+            {
+              "reserved": true,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": true,
+              "search": {
+                "attempts": [
+                  {
+                    "kind": "priority",
+                    "diagnostics": {
+                      "preparation_ms": 0.17854501493275166,
+                      "required_margin_m": 0.1,
+                      "rollout_steps": 29,
+                      "hold_steps": 13,
+                      "ranked_candidates": [
+                        1,
+                        0,
+                        3,
+                        4
+                      ],
+                      "reason": "complete",
+                      "elapsed_ms": 6.531560095027089,
+                      "evaluated": 8,
+                      "valid": 4,
+                      "selected": 1,
+                      "minimum_margin_m": 0.3499936762573548,
+                      "endpoint": [
+                        -1.2800082866126836,
+                        0.27454804766771734
+                      ]
+                    }
+                  }
+                ],
+                "nominal": {
+                  "preparation_ms": 0.17854501493275166,
+                  "required_margin_m": 0.1,
+                  "rollout_steps": 29,
+                  "hold_steps": 13,
+                  "ranked_candidates": [
+                    1,
+                    0,
+                    3,
+                    4
+                  ],
+                  "reason": "complete",
+                  "elapsed_ms": 6.531560095027089,
+                  "evaluated": 8,
+                  "valid": 4,
+                  "selected": 1,
+                  "minimum_margin_m": 0.3499936762573548,
+                  "endpoint": [
+                    -1.2800082866126836,
+                    0.27454804766771734
+                  ]
+                },
+                "stage": "admission",
+                "reason": "complete",
+                "preparation_ms": 0.17360900528728962,
+                "required_margin_m": 0.1,
+                "rollout_steps": 31,
+                "hold_steps": 13,
+                "elapsed_ms": 18.133019097149372,
+                "evaluated": 12,
+                "valid": 6,
+                "selected": 2,
+                "minimum_margin_m": 0.30177327427117673,
+                "endpoint": [
+                  -1.301465431478477,
+                  0.21566774617863865
+                ],
+                "admission_delays_s": [
+                  0.0,
+                  0.1,
+                  0.2
+                ],
+                "admission_horizon_s": 4.7
+              },
+              "revalidation": {
+                "preparation_ms": 0.12434995733201504,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 2.343219006434083,
+                "evaluated": 1,
+                "valid": 1,
+                "selected": 0,
+                "minimum_margin_m": 0.34066620608406817,
+                "endpoint": [
+                  -1.3033835310807331,
+                  0.04544880974274618
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "offset_s": 0.25,
+          "trigger": {
+            "active": true,
+            "time_to_enclosure_s": 2.2,
+            "pairs": [
+              [
+                0,
+                1
+              ]
+            ],
+            "pincer_active": true,
+            "reason": "pincer",
+            "watch_indices": [
+              0,
+              1
+            ],
+            "time_to_reserve_s": 1.6
+          },
+          "outcomes": [
+            {
+              "reserved": false,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": false,
+              "search": {
+                "preparation_ms": 0.8675409480929375,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 14.297447865828872,
+                "evaluated": 129,
+                "valid": 25,
+                "selected": 84,
+                "minimum_margin_m": 0.6659937391722672,
+                "endpoint": [
+                  -0.7859963150496979,
+                  1.1376172578662564
+                ]
+              },
+              "revalidation": {
+                "preparation_ms": 0.1474700402468443,
+                "required_margin_m": 0.0,
+                "rollout_steps": 22,
+                "reason": "no_feasible_prefix",
+                "elapsed_ms": 1.451294869184494,
+                "human_rejections": 1,
+                "static_rejections": 0
+              }
+            },
+            {
+              "reserved": true,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": false,
+              "search": {
+                "attempts": [
+                  {
+                    "kind": "priority",
+                    "diagnostics": {
+                      "preparation_ms": 0.18617208115756512,
+                      "required_margin_m": 0.1,
+                      "rollout_steps": 29,
+                      "hold_steps": 13,
+                      "ranked_candidates": [
+                        0,
+                        3,
+                        5,
+                        2
+                      ],
+                      "reason": "complete",
+                      "elapsed_ms": 11.053032940253615,
+                      "evaluated": 8,
+                      "valid": 6,
+                      "selected": 0,
+                      "minimum_margin_m": 0.6659937391722672,
+                      "endpoint": [
+                        -0.7859963150496979,
+                        1.1376172578662564
+                      ]
+                    }
+                  }
+                ],
+                "nominal": {
+                  "preparation_ms": 0.18617208115756512,
+                  "required_margin_m": 0.1,
+                  "rollout_steps": 29,
+                  "hold_steps": 13,
+                  "ranked_candidates": [
+                    0,
+                    3,
+                    5,
+                    2
+                  ],
+                  "reason": "complete",
+                  "elapsed_ms": 11.053032940253615,
+                  "evaluated": 8,
+                  "valid": 6,
+                  "selected": 0,
+                  "minimum_margin_m": 0.6659937391722672,
+                  "endpoint": [
+                    -0.7859963150496979,
+                    1.1376172578662564
+                  ]
+                },
+                "stage": "admission",
+                "reason": "complete",
+                "preparation_ms": 0.18476997502148151,
+                "required_margin_m": 0.1,
+                "rollout_steps": 31,
+                "hold_steps": 13,
+                "elapsed_ms": 22.491194074973464,
+                "evaluated": 12,
+                "valid": 12,
+                "selected": 5,
+                "minimum_margin_m": 0.5388644696123244,
+                "endpoint": [
+                  -0.40284893629321994,
+                  1.4378439720917353
+                ],
+                "admission_delays_s": [
+                  0.0,
+                  0.1,
+                  0.2
+                ],
+                "admission_horizon_s": 4.7
+              },
+              "revalidation": {
+                "preparation_ms": 0.16791815869510174,
+                "required_margin_m": 0.0,
+                "rollout_steps": 20,
+                "reason": "no_feasible_prefix",
+                "elapsed_ms": 1.4592520892620087,
+                "human_rejections": 1,
+                "static_rejections": 0
+              }
+            }
+          ]
+        },
+        {
+          "offset_s": 0.5,
+          "trigger": {
+            "active": true,
+            "time_to_enclosure_s": 1.8,
+            "pairs": [
+              [
+                0,
+                1
+              ]
+            ],
+            "pincer_active": true,
+            "reason": "pincer",
+            "watch_indices": [
+              0,
+              1
+            ],
+            "time_to_reserve_s": 1.2000000000000002
+          },
+          "outcomes": [
+            {
+              "reserved": false,
+              "complete": false,
+              "context_unchanged": false,
+              "admitted_after_150ms": false,
+              "search": {
+                "preparation_ms": 0.7835251744836569,
+                "required_margin_m": 0.0,
+                "rollout_steps": 20,
+                "reason": "no_feasible_prefix",
+                "elapsed_ms": 7.614572998136282,
+                "human_rejections": 129,
+                "static_rejections": 0
+              },
+              "revalidation": {}
+            },
+            {
+              "reserved": true,
+              "complete": false,
+              "context_unchanged": false,
+              "admitted_after_150ms": false,
+              "search": {
+                "attempts": [
+                  {
+                    "kind": "priority",
+                    "diagnostics": {
+                      "preparation_ms": 0.18829712644219398,
+                      "required_margin_m": 0.1,
+                      "rollout_steps": 12,
+                      "reason": "no_feasible_prefix",
+                      "elapsed_ms": 2.4113559629768133,
+                      "human_rejections": 8,
+                      "static_rejections": 0
+                    }
+                  },
+                  {
+                    "kind": "full",
+                    "diagnostics": {
+                      "preparation_ms": 0.73220394551754,
+                      "required_margin_m": 0.1,
+                      "rollout_steps": 19,
+                      "reason": "no_feasible_prefix",
+                      "elapsed_ms": 7.505673915147781,
+                      "human_rejections": 129,
+                      "static_rejections": 0
+                    }
+                  }
+                ],
+                "nominal": {
+                  "preparation_ms": 0.73220394551754,
+                  "required_margin_m": 0.1,
+                  "rollout_steps": 19,
+                  "reason": "no_feasible_prefix",
+                  "elapsed_ms": 7.505673915147781,
+                  "human_rejections": 129,
+                  "static_rejections": 0
+                },
+                "stage": "nominal",
+                "reason": "no_feasible_prefix",
+                "elapsed_ms": 10.310773039236665
+              },
+              "revalidation": {}
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "run_id": "primitive_process_recheck42_20261026",
+      "trace_sha256": "0ce22c46c2dd5e722dc9a5cfade95a5e1ceb6187adb5714609a9c9823b37816b",
+      "cases": [
+        {
+          "offset_s": -1.0,
+          "trigger": {
+            "active": false,
+            "time_to_enclosure_s": null,
+            "pairs": [],
+            "pincer_active": false,
+            "reason": "clear",
+            "watch_indices": [],
+            "time_to_reserve_s": null
+          },
+          "outcomes": [
+            {
+              "reserved": false,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": true,
+              "search": {
+                "preparation_ms": 0.807036878541112,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 13.535164995118976,
+                "evaluated": 129,
+                "valid": 129,
+                "selected": 58,
+                "minimum_margin_m": 2.4973533892499784,
+                "endpoint": [
+                  0.7245778488835632,
+                  0.4765045735284773
+                ]
+              },
+              "revalidation": {
+                "preparation_ms": 0.16717216931283474,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 2.3471161257475615,
+                "evaluated": 1,
+                "valid": 1,
+                "selected": 0,
+                "minimum_margin_m": 2.7051594172098987,
+                "endpoint": [
+                  0.6948237034219399,
+                  0.5111941393079463
+                ]
+              }
+            },
+            {
+              "reserved": true,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": true,
+              "search": {
+                "attempts": [
+                  {
+                    "kind": "priority",
+                    "diagnostics": {
+                      "preparation_ms": 0.16537890769541264,
+                      "required_margin_m": 0.1,
+                      "rollout_steps": 29,
+                      "hold_steps": 13,
+                      "ranked_candidates": [
+                        0,
+                        1,
+                        2,
+                        3
+                      ],
+                      "reason": "complete",
+                      "elapsed_ms": 6.578795844689012,
+                      "evaluated": 8,
+                      "valid": 8,
+                      "selected": 0,
+                      "minimum_margin_m": 2.4973082597305036,
+                      "endpoint": [
+                        0.7246263656860278,
+                        0.47654053499013266
+                      ]
+                    }
+                  }
+                ],
+                "nominal": {
+                  "preparation_ms": 0.16537890769541264,
+                  "required_margin_m": 0.1,
+                  "rollout_steps": 29,
+                  "hold_steps": 13,
+                  "ranked_candidates": [
+                    0,
+                    1,
+                    2,
+                    3
+                  ],
+                  "reason": "complete",
+                  "elapsed_ms": 6.578795844689012,
+                  "evaluated": 8,
+                  "valid": 8,
+                  "selected": 0,
+                  "minimum_margin_m": 2.4973082597305036,
+                  "endpoint": [
+                    0.7246263656860278,
+                    0.47654053499013266
+                  ]
+                },
+                "stage": "admission",
+                "reason": "complete",
+                "preparation_ms": 0.1688611228018999,
+                "required_margin_m": 0.1,
+                "rollout_steps": 31,
+                "hold_steps": 13,
+                "elapsed_ms": 17.553321085870266,
+                "evaluated": 12,
+                "valid": 12,
+                "selected": 2,
+                "minimum_margin_m": 2.4862627935431596,
+                "endpoint": [
+                  0.688761525032847,
+                  0.5292026647635524
+                ],
+                "admission_delays_s": [
+                  0.0,
+                  0.1,
+                  0.2
+                ],
+                "admission_horizon_s": 4.7
+              },
+              "revalidation": {
+                "preparation_ms": 0.10744389146566391,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 2.245000097900629,
+                "evaluated": 1,
+                "valid": 1,
+                "selected": 0,
+                "minimum_margin_m": 2.7051594172098987,
+                "endpoint": [
+                  0.6948237034219399,
+                  0.5111941393079463
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "offset_s": -0.5,
+          "trigger": {
+            "active": false,
+            "time_to_enclosure_s": null,
+            "pairs": [],
+            "pincer_active": false,
+            "reason": "clear",
+            "watch_indices": [],
+            "time_to_reserve_s": null
+          },
+          "outcomes": [
+            {
+              "reserved": false,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": true,
+              "search": {
+                "preparation_ms": 0.8069709874689579,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 13.490406796336174,
+                "evaluated": 129,
+                "valid": 129,
+                "selected": 92,
+                "minimum_margin_m": 2.0491351333841537,
+                "endpoint": [
+                  -0.9498888997247837,
+                  0.7366844727728566
+                ]
+              },
+              "revalidation": {
+                "preparation_ms": 0.14397990889847279,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 2.3306088987737894,
+                "evaluated": 1,
+                "valid": 1,
+                "selected": 0,
+                "minimum_margin_m": 1.9845270851593395,
+                "endpoint": [
+                  -0.9181378761970059,
+                  0.8196764687348825
+                ]
+              }
+            },
+            {
+              "reserved": true,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": true,
+              "search": {
+                "attempts": [
+                  {
+                    "kind": "priority",
+                    "diagnostics": {
+                      "preparation_ms": 0.16789091750979424,
+                      "required_margin_m": 0.1,
+                      "rollout_steps": 29,
+                      "hold_steps": 13,
+                      "ranked_candidates": [
+                        1,
+                        0,
+                        4,
+                        2
+                      ],
+                      "reason": "complete",
+                      "elapsed_ms": 6.869657896459103,
+                      "evaluated": 8,
+                      "valid": 8,
+                      "selected": 1,
+                      "minimum_margin_m": 2.0491351333841537,
+                      "endpoint": [
+                        -0.9498888997247837,
+                        0.7366844727728566
+                      ]
+                    }
+                  }
+                ],
+                "nominal": {
+                  "preparation_ms": 0.16789091750979424,
+                  "required_margin_m": 0.1,
+                  "rollout_steps": 29,
+                  "hold_steps": 13,
+                  "ranked_candidates": [
+                    1,
+                    0,
+                    4,
+                    2
+                  ],
+                  "reason": "complete",
+                  "elapsed_ms": 6.869657896459103,
+                  "evaluated": 8,
+                  "valid": 8,
+                  "selected": 1,
+                  "minimum_margin_m": 2.0491351333841537,
+                  "endpoint": [
+                    -0.9498888997247837,
+                    0.7366844727728566
+                  ]
+                },
+                "stage": "admission",
+                "reason": "complete",
+                "preparation_ms": 0.16913493163883686,
+                "required_margin_m": 0.1,
+                "rollout_steps": 31,
+                "hold_steps": 13,
+                "elapsed_ms": 17.85462209954858,
+                "evaluated": 12,
+                "valid": 12,
+                "selected": 2,
+                "minimum_margin_m": 1.9840556747981513,
+                "endpoint": [
+                  -1.004986966001604,
+                  0.6519964252227075
+                ],
+                "admission_delays_s": [
+                  0.0,
+                  0.1,
+                  0.2
+                ],
+                "admission_horizon_s": 4.7
+              },
+              "revalidation": {
+                "preparation_ms": 0.16330811195075512,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 2.4012159556150436,
+                "evaluated": 1,
+                "valid": 1,
+                "selected": 0,
+                "minimum_margin_m": 1.9845270851593395,
+                "endpoint": [
+                  -0.9181378761970059,
+                  0.8196764687348825
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "offset_s": -0.25,
+          "trigger": {
+            "active": true,
+            "time_to_enclosure_s": null,
+            "pairs": [],
+            "pincer_active": false,
+            "reason": "closing_corridor",
+            "watch_indices": [
+              0
+            ],
+            "time_to_reserve_s": 2.4000000000000004
+          },
+          "outcomes": [
+            {
+              "reserved": false,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": true,
+              "search": {
+                "preparation_ms": 0.8146062027662992,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 13.885762076824903,
+                "evaluated": 129,
+                "valid": 69,
+                "selected": 100,
+                "minimum_margin_m": 1.1785401846384236,
+                "endpoint": [
+                  -1.1124152682830468,
+                  0.05420336604046722
+                ]
+              },
+              "revalidation": {
+                "preparation_ms": 0.14303810894489288,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 2.38626915961504,
+                "evaluated": 1,
+                "valid": 1,
+                "selected": 0,
+                "minimum_margin_m": 0.476970747555751,
+                "endpoint": [
+                  -1.1564575133144885,
+                  0.11973909161534282
+                ]
+              }
+            },
+            {
+              "reserved": true,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": true,
+              "search": {
+                "attempts": [
+                  {
+                    "kind": "priority",
+                    "diagnostics": {
+                      "preparation_ms": 0.16543990932404995,
+                      "required_margin_m": 0.1,
+                      "rollout_steps": 29,
+                      "hold_steps": 13,
+                      "ranked_candidates": [
+                        0,
+                        4,
+                        1,
+                        3
+                      ],
+                      "reason": "complete",
+                      "elapsed_ms": 7.001583930104971,
+                      "evaluated": 8,
+                      "valid": 8,
+                      "selected": 0,
+                      "minimum_margin_m": 1.1785401846384236,
+                      "endpoint": [
+                        -1.1124152682830468,
+                        0.05420336604046722
+                      ]
+                    }
+                  }
+                ],
+                "nominal": {
+                  "preparation_ms": 0.16543990932404995,
+                  "required_margin_m": 0.1,
+                  "rollout_steps": 29,
+                  "hold_steps": 13,
+                  "ranked_candidates": [
+                    0,
+                    4,
+                    1,
+                    3
+                  ],
+                  "reason": "complete",
+                  "elapsed_ms": 7.001583930104971,
+                  "evaluated": 8,
+                  "valid": 8,
+                  "selected": 0,
+                  "minimum_margin_m": 1.1785401846384236,
+                  "endpoint": [
+                    -1.1124152682830468,
+                    0.05420336604046722
+                  ]
+                },
+                "stage": "admission",
+                "reason": "complete",
+                "preparation_ms": 0.17968402244150639,
+                "required_margin_m": 0.1,
+                "rollout_steps": 31,
+                "hold_steps": 13,
+                "elapsed_ms": 18.935599830001593,
+                "evaluated": 12,
+                "valid": 12,
+                "selected": 1,
+                "minimum_margin_m": 1.0968270353568355,
+                "endpoint": [
+                  -1.110056169915558,
+                  0.0070012051472189436
+                ],
+                "admission_delays_s": [
+                  0.0,
+                  0.1,
+                  0.2
+                ],
+                "admission_horizon_s": 4.7
+              },
+              "revalidation": {
+                "preparation_ms": 0.11409493163228035,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 2.3329630494117737,
+                "evaluated": 1,
+                "valid": 1,
+                "selected": 0,
+                "minimum_margin_m": 0.476970747555751,
+                "endpoint": [
+                  -1.1564575133144885,
+                  0.11973909161534282
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "offset_s": 0.0,
+          "trigger": {
+            "active": true,
+            "time_to_enclosure_s": null,
+            "pairs": [],
+            "pincer_active": false,
+            "reason": "closing_corridor",
+            "watch_indices": [
+              0,
+              1
+            ],
+            "time_to_reserve_s": 2.4000000000000004
+          },
+          "outcomes": [
+            {
+              "reserved": false,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": true,
+              "search": {
+                "preparation_ms": 0.7861109916120768,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 13.47613800317049,
+                "evaluated": 129,
+                "valid": 29,
+                "selected": 92,
+                "minimum_margin_m": 0.5607114014349792,
+                "endpoint": [
+                  -1.0060192347553476,
+                  0.6763372275070435
+                ]
+              },
+              "revalidation": {
+                "preparation_ms": 0.14872918836772442,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 2.398116048425436,
+                "evaluated": 1,
+                "valid": 1,
+                "selected": 0,
+                "minimum_margin_m": 0.34279426752600806,
+                "endpoint": [
+                  -1.0341721262365142,
+                  0.6382061245907541
+                ]
+              }
+            },
+            {
+              "reserved": true,
+              "complete": true,
+              "context_unchanged": true,
+              "admitted_after_150ms": true,
+              "search": {
+                "attempts": [
+                  {
+                    "kind": "priority",
+                    "diagnostics": {
+                      "preparation_ms": 0.16490393318235874,
+                      "required_margin_m": 0.1,
+                      "rollout_steps": 29,
+                      "hold_steps": 13,
+                      "ranked_candidates": [
+                        0,
+                        1,
+                        5,
+                        3
+                      ],
+                      "reason": "complete",
+                      "elapsed_ms": 6.775850895792246,
+                      "evaluated": 8,
+                      "valid": 6,
+                      "selected": 0,
+                      "minimum_margin_m": 0.5607114014349792,
+                      "endpoint": [
+                        -1.0060192347553476,
+                        0.6763372275070435
+                      ]
+                    }
+                  }
+                ],
+                "nominal": {
+                  "preparation_ms": 0.16490393318235874,
+                  "required_margin_m": 0.1,
+                  "rollout_steps": 29,
+                  "hold_steps": 13,
+                  "ranked_candidates": [
+                    0,
+                    1,
+                    5,
+                    3
+                  ],
+                  "reason": "complete",
+                  "elapsed_ms": 6.775850895792246,
+                  "evaluated": 8,
+                  "valid": 6,
+                  "selected": 0,
+                  "minimum_margin_m": 0.5607114014349792,
+                  "endpoint": [
+                    -1.0060192347553476,
+                    0.6763372275070435
+                  ]
+                },
+                "stage": "admission",
+                "reason": "complete",
+                "preparation_ms": 0.17636409029364586,
+                "required_margin_m": 0.1,
+                "rollout_steps": 31,
+                "hold_steps": 13,
+                "elapsed_ms": 18.100746907293797,
+                "evaluated": 12,
+                "valid": 12,
+                "selected": 2,
+                "minimum_margin_m": 0.5563848120421759,
+                "endpoint": [
+                  -1.0208157992258764,
+                  0.6679618580428492
+                ],
+                "admission_delays_s": [
+                  0.0,
+                  0.1,
+                  0.2
+                ],
+                "admission_horizon_s": 4.7
+              },
+              "revalidation": {
+                "preparation_ms": 0.12338999658823013,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 2.3414490278810263,
+                "evaluated": 1,
+                "valid": 1,
+                "selected": 0,
+                "minimum_margin_m": 0.34279426752600806,
+                "endpoint": [
+                  -1.0341721262365142,
+                  0.6382061245907541
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "offset_s": 0.25,
+          "trigger": {
+            "active": true,
+            "time_to_enclosure_s": 2.4000000000000004,
+            "pairs": [
+              [
+                0,
+                1
+              ]
+            ],
+            "pincer_active": true,
+            "reason": "pincer",
+            "watch_indices": [
+              0,
+              1
+            ],
+            "time_to_reserve_s": 1.8
+          },
+          "outcomes": [
+            {
+              "reserved": false,
+              "complete": true,
+              "context_unchanged": false,
+              "admitted_after_150ms": false,
+              "search": {
+                "preparation_ms": 0.8357339538633823,
+                "required_margin_m": 0.0,
+                "rollout_steps": 29,
+                "hold_steps": 13,
+                "reason": "complete",
+                "elapsed_ms": 13.912255875766277,
+                "evaluated": 129,
+                "valid": 1,
+                "selected": 92,
+                "minimum_margin_m": 0.006781697732226144,
+                "endpoint": [
+                  -1.0081164111363505,
+                  0.757718609724513
+                ]
+              },
+              "revalidation": {}
+            },
+            {
+              "reserved": true,
+              "complete": false,
+              "context_unchanged": false,
+              "admitted_after_150ms": false,
+              "search": {
+                "attempts": [
+                  {
+                    "kind": "priority",
+                    "diagnostics": {
+                      "preparation_ms": 0.2081680577248335,
+                      "required_margin_m": 0.1,
+                      "rollout_steps": 25,
+                      "reason": "no_feasible_prefix",
+                      "elapsed_ms": 4.559902939945459,
+                      "human_rejections": 8,
+                      "static_rejections": 0
+                    }
+                  },
+                  {
+                    "kind": "full",
+                    "diagnostics": {
+                      "preparation_ms": 0.7903538644313812,
+                      "required_margin_m": 0.1,
+                      "rollout_steps": 29,
+                      "hold_steps": 13,
+                      "reason": "unsafe_terminal_state_or_hold",
+                      "elapsed_ms": 13.816241873428226,
+                      "human_rejections": 129,
+                      "static_rejections": 0,
+                      "unsettled": 0
+                    }
+                  }
+                ],
+                "nominal": {
+                  "preparation_ms": 0.7903538644313812,
+                  "required_margin_m": 0.1,
+                  "rollout_steps": 29,
+                  "hold_steps": 13,
+                  "reason": "unsafe_terminal_state_or_hold",
+                  "elapsed_ms": 13.816241873428226,
+                  "human_rejections": 129,
+                  "static_rejections": 0,
+                  "unsettled": 0
+                },
+                "stage": "nominal",
+                "reason": "unsafe_terminal_state_or_hold",
+                "elapsed_ms": 18.79179384559393
+              },
+              "revalidation": {}
+            }
+          ]
+        },
+        {
+          "offset_s": 0.5,
+          "trigger": {
+            "active": true,
+            "time_to_enclosure_s": 1.8,
+            "pairs": [
+              [
+                0,
+                1
+              ]
+            ],
+            "pincer_active": true,
+            "reason": "pincer",
+            "watch_indices": [
+              0,
+              1
+            ],
+            "time_to_reserve_s": 1.0
+          },
+          "outcomes": [
+            {
+              "reserved": false,
+              "complete": false,
+              "context_unchanged": true,
+              "admitted_after_150ms": false,
+              "search": {
+                "preparation_ms": 0.8150888606905937,
+                "required_margin_m": 0.0,
+                "rollout_steps": 27,
+                "reason": "no_feasible_prefix",
+                "elapsed_ms": 9.753959951922297,
+                "human_rejections": 129,
+                "static_rejections": 0
+              },
+              "revalidation": {}
+            },
+            {
+              "reserved": true,
+              "complete": false,
+              "context_unchanged": true,
+              "admitted_after_150ms": false,
+              "search": {
+                "attempts": [
+                  {
+                    "kind": "priority",
+                    "diagnostics": {
+                      "preparation_ms": 0.18319394439458847,
+                      "required_margin_m": 0.1,
+                      "rollout_steps": 12,
+                      "reason": "no_feasible_prefix",
+                      "elapsed_ms": 2.4074900429695845,
+                      "human_rejections": 8,
+                      "static_rejections": 0
+                    }
+                  },
+                  {
+                    "kind": "full",
+                    "diagnostics": {
+                      "preparation_ms": 0.7429779507219791,
+                      "required_margin_m": 0.1,
+                      "rollout_steps": 19,
+                      "reason": "no_feasible_prefix",
+                      "elapsed_ms": 7.186230039224029,
+                      "human_rejections": 129,
+                      "static_rejections": 0
+                    }
+                  }
+                ],
+                "nominal": {
+                  "preparation_ms": 0.7429779507219791,
+                  "required_margin_m": 0.1,
+                  "rollout_steps": 19,
+                  "reason": "no_feasible_prefix",
+                  "elapsed_ms": 7.186230039224029,
+                  "human_rejections": 129,
+                  "static_rejections": 0
+                },
+                "stage": "nominal",
+                "reason": "no_feasible_prefix",
+                "elapsed_ms": 9.98577382415533
+              },
+              "revalidation": {}
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "source_sha256": {
+    "scripts/replay_early_admission.py": "7f14e2c8d70ef64447e7d22d0c56a662e38554a3b6898651d9acbbd5e9872b57",
+    "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/escape_primitives.py": "873e98d0d3b74501e5d7c124d210a006717d5c083cb1aa49895168aa5c2195bc",
+    "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/strategic_avoidance.py": "2fa916841dc94684d3e39406134d91c8d6a07b7e1b13400f5715fc5f4d836105"
+  }
+}

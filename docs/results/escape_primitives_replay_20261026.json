@@ -1,0 +1,224 @@
+{
+  "scope": "sensed constant-velocity forecast isolation; no static-map or physical qualification",
+  "runs": [
+    {
+      "run_id": "20261024T185744Z",
+      "trace_sha256": "40855fd5f02040892d03ea2b320345b37fee9359c4f63bf41b12ca82be7512e3",
+      "results": [
+        {
+          "offset_s": -1.0,
+          "method": "beam",
+          "complete": false,
+          "diagnostics": {
+            "reason": "deadline",
+            "elapsed_ms": 21.467252867296338
+          },
+          "schedule": null
+        },
+        {
+          "offset_s": -1.0,
+          "method": "primitives",
+          "complete": false,
+          "diagnostics": {
+            "reason": "deadline",
+            "elapsed_ms": 12.217839946970344
+          },
+          "schedule": null
+        },
+        {
+          "offset_s": -0.5,
+          "method": "beam",
+          "complete": false,
+          "diagnostics": {
+            "reason": "deadline",
+            "elapsed_ms": 20.915897097438574
+          },
+          "schedule": null
+        },
+        {
+          "offset_s": -0.5,
+          "method": "primitives",
+          "complete": false,
+          "diagnostics": {
+            "reason": "deadline",
+            "elapsed_ms": 12.558478163555264
+          },
+          "schedule": null
+        },
+        {
+          "offset_s": 0.0,
+          "method": "beam",
+          "complete": false,
+          "diagnostics": {
+            "reason": "deadline",
+            "elapsed_ms": 20.137447863817215
+          },
+          "schedule": null
+        },
+        {
+          "offset_s": 0.0,
+          "method": "primitives",
+          "complete": false,
+          "diagnostics": {
+            "reason": "deadline",
+            "elapsed_ms": 12.076892890036106
+          },
+          "schedule": null
+        },
+        {
+          "offset_s": 0.5,
+          "method": "beam",
+          "complete": false,
+          "diagnostics": {
+            "reason": "deadline",
+            "elapsed_ms": 21.266506053507328
+          },
+          "schedule": null
+        },
+        {
+          "offset_s": 0.5,
+          "method": "primitives",
+          "complete": false,
+          "diagnostics": {
+            "reason": "deadline",
+            "elapsed_ms": 12.41667615249753
+          },
+          "schedule": null
+        },
+        {
+          "offset_s": 1.0,
+          "method": "beam",
+          "complete": false,
+          "diagnostics": {
+            "reason": "deadline",
+            "elapsed_ms": 21.38332393951714
+          },
+          "schedule": null
+        },
+        {
+          "offset_s": 1.0,
+          "method": "primitives",
+          "complete": false,
+          "diagnostics": {
+            "reason": "deadline",
+            "elapsed_ms": 12.446010019630194
+          },
+          "schedule": null
+        }
+      ]
+    },
+    {
+      "run_id": "20261024T185845Z",
+      "trace_sha256": "953360f2d9eaec243bb7a9e87b3a468094121933e640ad86c9e98c6414735b2e",
+      "results": [
+        {
+          "offset_s": -1.0,
+          "method": "beam",
+          "complete": false,
+          "diagnostics": {
+            "reason": "deadline",
+            "elapsed_ms": 20.32991498708725
+          },
+          "schedule": null
+        },
+        {
+          "offset_s": -1.0,
+          "method": "primitives",
+          "complete": false,
+          "diagnostics": {
+            "reason": "deadline",
+            "elapsed_ms": 12.109027011319995
+          },
+          "schedule": null
+        },
+        {
+          "offset_s": -0.5,
+          "method": "beam",
+          "complete": false,
+          "diagnostics": {
+            "reason": "deadline",
+            "elapsed_ms": 20.012206165120006
+          },
+          "schedule": null
+        },
+        {
+          "offset_s": -0.5,
+          "method": "primitives",
+          "complete": false,
+          "diagnostics": {
+            "reason": "deadline",
+            "elapsed_ms": 12.307317927479744
+          },
+          "schedule": null
+        },
+        {
+          "offset_s": 0.0,
+          "method": "beam",
+          "complete": false,
+          "diagnostics": {
+            "reason": "deadline",
+            "elapsed_ms": 20.468109054490924
+          },
+          "schedule": null
+        },
+        {
+          "offset_s": 0.0,
+          "method": "primitives",
+          "complete": false,
+          "diagnostics": {
+            "reason": "deadline",
+            "elapsed_ms": 12.237131129950285
+          },
+          "schedule": null
+        },
+        {
+          "offset_s": 0.5,
+          "method": "beam",
+          "complete": false,
+          "diagnostics": {
+            "reason": "no_feasible_prefix",
+            "elapsed_ms": 10.35168906673789
+          },
+          "schedule": null
+        },
+        {
+          "offset_s": 0.5,
+          "method": "primitives",
+          "complete": false,
+          "diagnostics": {
+            "reason": "no_feasible_prefix",
+            "elapsed_ms": 10.806091828271747,
+            "human_rejections": 129,
+            "static_rejections": 0
+          },
+          "schedule": null
+        },
+        {
+          "offset_s": 1.0,
+          "method": "beam",
+          "complete": false,
+          "diagnostics": {
+            "reason": "deadline",
+            "elapsed_ms": 20.005724858492613
+          },
+          "schedule": null
+        },
+        {
+          "offset_s": 1.0,
+          "method": "primitives",
+          "complete": false,
+          "diagnostics": {
+            "reason": "deadline",
+            "elapsed_ms": 12.006290955469012
+          },
+          "schedule": null
+        }
+      ]
+    }
+  ],
+  "source_sha256": {
+    "scripts/replay_escape_primitives.py": "7038070b9d0b011f21ee790fdcbfa6121f998b96722761a5773a88e1582dbe47",
+    "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/escape_primitives.py": "a89908a96055e842f58abfd3c61d9a26a0a68c17a75f1746bc14eb826b223a95",
+    "ros2_ws/src/unitree_g1_mujoco_bridge/unitree_g1_mujoco_bridge/kinodynamic_search.py": "f474f1ebc7a96fa0c5176531662e45ede0960bba7a9186081772dc9fb57c2228"
+  }
+}

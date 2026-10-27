@@ -1,0 +1,48 @@
+{
+  "scope": "offline same-sample heading increment comparison; full logger interval including teardown; not a closed-loop ablation",
+  "script_sha256": "ccf4c0dc38ccbd5b05d91f111e2e5612e2b7113d5a2e045a5ac8c7066e3a08f0",
+  "runs": [
+    {
+      "run_id": "heading_history42_20261027",
+      "trace_sha256": "87c08311fccb799e5cf9facde4c650c310893602c59fc73b01042c38c6957d1b",
+      "heading_states": {
+        "stale_odometry": 75,
+        "stale_attitude": 262,
+        "attitude_gap": 751,
+        "complete": 869
+      },
+      "matched_samples": 852,
+      "history_error": {
+        "mean_rad": 0.0013224137366765584,
+        "p95_rad": 0.006235590165793287,
+        "max_rad": 0.022384741196064206
+      },
+      "old_projection_counterfactual_error": {
+        "mean_rad": 0.01022246008264175,
+        "p95_rad": 0.045070035371929044,
+        "max_rad": 0.20379287211725322
+      }
+    },
+    {
+      "run_id": "heading_history43_20261027",
+      "trace_sha256": "62268e972a58a610a5a86362a96756e03e699a2622a37d34da4c413e37e7410d",
+      "heading_states": {
+        "stale_odometry": 76,
+        "stale_attitude": 81,
+        "attitude_gap": 293,
+        "complete": 800
+      },
+      "matched_samples": 772,
+      "history_error": {
+        "mean_rad": 0.0023809074672662793,
+        "p95_rad": 0.010305237636888327,
+        "max_rad": 0.0709166261740451
+      },
+      "old_projection_counterfactual_error": {
+        "mean_rad": 0.026044721932809364,
+        "p95_rad": 0.08844283836477716,
+        "max_rad": 1.138066631424219
+      }
+    }
+  ]
+}

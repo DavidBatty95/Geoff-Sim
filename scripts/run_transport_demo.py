@@ -98,6 +98,7 @@ def main():
     parser.add_argument('--arm-stability-probe',action='store_true',help='Isolated ROS arm protocol with control capture; not a delivery attempt')
     parser.add_argument('--grasp-height-offset',type=float,default=0.,help='Experimental Dex3 tool height above observed object centre, 0..0.04 m')
     parser.add_argument('--record-control-state',action='store_true',help='Capture measured joints and published motor commands for offline audit')
+    parser.add_argument('--contact-force-capture',action='store_true',help='Record native robot/person contact force intervals for the first 35 simulator seconds, plus control state')
     parser.add_argument('--people',type=int,choices=range(9),default=0)
     parser.add_argument('--pedestrian-start-delay',type=float,default=10.,
                         help='Seconds before natural walking starts (0..120); independent of robot goals')
@@ -109,6 +110,14 @@ def main():
                         help='Experimental: penalize forward routes a faster following walker will catch beyond the short rollout')
     parser.add_argument('--predictive-refuge',action=argparse.BooleanOptionalAction,default=False,
                         help='Experimental bounded multi-stage clearance search, including during inspection stops')
+    parser.add_argument('--strategic-avoidance',action='store_true',
+                        help='Experimental early multi-person enclosure prediction and all-person refuge selection')
+    parser.add_argument('--record-invalidation-audit',action='store_true',
+                        help='Record up to four exact accepted/rejected primitive input pairs for offline diagnosis')
+    parser.add_argument('--forecast-change-guard',action='store_true',
+                        help='Experimental coherent forecast epochs, change reserve and stricter primitive pose freshness')
+    parser.add_argument('--heading-history',action='store_true',
+                        help='Experimental DDS-publication-stamped attitude propagation and current Euler yaw rate')
     parser.add_argument('--policy-device-clock',action=argparse.BooleanOptionalAction,default=True,
                         help='Physical-tick policy cadence for the native simulator; retains wall-clock watchdogs')
     parser.add_argument('--seed',type=int,default=42)
@@ -122,6 +131,8 @@ def main():
     parser.add_argument('--people-clearance-extra',type=float,default=.1,
                         help='Additional planner/supervisor human clearance in metres for runs with people (0..0.5)')
     parser.add_argument('--duration',type=float,default=420.)
+    parser.add_argument('--test-stage',choices=('survey','pickup','delivery'),default='delivery',
+                        help='Bounded diagnostic stage; survey/pickup never count as delivery')
     parser.add_argument('--headless',action='store_true',help='Disable RViz; the native MuJoCo viewer may still open')
     parser.add_argument('--no-rviz',action='store_true')
     parser.add_argument('--fast-start',action='store_true')
@@ -139,6 +150,14 @@ def main():
                         help='Explicit cycle-01 trained posture or historical Cartesian IK carry')
     parser.add_argument('--policy',type=Path,help='Repository-local 480/29 ONNX checkpoint; uses measured arm observations')
     args = parser.parse_args()
+    if args.record_invalidation_audit and not args.strategic_avoidance:
+        parser.error('invalidation audit requires --strategic-avoidance')
+    if args.forecast_change_guard and not args.strategic_avoidance:
+        parser.error('forecast change guard requires --strategic-avoidance')
+    if args.heading_history and not args.forecast_change_guard:
+        parser.error('heading history requires --forecast-change-guard')
+    if args.contact_force_capture:
+        args.record_control_state = True
     if not math.isfinite(args.grasp_height_offset) or not 0.<=args.grasp_height_offset<=.04:
         parser.error('grasp height offset must be finite and within 0..0.04 m')
     if not math.isfinite(args.pickup_standoff) or not .35<=args.pickup_standoff<=.60:
@@ -196,8 +215,14 @@ def main():
     command = case_catalog(run,args.seed,True,True,3,onboard_people=max(1,args.people))['onboard-waypoints'].command
     settings = dict(token.split(':=',1) for index,token in enumerate(command) if index and command[index-1]=='--sim-arg')
     container_run = '/workspace/'+str(run.relative_to(ROOT))
+    if args.contact_force_capture:
+        settings['mujoco_contact_trace'] = container_run+'/native_contacts.jsonl'
     base_file = ROOT/Path(settings['social_navigation_params_file']).relative_to('/workspace')
     profile = yaml.safe_load(base_file.read_text())
+    profile.setdefault('human_aware_motion_planner',{}).setdefault('ros__parameters',{})['strategic_avoidance_enabled'] = args.strategic_avoidance
+    profile['human_aware_motion_planner']['ros__parameters']['record_invalidation_audit'] = args.record_invalidation_audit
+    profile['human_aware_motion_planner']['ros__parameters']['forecast_change_guard_enabled'] = args.forecast_change_guard
+    profile['human_aware_motion_planner']['ros__parameters']['heading_history_enabled'] = args.heading_history
     if args.people:
         profile = transport_navigation_profile(profile,args.people_clearance_extra,early_overtaking=args.early_overtaking_avoidance)
         if args.predictive_refuge:
@@ -254,6 +279,11 @@ def main():
         sources.append(args.policy)
     hashes = {str(path.relative_to(ROOT)):hashlib.sha256(path.read_bytes()).hexdigest() for path in sources}
     (run/'manifest.json').write_text(json.dumps(dict(world=args.world,people=args.people,seed=args.seed,
+        test_stage=args.test_stage,contact_force_capture=args.contact_force_capture,
+        strategic_avoidance=args.strategic_avoidance,
+        record_invalidation_audit=args.record_invalidation_audit,
+        forecast_change_guard=args.forecast_change_guard,
+        heading_history=args.heading_history,
         duration_s=args.duration,build_reused=args.fast_start,carry_posture=args.carry_posture,grasp_model=args.grasp_model,
         numeric_thread_environment=thread_environment,
         people_clearance_extra_m=args.people_clearance_extra if args.people else 0.,
@@ -286,6 +316,7 @@ def main():
                 '--pairs',pairs,'--output',container_run+'/result.json','--duration',str(args.duration),'--people',str(args.people),
                 '--carry-posture',args.carry_posture,
                 '--grasp-model',args.grasp_model,
+                '--test-stage',args.test_stage,
                 '--pickup-standoff',str(args.pickup_standoff),
                 '--grasp-height-offset',str(args.grasp_height_offset),
                 '--camera-pitch-deg',str(TRANSPORT_WORLDS[args.world].get('camera_pitch_deg',0.)),
